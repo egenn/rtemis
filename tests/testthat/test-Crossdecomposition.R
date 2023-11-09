@@ -12,7 +12,7 @@ xdecomSelect()
 
 # '- CCA ----
 test_that("CMEANS Clustering succeeds", {
-    skip_if_not_installed("PMA")
-    xdecom <- x_CCA(x, z, nperms = 3, permute.niter = 3, n.cores = 1)
-    expect_identical(class(xdecom)[1], "rtXDecom")
+  skip_if_not_installed("PMA")
+  xdecom <- x_CCA(x, z, nperms = 3, permute.niter = 3, n.cores = 1)
+  expect_s3_class(xdecom, "rtXDecom")
 })

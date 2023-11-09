@@ -28,80 +28,80 @@ datc3_test <- iris[-resc3$Subsample_1, ]
 ## GLMNET ----
 test_that("GLMNET Regression succeeds", {
   mod_r <- s_GLMNET(datr_train, datr_test, alpha = .5, lambda = .01)
-  expect_identical(class(mod_r)[1], "rtMod")
+  expect_s3_class(mod_r, "rtMod")
 })
 
 test_that("GLMNET Binary Classification succeeds", {
   mod_c <- s_GLMNET(datc2_train, datc2_test, alpha = .5, lambda = .01)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 test_that("GLMNET 3-class Classification succeeds", {
   mod_c <- s_GLMNET(datc3_train, datc3_test, alpha = .5, lambda = .01)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 ## CART ----
 test_that("CART Regression succeeds", {
   mod_r <- s_CART(datr_train, datr_test)
-  expect_identical(class(mod_r)[1], "rtMod")
+  expect_s3_class(mod_r, "rtMod")
 })
 
 test_that("CART Binary Classification succeeds", {
   mod_c <- s_CART(datc2_train, datc2_test)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 test_that("CART 3-class Classification succeeds", {
   mod_c <- s_CART(datc3_train, datc3_test)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 
 ## Ranger ----
 test_that("Ranger Regression succeeds", {
   mod_r <- s_Ranger(datr_train, datr_test)
-  expect_identical(class(mod_r)[1], "rtMod")
+  expect_s3_class(mod_r, "rtMod")
 })
 
 test_that("Ranger Binary Classification succeeds", {
   mod_c <- s_Ranger(datc2_train, datc2_test)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 test_that("Ranger 3-class Classification succeeds", {
   mod_c <- s_Ranger(datc3_train, datc3_test)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 ## LightRF ----
 test_that("LightRF Regression succeeds", {
   mod_r <- s_LightRF(datr_train, datr_test, nrounds = 20)
-  expect_identical(class(mod_r)[1], "rtMod")
+  expect_s3_class(mod_r, "rtMod")
 })
 
 test_that("LightRF Binary Classification succeeds", {
   mod_c <- s_LightRF(datc2_train, datc2_test, nrounds = 20)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 test_that("LightRF 3-class Classification succeeds", {
   mod_c <- s_LightRF(datc3_train, datc3_test, nrounds = 20)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 ## LightGBM ----
 test_that("LightGBM Regression succeeds", {
   mod_r <- s_LightGBM(datr_train, datr_test, force_nrounds = 20)
-  expect_identical(class(mod_r)[1], "rtMod")
+  expect_s3_class(mod_r, "rtMod")
 })
 
 test_that("LightGBM Binary Classification succeeds", {
   mod_c <- s_LightGBM(datc2_train, datc2_test, force_nrounds = 20)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
 
 test_that("LightGBM 3-class Classification succeeds", {
   mod_c <- s_LightGBM(datc3_train, datc3_test, force_nrounds = 20)
-  expect_identical(class(mod_c)[1], "rtModClass")
+  expect_s3_class(mod_c, "rtModClass")
 })
