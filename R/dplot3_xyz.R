@@ -10,6 +10,10 @@
 #' @inheritParams dplot3_xy
 #' @param z Numeric, vector/data.frame/list: z-axis data
 #' @param zlab Character: z-axis label
+#' @param bg Background color
+#' @param plot.bg Plot background color
+#' @param tick.font.size Numeric: Tick font size
+#' @param spike.col Spike lines color
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
 #' Default = `list(t = 30, b = 0, l = 0, r = 0`
 #' @param padding Numeric: Graph padding.

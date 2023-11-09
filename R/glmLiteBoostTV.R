@@ -26,7 +26,8 @@
 #' @param ... Additional parameters to be passed to [glmLite]
 #' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 glmLiteBoostTV <- function(x, y = NULL,
                            x.valid = NULL, y.valid = NULL,
@@ -471,10 +472,12 @@ predict.glmLiteBoostTV <- function(object,
 #'
 #' Expand a [glmLiteBoostTV] object by adding more iterations
 #'
-#' @inheritParams boost
+#' @inheritParams glmLiteBoostTV
 #' @param object [glmLiteBoostTV] object
+#' 
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 expand.glmLiteBoostTV <- function(object,
                                   x, y = NULL,

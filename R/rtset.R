@@ -179,7 +179,7 @@ rtset.color <- function(n = 101, colors = NULL,
 
 #' `rtset.preprocess`: Set [preprocess] parameters for [train]'s `.preprocess` argument
 #'
-#' @param k Integer: Number of dimensions to project to. Default = 2
+#' @inheritParams preprocess
 #' @export
 
 rtset.preprocess <- function(completeCases = FALSE,

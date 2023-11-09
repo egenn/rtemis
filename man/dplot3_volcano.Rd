@@ -154,6 +154,8 @@ significant points above \code{x.thresh}}
 \item{ay.hi}{Numeric: Sets the y component of the arrow tail about the arrow head for
 significant points above \code{x.thresh}}
 
+\item{annotate.alpha}{Numeric: Transparency for annotations}
+
 \item{hovertext}{List of character vectors with hovertext to include for each group
 of markers}
 

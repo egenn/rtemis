@@ -31,7 +31,85 @@ rtset.preprocess(
 )
 }
 \arguments{
-\item{k}{Integer: Number of dimensions to project to. Default = 2}
+\item{completeCases}{Logical: If TRUE, only retain complete cases (no missing data).
+Default = FALSE}
+
+\item{removeCases.thres}{Float (0, 1): Remove cases with >= to this fraction
+of missing features.}
+
+\item{removeFeatures.thres}{Float (0, 1): Remove features with missing
+values in >= to this fraction of cases.}
+
+\item{impute}{Logical: If TRUE, impute missing cases. See \code{impute.discrete} and
+\code{impute.numeric} for how}
+
+\item{impute.type}{Character: How to impute data: "missRanger" and
+"missForest" use the packages of the same name to impute by iterative random
+forest regression. "rfImpute" uses \code{randomForest::rfImpute} (see its
+documentation), "meanMode" will use mean and mode by default or any custom
+function defined in \code{impute.discrete} and \code{impute.numeric}.
+Default = "missRanger" (which is much faster than "missForest").
+"missForest" is included for compatibility with older pipelines.}
+
+\item{impute.missRanger.params}{Named list with elements "pmm.k" and
+"maxiter", which are passed to \code{missRanger::missRanger}. \code{pmm.k}
+greater than 0 results in predictive mean matching. Default \code{pmm.k = 3}
+\code{maxiter = 10} \code{num.trees = 500}. Reduce \code{num.trees} for
+faster imputation especially in large datasets. Set \code{pmm.k = 0} to
+disable predictive mean matching
+to \code{missForest::missForest}}
+
+\item{impute.discrete}{Function that returns single value: How to impute
+discrete variables for \code{impute.type = "meanMode"}.
+Default = \link{get_mode}}
+
+\item{impute.numeric}{Function that returns single value: How to impute
+continuous variables for \code{impute.type = "meanMode"}.
+Default = \code{mean}}
+
+\item{integer2factor}{Logical: If TRUE, convert all integers to factors. This includes
+\code{bit64::integer64} columns}
+
+\item{integer2numeric}{Logical: If TRUE, convert all integers to numeric
+(will only work if \code{integer2factor = FALSE}) This includes
+\code{bit64::integer64} columns}
+
+\item{logical2factor}{Logical: If TRUE, convert all logical variables to
+factors}
+
+\item{logical2numeric}{Logical: If TRUE, convert all logical variables to
+numeric}
+
+\item{numeric2factor}{Logical: If TRUE, convert all numeric variables to
+factors}
+
+\item{numeric2factor.levels}{Character vector: Optional - will be passed to
+\code{levels} arg of \code{factor()} if \code{numeric2factor = TRUE} (For advanced/
+specific use cases; need to know unique values of numeric vector(s) and given all
+numeric vars have same unique values)}
+
+\item{numeric.cut.n}{Integer: If > 0, convert all numeric variables to factors by
+binning using \code{base::cut} with \code{breaks} equal to this number}
+
+\item{numeric.cut.labels}{Logical: The \code{labels} argument of \link[base:cut]{base::cut}}
+
+\item{numeric.quant.n}{Integer: If > 0, convert all numeric variables to factors by
+binning using \code{base::cut} with \code{breaks} equal to this number of quantiles
+produced using \code{stats::quantile}}
+
+\item{character2factor}{Logical: If TRUE, convert all character variables to
+factors}
+
+\item{scale}{Logical: If TRUE, scale columns of \code{x}}
+
+\item{center}{Logical: If TRUE, center columns of \code{x}. Note that by
+default it is the same as \code{scale}}
+
+\item{removeConstants}{Logical: If TRUE, remove constant columns.}
+
+\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
+
+\item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
 }
 \description{
 \code{rtset.preprocess}: Set \link{preprocess} parameters for \link{train}'s \code{.preprocess} argument

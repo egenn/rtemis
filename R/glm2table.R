@@ -13,6 +13,7 @@
 #'
 #' @return `data.table` with glm summaries
 #' @author E.D. Gennatas
+#' 
 #' @keywords internal
 #' @noRd
 
@@ -114,6 +115,8 @@ gam2table <- function(mods,
 
 #' Get GAM model's p-values for parametric and spline terms
 #'
+#' @keywords internal
+#' @noRd 
 get_gam_pvals <- function(m, warn = TRUE) {
   eps <- .Machine$double.eps
   ms <- summary(m)

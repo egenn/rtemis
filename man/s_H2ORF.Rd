@@ -17,11 +17,10 @@ s_H2ORF(
   port = 54321,
   n.trees = 500,
   max.depth = 20,
-  n.stopping.rounds = 50,
+  n.stopping.rounds = 0,
   mtry = -1,
   nfolds = 0,
   weights = NULL,
-  weights.test = NULL,
   balance.classes = TRUE,
   upsample = FALSE,
   downsample = FALSE,
@@ -63,9 +62,25 @@ s_H2ORF(
 
 \item{n.trees}{Integer: Number of trees to grow}
 
+\item{max.depth}{Integer: Maximum tree depth}
+
+\item{n.stopping.rounds}{Integer: Early stopping if simple moving average of this
+many rounds does not improve. Set to 0 to disable early stopping.}
+
+\item{mtry}{Integer: Number of variables randomly sampled and considered for
+splitting at each round. If set to -1, defaults to \code{sqrt(N_features)} for
+classification and \code{N_features/3} for regression.}
+
+\item{nfolds}{Integer: Number of folds for K-fold CV used by \code{h2o.randomForest}.
+Set to 0 to disable (included for experimentation only, use \link{train} for outer
+resampling)}
+
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
+
+\item{balance.classes}{Logical: If TRUE, \code{h2o.randomForest} will over/undersample
+to balance data. (included for experimentation only)}
 
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double

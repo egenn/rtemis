@@ -59,7 +59,7 @@
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param annotate Logical: If TRUE, annotate significant points
 #' @param annotate.col Color for annotations
-#' @oaram annotate.alpha Numeric: Transparency for annotations
+#' @param annotate.alpha Numeric: Transparency for annotations
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Additional parameters passed to [dplot3_xy]
 #'

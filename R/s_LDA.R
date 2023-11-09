@@ -8,7 +8,12 @@
 #'
 #' Note: LDA requires all predictors to be numeric.
 #' The variable importance output ("varimp") is the vector of coefficients for LD1
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
+#' @param prior Numeric: Prior probabilities of class membership
+#' @param method "moment" for standard estimators of the mean and variance, "mle" for 
+#' MLEs, "mve" to use cov.mve, or "t" for robust estimates based on a t distribution
+#' @param nu Integer: Degrees of freedom for method = "t"
+#' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation

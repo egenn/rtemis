@@ -16,8 +16,20 @@
 #' @param ip Character: IP address of H2O server. Default = "localhost"
 #' @param port Integer: Port to connect to at `ip`
 #' @param n.trees Integer: Number of trees to grow
+#' @param max.depth Integer: Maximum tree depth
+#' @param n.stopping.rounds Integer: Early stopping if simple moving average of this 
+#' many rounds does not improve. Set to 0 to disable early stopping.
+#' @param mtry Integer: Number of variables randomly sampled and considered for 
+#' splitting at each round. If set to -1, defaults to `sqrt(N_features)` for 
+#' classification and `N_features/3` for regression.
+#' @param nfolds Integer: Number of folds for K-fold CV used by `h2o.randomForest`.
+#' Set to 0 to disable (included for experimentation only, use [train] for outer 
+#' resampling)
+#' @param balance.classes Logical: If TRUE, `h2o.randomForest` will over/undersample
+#' to balance data. (included for experimentation only)
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to `h2o::h2o.randomForest`
+#' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -33,11 +45,10 @@ s_H2ORF <- function(x, y = NULL,
                     port = 54321,
                     n.trees = 500,
                     max.depth = 20,
-                    n.stopping.rounds = 50,
+                    n.stopping.rounds = 0,
                     mtry = -1,
                     nfolds = 0,
                     weights = NULL,
-                    weights.test = NULL,
                     balance.classes = TRUE,
                     upsample = FALSE,
                     downsample = FALSE,
@@ -127,8 +138,7 @@ s_H2ORF <- function(x, y = NULL,
     df.valid <- NULL
   }
   if (!is.null(x.test)) {
-    if (is.null(weights.test)) weights.test <- rep(1, NROW(x.test))
-    df.test <- h2o::as.h2o(data.frame(x.test, weights = weights.test), "df_test")
+    df.test <- h2o::as.h2o(data.frame(x.test), "df_test")
   } else {
     df.test <- NULL
   }

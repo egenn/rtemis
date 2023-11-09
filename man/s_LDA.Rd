@@ -39,6 +39,13 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
+\item{prior}{Numeric: Prior probabilities of class membership}
+
+\item{method}{"moment" for standard estimators of the mean and variance, "mle" for
+MLEs, "mve" to use cov.mve, or "t" for robust estimates based on a t distribution}
+
+\item{nu}{Integer: Degrees of freedom for method = "t"}
+
 \item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
 Note: upsample will randomly sample with replacement if the length of the majority class is more than double
 the length of the class you are upsampling, thereby introducing randomness}
@@ -64,8 +71,6 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{outdir}{Path to output directory.
@@ -75,8 +80,6 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
-
-\item{...}{Additional arguments}
 }
 \value{
 \code{rtMod} object

@@ -108,6 +108,10 @@ which becomes \code{TRUE} if \code{mode} includes lines.}
 
 \item{alpha}{Float (0, 1]: Transparency for bar colors. Default = .8}
 
+\item{bg}{Background color}
+
+\item{plot.bg}{Plot background color}
+
 \item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}
 
@@ -133,6 +137,10 @@ Default = NULL, which uses \code{rownames(x)}}
 \item{fit.alpha}{Float [0, 1]: Transparency for fit line}
 
 \item{fit.lwd}{Float: Fit line width}
+
+\item{tick.font.size}{Numeric: Tick font size}
+
+\item{spike.col}{Spike lines color}
 
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to
 TRUE if there are more than 1 groups, or \code{fit} is set}

@@ -2,12 +2,12 @@
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 # TODO: Consider replacing knn fn
+# FNN's KNN does not have a predict function
 
 #' k-Nearest Neighbors Classification and Regression (C, R)
 #'
 #' Train a k-Nearest Neighbors learner for regression or classification using `FNN`
 #'
-#' Note: FNN's KNN does not have a predict function
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
