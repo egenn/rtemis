@@ -26,6 +26,7 @@ s_H2ORF(
   downsample = FALSE,
   resample.seed = NULL,
   na.action = na.fail,
+  h2o.shutdown.at.end = TRUE,
   n.cores = rtCores,
   print.plot = FALSE,
   plot.fitted = NULL,
@@ -92,6 +93,9 @@ the length of the class you are upsampling, thereby introducing randomness}
 Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
+
+\item{h2o.shutdown.at.end}{Logical: If TRUE, run \code{h2o.shutdown(prompt = FALSE)} after
+training is complete.}
 
 \item{n.cores}{Integer: Number of cores to use}
 

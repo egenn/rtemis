@@ -27,6 +27,8 @@
 #' resampling)
 #' @param balance.classes Logical: If TRUE, `h2o.randomForest` will over/undersample
 #' to balance data. (included for experimentation only)
+#' @param h2o.shutdown.at.end Logical: If TRUE, run `h2o.shutdown(prompt = FALSE)` after
+#' training is complete.
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to `h2o::h2o.randomForest`
 #' 
@@ -54,6 +56,7 @@ s_H2ORF <- function(x, y = NULL,
                     downsample = FALSE,
                     resample.seed = NULL,
                     na.action = na.fail,
+                    h2o.shutdown.at.end = TRUE,
                     n.cores = rtCores,
                     print.plot = FALSE,
                     plot.fitted = NULL,
@@ -225,6 +228,7 @@ s_H2ORF <- function(x, y = NULL,
     plot.theme
   )
 
+  if (h2o.shutdown.at.end) h2o::h2o.shutdown(prompt = FALSE)
   if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt

@@ -23,8 +23,11 @@
 #' many rounds
 #' @param stopping.metric Character: "AUTO" (Default), "deviance", "logloss", "MSE", "RMSE", "MAE", "RMSLE",
 #' "AUC", "lift_top_group", "misclassification", "mean_per_class_error"
+#' @param h2o.shutdown.at.end Logical: If TRUE, run `h2o.shutdown(prompt = FALSE)` after
+#' training is complete.
 #' @param n.cores Integer: Number of cores to use
 #' @param .gs Internal use only
+#' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation

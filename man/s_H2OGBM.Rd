@@ -73,6 +73,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{port}{Integer: Port number for server. Default = 54321}
 
+\item{h2o.shutdown.at.end}{Logical: If TRUE, run \code{h2o.shutdown(prompt = FALSE)} after
+training is complete.}
+
 \item{n.trees}{Integer: Number of trees to grow. Maximum number of trees if \code{n.stopping.rounds > 0}}
 
 \item{max.depth}{[gS] Integer: Depth of trees to grow}

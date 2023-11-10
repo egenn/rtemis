@@ -46,9 +46,6 @@ Object of class \code{rtMod}
 \description{
 Train a k-Nearest Neighbors learner for regression or classification using \code{FNN}
 }
-\details{
-Note: FNN's KNN does not have a predict function
-}
 \seealso{
 \link{train} for external cross-validation
 
