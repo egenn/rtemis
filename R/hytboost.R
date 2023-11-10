@@ -329,6 +329,7 @@ print.hytboost <- function(x, ...) {
   cat("\n  A boosted Linear Hard Additive Tree with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
   # printls(x$mod[[1]]$parameters) # must teach printls to handle functions
+  invisible(x)
 } # rtemis::print.hytboost
 
 

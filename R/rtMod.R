@@ -546,6 +546,7 @@ NULL
 #' @export
 print.rtMod <- function(x, ...) {
   x$print()
+  invisible(x)
 } # rtemis::print.rtMod
 
 
@@ -2511,6 +2512,7 @@ NULL
 #' @export
 print.rtModLite <- function(x, ...) {
   x$print()
+  invisible(x)
 } # rtemis::print.rtModLite
 
 

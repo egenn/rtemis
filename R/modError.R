@@ -358,4 +358,5 @@ print.regError <- function(x, ...) {
     cat("    rho = ", ddSci(obj$rho), " (p = ", ddSci(obj$rho.p), ")\n", sep = "")
   }
   cat("   R sq = ", hilite(ddSci(obj$Rsq)), "\n", sep = "")
+  invisible(x)
 } # rtemis::print.regError

@@ -276,6 +276,7 @@ print.resample <- function(x, ...) {
   .attributes$names <- .attributes$class <- NULL
   # .attributes[[1]] <- .attributes[[2]] <- NULL
   printls(.attributes)
+  invisible(x)
 }
 
 
@@ -481,6 +482,7 @@ print.resamplertset <- function(x, verbose = TRUE, ...) {
         kfold = "-fold crossvalidation"
       )
     )
+    invisible(x)
   }
 
   if (verbose) print(.text)

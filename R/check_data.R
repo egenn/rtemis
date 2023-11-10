@@ -577,4 +577,5 @@ print.CheckData <- function(x,
       background = css$background.color
     )
   }
+  invisible(x)
 } # print.CheckData

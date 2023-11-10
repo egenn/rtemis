@@ -146,7 +146,7 @@ print.classError <- function(x, decimal.places = 4, ...) {
   } else {
     cat("  Positive Class: ", hilite(x$Positive.class), "\n")
   }
-  
+  invisible(x)
 } # rtemis::print.classError
 
 

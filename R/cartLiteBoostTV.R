@@ -404,6 +404,7 @@ print.cartLiteBoostTV <- function(x, ...) {
   n.iter <- length(x$mods)
   cat("\n  A boosted", mod.name, "model with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
+  invisible(x)
 } # rtemis::print.cartLiteBoostTV
 
 

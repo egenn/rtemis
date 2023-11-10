@@ -773,4 +773,5 @@ print.addtree <- function(x, ...) {
       sep = ""
     )
   }
+  invisible(x)
 } # rtemis::print.addtree

@@ -1283,6 +1283,7 @@ print.linadleaves <- function(x, ...) {
   } else {
     cat("\n  A Linear Additive Tree model with", x$n.leaves, "leaves\n\n")
   }
+  invisible(x)
 }
 
 #' Convert `linadleaves` to `data.tree` object

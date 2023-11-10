@@ -191,7 +191,7 @@ print.massGAM <- function(x, ...) {
     "and", ny, ngettext(ny, "outcome", "outcomes\n")
   )
   cat(.text)
-  invisible(.text)
+  invisible(x)
 }
 
 #' `massGAM` object summary

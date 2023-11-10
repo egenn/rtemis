@@ -101,4 +101,5 @@ NULL
 #' @export
 print.rtClust <- function(x, ...) {
   x$print()
+  invisible(x)
 } # rtemis::print.rtClust
