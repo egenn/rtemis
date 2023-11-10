@@ -692,6 +692,7 @@ partLin <- function(x1, y1,
 
 print.lihad <- function(x, ...) {
   cat("\n  An Hybrid Additive Tree model\n\n")
+  invisible(x)
 }
 
 
