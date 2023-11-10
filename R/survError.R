@@ -46,7 +46,7 @@ print.survError <- function(x, decimal.places = 4, ...) {
   cat("            var =", ddSci(x$Var), "\n")
   cat("           cvar =", ddSci(x$Cvar), "\n")
   cat("   Concordance : ", hilite(x$Concordance), "\n")
-
+  invisible(x)
 } # rtemis::print.survError
 
 # print.survError.R
