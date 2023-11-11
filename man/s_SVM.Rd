@@ -34,7 +34,6 @@ s_SVM(
   plot.theme = rtTheme,
   n.cores = rtCores,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   grid.verbose = verbose,
   outdir = NULL,
@@ -123,8 +122,6 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 \item{n.cores}{Integer: Number of cores to use.}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
-
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

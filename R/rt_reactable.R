@@ -5,7 +5,14 @@
 #' View table using reactable
 #'
 #' @param x data.frame, data.table or similar
-#' @param lightsout Logical: If TRUE, use dark theme
+#' @param datatypes Character vector: Data types of columns in x, 
+#' e.g. `c("numeric", "factor", "character")`
+#' @param lightsout Logical: If TRUE, use dark theme.
+#' @param bg: Background color.
+#' @param pagination Logical: If TRUE, paginate table.
+#' @param searchable Logical: If TRUE, add search box.
+#' @param bordered Logical: If TRUE, add border.
+#' @param ... Additional arguments passed to `reactable::reactable`
 #'
 #' @author E D Gennatas
 #' @export
@@ -85,4 +92,4 @@ rt_reactable <- function(x,
     ),
     theme = theme, ...
   )
-}
+} # rtemis::rt_reactable

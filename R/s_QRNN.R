@@ -12,14 +12,23 @@
 #'
 #' Train an ensemble of Neural Networks to perform Quantile Regression using `qrnn`
 #'
-#' @inheritParams s_GLM
-#' @param n.hidden Integer. Number of hidden nodes
-#' @param tau Float. tau-quantile. Defaults to .5
-#' @param n.ensemble Integer. Number of NNs to train
-#' @param iter.max Integer. Max N of iteration of the optimization algorithm
-#' @param n.trials Integer. N of trials. Used to avoid local minima
-#' @param bag Logical. Should bagging be used?
-#' @param ... Additional arguments to be passed to `qrnn::qrnn.fit`
+#' For more details on hyperparameters, see `qrnn::qrnn.fit`
+#' 
+#' @inheritParams s_CART
+#' @param n.hidden Integer: Number of hidden nodes.
+#' @param tau Numeric: tau-quantile.
+#' @param n.ensemble Integer: Number of NNs to train.
+#' @param iter.max Integer: Max N of iteration of the optimization algorithm.
+#' @param n.trials Integer: N of trials. Used to avoid local minima.
+#' @param bag Logical: If TRUE, use bagging.
+#' @param lower Numeric: Left censoring point.
+#' @param eps.seq Numeric: sequence of eps values for the finite smoothing algorithm.
+#' @param Th Function: hidden layer transfer function; use `qrnn::sigmoid`, `qrnn::elu`,
+#' or `qrnn::softplus` for a nonlinear model and `qrnn::linear` for a linear model.
+#' @param Th.prime Function: derivative of hidden layer transfer function.
+#' @param penalty Numeric: weight penalty for weight decay regularization.
+#' @param ... Additional arguments to be passed to `qrnn::qrnn.fit`.
+#' 
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
@@ -39,7 +48,6 @@ s_QRNN <- function(x, y = NULL,
                    Th = qrnn::sigmoid,
                    Th.prime = qrnn::sigmoid.prime,
                    penalty = 0,
-                   trace = T,
                    print.plot = FALSE,
                    plot.fitted = NULL,
                    plot.predicted = NULL,

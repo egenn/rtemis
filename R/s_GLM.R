@@ -60,7 +60,6 @@
 #' not present in `x` and substitutes with NA. This would result in error otherwise and no
 #' predictions would be made, ending `s_GLM` prematurely
 #' @param question Character: the question you are attempting to answer with this model, in plain language.
-#' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param trace Integer: If higher than 0, will print more information to the console.
 #' @param outdir Path to output directory.
@@ -104,7 +103,6 @@ s_GLM <- function(x, y = NULL,
                   na.action = na.exclude,
                   removeMissingLevels = TRUE,
                   question = NULL,
-                  rtclass = NULL,
                   verbose = TRUE,
                   trace = 0,
                   outdir = NULL,

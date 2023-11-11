@@ -324,6 +324,7 @@ print.hytboostnow <- function(x, ...) {
   n.iter <- length(x$mods)
   cat("\n  A boosted Hybrid Tree with", n.iter, "iterations\n")
   cat("  and a learning rate of", x$learning.rate[1], "\n\n")
+  invisible(x)
   # printls(x$mod[[1]]$parameters) # must teach printls to handle functions
 } # rtemis::print.hytboostnow
 

@@ -28,17 +28,47 @@ present(
 \arguments{
 \item{...}{rtModCV objects created with \link{train}}
 
-\item{which.repeat}{Integer: which \code{rtModCV} repeat to plot}
+\item{mod.names}{Character: Names of models being plotted.}
 
-\item{metric}{Character: which metric to plot}
+\item{which.repeat}{Integer: which \code{rtModCV} repeat to plot.}
 
-\item{main}{Character: title}
+\item{metric}{Character: which metric to plot.}
 
-\item{htest}{Character: "none", "t.test", or "wilcox.test"}
+\item{plot.train}{Logical: If TRUE, plot training performance.}
 
-\item{htest.annotate.y}{Numeric: y-axis coordinate for htest annotation}
+\item{plot.test}{Logical: If TRUE, plot testing performance.}
 
-\item{margin}{Named list with margins and padding}
+\item{boxpoints}{Character or FALSE: "all", "suspectedoutliers", "outliers"
+See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}}
+
+\item{main}{Character: Plot title.}
+
+\item{ylim}{Numeric vector: y-axis limits}
+
+\item{htest}{Character: e.g. "t.test", "wilcox.test" to compare each box to
+the \emph{first} box. If grouped, compare within each group to the first box.
+If p-value of test is less than \code{htest.thresh}, add asterisk above/
+to the side of each box}
+
+\item{htest.annotate.y}{Numeric: y-axis paper coordinate for htest annotation}
+
+\item{col}{Color, vector: Color for boxes. If NULL, which will draw
+colors from \code{palette}}
+
+\item{margin}{Named list: plot margins.
+Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
+
+\item{subplot.margin}{Numeric: margin between subplots.}
+
+\item{filename}{Character: Path to file to save static plot.}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
+set.}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename}
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
 }
 \description{
 Plot training and testing performance boxplots of multiple `rtModCV``

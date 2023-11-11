@@ -16,7 +16,6 @@ s_TLS(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
@@ -48,8 +47,6 @@ Requires \code{x.test} and \code{y.test}}
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
-
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

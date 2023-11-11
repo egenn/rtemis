@@ -29,17 +29,19 @@ dat2bsplinemat <- function(x,
                            Boundary.knots = range(x, na.rm = TRUE),
                            return.deriv = FALSE,
                            as.data.frame = TRUE) {
-
   nc <- NCOL(x)
   feat.names <- if (!is.null(colnames(x))) colnames(x) else paste0("Feat", seq(nc))
 
   # Splines ----
-  Splines <- lapply(seq(nc), function(i) splines2::bSpline(x[, i],
-                                                       df = df,
-                                                       knots = knots,
-                                                       degree = degree,
-                                                       intercept = intercept,
-                                                       Boundary.knots = Boundary.knots))
+  Splines <- lapply(seq(nc), function(i) {
+    splines2::bSpline(x[, i],
+      df = df,
+      knots = knots,
+      degree = degree,
+      intercept = intercept,
+      Boundary.knots = Boundary.knots
+    )
+  })
 
   # Derivatives ----
   if (return.deriv) {
@@ -64,30 +66,36 @@ dat2bsplinemat <- function(x,
 
   class(out) <- c("rtBSplines", "list")
   out
-
 } # rtemis::dat2bsplinemat
 
 
 #' Predict S3 method for `rtBSplines`
 #'
 #' @method predict rtBSplines
+#' @param object `rtBSplines` object created by [dat2bsplinemat]
+#' @param newdata `data.frame` of new data.
+#' @param ... Not used.
+#'
 #' @author E.D. Gennatas
 #' @export
 
 predict.rtBSplines <- function(object, newdata = NULL, ...) {
-
   if (is.null(newdata)) {
     return(object$Splines)
   } else {
     nsplines <- length(object$SplineObj)
     if (NCOL(newdata) != nsplines) stop("N of columns in newdata does not match N of spline objects")
     feat.names <- colnames(newdata)
-    if (is.null(feat.names)) feat.names <- paste0("Feature", seq(nsplines))
-    predicted <- do.call(cbind, lapply(seq(nsplines), function(i) predict(object$SplineObj[[i]], newdata[, i])))
+    if (is.null(feat.names)) feat.names <- paste0("Feature", seq_len(nsplines))
+    predicted <- do.call(
+      cbind, lapply(
+        seq_len(nsplines),
+        function(i) predict(object$SplineObj[[i]], newdata[, i])
+      )
+    )
     degree <- attr(object$SplineObj[[1]], "degree")
     colnames(predicted) <- unlist(lapply(seq(nsplines), function(i) paste0(feat.names[i], "_basis", seq(degree))))
   }
 
   predicted
-
 } # rtemis::predict.rtBSplines

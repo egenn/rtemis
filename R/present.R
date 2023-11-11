@@ -7,13 +7,14 @@
 #' Plot training and testing performance boxplots of multiple `rtModCV``
 #' objects created by [train] using [dplot3_box]
 #'
+#' @inheritParams dplot3_box
 #' @param ... rtModCV objects created with [train]
-#' @param which.repeat Integer: which `rtModCV` repeat to plot
-#' @param metric Character: which metric to plot
-#' @param main Character: title
-#' @param htest Character: "none", "t.test", or "wilcox.test"
-#' @param htest.annotate.y Numeric: y-axis coordinate for htest annotation
-#' @param margin Named list with margins and padding
+#' @param mod.names Character: Names of models being plotted.
+#' @param which.repeat Integer: which `rtModCV` repeat to plot.
+#' @param metric Character: which metric to plot.
+#' @param plot.train Logical: If TRUE, plot training performance.
+#' @param plot.test Logical: If TRUE, plot testing performance.
+#' @param subplot.margin Numeric: margin between subplots.
 #'
 #' @author E.D. Gennatas
 #' @export

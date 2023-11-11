@@ -173,8 +173,6 @@ Default = FALSE}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}

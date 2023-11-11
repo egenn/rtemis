@@ -51,6 +51,8 @@
 #' @param lincoef.params Named List: Output of [rtset.lincoef]
 #' @param minobsinnode \[gS\] Integer: Minimum N observations needed in node, before 
 #' considering splitting
+#' @param minobsinnode.lin Integer: Minimum N observations needed in node in order to 
+#' train linear model.
 #' @param learning.rate \[gS\] Float (0, 1): Learning rate.
 #' @param part.cp \[gS\] Float: Minimum complexity needed to allow split by `rpart`.
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree

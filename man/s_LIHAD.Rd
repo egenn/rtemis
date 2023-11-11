@@ -63,6 +63,9 @@ Columns must correspond to columns in \code{x}}
 \item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before
 considering splitting}
 
+\item{minobsinnode.lin}{Integer: Minimum N observations needed in node in order to
+train linear model.}
+
 \item{learning.rate}{[gS] Float (0, 1): Learning rate.}
 
 \item{part.max.depth}{Integer: Max depth for each tree model within the additive tree}

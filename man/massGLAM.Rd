@@ -32,12 +32,18 @@ massGLAM(
 
 \item{scale.y}{Logical: If TRUE, scale and center \code{y}}
 
+\item{mod}{Character: "glm" or "gam".}
+
 \item{type}{Character: "massx" or "massy". Default = NULL,
 where if (NCOL(x) > NCOL(y)) "massx" else "massy"}
 
 \item{xnames}{Character vector: names of \code{x} feature(s)}
 
 \item{ynames}{Character vector: names of \code{y} feature(s)}
+
+\item{spline.index}{Integer vector: indices of features to fit splines for.}
+
+\item{gam.k}{Integer: The dimension of the spline basis.}
 
 \item{save.mods}{Logical: If TRUE, save models. Default = TRUE}
 

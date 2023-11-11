@@ -21,6 +21,12 @@
 #' @param n.trees Integer: Number of trees to grow. The more the merrier.
 #' @param bootstrap Character:
 #' @param mtry Integer: Number of features sampled randomly at each split
+#' @param importance Logical: If TRUE, calculate variable importance.
+#' @param proximity Character or Logical: "inbag", "oob", "all", TRUE, or FALSE; passed 
+#' to `randomForestSRC::rfsrc`
+#' @param nodesize Integer: Minimum size of terminal nodes.
+#' @param nodedepth Integer: Maximum tree depth.
+#' @param trace Integer: Number of seconds between messages to the console.
 #' @param outdir Optional. Path to directory to save output
 #' @param ... Additional arguments to be passed to `randomForestSRC::rfsrc`
 #'

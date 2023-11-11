@@ -23,7 +23,11 @@
 #' @param labels.y Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)
 #' @param label.cex Float: Character expansion for labels. Default = NULL, and is 
 #' calculated automatically based on length of `x`
+#' @param mar Numeric vector, length 4: margin size.
 #' @param par.reset Logical: If TRUE, reset `par` settings on exit.
+#' @param filename Character: Path to save plot as PDF.
+#' @param pdf.width Numeric: Width of PDF in inches.
+#' @param pdf.height Numeric: Height of PDF in inches.
 #'
 #' @return Nothing, prints plot
 #' @export

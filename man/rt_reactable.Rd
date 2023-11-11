@@ -18,7 +18,20 @@ rt_reactable(
 \arguments{
 \item{x}{data.frame, data.table or similar}
 
-\item{lightsout}{Logical: If TRUE, use dark theme}
+\item{datatypes}{Character vector: Data types of columns in x,
+e.g. \code{c("numeric", "factor", "character")}}
+
+\item{lightsout}{Logical: If TRUE, use dark theme.}
+
+\item{pagination}{Logical: If TRUE, paginate table.}
+
+\item{searchable}{Logical: If TRUE, add search box.}
+
+\item{bordered}{Logical: If TRUE, add border.}
+
+\item{...}{Additional arguments passed to \code{reactable::reactable}}
+
+\item{bg:}{Background color.}
 }
 \description{
 View table using reactable

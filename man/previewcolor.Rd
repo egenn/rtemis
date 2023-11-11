@@ -60,7 +60,15 @@ previewcolor(
 \item{label.cex}{Float: Character expansion for labels. Default = NULL, and is
 calculated automatically based on length of \code{x}}
 
+\item{mar}{Numeric vector, length 4: margin size.}
+
 \item{par.reset}{Logical: If TRUE, reset \code{par} settings on exit.}
+
+\item{filename}{Character: Path to save plot as PDF.}
+
+\item{pdf.width}{Numeric: Width of PDF in inches.}
+
+\item{pdf.height}{Numeric: Height of PDF in inches.}
 }
 \value{
 Nothing, prints plot

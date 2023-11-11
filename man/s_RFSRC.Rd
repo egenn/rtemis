@@ -78,7 +78,18 @@ Default = NULL (random seed)}
 
 \item{mtry}{Integer: Number of features sampled randomly at each split}
 
+\item{importance}{Logical: If TRUE, calculate variable importance.}
+
+\item{proximity}{Character or Logical: "inbag", "oob", "all", TRUE, or FALSE; passed
+to \code{randomForestSRC::rfsrc}}
+
+\item{nodesize}{Integer: Minimum size of terminal nodes.}
+
+\item{nodedepth}{Integer: Maximum tree depth.}
+
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
+
+\item{trace}{Integer: Number of seconds between messages to the console.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}

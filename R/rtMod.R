@@ -1294,7 +1294,9 @@ NULL
 #' @param aggr.fn Character: Function to aggregate models' prediction.
 #' If NULL, defaults to "median"
 #' @param n.cores Integer: Number of cores to use
+#' @param verbose Logical: If TRUE, print messages to console.
 #' @param ... Not used
+#' 
 #' @rdname rtModBag-methods
 #' @export
 predict.rtModBag <- function(object,

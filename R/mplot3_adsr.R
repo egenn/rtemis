@@ -4,11 +4,12 @@
 
 #' `mplot3`: ADSR Plot
 #'
-#' Plot Attack Decay Sustain Release Envelope Generator using `mplot3`
+#' Plot Attack Decay Sustain Release Envelope Generator using [mplot3_xy]
 #'
 #' Learn more:
 #' (https://en.wikipedia.org/wiki/Synthesizer#Attack_Decay_Sustain_Release_.28ADSR.29_envelope "ADSR Wikipedia")
 #'
+#' @inheritParams mplot3_xy
 #' @param Attack Numeric: Attack time (in milliseconds)
 #' @param Decay Numeric: Decay time (in milliseconds)
 #' @param Sustain Numeric: Sustain Level (percent)

@@ -2,15 +2,17 @@
 % Please edit documentation in R/s_TLS.R
 \name{predict.rtTLS}
 \alias{predict.rtTLS}
-\alias{print.rtTLS}
 \title{\code{predict.rtTLS}: \code{predict} method for \code{rtTLS} object}
 \usage{
 \method{predict}{rtTLS}(object, newdata, ...)
+}
+\arguments{
+\item{object}{\code{rtTLS} object created by \link{s_TLS}}
 
-\method{print}{rtTLS}(x, ...)
+\item{newdata}{\code{data.frame} of new data.}
+
+\item{...}{Not used.}
 }
 \description{
 \code{predict.rtTLS}: \code{predict} method for \code{rtTLS} object
-
-\code{print.rtTLS}: \code{print} method for \code{rtTLS} object
 }

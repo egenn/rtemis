@@ -15,10 +15,13 @@
 #' @param y Matrix / data frame of outcomes
 #' @param scale.x Logical: If TRUE, scale and center `x`
 #' @param scale.y Logical: If TRUE, scale and center `y`
+#' @param mod Character: "glm" or "gam".
 #' @param type Character: "massx" or "massy". Default = NULL,
 #' where if (NCOL(x) > NCOL(y)) "massx" else "massy"
 #' @param xnames Character vector: names of `x` feature(s)
 #' @param ynames Character vector: names of `y` feature(s)
+#' @param spline.index Integer vector: indices of features to fit splines for.
+#' @param gam.k Integer: The dimension of the spline basis.
 #' @param save.mods Logical: If TRUE, save models. Default = TRUE
 # @param p.adjust.method Character: p-value adjustment method. See \code{p.adjust}.
 # Default = "holm"

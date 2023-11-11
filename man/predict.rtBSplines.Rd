@@ -6,6 +6,13 @@
 \usage{
 \method{predict}{rtBSplines}(object, newdata = NULL, ...)
 }
+\arguments{
+\item{object}{\code{rtBSplines} object created by \link{dat2bsplinemat}}
+
+\item{newdata}{\code{data.frame} of new data.}
+
+\item{...}{Not used.}
+}
 \description{
 Predict S3 method for \code{rtBSplines}
 }

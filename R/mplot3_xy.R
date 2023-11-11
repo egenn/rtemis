@@ -87,6 +87,7 @@
 #' @param rsq.adj Float: Adjust `rsq` annotation. See `mtext "adj"`
 #' @param rsq.col Color: Color for `rsq` annotation. Default = NULL, which
 #' results in `fit.col`
+#' @param rsq.line Numeric: Passed to `mtext "line"` to place R-squared annotation.
 #' @param fit.error  Logical: If TRUE: draw fit error annotation.
 #' Default = NULL, which results in TRUE, if fit is set
 #' @param fit.error.side Integer \[1:4\]: Which side to draw `fit.error` on.
@@ -129,6 +130,9 @@
 #' @param vline.col Color for vertical lines
 #' @param vline.lty Integer: Line type for vertical lines
 #' @param diagonal Logical: If TRUE, draw diagonal line.
+#' @param diagonal.inv Logical: If TRUE, draw inverse diagonal line. Will use
+#' `diagonal.lwd`, `diagonal.lty`, `diagonal.col`, `diagonal.alpha` (Note: it only 
+#' makes sense to use only one of `diagonal` or `diagonal.inv`)
 #' @param diagonal.lwd Float: Line width for `diagonal`.
 #' @param diagonal.lty Integer: Line type for `diagonal`.
 #' @param diagonal.col Color: Color for `diagonal`.
@@ -211,7 +215,6 @@ mplot3_xy <- function(x, y = NULL,
                       pty = "m", # "s" square, "m" maximal plot region
                       annotation = NULL,
                       annotation.col = NULL,
-                      tick.col = NULL,
                       x.axis.at = NULL,
                       x.axis.labs = TRUE,
                       y.axis.at = NULL,
@@ -273,7 +276,6 @@ mplot3_xy <- function(x, y = NULL,
                       fit.legend.adj = .02,
                       fit.legend.padj = 2,
                       fit.legend.at = NA,
-                      labs.col = NULL,
                       rm.na = TRUE,
                       theme = rtTheme,
                       palette = rtPalette,

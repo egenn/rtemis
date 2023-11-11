@@ -17,6 +17,8 @@ If NULL, defaults to "median"}
 
 \item{n.cores}{Integer: Number of cores to use}
 
+\item{verbose}{Logical: If TRUE, print messages to console.}
+
 \item{...}{Not used}
 }
 \description{

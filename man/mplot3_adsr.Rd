@@ -113,10 +113,22 @@ mplot3_adsr(
 
 \item{off.col}{Color for "off" line}
 
+\item{pty}{Character: "s" gives a square plot; "m" gives a plot that fills
+graphics device size. Default = "m" (See \code{par("pty")})}
+
+\item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
+
+\item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
+"i": Use exact x-axis limits.}
+
+\item{yaxs}{Character: as \code{xaxs} for the y-axis.}
+
+\item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}
+
 \item{...}{Additional arguments to pass to \link{mplot3_xy}}
 }
 \description{
-Plot Attack Decay Sustain Release Envelope Generator using \code{mplot3}
+Plot Attack Decay Sustain Release Envelope Generator using \link{mplot3_xy}
 }
 \details{
 Learn more:

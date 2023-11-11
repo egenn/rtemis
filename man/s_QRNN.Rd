@@ -22,7 +22,6 @@ s_QRNN(
   Th = qrnn::sigmoid,
   Th.prime = qrnn::sigmoid.prime,
   penalty = 0,
-  trace = T,
   print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
@@ -49,19 +48,28 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{n.hidden}{Integer. Number of hidden nodes}
+\item{n.hidden}{Integer: Number of hidden nodes.}
 
-\item{tau}{Float. tau-quantile. Defaults to .5}
+\item{tau}{Numeric: tau-quantile.}
 
-\item{n.ensemble}{Integer. Number of NNs to train}
+\item{n.ensemble}{Integer: Number of NNs to train.}
 
-\item{iter.max}{Integer. Max N of iteration of the optimization algorithm}
+\item{iter.max}{Integer: Max N of iteration of the optimization algorithm.}
 
-\item{n.trials}{Integer. N of trials. Used to avoid local minima}
+\item{n.trials}{Integer: N of trials. Used to avoid local minima.}
 
-\item{bag}{Logical. Should bagging be used?}
+\item{bag}{Logical: If TRUE, use bagging.}
 
-\item{trace}{Integer: If higher than 0, will print more information to the console.}
+\item{lower}{Numeric: Left censoring point.}
+
+\item{eps.seq}{Numeric: sequence of eps values for the finite smoothing algorithm.}
+
+\item{Th}{Function: hidden layer transfer function; use \code{qrnn::sigmoid}, \code{qrnn::elu},
+or \code{qrnn::softplus} for a nonlinear model and \code{qrnn::linear} for a linear model.}
+
+\item{Th.prime}{Function: derivative of hidden layer transfer function.}
+
+\item{penalty}{Numeric: weight penalty for weight decay regularization.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
@@ -75,8 +83,6 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{outdir}{Path to output directory.
@@ -87,10 +93,13 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
-\item{...}{Additional arguments to be passed to \code{qrnn::qrnn.fit}}
+\item{...}{Additional arguments to be passed to \code{qrnn::qrnn.fit}.}
 }
 \description{
 Train an ensemble of Neural Networks to perform Quantile Regression using \code{qrnn}
+}
+\details{
+For more details on hyperparameters, see \code{qrnn::qrnn.fit}
 }
 \seealso{
 \link{train} for external cross-validation

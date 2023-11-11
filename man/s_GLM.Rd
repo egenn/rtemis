@@ -31,7 +31,6 @@ s_GLM(
   na.action = na.exclude,
   removeMissingLevels = TRUE,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   trace = 0,
   outdir = NULL,
@@ -108,8 +107,6 @@ not present in \code{x} and substitutes with NA. This would result in error othe
 predictions would be made, ending \code{s_GLM} prematurely}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
-
-\item{rtclass}{Character: Class type to use. "S3", "S4", "RC", "R6"}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

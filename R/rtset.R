@@ -262,6 +262,8 @@ rtset.earlystop <- function(window = 150,
 #' `rtset.LIHAD`: Set parameters for [s_LIHAD]
 #'
 #' @inheritParams s_LIHAD
+#' @param ... Additional arguments
+#' 
 #' @export
 
 rtset.LIHAD <- function(max.depth = 2,

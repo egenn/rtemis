@@ -43,7 +43,6 @@ mplot3_xy(
   pty = "m",
   annotation = NULL,
   annotation.col = NULL,
-  tick.col = NULL,
   x.axis.at = NULL,
   x.axis.labs = TRUE,
   y.axis.at = NULL,
@@ -105,7 +104,6 @@ mplot3_xy(
   fit.legend.adj = 0.02,
   fit.legend.padj = 2,
   fit.legend.at = NA,
-  labs.col = NULL,
   rm.na = TRUE,
   theme = rtTheme,
   palette = rtPalette,
@@ -200,6 +198,8 @@ Default = 1 (i.e. bottom)}
 
 \item{rsq.col}{Color: Color for \code{rsq} annotation. Default = NULL, which
 results in \code{fit.col}}
+
+\item{rsq.line}{Numeric: Passed to \verb{mtext "line"} to place R-squared annotation.}
 
 \item{fit.error}{Logical: If TRUE: draw fit error annotation.
 Default = NULL, which results in TRUE, if fit is set}
@@ -317,6 +317,10 @@ See \code{density} in \code{graphics::polygon}}
 \item{vline.lty}{Integer: Line type for vertical lines}
 
 \item{diagonal}{Logical: If TRUE, draw diagonal line.}
+
+\item{diagonal.inv}{Logical: If TRUE, draw inverse diagonal line. Will use
+\code{diagonal.lwd}, \code{diagonal.lty}, \code{diagonal.col}, \code{diagonal.alpha} (Note: it only
+makes sense to use only one of \code{diagonal} or \code{diagonal.inv})}
 
 \item{diagonal.lwd}{Float: Line width for \code{diagonal}.}
 

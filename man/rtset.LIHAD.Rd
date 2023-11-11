@@ -28,6 +28,11 @@ rtset.LIHAD(
 
 \item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before
 considering splitting}
+
+\item{minobsinnode.lin}{Integer: Minimum N observations needed in node in order to
+train linear model.}
+
+\item{...}{Additional arguments}
 }
 \description{
 \code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}

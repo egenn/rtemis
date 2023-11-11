@@ -6,8 +6,9 @@
 #'
 #' Build a NLS model
 #'
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param ... Additional arguments to be passed to `nls`
+#' 
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -31,7 +32,6 @@ s_NLS <- function(x, y = NULL,
                   plot.predicted = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
-                  rtclass = NULL,
                   verbose = TRUE,
                   trace = 0,
                   outdir = NULL,
@@ -186,6 +186,9 @@ s_NLS <- function(x, y = NULL,
 #' Get terms of a formula
 #'
 #' @param formula formula with more than x & y, e.g. `y ~ b * m ^ x`
+#' 
+#' @keywords internal
+#' @noRd
 
 getTerms <- function(formula) {
 
@@ -212,9 +215,9 @@ getTerms2 <- function(formula, data = NULL) {
   if (!is.null(data)) if (!is.null(colnames(data))) terms <- setdiff(terms, colnames(data))
   terms
 
-} # rtemis::getTerms
+} # rtemis::getTerms2
 
-s.POWER <- function(x, y,
+s_POWER <- function(x, y,
                     x.test, y.test,
                     formula = y ~ b * m ^ x,
                     start = NULL,
@@ -227,7 +230,6 @@ s.POWER <- function(x, y,
                     plot.predicted = NULL,
                     plot.theme = rtTheme,
                     question = NULL,
-                    rtclass = NULL,
                     verbose = TRUE,
                     outdir = NULL,
                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
@@ -245,9 +247,8 @@ s.POWER <- function(x, y,
         plot.predicted = plot.predicted,
         plot.theme = plot.theme,
         question = question,
-        rtclass = rtclass,
         verbose = verbose,
         outdir = outdir,
         save.mod = save.mod, ...)
 
-} # rtemis::s.POWER
+} # rtemis::s_POWER
