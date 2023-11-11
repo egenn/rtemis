@@ -2,7 +2,7 @@
 options(rt.font = "sans")
 
 # Data ----
-# '- Regression ----
+## Regression ----
 x <- rnormmat(200, 5)
 y <- x[, 3] + x[, 5] + rnorm(200)
 datr <- data.frame(x, y)
@@ -10,15 +10,15 @@ resr <- resample(datr)
 datr_train <- datr[resr$Subsample_1, ]
 datr_test <- datr[-resr$Subsample_1, ]
 
-# '- Classification ----
-# '-- binary ----
+## Classification ----
+### binary ----
 datc2 <- iris[51:150, ]
 datc2$Species <- factor(datc2$Species)
 resc2 <- resample(datc2)
 datc2_train <- datc2[resc2$Subsample_1, ]
 datc2_test <- datc2[-resc2$Subsample_1, ]
 
-# '-- 3-class ----
+### 3-class ----
 resc3 <- resample(iris)
 datc3_train <- iris[resc3$Subsample_1, ]
 datc3_test <- iris[-resc3$Subsample_1, ]

@@ -9,61 +9,61 @@ x <- rnormmat(100, 10, seed = 2015)
 # Tests ----
 expect_equal(decomSelect(), 9)
 
-# '- CUR ----
+## CUR ----
 # test_that("CUR Clustering succeeds", {
 #     skip_if_not_installed("rCUR")
 #     decom <- d_CUR(x, k = 2)
 #     expect_s3_class(decom, "rtDecom")
 # })
 
-# '- H2OAE ----
+## H2OAE ----
 test_that("H2OAE Clustering succeeds", {
   skip_if_not_installed("h2o")
   decom <- d_H2OAE(x)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- H2OGLRM ----
+## H2OGLRM ----
 test_that("H2OGLRM Clustering succeeds", {
   skip_if_not_installed("h2o")
   decom <- d_H2OGLRM(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- ICA ----
+## ICA ----
 test_that("ICA Clustering succeeds", {
   decom <- d_ICA(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- ISOMAP ----
+## ISOMAP ----
 test_that("Isomap Clustering succeeds", {
   skip_if_not_installed("vegan")
   decom <- d_Isomap(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- KPCA ----
+## KPCA ----
 test_that("KPCA Clustering succeeds", {
   skip_if_not_installed("kernlab")
   decom <- d_KPCA(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- LLE ----
+## LLE ----
 test_that("LLE Clustering succeeds", {
   skip_if_not_installed("RDRToolbox")
   decom <- d_LLE(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- MDS ----
+## MDS ----
 test_that("MDS Clustering succeeds", {
   decom <- d_MDS(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- NMF ----
+## NMF ----
 # works manually, used to fail with devtools::test()
 test_that("NMF Clustering succeeds", {
   skip_if_not_installed("NMF")
@@ -72,33 +72,33 @@ test_that("NMF Clustering succeeds", {
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- PCA ----
+## PCA ----
 test_that("PCA Clustering succeeds", {
   decom <- d_PCA(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- SPCA ----
+## SPCA ----
 test_that("SPCA Clustering succeeds", {
   skip_if_not_installed("nsprcomp")
   decom <- d_SPCA(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- SVD ----
+## SVD ----
 test_that("SVD Clustering succeeds", {
   decom <- d_SVD(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- TSNE ----
+## TSNE ----
 test_that("TSNE Clustering succeeds", {
   skip_if_not_installed("Rtsne")
   decom <- d_TSNE(x, k = 2)
   expect_s3_class(decom, "rtDecom")
 })
 
-# '- UMAP ----
+## UMAP ----
 test_that("UMAP Clustering succeeds", {
   skip_if_not_installed("uwot")
   decom <- d_UMAP(x, k = 2)
