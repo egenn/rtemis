@@ -251,6 +251,7 @@ s_LightRuleFit <- function(x, y = NULL,
     rules_selected_formatted_coef = rules_selected_formatted_coef,
     rules_index = nonzero_index,
     rule_coefs = rule_coefs,
+    y_levels = if (type == "Classification") levels(y) else NULL,
     metrics = data.frame(
       n_rules_total = n_rules_total,
       n_nonzero_rules = length(nonzero_index)
@@ -376,23 +377,24 @@ predict.LightRuleFit <- function(object,
   }
 
   # Predict ----
+  datm <- data.matrix(cases_by_rules)
   if (object$mod_lgbm$type == "Classification") {
     prob <- predict(object$mod_glmnet_select$mod,
-      newx = data.matrix(cases_by_rules),
+      newx = datm,
       type = "response"
     )[, 1]
 
     yhat <- factor(
       predict(object$mod_glmnet_select$mod,
-        newx = data.matrix(cases_by_rules),
+        newx = datm,
         type = "class"
       ),
-      levels = levels(object$y)
+      levels = object$y_levels
     )
   } else {
     prob <- NULL
     yhat <- as.numeric(predict(object$mod_glmnet_select$mod,
-      newx = data.matrix(cases_by_rules)
+      newx = datm
     ))
   }
 
