@@ -79,6 +79,8 @@ as well as full model output, if \code{save.mod} is TRUE}
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
+
+\item{...}{Additional arguments passed to \code{MASS::lda}}
 }
 \value{
 \code{rtMod} object

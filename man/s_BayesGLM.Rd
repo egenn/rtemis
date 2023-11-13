@@ -53,8 +53,6 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{family}{Error distribution and link function. See \code{stats::family}}
-
 \item{prior.mean}{Float, vector: Prior mean for the coefficients. If scalar,
 it will be replicated to length N features. Default = 0}
 
@@ -113,6 +111,14 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
+
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
@@ -124,6 +130,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 

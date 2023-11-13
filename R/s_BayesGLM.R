@@ -6,7 +6,7 @@
 #'
 #' Train a bayesian GLM using `arm::bayesglm`
 #'
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param prior.mean Float, vector: Prior mean for the coefficients. If scalar,
 #' it will be replicated to length N features. Default = 0
 #' @param prior.scale Float, vector: Prior scale for the coefficients. Default = NULL,

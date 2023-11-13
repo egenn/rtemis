@@ -8,7 +8,7 @@
 #' @param datatypes Character vector: Data types of columns in x, 
 #' e.g. `c("numeric", "factor", "character")`
 #' @param lightsout Logical: If TRUE, use dark theme.
-#' @param bg: Background color.
+#' @param bg Background color.
 #' @param pagination Logical: If TRUE, paginate table.
 #' @param searchable Logical: If TRUE, add search box.
 #' @param bordered Logical: If TRUE, add border.

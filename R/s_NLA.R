@@ -19,6 +19,7 @@
 #' @param W_h Float, vector (length `NCOL(x)`): Hidden layer weights. Defaults to 0
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See `stats::optim` for more details. Default = `"BFGS"`
+#' @param trace Integer: If > 0, print model summary.
 #' @param ... Additional arguments to be passed to `sigreg`
 #' 
 #' @return Object of class \pkg{rtemis}
