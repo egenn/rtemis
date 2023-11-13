@@ -7,27 +7,27 @@
 #' Train a bayesian GLM using `arm::bayesglm`
 #'
 #' @inheritParams s_CART
-#' @param prior.mean Float, vector: Prior mean for the coefficients. If scalar,
-#' it will be replicated to length N features. Default = 0
-#' @param prior.scale Float, vector: Prior scale for the coefficients. Default = NULL,
+#' @param prior.mean Numeric, vector: Prior mean for the coefficients. If scalar,
+#' it will be replicated to length N features.
+#' @param prior.scale Numeric, vector: Prior scale for the coefficients. Default = NULL,
 #' which results in 2.5 for logit, 2.5*1.6 for probit. If scalar,
 #' it will be replicated to length N features.
-#' @param prior.df Float: Prior degrees of freedom for the coefficients. Set to 1 for
+#' @param prior.df Numeric: Prior degrees of freedom for the coefficients. Set to 1 for
 #' t distribution; set to Inf for normal prior distribution. If scalar,
-#' it will be replicated to length N features. Default = 1
-#' @param prior.mean.for.intercept Float: Default = 0
-#' @param prior.scale.for.intercept Float: Default = NULL, which results in 10 for a logit
-#' model, and 10*1.6 for probit model
-#' @param prior.df.for.intercept Float: Default = 1
-#' @param min.prior.scale Float: Minimum prior scale for the coefficients. Default = 1e-12
+#' it will be replicated to length N features.
+#' @param prior.mean.for.intercept Numeric: Prior mean for the intercept.
+#' @param prior.scale.for.intercept Numeric: Default = NULL, which results in 10 for a 
+#' logit model, and 10*1.6 for probit model.
+#' @param prior.df.for.intercept Numeric: Prior df for the intercept.
+#' @param min.prior.scale Numeric: Minimum prior scale for the coefficients.
 #' @param scaled Logical: If TRUE, the scale for the prior distributions are:
 #' For feature with single value, use `prior.scale`, for predictor with two values,
 #' use `prior.scale/range(x)`, for more than two values, use `prior.scale/(2*sd(x))`.
 #' If response is gaussian, `prior.scale` is multiplied by `2 * sd(y)`.
 #' Default = TRUE
 #' @param keep.order Logical: If TRUE, the feature positions are maintained, otherwise they are
-#' reordered: main effects, interactions, second-order, third-order, etc. Default = TRUE
-#' @param drop.baseline Logical: If TRUE, drop the base level of factor features. Default = TRUE
+#' reordered: main effects, interactions, second-order, third-order, etc.
+#' @param drop.baseline Logical: If TRUE, drop the base level of factor features.
 #' @param maxit Integer: Maximum number of iterations
 #' @param ... Additional parameters to pass to `arm::bayesglm`
 #' 

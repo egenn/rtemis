@@ -73,6 +73,8 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
+\item{trace}{Integer: If > 0, print model summary.}
+
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,
 as well as full model output, if \code{save.mod} is TRUE}

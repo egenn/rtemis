@@ -23,6 +23,8 @@ e.g. \code{c("numeric", "factor", "character")}}
 
 \item{lightsout}{Logical: If TRUE, use dark theme.}
 
+\item{bg}{Background color.}
+
 \item{pagination}{Logical: If TRUE, paginate table.}
 
 \item{searchable}{Logical: If TRUE, add search box.}
@@ -30,8 +32,6 @@ e.g. \code{c("numeric", "factor", "character")}}
 \item{bordered}{Logical: If TRUE, add border.}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
-
-\item{bg:}{Background color.}
 }
 \description{
 View table using reactable

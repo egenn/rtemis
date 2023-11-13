@@ -53,25 +53,25 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{prior.mean}{Float, vector: Prior mean for the coefficients. If scalar,
-it will be replicated to length N features. Default = 0}
+\item{prior.mean}{Numeric, vector: Prior mean for the coefficients. If scalar,
+it will be replicated to length N features.}
 
-\item{prior.scale}{Float, vector: Prior scale for the coefficients. Default = NULL,
+\item{prior.scale}{Numeric, vector: Prior scale for the coefficients. Default = NULL,
 which results in 2.5 for logit, 2.5*1.6 for probit. If scalar,
 it will be replicated to length N features.}
 
-\item{prior.df}{Float: Prior degrees of freedom for the coefficients. Set to 1 for
+\item{prior.df}{Numeric: Prior degrees of freedom for the coefficients. Set to 1 for
 t distribution; set to Inf for normal prior distribution. If scalar,
-it will be replicated to length N features. Default = 1}
+it will be replicated to length N features.}
 
-\item{prior.mean.for.intercept}{Float: Default = 0}
+\item{prior.mean.for.intercept}{Numeric: Prior mean for the intercept.}
 
-\item{prior.scale.for.intercept}{Float: Default = NULL, which results in 10 for a logit
-model, and 10*1.6 for probit model}
+\item{prior.scale.for.intercept}{Numeric: Default = NULL, which results in 10 for a
+logit model, and 10*1.6 for probit model.}
 
-\item{prior.df.for.intercept}{Float: Default = 1}
+\item{prior.df.for.intercept}{Numeric: Prior df for the intercept.}
 
-\item{min.prior.scale}{Float: Minimum prior scale for the coefficients. Default = 1e-12}
+\item{min.prior.scale}{Numeric: Minimum prior scale for the coefficients.}
 
 \item{scaled}{Logical: If TRUE, the scale for the prior distributions are:
 For feature with single value, use \code{prior.scale}, for predictor with two values,
@@ -80,9 +80,9 @@ If response is gaussian, \code{prior.scale} is multiplied by \code{2 * sd(y)}.
 Default = TRUE}
 
 \item{keep.order}{Logical: If TRUE, the feature positions are maintained, otherwise they are
-reordered: main effects, interactions, second-order, third-order, etc. Default = TRUE}
+reordered: main effects, interactions, second-order, third-order, etc.}
 
-\item{drop.baseline}{Logical: If TRUE, drop the base level of factor features. Default = TRUE}
+\item{drop.baseline}{Logical: If TRUE, drop the base level of factor features.}
 
 \item{maxit}{Integer: Maximum number of iterations}
 
