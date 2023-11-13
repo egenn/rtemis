@@ -101,7 +101,6 @@ s_RF <- function(x, y = NULL,
                  plot.tsne.train = FALSE,
                  plot.tsne.test = FALSE,
                  question = NULL,
-                 rtclass = NULL,
                  verbose = TRUE,
                  grid.verbose = verbose,
                  outdir = NULL,
@@ -387,7 +386,7 @@ s_RF <- function(x, y = NULL,
     extra$imetrics <- list(n.trees = n.trees, n.nodes = n.nodes)
   }
   rt <- rtModSet(
-    rtclass = rtclass,
+    rtclass = "rtMod",
     mod = mod,
     mod.name = mod.name,
     type = type,

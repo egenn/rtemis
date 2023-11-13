@@ -19,13 +19,20 @@
 #' If an error is detected, `gbm.fit` is rerun until successful and the
 #' procedure continues normally
 #'
-#' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @param n.trees Integer: Initial number of trees to fit
 #' @param max.trees Integer: Maximum number of trees to fit
 #' @param force.n.trees Integer: If specified, use this number of trees instead of
 #'  tuning number of trees
-#' @param min.trees Integer: Minimum number of trees to fit
+#' @param gbm.select.smooth Logical: If TRUE, smooth the validation error curve.
+#' @param n.new.trees Integer: Number of new trees to train if stopping criteria have
+#' not been met.
+#' @param min.trees Integer: Minimum number of trees to fit.
+#' @param failsafe.trees Integer: If tuning fails to find n.trees, use this number
+#' instead.
+#' @param imetrics Logical: If TRUE, save `extra$imetrics` with `n.trees`, `depth`,
+#' and `n.nodes`.
+#' @param plot.tune.error Logical: If TRUE, plot the tuning error curve.
 #' @param distribution Character: Distribution of the response variable. See [gbm::gbm]
 #' @param interaction.depth \[gS\] Integer: Interaction depth.
 #' @param shrinkage \[gS\] Float: Shrinkage (learning rate).
@@ -39,6 +46,10 @@
 #' @param varImp Logical: If TRUE, estimate variable importance by permutation (as in random forests;
 #'   noted as experimental in gbm). Takes longer than (default) relative influence.
 #'   The two measures are highly correlated.
+#' @param offset Numeric vector of offset values, passed to `gbm::gbm.fit`
+#' @param var.monotone Integer vector with values {0, 1, -1} and length = N features.
+#' Used to define monotonicity constraints. `0`: no constraint, `1`: increasing,
+#' `-1`: decreasing.
 #' @param .gs Internal use only
 #' 
 #' @author E.D. Gennatas
@@ -64,11 +75,10 @@ s_GBM <- function(x, y = NULL,
                   n.trees = 2000,
                   max.trees = 5000,
                   force.n.trees = NULL,
-                  n.tree.window = 0,
                   gbm.select.smooth = FALSE,
                   n.new.trees = 500,
                   min.trees = 50,
-                  failsafe.trees = 1000,
+                  failsafe.trees = 500,
                   imetrics = FALSE,
                   .gs = FALSE,
                   grid.resample.rtset = rtset.resample("kfold", 5),
@@ -76,15 +86,11 @@ s_GBM <- function(x, y = NULL,
                   metric = NULL,
                   maximize = NULL,
                   plot.tune.error = FALSE,
-                  exclude.test.lt.train = FALSE,
-                  exclude.lt.min.trees = FALSE,
-                  res.fail.thres = .99,
-                  n.extra.trees = 0,
                   n.cores = rtCores,
                   relInf = TRUE,
                   varImp = FALSE,
                   offset = NULL,
-                  misc = NULL,
+                  # misc = NULL,
                   var.monotone = NULL,
                   keep.data = TRUE,
                   var.names = NULL,
@@ -237,7 +243,6 @@ s_GBM <- function(x, y = NULL,
       fixed.params = list(
         n.trees = n.trees,
         max.trees = max.trees,
-        n.tree.window = n.tree.window,
         gbm.select.smooth = gbm.select.smooth,
         n.new.trees = n.new.trees,
         min.trees = min.trees,
@@ -267,11 +272,17 @@ s_GBM <- function(x, y = NULL,
     n.minobsinnode <- gs$best.tune$n.minobsinnode
     n.trees <- gs$best.tune$n.trees
     if (n.trees == -1) {
-      warning("Tuning failed to find n.trees, defaulting to failsafe.trees = ", failsafe.trees)
+      warning(
+        "Tuning failed to find n.trees, defaulting to failsafe.trees = ",
+        failsafe.trees, "."
+      )
       n.trees <- failsafe.trees
     }
     if (n.trees < min.trees) {
-      warning("Tuning returned ", n.trees, " trees; using min.trees = ", min.trees, " instead")
+      warning(
+        "Tuning returned ", n.trees, " trees; using min.trees = ", min.trees,
+        " instead."
+      )
       n.trees <- min.trees
     }
 
@@ -315,7 +326,7 @@ s_GBM <- function(x, y = NULL,
   mod <- gbm::gbm.fit(
     x = .x.train, y = .y.train,
     offset = offset,
-    misc = misc,
+    # misc = misc,
     distribution = distribution,
     w = .weights,
     var.monotone = var.monotone,
@@ -341,7 +352,7 @@ s_GBM <- function(x, y = NULL,
       mod <- gbm::gbm.fit(
         x = .x.train, y = .y.train,
         offset = offset,
-        misc = misc,
+        # misc = misc,
         distribution = distribution,
         w = .weights,
         var.monotone = var.monotone,
@@ -386,7 +397,7 @@ s_GBM <- function(x, y = NULL,
       )
     }
     if (trace > 0) msg2("### n.trees is", n.trees)
-    while (n.trees >= (mod$n.trees - n.tree.window) && mod$n.trees < max.trees) {
+    while (n.trees >= mod$n.trees && mod$n.trees < max.trees) {
       n.new.trees <- min(n.new.trees, max.trees - mod$n.trees)
       if (verbose) {
         msg2(
@@ -401,7 +412,8 @@ s_GBM <- function(x, y = NULL,
         verbose = gbm.fit.verbose
       )
       # CHECK: does this need to be checked the same way as mod above?
-      gst <- gbm.select.trees(mod,
+      gst <- gbm.select.trees(
+        mod,
         smooth = gbm.select.smooth,
         plot = plot.tune.error,
         verbose = verbose
@@ -594,6 +606,11 @@ s_GBM <- function(x, y = NULL,
 } # rtemis::s_GBM
 
 
+#' Select number of trees for GBM
+#' 
+#' @author E.D. Gennatas
+#' @keywords internal
+#' @noRd
 gbm.select.trees <- function(object,
                              smooth = TRUE,
                              plot = FALSE,

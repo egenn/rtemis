@@ -26,7 +26,6 @@ s_NBayes <- function(x, y = NULL,
                      plot.predicted = NULL,
                      plot.theme = rtTheme,
                      question = NULL,
-                     rtclass = NULL,
                      verbose = TRUE,
                      outdir = NULL,
                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {

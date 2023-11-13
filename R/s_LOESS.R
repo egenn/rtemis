@@ -26,7 +26,6 @@ s_LOESS <- function(x, y = NULL,
                     plot.predicted = NULL,
                     plot.theme = rtTheme,
                     question = NULL,
-                    rtclass = NULL,
                     verbose = TRUE,
                     trace = 0,
                     outdir = NULL,
@@ -107,7 +106,7 @@ s_LOESS <- function(x, y = NULL,
 
   # Outro ----
   rt <- rtModSet(
-    rtclass = rtclass,
+    rtclass = "rtMod",
     mod = mod,
     mod.name = mod.name,
     type = type,

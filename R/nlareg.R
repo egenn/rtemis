@@ -13,6 +13,7 @@
 #' @param W_h Float, vector (length `NCOL(x)`): Hidden layer weights. Defaults to 0
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See `stats::optim` for more details. Default = `"BFGS"`
+#' @param control List: Control parameters passed to `stats::optim`
 #' 
 #' @export
 #' @author E.D. Gennatas
@@ -26,9 +27,7 @@ nlareg <- function(x, y,
                    W_h = 0,
                    activation = softplus,
                    optim.method = "BFGS",
-                   control = list(),
-                   lower = -Inf,
-                   upper = Inf, ...) {
+                   control = list(), ...) {
 
   # Arguments ----
 

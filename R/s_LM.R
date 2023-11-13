@@ -29,7 +29,6 @@
 #' @param plot.theme Character: "zero", "dark", "box", "darkbox"
 #' @param na.action How to handle missing values. See `?na.fail`
 #' @param question Character: the question you are attempting to answer with this model, in plain language.
-#' @param rtclass Character: Class type to use. "S3", "S4", "RC", "R6"
 #' @param verbose Logical: If TRUE, print summary to screen.
 #' @param outdir Path to output directory.
 #'   If defined, will save Predicted vs. True plot, if available,
@@ -70,7 +69,6 @@ s_LM <- function(x, y = NULL,
                  plot.theme = rtTheme,
                  na.action = na.exclude,
                  question = NULL,
-                 rtclass = NULL,
                  verbose = TRUE,
                  trace = 0,
                  outdir = NULL,

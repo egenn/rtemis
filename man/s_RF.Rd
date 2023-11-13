@@ -49,7 +49,6 @@ s_RF(
   plot.tsne.train = FALSE,
   plot.tsne.test = FALSE,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   grid.verbose = verbose,
   outdir = NULL,

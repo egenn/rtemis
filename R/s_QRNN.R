@@ -13,7 +13,7 @@
 #' Train an ensemble of Neural Networks to perform Quantile Regression using `qrnn`
 #'
 #' For more details on hyperparameters, see `qrnn::qrnn.fit`
-#' 
+#'
 #' @inheritParams s_CART
 #' @param n.hidden Integer: Number of hidden nodes.
 #' @param tau Numeric: tau-quantile.
@@ -28,7 +28,7 @@
 #' @param Th.prime Function: derivative of hidden layer transfer function.
 #' @param penalty Numeric: weight penalty for weight decay regularization.
 #' @param ... Additional arguments to be passed to `qrnn::qrnn.fit`.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
 #' @family Supervised Learning
@@ -44,7 +44,7 @@ s_QRNN <- function(x, y = NULL,
                    n.trials = 5,
                    bag = TRUE,
                    lower = -Inf,
-                   eps.seq = 2 ^ (-8 : -32),
+                   eps.seq = 2^(-8:-32),
                    Th = qrnn::sigmoid,
                    Th.prime = qrnn::sigmoid.prime,
                    penalty = 0,
@@ -53,11 +53,9 @@ s_QRNN <- function(x, y = NULL,
                    plot.predicted = NULL,
                    plot.theme = rtTheme,
                    question = NULL,
-                   rtclass = NULL,
                    verbose = TRUE,
                    outdir = NULL,
                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_QRNN))
@@ -107,19 +105,21 @@ s_QRNN <- function(x, y = NULL,
 
   # QRNN ----
   if (verbose) msg2("Training QRNN mmodel...", newline.pre = TRUE)
-  mod <- qrnn::qrnn.fit(x = as.matrix(x), y = as.matrix(y),
-                        n.hidden = n.hidden,
-                        tau = tau,
-                        n.ensemble = n.ensemble,
-                        iter.max = iter.max,
-                        n.trials = n.trials,
-                        bag = bag,
-                        lower = lower,
-                        eps.seq = eps.seq,
-                        Th = Th,
-                        Th.prime = Th.prime,
-                        penalty = penalty,
-                        trace = verbose, ...)
+  mod <- qrnn::qrnn.fit(
+    x = as.matrix(x), y = as.matrix(y),
+    n.hidden = n.hidden,
+    tau = tau,
+    n.ensemble = n.ensemble,
+    iter.max = iter.max,
+    n.trials = n.trials,
+    bag = bag,
+    lower = lower,
+    eps.seq = eps.seq,
+    Th = Th,
+    Th.prime = Th.prime,
+    penalty = penalty,
+    trace = verbose, ...
+  )
 
   # Fitted ----
   fitted <- rowMeans(qrnn::qrnn.predict(as.matrix(x), mod))
@@ -137,35 +137,38 @@ s_QRNN <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = rtclass,
-              mod = mod,
-              mod.name = mod.name,
-              type = type,
-              y.train = y,
-              y.test = y.test,
-              x.name = x.name,
-              y.name = y.name,
-              xnames = xnames,
-              fitted = fitted,
-              se.fit = NULL,
-              error.train = error.train,
-              predicted = predicted,
-              se.prediction = NULL,
-              error.test = error.test, list,
-              question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test, list,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_QRNN

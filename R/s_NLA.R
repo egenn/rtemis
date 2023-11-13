@@ -10,7 +10,8 @@
 #' Since we are using `optim`, results will be sensitive to the combination of
 #' optimizer method (See `optim::method` for details),
 #' initialization values, and activation function.
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
+#' @inheritParams nlareg
 #' @param activation Function: Activation function to use. Default = [softplus]
 #' @param b_o Float, vector (length y): Output bias. Defaults to `mean(y)`
 #' @param W_o Float: Output weight. Defaults to 1
@@ -19,6 +20,7 @@
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See `stats::optim` for more details. Default = `"BFGS"`
 #' @param ... Additional arguments to be passed to `sigreg`
+#' 
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -34,21 +36,17 @@ s_NLA <- function(x, y = NULL,
                   W_h = .01,
                   optim.method = "BFGS",
                   control = list(),
-                  lower = -Inf,
-                  upper = Inf,
                   x.name = NULL, y.name = NULL,
-                  save.func = TRUE,
                   print.plot = FALSE,
                   plot.fitted = NULL,
                   plot.predicted = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
-                  rtclass = NULL,
                   verbose = TRUE,
                   trace = 0,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-  # Intro ] ----
+  # Intro ----
   if (missing(x)) {
     print(args(s_NLA))
     return(invisible(9))
@@ -106,9 +104,7 @@ s_NLA <- function(x, y = NULL,
     b_h = b_h,
     W_h = W_h,
     optim.method = optim.method,
-    control = control,
-    lower = lower,
-    upper = upper, ...
+    control = control, ...
   )
   if (trace > 0) print(summary(mod))
 
@@ -127,7 +123,7 @@ s_NLA <- function(x, y = NULL,
     }
   }
 
-  # Outro ] ----
+  # Outro ----
   rt <- rtModSet(
     rtclass = "rtMod",
     mod = mod,

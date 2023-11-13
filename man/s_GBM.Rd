@@ -23,11 +23,10 @@ s_GBM(
   n.trees = 2000,
   max.trees = 5000,
   force.n.trees = NULL,
-  n.tree.window = 0,
   gbm.select.smooth = FALSE,
   n.new.trees = 500,
   min.trees = 50,
-  failsafe.trees = 1000,
+  failsafe.trees = 500,
   imetrics = FALSE,
   .gs = FALSE,
   grid.resample.rtset = rtset.resample("kfold", 5),
@@ -35,15 +34,10 @@ s_GBM(
   metric = NULL,
   maximize = NULL,
   plot.tune.error = FALSE,
-  exclude.test.lt.train = FALSE,
-  exclude.lt.min.trees = FALSE,
-  res.fail.thres = 0.99,
-  n.extra.trees = 0,
   n.cores = rtCores,
   relInf = TRUE,
   varImp = FALSE,
   offset = NULL,
-  misc = NULL,
   var.monotone = NULL,
   keep.data = TRUE,
   var.names = NULL,
@@ -121,7 +115,18 @@ Helps avoid overfitting.}
 \item{force.n.trees}{Integer: If specified, use this number of trees instead of
 tuning number of trees}
 
-\item{min.trees}{Integer: Minimum number of trees to fit}
+\item{gbm.select.smooth}{Logical: If TRUE, smooth the validation error curve.}
+
+\item{n.new.trees}{Integer: Number of new trees to train if stopping criteria have
+not been met.}
+
+\item{min.trees}{Integer: Minimum number of trees to fit.}
+
+\item{failsafe.trees}{Integer: If tuning fails to find n.trees, use this number
+instead.}
+
+\item{imetrics}{Logical: If TRUE, save \code{extra$imetrics} with \code{n.trees}, \code{depth},
+and \code{n.nodes}.}
 
 \item{.gs}{Internal use only}
 
@@ -139,6 +144,8 @@ grid search parameters.}
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
+\item{plot.tune.error}{Logical: If TRUE, plot the tuning error curve.}
+
 \item{n.cores}{Integer: Number of cores to use.}
 
 \item{relInf}{Logical: If TRUE (Default), estimate variables' relative influence.}
@@ -146,6 +153,12 @@ search is run.}
 \item{varImp}{Logical: If TRUE, estimate variable importance by permutation (as in random forests;
 noted as experimental in gbm). Takes longer than (default) relative influence.
 The two measures are highly correlated.}
+
+\item{offset}{Numeric vector of offset values, passed to \code{gbm::gbm.fit}}
+
+\item{var.monotone}{Integer vector with values {0, 1, -1} and length = N features.
+Used to define monotonicity constraints. \code{0}: no constraint, \code{1}: increasing,
+\code{-1}: decreasing.}
 
 \item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
 
@@ -164,8 +177,6 @@ Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
-
-\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
 

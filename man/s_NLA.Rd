@@ -16,17 +16,13 @@ s_NLA(
   W_h = 0.01,
   optim.method = "BFGS",
   control = list(),
-  lower = -Inf,
-  upper = Inf,
   x.name = NULL,
   y.name = NULL,
-  save.func = TRUE,
   print.plot = FALSE,
   plot.fitted = NULL,
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   trace = 0,
   outdir = NULL,
@@ -57,6 +53,8 @@ Columns must correspond to columns in \code{x}}
 \item{optim.method}{Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}}
 
+\item{control}{List: Control parameters passed to \code{stats::optim}}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
@@ -74,8 +72,6 @@ Requires \code{x.test} and \code{y.test}}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
-
-\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

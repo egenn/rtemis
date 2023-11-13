@@ -26,7 +26,7 @@ rtset.GBM(
 
 \item{max.trees}{Integer: Maximum number of trees to fit}
 
-\item{min.trees}{Integer: Minimum number of trees to fit}
+\item{min.trees}{Integer: Minimum number of trees to fit.}
 
 \item{bag.fraction}{[gS] Float (0, 1): Fraction of cases to use to train each tree.
 Helps avoid overfitting.}

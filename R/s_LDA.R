@@ -13,6 +13,7 @@
 #' @param method "moment" for standard estimators of the mean and variance, "mle" for 
 #' MLEs, "mve" to use cov.mve, or "t" for robust estimates based on a t distribution
 #' @param nu Integer: Degrees of freedom for method = "t"
+#' @param ... Additional arguments passed to `MASS::lda`
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
@@ -35,7 +36,6 @@ s_LDA <- function(x, y = NULL,
                   plot.predicted = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
-                  rtclass = NULL,
                   verbose = TRUE,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {

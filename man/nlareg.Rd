@@ -14,8 +14,6 @@ nlareg(
   activation = softplus,
   optim.method = "BFGS",
   control = list(),
-  lower = -Inf,
-  upper = Inf,
   ...
 )
 }
@@ -37,6 +35,8 @@ Default = link{softplus}}
 
 \item{optim.method}{Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 "SANN", "Brent". See \code{stats::optim} for more details. Default = \code{"BFGS"}}
+
+\item{control}{List: Control parameters passed to \code{stats::optim}}
 
 \item{...}{Additional arguments}
 }

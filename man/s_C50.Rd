@@ -26,7 +26,6 @@ s_C50(
   plot.predicted = NULL,
   plot.theme = rtTheme,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   trace = 0,
   outdir = NULL,

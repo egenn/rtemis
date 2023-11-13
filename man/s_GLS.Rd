@@ -22,7 +22,6 @@ s_GLS(
   plot.theme = rtTheme,
   na.action = na.exclude,
   question = NULL,
-  rtclass = NULL,
   verbose = TRUE,
   trace = 0,
   outdir = NULL,
