@@ -57,7 +57,6 @@ test_that("CART 3-class Classification succeeds", {
   expect_s3_class(mod_c, "rtModClass")
 })
 
-
 ## Ranger ----
 test_that("Ranger Regression succeeds", {
   mod_r <- s_Ranger(datr_train, datr_test)
@@ -103,5 +102,16 @@ test_that("LightGBM Binary Classification succeeds", {
 
 test_that("LightGBM 3-class Classification succeeds", {
   mod_c <- s_LightGBM(datc3_train, datc3_test, force_nrounds = 20)
+  expect_s3_class(mod_c, "rtModClass")
+})
+
+## LightRuleFit ----
+test_that("LightRuleFit Regression succeeds", {
+  mod_r <- s_LightRuleFit(datr_train, datr_test, n.trees = 20)
+  expect_s3_class(mod_r, "rtMod")
+})
+
+test_that("LightRuleFit Binary Classification succeeds", {
+  mod_c <- s_LightRuleFit(datc2_train, datc2_test, n.trees = 20)
   expect_s3_class(mod_c, "rtModClass")
 })
