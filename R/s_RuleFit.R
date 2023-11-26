@@ -213,6 +213,7 @@ s_RuleFit <- function(x, y = NULL,
     cases.by.rules = cases.by.rules,
     cases.by.rules.selected = cases.by.rules.selected,
     rule.coefs = rule.coefs,
+    y_levels = if (type == "Classification") levels(y) else NULL,
     metrics = data.frame(
       N.Rules.Total = n.rules.total,
       N.Nonzero.Rules = n.nonzero.rules
@@ -332,7 +333,7 @@ predict.rulefit <- function(object,
         newx = data.matrix(cases.by.rules),
         type = "class"
       ),
-      levels = levels(object$y)
+      levels = object$y_levels
     )
   } else {
     prob <- NULL
