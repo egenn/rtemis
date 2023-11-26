@@ -11,8 +11,6 @@
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
-  data = NULL,
-  data.test = NULL,
   k = 6,
   family = NULL,
   weights = NULL,
@@ -55,8 +53,6 @@ Columns must correspond to columns in \code{x}}
 
 \item{k}{Integer. Number of bases for smoothing spline}
 
-\item{family}{Error distribution and link function. See \code{stats::family}}
-
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
@@ -78,13 +74,9 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{removeMissingLevels}{Logical: If TRUE, finds factors in \code{x.test} that contain levels
-not present in \code{x} and substitutes with NA. This would result in error otherwise and no
-predictions would be made, ending \code{s_GLM} prematurely}
+\item{method}{Character: "auto", "anova", "poisson", "class" or "exp".}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
-
-\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
@@ -99,6 +91,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

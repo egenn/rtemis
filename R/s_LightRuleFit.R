@@ -11,7 +11,7 @@
 #' by Friedman and Popescu
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #'
-#' @inheritParams s_GBM
+#' @inheritParams s_LightGBM
 #' @param n.trees Integer: Number of trees to train. Passed to [s_LightGBM]
 #' `force.n.trees`. If set to NULL, can set `max_nrounds` in `lgbm.params`, to perform
 #' cross-validation to determine optimal number of trees.

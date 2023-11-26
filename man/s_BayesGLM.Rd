@@ -53,6 +53,9 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
+\item{family}{Character or function for the error distribution and link function to
+be used. See \code{arm::bayesglm} for details.}
+
 \item{prior.mean}{Numeric, vector: Prior mean for the coefficients. If scalar,
 it will be replicated to length N features.}
 

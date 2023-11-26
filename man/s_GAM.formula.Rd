@@ -29,17 +29,21 @@
 )
 }
 \arguments{
+\item{data}{data.frame: Training data}
+
+\item{data.test}{data.frame: Testing data}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
 
 \item{k}{Integer. Number of bases for smoothing spline}
 
-\item{family}{Error distribution and link function. See \code{stats::family}}
-
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
+
+\item{method}{Character: "auto", "anova", "poisson", "class" or "exp".}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
@@ -56,6 +60,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+
+\item{n.cores}{Integer: Number of cores to use.}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

@@ -10,7 +10,9 @@
 #' \deqn{y = s(x_{1}, k = gam.k) + s(x_{2}, k = gam.k) + ... + s(x_{n}, k = gam.k)}
 #'
 #' [s_GAM.default] is the preferred way to train GAMs
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
+#' @param data data.frame: Training data
+#' @param data.test data.frame: Testing data
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to `mgcv::gam`
 #'

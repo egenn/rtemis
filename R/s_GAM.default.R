@@ -8,7 +8,7 @@
 #' Input will be used to create a formula of the form:
 #' \deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 #'
-#' @inheritParams s_GLM
+#' @inheritParams s_CART
 #' @param k Integer. Number of bases for smoothing spline
 #' @param ... Additional arguments to be passed to `mgcv::gam`
 #'
@@ -21,8 +21,6 @@
 s_GAM.default <- function(x, y = NULL,
                           x.test = NULL, y.test = NULL,
                           x.name = NULL, y.name = NULL,
-                          data = NULL,
-                          data.test = NULL,
                           k = 6,
                           family = NULL,
                           weights = NULL,

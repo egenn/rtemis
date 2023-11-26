@@ -7,6 +7,8 @@
 #' Train a bayesian GLM using `arm::bayesglm`
 #'
 #' @inheritParams s_CART
+#' @param family Character or function for the error distribution and link function to 
+#' be used. See `arm::bayesglm` for details.
 #' @param prior.mean Numeric, vector: Prior mean for the coefficients. If scalar,
 #' it will be replicated to length N features.
 #' @param prior.scale Numeric, vector: Prior scale for the coefficients. Default = NULL,

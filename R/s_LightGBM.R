@@ -313,8 +313,7 @@ s_LightGBM <- function(x, y = NULL,
     linear_tree = linear_tree,
     subsample_freq = subsample_freq,
     max_cat_threshold = max_cat_threshold,
-    min_data_per_group = min_data_per_group,
-    verbosity = lightgbm_verbose
+    min_data_per_group = min_data_per_group
   )
   extraargs <- list(...)
   if (!is.null(extraargs)) {
@@ -339,7 +338,8 @@ s_LightGBM <- function(x, y = NULL,
     data = dat.train,
     nrounds = nrounds,
     valids = if (.gs) list(train = dat.train, valid = dat.test) else list(train = dat.train),
-    early_stopping_rounds = if (.gs) early_stopping_rounds else NULL, ...
+    early_stopping_rounds = if (.gs) early_stopping_rounds else NULL,
+    verbose = lightgbm_verbose
   )
 
   # Fitted ----
