@@ -345,6 +345,7 @@ kfold <- function(x, k = 10,
   # ->> update
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
+    if (max.bins == 1) stop("Only one unique value present in stratify.var")
     if (verbose) msg2("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
