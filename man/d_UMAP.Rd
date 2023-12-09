@@ -49,6 +49,10 @@ Default = TRUE}
 \description{
 Perform UMAP decomposition using \code{uwot::umap}
 }
+\details{
+Updated 2023-12-09: See \href{https://github.com/jlmelville/uwot/issues/115}{GitHub issue}
+and \href{https://github.com/bwlewis/irlba/issues/70#issuecomment-1826900769}{related comment}
+}
 \seealso{
 Other Decomposition: 
 \code{\link{d_H2OAE}()},
