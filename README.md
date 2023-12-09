@@ -47,6 +47,32 @@ You can install `rtemis` from `r-universe` or using `pak`, `remotes`, or `devtoo
   devtools::install_github("egenn/rtemis")
   ```
 
+### Note about Fortran support in MacOS
+
+To allow compilation from source of any dependencies that require Fortran, you
+will need to install the GNU Fortran compiler. The easiest way to do this is
+with [Homebrew](https://brew.sh/):
+
+```bash
+brew install gcc
+```
+
+Then, you will need to add the following to your `~/.R/Makevars` file:
+
+```bash
+FC      = usr/local/opt/gcc/bin/gfortran
+F77     = /usr/local/opt/gcc/bin/gfortran
+FLIBS   = -L/usr/local/opt/gcc/lib
+```
+
+### Note about using `d_UMAP()`
+
+`d_UMAP()` requires the `uwot` package, which currently requires that the `Matrix` and
+`irlba` dependencies be installed from source. See more in the `uwot` issue
+[here](https://github.com/jlmelville/uwot/issues/115).
+
+### More setup info
+
 See [here](https://rtemis.lambdamd.org/Setup.html) for more setup and
 installation instructions.
 
