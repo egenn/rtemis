@@ -55,7 +55,8 @@
 #'
 resample <- function(y,
                      n.resamples = 10,
-                     resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
+                     resampler = c("strat.sub", "strat.boot", "kfold", 
+                                   "bootstrap", "loocv"),
                      index = NULL,
                      group = NULL,
                      stratify.var = y,
@@ -98,6 +99,7 @@ resample <- function(y,
       }
     }
     if (!is.null(id.strat)) {
+      # Only keep unique IDs  
       idl <- !duplicated(id.strat)
       y <- y[idl]
     }
@@ -189,7 +191,7 @@ resample <- function(y,
     if (!is.null(id.strat)) {
       ### Get ID by resample ----
       id_by_res <- lapply(res.part, \(x) id.strat[idl][x])
-      ### Get resamples on og data with replicates ----
+      ### Get resamples on original data with replicates ----
       res.part <- lapply(id_by_res, \(x) which(id.strat %in% x))
     }
   } else if (type == ".group") {
