@@ -99,12 +99,10 @@ test_that("TSNE Clustering succeeds", {
 })
 
 ## UMAP ----
-test_that("UMAP Clustering succeeds", {
-  skip_if_not_installed("uwot")
-  if (Sys.info()["sysname"] == "Linux") {
-    msg2("Temporarily skipping UMAP test on Linux due to error in irlba::irlba")
-  } else {
-    decom <- d_UMAP(x, k = 2)
-    expect_s3_class(decom, "rtDecom")
-  }
-})
+# 2023-12-09: requires Matrix and irlba dependencies to be installed from source
+# See [GitHub issue](https://github.com/jlmelville/uwot/issues/115)
+# and [related comment](https://github.com/bwlewis/irlba/issues/70#issuecomment-1826900769)
+# test_that("UMAP Clustering succeeds", {
+#   decom <- d_UMAP(x, k = 2)
+#   expect_s3_class(decom, "rtDecom")
+# })
