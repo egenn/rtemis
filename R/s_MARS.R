@@ -9,6 +9,7 @@
 #' \[gS\] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
 #' For more info on algorithm hyperparameters, see `?earth::earth`
 #'
+#' @inheritParams s_CART
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
@@ -23,6 +24,7 @@
 #' @param nk \[gS\] Integer: Maximum number of terms created by the forward pass.
 #' See `earth::earth`
 #' @param ... Additional parameters to pass to `earth::earth`
+#'
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train] for external cross-validation
@@ -69,7 +71,6 @@ s_MARS <- function(x, y = NULL,
                    trace = 0,
                    save.mod = FALSE,
                    outdir = NULL, ...) {
-
   # Intro ----
   if (missing(x)) {
     print(args(s_MARS))
@@ -89,7 +90,8 @@ s_MARS <- function(x, y = NULL,
 
   # Arguments ----
   if (missing(x)) {
-    print(args(s_MARS)); stop("x is missing")
+    print(args(s_MARS))
+    stop("x is missing")
   }
   if (is.null(y) && NCOL(x) < 2) {
     print(args(s_MARS))
@@ -105,13 +107,14 @@ s_MARS <- function(x, y = NULL,
 
   # Data ----
   dt <- dataPrepare(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+    x.test, y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -175,32 +178,39 @@ s_MARS <- function(x, y = NULL,
 
   # earth::earth ----
   if (verbose) msg2("Training MARS model...", newline.pre = TRUE)
-  if (verbose) parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk,
-                   newline.pre = TRUE)
+  if (verbose) {
+    parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk,
+      newline.pre = TRUE
+    )
+  }
   # We do not pass penalty or nk if pmethod is "cv", because they are not handled correctly by
   # update.earth or related function and error out.
-  args <- c(list(x = x, y = y,
-                 weights = .weights,
-                 wp = wp,
-                 na.action = na.action,
-                 trace = trace,
-                 glm = glm,
-                 degree = degree,
-                 penalty = penalty,
-                 nk = nk,
-                 thresh = thresh,
-                 minspan = minspan,
-                 endspan = endspan,
-                 newvar.penalty = newvar.penalty,
-                 fast.k = fast.k,
-                 fast.beta = fast.beta,
-                 linpreds = linpreds,
-                 pmethod = pmethod,
-                 nprune = nprune,
-                 nfold = nfold,
-                 ncross = ncross,
-                 stratify = stratify),
-            list(...))
+  args <- c(
+    list(
+      x = x, y = y,
+      weights = .weights,
+      wp = wp,
+      na.action = na.action,
+      trace = trace,
+      glm = glm,
+      degree = degree,
+      penalty = penalty,
+      nk = nk,
+      thresh = thresh,
+      minspan = minspan,
+      endspan = endspan,
+      newvar.penalty = newvar.penalty,
+      fast.k = fast.k,
+      fast.beta = fast.beta,
+      linpreds = linpreds,
+      pmethod = pmethod,
+      nprune = nprune,
+      nfold = nfold,
+      ncross = ncross,
+      stratify = stratify
+    ),
+    list(...)
+  )
   if (pmethod == "cv") args$penalty <- args$nk <- NULL
   mod <- do.call(earth::earth, args)
   if (trace > 0) print(summary(mod))
@@ -245,40 +255,43 @@ s_MARS <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = params,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = varimp,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = params,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = varimp,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-
 } # rtemis::s_MARS
