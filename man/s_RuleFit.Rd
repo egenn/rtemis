@@ -9,9 +9,8 @@ s_RuleFit(
   y = NULL,
   x.test = NULL,
   y.test = NULL,
-  n.trees = 100,
-  gbm.params = list(bag.fraction = 0.5, shrinkage = 0.001, interaction.depth = 5, ifw =
-    TRUE),
+  n.trees = 300,
+  gbm.params = list(bag.fraction = 1, shrinkage = 0.1, interaction.depth = 3, ifw = TRUE),
   meta.alpha = 1,
   meta.lambda = NULL,
   meta.extra.params = list(ifw = TRUE),
