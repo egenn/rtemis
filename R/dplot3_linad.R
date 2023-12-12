@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2020 E.D. Gennatas www.lambdamd.org
 
-#' Plot a Linear Additive Tree trained by `s_LINAD` using 
+#' Plot a Linear Additive Tree trained by `s_LINAD` using
 #' **visNetwork**
 #'
 #' @param tree `s_LINAD` tree
@@ -11,44 +11,44 @@
 #' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
 #' "text", "diamond". Default = "box"
 #' @param nodelabels Logical: If TRUE, inlcude node labels. Default = TRUE
-#' @param ncases.inlabels Logical: If TRUE, include number of cases with the 
+#' @param ncases.inlabels Logical: If TRUE, include number of cases with the
 #' node labels. Default = TRUE
-#' @param rules.on.edges Logical: If TRUE, display rules on edges instead of 
+#' @param rules.on.edges Logical: If TRUE, display rules on edges instead of
 #' nodes. Default = FALSE
 #' @param node.col Color for nodes. Default = #7F7F7F" (some gray)
 #' @param leaf.col Color for leaf nodes. Default = "#18A3AC" (teal)
 #' @param edge.col Color for edges. Default = "#848484" (another gray)
-#' @param col.highlight Color for surrounding edges when node is selected. 
+#' @param col.highlight Color for surrounding edges when node is selected.
 #' Default = "#F48024" (orange)
-#' @param node.font.col Color for node labels. Default varies by `shape`, 
+#' @param node.font.col Color for node labels. Default varies by `shape`,
 #' black or white depending if
 #' `visNetwork` draws labels on node or underneath
 #' @param edge.font.col Color for edge labels. Default = "#000000" (black)
 #' @param sort.coefs Logical: If TRUE, sort each coefs table. Default = FALSE
 #' @param height Float: Height for `visNetwork`. Default = NULL, i.e. auto
 #' @param width Float: Width for `visNetwork`. Default = NULL, i.e. auto
-#' @param levelSeparation Float: N of pixels to separate tree levels. 
+#' @param levelSeparation Float: N of pixels to separate tree levels.
 #' Default = 100
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22
-#' @param edgethickness.by.ncases Logical: If TRUE, scale edge thickness by 
+#' @param edgethickness.by.ncases Logical: If TRUE, scale edge thickness by
 #' number of cases with weight = 1
-#' @param font.family Character: Font to use throughout. 
+#' @param font.family Character: Font to use throughout.
 #' Default = 'Helvetica Neue', because otherwise it may fail on a
 #' number of external viewers.
-#' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover 
-#' over nodes. This was placed here before a custom html table creation 
+#' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover
+#' over nodes. This was placed here before a custom html table creation
 #' function was made to replace some impossibly slow alternatives.
-#' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before 
+#' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before
 #' showing tooltip. Default = 50
-#' @param table.font.size Character: Font size for html coefficient on-hover 
+#' @param table.font.size Character: Font size for html coefficient on-hover
 #' tables. Default = "14px"
-#' @param table.dat.padding Ignore, has no visible effect. Otherwise, 
+#' @param table.dat.padding Ignore, has no visible effect. Otherwise,
 #' Character: html table padding. Default = "0px"
-#' @param table.lo.col Color for lowest coefficient values (negative). 
+#' @param table.lo.col Color for lowest coefficient values (negative).
 #' Default = "#80FFFF" (light blue)
-#' @param table.hi.col Color for highest coefficient values (positive). 
+#' @param table.hi.col Color for highest coefficient values (positive).
 #' Default = "#FFBE00" (light orange)
-#' @param trace Integer: If > 0, print info to console (not particularly 
+#' @param trace Integer: If > 0, print info to console (not particularly
 #' informative). Default = 0
 #'
 #' @author E.D. Gennatas
@@ -97,7 +97,6 @@ dplot3_linad <- function(x,
                          parentCentralization = TRUE,
                          direction = "UD",
                          trace = 0) {
-
   # Dependencies ----
   dependency_check("visNetwork")
 
@@ -114,7 +113,7 @@ dplot3_linad <- function(x,
   nodeids_depth <- floor(log(nodeids, 2))
   .nodelabels <- x$mod$all.step.leaves$rules$condition
   colors <- rep(node.col, length(nodeids))
-  nodeterminal <- !c(nodeids*2) %in% nodeids
+  nodeterminal <- !c(nodeids * 2) %in% nodeids
   colors[nodeterminal] <- leaf.col
   # Make root gray
   colors[1] <- root.col
@@ -167,23 +166,28 @@ dplot3_linad <- function(x,
     } else {
       unlist(lapply(coefsl, function(i) i[-1, 2]))
     }
-    dat.colm <- matrix(colorgradient.x(val,
-                                       symmetric = TRUE,
-                                       lo.col = table.lo.col,
-                                       hi.col = table.hi.col),
-                       ncol = length(coefsl))
+    dat.colm <- matrix(
+      colorgradient.x(val,
+        symmetric = TRUE,
+        lo.col = table.lo.col,
+        hi.col = table.hi.col
+      ),
+      ncol = length(coefsl)
+    )
 
     coefs.html <- lapply(seq(coefsl), function(i) {
-      twocol2html(coefsl[[i]], font.family = font.family,
-                  dat.col = c("#333333", dat.colm[, i]),
-                  font.size = table.font.size,
-                  dat.padding = table.dat.padding)
+      twocol2html(coefsl[[i]],
+        font.family = font.family,
+        dat.col = c("#333333", dat.colm[, i]),
+        font.size = table.font.size,
+        dat.padding = table.dat.padding
+      )
     })
   } else {
     coefs.html <- NULL
   }
 
-  source_index <- which(sapply(nodeids, function(i) (i*2) %in% nodeids))
+  source_index <- which(sapply(nodeids, function(i) (i * 2) %in% nodeids))
   source_index <- rep(source_index, each = 2)
   target_index <- 2:length(nodeids)
   Ncases <- sapply(tree, function(i) sum(i$weights == 1))
@@ -203,8 +207,10 @@ dplot3_linad <- function(x,
       color = colors,
       shadow = FALSE
     )
-    edges <- data.frame(from = source_index,
-                        to = target_index)
+    edges <- data.frame(
+      from = source_index,
+      to = target_index
+    )
   } else {
     nodes <- data.frame(
       id = seq(nodeids),
@@ -216,9 +222,11 @@ dplot3_linad <- function(x,
       color = colors,
       shadow = FALSE
     )
-    edges <- data.frame(from = source_index,
-                        to = target_index,
-                        label = .nodelabels[-1])
+    edges <- data.frame(
+      from = source_index,
+      to = target_index,
+      label = .nodelabels[-1]
+    )
   }
 
   if (tooltip.coefs) nodes$title <- as.character(coefs.html)
@@ -230,49 +238,71 @@ dplot3_linad <- function(x,
   if (trace > 0) msg2("Drawing graph with visNetwork...")
   # '- visNetwork ----
   visNetwork::visNetwork(nodes, edges,
-                         width = width,
-                         height = height,
-                         main = main,
-                         background = bg) |>
+    width = width,
+    height = height,
+    main = main,
+    background = bg
+  ) |>
     # '- visHierarchicalLayout ----
-    visNetwork::visHierarchicalLayout(levelSeparation = levelSeparation,
-                                      nodeSpacing = nodeSpacing,
-                                      blockShifting, blockShifting,
-                                      edgeMinimization = edgeMinimization,
-                                      parentCentralization = parentCentralization,
-                                      direction = direction) |>
+    visNetwork::visHierarchicalLayout(
+      levelSeparation = levelSeparation,
+      nodeSpacing = nodeSpacing,
+      blockShifting, blockShifting,
+      edgeMinimization = edgeMinimization,
+      parentCentralization = parentCentralization,
+      direction = direction
+    ) |>
     # '- visNodes ----
-    visNetwork::visNodes(font = list(color = node.font.col,
-                                     size = tree.font.size,
-                                     face = font.family),
-                         borderWidth = 1,
-                         color = list(highlight = col.highlight,
-                                      hover = list(background = col.highlight,
-                                                   border = col.highlight))) |>
+    visNetwork::visNodes(
+      font = list(
+        color = node.font.col,
+        size = tree.font.size,
+        face = font.family
+      ),
+      borderWidth = 1,
+      color = list(
+        highlight = col.highlight,
+        hover = list(
+          background = col.highlight,
+          border = col.highlight
+        )
+      )
+    ) |>
     # '- visEdges ----
-    visNetwork::visEdges(width = edge.width,
-                         color = list(color = edge.col,
-                                      highlight = col.highlight),
-                         font = list(color = edge.font.col,
-                                     size = tree.font.size,
-                                     face = font.family),
-                         # arrows = "to",
-                         arrows = list(to = list(
-                           enabled = !arrow.middle,
-                           scaleFactor = arrow.scale),
-                           middle = list(
-                             enabled = arrow.middle,
-                             scaleFactor = arrow.scale)),
-                         arrowStrikethrough = FALSE,
-                         hoverWidth = 0) |>
-    visNetwork::visInteraction(hover = TRUE,
-                               dragNodes = dragNodes,
-                               dragView = TRUE,
-                               zoomView = zoomView,
-                               tooltipDelay = tooltip.delay,
-                               tooltipStyle = 'position:fixed;visibility:hidden;padding: 0px') -> plt
+    visNetwork::visEdges(
+      width = edge.width,
+      color = list(
+        color = edge.col,
+        highlight = col.highlight
+      ),
+      font = list(
+        color = edge.font.col,
+        size = tree.font.size,
+        face = font.family
+      ),
+      # arrows = "to",
+      arrows = list(
+        to = list(
+          enabled = !arrow.middle,
+          scaleFactor = arrow.scale
+        ),
+        middle = list(
+          enabled = arrow.middle,
+          scaleFactor = arrow.scale
+        )
+      ),
+      arrowStrikethrough = FALSE,
+      hoverWidth = 0
+    ) |>
+    visNetwork::visInteraction(
+      hover = TRUE,
+      dragNodes = dragNodes,
+      dragView = TRUE,
+      zoomView = zoomView,
+      tooltipDelay = tooltip.delay,
+      tooltipStyle = "position:fixed;visibility:hidden;padding: 0px"
+    ) -> plt
   plt
-
 } # rtemis::dplot3_linad
 
 log10n <- function(x) {
