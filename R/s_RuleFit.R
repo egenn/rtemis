@@ -31,11 +31,11 @@
 
 s_RuleFit <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
-                      n.trees = 100,
+                      n.trees = 300,
                       gbm.params = list(
-                        bag.fraction = .5,
-                        shrinkage = .001,
-                        interaction.depth = 5,
+                        bag.fraction = 1,
+                        shrinkage = .1,
+                        interaction.depth = 3,
                         ifw = TRUE
                       ),
                       meta.alpha = 1,
@@ -115,7 +115,8 @@ s_RuleFit <- function(x, y = NULL,
         force.n.trees = n.trees,
         verbose = verbose,
         print.plot = FALSE,
-        n.cores = n.cores
+        n.cores = n.cores,
+        relInf = FALSE
       ),
       gbm.params
     )
@@ -210,8 +211,8 @@ s_RuleFit <- function(x, y = NULL,
     empirical.risk = empirical.risk,
     rules.selected.coef.er = rules.selected.coef.er,
     rules.index = nonzero.index,
-    cases.by.rules = cases.by.rules,
-    cases.by.rules.selected = cases.by.rules.selected,
+    # cases.by.rules = cases.by.rules,
+    # cases.by.rules.selected = cases.by.rules.selected,
     rule.coefs = rule.coefs,
     y_levels = if (type == "Classification") levels(y) else NULL,
     metrics = data.frame(
@@ -314,12 +315,14 @@ predict.rulefit <- function(object,
 
   # Match ----
   # Match newdata to rules: create features for predict
-  if (!is.null(newdata)) {
-    if (verbose) msg2("Matching newdata to rules...")
-    cases.by.rules <- matchCasesByRules(newdata, rules, verbose = verbose)
-  } else {
-    cases.by.rules <- object$cases.by.rules.selected
-  }
+  # if (!is.null(newdata)) {
+  #   if (verbose) msg2("Matching newdata to rules...")
+  #   cases.by.rules <- matchCasesByRules(newdata, rules, verbose = verbose)
+  # } else {
+  #   cases.by.rules <- object$cases.by.rules.selected
+  # }
+  if (verbose) msg2("Matching cases to rules...")
+  cases.by.rules <- matchCasesByRules(newdata, rules, verbose = verbose)
 
   # Predict ----
   if (object$mod.gbm$type == "Classification") {
