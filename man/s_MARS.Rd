@@ -61,6 +61,34 @@ must have set of columns as \code{x}}
 
 \item{y.test}{(Optional) Numeric vector of validation set outcomes}
 
+\item{x.name}{Character: Name for feature set}
+
+\item{y.name}{Character: Name for outcome}
+
+\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+grid search parameters.}
+
+\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
+
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
+
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Note: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
 \item{degree}{[gS] Integer: Maximum degree of interaction. Default = 2}
 
 \item{penalty}{[gS] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
@@ -73,6 +101,40 @@ See \code{earth::earth}}
 "seqrep", "cv". Default = "forward"}
 
 \item{nprune}{[gS] Integer: Max N of terms (incl. intercept) in the pruned model}
+
+\item{na.action}{How to handle missing values. See \code{?na.fail}}
+
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
+
+\item{n.cores}{Integer: Number of cores to use.}
+
+\item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
+
+\item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
+
+\item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
+Requires \code{x.test} and \code{y.test}}
+
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
+
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+
+\item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
+\code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
+is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
+
+\item{outdir}{Path to output directory.
+If defined, will save Predicted vs. True plot, if available,
+as well as full model output, if \code{save.mod} is TRUE}
 
 \item{...}{Additional parameters to pass to \code{earth::earth}}
 }
