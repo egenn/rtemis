@@ -78,7 +78,7 @@ rtAlgs <- data.frame(rbind(
   # c("RRF", "Regularized Random Forest", TRUE, TRUE, FALSE),
   c("RFSRC", "Random Forest SRC", TRUE, TRUE, TRUE),
   c("RLM", "Robust Linear Model", FALSE, TRUE, FALSE),
-  c("RuleFit", "RuleFit Ensemble Model", TRUE, TRUE, FALSE),
+  c("RuleFit", "RuleFit", TRUE, TRUE, FALSE),
   c("SDA", "Sparse Linear Discriminant Analysis", TRUE, FALSE, FALSE),
   c("SGD", "Stochastic Gradient Descent", FALSE, TRUE, FALSE),
   c("SPLS", "Sparse Partial Least Squares", FALSE, TRUE, FALSE),
