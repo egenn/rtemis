@@ -119,7 +119,6 @@ present <- function(...,
       height = file.height,
       scale = file.scale
     )
-  } else {
-    plt
   }
+  plt
 } # rtemis::present
