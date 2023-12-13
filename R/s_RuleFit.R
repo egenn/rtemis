@@ -1,6 +1,6 @@
 # s_RuleFit.R
 # ::rtemis::
-# 2017-8 E.D. Gennatas www.lambdamd.org
+# 2017-23 E.D. Gennatas www.lambdamd.org
 
 #' Rulefit \[C, R\]
 #'
@@ -31,12 +31,14 @@
 
 s_RuleFit <- function(x, y = NULL,
                       x.test = NULL, y.test = NULL,
-                      n.trees = 300,
                       gbm.params = list(
-                        bag.fraction = 1,
-                        shrinkage = .1,
-                        interaction.depth = 3,
-                        ifw = TRUE
+                        list(
+                          n.trees = 300,
+                          bag.fraction = 1,
+                          shrinkage = .1,
+                          interaction.depth = 3,
+                          ifw = TRUE
+                        )
                       ),
                       meta.alpha = 1,
                       meta.lambda = NULL,
@@ -109,28 +111,59 @@ s_RuleFit <- function(x, y = NULL,
 
   if (is.null(cases.by.rules)) {
     # Gradient Boosting ----
-    gbm.args <- c(
-      list(
-        x = x, y = y,
-        force.n.trees = n.trees,
-        verbose = verbose,
-        print.plot = FALSE,
-        n.cores = n.cores,
-        relInf = FALSE
-      ),
-      gbm.params
-    )
-    if (verbose) msg2("Running Gradient Boosting...")
-    mod.gbm <- do.call(.gbm, gbm.args)
+    # gbm.args <- c(
+    #   list(
+    #     x = x, y = y,
+    #     force.n.trees = n.trees,
+    #     verbose = verbose,
+    #     print.plot = FALSE,
+    #     n.cores = n.cores,
+    #     relInf = FALSE
+    #   ),
+    #   gbm.params
+    # )
+    n_gbms <- length(gbm.params)
+    # if (verbose) msg2("Running Gradient Boosting...")
+    if (verbose) {
+      msg20("Running ", singorplu(n_gbms, "Gradient Boosting Model"), "...")
+    }
 
+    # mod.gbm <- do.call(.gbm, gbm.args)
+    # Allow running multiple GBM models for rule extraction
+    gbm.args <- lapply(seq_along(gbm.params), function(i) {
+      c(
+        list(
+          x = x, y = y,
+          force.n.trees = gbm.params[[i]]$n.trees,
+          verbose = verbose,
+          print.plot = FALSE,
+          n.cores = n.cores,
+          relInf = FALSE
+        ),
+        gbm.params[[i]]
+      )
+    })
+    mod.gbm <- lapply(seq_along(gbm.params), function(i) {
+      do.call(.gbm, gbm.args[[i]])
+    })
     # Get Rules ----
     if (verbose) msg2("Collecting Gradient Boosting Rules (Trees)...")
-    gbm.list <- rt.GBM2List(mod.gbm$mod, X = x, which.gbm = which.gbm)
-    gbm.rules <- inTrees::extractRules(gbm.list,
-      X = x, ntree = n.trees,
-      maxdepth = gbm.params$interaction.depth
-    )
-    if (verbose) msg2("Extracted", length(gbm.rules), "rules...")
+    gbm.list <- lapply(seq_along(mod.gbm), function(i) {
+      rt.GBM2List(mod.gbm[[i]]$mod, x, which.gbm)
+    })
+      
+    # gbm.rules <- inTrees::extractRules(gbm.list,
+    #   X = x, ntree = n.trees,
+    #   maxdepth = gbm.params$interaction.depth
+    # )
+    # Can also extract rules of different depth by chaning maxdepth here
+    gbm.rules <- do.call(rbind, lapply(seq_along(mod.gbm), function(i) {
+      inTrees::extractRules(gbm.list[[i]],
+        X = x, ntree = gbm.params[[i]]$n.trees,
+        maxdepth = gbm.params[[i]]$interaction.depth
+      )
+    }))
+    if (verbose) msg2("Extracted", nrow(gbm.rules), "rules...")
     gbm.rules <- unique(gbm.rules)
     n.rules.total <- length(gbm.rules)
     if (verbose) msg2("...and kept", n.rules.total, "unique rules")
@@ -325,7 +358,7 @@ predict.rulefit <- function(object,
   cases.by.rules <- matchCasesByRules(newdata, rules, verbose = verbose)
 
   # Predict ----
-  if (object$mod.gbm$type == "Classification") {
+  if (object$mod.gbm[[1]]$type == "Classification") {
     prob <- predict(object$mod.glmnet.select$mod,
       newx = data.matrix(cases.by.rules),
       type = "response"
