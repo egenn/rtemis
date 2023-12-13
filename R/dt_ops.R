@@ -369,13 +369,13 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 # It is important to be able to automatically detect such variables and convert them,
 # which would mean introducing NA values.
 
-#' Inspect character vector
+#' Inspect character and factor vector
 #'
-#' Checks character vector to determine whether it might be best to convert to
+#' Checks character or factor vector to determine whether it might be best to convert to
 #' numeric.
 #'
-#' @param x Character vector
-#' @param xname Character: Name of input vector
+#' @param x Character or factor vector
+#' @param xname Character: Name of input vector `x`
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param thresh Numeric: Threshold for determining whether to convert to numeric
 #'
@@ -384,27 +384,32 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 #' @examples
 #' \dontrun{
 #' x <- c("3", "5", "undefined", "21", "4", NA)
-#' type_inspect(x)
+#' inspect_type(x)
 #' z <- c("mango", "banana", "tangerine", NA)
-#' type_inspect(z)
+#' inspect_type(z)
 #' }
-type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
+inspect_type <- function(x, xname = NULL, verbose = TRUE, thresh = .5, na.omit = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
+  if (na.omit) x <- na.omit(x)
   xclass <- class(x)[1]
   xlen <- length(x)
   raw_na <- sum(is.na(x))
   n_non_na <- xlen - raw_na
   # char_na <- sum(is.na(as.character(x)))
   suppressWarnings({
-    num_na <- sum(is.na(as.numeric(x)))
+    num_na <- if (xclass == "character") {
+      sum(is.na(as.numeric(x)))
+    } else {
+      sum(is.na(as.numeric(as.character(x))))
+    }
   })
   if (raw_na == xlen) {
     "NA"
-  } else if (xclass == "character" && (num_na / n_non_na) < thresh) {
+  } else if (xclass %in% c("character", "factor") && (num_na / n_non_na) < thresh) {
     if (verbose) {
       msg20(
-        "Possible type error: Class of ", hilite(xname),
-        " is ", bold("character"),
+        "Possible type error: ", hilite(xname),
+        " is a ", bold(xclass),
         ", but perhaps should be ",
         bold("numeric"), "."
       )
@@ -418,16 +423,25 @@ type_inspect <- function(x, xname = NULL, verbose = TRUE, thresh = .5) {
 
 #' Inspect column types
 #'
-#' Will attempt to identify columns that should be numeric but have been read in as
-#' character by running [type_inspect] on each column.
+#' Will attempt to identify columns that should be numeric but are either character or
+#' factor by running [inspect_type] on each column.
 #'
 #' @param x data.table
 #'
 #' @author E.D. Gennatas
 #' @export
-dt_type_inspect <- function(x) {
-  xnames <- names(x)
-  invisible(sapply(seq_along(x), \(i) type_inspect(x[[i]], xnames[i])))
+dt_inspect_type <- function(x, cols = NULL, verbose = TRUE) {
+  if (is.null(cols)) {
+    char_factor_idi <- which(sapply(x, is.character) | sapply(x, is.factor))
+    cols <- names(x[, .SD, .SDcols = char_factor_idi])
+  }
+  current_types <- sapply(x[, .SD, .SDcols = cols], class)
+  suggested_types <- sapply(
+    cols,
+    \(cn) inspect_type(x[[cn]], xname = cn, verbose = verbose)
+  )
+  to_convert <- suggested_types != current_types
+  names(to_convert)[to_convert]
 }
 
 
@@ -447,7 +461,7 @@ dt_type_inspect <- function(x) {
 dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
   if (is.null(cols)) cols <- names(x)
   for (i in cols) {
-    if (type_inspect(x[[i]], i, verbose = FALSE) == "numeric") {
+    if (inspect_type(x[[i]], i, verbose = FALSE) == "numeric") {
       if (verbose) msg2("Converting", hilite(i), "to", bold("numeric"))
       x[, (i) := as.numeric(x[[i]])]
     }
