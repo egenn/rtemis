@@ -12,20 +12,21 @@
 #' @author E.D. Gennatas
 NULL
 
-
-#' `rtset.resample`: Set [resample] settings
+#' Set [resample] settings
 #'
 #'
 #' @inheritParams resample
 #' @export
-rtset.resample <- function(resampler = "strat.sub",
-                           n.resamples = 10,
-                           stratify.var = NULL,
-                           train.p = .8,
-                           strat.n.bins = 4,
-                           target.length = NULL,
-                           id.strat = NULL,
-                           seed = NULL) {
+
+rtset.resample <- function(
+    resampler = "strat.sub",
+    n.resamples = 10,
+    stratify.var = NULL,
+    train.p = .8,
+    strat.n.bins = 4,
+    target.length = NULL,
+    id.strat = NULL,
+    seed = NULL) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -39,13 +40,15 @@ rtset.resample <- function(resampler = "strat.sub",
 } # rtemis::rtset.resample
 
 
-#' `rtset.grid.resample`: [resample] defaults for `gridSearchLearn`
+#' Set [resample] parameters for `gridSearchLearn`
 #'
 #' @inheritParams resample
 #' @export
-rtset.grid.resample <- function(resampler = "kfold", n.resamples = 5,
-                                stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-                                target.length = NULL, verbose = TRUE) {
+
+rtset.grid.resample <- function(
+    resampler = "kfold", n.resamples = 5,
+    stratify.var = NULL, train.p = .75, strat.n.bins = 4,
+    target.length = NULL, verbose = TRUE) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -58,13 +61,15 @@ rtset.grid.resample <- function(resampler = "kfold", n.resamples = 5,
 } # rtemis::rtset.grid.resample
 
 
-#' `rtset.bag.resample`: [resample] defaults for `rtMod` bagging
+#' Set [resample] parameters for `rtMod` bagging
 #'
 #' @inheritParams resample
 #' @export
-rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
-                               stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-                               target.length = NULL, verbose = TRUE) {
+
+rtset.bag.resample <- function(
+    resampler = "strat.sub", n.resamples = 10,
+    stratify.var = NULL, train.p = .75, strat.n.bins = 4,
+    target.length = NULL, verbose = TRUE) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -77,13 +82,15 @@ rtset.bag.resample <- function(resampler = "strat.sub", n.resamples = 10,
 } # rtemis::rtset.bag.resample
 
 
-#' `rtset.meta.resampler`: [resample] defaults for meta model training
+#' Set [resample] parameters for meta model training
 #'
 #' @inheritParams resample
 #' @export
-rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
-                                stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-                                target.length = NULL, verbose = TRUE) {
+
+rtset.meta.resample <- function(
+    resampler = "strat.sub", n.resamples = 4,
+    stratify.var = NULL, train.p = .75, strat.n.bins = 4,
+    target.length = NULL, verbose = TRUE) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -100,14 +107,16 @@ rtset.meta.resample <- function(resampler = "strat.sub", n.resamples = 4,
 #'
 #' @inheritParams resample
 #' @export
-rtset.cv.resample <- function(resampler = "strat.sub",
-                              n.resamples = 10,
-                              stratify.var = NULL,
-                              train.p = .8,
-                              strat.n.bins = 4,
-                              target.length = NULL,
-                              id.strat = NULL,
-                              verbose = TRUE) {
+
+rtset.cv.resample <- function(
+    resampler = "strat.sub",
+    n.resamples = 10,
+    stratify.var = NULL,
+    train.p = .8,
+    strat.n.bins = 4,
+    target.length = NULL,
+    id.strat = NULL,
+    verbose = TRUE) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -153,22 +162,23 @@ rtset.cv.resample <- function(resampler = "strat.sub",
 # } # rtemis::rtset.cluster
 
 
-#' `rtset.color`: Set parameters for [colorGrad]
+#' Set [colorGrad] parameters
 #'
 #' @inheritParams colorGrad
 #' @param ... Additional arguments
-#' 
+#'
 #' @export
 
-rtset.color <- function(n = 101, colors = NULL,
-                        space = "rgb",
-                        lo = "#01256E",
-                        lomid = NULL,
-                        mid = "white",
-                        midhi = NULL,
-                        hi = "#95001A",
-                        colorbar = FALSE,
-                        cb.mar = c(1, 1, 1, 1), ...) {
+rtset.color <- function(
+    n = 101, colors = NULL,
+    space = "rgb",
+    lo = "#01256E",
+    lomid = NULL,
+    mid = "white",
+    midhi = NULL,
+    hi = "#95001A",
+    colorbar = FALSE,
+    cb.mar = c(1, 1, 1, 1), ...) {
   c(list(
     n = n, colors = colors, space = space,
     lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi,
@@ -177,34 +187,35 @@ rtset.color <- function(n = 101, colors = NULL,
 } # rtemis::rtset.color
 
 
-#' `rtset.preprocess`: Set [preprocess] parameters for [train]'s `.preprocess` argument
+#' Set [preprocess] parameters for [train] `.preprocess` argument
 #'
 #' @inheritParams preprocess
 #' @export
 
-rtset.preprocess <- function(completeCases = FALSE,
-                             removeCases.thres = NULL,
-                             removeFeatures.thres = NULL,
-                             impute = FALSE,
-                             impute.type = "missRanger",
-                             impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
-                             impute.discrete = get_mode,
-                             impute.numeric = mean,
-                             integer2factor = FALSE,
-                             integer2numeric = FALSE,
-                             logical2factor = FALSE,
-                             logical2numeric = FALSE,
-                             numeric2factor = FALSE,
-                             numeric2factor.levels = NULL,
-                             numeric.cut.n = 0,
-                             numeric.cut.labels = FALSE,
-                             numeric.quant.n = 0,
-                             character2factor = FALSE,
-                             scale = FALSE,
-                             center = FALSE,
-                             removeConstants = TRUE,
-                             oneHot = FALSE,
-                             exclude = NULL) {
+rtset.preprocess <- function(
+    completeCases = FALSE,
+    removeCases.thres = NULL,
+    removeFeatures.thres = NULL,
+    impute = FALSE,
+    impute.type = "missRanger",
+    impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
+    impute.discrete = get_mode,
+    impute.numeric = mean,
+    integer2factor = FALSE,
+    integer2numeric = FALSE,
+    logical2factor = FALSE,
+    logical2numeric = FALSE,
+    numeric2factor = FALSE,
+    numeric2factor.levels = NULL,
+    numeric.cut.n = 0,
+    numeric.cut.labels = FALSE,
+    numeric.quant.n = 0,
+    character2factor = FALSE,
+    scale = FALSE,
+    center = FALSE,
+    removeConstants = TRUE,
+    oneHot = FALSE,
+    exclude = NULL) {
   list(
     completeCases = completeCases,
     removeCases.thres = removeCases.thres,
@@ -230,27 +241,29 @@ rtset.preprocess <- function(completeCases = FALSE,
 } # rtemis::rtset.preprocess
 
 
-#' `rtset.decompose`: Set decomposition parameters for `elevate`'s `.decompose` argument
+#' Set decomposition parameters for [train] `.decompose` argument
 #'
 #' @param decom Character: Name of decomposer to use.
 #' @param k Integer: Number of dimensions to project to.
 #' @param ... Additional arguments to be passed to decomposer
-#' 
+#'
 #' @export
 
-rtset.decompose <- function(decom = "ICA",
-                            k = 2, ...) {
+rtset.decompose <- function(
+    decom = "ICA",
+    k = 2, ...) {
   c(list(decom = decom, k = k), list(...))
 } # rtemis::rtset.decompose
 
-#' `rtset.earlystop`: Set parameters for [earlystop]
+#' Set [earlystop] parameters
 #'
 #' @inheritParams earlystop
 #' @export
 
-rtset.earlystop <- function(window = 150,
-                            window_decrease_pct_min = 0.01,
-                            total_decrease_pct_max = NULL) {
+rtset.earlystop <- function(
+    window = 150,
+    window_decrease_pct_min = 0.01,
+    total_decrease_pct_max = NULL) {
   list(
     window = window,
     window_decrease_pct_min = window_decrease_pct_min,
@@ -259,11 +272,11 @@ rtset.earlystop <- function(window = 150,
 } # rtemis::rtset.earlystop
 
 
-#' `rtset.LIHAD`: Set parameters for [s_LIHAD]
+#' Set [s_LIHAD] parameters
 #'
 #' @inheritParams s_LIHAD
 #' @param ... Additional arguments
-#' 
+#'
 #' @export
 
 rtset.LIHAD <- function(max.depth = 2,
@@ -288,23 +301,24 @@ rtset.LIHAD <- function(max.depth = 2,
 } # rtemis::rtset.ADDT
 
 
-#' `rtset.GBM`: Set parameters for [s_GBM]
+#' Set [s_GBM] parameters
 #'
 #' @inheritParams s_GBM
 #' @param ... Additional arguments
 #' @export
 
-rtset.GBM <- function(interaction.depth = 2,
-                      shrinkage = .001,
-                      max.trees = 5000,
-                      min.trees = 100,
-                      bag.fraction = .9,
-                      n.minobsinnode = 5,
-                      grid.resample.rtset = rtset.resample("kfold", 5),
-                      ifw = TRUE,
-                      upsample = FALSE,
-                      downsample = FALSE,
-                      resample.seed = NULL, ...) {
+rtset.GBM <- function(
+    interaction.depth = 2,
+    shrinkage = .001,
+    max.trees = 5000,
+    min.trees = 100,
+    bag.fraction = .9,
+    n.minobsinnode = 5,
+    grid.resample.rtset = rtset.resample("kfold", 5),
+    ifw = TRUE,
+    upsample = FALSE,
+    downsample = FALSE,
+    resample.seed = NULL, ...) {
   c(
     list(
       interaction.depth = interaction.depth,
@@ -324,7 +338,7 @@ rtset.GBM <- function(interaction.depth = 2,
 } # rtemis::rtset.GBM
 
 
-#' `rtset.Ranger`: Set parameters for [s_Ranger]
+#' Set [s_Ranger] parameters
 #'
 #' @inheritParams s_Ranger
 #' @export
@@ -403,35 +417,36 @@ rtset.Ranger <- function(n.trees = 1000,
 # } # rtemis::rtset.MXN
 
 
-#' `rtset.lincoef`: Set parameters for [lincoef]
+#' Set [lincoef] parameters
 #'
 #' @inheritParams lincoef
 #' @export
 
-rtset.lincoef <- function(method = c(
-                            "glmnet",
-                            "cv.glmnet",
-                            "lm.ridge",
-                            "allSubsets",
-                            "forwardStepwise",
-                            "backwardStepwise",
-                            "glm",
-                            "sgd",
-                            "solve"
-                          ),
-                          alpha = 0,
-                          lambda = .01,
-                          lambda.seq = NULL,
-                          cv.glmnet.nfolds = 5,
-                          which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
-                          nbest = 1,
-                          nvmax = 8,
-                          sgd.model = "glm",
-                          sgd.model.control = list(
-                            lambda1 = 0,
-                            lambda2 = 0
-                          ),
-                          sgd.control = list(method = "ai-sgd")) {
+rtset.lincoef <- function(
+    method = c(
+      "glmnet",
+      "cv.glmnet",
+      "lm.ridge",
+      "allSubsets",
+      "forwardStepwise",
+      "backwardStepwise",
+      "glm",
+      "sgd",
+      "solve"
+    ),
+    alpha = 0,
+    lambda = .01,
+    lambda.seq = NULL,
+    cv.glmnet.nfolds = 5,
+    which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
+    nbest = 1,
+    nvmax = 8,
+    sgd.model = "glm",
+    sgd.model.control = list(
+      lambda1 = 0,
+      lambda2 = 0
+    ),
+    sgd.control = list(method = "ai-sgd")) {
   list(
     method = match.arg(method),
     alpha = alpha,
@@ -448,21 +463,22 @@ rtset.lincoef <- function(method = c(
 } # rtemis::rtset.lincoef
 
 
-#' `rtset.MARS`: Set parameters for [s_MARS]
+#' Set [s_MARS] parameters
 #'
 #' @inheritParams s_MARS
 #' @export
 
-rtset.MARS <- function(hidden = 1,
-                       activation = NULL,
-                       learning.rate = .8,
-                       momentum = .5,
-                       learningrate_scale = 1,
-                       output = NULL,
-                       numepochs = 100,
-                       batchsize = NULL,
-                       hidden_dropout = 0,
-                       visible_dropout = 0, ...) {
+rtset.MARS <- function(
+    hidden = 1,
+    activation = NULL,
+    learning.rate = .8,
+    momentum = .5,
+    learningrate_scale = 1,
+    output = NULL,
+    numepochs = 100,
+    batchsize = NULL,
+    hidden_dropout = 0,
+    visible_dropout = 0, ...) {
   c(
     list(
       hidden = hidden,
@@ -479,3 +495,54 @@ rtset.MARS <- function(hidden = 1,
     list(...)
   )
 } # rtemis::rtset.DN
+
+
+#' Set [s_LightRuleFit] parameters
+#'
+#' Sets parameters for the GBM and LASSO steps of [s_LightRuleFit]
+#'
+#' @inheritParams s_LightRuleFit
+#' @param lightgbm.ifw Logical: Passed to [s_LightGBM]'s `ifw` argument
+#' @param glmnet.ifw Logical: Passed to [s_GLMNET]'s `ifw` argument
+#'
+#' @author ED Gennatas
+#' @export
+
+rtset.LightRuleFit <- function(
+    num_leaves = 32L,
+    max_depth = 3,
+    learning_rate = .1,
+    subsample = .666,
+    subsample_freq = 1L,
+    lambda_l1 = 0,
+    lambda_l2 = 0,
+    objective = NULL,
+    extra.lgbm.params = NULL,
+    lightgbm.ifw = TRUE,
+    glmnet.ifw = TRUE,
+    importance = FALSE,
+    alpha = 1,
+    lambda = NULL) {
+  list(
+    lgbm.params = c(
+      list(
+        num_leaves = num_leaves,
+        max_depth = max_depth,
+        learning_rate = learning_rate,
+        subsample = subsample,
+        subsample_freq = subsample_freq,
+        lambda_l1 = lambda_l1,
+        lambda_l2 = lambda_l2,
+        objective = objective,
+        ifw = lightgbm.ifw
+      ),
+      extra.lgbm.params
+    ),
+    glmnet.params = list(
+      ifw = glmnet.ifw,
+      importance = importance,
+      alpha = alpha,
+      lambda = lambda
+    )
+  )
+} # rtemis::rteset.LightRuleFit
