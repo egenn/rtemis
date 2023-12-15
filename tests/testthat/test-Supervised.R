@@ -41,6 +41,19 @@ test_that("GLMNET 3-class Classification succeeds", {
   expect_s3_class(mod_c, "rtModClass")
 })
 
+## GAM ----
+test_that("GAM Regression succeeds", {
+  mod_r <- s_GAM(datr_train, datr_test)
+  expect_s3_class(mod_r, "rtMod")
+})
+
+test_that("GAM Binary Classification succeeds", {
+  # Suppress warning for Newton step 
+  # "Fitting terminated with step failure - check results carefully"
+  suppressWarnings(mod_c <- s_GAM(datc2_train, datc2_test))
+  expect_s3_class(mod_c, "rtModClass")
+})
+
 ## CART ----
 test_that("CART Regression succeeds", {
   mod_r <- s_CART(datr_train, datr_test)
