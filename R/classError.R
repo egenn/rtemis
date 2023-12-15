@@ -5,6 +5,9 @@
 #' Classification Error
 #'
 #' Calculates Classification Metrics
+#' 
+#' Note that auc.method = "pROC" is the only one that will output an AUC even if
+#' one or more estimated probabilities are NA.
 #'
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated values
@@ -15,11 +18,22 @@
 #' @author E.D. Gennatas
 #' @return S3 object of type "classError"
 #' @export
-
+#' 
+#' @examples
+#' \dontrun{
+#' true <- factor(c("a", "a", "a", "b", "b", "b", "b"))
+#' estimated <- c("a", "a", "b", "b", "a", "a", "b")
+#' estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+#'
+#' classError(true, estimated, estimated.prob, auc.method = "pROC")
+#' classError(true, estimated, estimated.prob, auc.method = "ROCR")
+#' classError(true, estimated, estimated.prob, auc.method = "auc_pairs")
+#' }
 classError <- function(true, 
                        estimated,
                        estimated.prob = NULL,
                        calc.auc = TRUE,
+                       auc.method = "pROC",
                        trace = 0) {
   
   # Input ----
@@ -90,7 +104,9 @@ classError <- function(true,
   
   # Prob-based ----
   if (!is.null(estimated.prob) && n.classes == 2) {
-    if (calc.auc)  Overall$AUC <- auc(estimated.prob, true)
+    if (calc.auc) {
+      Overall$AUC <- auc(preds = estimated.prob, labels = true, method = auc.method)
+    }
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
   
