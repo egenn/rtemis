@@ -209,7 +209,7 @@ s_GAM.default <- function(x, y = NULL,
   }
 
   if (type == "Classification") fitted <- factor(fitted, levels = levels(y))
-  error.train <- modError(y, fitted)
+  error.train <- modError(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -232,7 +232,7 @@ s_GAM.default <- function(x, y = NULL,
 
     if (type == "Classification") predicted <- factor(predicted, levels = levels(y))
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- modError(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }
