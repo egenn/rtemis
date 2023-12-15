@@ -15,9 +15,8 @@
 #' @param n.trees Integer: Number of trees to train. Passed to [s_LightGBM]
 #' `force.n.trees`. If set to NULL, can set `max_nrounds` in `lgbm.params`, to perform
 #' cross-validation to determine optimal number of trees.
-#' @param lgbm.params Named list: Parameters for [s_GBM]
-#' @param meta.params Named list: Parameters for [s_GLMNET] for the
-#' feature selection step
+#' @param params Training parameters for GBM and LASSO steps, set using 
+#' [rtset.LightRuleFit].
 #' @param lgbm.mod rtMod object created by [s_LightGBM]. If provided, the gradient
 #' boosting step is skipped.
 #' @param empirical_risk Logical: If TRUE, calculate empirical risk
@@ -36,23 +35,7 @@
 s_LightRuleFit <- function(x, y = NULL,
                            x.test = NULL, y.test = NULL,
                            n.trees = 100,
-                           lgbm.params = list(
-                             num_leaves = 32L,
-                             max_depth = -1L,
-                             learning_rate = .1,
-                             subsample = .666,
-                             subsample_freq = 1L,
-                             lambda_l1 = 0,
-                             lambda_l2 = 0,
-                             objective = NULL,
-                             ifw = TRUE,
-                             importance = FALSE
-                           ),
-                           meta.params = list(
-                             alpha = 1,
-                             lambda = NULL,
-                             ifw = TRUE
-                           ),
+                           params = rtset.LightRuleFit(),
                            lgbm.mod = NULL,
                            empirical_risk = TRUE,
                            cases_by_rules = NULL,
@@ -140,7 +123,7 @@ s_LightRuleFit <- function(x, y = NULL,
           verbose = verbose,
           print.plot = FALSE
         ),
-        lgbm.params
+        params$lgbm.params
       )
       if (verbose) msg2("Running LightGBM...")
       mod_lgbm <- do.call("s_LightGBM", lgbm_args)
@@ -176,7 +159,7 @@ s_LightRuleFit <- function(x, y = NULL,
       print.plot = FALSE,
       n.cores = n.cores
     ),
-    meta.params
+    params$glmnet.params
   )
   mod_glmnet_select <- do.call(s_GLMNET, glmnet_select_args)
   rule_coefs <- data.matrix(coef(mod_glmnet_select$mod))
@@ -306,11 +289,7 @@ s_LightRuleFit <- function(x, y = NULL,
     predicted.prob = predicted.prob,
     se.prediction = NULL,
     error.test = error.test,
-    parameters = list(
-      n.trees = n.trees,
-      lgbm.params = lgbm.params,
-      meta.params = meta.params
-    ),
+    parameters = params,
     question = question
   )
 
