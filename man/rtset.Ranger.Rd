@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.Ranger}
 \alias{rtset.Ranger}
-\title{\code{rtset.Ranger}: Set parameters for \link{s_Ranger}}
+\title{Set \link{s_Ranger} parameters}
 \usage{
 rtset.Ranger(
   n.trees = 1000,
@@ -43,5 +43,5 @@ Default = NULL (random seed)}
 \item{...}{Additional arguments to be passed to \code{ranger::ranger}}
 }
 \description{
-\code{rtset.Ranger}: Set parameters for \link{s_Ranger}
+Set \link{s_Ranger} parameters
 }

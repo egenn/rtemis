@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.resample}
 \alias{rtset.resample}
-\title{\code{rtset.resample}: Set \link{resample} settings}
+\title{Set \link{resample} settings}
 \usage{
 rtset.resample(
   resampler = "strat.sub",
@@ -39,5 +39,5 @@ force replicates of each ID to only appear in the training or testing.}
 output reproducible. See \code{?base::set.seed}}
 }
 \description{
-\code{rtset.resample}: Set \link{resample} settings
+Set \link{resample} settings
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.decompose}
 \alias{rtset.decompose}
-\title{\code{rtset.decompose}: Set decomposition parameters for \code{elevate}'s \code{.decompose} argument}
+\title{Set decomposition parameters for \link{train} \code{.decompose} argument}
 \usage{
 rtset.decompose(decom = "ICA", k = 2, ...)
 }
@@ -14,5 +14,5 @@ rtset.decompose(decom = "ICA", k = 2, ...)
 \item{...}{Additional arguments to be passed to decomposer}
 }
 \description{
-\code{rtset.decompose}: Set decomposition parameters for \code{elevate}'s \code{.decompose} argument
+Set decomposition parameters for \link{train} \code{.decompose} argument
 }

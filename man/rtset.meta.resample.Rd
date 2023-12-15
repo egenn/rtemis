@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.meta.resample}
 \alias{rtset.meta.resample}
-\title{\code{rtset.meta.resampler}: \link{resample} defaults for meta model training}
+\title{Set \link{resample} parameters for meta model training}
 \usage{
 rtset.meta.resample(
   resampler = "strat.sub",
@@ -34,5 +34,5 @@ rtset.meta.resample(
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
-\code{rtset.meta.resampler}: \link{resample} defaults for meta model training
+Set \link{resample} parameters for meta model training
 }

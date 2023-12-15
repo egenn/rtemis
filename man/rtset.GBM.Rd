@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.GBM}
 \alias{rtset.GBM}
-\title{\code{rtset.GBM}: Set parameters for \link{s_GBM}}
+\title{Set \link{s_GBM} parameters}
 \usage{
 rtset.GBM(
   interaction.depth = 2,
@@ -52,5 +52,5 @@ Default = NULL (random seed)}
 \item{...}{Additional arguments}
 }
 \description{
-\code{rtset.GBM}: Set parameters for \link{s_GBM}
+Set \link{s_GBM} parameters
 }

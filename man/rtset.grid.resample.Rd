@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.grid.resample}
 \alias{rtset.grid.resample}
-\title{\code{rtset.grid.resample}: \link{resample} defaults for \code{gridSearchLearn}}
+\title{Set \link{resample} parameters for \code{gridSearchLearn}}
 \usage{
 rtset.grid.resample(
   resampler = "kfold",
@@ -34,5 +34,5 @@ rtset.grid.resample(
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
-\code{rtset.grid.resample}: \link{resample} defaults for \code{gridSearchLearn}
+Set \link{resample} parameters for \code{gridSearchLearn}
 }

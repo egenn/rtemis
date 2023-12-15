@@ -10,10 +10,7 @@ s_LightRuleFit(
   x.test = NULL,
   y.test = NULL,
   n.trees = 100,
-  lgbm.params = list(num_leaves = 32L, max_depth = -1L, learning_rate = 0.1, subsample =
-    0.666, subsample_freq = 1L, lambda_l1 = 0, lambda_l2 = 0, objective = NULL, ifw =
-    TRUE, importance = FALSE),
-  meta.params = list(alpha = 1, lambda = NULL, ifw = TRUE),
+  params = rtset.LightRuleFit(),
   lgbm.mod = NULL,
   empirical_risk = TRUE,
   cases_by_rules = NULL,
@@ -45,11 +42,6 @@ Columns must correspond to columns in \code{x}}
 \item{n.trees}{Integer: Number of trees to train. Passed to \link{s_LightGBM}
 \code{force.n.trees}. If set to NULL, can set \code{max_nrounds} in \code{lgbm.params}, to perform
 cross-validation to determine optimal number of trees.}
-
-\item{lgbm.params}{Named list: Parameters for \link{s_GBM}}
-
-\item{meta.params}{Named list: Parameters for \link{s_GLMNET} for the
-feature selection step}
 
 \item{lgbm.mod}{rtMod object created by \link{s_LightGBM}. If provided, the gradient
 boosting step is skipped.}
@@ -90,6 +82,11 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: Verbosity level}
+
+\item{lgbm.params}{Named list: Parameters for \link{s_GBM}}
+
+\item{meta.params}{Named list: Parameters for \link{s_GLMNET} for the
+feature selection step}
 }
 \value{
 \code{rtMod} object

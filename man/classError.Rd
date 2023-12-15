@@ -4,7 +4,14 @@
 \alias{classError}
 \title{Classification Error}
 \usage{
-classError(true, estimated, estimated.prob = NULL, calc.auc = TRUE, trace = 0)
+classError(
+  true,
+  estimated,
+  estimated.prob = NULL,
+  calc.auc = TRUE,
+  auc.method = "pROC",
+  trace = 0
+)
 }
 \arguments{
 \item{true}{Factor: True labels}
@@ -22,6 +29,21 @@ S3 object of type "classError"
 }
 \description{
 Calculates Classification Metrics
+}
+\details{
+Note that auc.method = "pROC" is the only one that will output an AUC even if
+one or more estimated probabilities are NA.
+}
+\examples{
+\dontrun{
+true <- factor(c("a", "a", "a", "b", "b", "b", "b"))
+estimated <- c("a", "a", "b", "b", "a", "a", "b")
+estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+
+classError(true, estimated, estimated.prob, auc.method = "pROC")
+classError(true, estimated, estimated.prob, auc.method = "ROCR")
+classError(true, estimated, estimated.prob, auc.method = "auc_pairs")
+}
 }
 \author{
 E.D. Gennatas

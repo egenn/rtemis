@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.MARS}
 \alias{rtset.MARS}
-\title{\code{rtset.MARS}: Set parameters for \link{s_MARS}}
+\title{Set \link{s_MARS} parameters}
 \usage{
 rtset.MARS(
   hidden = 1,
@@ -22,5 +22,5 @@ rtset.MARS(
 \item{...}{Additional parameters to pass to \code{earth::earth}}
 }
 \description{
-\code{rtset.MARS}: Set parameters for \link{s_MARS}
+Set \link{s_MARS} parameters
 }

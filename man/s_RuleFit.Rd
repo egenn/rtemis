@@ -38,7 +38,12 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{gbm.params}{Named list: Parameters for \link{s_GBM}}
+\item{gbm.params}{List of named lists: A list, each element of which is a named list
+of parameters for \link{s_GBM}. i.e. If you want to train a single GBM model, this could
+be:
+\code{gbm.params = list( list( n.trees = 300, bag.fraction = 1, shrinkage = .1, interaction.depth = 3, ifw = TRUE ) )}
+if you wanted to train 2 GBM models, this could be:
+\code{gbm.params = list( list( n.trees = 300, bag.fraction = 1, shrinkage = .1, interaction.depth = 3, ifw = TRUE ), list( n.trees = 500, bag.fraction = 1, shrinkage = .1, interaction.depth = 3, ifw = TRUE ) )}}
 
 \item{meta.alpha}{Float [0, 1]: \code{alpha} for \link{s_GLMNET}}
 

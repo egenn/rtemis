@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.color}
 \alias{rtset.color}
-\title{\code{rtset.color}: Set parameters for \link{colorGrad}}
+\title{Set \link{colorGrad} parameters}
 \usage{
 rtset.color(
   n = 101,
@@ -46,5 +46,5 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 \item{...}{Additional arguments}
 }
 \description{
-\code{rtset.color}: Set parameters for \link{colorGrad}
+Set \link{colorGrad} parameters
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.earlystop}
 \alias{rtset.earlystop}
-\title{\code{rtset.earlystop}: Set parameters for \link{earlystop}}
+\title{Set \link{earlystop} parameters}
 \usage{
 rtset.earlystop(
   window = 150,
@@ -18,5 +18,5 @@ rtset.earlystop(
 \item{total_decrease_pct_max}{Float: Stop if improvement from first to last step exceeds this percent. If defined, overrides \code{window_decrease_pct_min}}
 }
 \description{
-\code{rtset.earlystop}: Set parameters for \link{earlystop}
+Set \link{earlystop} parameters
 }

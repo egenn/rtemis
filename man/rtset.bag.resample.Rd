@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.bag.resample}
 \alias{rtset.bag.resample}
-\title{\code{rtset.bag.resample}: \link{resample} defaults for \code{rtMod} bagging}
+\title{Set \link{resample} parameters for \code{rtMod} bagging}
 \usage{
 rtset.bag.resample(
   resampler = "strat.sub",
@@ -34,5 +34,5 @@ rtset.bag.resample(
 \item{verbose}{Logical: If TRUE, print messages to console}
 }
 \description{
-\code{rtset.bag.resample}: \link{resample} defaults for \code{rtMod} bagging
+Set \link{resample} parameters for \code{rtMod} bagging
 }

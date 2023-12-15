@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.lincoef}
 \alias{rtset.lincoef}
-\title{\code{rtset.lincoef}: Set parameters for \link{lincoef}}
+\title{Set \link{lincoef} parameters}
 \usage{
 rtset.lincoef(
   method = c("glmnet", "cv.glmnet", "lm.ridge", "allSubsets", "forwardStepwise",
@@ -65,5 +65,5 @@ subsets to examine.}
 "lambda.1se": Largest lambda such that error is within 1 s.e. of the minimum.}
 }
 \description{
-\code{rtset.lincoef}: Set parameters for \link{lincoef}
+Set \link{lincoef} parameters
 }

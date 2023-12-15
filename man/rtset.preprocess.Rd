@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.preprocess}
 \alias{rtset.preprocess}
-\title{\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{train}'s \code{.preprocess} argument}
+\title{Set \link{preprocess} parameters for \link{train} \code{.preprocess} argument}
 \usage{
 rtset.preprocess(
   completeCases = FALSE,
@@ -112,5 +112,5 @@ default it is the same as \code{scale}}
 \item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
 }
 \description{
-\code{rtset.preprocess}: Set \link{preprocess} parameters for \link{train}'s \code{.preprocess} argument
+Set \link{preprocess} parameters for \link{train} \code{.preprocess} argument
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/rtset.R
 \name{rtset.LIHAD}
 \alias{rtset.LIHAD}
-\title{\code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}}
+\title{Set \link{s_LIHAD} parameters}
 \usage{
 rtset.LIHAD(
   max.depth = 2,
@@ -35,5 +35,5 @@ train linear model.}
 \item{...}{Additional arguments}
 }
 \description{
-\code{rtset.LIHAD}: Set parameters for \link{s_LIHAD}
+Set \link{s_LIHAD} parameters
 }

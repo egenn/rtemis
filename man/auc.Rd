@@ -7,7 +7,7 @@
 auc(
   preds,
   labels,
-  method = c("ROCR", "pROC", "auc_pairs"),
+  method = c("pROC", "ROCR", "auc_pairs"),
   verbose = FALSE,
   trace = 0
 )
@@ -42,7 +42,7 @@ AUC.
 \dontrun{
 preds <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
 labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
-auc(preds, labels)
+auc(preds, labels, method = "ROCR")
 auc(preds, labels, method = "pROC")
 auc(preds, labels, method = "auc_pairs")
 }
