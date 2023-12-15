@@ -12,7 +12,35 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #'
 #' @inheritParams s_GBM
-#' @param gbm.params Named list: Parameters for [s_GBM]
+#' @param gbm.params List of named lists: A list, each element of which is a named list
+#' of parameters for [s_GBM]. i.e. If you want to train a single GBM model, this could
+#' be:
+#' `gbm.params = list(
+#'                    list(
+#'                      n.trees = 300,
+#'                      bag.fraction = 1,
+#'                      shrinkage = .1,
+#'                      interaction.depth = 3,
+#'                      ifw = TRUE
+#'                    )
+#'                  )`
+#' if you wanted to train 2 GBM models, this could be:
+#' `gbm.params = list(
+#'                    list(
+#'                      n.trees = 300,
+#'                      bag.fraction = 1,
+#'                      shrinkage = .1,
+#'                      interaction.depth = 3,
+#'                      ifw = TRUE
+#'                   ),
+#'                    list(
+#'                         n.trees = 500,
+#'                         bag.fraction = 1,
+#'                         shrinkage = .1,
+#'                         interaction.depth = 3,
+#'                         ifw = TRUE
+#'                         )
+#'                    )`
 #' @param meta.alpha Float \[0, 1\]: `alpha` for [s_GLMNET]
 #' @param meta.lambda Float: `lambda` for [s_GLMNET]. Default = NULL (will be
 #' determined automatically by crossvalidation)
