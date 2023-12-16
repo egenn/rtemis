@@ -509,6 +509,7 @@ rtset.MARS <- function(
 #' @export
 
 rtset.LightRuleFit <- function(
+    n_trees = 200,
     num_leaves = 32L,
     max_depth = 3,
     learning_rate = .1,
@@ -526,6 +527,7 @@ rtset.LightRuleFit <- function(
   list(
     lgbm.params = c(
       list(
+        n_trees = n_trees,
         num_leaves = num_leaves,
         max_depth = max_depth,
         learning_rate = learning_rate,
