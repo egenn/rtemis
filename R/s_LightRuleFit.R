@@ -34,7 +34,6 @@
 
 s_LightRuleFit <- function(x, y = NULL,
                            x.test = NULL, y.test = NULL,
-                           n.trees = 100,
                            params = rtset.LightRuleFit(),
                            lgbm.mod = NULL,
                            empirical_risk = TRUE,
@@ -119,7 +118,7 @@ s_LightRuleFit <- function(x, y = NULL,
       lgbm_args <- c(
         list(
           x = x, y = y,
-          force_nrounds = n.trees,
+          force_nrounds = params$lgbm.params$n_trees,
           verbose = verbose,
           print.plot = FALSE
         ),
