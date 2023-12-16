@@ -32,6 +32,7 @@ simple_prune_ <- function(rule, max_length, sep = " & ") {
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
+
 simple_prune <- function(rules, max_length, sep = " & ") {
   rules <- sapply(
     rules, simple_prune_,
@@ -40,3 +41,25 @@ simple_prune <- function(rules, max_length, sep = " & ") {
   )
   rules
 } # rtemis::simple_prune
+
+
+#' Extract variable names from rules
+#' 
+#' @param rules Character vector: Rules.
+#' @param unique Logical: If TRUE, return only unique variables.
+#' 
+#' @return Character vector: Variable names.
+#' @author E.D. Gennatas
+#' @export
+
+get_vars_from_rules <- function(rules, unique = FALSE) {
+  # Extract variables from rules
+  vars <- unique(unlist(strsplit(rules, " & ")))
+  # Get string up to first "<", ">", "=", "!", or "%in%"
+  vars <- gsub("(<|>|=|!|%in%).*", "", vars)
+  vars <- gsub(" .*", "", vars)
+  if (unique) {
+    vars <- unique(vars)
+  }
+  vars
+}
