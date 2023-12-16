@@ -24,9 +24,9 @@ get_rules <- function(
     collapse = TRUE,
     collapse.keep.names = FALSE,
     collapse.unique = TRUE) {
+  mod.name <- mod$mod.name
+  stopifnot(mod.name %in% c("RuleFit", "LightRuleFit"))
   if (inherits(mod, "rtMod")) {
-    mod.name <- mod$mod.name
-    stopifnot(mod.name %in% c("RuleFit", "LightRuleFit"))
     if (formatted) {
       out <- if (mod.name == "RuleFit") {
         mod$mod$rules.selected.formatted
