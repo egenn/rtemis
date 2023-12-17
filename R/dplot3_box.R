@@ -75,6 +75,8 @@
 #' @param orientation Character: "v" or "h" for vertical, horizontal
 #' @param annotate_n Logical: If TRUE, annotate with N in each box
 #' @param annotate_n_y Numeric: y position for `annotate_n`
+#' @param annotate_meansd Logical: If TRUE, annotate with mean (SD) of each box
+#' @param annotate_meansd_y Numeric: y position for `annotate_meansd`
 #' @param annotate.col Color for annotations
 #' @param labelify Logical: If TRUE, [labelify] x names
 #' @param legend.orientation "v" or "h" for vertical, horizontal
@@ -170,6 +172,8 @@ dplot3_box <- function(x,
                        orientation = "v",
                        annotate_n = FALSE,
                        annotate_n_y = 1,
+                       annotate_meansd = FALSE,
+                       annotate_meansd_y = 1,
                        annotate.col = theme$labs.col,
                        xnames = NULL,
                        group.lines = FALSE,
@@ -410,6 +414,52 @@ dplot3_box <- function(x,
             showarrow = FALSE
           )
       } # /annotate_n
+
+      # '-Annotate Mean SD ----
+      if (annotate_meansd) {
+        Meanperbox <- Filter(
+          function(i) i > 0,
+          sapply(x, function(j) mean(na.exclude(j)))
+        )
+        SDperbox <- Filter(
+          function(i) i > 0,
+          sapply(x, function(j) sd(na.exclude(j)))
+        )
+        plt <- plt |>
+          # plotly::add_annotations(
+          #   xref = "paper", yref = "paper",
+          #   xanchor = "right",
+          #   yanchor = "bottom",
+          #   x = 0, y = annotate_meansd_y,
+          #   text = "Mean (SD)",
+          #   font = list(
+          #     family = theme$font.family,
+          #     size = font.size,
+          #     color = annotate.col
+          #   ),
+          #   showarrow = FALSE
+          # ) |>
+          plotly::add_annotations(
+            xref = "x", yref = "paper",
+            yanchor = "bottom",
+            # x = seq_len(nvars) - 1,
+            x = seq_along(Meanperbox) - 1,
+            y = 1,
+            # text = as.character(Nperbox),
+            text = paste0(
+              round(Meanperbox, 2),
+              " (",
+              round(SDperbox, 2),
+              ")"
+            ),
+            font = list(
+              family = theme$font.family,
+              size = font.size,
+              color = annotate.col
+            ),
+            showarrow = FALSE
+          )
+      } # /annotate_meansd
 
       # '-htest ----
       if (htest != "none") {

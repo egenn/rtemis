@@ -26,6 +26,7 @@ present <- function(...,
                     plot.train = TRUE,
                     plot.test = TRUE,
                     boxpoints = "all",
+                    annotate_meansd = TRUE,
                     main = NULL,
                     ylim = NULL,
                     htest = "none",
@@ -35,7 +36,7 @@ present <- function(...,
                     subplot.margin = .0666,
                     filename = NULL,
                     file.width = 500,
-                    file.height = 500,
+                    file.height = 550,
                     file.scale = 1) {
   mods <- list(...)
   if (is.null(htest.annotate.y)) {
@@ -79,6 +80,7 @@ present <- function(...,
       ylim = ylim,
       htest = htest,
       htest.annotate = htest.annotate.y,
+      annotate_meansd = annotate_meansd,
       margin = margin
     )
   }
@@ -92,6 +94,7 @@ present <- function(...,
       ylim = ylim,
       htest = htest,
       htest.annotate.y = htest.annotate.y,
+      annotate_meansd = annotate_meansd,
       margin = margin
     )
   }
