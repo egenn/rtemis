@@ -115,6 +115,8 @@ s_LightRuleFit <- function(x, y = NULL,
     if (is.null(lgbm.mod)) {
       # No LightGBM model provided
       # LightGBM ----
+      lgbm_param <- params$lgbm.params
+      lgbm_param$n_trees <- NULL
       lgbm_args <- c(
         list(
           x = x, y = y,
@@ -122,7 +124,7 @@ s_LightRuleFit <- function(x, y = NULL,
           verbose = verbose,
           print.plot = FALSE
         ),
-        params$lgbm.params
+        lgbm_param
       )
       if (verbose) msg2("Running LightGBM...")
       mod_lgbm <- do.call("s_LightGBM", lgbm_args)
