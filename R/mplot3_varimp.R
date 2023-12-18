@@ -162,7 +162,7 @@ mplot3_varimp <- function(x,
 
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, family = theme$font.family)
-  plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = 'n', axes = FALSE, ann = FALSE,
+  plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = "n", axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
   # Plot Background ----
@@ -239,7 +239,7 @@ mplot3_varimp <- function(x,
   # Side Labels ----
   if (!is.null(sidelabels)) {
     # mtext(sidelabels, 4, at = barCenters)
-    text(x = max(xlim)*1.01, y = barCenters, labels = sidelabels, xpd = TRUE, pos = 4)
+    text(x = max(xlim) * 1.01, y = barCenters, labels = sidelabels, xpd = TRUE, pos = 4)
   }
 
   # Outro ----
