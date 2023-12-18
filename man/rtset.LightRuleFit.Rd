@@ -5,6 +5,7 @@
 \title{Set \link{s_LightRuleFit} parameters}
 \usage{
 rtset.LightRuleFit(
+  n_trees = 200,
   num_leaves = 32L,
   max_depth = 3,
   learning_rate = 0.1,

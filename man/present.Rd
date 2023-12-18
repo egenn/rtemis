@@ -12,6 +12,7 @@ present(
   plot.train = TRUE,
   plot.test = TRUE,
   boxpoints = "all",
+  annotate_meansd = TRUE,
   main = NULL,
   ylim = NULL,
   htest = "none",
@@ -21,7 +22,7 @@ present(
   subplot.margin = 0.0666,
   filename = NULL,
   file.width = 500,
-  file.height = 500,
+  file.height = 550,
   file.scale = 1
 )
 }
@@ -40,6 +41,8 @@ present(
 
 \item{boxpoints}{Character or FALSE: "all", "suspectedoutliers", "outliers"
 See \url{https://plotly.com/r/box-plots/#choosing-the-algorithm-for-computing-quartiles}}
+
+\item{annotate_meansd}{Logical: If TRUE, annotate with mean (SD) of each box}
 
 \item{main}{Character: Plot title.}
 

@@ -28,6 +28,8 @@ dplot3_box(
   orientation = "v",
   annotate_n = FALSE,
   annotate_n_y = 1,
+  annotate_meansd = FALSE,
+  annotate_meansd_y = 1,
   annotate.col = theme$labs.col,
   xnames = NULL,
   group.lines = FALSE,
@@ -126,6 +128,10 @@ violin plot}
 \item{annotate_n}{Logical: If TRUE, annotate with N in each box}
 
 \item{annotate_n_y}{Numeric: y position for \code{annotate_n}}
+
+\item{annotate_meansd}{Logical: If TRUE, annotate with mean (SD) of each box}
+
+\item{annotate_meansd_y}{Numeric: y position for \code{annotate_meansd}}
 
 \item{annotate.col}{Color for annotations}
 

@@ -9,7 +9,6 @@ s_LightRuleFit(
   y = NULL,
   x.test = NULL,
   y.test = NULL,
-  n.trees = 100,
   params = rtset.LightRuleFit(),
   lgbm.mod = NULL,
   empirical_risk = TRUE,
@@ -39,9 +38,8 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{n.trees}{Integer: Number of trees to train. Passed to \link{s_LightGBM}
-\code{force.n.trees}. If set to NULL, can set \code{max_nrounds} in \code{lgbm.params}, to perform
-cross-validation to determine optimal number of trees.}
+\item{params}{Training parameters for GBM and LASSO steps, set using
+\link{rtset.LightRuleFit}.}
 
 \item{lgbm.mod}{rtMod object created by \link{s_LightGBM}. If provided, the gradient
 boosting step is skipped.}
@@ -83,10 +81,9 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{trace}{Integer: Verbosity level}
 
-\item{lgbm.params}{Named list: Parameters for \link{s_GBM}}
-
-\item{meta.params}{Named list: Parameters for \link{s_GLMNET} for the
-feature selection step}
+\item{n.trees}{Integer: Number of trees to train. Passed to \link{s_LightGBM}
+\code{force.n.trees}. If set to NULL, can set \code{max_nrounds} in \code{lgbm.params}, to perform
+cross-validation to determine optimal number of trees.}
 }
 \value{
 \code{rtMod} object
