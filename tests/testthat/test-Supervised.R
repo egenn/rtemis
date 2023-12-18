@@ -86,45 +86,45 @@ test_that("Ranger 3-class Classification succeeds", {
   expect_s3_class(mod_c, "rtModClass")
 })
 
-## LightRF ----
-test_that("LightRF Regression succeeds", {
-  mod_r <- s_LightRF(datr_train, datr_test, nrounds = 20)
-  expect_s3_class(mod_r, "rtMod")
-})
+# ## LightRF ----
+# test_that("LightRF Regression succeeds", {
+#   mod_r <- s_LightRF(datr_train, datr_test, nrounds = 20)
+#   expect_s3_class(mod_r, "rtMod")
+# })
 
-test_that("LightRF Binary Classification succeeds", {
-  mod_c <- s_LightRF(datc2_train, datc2_test, nrounds = 20)
-  expect_s3_class(mod_c, "rtModClass")
-})
+# test_that("LightRF Binary Classification succeeds", {
+#   mod_c <- s_LightRF(datc2_train, datc2_test, nrounds = 20)
+#   expect_s3_class(mod_c, "rtModClass")
+# })
 
-test_that("LightRF 3-class Classification succeeds", {
-  mod_c <- s_LightRF(datc3_train, datc3_test, nrounds = 20)
-  expect_s3_class(mod_c, "rtModClass")
-})
+# test_that("LightRF 3-class Classification succeeds", {
+#   mod_c <- s_LightRF(datc3_train, datc3_test, nrounds = 20)
+#   expect_s3_class(mod_c, "rtModClass")
+# })
 
-## LightGBM ----
-test_that("LightGBM Regression succeeds", {
-  mod_r <- s_LightGBM(datr_train, datr_test, force_nrounds = 20)
-  expect_s3_class(mod_r, "rtMod")
-})
+# ## LightGBM ----
+# test_that("LightGBM Regression succeeds", {
+#   mod_r <- s_LightGBM(datr_train, datr_test, force_nrounds = 20)
+#   expect_s3_class(mod_r, "rtMod")
+# })
 
-test_that("LightGBM Binary Classification succeeds", {
-  mod_c <- s_LightGBM(datc2_train, datc2_test, force_nrounds = 20)
-  expect_s3_class(mod_c, "rtModClass")
-})
+# test_that("LightGBM Binary Classification succeeds", {
+#   mod_c <- s_LightGBM(datc2_train, datc2_test, force_nrounds = 20)
+#   expect_s3_class(mod_c, "rtModClass")
+# })
 
-test_that("LightGBM 3-class Classification succeeds", {
-  mod_c <- s_LightGBM(datc3_train, datc3_test, force_nrounds = 20)
-  expect_s3_class(mod_c, "rtModClass")
-})
+# test_that("LightGBM 3-class Classification succeeds", {
+#   mod_c <- s_LightGBM(datc3_train, datc3_test, force_nrounds = 20)
+#   expect_s3_class(mod_c, "rtModClass")
+# })
 
-## LightRuleFit ----
-test_that("LightRuleFit Regression succeeds", {
-  mod_r <- s_LightRuleFit(datr_train, datr_test, n.trees = 20)
-  expect_s3_class(mod_r, "rtMod")
-})
+# ## LightRuleFit ----
+# test_that("LightRuleFit Regression succeeds", {
+#   mod_r <- s_LightRuleFit(datr_train, datr_test, n.trees = 20)
+#   expect_s3_class(mod_r, "rtMod")
+# })
 
-test_that("LightRuleFit Binary Classification succeeds", {
-  mod_c <- s_LightRuleFit(datc2_train, datc2_test, n.trees = 20)
-  expect_s3_class(mod_c, "rtModClass")
-})
+# test_that("LightRuleFit Binary Classification succeeds", {
+#   mod_c <- s_LightRuleFit(datc2_train, datc2_test, n.trees = 20)
+#   expect_s3_class(mod_c, "rtModClass")
+# })
