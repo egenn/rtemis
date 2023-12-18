@@ -172,6 +172,7 @@ dplot3_box <- function(x,
                        orientation = "v",
                        annotate_n = FALSE,
                        annotate_n_y = 1,
+                       annotate_mean = FALSE, # forr A.2.b.
                        annotate_meansd = FALSE,
                        annotate_meansd_y = 1,
                        annotate.col = theme$labs.col,
@@ -420,11 +421,15 @@ dplot3_box <- function(x,
         Meanperbox <- Filter(
           function(i) i > 0,
           sapply(x, function(j) mean(na.exclude(j)))
-        )
+        ) |>
+          round(digits = 2) |>
+          format(nsmall = 2)
         SDperbox <- Filter(
           function(i) i > 0,
           sapply(x, function(j) sd(na.exclude(j)))
-        )
+        ) |>
+          round(digits = 2)  |>
+          format(nsmall = 2)
         plt <- plt |>
           # plotly::add_annotations(
           #   xref = "paper", yref = "paper",
@@ -446,12 +451,7 @@ dplot3_box <- function(x,
             x = seq_along(Meanperbox) - 1,
             y = 1,
             # text = as.character(Nperbox),
-            text = paste0(
-              round(Meanperbox, 2),
-              " (",
-              round(SDperbox, 2),
-              ")"
-            ),
+            text = paste0(Meanperbox, " (", SDperbox, ")"),
             font = list(
               family = theme$font.family,
               size = font.size,
@@ -704,6 +704,79 @@ dplot3_box <- function(x,
               showarrow = FALSE
             )
         } # /annotate_n
+
+        # '-Annotate Mean SD ----
+        if (annotate_meansd) {
+          Meanperbox <- Filter(
+            function(i) i > 0,
+            c(t(sapply(dts, function(i) {
+              sapply(i, function(j) mean(na.exclude(j)))
+            })))
+          ) |>
+            round(digits = 2) |>
+            format(nsmall = 2)
+          SDperbox <- Filter(
+            function(i) i > 0,
+            c(t(sapply(dts, function(i) {
+              sapply(i, function(j) sd(na.exclude(j)))
+            })))
+          ) |>
+            round(digits = 2) |>
+            format(nsmall = 2)
+          plt <- plt |>
+            # plotly::add_annotations(
+            #   xref = "paper", yref = "paper",
+            #   xanchor = "right",
+            #   yanchor = "bottom",
+            #   x = 0, y = annotate_meansd_y,
+            #   text = "N =",
+            #   font = list(
+            #     family = theme$font.family,
+            #     size = font.size,
+            #     color = annotate.col
+            #   ),
+            #   showarrow = FALSE
+            # ) |>
+            plotly::add_annotations(
+              xref = "x", yref = "paper",
+              yanchor = "bottom",
+              x = seq_len(nvars * ngroups) - 1,
+              y = 1,
+              text = paste0(Meanperbox, " (", SDperbox, ")"),
+              font = list(
+                family = theme$font.family,
+                size = font.size,
+                color = annotate.col
+              ),
+              showarrow = FALSE
+            )
+        } # /annotate_meansd
+        
+        # '-Annotate Mean ----
+        if (annotate_mean) {
+          Meanperbox <- Filter(
+            function(i) i > 0,
+            c(t(sapply(dts, function(i) {
+              sapply(i, function(j) mean(na.exclude(j)))
+            })))
+          ) |>
+            round(digits = 1) |>
+            format(nsmall = 1)
+          plt <- plt |>
+            plotly::add_annotations(
+              xref = "x", yref = "paper",
+              yanchor = "bottom",
+              x = seq_len(nvars * ngroups) - 1,
+              y = 1,
+              text = Meanperbox,
+              font = list(
+                family = theme$font.family,
+                size = font.size,
+                color = annotate.col
+              ),
+              showarrow = FALSE
+            )
+        } # /annotate_mean
 
         # '- htest ----
         if (htest != "none" || !is.null(pvals)) {
