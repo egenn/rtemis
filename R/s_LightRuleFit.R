@@ -15,7 +15,7 @@
 #' @param n.trees Integer: Number of trees to train. Passed to [s_LightGBM]
 #' `force.n.trees`. If set to NULL, can set `max_nrounds` in `lgbm.params`, to perform
 #' cross-validation to determine optimal number of trees.
-#' @param params Training parameters for GBM and LASSO steps, set using 
+#' @param params Training parameters for GBM and LASSO steps, set using
 #' [rtset.LightRuleFit].
 #' @param lgbm.mod rtMod object created by [s_LightGBM]. If provided, the gradient
 #' boosting step is skipped.
@@ -329,19 +329,11 @@ s_LightRuleFit <- function(x, y = NULL,
 
 predict.LightRuleFit <- function(object,
                                  newdata = NULL,
-                                 verbose = TRUE, ...) {
+                                 verbose = TRUE,
+                                 return.cases.by.rules = FALSE, ...) {
   # Rules ----
   # Get all rules, some have 0 coefficients
   rules <- object$lgbm_rules
-
-  # Preprocess ----
-  # !new rules use original factor levels
-  # if (!is.null(object$mod_lgbm$extra$factor_index)) {
-  #     newdata <- preprocess(newdata,
-  #         factor2integer = TRUE, factor2integer_startat0 = TRUE,
-  #         verbose = trace > 0
-  #     )
-  # }
 
   # Match ----
   # Match newdata to rules: create features for predict
@@ -377,10 +369,27 @@ predict.LightRuleFit <- function(object,
       newx = datm
     ))
   }
-
-  if (is.null(prob)) {
-    return(yhat)
+  if (return.cases.by.rules) {
+    if (is.null(prob)) {
+      return(list(
+        predicted = yhat,
+        cases.by.rules = cases_by_rules
+      ))
+    } else {
+      return(list(
+        predicted.prob = prob,
+        predicted = yhat,
+        cases.by.rules = cases_by_rules
+      ))
+    }
   } else {
-    return(list(predicted.prob = prob, predicted = yhat))
+    if (is.null(prob)) {
+      return(yhat)
+    } else {
+      return(list(
+        predicted.prob = prob,
+        predicted = yhat
+      ))
+    }
   }
 } # rtemis::predict.LightRuleFit
