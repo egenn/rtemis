@@ -32,7 +32,7 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
   setorder(expl, -AbsCoefficients)
   expl[, AbsCoefficients := NULL]
   txt <- paste(
-    bold(nrow(expl)), "out of", length(mod$mod$rules_selected),
+    bold(nrow(expl)), "out of", bold(length(mod$mod$rules_selected)),
     "rules apply to this case.\n"
   )
   if (is.null(top) || top > nrow(expl)) {
