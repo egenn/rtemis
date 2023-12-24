@@ -63,3 +63,11 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
   }
   vars
 }
+
+
+#' Calculate variable statistics from rules
+#' 
+
+# N times variable appears in each rule divided by N variables,
+# averaged across C rules
+# rule_varstats
