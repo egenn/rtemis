@@ -343,7 +343,7 @@ s_LightGBM <- function(x, y = NULL,
   )
 
   # Fitted ----
-  fitted <- predict(mod, as.matrix(x), reshape = TRUE)
+  fitted <- predict(mod, as.matrix(x))
   fitted.prob <- NULL
   if (type == "Classification") {
     if (nclass == 2) {
@@ -367,7 +367,7 @@ s_LightGBM <- function(x, y = NULL,
   # Predicted ----
   predicted.prob <- predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict(mod, as.matrix(x.test), reshape = TRUE)
+    predicted <- predict(mod, as.matrix(x.test))
     if (type == "Classification") {
       if (nclass == 2) {
         predicted.prob <- 1 - predicted
@@ -558,7 +558,7 @@ predict_LightGBM <- function(x, newdata, ...) {
       factor2integer = TRUE, factor2integer_startat0 = TRUE
     )
   }
-  predicted <- predict(x$mod, as.matrix(newdata), reshape = TRUE)
+  predicted <- predict(x$mod, as.matrix(newdata))
   if (x$type == "Classification") {
     ylevels <- levels(x$y.train)
     nclass <- length(ylevels)
