@@ -28,6 +28,7 @@ dplot3_box(
   orientation = "v",
   annotate_n = FALSE,
   annotate_n_y = 1,
+  annotate_mean = FALSE,
   annotate_meansd = FALSE,
   annotate_meansd_y = 1,
   annotate.col = theme$labs.col,

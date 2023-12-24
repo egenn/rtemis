@@ -10,6 +10,7 @@ calibrate(
   pos_class_idi = 1,
   mod = c("gam", "glm"),
   k = 5,
+  do.sort = FALSE,
   verbose = TRUE
 )
 }

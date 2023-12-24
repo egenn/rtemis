@@ -4,7 +4,13 @@
 \alias{predict.LightRuleFit}
 \title{\code{predict} method for \code{LightRuleFit} object}
 \usage{
-\method{predict}{LightRuleFit}(object, newdata = NULL, verbose = TRUE, ...)
+\method{predict}{LightRuleFit}(
+  object,
+  newdata = NULL,
+  verbose = TRUE,
+  return.cases.by.rules = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{\code{LightRuleFit} object}
