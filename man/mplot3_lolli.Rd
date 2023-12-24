@@ -73,7 +73,7 @@ points. Default = FALSE, in which case they are colored with \code{theme$fg}}
 \item{palette}{Vector of colors, or Character defining a builtin palette -
 get options with \code{rtpalette()}}
 
-\item{autolabel}{Vector to be used to generate autolabels when using
+\item{autolabel}{Character vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{par.reset}{Logical: If TRUE, reset \code{par} setting before exiting.}

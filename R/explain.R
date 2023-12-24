@@ -4,10 +4,11 @@
 
 #' Explain individual-level model predictions
 #'
-#' @param mod `rtMod` object
-#' @param digits Integer: Number of digits to round coefficients to
-#' @param top Integer: Number of top rules to show by absolute coefficient
-#' @param trace Integer: If > 0, print more messages to output
+#' @param mod `rtMod` object.
+#' @param x Single-row data.frame of predictors.
+#' @param digits Integer: Number of digits to round coefficients to.
+#' @param top Integer: Number of top rules to show by absolute coefficient.
+#' @param trace Integer: If > 0, print more messages to output.
 #'
 #' @author ED Gennatas
 #' @export
@@ -45,10 +46,6 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
     )
   }
   col <- c(green, red)[ifelse(expl$Coefficients[1:top] > 0, 1, 2)]
-  # rule_coef_txt <- paste(
-  #   format(round(expl$Coefficients[1:top], digits = digits), nsmall = digits),
-  #   expl$Rules[1:top], collapse = "\n"
-  # )
   rule_coef_txt <- paste(
     sapply(expl$Coefficients[1:top], \(x) {
       if (x > 0) {

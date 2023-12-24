@@ -7,13 +7,15 @@
 inspect_type(x, xname = NULL, verbose = TRUE, thresh = 0.5, na.omit = TRUE)
 }
 \arguments{
-\item{x}{Character or factor vector}
+\item{x}{Character or factor vector.}
 
-\item{xname}{Character: Name of input vector \code{x}}
+\item{xname}{Character: Name of input vector \code{x}.}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbose}{Logical: If TRUE, print messages to console.}
 
-\item{thresh}{Numeric: Threshold for determining whether to convert to numeric}
+\item{thresh}{Numeric: Threshold for determining whether to convert to numeric.}
+
+\item{na.omit}{Logical: If TRUE, remove NA values before checking.}
 }
 \description{
 Checks character or factor vector to determine whether it might be best to convert to

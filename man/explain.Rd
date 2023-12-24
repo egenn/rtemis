@@ -7,13 +7,15 @@
 explain(mod, x, digits = 2, top = NULL, trace = 0)
 }
 \arguments{
-\item{mod}{\code{rtMod} object}
+\item{mod}{\code{rtMod} object.}
 
-\item{digits}{Integer: Number of digits to round coefficients to}
+\item{x}{Single-row data.frame of predictors.}
 
-\item{top}{Integer: Number of top rules to show by absolute coefficient}
+\item{digits}{Integer: Number of digits to round coefficients to.}
 
-\item{trace}{Integer: If > 0, print more messages to output}
+\item{top}{Integer: Number of top rules to show by absolute coefficient.}
+
+\item{trace}{Integer: If > 0, print more messages to output.}
 }
 \description{
 Explain individual-level model predictions

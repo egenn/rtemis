@@ -8,6 +8,10 @@ dt_inspect_type(x, cols = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{data.table}
+
+\item{cols}{Character vector: columns to inspect.}
+
+\item{verbose}{Logical: If TRUE, print messages to console.}
 }
 \description{
 Will attempt to identify columns that should be numeric but are either character or

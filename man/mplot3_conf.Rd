@@ -46,18 +46,19 @@ mplot3_conf(
 )
 }
 \arguments{
-\item{object}{Either a classification \code{rtMod}, or a table/matrix/data.frame}
+\item{object}{Either a classification \code{rtMod}, or a table/matrix/data.frame.}
 
-\item{main}{Character: Plot title}
+\item{main}{Character: Plot title.}
 
-\item{xlab}{Character: x-axis label}
+\item{xlab}{Character: x-axis label.}
 
-\item{ylab}{Character: y-axis label}
+\item{ylab}{Character: y-axis label.}
 
-\item{plot.metrics}{Logical: If TRUE, draw classification metrics next to confusion matrix. Default = TRUE}
+\item{plot.metrics}{Logical: If TRUE, draw classification metrics next to confusion
+matrix.}
 
-\item{mod.name}{Character: Name of the algorithm used to make predictions. If NULL, will look for
-\code{object$mod.name}.}
+\item{mod.name}{Character: Name of the algorithm used to make predictions. If NULL,
+will look for \code{object$mod.name}.}
 
 \item{oma}{Numeric, vector, length 4: Outer margins.}
 
@@ -65,11 +66,12 @@ mplot3_conf(
 
 \item{dim.lab}{Numeric: Height for labels.}
 
-\item{dim.in}{Numeric: Height/Width for confusion matrix cells. Default = 4}
+\item{dim.in}{Numeric: Height/Width for confusion matrix cells.}
 
-\item{dim.out}{Numeric: Height for metrics cells. Default = -1, which autoadjusts depending on number of output classes}
+\item{dim.out}{Numeric: Height for metrics cells. Default = -1, which autoadjusts
+depending on number of output classes.}
 
-\item{font.in}{Integer: The \code{font} parameter for confusion matrix cells. Default = 2}
+\item{font.in}{Integer: The \code{font} parameter for confusion matrix cells.}
 
 \item{font.out}{Integer: The \code{font} parameter for metrics cells.}
 
@@ -85,27 +87,27 @@ mplot3_conf(
 
 \item{cex.out}{Numeric: The \code{cex} parameter for metrics cells.}
 
-\item{col.main}{Color for title. Default = "auto", determined by \code{theme}}
+\item{col.main}{Color for title. Default = "auto", determined by \code{theme}.}
 
-\item{col.lab}{Color for labels. Default = "auto", determined by \code{theme}}
+\item{col.lab}{Color for labels. Default = "auto", determined by \code{theme}.}
 
 \item{col.text.out}{Color for metrics cells' text. Default = "auto",
-determined by \code{theme}}
+determined by \code{theme}.}
 
 \item{col.bg}{Color for background. Default = "auto", determined by
-\code{theme}}
+\code{theme}.}
 
 \item{col.bg.out1}{Color for metrics cells' background (row1).
-Default = "auto", determined by \code{theme}}
+Default = "auto", determined by \code{theme}.}
 
 \item{col.bg.out2}{Color for metrics cells' background (row2).
-Default = "auto", determined by \code{theme}}
+Default = "auto", determined by \code{theme}.}
 
 \item{col.text.hi}{Color for high confusion matrix values. Default = "auto",
-determined by \code{theme}}
+determined by \code{theme}.}
 
 \item{col.text.lo}{Color for low confusion matrix values. Default = "auto",
-determined by \code{theme}}
+determined by \code{theme}.}
 
 \item{show.ba}{Logical: If TRUE, show Balanced Accuracy at bottom right corner.}
 
@@ -113,21 +115,24 @@ determined by \code{theme}}
 \code{options("rt.theme")}, if set, otherwise "light"}
 
 \item{mid.col}{Color: The mid color for the confusion matrix.
-Default = "auto", determined by \code{theme}}
+Default = "auto", determined by \code{theme}.}
 
 \item{hi.color.pos}{Color: The hi color for correct classification.}
 
 \item{hi.color.neg}{Color: The hi color for missclassification.}
 
+\item{autolabel}{Character vector to be used to generate autolabels when using
+\link{rtlayout} with \code{autolabel = TRUE}.}
+
 \item{par.reset}{Logical: If TRUE, reset par before exit.}
 
-\item{pdf.width}{Numeric: PDF width, if \code{filename} is set}
+\item{pdf.width}{Numeric: PDF width, if \code{filename} is set.}
 
-\item{pdf.height}{Numeric: PDF height, if \code{filename} is set}
+\item{pdf.height}{Numeric: PDF height, if \code{filename} is set.}
 
 \item{filename}{Character: If specified, save plot to this path.}
 
-\item{...}{Additional arguments passed to theme}
+\item{...}{Additional arguments passed to \code{theme}.}
 }
 \value{
 List of metrics, invisibly

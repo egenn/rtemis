@@ -374,10 +374,11 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 #' Checks character or factor vector to determine whether it might be best to convert to
 #' numeric.
 #'
-#' @param x Character or factor vector
-#' @param xname Character: Name of input vector `x`
-#' @param verbose Logical: If TRUE, print messages to console
-#' @param thresh Numeric: Threshold for determining whether to convert to numeric
+#' @param x Character or factor vector.
+#' @param xname Character: Name of input vector `x`.
+#' @param verbose Logical: If TRUE, print messages to console.
+#' @param thresh Numeric: Threshold for determining whether to convert to numeric.
+#' @param na.omit Logical: If TRUE, remove NA values before checking.
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -427,6 +428,8 @@ inspect_type <- function(x, xname = NULL, verbose = TRUE, thresh = .5, na.omit =
 #' factor by running [inspect_type] on each column.
 #'
 #' @param x data.table
+#' @param cols Character vector: columns to inspect.
+#' @param verbose Logical: If TRUE, print messages to console.
 #'
 #' @author E.D. Gennatas
 #' @export

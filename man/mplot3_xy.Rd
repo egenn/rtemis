@@ -368,7 +368,7 @@ get options with \code{rtpalette()}}
 \item{order.on.x}{Logical: If TRUE, order (x, y) by increasing x.
 Default = NULL: will be set to TRUE if fit is set, otherwise FALSE}
 
-\item{autolabel}{Vector to be used to generate autolabels when using
+\item{autolabel}{Character vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}

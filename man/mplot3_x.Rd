@@ -221,7 +221,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{yaxs}{Character: as \code{xaxs} for the y-axis.}
 
-\item{autolabel}{Vector to be used to generate autolabels when using
+\item{autolabel}{Character vector to be used to generate autolabels when using
 \link{rtlayout} with \code{autolabel = TRUE}.}
 
 \item{new}{Logical: If TRUE, add plot to existing plot. See \code{par("new")}}

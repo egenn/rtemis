@@ -152,7 +152,7 @@
 #' get options with `rtpalette()`
 #' @param order.on.x Logical: If TRUE, order (x, y) by increasing x.
 #' Default = NULL: will be set to TRUE if fit is set, otherwise FALSE
-#' @param autolabel Vector to be used to generate autolabels when using
+#' @param autolabel Character vector to be used to generate autolabels when using
 #' [rtlayout] with `autolabel = TRUE`.
 #' @param par.reset Logical: If TRUE, reset `par` setting before exiting.
 #' @param return.lims Logical: If TRUE, return xlim and ylim.
