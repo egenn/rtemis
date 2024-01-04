@@ -99,10 +99,17 @@ prepare_data <- function(x, y = NULL,
     }
   }
 
-  # If outcome vector is character, convert to factor
-  if (class(y)[1] == "character") {
-    y <- as.factor(y)
-    if (!is.null(y.test)) y.test <- as.factor(y.test)
+  # old: If outcome vector is character, convert to factor
+  # if (class(y)[1] == "character") {
+  #   y <- as.factor(y)
+  #   if (!is.null(y.test)) y.test <- as.factor(y.test)
+  # }
+  # new: stop if y is not numeric or factor
+  if (!(is.numeric(y) || is.factor(y))) {
+    stop(
+      "Outcome is class", class(y),
+      "but must be either numeric (for regression) or a factor (for classification)."
+    )
   }
 
   # xnames and Dimensions check ----
