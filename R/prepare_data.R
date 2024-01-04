@@ -1,4 +1,4 @@
-# dataPrepare.R
+# prepare_data.R
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
@@ -22,25 +22,25 @@
 #' @param resample.seed Integer: If set, use `set.seed` for reproducibility. Default = NULL
 #' @param removeDots Logical: If TRUE, replace dots in variable names with underscores.
 #' Some algorithms do not work with variable names containing dots (SparkML)
-#' @param .preprocess List: Preprocessing parameters to be passed to [preprocess]. Set with [rtset.preprocess]
+#' @param .preprocess List: Preprocessing parameters to be passed to [preprocess]. Set with [setup.preprocess]
 #' @param verbose Logical: If TRUE, print messages to console
 #'
 #' @keywords internal
 #' @noRd
 #' @author E.D. Gennatas
 
-dataPrepare <- function(x, y = NULL,
-                        x.test = NULL, y.test = NULL,
-                        x.valid = NULL, y.valid = NULL,
-                        filter.y.na = FALSE,
-                        ifw = FALSE,
-                        ifw.type = 2,
-                        upsample = FALSE,
-                        downsample = FALSE,
-                        resample.seed = NULL,
-                        removeDots = FALSE,
-                        .preprocess = NULL,
-                        verbose = FALSE) {
+prepare_data <- function(x, y = NULL,
+                         x.test = NULL, y.test = NULL,
+                         x.valid = NULL, y.valid = NULL,
+                         filter.y.na = FALSE,
+                         ifw = FALSE,
+                         ifw.type = 2,
+                         upsample = FALSE,
+                         downsample = FALSE,
+                         resample.seed = NULL,
+                         removeDots = FALSE,
+                         .preprocess = NULL,
+                         verbose = FALSE) {
   if (upsample && downsample) stop("Please choose to upsample OR downsample")
 
   if (class(x)[1] != "list") {
@@ -289,4 +289,4 @@ dataPrepare <- function(x, y = NULL,
     xnames = xnames, type = type,
     class.weights = class.weights, weights = weights
   )
-} # rtemis::dataPrepare
+} # rtemis::prepare_data

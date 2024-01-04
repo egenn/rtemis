@@ -10,7 +10,7 @@ bias_variance(
   mod,
   res1_train.p = 0.7,
   params = list(),
-  resample.rtset = rtset.resample(n.resamples = 100),
+  resample.params = setup.resample(n.resamples = 100),
   seed = NULL,
   verbose = TRUE,
   res.verbose = FALSE,
@@ -28,7 +28,7 @@ bias_variance(
 
 \item{params}{List of \code{mod} parameters}
 
-\item{resample.rtset}{Output of \link{rtset.resample}}
+\item{resample.params}{Output of \link{setup.resample}}
 
 \item{seed}{Integer: Seed for initial train/test split}
 

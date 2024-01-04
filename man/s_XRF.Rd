@@ -46,7 +46,7 @@ s_XRF(
   one_drop = 0,
   skip_drop = 0,
   .gs = FALSE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
@@ -168,7 +168,7 @@ in the same manner as gbtree. Non-zero \code{skip_drop} has higher priority than
 
 \item{.gs}{Internal use only}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

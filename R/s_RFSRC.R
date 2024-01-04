@@ -94,7 +94,7 @@ s_RFSRC <- function(x, y = NULL,
   if (is.null(trace)) trace <- if (verbose) n.trees / 10 else FALSE
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,

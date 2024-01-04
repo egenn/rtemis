@@ -48,7 +48,7 @@
 #' @param max.depth \[gS\] Integer: Max depth of additive tree. Default = 3
 #' @param alpha \[gS\] Float: `lincoef` alpha Overrides `lincoef.params` alpha
 #' @param lambda \[gS\] Float: `lincoef` lambda. Overrides `lincoef.params` lambda
-#' @param lincoef.params Named List: Output of [rtset.lincoef]
+#' @param lincoef.params Named List: Output of [setup.lincoef]
 #' @param minobsinnode \[gS\] Integer: Minimum N observations needed in node, before 
 #' considering splitting
 #' @param minobsinnode.lin Integer: Minimum N observations needed in node in order to 
@@ -67,7 +67,7 @@ s_LIHAD <- function(x, y = NULL,
                     max.depth = 3,
                     alpha = 0,
                     lambda = .1,
-                    lincoef.params = rtset.lincoef("glmnet"),
+                    lincoef.params = setup.lincoef("glmnet"),
                     minobsinnode = 2,
                     minobsinnode.lin = 10,
                     learning.rate = 1,
@@ -78,7 +78,7 @@ s_LIHAD <- function(x, y = NULL,
                     weights = NULL,
                     metric = "MSE",
                     maximize = FALSE,
-                    grid.resample.rtset = rtset.grid.resample(),
+                    grid.resample.params = setup.grid.resample(),
                     keep.x = FALSE,
                     simplify = TRUE,
                     cxrcoef = FALSE,
@@ -118,7 +118,7 @@ s_LIHAD <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     # ifw = ifw, ifw.type = ifw.type,
     # upsample = upsample, resample.seed = resample.seed,
@@ -165,7 +165,7 @@ s_LIHAD <- function(x, y = NULL,
   if (gridCheck(max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp)) {
     gs <- gridSearchLearn(x, y,
       mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         max.depth = max.depth,
         alpha = alpha,
@@ -352,7 +352,7 @@ lihad <- function(node = list(
                   learning.rate = 1,
                   # alpha = 0,
                   # lambda = .01,
-                  lincoef.params = rtset.lincoef(),
+                  lincoef.params = setup.lincoef(),
                   part.minsplit = 2,
                   part.xval = 0,
                   part.max.depth = 1,
@@ -544,7 +544,7 @@ lihad <- function(node = list(
 #' @keywords internal
 #' @noRd
 partLin <- function(x1, y1,
-                    lincoef.params = rtset.lincoef(),
+                    lincoef.params = setup.lincoef(),
                     part.minsplit = 2,
                     part.xval = 0,
                     part.max.depth = 1,

@@ -7,7 +7,7 @@
 #' Train an elastic net model
 #'
 #' `s_GLMNET` runs `glmnet::cv.glmnet` for each value of alpha, for each resample in
-#' `grid.resample.rtset`.
+#' `grid.resample.params`.
 #' Mean values for `min.lambda` and MSE (Regression) or Accuracy (Classification) are aggregated for each
 #' alpha and resample combination
 #'
@@ -39,7 +39,7 @@
 s_GLMNET <- function(x, y = NULL,
                      x.test = NULL, y.test = NULL,
                      x.name = NULL, y.name = NULL,
-                     grid.resample.rtset = rtset.resample("kfold", 5),
+                     grid.resample.params = setup.resample("kfold", 5),
                      gridsearch.type = c("exhaustive", "randomized"),
                      gridsearch.randomized.p = .1,
                      intercept = TRUE,
@@ -112,7 +112,7 @@ s_GLMNET <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -200,7 +200,7 @@ s_GLMNET <- function(x, y = NULL,
   if (!.gs && do.gs) {
     gs <- gridSearchLearn(x, y,
       mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         alpha = alpha,
         lambda = lambda

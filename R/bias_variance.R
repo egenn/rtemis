@@ -9,7 +9,7 @@
 #' @param mod Character: rtemis learner
 #' @param res1_train.p Numeric: Proportion of cases to use for training
 #' @param params List of `mod` parameters
-#' @param resample.rtset Output of [rtset.resample]
+#' @param resample.params Output of [setup.resample]
 #' @param seed Integer: Seed for initial train/test split
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param res.verbose Logical: passed to the learning function
@@ -20,7 +20,7 @@
 bias_variance <- function(x, y, mod,
                           res1_train.p = .7,
                           params = list(),
-                          resample.rtset = rtset.resample(n.resamples = 100),
+                          resample.params = setup.resample(n.resamples = 100),
                           seed = NULL,
                           verbose = TRUE,
                           res.verbose = FALSE, ...) {
@@ -42,16 +42,16 @@ bias_variance <- function(x, y, mod,
   dat_train <- data.frame(x, y)[res1$Subsample_1, ]
   res2 <- resample(
     dat_train,
-    n.resamples = resample.rtset$n.resamples,
-    resampler = resample.rtset$resampler,
-    index = resample.rtset$index,
-    train.p = resample.rtset$train.p,
-    strat.n.bins = resample.rtset$strat.n.bins,
-    target.length = resample.rtset$target.length,
-    seed = resample.rtset$seed
+    n.resamples = resample.params$n.resamples,
+    resampler = resample.params$resampler,
+    index = resample.params$index,
+    train.p = resample.params$train.p,
+    strat.n.bins = resample.params$strat.n.bins,
+    target.length = resample.params$target.length,
+    seed = resample.params$seed
   )
 
-  p <- progressr::progressor(steps = resample.rtset$n.resamples)
+  p <- progressr::progressor(steps = resample.params$n.resamples)
   mods <- lapply(seq_along(res2), \(i) {
     args <- c(
       list(
@@ -60,7 +60,7 @@ bias_variance <- function(x, y, mod,
       ),
       params
     )
-    p(sprintf("Running resample: %i/%i...", i, resample.rtset$n.resamples))
+    p(sprintf("Running resample: %i/%i...", i, resample.params$n.resamples))
     do.call(learnSelect(mod), args)
   })
 

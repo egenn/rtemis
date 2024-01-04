@@ -75,7 +75,7 @@ s_NLA <- function(x, y = NULL,
   }
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- prepare_data(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

@@ -59,7 +59,7 @@ hytboostnow <- function(x, y,
                         cv.glmnet.nfolds = 5,
                         cv.glmnet.lambda = "lambda.min",
                         # -- earlystop --
-                        earlystop.params = rtset.earlystop(),
+                        earlystop.params = setup.earlystop(),
                         earlystop.using = "train",
                         init = mean(y),
                         cxrcoef = FALSE,

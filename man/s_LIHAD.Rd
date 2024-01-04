@@ -12,7 +12,7 @@ s_LIHAD(
   max.depth = 3,
   alpha = 0,
   lambda = 0.1,
-  lincoef.params = rtset.lincoef("glmnet"),
+  lincoef.params = setup.lincoef("glmnet"),
   minobsinnode = 2,
   minobsinnode.lin = 10,
   learning.rate = 1,
@@ -23,7 +23,7 @@ s_LIHAD(
   weights = NULL,
   metric = "MSE",
   maximize = FALSE,
-  grid.resample.rtset = rtset.grid.resample(),
+  grid.resample.params = setup.grid.resample(),
   keep.x = FALSE,
   simplify = TRUE,
   cxrcoef = FALSE,
@@ -58,7 +58,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{lambda}{[gS] Float: \code{lincoef} lambda. Overrides \code{lincoef.params} lambda}
 
-\item{lincoef.params}{Named List: Output of \link{rtset.lincoef}}
+\item{lincoef.params}{Named List: Output of \link{setup.lincoef}}
 
 \item{minobsinnode}{[gS] Integer: Minimum N observations needed in node, before
 considering splitting}

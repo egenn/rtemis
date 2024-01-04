@@ -9,7 +9,7 @@ s_LightRuleFit(
   y = NULL,
   x.test = NULL,
   y.test = NULL,
-  params = rtset.LightRuleFit(),
+  params = setup.LightRuleFit(),
   lgbm.mod = NULL,
   empirical_risk = TRUE,
   cases_by_rules = NULL,
@@ -39,7 +39,7 @@ Columns must correspond to columns in \code{x}}
 \item{y.test}{Numeric vector of testing set outcome}
 
 \item{params}{Training parameters for GBM and LASSO steps, set using
-\link{rtset.LightRuleFit}.}
+\link{setup.LightRuleFit}.}
 
 \item{lgbm.mod}{rtMod object created by \link{s_LightGBM}. If provided, the gradient
 boosting step is skipped.}

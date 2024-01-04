@@ -16,7 +16,7 @@ s_H2OGBM(
   h2o.init = TRUE,
   gs.h2o.init = FALSE,
   h2o.shutdown.at.end = TRUE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   metric = NULL,
   maximize = NULL,
   n.trees = 10000,

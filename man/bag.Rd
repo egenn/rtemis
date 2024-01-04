@@ -19,7 +19,7 @@ bag(
   upsample = FALSE,
   downsample = FALSE,
   resample.seed = NULL,
-  .resample = rtset.resample(resampler = "strat.boot", n.resamples = k),
+  .resample = setup.resample(resampler = "strat.boot", n.resamples = k),
   aggr.fn = NULL,
   x.name = NULL,
   y.name = NULL,
@@ -78,8 +78,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 Default = NULL (random seed)}
 
 \item{.resample}{List: Resample settings to use. There is no need to edit this, unless you want to change the type of
-resampling. It will use stratified bootstrap by default. Use \link{rtset.resample} for convenience.
-Default = \code{rtset.resample(resampler = "strat.boot", n.resamples = k)}}
+resampling. It will use stratified bootstrap by default. Use \link{setup.resample} for convenience.
+Default = \code{setup.resample(resampler = "strat.boot", n.resamples = k)}}
 
 \item{aggr.fn}{Function: used to average base learners' predictions. Default = mean for Classification, median for
 Regression}

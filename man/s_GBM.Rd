@@ -29,7 +29,7 @@ s_GBM(
   failsafe.trees = 500,
   imetrics = FALSE,
   .gs = FALSE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
@@ -130,7 +130,7 @@ and \code{n.nodes}.}
 
 \item{.gs}{Internal use only}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:
@@ -200,7 +200,7 @@ optionally smoothed validation error curve, and adding \code{n.new.trees} if
 needed, until error does not reduce or \code{max.trees} is reached.
 [gS] in the argument description indicates that a vector of values can be
 passed, in which case grid search will be performed automatically using the
-resampling scheme defined by \code{grid.resample.rtset}.
+resampling scheme defined by \code{grid.resample.params}.
 
 This function includes a workaround for when \code{gbm.fit} fails.
 If an error is detected, \code{gbm.fit} is rerun until successful and the

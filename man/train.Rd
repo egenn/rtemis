@@ -13,8 +13,8 @@ train(
   .decompose = NULL,
   weights = NULL,
   n.repeats = 1,
-  outer.resampling = rtset.resample(resampler = "strat.sub", n.resamples = 10),
-  inner.resampling = rtset.resample(resampler = "kfold", n.resamples = 5),
+  outer.resampling = setup.resample(resampler = "strat.sub", n.resamples = 10),
+  inner.resampling = setup.resample(resampler = "kfold", n.resamples = 5),
   bag.fn = median,
   x.name = NULL,
   y.name = NULL,
@@ -52,12 +52,12 @@ train(
 \code{alg}. All parameters can be passed as part of \code{...} as well}
 
 \item{.preprocess}{Optional named list of parameters to be passed to
-\link{preprocess}. Set using \link{rtset.preprocess},
-e.g. \code{decom = rtset.preprocess(impute = TRUE)}}
+\link{preprocess}. Set using \link{setup.preprocess},
+e.g. \code{decom = setup.preprocess(impute = TRUE)}}
 
 \item{.decompose}{Optional named list of parameters to be used for
-decomposition / dimensionality reduction. Set using \link{rtset.decompose},
-e.g. \code{decom = rtset.decompose("ica", 12)}}
+decomposition / dimensionality reduction. Set using \link{setup.decompose},
+e.g. \code{decom = setup.decompose("ica", 12)}}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
@@ -68,10 +68,10 @@ This was added for completeness, but in practice we use either k-fold
 crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of
 stratified subsamples, e.g. 25, for smaller samples}
 
-\item{outer.resampling}{List: Output of \link{rtset.resample} to define outer
+\item{outer.resampling}{List: Output of \link{setup.resample} to define outer
 resampling scheme}
 
-\item{inner.resampling}{List: Output of \link{rtset.resample} to define inner
+\item{inner.resampling}{List: Output of \link{setup.resample} to define inner
 resampling scheme}
 
 \item{bag.fn}{Function to use to average prediction if

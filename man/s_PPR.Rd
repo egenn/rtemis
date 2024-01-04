@@ -11,7 +11,7 @@ s_PPR(
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
-  grid.resample.rtset = rtset.grid.resample(),
+  grid.resample.params = setup.grid.resample(),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
   weights = NULL,
@@ -52,7 +52,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

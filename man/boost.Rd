@@ -18,7 +18,7 @@ boost(
   case.p = 1,
   weights = NULL,
   learning.rate = 0.1,
-  earlystop.params = rtset.earlystop(window = 30, window_decrease_pct_min = 0.01),
+  earlystop.params = setup.earlystop(window = 30, window_decrease_pct_min = 0.01),
   earlystop.using = "train",
   tolerance = 0,
   tolerance.valid = 1e-05,
@@ -78,7 +78,7 @@ Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setti
 \item{learning.rate}{Float (0, 1] Learning rate for the additive steps}
 
 \item{earlystop.params}{List with early stopping parameters.
-Set using \link{rtset.earlystop}}
+Set using \link{setup.earlystop}}
 
 \item{earlystop.using}{Character: "train" or "valid". For the latter,
 requires \code{x.valid}}

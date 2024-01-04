@@ -46,7 +46,7 @@ s_XGBoost(
   rate_drop = 0,
   one_drop = 0,
   skip_drop = 0,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
@@ -172,7 +172,7 @@ procedure during a boosting iteration. If a dropout is skipped, new trees are ad
 in the same manner as gbtree. Non-zero \code{skip_drop} has higher priority than
 \code{rate_drop} or \code{one_drop}.}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

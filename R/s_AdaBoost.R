@@ -74,7 +74,7 @@ s_AdaBoost <- function(x,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,

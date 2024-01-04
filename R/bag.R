@@ -13,8 +13,8 @@
 #' @param mtry Integer: Number of features to randomly sample for each base learner.
 #' @param mod.params Named list of arguments for `mod`
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
-#' resampling. It will use stratified bootstrap by default. Use [rtset.resample] for convenience.
-#' Default = `rtset.resample(resampler = "strat.boot", n.resamples = k)`
+#' resampling. It will use stratified bootstrap by default. Use [setup.resample] for convenience.
+#' Default = `setup.resample(resampler = "strat.boot", n.resamples = k)`
 #' @param aggr.fn Function: used to average base learners' predictions. Default = mean for Classification, median for
 #' Regression
 #' @param trace Integer: If > 0, print diagnostic info to console
@@ -56,7 +56,7 @@ bag <- function(x, y = NULL,
                 upsample = FALSE,
                 downsample = FALSE,
                 resample.seed = NULL,
-                .resample = rtset.resample(
+                .resample = setup.resample(
                   resampler = "strat.boot",
                   n.resamples = k
                 ),
@@ -99,7 +99,7 @@ bag <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -145,7 +145,7 @@ bag <- function(x, y = NULL,
   rl <- resLearn(
     x = x, y = y,
     mod = mod,
-    resample.rtset = .resample,
+    resample.params = .resample,
     weights = weights,
     params = mod.params,
     verbose = verbose,
@@ -218,7 +218,7 @@ bag <- function(x, y = NULL,
     x.name = x.name,
     y.name = y.name,
     xnames = xnames,
-    bag.resample.rtset = .resample,
+    bag.resample.params = .resample,
     mod = rl,
     type = type,
     fitted.bag = fitted.bag,

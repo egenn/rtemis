@@ -27,7 +27,7 @@ s_GLMTree(
   downsample = FALSE,
   resample.seed = NULL,
   na.action = na.exclude,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
   metric = NULL,
@@ -90,7 +90,7 @@ Default = NULL (random seed)}
 
 \item{na.action}{How to handle missing values. See \code{?na.fail}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

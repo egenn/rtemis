@@ -33,7 +33,7 @@ s_CART(
   prune.cp = NULL,
   use.prune.rpart.rt = TRUE,
   return.unpruned = FALSE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
   save.gridrun = FALSE,
@@ -127,7 +127,7 @@ tree is built}
 \item{return.unpruned}{Logical: If TRUE and \code{prune.cp} is set, return
 unpruned tree under \code{extra} in \code{rtMod}.}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

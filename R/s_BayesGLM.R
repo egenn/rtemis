@@ -100,7 +100,7 @@ s_BayesGLM <- function(x, y = NULL,
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
                     x.test, y.test,
                     ifw = ifw,
                     ifw.type = ifw.type,

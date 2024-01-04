@@ -26,7 +26,7 @@
 s_PolyMARS <- function(x, y = NULL,
                        x.test = NULL, y.test = NULL,
                        x.name = NULL, y.name = NULL,
-                       grid.resample.rtset = rtset.grid.resample(),
+                       grid.resample.params = setup.grid.resample(),
                        weights = NULL,
                        ifw = TRUE,
                        ifw.type = 2,
@@ -81,7 +81,7 @@ s_PolyMARS <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     ifw = ifw, ifw.type = ifw.type,
     upsample = upsample,
     downsample = downsample,
@@ -112,7 +112,7 @@ s_PolyMARS <- function(x, y = NULL,
   # Grid Search ----
   if (gridCheck(maxsize)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(maxsize = maxsize),
       fixed.params = list(
         classify = classify,

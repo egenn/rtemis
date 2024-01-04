@@ -15,7 +15,7 @@
 #' @param x features - training set
 #' @param y outcome - training set
 #' @param mod Character: \pkg{rtemis} model. See `learnSelect` gives available models
-#' @param resample.rtset List: output of [rtset] (or a list of same structure)
+#' @param resample.params List: output of [rtset] (or a list of same structure)
 #' @param params List of named elements, each is a single value
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param res.verbose Logical: Will be passed to each `mod`'s `verbose` argument
@@ -29,7 +29,7 @@
 #' @noRd
 
 resLearn <- function(x, y, mod,
-                     resample.rtset = rtset.cv.resample(),
+                     resample.params = setup.cv.resample(),
                      weights = NULL,
                      params = list(),
                      mtry = NULL,
@@ -71,9 +71,9 @@ resLearn <- function(x, y, mod,
 
   # Resamples ----
   learner <- learnSelect(mod)
-  res <- resample(y, rtset = resample.rtset, verbose = trace > 0)
+  res <- resample(y, rtset = resample.params, verbose = trace > 0)
   resampler <- attr(res, "resampler") # for res.group and res.index
-  n.workers <- min(n.workers, resample.rtset$n.resamples)
+  n.workers <- min(n.workers, resample.params$n.resamples)
 
   # Parallel ----
   if (n.workers == 1) {
@@ -153,8 +153,8 @@ resLearn <- function(x, y, mod,
       outdir = outdir1
     )
     ## Get id.strat for resample
-    if (!is.null(attr(res, "id.strat")) && !is.null(params$grid.resample.rtset)) {
-      params$grid.resample.rtset$id.strat <- attr(res, "id.strat")[res1]
+    if (!is.null(attr(res, "id.strat")) && !is.null(params$grid.resample.params)) {
+      params$grid.resample.params$id.strat <- attr(res, "id.strat")[res1]
     }
     args <- c(args, params)
 

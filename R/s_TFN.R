@@ -159,7 +159,7 @@ s_TFN <- function(x, y = NULL,
   optimizer <- getFromNamespace(optimizer, "keras")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,

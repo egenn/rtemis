@@ -19,7 +19,7 @@ s_RF(
   nodesize = NULL,
   maxnodes = NULL,
   mtryStart = mtry,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   metric = NULL,
   maximize = NULL,
   classwt = NULL,
@@ -89,7 +89,7 @@ grown to maximum possible}
 
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{metric}{Character: Metric to minimize, or maximize if

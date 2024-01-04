@@ -69,7 +69,7 @@ s_PSurv <- function(x, y,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- prepare_data(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
   if (!is.null(x.test)) x.test <- dt$x.test
@@ -120,7 +120,7 @@ s_PSurv <- function(x, y,
                  x.name = x.name,
                  y.name = y.name,
                  xnames = xnames,
-                 bag.resample.rtset = NULL,
+                 bag.resample.params = NULL,
                  fitted.bag = NULL,
                  fitted = fitted,
                  se.fit.bag = NULL,

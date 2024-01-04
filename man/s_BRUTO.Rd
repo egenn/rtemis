@@ -11,7 +11,7 @@ s_BRUTO(
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
-  grid.resample.rtset = rtset.grid.resample(),
+  grid.resample.params = setup.grid.resample(),
   weights = NULL,
   weights.col = NULL,
   dfmax = 6,

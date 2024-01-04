@@ -8,7 +8,7 @@ synthRegData(
   nrow = 500,
   ncol = 50,
   noise.sd.factor = 1,
-  resample.rtset = rtset.resample(),
+  resample.params = setup.resample(),
   seed = NULL,
   verbose = FALSE
 )
@@ -20,7 +20,7 @@ synthRegData(
 
 \item{noise.sd.factor}{Numeric: Add rnorm(nrow, sd = noise.sd.factor * sd(y)). Default = 2}
 
-\item{resample.rtset}{Output of \link{rtset.resample} defining training/testing split. The first resulting resample
+\item{resample.params}{Output of \link{setup.resample} defining training/testing split. The first resulting resample
 will be used to create \code{dat.train} and \code{dat.test} output; all resample output under \code{resamples}}
 
 \item{seed}{Integer: Seed for random number generator. Default = NULL}

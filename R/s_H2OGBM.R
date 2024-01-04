@@ -43,7 +43,7 @@ s_H2OGBM <- function(x, y = NULL,
                      h2o.init = TRUE,
                      gs.h2o.init = FALSE,
                      h2o.shutdown.at.end = TRUE,
-                     grid.resample.rtset = rtset.resample("kfold", 5),
+                     grid.resample.params = setup.resample("kfold", 5),
                      metric = NULL,
                      maximize = NULL,
                      n.trees = 10000,
@@ -114,7 +114,7 @@ s_H2OGBM <- function(x, y = NULL,
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -179,7 +179,7 @@ s_H2OGBM <- function(x, y = NULL,
   .final <- FALSE
   if (!.gs && is.null(force.n.trees)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         max.depth = max.depth,
         learning.rate = learning.rate,

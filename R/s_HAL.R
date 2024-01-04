@@ -25,7 +25,7 @@ s_HAL <- function(x, y = NULL,
                   family = NULL,
                   lambda = NULL,
                   x.name = NULL, y.name = NULL,
-                  grid.resample.rtset = rtset.resample("kfold", 5),
+                  grid.resample.params = setup.resample("kfold", 5),
                   gridsearch.type = c("exhaustive", "randomized"),
                   gridsearch.randomized.p = .1,
                   #  weights = NULL,
@@ -88,7 +88,7 @@ s_HAL <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     # ifw = ifw,
     # ifw.type = ifw.type,
@@ -171,7 +171,7 @@ s_HAL <- function(x, y = NULL,
   if (!.gs && do.gs) {
     gs <- gridSearchLearn(x, y,
       mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         lambda = lambda
       ),

@@ -71,7 +71,7 @@ s_RF <- function(x, y = NULL,
                  nodesize = NULL,
                  maxnodes = NULL,
                  mtryStart = mtry,
-                 grid.resample.rtset = rtset.resample("kfold", 5),
+                 grid.resample.params = setup.resample("kfold", 5),
                  metric = NULL,
                  maximize = NULL,
                  classwt = NULL,
@@ -136,7 +136,7 @@ s_RF <- function(x, y = NULL,
   if (proximity.tsne) proximity <- TRUE
 
   # Data  ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     upsample = upsample,
@@ -193,7 +193,7 @@ s_RF <- function(x, y = NULL,
   if (gridCheck(mtry, nodesize, maxnodes, sampsize.ratio)) {
     gs <- gridSearchLearn(x0, y0,
       mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         mtry = mtry,
         nodesize = nodesize,

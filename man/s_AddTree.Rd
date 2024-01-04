@@ -26,7 +26,7 @@ s_AddTree(
   downsample = FALSE,
   resample.seed = NULL,
   imetrics = TRUE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   metric = "Balanced Accuracy",
   maximize = TRUE,
   rpart.params = NULL,
@@ -100,7 +100,7 @@ Default = NULL (random seed)}
 
 \item{imetrics}{Logical: If TRUE, save interpretability metrics, i.e. N total nodes in tree and depth, in output. Default = TRUE}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{metric}{Character: Metric to minimize, or maximize if

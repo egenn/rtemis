@@ -28,18 +28,18 @@
 #' @param train.params Optional named list of parameters to be passed to
 #' `alg`. All parameters can be passed as part of `...` as well
 #' @param .preprocess Optional named list of parameters to be passed to
-#' [preprocess]. Set using [rtset.preprocess],
-#' e.g. `decom = rtset.preprocess(impute = TRUE)`
+#' [preprocess]. Set using [setup.preprocess],
+#' e.g. `decom = setup.preprocess(impute = TRUE)`
 #' @param .decompose Optional named list of parameters to be used for
-#' decomposition / dimensionality reduction. Set using [rtset.decompose],
-#' e.g. `decom = rtset.decompose("ica", 12)`
+#' decomposition / dimensionality reduction. Set using [setup.decompose],
+#' e.g. `decom = setup.decompose("ica", 12)`
 #' @param n.repeats Integer: Number of times to repeat the outer resampling.
 #' This was added for completeness, but in practice we use either k-fold
 #' crossvalidation, e.g. 10-fold, especially in large samples, or a higher number of
 #' stratified subsamples, e.g. 25, for smaller samples
-#' @param outer.resampling List: Output of [rtset.resample] to define outer
+#' @param outer.resampling List: Output of [setup.resample] to define outer
 #' resampling scheme
-#' @param inner.resampling List: Output of [rtset.resample] to define inner
+#' @param inner.resampling List: Output of [setup.resample] to define inner
 #' resampling scheme
 #' @param x.name Character: Name of predictor dataset
 #' @param y.name Character: Name of outcome
@@ -108,11 +108,11 @@ train <- function(x, y = NULL,
                   .decompose = NULL,
                   weights = NULL,
                   n.repeats = 1,
-                  outer.resampling = rtset.resample(
+                  outer.resampling = setup.resample(
                     resampler = "strat.sub",
                     n.resamples = 10
                   ),
-                  inner.resampling = rtset.resample(
+                  inner.resampling = setup.resample(
                     resampler = "kfold",
                     n.resamples = 5
                   ),
@@ -214,7 +214,7 @@ train <- function(x, y = NULL,
   )) {
     train.params <- c(
       train.params,
-      list(grid.resample.rtset = inner.resampling)
+      list(grid.resample.params = inner.resampling)
     )
   }
 
@@ -229,7 +229,7 @@ train <- function(x, y = NULL,
   if (save.rt && is.null(outdir)) outdir <- paste0("./train_", alg)
 
   # Data ----
-  dt <- dataPrepare(x, y, NULL, NULL)
+  dt <- prepare_data(x, y, NULL, NULL)
   x <- dt$x
   y <- dt$y
   xnames <- dt$xnames
@@ -283,7 +283,7 @@ train <- function(x, y = NULL,
     res.run[[i]] <- resLearn(
       x = x, y = y,
       mod = alg,
-      resample.rtset = outer.resampling,
+      resample.params = outer.resampling,
       weights = weights,
       params = train.params,
       .preprocess = .preprocess,

@@ -48,7 +48,7 @@
 #' `randomForest::tuneRF` if `autotune = TRUE`.
 #' For classification only; need not add up to 1
 #' @param inbag.resample List, length `n.tree`: Output of
-#' [rtset.resample] to define resamples used for each
+#' [setup.resample] to define resamples used for each
 #' tree. Default = NULL
 #' @param stratify.on.y Logical: If TRUE, overrides `inbag.resample` to
 #' use stratified bootstraps for each tree.
@@ -84,7 +84,7 @@ s_Ranger <- function(x, y = NULL,
                      mtryStart = NULL,
                      inbag.resample = NULL,
                      stratify.on.y = FALSE,
-                     grid.resample.rtset = rtset.resample("kfold", 5),
+                     grid.resample.params = setup.resample("kfold", 5),
                      gridsearch.type = c("exhaustive", "randomized"),
                      gridsearch.randomized.p = .1,
                      metric = NULL,
@@ -145,7 +145,7 @@ s_Ranger <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -210,7 +210,7 @@ s_Ranger <- function(x, y = NULL,
   if (gridCheck(mtry, min.node.size)) {
     gs <- gridSearchLearn(x0, y0,
       mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         mtry = mtry,
         min.node.size = min.node.size
@@ -286,7 +286,7 @@ s_Ranger <- function(x, y = NULL,
 
   # Ranger ----
   if (stratify.on.y) {
-    inbag.resample <- rtset.resample("strat.boot", n.trees)
+    inbag.resample <- setup.resample("strat.boot", n.trees)
   }
   if (!is.null(inbag.resample)) {
     if (verbose) msg2("Creating custom subsamples...")

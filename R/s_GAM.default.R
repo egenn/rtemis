@@ -74,7 +74,7 @@ s_GAM.default <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,

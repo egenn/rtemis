@@ -68,7 +68,7 @@ s_EVTree <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
                     x.test, y.test,
                     ifw = ifw,
                     ifw.type = ifw.type,

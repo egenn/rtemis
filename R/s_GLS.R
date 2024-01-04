@@ -65,7 +65,7 @@ s_GLS <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test, verbose = verbose)
+  dt <- prepare_data(x, y, x.test, y.test, verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

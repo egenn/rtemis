@@ -29,7 +29,7 @@
 #' @param use.prune.rpart.rt (Testing only, do not change)
 #' @param return.unpruned Logical: If TRUE and `prune.cp` is set, return
 #' unpruned tree under `extra` in `rtMod`.
-#' @param grid.resample.rtset List: Output of [rtset.resample] defining
+#' @param grid.resample.params List: Output of [setup.resample] defining
 #' grid search parameters.
 #' @param gridsearch.type Character: Type of grid search to perform:
 #' "exhaustive" or "randomized".
@@ -84,7 +84,7 @@ s_CART <- function(x, y = NULL,
                    prune.cp = NULL,
                    use.prune.rpart.rt = TRUE,
                    return.unpruned = FALSE,
-                   grid.resample.rtset = rtset.resample("kfold", 5),
+                   grid.resample.params = setup.resample("kfold", 5),
                    gridsearch.type = c("exhaustive", "randomized"),
                    gridsearch.randomized.p = .1,
                    save.gridrun = FALSE,
@@ -136,7 +136,7 @@ s_CART <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -198,7 +198,7 @@ s_CART <- function(x, y = NULL,
     gs <- gridSearchLearn(
       x0, y0,
       mod = mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         maxdepth = maxdepth,
         minsplit = minsplit,

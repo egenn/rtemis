@@ -1,4 +1,4 @@
-# rtset.R
+# setup.R
 # ::rtemis::
 # 2016-8 E.D. Gennatas www.lambdamd.org
 
@@ -18,7 +18,7 @@ NULL
 #' @inheritParams resample
 #' @export
 
-rtset.resample <- function(
+setup.resample <- function(
     resampler = "strat.sub",
     n.resamples = 10,
     stratify.var = NULL,
@@ -37,7 +37,7 @@ rtset.resample <- function(
     id.strat = id.strat,
     seed = seed
   )
-} # rtemis::rtset.resample
+} # rtemis::setup.resample
 
 
 #' Set [resample] parameters for `gridSearchLearn`
@@ -45,7 +45,7 @@ rtset.resample <- function(
 #' @inheritParams resample
 #' @export
 
-rtset.grid.resample <- function(
+setup.grid.resample <- function(
     resampler = "kfold", n.resamples = 5,
     stratify.var = NULL, train.p = .75, strat.n.bins = 4,
     target.length = NULL, verbose = TRUE) {
@@ -58,7 +58,7 @@ rtset.grid.resample <- function(
     target.length = target.length,
     verbose = verbose
   )
-} # rtemis::rtset.grid.resample
+} # rtemis::setup.grid.resample
 
 
 #' Set [resample] parameters for `rtMod` bagging
@@ -66,7 +66,7 @@ rtset.grid.resample <- function(
 #' @inheritParams resample
 #' @export
 
-rtset.bag.resample <- function(
+setup.bag.resample <- function(
     resampler = "strat.sub", n.resamples = 10,
     stratify.var = NULL, train.p = .75, strat.n.bins = 4,
     target.length = NULL, verbose = TRUE) {
@@ -79,7 +79,7 @@ rtset.bag.resample <- function(
     target.length = target.length,
     verbose = verbose
   )
-} # rtemis::rtset.bag.resample
+} # rtemis::setup.bag.resample
 
 
 #' Set [resample] parameters for meta model training
@@ -87,7 +87,7 @@ rtset.bag.resample <- function(
 #' @inheritParams resample
 #' @export
 
-rtset.meta.resample <- function(
+setup.meta.resample <- function(
     resampler = "strat.sub", n.resamples = 4,
     stratify.var = NULL, train.p = .75, strat.n.bins = 4,
     target.length = NULL, verbose = TRUE) {
@@ -100,15 +100,15 @@ rtset.meta.resample <- function(
     target.length = target.length,
     verbose = verbose
   )
-} # rtemis::rtset.meta.resample
+} # rtemis::setup.meta.resample
 
 
-#' `rtset.cv.resample`: [resample] defaults for cross-validation
+#' `setup.cv.resample`: [resample] defaults for cross-validation
 #'
 #' @inheritParams resample
 #' @export
 
-rtset.cv.resample <- function(
+setup.cv.resample <- function(
     resampler = "strat.sub",
     n.resamples = 10,
     stratify.var = NULL,
@@ -127,7 +127,7 @@ rtset.cv.resample <- function(
     id.strat = id.strat,
     verbose = verbose
   )
-} # rtemis::rtset.cv.resample
+} # rtemis::setup.cv.resample
 
 
 # #' rtset
@@ -141,7 +141,7 @@ rtset.cv.resample <- function(
 # }
 
 
-# #' \code{rtset.cluster}: Set up parallel processing using forking (Linux, macOS) or PSOCK cluster (macOS, Linux, Windows)
+# #' \code{setup.cluster}: Set up parallel processing using forking (Linux, macOS) or PSOCK cluster (macOS, Linux, Windows)
 # #' Defaults to type = "fork", which would call \code{mclapply}
 # #' Some functions fail to work correctly with \code{mclapply}, like \code{nnet::multinom}, in those cases
 # #' we use PSOCK cluster
@@ -149,17 +149,17 @@ rtset.cv.resample <- function(
 # #' @param type Character: "fork", "psock"
 # #' @param hosts Vector of strings: For type = "psock": Host names on which to run (macOS, Linux, Windows)
 # #' @param n.cores Integer: Number of cores to use on \code{localhost} for type = "fork" (macOS, Linux only)
-# #' @param ... \code{rtset.cluster}: Additional argument to be passed to \code{parallel::makePSOCKcluster}
+# #' @param ... \code{setup.cluster}: Additional argument to be passed to \code{parallel::makePSOCKcluster}
 # #' @return List with parameters
 # #' @export
 
-# rtset.cluster <- function(type = "fork",
+# setup.cluster <- function(type = "fork",
 #                           hosts = NULL,
 #                           n.cores = rtCores, ...) {
 
 #   c(list(type = type, hosts = hosts, n.cores = n.cores), list(...))
 
-# } # rtemis::rtset.cluster
+# } # rtemis::setup.cluster
 
 
 #' Set [colorGrad] parameters
@@ -169,7 +169,7 @@ rtset.cv.resample <- function(
 #'
 #' @export
 
-rtset.color <- function(
+setup.color <- function(
     n = 101, colors = NULL,
     space = "rgb",
     lo = "#01256E",
@@ -184,7 +184,7 @@ rtset.color <- function(
     lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi,
     colobar = colorbar, cb.mar = cb.mar
   ), list(...))
-} # rtemis::rtset.color
+} # rtemis::setup.color
 
 
 #' Set [preprocess] parameters for [train] `.preprocess` argument
@@ -192,7 +192,7 @@ rtset.color <- function(
 #' @inheritParams preprocess
 #' @export
 
-rtset.preprocess <- function(
+setup.preprocess <- function(
     completeCases = FALSE,
     removeCases.thres = NULL,
     removeFeatures.thres = NULL,
@@ -238,7 +238,7 @@ rtset.preprocess <- function(
     oneHot = oneHot,
     exclude = exclude
   )
-} # rtemis::rtset.preprocess
+} # rtemis::setup.preprocess
 
 
 #' Set decomposition parameters for [train] `.decompose` argument
@@ -249,18 +249,18 @@ rtset.preprocess <- function(
 #'
 #' @export
 
-rtset.decompose <- function(
+setup.decompose <- function(
     decom = "ICA",
     k = 2, ...) {
   c(list(decom = decom, k = k), list(...))
-} # rtemis::rtset.decompose
+} # rtemis::setup.decompose
 
 #' Set [earlystop] parameters
 #'
 #' @inheritParams earlystop
 #' @export
 
-rtset.earlystop <- function(
+setup.earlystop <- function(
     window = 150,
     window_decrease_pct_min = 0.01,
     total_decrease_pct_max = NULL) {
@@ -269,7 +269,7 @@ rtset.earlystop <- function(
     window_decrease_pct_min = window_decrease_pct_min,
     total_decrease_pct_max = total_decrease_pct_max
   )
-} # rtemis::rtset.earlystop
+} # rtemis::setup.earlystop
 
 
 #' Set [s_LIHAD] parameters
@@ -279,9 +279,9 @@ rtset.earlystop <- function(
 #'
 #' @export
 
-rtset.LIHAD <- function(max.depth = 2,
+setup.LIHAD <- function(max.depth = 2,
                         learning.rate = 1,
-                        lincoef.params = rtset.lincoef("glmnet"),
+                        lincoef.params = setup.lincoef("glmnet"),
                         alpha = 0,
                         lambda = .1,
                         minobsinnode = 2,
@@ -298,7 +298,7 @@ rtset.LIHAD <- function(max.depth = 2,
     ),
     list(...)
   )
-} # rtemis::rtset.ADDT
+} # rtemis::setup.ADDT
 
 
 #' Set [s_GBM] parameters
@@ -307,14 +307,14 @@ rtset.LIHAD <- function(max.depth = 2,
 #' @param ... Additional arguments
 #' @export
 
-rtset.GBM <- function(
+setup.GBM <- function(
     interaction.depth = 2,
     shrinkage = .001,
     max.trees = 5000,
     min.trees = 100,
     bag.fraction = .9,
     n.minobsinnode = 5,
-    grid.resample.rtset = rtset.resample("kfold", 5),
+    grid.resample.params = setup.resample("kfold", 5),
     ifw = TRUE,
     upsample = FALSE,
     downsample = FALSE,
@@ -327,7 +327,7 @@ rtset.GBM <- function(
       min.trees = min.trees,
       bag.fraction = bag.fraction,
       n.minobsinnode = n.minobsinnode,
-      grid.resample.rtset = grid.resample.rtset,
+      grid.resample.params = grid.resample.params,
       ifw = ifw,
       upsample = upsample,
       downsample = downsample,
@@ -335,7 +335,7 @@ rtset.GBM <- function(
     ),
     list(...)
   )
-} # rtemis::rtset.GBM
+} # rtemis::setup.GBM
 
 
 #' Set [s_Ranger] parameters
@@ -343,10 +343,10 @@ rtset.GBM <- function(
 #' @inheritParams s_Ranger
 #' @export
 
-rtset.Ranger <- function(n.trees = 1000,
+setup.Ranger <- function(n.trees = 1000,
                          min.node.size = 1,
                          mtry = NULL,
-                         grid.resample.rtset = rtset.resample("kfold", 5),
+                         grid.resample.params = setup.resample("kfold", 5),
                          ifw = TRUE,
                          upsample = FALSE,
                          downsample = FALSE,
@@ -356,7 +356,7 @@ rtset.Ranger <- function(n.trees = 1000,
       n.trees = n.trees,
       min.node.size = min.node.size,
       mtry = mtry,
-      grid.resample.rtset = grid.resample.rtset,
+      grid.resample.params = grid.resample.params,
       ifw = ifw,
       upsample = upsample,
       downsample = downsample,
@@ -364,15 +364,15 @@ rtset.Ranger <- function(n.trees = 1000,
     ),
     list(...)
   )
-} # rtemis::rtset.Ranger
+} # rtemis::setup.Ranger
 
 
-# \code{rtset.MXN}: Set parameters for \link{s_MXN}
+# \code{setup.MXN}: Set parameters for \link{s_MXN}
 #
 # @inheritParams s_MXN
 # @export
 #
-# rtset.MXN <- function(n.hidden.nodes = NULL,
+# setup.MXN <- function(n.hidden.nodes = NULL,
 #                       output = NULL,
 #                       activation = 'relu',
 #                       ctx = mxnet::mx.cpu(),
@@ -414,7 +414,7 @@ rtset.Ranger <- function(n.trees = 1000,
 #        arg.params = arg.params,
 #        mx.seed = mx.seed)
 #
-# } # rtemis::rtset.MXN
+# } # rtemis::setup.MXN
 
 
 #' Set [lincoef] parameters
@@ -422,7 +422,7 @@ rtset.Ranger <- function(n.trees = 1000,
 #' @inheritParams lincoef
 #' @export
 
-rtset.lincoef <- function(
+setup.lincoef <- function(
     method = c(
       "glmnet",
       "cv.glmnet",
@@ -460,7 +460,7 @@ rtset.lincoef <- function(
     sgd.model.control = sgd.model.control,
     sgd.control = sgd.control
   )
-} # rtemis::rtset.lincoef
+} # rtemis::setup.lincoef
 
 
 #' Set [s_MARS] parameters
@@ -468,7 +468,7 @@ rtset.lincoef <- function(
 #' @inheritParams s_MARS
 #' @export
 
-rtset.MARS <- function(
+setup.MARS <- function(
     hidden = 1,
     activation = NULL,
     learning.rate = .8,
@@ -494,7 +494,7 @@ rtset.MARS <- function(
     ),
     list(...)
   )
-} # rtemis::rtset.DN
+} # rtemis::setup.DN
 
 
 #' Set [s_LightRuleFit] parameters
@@ -508,7 +508,7 @@ rtset.MARS <- function(
 #' @author ED Gennatas
 #' @export
 
-rtset.LightRuleFit <- function(
+setup.LightRuleFit <- function(
     n_trees = 200,
     num_leaves = 32L,
     max_depth = 3,

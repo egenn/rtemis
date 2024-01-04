@@ -11,7 +11,7 @@ s_PolyMARS(
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
-  grid.resample.rtset = rtset.grid.resample(),
+  grid.resample.params = setup.grid.resample(),
   weights = NULL,
   ifw = TRUE,
   ifw.type = 2,
@@ -48,7 +48,7 @@ must have set of columns as \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence

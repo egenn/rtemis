@@ -124,7 +124,7 @@ s_H2ODL <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     upsample = upsample,
     downsample = downsample,
@@ -237,7 +237,7 @@ s_H2ODL <- function(x, y = NULL,
     x.name = x.name,
     y.name = y.name,
     xnames = xnames,
-    bag.resample.rtset = NULL,
+    bag.resample.params = NULL,
     fitted.bag = NULL,
     fitted = fitted,
     se.fit.bag = NULL,

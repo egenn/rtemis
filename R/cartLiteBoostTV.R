@@ -89,7 +89,7 @@ cartLiteBoostTV <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     x.valid = x.valid, y.valid = y.valid,
     verbose = verbose
   )

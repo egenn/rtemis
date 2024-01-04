@@ -62,7 +62,7 @@ s_SPLS <- function(x, y = NULL,
                    scale.y = TRUE,
                    maxstep = 100,
                    classifier = c("lda", "logistic"),
-                   grid.resample.rtset = rtset.resample("kfold", 5),
+                   grid.resample.params = setup.resample("kfold", 5),
                    gridsearch.type = c("exhaustive", "randomized"),
                    gridsearch.randomized.p = .1,
                    metric = NULL,
@@ -116,7 +116,7 @@ s_SPLS <- function(x, y = NULL,
   }
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     upsample = upsample,
     downsample = downsample,
@@ -160,7 +160,7 @@ s_SPLS <- function(x, y = NULL,
   if (gridCheck(k, eta, kappa, select, fit, maxstep)) {
     gs <- gridSearchLearn(x, y,
       mod = mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         k = k, eta = eta, kappa = kappa,
         select = select, fit = fit, maxstep = maxstep

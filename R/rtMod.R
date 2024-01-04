@@ -421,7 +421,7 @@ rtMod <- R6::R6Class("rtMod",
 
       # '- Tuning ----
       if (length(self$gridsearch) > 0) {
-        res <- self$gridsearch$resample.rtset
+        res <- self$gridsearch$resample.params
         n.resamples <- res$n.resamples
         resampler <- res$resampler
         resamples <- switch(resampler,
@@ -1146,8 +1146,8 @@ rtModClass <- R6::R6Class("rtModClass",
 #' @docType class
 #' @name rtModBag-class
 #'
-#' @field bag.resample.rtset List of settings for [resample].
-#' Set using [rtset.bag.resample]
+#' @field bag.resample.params List of settings for [resample].
+#' Set using [setup.bag.resample]
 #' @field fitted.bag Base learners' fitted values
 #' @field se.fit.bag Base learners' fitted values' standard error
 #' @field predicted.bag Base learners' predicted values
@@ -1159,7 +1159,7 @@ rtModClass <- R6::R6Class("rtModClass",
 rtModBag <- R6::R6Class("rtModBag",
   inherit = rtMod,
   public = list(
-    bag.resample.rtset = NULL,
+    bag.resample.params = NULL,
     fitted.bag = NULL,
     se.fit.bag = NULL,
     predicted.bag = NULL,
@@ -1175,8 +1175,8 @@ rtModBag <- R6::R6Class("rtModBag",
     #' @param x.name Name of x data
     #' @param y.name Name of y data
     #' @param xnames Character vector: Column names of x
-    #' @param bag.resample.rtset List of settings for [resample].
-    #' Set using [rtset.bag.resample]
+    #' @param bag.resample.params List of settings for [resample].
+    #' Set using [setup.bag.resample]
     #' @param mod Trained model
     #' @param type Character: Type of model (Regression, Classification, Survival)
     #' @param parameters List of training parameters
@@ -1201,7 +1201,7 @@ rtModBag <- R6::R6Class("rtModBag",
                           x.name = character(),
                           y.name = character(),
                           xnames = character(),
-                          bag.resample.rtset = list(),
+                          bag.resample.params = list(),
                           mod = list(),
                           type = character(),
                           parameters = list(),
@@ -1225,7 +1225,7 @@ rtModBag <- R6::R6Class("rtModBag",
       self$x.name <- x.name
       self$y.name <- y.name
       self$xnames <- xnames
-      self$bag.resample.rtset <- bag.resample.rtset
+      self$bag.resample.params <- bag.resample.params
       self$mod <- mod
       self$type <- type
       self$parameters <- parameters
@@ -1256,7 +1256,7 @@ rtModBag <- R6::R6Class("rtModBag",
         ")\n",
         sep = ""
       )
-      .resamples <- switch(self$bag.resample.rtset$resampler,
+      .resamples <- switch(self$bag.resample.params$resampler,
         strat.sub = "stratified subsamples",
         bootstrap = "bootstraps",
         strat.boot = "stratified bootstraps",
@@ -1264,7 +1264,7 @@ rtModBag <- R6::R6Class("rtModBag",
         "custom resamples"
       )
       cat(
-        "Aggregating", self$bag.resample.rtset$n.resamples,
+        "Aggregating", self$bag.resample.params$n.resamples,
         .resamples, "\n"
       )
       boxcat("Training Error")
@@ -1439,7 +1439,7 @@ rtModCV <- R6::R6Class("rtModCV",
     #' @param xnames Character vector: Column names of x
     #' @param parameters List of algorithm hyperparameters
     #' @param resampler List of settings for [resample].
-    #' Set using [rtset.cv.resample]
+    #' Set using [setup.cv.resample]
     #' @param n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
     #' `resampler` this many times.
     #' @param resampler.params List of resampling parameters
@@ -1575,7 +1575,7 @@ rtModCV <- R6::R6Class("rtModCV",
         cat(
           "      Inner resampling:",
           print.resamplertset(
-            self$mod[[1]][[1]]$mod1$gridsearch$resample.rtset,
+            self$mod[[1]][[1]]$mod1$gridsearch$resample.params,
             verbose = FALSE
           ), "\n"
         )
@@ -1799,7 +1799,7 @@ rtModCV <- R6::R6Class("rtModCV",
       # '- Tuning ----
       .gs <- length(self$mod[[1]][[1]]$mod1$gridsearch) > 0
       if (.gs) {
-        res <- self$mod[[1]][[1]]$mod1$gridsearch$resample.rtset
+        res <- self$mod[[1]][[1]]$mod1$gridsearch$resample.params
         n.resamples <- res$n.resamples
         resampler <- res$resampler
         resamples <- switch(resampler,
@@ -1990,7 +1990,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param xnames Character vector: Column names of x
     #' @param parameters List of algorithm hyperparameters
     #' @param resampler List of settings for [resample].
-    #' Set using [rtset.cv.resample]
+    #' Set using [setup.cv.resample]
     #' @param n.repeats Integer: Number of repeats. This is the outermost iterator: i.e. You will run
     #' `resampler` this many times.
     #' @param resampler.params List of resampling parameters
@@ -2251,7 +2251,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
 #' @docType class
 #' @name rtMeta-class
 #' @field grid Grid of algorithm names and resamples IDs
-#' @field base.resample.rtset List of resampling parameters for base learner training
+#' @field base.resample.params List of resampling parameters for base learner training
 #' @field base.mod.names Character vector: names of base learner algorithms
 #' @field base.params Named list of lists with base model parameters
 #' @field base.res.y.test Base resamples' testing set outcomes
@@ -2270,7 +2270,7 @@ rtMeta <- R6::R6Class("rtMeta",
   inherit = rtMod,
   public = list(
     grid = NULL,
-    base.resample.rtset = NULL,
+    base.resample.params = NULL,
     base.mod.names = NULL,
     base.params = NULL,
     base.res.y.test = NULL,
@@ -2293,7 +2293,7 @@ rtMeta <- R6::R6Class("rtMeta",
     #' @param xnames Character vector: Feature names
     #' @param grid Data frame with combinations of algorithm
     #' names and resample IDs
-    #' @param base.resample.rtset List with resampling
+    #' @param base.resample.params List with resampling
     #' parameters for base learners
     #' @param base.mod.names Base learner algorithm names
     #' @param base.params Named list of lists with base model parameters
@@ -2324,7 +2324,7 @@ rtMeta <- R6::R6Class("rtMeta",
                           y.name = character(),
                           xnames = character(),
                           grid = data.frame(),
-                          base.resample.rtset = list(),
+                          base.resample.params = list(),
                           base.mod.names = character(),
                           base.params = list(),
                           base.res.y.test = numeric(),
@@ -2351,7 +2351,7 @@ rtMeta <- R6::R6Class("rtMeta",
       self$y.name <- y.name
       self$xnames <- xnames
       self$grid <- grid
-      self$base.resample.rtset <- base.resample.rtset
+      self$base.resample.params <- base.resample.params
       self$base.mod.names <- base.mod.names
       self$base.params <- base.params
       self$base.res.y.test <- base.res.y.test

@@ -120,7 +120,7 @@ s_RuleFit <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     verbose = verbose
   )
   x <- dt$x

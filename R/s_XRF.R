@@ -76,7 +76,7 @@ s_XRF <- function(x, y = NULL,
                   one_drop = 0,
                   skip_drop = 0,
                   .gs = FALSE,
-                  grid.resample.rtset = rtset.resample("kfold", 5),
+                  grid.resample.params = setup.resample("kfold", 5),
                   gridsearch.type = "exhaustive",
                   metric = NULL,
                   maximize = NULL,
@@ -121,7 +121,7 @@ s_XRF <- function(x, y = NULL,
   booster <- match.arg(booster)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -233,7 +233,7 @@ s_XRF <- function(x, y = NULL,
     gs <- gridSearchLearn(
       x = x0, y = y0,
       mod = mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = grid.params,
       fixed.params = list(
         nrounds = nrounds,

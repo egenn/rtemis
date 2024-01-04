@@ -35,7 +35,7 @@
 #' `resampler = "strat.boot"`.
 #' @param id.strat Vector of IDs which may be replicated: resampling should
 #' force replicates of each ID to only appear in the training or testing.
-#' @param rtset List: Output of an [rtset.resample] (or named list with same
+#' @param rtset List: Output of an [setup.resample] (or named list with same
 #' structure). NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make
 #' output reproducible. See `?base::set.seed`

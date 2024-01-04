@@ -31,7 +31,7 @@ s_LightRF(
   min_data_per_group = 32L,
   linear_tree = FALSE,
   tree_learner = "data_parallel",
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = "exhaustive",
   metric = NULL,
   maximize = NULL,
@@ -121,7 +121,7 @@ group}
 
 \item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

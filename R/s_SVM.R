@@ -37,7 +37,7 @@
 s_SVM <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
-                  grid.resample.rtset = rtset.resample("kfold", 5),
+                  grid.resample.params = setup.resample("kfold", 5),
                   gridsearch.type = c("exhaustive", "randomized"),
                   gridsearch.randomized.p = .1,
                   class.weights = NULL,
@@ -96,7 +96,7 @@ s_SVM <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
                     ifw = ifw,
                     ifw.type = ifw.type,
                     upsample = upsample,
@@ -143,7 +143,7 @@ s_SVM <- function(x, y = NULL,
   if (kernel == "linear") {
     if (gridCheck(cost)) {
       gs <- gridSearchLearn(x0, y0, mod.name,
-                            resample.rtset = grid.resample.rtset,
+                            resample.params = grid.resample.params,
                             grid.params = list(cost = cost),
                             fixed.params = list(kernel = "linear",
                                                 class.weights = class.weights,
@@ -162,7 +162,7 @@ s_SVM <- function(x, y = NULL,
   } else if (kernel == "polynomial") {
     if (gridCheck(cost, degree, gamma, coef0)) {
       gs <- gridSearchLearn(x, y, mod.name,
-                            resample.rtset = grid.resample.rtset,
+                            resample.params = grid.resample.params,
                             grid.params = list(cost = cost, degree = degree, gamma = gamma, coef0 = coef0),
                             fixed.params = list(kernel = "polynomial",
                                                 class.weights = class.weights,
@@ -182,7 +182,7 @@ s_SVM <- function(x, y = NULL,
   } else if (kernel == "sigmoid") {
     if (gridCheck(cost, gamma, coef0)) {
       gs <- gridSearchLearn(x, y, mod.name,
-                            resample.rtset = grid.resample.rtset,
+                            resample.params = grid.resample.params,
                             grid.params = list(cost = cost, gamma = gamma, coef0 = coef0),
                             fixed.params = list(kernel = "sigmoid",
                                                 class.weights = class.weights,
@@ -201,7 +201,7 @@ s_SVM <- function(x, y = NULL,
   } else {
     if (gridCheck(cost, gamma)) {
       gs <- gridSearchLearn(x, y, mod.name,
-                            resample.rtset = grid.resample.rtset,
+                            resample.params = grid.resample.params,
                             grid.params = list(cost = cost, gamma = gamma),
                             fixed.params = list(kernel = "radial",
                                                 class.weights = class.weights,

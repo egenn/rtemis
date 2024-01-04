@@ -94,7 +94,7 @@ s_MLRF <- function(x, y = NULL,
   # verbose <- verbose | !is.null(logFile)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     upsample = upsample,
     downsample = downsample,

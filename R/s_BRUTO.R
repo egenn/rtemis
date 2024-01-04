@@ -17,7 +17,7 @@
 s_BRUTO <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     x.name = NULL, y.name = NULL,
-                    grid.resample.rtset = rtset.grid.resample(),
+                    grid.resample.params = setup.grid.resample(),
                     weights = NULL,
                     weights.col = NULL,
                     dfmax = 6,
@@ -70,7 +70,7 @@ s_BRUTO <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     verbose = verbose
   )
@@ -93,7 +93,7 @@ s_BRUTO <- function(x, y = NULL,
   # Grid Search ----
   if (gridCheck(dfmax, cost, maxit.select, maxit.backfit, thresh)) {
     gs <- gridSearchLearn(x, y, mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         dfmax = dfmax,
         cost = cost,
@@ -144,7 +144,7 @@ s_BRUTO <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(grid.resample.rtset = grid.resample.rtset)
+  extra <- list(grid.resample.params = grid.resample.params)
   rt <- rtModSet(
     rtclass = "rtMod",
     mod = mod,

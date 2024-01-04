@@ -96,7 +96,7 @@ cartLinBoostTV <- function(x, y = NULL,
   if (base.mod[1] == "glm") learner.params <- rev(learner.params)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
                     x.valid = x.valid, y.valid = y.valid,
                     verbose = verbose)
   x <- dt$x

@@ -74,7 +74,7 @@ s_NW <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- prepare_data(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

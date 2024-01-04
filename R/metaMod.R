@@ -34,7 +34,7 @@ metaMod <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     base.mods = c("mars", "ranger"),
                     base.params = vector("list", length(base.mods)),
-                    base.resample.rtset = rtset.resample(
+                    base.resample.params = setup.resample(
                       resampler = "kfold",
                       n.resamples = 4
                     ),
@@ -95,7 +95,7 @@ metaMod <- function(x, y = NULL,
   meta.input <- "retrain"
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     verbose = verbose
   )
   x <- dt$x
@@ -114,7 +114,7 @@ metaMod <- function(x, y = NULL,
   }
 
   # Resamples ----
-  res.part <- resample(y, rtset = base.resample.rtset, verbose = verbose)
+  res.part <- resample(y, rtset = base.resample.params, verbose = verbose)
 
   # {Grid} Function ----
   waffle1 <- function(index, grid,
@@ -152,8 +152,8 @@ metaMod <- function(x, y = NULL,
     )
   }
   if (verbose) {
-    cat("  using ", base.resample.rtset$n.resamples, " internal resamples (",
-      base.resample.rtset$resampler, "),",
+    cat("  using ", base.resample.params$n.resamples, " internal resamples (",
+      base.resample.params$resampler, "),",
       sep = ""
     )
   }
@@ -294,7 +294,7 @@ metaMod <- function(x, y = NULL,
     base.mod.names = base.mod.names,
     base.res.y.test = base.res.y.test,
     base.res.predicted = base.res.predicted,
-    base.resample.rtset = base.resample.rtset,
+    base.resample.params = base.resample.params,
     base.params = base.params,
     base.mods = base.mods,
     base.mods.error.train = base.mods.error.train,

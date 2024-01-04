@@ -58,7 +58,7 @@ s_GLMTree <- function(x, y = NULL,
                       downsample = FALSE,
                       resample.seed = NULL,
                       na.action = na.exclude,
-                      grid.resample.rtset = rtset.resample("kfold", 5),
+                      grid.resample.params = setup.resample("kfold", 5),
                       gridsearch.type = c("exhaustive", "randomized"),
                       gridsearch.randomized.p = .1,
                       metric = NULL,
@@ -104,7 +104,7 @@ s_GLMTree <- function(x, y = NULL,
 
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -159,7 +159,7 @@ s_GLMTree <- function(x, y = NULL,
   if (gridCheck(alpha, maxdepth, minsize, minsplit, minbucket)) {
     gs <- gridSearchLearn(x0, y0,
       mod = mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         alpha = alpha,
         maxdepth = maxdepth,

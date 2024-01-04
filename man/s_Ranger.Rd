@@ -28,7 +28,7 @@ s_Ranger(
   mtryStart = NULL,
   inbag.resample = NULL,
   stratify.on.y = FALSE,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
   metric = NULL,
@@ -119,7 +119,7 @@ features for classification, and a third of n of features for regression.}
 \item{mtryStart}{Integer: If \code{autotune = TRUE}, start at this value for \code{mtry}}
 
 \item{inbag.resample}{List, length \code{n.tree}: Output of
-\link{rtset.resample} to define resamples used for each
+\link{setup.resample} to define resamples used for each
 tree. Default = NULL}
 
 \item{stratify.on.y}{Logical: If TRUE, overrides \code{inbag.resample} to
@@ -127,7 +127,7 @@ use stratified bootstraps for each tree.
 This can help improve test set performance in imbalanced datasets.
 Default = FALSE. Note: Cannot be used with \code{ifw.case.weights}}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

@@ -50,8 +50,8 @@ addtree <- function(x, y,
 
   # Data ----
   y0 <- y
-  # replace dataPrepare
-  dt <- dataPrepare(x, y, NULL, NULL)
+  # replace prepare_data
+  dt <- prepare_data(x, y, NULL, NULL)
   if (dt$type == "Classification") {
     if (length(levels(y)) > 2) stop("Only binary classification supported")
     levels(y) <- c(1, -1)

@@ -38,7 +38,7 @@
 s_PPR <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   x.name = NULL, y.name = NULL,
-                  grid.resample.rtset = rtset.grid.resample(),
+                  grid.resample.params = setup.grid.resample(),
                   gridsearch.type = c("exhaustive", "randomized"),
                   gridsearch.randomized.p = .1,
                   weights = NULL,
@@ -92,7 +92,7 @@ s_PPR <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test)
+  dt <- prepare_data(x, y, x.test, y.test)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -113,7 +113,7 @@ s_PPR <- function(x, y = NULL,
   if (gridCheck(nterms, optlevel, sm.method, bass, span, df, gcvpen)) {
     gs <- gridSearchLearn(x, y,
                           mod.name,
-                          resample.rtset = grid.resample.rtset,
+                          resample.params = grid.resample.params,
                           grid.params = list(nterms = nterms,
                                              optlevel = optlevel,
                                              sm.method = sm.method,

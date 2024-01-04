@@ -13,7 +13,7 @@ s_HAL(
   lambda = NULL,
   x.name = NULL,
   y.name = NULL,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
   upsample = FALSE,
@@ -52,7 +52,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:

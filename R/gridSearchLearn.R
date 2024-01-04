@@ -24,7 +24,7 @@
 #' grid search to use. Exhaustive search will try all combinations of
 #' parameters. Randomized will try a random sample of size
 #' `randomize.p` * `N of total combinations`
-#' @param resample.rtset List: Output of `rtset.grid.resample()`
+#' @param resample.params List: Output of `setup.grid.resample()`
 #' @param randomized.p Float (0, 1): For `search.type == "exhaustive"`,
 #' sample this portion of combination.
 #' @param weights Float, vector: Case weights
@@ -46,7 +46,7 @@ gridSearchLearn <- function(x, y, mod,
                             grid.params,
                             fixed.params = NULL,
                             search.type = c("exhaustive", "randomized"),
-                            resample.rtset = rtset.resample(),
+                            resample.params = setup.resample(),
                             randomized.p = .05,
                             weights = NULL,
                             error.aggregate.fn = mean,
@@ -77,7 +77,7 @@ gridSearchLearn <- function(x, y, mod,
     stop("Input missing")
   }
   search.type <- match.arg(search.type)
-  n.resamples <- resample.rtset$n.resamples
+  n.resamples <- resample.params$n.resamples
   n.cores <- as.numeric(n.cores)[1]
   # if (inherits(future::plan(), "sequential") && n.cores > 1) {
   #     warning(
@@ -127,10 +127,10 @@ gridSearchLearn <- function(x, y, mod,
     param.grid <- param.grid[rep(index.per.resample, n.resamples), ]
   }
   learner <- learnSelect(mod, fn = FALSE)
-  res <- resample(y = y, rtset = resample.rtset, verbose = verbose)
+  res <- resample(y = y, rtset = resample.params, verbose = verbose)
 
-  if (!is.null(resample.rtset$id.colname)) {
-    x <- x[, -(names(x) == resample.rtset$id.colname)]
+  if (!is.null(resample.params$id.colname)) {
+    x <- x[, -(names(x) == resample.params$id.colname)]
   }
 
   # Grid run ----
@@ -436,7 +436,7 @@ gridSearchLearn <- function(x, y, mod,
   gs <- list(
     type = search.type,
     p = randomized.p,
-    resample.rtset = resample.rtset,
+    resample.params = resample.params,
     tune.results = tune.results,
     error.test.all = error.test.all,
     best.tune = best.tune,
@@ -492,16 +492,16 @@ print.gridSearch <- function(x, ...) {
   } else {
     paste0("A randomized grid search (p = ", x$p, ")")
   }
-  resamples <- if (x$resample.rtset$resample == "kfold") {
+  resamples <- if (x$resample.params$resample == "kfold") {
     "independent folds"
-  } else if (x$resample.rtset$resample == "strat.sub") {
+  } else if (x$resample.params$resample == "strat.sub") {
     "stratified subsamples"
-  } else if (x$resample.rtset$resample == "bootstraps") {
+  } else if (x$resample.params$resample == "bootstraps") {
     "bootstraps"
-  } else if (x$resample.rtset$resample == "strat.boot") {
+  } else if (x$resample.params$resample == "strat.boot") {
     "stratified bootstraps"
   }
-  cat(type, " was performed using ", x$resample.rtset$n.resamples, " ",
+  cat(type, " was performed using ", x$resample.params$n.resamples, " ",
     resamples, ".\n",
     sep = ""
   )

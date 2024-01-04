@@ -16,7 +16,7 @@
 #' `force.n.trees`. If set to NULL, can set `max_nrounds` in `lgbm.params`, to perform
 #' cross-validation to determine optimal number of trees.
 #' @param params Training parameters for GBM and LASSO steps, set using
-#' [rtset.LightRuleFit].
+#' [setup.LightRuleFit].
 #' @param lgbm.mod rtMod object created by [s_LightGBM]. If provided, the gradient
 #' boosting step is skipped.
 #' @param empirical_risk Logical: If TRUE, calculate empirical risk
@@ -34,7 +34,7 @@
 
 s_LightRuleFit <- function(x, y = NULL,
                            x.test = NULL, y.test = NULL,
-                           params = rtset.LightRuleFit(),
+                           params = setup.LightRuleFit(),
                            lgbm.mod = NULL,
                            empirical_risk = TRUE,
                            cases_by_rules = NULL,
@@ -78,7 +78,7 @@ s_LightRuleFit <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test, verbose = verbose)
+  dt <- prepare_data(x, y, x.test, y.test, verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test

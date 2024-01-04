@@ -24,7 +24,7 @@
 #' cases. Default = 1, i.e. use all cases
 #' @param learning.rate Float (0, 1] Learning rate for the additive steps
 #' @param earlystop.params List with early stopping parameters.
-#' Set using [rtset.earlystop]
+#' Set using [setup.earlystop]
 #' @param earlystop.using Character: "train" or "valid". For the latter,
 #' requires `x.valid`
 #' @param init Float: Initial value for prediction. Default = mean(y)
@@ -59,7 +59,7 @@ boost <- function(x, y = NULL,
                   case.p = 1,
                   weights = NULL,
                   learning.rate = .1,
-                  earlystop.params = rtset.earlystop(window = 30, window_decrease_pct_min = .01),
+                  earlystop.params = setup.earlystop(window = 30, window_decrease_pct_min = .01),
                   earlystop.using = "train",
                   tolerance = 0,
                   tolerance.valid = .00001,
@@ -106,7 +106,7 @@ boost <- function(x, y = NULL,
   mod.params <- c(mod.params, extra.args)
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     x.valid, y.valid,
     verbose = verbose

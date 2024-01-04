@@ -73,7 +73,7 @@ s_C50 <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- dataPrepare(x, y, x.test, y.test,
+  dt <- prepare_data(x, y, x.test, y.test,
     ifw = ifw, ifw.type = ifw.type,
     upsample = upsample,
     downsample = downsample,

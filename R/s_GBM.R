@@ -13,7 +13,7 @@
 #' needed, until error does not reduce or `max.trees` is reached.
 #' \[gS\] in the argument description indicates that a vector of values can be
 #' passed, in which case grid search will be performed automatically using the
-#' resampling scheme defined by `grid.resample.rtset`.
+#' resampling scheme defined by `grid.resample.params`.
 #'
 #' This function includes a workaround for when `gbm.fit` fails.
 #' If an error is detected, `gbm.fit` is rerun until successful and the
@@ -81,7 +81,7 @@ s_GBM <- function(x, y = NULL,
                   failsafe.trees = 500,
                   imetrics = FALSE,
                   .gs = FALSE,
-                  grid.resample.rtset = rtset.resample("kfold", 5),
+                  grid.resample.params = setup.resample("kfold", 5),
                   gridsearch.type = "exhaustive",
                   metric = NULL,
                   maximize = NULL,
@@ -155,7 +155,7 @@ s_GBM <- function(x, y = NULL,
   }
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -195,7 +195,7 @@ s_GBM <- function(x, y = NULL,
     if (verbose) msg2("Distribution set to", distribution)
   }
 
-  # Keep original inputs (after dataPrepare)
+  # Keep original inputs (after prepare_data)
   .x <- x
   .y <- y
   .x.test <- x.test
@@ -233,7 +233,7 @@ s_GBM <- function(x, y = NULL,
     gs <- gridSearchLearn(
       x = x0, y = y0,
       mod = mod.name,
-      resample.rtset = grid.resample.rtset,
+      resample.params = grid.resample.params,
       grid.params = list(
         interaction.depth = interaction.depth,
         shrinkage = shrinkage,

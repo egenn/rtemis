@@ -11,7 +11,7 @@ s_GLMNET(
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
-  grid.resample.rtset = rtset.resample("kfold", 5),
+  grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = c("exhaustive", "randomized"),
   gridsearch.randomized.p = 0.1,
   intercept = TRUE,
@@ -58,7 +58,7 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{grid.resample.rtset}{List: Output of \link{rtset.resample} defining
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
 grid search parameters.}
 
 \item{gridsearch.type}{Character: Type of grid search to perform:
@@ -153,7 +153,7 @@ Train an elastic net model
 }
 \details{
 \code{s_GLMNET} runs \code{glmnet::cv.glmnet} for each value of alpha, for each resample in
-\code{grid.resample.rtset}.
+\code{grid.resample.params}.
 Mean values for \code{min.lambda} and MSE (Regression) or Accuracy (Classification) are aggregated for each
 alpha and resample combination
 

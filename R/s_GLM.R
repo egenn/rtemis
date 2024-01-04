@@ -134,7 +134,7 @@ s_GLM <- function(x, y = NULL,
   if (trace > 0) verbose <- TRUE
 
   # Data ----
-  dt <- dataPrepare(x, y,
+  dt <- prepare_data(x, y,
     x.test, y.test,
     ifw = ifw,
     ifw.type = ifw.type,
@@ -180,7 +180,7 @@ s_GLM <- function(x, y = NULL,
   }
 
   # Formula ----
-  # do not use data.frame() here; x already data.frame from dataPrepare.
+  # do not use data.frame() here; x already data.frame from prepare_data.
   # If colnames was integers, data.frame() would add 'X' in front of those.
   # For example, splines produces output with integers as colnames.
   df.train <- cbind(x, y = if (mod.name == "LOGISTIC") reverseLevels(y) else y)
