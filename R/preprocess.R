@@ -165,7 +165,7 @@ preprocess <- function(x,
   # Intro ----
   xname <- deparse(substitute(x))
   start_time <- intro(
-    paste0("Preprocessing ", hilite(xname), "..."),
+    # paste0("Preprocessing ", hilite(xname), "..."),
     verbose = verbose
   )
 
