@@ -5,10 +5,10 @@
 \title{Draw calibration plot}
 \usage{
 dplot3_calibration(
-  true_labels,
-  est_prob,
-  n_windows = 10,
-  pos_class_idi = 1,
+  true.labels,
+  est.prob,
+  n.windows = 10,
+  pos.class.idi = 1,
   xlab = "Mean estimated probability",
   ylab = "Empirical risk",
   mode = "markers+lines",
@@ -16,13 +16,13 @@ dplot3_calibration(
 )
 }
 \arguments{
-\item{true_labels}{Factor with true class labels}
+\item{true.labels}{Factor with true class labels}
 
-\item{est_prob}{Numeric vector with predicted probabilities}
+\item{est.prob}{Numeric vector with predicted probabilities}
 
-\item{n_windows}{Integer: Number of windows to split the data into}
+\item{n.windows}{Integer: Number of windows to split the data into}
 
-\item{pos_class_idi}{Integer: Index of the positive class}
+\item{pos.class.idi}{Integer: Index of the positive class}
 
 \item{xlab}{Character: x-axis label}
 
@@ -41,21 +41,21 @@ data(segment_logistic, package = "probably")
 
 # Plot the calibration curve of the original predictions
 dplot3_calibration(
-  true_labels = segment_logistic$Class,
-  est_prob = segment_logistic$.pred_poor,
-  n_windows = 10,
-  pos_class_idi = 2
+  true.labels = segment_logistic$Class,
+  est.prob = segment_logistic$.pred_poor,
+  n.windows = 10,
+  pos.class.idi = 2
 )
 
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
-  true_labels = segment_logistic$Class,
-  est_prob = calibrate(
+  true.labels = segment_logistic$Class,
+  est.prob = calibrate(
     segment_logistic$Class,
     segment_logistic$.pred_poor
   )$fitted.values,
-  n_windows = 10,
-  pos_class_idi = 2
+  n.windows = 10,
+  pos.class.idi = 2
 )
 }
 }

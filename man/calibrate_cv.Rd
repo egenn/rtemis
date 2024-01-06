@@ -13,7 +13,7 @@ calibrate_cv(
 )
 }
 \arguments{
-\item{mod}{List: Model object returned by \link{train_cv}}
+\item{mod}{\code{rtModCV} object returned by \link{train_cv}}
 
 \item{alg}{Character: "gam" or "glm", algorithm to use for calibration}
 
@@ -22,7 +22,8 @@ calibrate_cv(
 \item{which.repeat}{Integer: Which repeat to use for calibration}
 }
 \value{
-List: Calibrated models, calibrated probabilities, and test set metrics
+List: Calibrated models, test-set labels, test set performance metrics,
+estimated probabilities (uncalibrated), calibrated probabilities,
 }
 \description{
 Calibrate cross-validated model trained using \link{train_cv}
