@@ -94,7 +94,7 @@ Get cross-validated random forest performance on the iris dataset:
 
 ```r
 library(rtemis)
-mod <- train(iris)
+mod <- train_cv(iris)
 ```
 
 ## What's new
