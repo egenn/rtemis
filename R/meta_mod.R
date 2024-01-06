@@ -1,4 +1,4 @@
-# metaMod.R
+# meta_mod.R
 # ::rtemis::
 # 2016-9 E.D. Gennatas www.lambdamd.org
 
@@ -6,6 +6,7 @@
 #'
 #' Train a meta model from the output of base learners trained using different learners (algorithms)
 #'
+#' This is included mainly for educational purposes.
 #' \itemize{
 #'   \item Train a set of base learners on resamples of the training set x
 #'   \item Train a meta learner to map bases' validation set predictions to outcomes
@@ -27,10 +28,11 @@
 #' @param resampler String. Resampling method to use. Options: "bootstrap", "kfold", "strat.boot", "strat.sub"
 #' @param se.lty How to plot standard errors. If a number, it corresponds to par("lty") line types and is
 #'   plotted with lines(). If "solid", a transparent polygon is plotted using polygon()
-#' @keywords internal
-#' @noRd
+#' 
+#' @author E.D. Gennatas
+#' @export
 
-metaMod <- function(x, y = NULL,
+meta_mod <- function(x, y = NULL,
                     x.test = NULL, y.test = NULL,
                     base.mods = c("mars", "ranger"),
                     base.params = vector("list", length(base.mods)),
@@ -63,7 +65,7 @@ metaMod <- function(x, y = NULL,
                     outdir = NULL, ...) {
   # Intro ----
   if (missing(x)) {
-    print(args(metaMod))
+    print(args(meta_mod))
     return(invisible(9))
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
@@ -327,4 +329,4 @@ metaMod <- function(x, y = NULL,
 
   outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
   rt
-} # rtemis::metaMod
+} # rtemis::meta_mod
