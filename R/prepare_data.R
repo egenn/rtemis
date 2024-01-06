@@ -107,8 +107,8 @@ prepare_data <- function(x, y = NULL,
   # new: stop if y is not numeric or factor
   if (!(is.numeric(y) || is.factor(y))) {
     stop(
-      "Outcome is class", class(y),
-      "but must be either numeric (for regression) or a factor (for classification)."
+      "Outcome is class ", class(y),
+      " but must be either numeric (for regression) or a factor (for classification)."
     )
   }
 
