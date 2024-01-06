@@ -27,7 +27,7 @@ present(
 )
 }
 \arguments{
-\item{...}{rtModCV objects created with \link{train}}
+\item{...}{rtModCV objects created with \link{train.cv}}
 
 \item{mod.names}{Character: Names of models being plotted.}
 
@@ -75,7 +75,7 @@ is set.}
 }
 \description{
 Plot training and testing performance boxplots of multiple `rtModCV``
-objects created by \link{train} using \link{dplot3_box}
+objects created by \link{train.cv} using \link{dplot3_box}
 }
 \author{
 E.D. Gennatas

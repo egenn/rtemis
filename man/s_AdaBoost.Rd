@@ -100,7 +100,7 @@ Train an Adaboost Classifier using \code{ada::ada}
 \code{ada::ada} does not support case weights
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AddTree}()},

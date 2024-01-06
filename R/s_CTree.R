@@ -12,7 +12,7 @@
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train]
+#' @seealso [train.cv]
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export
@@ -107,7 +107,7 @@ s_CTree <- function(x, y = NULL,
     fitted.prob <- predict(mod, x, type = "prob")
   }
   fitted <- predict(mod, x, type = "response")
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -116,7 +116,7 @@ s_CTree <- function(x, y = NULL,
     predicted.prob <- predict(mod, x.test, type = "prob")
     predicted <- predict(mod, x.test, type = "response")
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

@@ -1,4 +1,4 @@
-# synthMultiModal.R
+# synth_multimodal.R
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
@@ -39,7 +39,7 @@
 #' @export
 #' @return List with elements x, y, index.square, index.atan, index.pair.square
 #' @examples
-#' xmm <- synthMultiModal(
+#' xmm <- synth_multimodal(
 #'   n.cases = 10000,
 #'   init.fn = "runifmat",
 #'   init.fn.params = list(min = -10, max = 10),
@@ -54,7 +54,7 @@
 #'   pair.atan.p = .1,
 #'   seed = 2019
 #' )
-synthMultiModal <- function(n.cases = 10000,
+synth_multimodal <- function(n.cases = 10000,
                             init.fn = "runifmat",
                             init.fn.params = list(min = -10, max = 10),
                             n.groups = 4,
@@ -240,4 +240,4 @@ synthMultiModal <- function(n.cases = 10000,
   }
 
   out
-} # rtemis::synthMultiModal
+} # rtemis::synth_multimodal

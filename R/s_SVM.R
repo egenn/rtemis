@@ -30,7 +30,7 @@
 #' @param ... Additional arguments to be passed to `e1071::svm`
 #' 
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
@@ -245,7 +245,7 @@ s_SVM <- function(x, y = NULL,
   fitted <- predict(mod)
 
   if (type == "Regression") fitted <- as.numeric(fitted)
-  error.train <- modError(y, fitted, fitted.prob)
+  error.train <- mod_error(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -256,7 +256,7 @@ s_SVM <- function(x, y = NULL,
     predicted <- predict(mod, x.test)
     if (!is.null(y.test)) {
       if (type == "Regression") predicted <- as.numeric(predicted)
-      error.test <- modError(y.test, predicted, predicted.prob)
+      error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

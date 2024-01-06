@@ -76,20 +76,20 @@ rtemis.version <- packageVersion("rtemis")
 #' Dynamic graphics are handled using the `dplot3` family.
 #' @section Supervised Learning:
 #' Functions for Regression and Classification begin with `s_*`.
-#' Run [learnSelect] to get a list of available algorithms
+#' Run [select_learn] to get a list of available algorithms
 #' The documentation of each supervised learning function indicates in
 #' brackets, after the title whether the function supports classification,
 #' regression, and survival analysis `[C, R, S]`
 #' @section Clustering:
 #' Functions for Clustering begin with `c_*`.
-#' Run [clustSelect] to get a list of available algorithms
+#' Run [select_clust] to get a list of available algorithms
 #' @section Decomposition:
 #' Functions for Decomposition and Dimensionality reduction begin with
 #' `d_*`.
-#' Run [decomSelect] to get a list of available algorithms
+#' Run [select_decom] to get a list of available algorithms
 #' @section Cross-Decomposition:
 #' Functions for Cross-Decomposition begin with `x_*`.
-#' Run [xdecomSelect] to get a list of available algorithms
+#' Run [xselect_decom] to get a list of available algorithms
 #' @section Meta-Modeling:
 #' Meta models are trained using `meta*` functions.
 #'

@@ -15,7 +15,7 @@
 #' @param ... Additional parameters to be passed to `npreg`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @examples
 #' \dontrun{
@@ -110,7 +110,7 @@ s_NW <- function(x, y = NULL,
   se.fit <- as.numeric(fitted$se.fit)
   fitted <- as.numeric(fitted$fit)
 
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -120,7 +120,7 @@ s_NW <- function(x, y = NULL,
     se.prediction <- predicted$se.fit
     predicted <- predicted <- as.numeric(predicted$fit)
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

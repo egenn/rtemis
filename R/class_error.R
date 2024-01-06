@@ -1,4 +1,4 @@
-# classError.R
+# class_error.R
 # :: rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
@@ -16,7 +16,7 @@
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
 #' 
 #' @author E.D. Gennatas
-#' @return S3 object of type "classError"
+#' @return S3 object of type "class_error"
 #' @export
 #' 
 #' @examples
@@ -25,11 +25,11 @@
 #' estimated <- c("a", "a", "b", "b", "a", "a", "b")
 #' estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
 #'
-#' classError(true, estimated, estimated.prob, auc.method = "pROC")
-#' classError(true, estimated, estimated.prob, auc.method = "ROCR")
-#' classError(true, estimated, estimated.prob, auc.method = "auc_pairs")
+#' class_error(true, estimated, estimated.prob, auc.method = "pROC")
+#' class_error(true, estimated, estimated.prob, auc.method = "ROCR")
+#' class_error(true, estimated, estimated.prob, auc.method = "auc_pairs")
 #' }
-classError <- function(true, 
+class_error <- function(true, 
                        estimated,
                        estimated.prob = NULL,
                        calc.auc = TRUE,
@@ -124,22 +124,22 @@ classError <- function(true,
                   Overall = Overall,
                   Class = Class,
                   Positive.class = Positive.class)
-  class(metrics) <- c("classError", "list")
+  class(metrics) <- c("class_error", "list")
   metrics
   
-} # rtemis::classError
+} # rtemis::class_error
 
 
-#' Print [classError]
+#' Print [class_error]
 #'
-#' @param x Object of type [classError]
+#' @param x Object of type [class_error]
 #' @param decimal.places Integer: Number of decimal places to print
 #' @param ... Not used
 #' 
 #' @author E.D. Gennatas
 #' @export
 
-print.classError <- function(x, decimal.places = 4, ...) {
+print.class_error <- function(x, decimal.places = 4, ...) {
   
   x$Overall$`Log loss` <- NULL
   tblpad <- 17 - max(nchar(colnames(x$ConfusionMatrix)), 9)
@@ -163,7 +163,7 @@ print.classError <- function(x, decimal.places = 4, ...) {
     cat("  Positive Class: ", hilite(x$Positive.class), "\n")
   }
   invisible(x)
-} # rtemis::print.classError
+} # rtemis::print.class_error
 
 
 # f1.R

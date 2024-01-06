@@ -94,7 +94,7 @@ https://support.rstudio.com/hc/en-us/community/posts/203663956/comments/24907372
 \code{bartMachine} does not support case weights
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

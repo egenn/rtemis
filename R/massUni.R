@@ -9,7 +9,7 @@
 #'
 #' @param x Matrix / data frame of features
 #' @param y Matrix / data frame of outcomes
-#' @param mod \pkg{rtemis} algorithm to use. Options: run `learnSelect()`
+#' @param mod \pkg{rtemis} algorithm to use. Options: run `select_learn()`
 #' @param save.mods Logical: If TRUE, save fitted models
 #' @param verbose Logical: If TRUE, print messages during run
 #' @param n.cores Integer: Number of cores to use
@@ -25,7 +25,7 @@ massUni <- function(x, y, mod = "gam",
   start.time <- intro(verbose = verbose)
 
   # Arguments ----
-  learner <- learnSelect(mod)
+  learner <- select_learn(mod)
   args <- list(...)
 
   # Data ----

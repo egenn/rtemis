@@ -113,7 +113,7 @@ mplot3_conf <- function(object,
     .test <- length(object$error.test) > 0
     tbl <- if (.test) object$error.test$ConfusionMatrix else object$error.train$ConfusionMatrix
     if (is.null(mod.name)) mod.name <- object$mod.name
-  } else if (inherits(object, "classError")) {
+  } else if (inherits(object, "class_error")) {
     tbl <- object$ConfusionMatrix
   } else if (inherits(object, "confusionMatrix")) {
     tbl <- object$table

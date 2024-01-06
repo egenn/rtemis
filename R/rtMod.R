@@ -146,7 +146,7 @@ rtMod <- R6::R6Class("rtMod",
     print = function() {
       "show / print method for rtMod"
       objcat("Supervised Model")
-      cat(hilite(self$mod.name), " (", learnSelect(self$mod.name, desc = TRUE),
+      cat(hilite(self$mod.name), " (", select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )
@@ -409,7 +409,7 @@ rtMod <- R6::R6Class("rtMod",
     #' Describe model
     describe = function() {
       type <- self$type
-      algorithm <- learnSelect(self$mod.name, desc = TRUE)
+      algorithm <- select_learn(self$mod.name, desc = TRUE)
       cat(algorithm, " was used for ",
         tolower(type), ".\n",
         sep = ""
@@ -763,9 +763,9 @@ plot.rtMod <- function(x, estimate = NULL,
 #' @param plots Logical: If TRUE, print plots. Default = TRUE
 #' @param cex Float: Character expansion factor
 #' @param fit.true.line \pkg{rtemis} algorithm to use for fitted vs. true line
-#'   Options: `learnSelect()`
+#'   Options: `select_learn()`
 #' @param resid.fit.line \pkg{rtemis} algorithm to use for residuals vs. fitted line.
-#'   Options: `learnSelect()`
+#'   Options: `select_learn()`
 #' @param fit.legend Logical: If TRUE, print fit legend. Default  = TRUE
 #' @param se.fit Logical: If TRUE, plot 2 * standard error bands. Default = TRUE
 #' @param single.fig Logical: If TRUE, draw all plots in a single figure. Default = TRUE
@@ -1252,7 +1252,7 @@ rtModBag <- R6::R6Class("rtModBag",
       "show / print method for rtModBag"
       objcat("Bagged Supervised Model")
       cat(hilite(self$mod.name), " (",
-        learnSelect(self$mod.name, desc = TRUE),
+        select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )
@@ -1552,13 +1552,13 @@ rtModCV <- R6::R6Class("rtModCV",
       "R6 show / print method for rtModCV"
       objcat(paste("Cross-Validated", self$type, "Model"))
       cat(hilite(self$mod.name), " (",
-        learnSelect(self$mod.name, desc = TRUE),
+        select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )
       #  cat(
       #   "             Algorithm: ", self$mod.name, " (",
-      #      learnSelect(self$mod.name, desc = TRUE),
+      #      select_learn(self$mod.name, desc = TRUE),
       #      ")\n", sep = "")
       #  cat("          Outer resampling: n = ",
       #      self$resampler.params$n.resamples,
@@ -1632,7 +1632,7 @@ rtModCV <- R6::R6Class("rtModCV",
         )
       )
       if (self$type == "Classification") {
-        conf <- classError(y.test, predicted)$ConfusionMatrix
+        conf <- class_error(y.test, predicted)$ConfusionMatrix
         mplot3_conf(conf,
           main = main,
           # mar = c(3, 3, 5, 3),
@@ -1684,7 +1684,7 @@ rtModCV <- R6::R6Class("rtModCV",
         )
       )
       if (self$type == "Classification") {
-        conf <- classError(y.train, fitted)$ConfusionMatrix
+        conf <- class_error(y.train, fitted)$ConfusionMatrix
         mplot3_conf(conf,
           main = main,
           # mar = c(3, 3, 5, 3),
@@ -1751,7 +1751,7 @@ rtModCV <- R6::R6Class("rtModCV",
     #' Describe `rtModCV`
     describe = function() {
       type <- self$type
-      algorithm <- learnSelect(self$mod.name, desc = TRUE)
+      algorithm <- select_learn(self$mod.name, desc = TRUE)
       cat(type, " was performed using ", algorithm, ".",
         sep = ""
       )
@@ -1787,12 +1787,12 @@ rtModCV <- R6::R6Class("rtModCV",
       if (!is.null(self$parameters$decompose)) {
         decom <- self$parameters$decompose
         cat(" Input was projected to ", decom$k, " dimensions using ",
-          decomSelect(decom$decom, desc = TRUE), ".",
+          select_decom(decom$decom, desc = TRUE), ".",
           sep = ""
         )
         desc <- paste0(
           desc, " Input was projected to ", decom$k, " dimensions using ",
-          decomSelect(decom$decom, desc = TRUE), "."
+          select_decom(decom$decom, desc = TRUE), "."
         )
       }
 
@@ -2486,7 +2486,7 @@ rtModLite <- R6::R6Class("rtModLite",
     print = function() {
       "show / print method for rtModLite"
       objcat("Lite Supervised Model")
-      cat(self$mod.name, " (", learnSelect(self$mod.name, desc = TRUE),
+      cat(self$mod.name, " (", select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )

@@ -1,4 +1,4 @@
-# xdecomSelect.R
+# xselect_decom.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
@@ -16,7 +16,7 @@
 #' @family Cross-Decomposition
 #' @export
 
-xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
+xselect_decom <- function(xdecom, fn = FALSE, desc = FALSE) {
 
   description <- list(
     "CCA" = "Sparse Canonical Correlation Analysis"
@@ -27,7 +27,7 @@ xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
   description <- data.frame(Name = rownames(description), Description = description)
 
   if (missing(xdecom)) {
-    cat(".:xdecomSelect\nrtemis supports the following cross-decomposition algorithms:\n\n")
+    cat(".:xselect_decom\nrtemis supports the following cross-decomposition algorithms:\n\n")
     print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
@@ -50,4 +50,4 @@ xdecomSelect <- function(xdecom, fn = FALSE, desc = FALSE) {
 
   return(xdecomposer)
 
-} # rtemis::xdecomSelect
+} # rtemis::xselect_decom

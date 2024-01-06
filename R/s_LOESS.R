@@ -15,7 +15,7 @@
 #' @param ... Additional arguments to `loess`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso [train]
+#' @seealso [train.cv]
 #' @export
 
 s_LOESS <- function(x, y = NULL,
@@ -90,7 +90,7 @@ s_LOESS <- function(x, y = NULL,
   fitted <- predict(mod, se = TRUE)
   se.fit <- as.numeric(fitted$se.fit)
   fitted <- as.numeric(fitted$fit)
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -98,7 +98,7 @@ s_LOESS <- function(x, y = NULL,
     predicted <- predict(mod, newdata = x.test, se = TRUE)
     se.prediction <- predicted$se.fit
     predicted <- as.numeric(predicted$fit)
-    error.test <- modError(y.test, predicted)
+    error.test <- mod_error(y.test, predicted)
     if (verbose) errorSummary(error.test, mod.name)
   } else {
     predicted <- se.prediction <- error.test <- NULL

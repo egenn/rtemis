@@ -943,7 +943,7 @@ shyoptree.select.leaves <- function(object,
     verbose = verbose
   )
   # valid.error.l <- plyr::llply(seq(valid.estimate.l), function(j)
-  #   modError(y.valid, valid.estimate.l[[j]]))
+  #   mod_error(y.valid, valid.estimate.l[[j]]))
 
   # TODO: change bacc and mse to arg fn
   if (.class) {

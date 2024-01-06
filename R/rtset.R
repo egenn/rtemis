@@ -187,7 +187,7 @@ setup.color <- function(
 } # rtemis::setup.color
 
 
-#' Set [preprocess] parameters for [train] `.preprocess` argument
+#' Set [preprocess] parameters for [train.cv] `.preprocess` argument
 #'
 #' @inheritParams preprocess
 #' @export
@@ -241,7 +241,7 @@ setup.preprocess <- function(
 } # rtemis::setup.preprocess
 
 
-#' Set decomposition parameters for [train] `.decompose` argument
+#' Set decomposition parameters for [train.cv] `.decompose` argument
 #'
 #' @param decom Character: Name of decomposer to use.
 #' @param k Integer: Number of dimensions to project to.

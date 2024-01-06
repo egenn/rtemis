@@ -96,7 +96,7 @@ s_TLS <- function(x, y = NULL,
   normal <- V[, n + 1]
   error <- abs((M - M.mean) %*% normal)
   ssq <- sum(error^2)
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -104,7 +104,7 @@ s_TLS <- function(x, y = NULL,
   if (!is.null(x.test)) {
     predicted <- c(cbind(as.matrix(x.test), 1) %*% c(a, b))
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

@@ -8,7 +8,7 @@
 #' Train a bagged ensemble using any learner
 #'
 #' @inheritParams s_GLM
-#' @param mod Character: Algorithm to bag, for options, see [learnSelect]
+#' @param mod Character: Algorithm to bag, for options, see [select_learn]
 #' @param k Integer: Number of base learners to train
 #' @param mtry Integer: Number of features to randomly sample for each base learner.
 #' @param mod.params Named list of arguments for `mod`
@@ -136,7 +136,7 @@ bag <- function(x, y = NULL,
 
   # Bag ----
   mod.name <- paste0("Bagged", toupper(mod))
-  mod.desc <- learnSelect(mod, desc = TRUE)
+  mod.desc <- select_learn(mod, desc = TRUE)
 
   if (verbose) parameterSummary(mod, mod.params)
 
@@ -171,7 +171,7 @@ bag <- function(x, y = NULL,
     )
     fitted <- apply(fitted.bag, 1, aggr.fn)
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train)
 
   # Predicted ----
@@ -190,7 +190,7 @@ bag <- function(x, y = NULL,
     }
 
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test)
     }
   }

@@ -9,7 +9,7 @@
 #' `args` and `...` allow you to either pass named arguments, or a list of arguments (or both)
 #'
 #' @inheritParams s_GLM
-#' @param mod Character: Learner to use. To get list of options, run `learnSelect()`
+#' @param mod Character: Learner to use. To get list of options, run `select_learn()`
 #' @param args Optional list of parameters to be passed to learner
 #' @param ... Additional arguments to be passed to learner
 #' @author E.D. Gennatas
@@ -27,11 +27,11 @@ learn <- function(x, y = NULL,
   # [ Intro ] ----
   if (missing(x) || missing(y)) {
     cat("Usage:\n  learn(x, y, 'mod', x.test[optional], y.test[optional], ...)\n\n")
-    return(learnSelect())
+    return(select_learn())
   }
 
   # [ LEARNER ] ----
-  mod <- R.utils::doCall(learnSelect(mod),
+  mod <- R.utils::doCall(select_learn(mod),
                          x = x, y = y,
                          x.test = x.test, y.test = y.test,
                          x.name = x.name, y.name = y.name,

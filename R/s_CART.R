@@ -53,7 +53,7 @@
 #'
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Interpretable models
@@ -306,7 +306,7 @@ s_CART <- function(x, y = NULL,
   }
 
   attr(fitted, "names") <- NULL
-  error.train <- modError(y, fitted, fitted.prob)
+  error.train <- mod_error(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -322,7 +322,7 @@ s_CART <- function(x, y = NULL,
 
     attr(predicted, "names") <- NULL
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted, predicted.prob)
+      error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL

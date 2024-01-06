@@ -8,7 +8,7 @@ options(rt.font = "sans")
 x <- rnormmat(nrow = 100, ncol = 10)
 
 # Tests ----
-clustSelect()
+select_clust()
 
 ## CMeans ----
 test_that("CMeans Clustering succeeds", {

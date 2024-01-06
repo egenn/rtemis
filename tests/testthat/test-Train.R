@@ -13,7 +13,7 @@ iris2$Species <- factor(iris2$Species)
 
 # Test ----
 test_that("train CART Regression succeeds", {
-  mod_r <- train(dat,
+  mod_r <- train_cv(dat,
     alg = "cart",
     outer.resampling = setup.resample(n.resamples = 3)
   )
@@ -21,7 +21,7 @@ test_that("train CART Regression succeeds", {
 })
 
 test_that("train CART Classification succeeds", {
-  mod_c <- train(iris2,
+  mod_c <- train_cv(iris2,
     alg = "cart",
     outer.resampling = setup.resample(n.resamples = 3)
   )
@@ -29,7 +29,7 @@ test_that("train CART Classification succeeds", {
 })
 
 test_that("train Ranger Regression succeeds", {
-  mod_r <- train(dat,
+  mod_r <- train_cv(dat,
     alg = "ranger",
     outer.resampling = setup.resample(n.resamples = 3)
   )
@@ -37,7 +37,7 @@ test_that("train Ranger Regression succeeds", {
 })
 
 test_that("train Ranger Classification succeeds", {
-  mod_c <- train(iris2,
+  mod_c <- train_cv(iris2,
     alg = "ranger",
     outer.resampling = setup.resample(n.resamples = 3)
   )

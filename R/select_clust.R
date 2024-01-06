@@ -1,27 +1,26 @@
-# clustSelect.R
+# select_clust.R
 # ::rtemis::
 # 2016-22 E.D. Gennatas www.lambdamd.org
 
 #' Select \pkg{rtemis} Clusterer
 #'
-#' Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis} 
+#' Accepts clusterer name (supports abbreviations) and returns \pkg{rtemis}
 #' function name or the function itself.
 #' If run with no parameters, prints list of available algorithms.
 #'
-#' @param clust Character: Clustering algorithm name. Case insensitive, supports 
+#' @param clust Character: Clustering algorithm name. Case insensitive, supports
 #' partial matching. e.g. "hop" for HOPACH
 #' @param fn Logical: If TRUE, return function, otherwise name of function.
 #' @param desc Logical: If TRUE, return full name of algorithm `clust`
-#' 
-#' @return Name of function (Default) or function (`fn=TRUE`) or full name 
+#'
+#' @return Name of function (Default) or function (`fn=TRUE`) or full name
 #' of algorithm (`desc=TRUE`)
 #' @author E.D. Gennatas
 #' @export
 
-clustSelect <- function(clust,
-                        fn = FALSE,
-                        desc = FALSE) {
-
+select_clust <- function(clust,
+                         fn = FALSE,
+                         desc = FALSE) {
   description <- list(
     "CMeans" = "Fuzzy C-means Clustering",
     "DBSCAN" = "Density-based spatial clustering of applications with noise",
@@ -40,7 +39,7 @@ clustSelect <- function(clust,
   description <- data.frame(Name = rownames(description), Description = description)
 
   if (missing(clust)) {
-    cat(".:clustSelect\nrtemis supports the following clustering algorithms:\n\n")
+    cat(".:select_clust\nrtemis supports the following clustering algorithms:\n\n")
     print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
@@ -56,5 +55,4 @@ clustSelect <- function(clust,
 
   c_algname <- paste0("c_", name)
   if (fn) getFromNamespace(c_algname, "rtemis") else c_algname
-
-} # rtemis::clustSelect
+} # rtemis::select_clust

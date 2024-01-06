@@ -23,7 +23,7 @@ Input will be used to create a formula of the form:
 Only \code{s_GAM.default} is actively maintained at the moment
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

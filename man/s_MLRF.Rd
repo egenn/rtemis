@@ -118,7 +118,7 @@ See also:
 \href{https://spark.apache.org/docs/latest/api/R/index.html}{Spark MLLib documentation}
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

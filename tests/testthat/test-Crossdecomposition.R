@@ -8,7 +8,7 @@ x <- rnormmat(50, 10)
 z <- rnormmat(50, 10)
 
 # Tests ----
-xdecomSelect()
+xselect_decom()
 
 # '- CCA ----
 test_that("CMEANS Clustering succeeds", {

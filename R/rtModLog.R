@@ -44,7 +44,7 @@ rtModLog <- R6::R6Class("rtModLog",
                           print = function() {
                             "show / print method for rtModLog"
                             boxcat(".:rtemis Supervised Model Log", newline.pre = FALSE)
-                            cat(self$mod.name, " (", learnSelect(self$mod.name, desc = TRUE),
+                            cat(self$mod.name, " (", select_learn(self$mod.name, desc = TRUE),
                                 ")\n", sep = "")
                             boxcat("Training Error")
                             print(self$error.train)
@@ -135,7 +135,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                metric <- vector("character", length(self$mods))
                                names(lst) <- names(metric) <- names(self$mods)
                                for (i in seq(self$mods)) {
-                                 if (inherits(self$mods[[i]]$error.train, "classError")) {
+                                 if (inherits(self$mods[[i]]$error.train, "class_error")) {
                                    metric[i] <- match.arg(class.metric, colnames(self$mods[[i]]$error.train$Overall))
                                    lst[[i]] <- paste0(ddSci(self$mods[[i]]$error.train$Overall[[metric[i]]],
                                                        decimal.places = decimal.places),
@@ -179,7 +179,7 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                colnames(tbl) <- c("Train", "Test")
                                rownames(tbl) <- names(self$mods)
                                for (i in seq(self$mods)) {
-                                 if (inherits(self$mods[[i]]$error.train, "classError")) {
+                                 if (inherits(self$mods[[i]]$error.train, "class_error")) {
                                    metric[i] <- match.arg(class.metric, colnames(self$mods[[i]]$error.train$Overall))
                                    tbl[i, 1] <- self$mods[[i]]$error.train$Overall[[metric[i]]]
                                    tbl[i, 2] <- self$mods[[i]]$error.test$Overall[[metric[i]]]
@@ -218,14 +218,14 @@ rtModLogger <- R6::R6Class("rtModLogger",
                                  if (!is.null(params)) {
                                    out <- cbind(out, params)
                                  }
-                                 if (inherits(i$error.train, "classError")) {
+                                 if (inherits(i$error.train, "class_error")) {
                                    out <- cbind(out, Train = i$error.train$Overall)
                                  } else {
                                    out <- cbind(out, Train = i$error.train)
                                  }
 
                                  if (!is.null(i$error.test)) {
-                                   if (inherits(i$error.test, "classError")) {
+                                   if (inherits(i$error.test, "class_error")) {
                                      out <- cbind(out, Train = i$error.test$Overall)
                                    } else {
                                      out <- cbind(out, Test = i$error.test)

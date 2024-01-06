@@ -50,7 +50,7 @@
 #' @param ... Additional parameters
 #' 
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning
 #' @export
@@ -356,12 +356,12 @@ s_TFN <- function(x, y = NULL,
   # Fitted ----
   if (type == "Regression") {
     fitted <- c(predict(net, x.dm))
-    error.train <- modError(y, fitted, type = type)
+    error.train <- mod_error(y, fitted, type = type)
   } else {
     fitted.prob <- keras::predict_proba(net, x.dm)
     fitted <- factor(c(keras::predict_classes(net, x.dm)))
     levels(fitted) <- levels(y0) # levels are 0, 1, 2 before conversion
-    error.train <- modError(y0, fitted, type = type)
+    error.train <- mod_error(y0, fitted, type = type)
   }
 
   if (verbose) errorSummary(error.train, mod.name)
@@ -377,7 +377,7 @@ s_TFN <- function(x, y = NULL,
       levels(predicted) <- levels(y0)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

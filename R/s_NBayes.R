@@ -80,7 +80,7 @@ s_NBayes <- function(x, y = NULL,
   # Fitted ----
   fitted.prob <- predict(mod, x, type = "raw")
   fitted <- predict(mod, x, type = "class")
-  error.train <- modError(y, fitted,
+  error.train <- mod_error(y, fitted,
     fitted.prob,
     type = "Classification"
   )
@@ -92,7 +92,7 @@ s_NBayes <- function(x, y = NULL,
     predicted.prob <- predict(mod, x, type = "raw")
     predicted <- predict(mod, x.test, type = "class")
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted,
+      error.test <- mod_error(y.test, predicted,
         predicted.prob,
         type = "Classification"
       )

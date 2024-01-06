@@ -23,7 +23,7 @@
 #' splitting at each round. If set to -1, defaults to `sqrt(N_features)` for 
 #' classification and `N_features/3` for regression.
 #' @param nfolds Integer: Number of folds for K-fold CV used by `h2o.randomForest`.
-#' Set to 0 to disable (included for experimentation only, use [train] for outer 
+#' Set to 0 to disable (included for experimentation only, use [train.cv] for outer 
 #' resampling)
 #' @param balance.classes Logical: If TRUE, `h2o.randomForest` will over/undersample
 #' to balance data. (included for experimentation only)
@@ -34,7 +34,7 @@
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export
@@ -170,7 +170,7 @@ s_H2ORF <- function(x, y = NULL,
     fitted <- as.factor(fitted)
     levels(fitted) <- levels(y)
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -183,7 +183,7 @@ s_H2ORF <- function(x, y = NULL,
       levels(predicted) <- levels(y)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

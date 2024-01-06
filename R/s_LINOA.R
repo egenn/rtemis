@@ -321,7 +321,7 @@ s_LINOA <- function(x, y = NULL,
     fitted <- predict.shyoptleaves(mod, x)
     fitted.prob <- NULL
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train)
 
   # Predicted ----
@@ -344,7 +344,7 @@ s_LINOA <- function(x, y = NULL,
     }
 
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test)
     }
   }

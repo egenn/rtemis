@@ -1,4 +1,4 @@
-# modError.R
+# mod_error.R
 # ::rtemis::
 # 2015-8 E.D. Gennatas www.lambdamd.org
 
@@ -19,11 +19,11 @@
 #'   This can be slow for long vectors
 #' @param na.rm Logical: Passed to `mean` and `range` functions.
 #'
-#' @return Object of class `modError`
+#' @return Object of class `mod_error`
 #' @author E.D. Gennatas
 #' @export
 
-modError <- function(true,
+mod_error <- function(true,
                      estimated,
                      estimated.prob = NULL,
                      verbose = FALSE,
@@ -129,14 +129,14 @@ modError <- function(true,
     if (!is.factor(x)) x <- as.factor(x)
     n.classes <- length(levels(x))
     if (n.classes < 2) stop("Classification requires at least two classes")
-    s.out <- classError(x, y, estimated.prob)
+    s.out <- class_error(x, y, estimated.prob)
   } else {
     # Survival ----
-    s.out <- survError(x, y)
+    s.out <- surv_error(x, y)
   }
 
   s.out
-} # rtemis::modError
+} # rtemis::mod_error
 
 
 #' Error functions
@@ -221,14 +221,14 @@ logloss <- function(true, estimated.prob) {
 #'
 #' @param true True labels
 #' @param estimated Estimated labels
-#' @param harmonize Logical: If TRUE, run [factorHarmonize] first
+#' @param harmonize Logical: If TRUE, run [factor_harmonize] first
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @export
 
 sensitivity <- function(true, estimated,
                         harmonize = FALSE,
                         verbose = TRUE) {
-  if (harmonize) estimated <- factorHarmonize(true, estimated, verbose = verbose)
+  if (harmonize) estimated <- factor_harmonize(true, estimated, verbose = verbose)
   pos.index <- true == levels(true)[1]
   condition.pos <- sum(pos.index)
   true.pos <- sum(true[pos.index] == estimated[pos.index])
@@ -242,14 +242,14 @@ sensitivity <- function(true, estimated,
 #'
 #' @param true True labels
 #' @param estimated Estimated labels
-#' @param harmonize Logical: If TRUE, run [factorHarmonize] first
+#' @param harmonize Logical: If TRUE, run [factor_harmonize] first
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @export
 
 specificity <- function(true, estimated,
                         harmonize = FALSE,
                         verbose = TRUE) {
-  if (harmonize) estimated <- factorHarmonize(true, estimated, verbose = verbose)
+  if (harmonize) estimated <- factor_harmonize(true, estimated, verbose = verbose)
   neg.index <- true == levels(true)[2]
   condition.neg <- sum(neg.index)
   true.neg <- sum(true[neg.index] == estimated[neg.index])
@@ -265,7 +265,7 @@ specificity <- function(true, estimated,
 #'
 #' @param true True labels
 #' @param predicted Estimated labels
-#' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factorHarmonize].
+#' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factor_harmonize].
 #' Default = FALSE
 #' @param verbose Logical: If TRUE, print messages to output
 #' @export
@@ -283,7 +283,7 @@ bacc <- function(true, predicted,
 #'
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated labels
-#' @param harmonize Logical: If TRUE, run [factorHarmonize] first
+#' @param harmonize Logical: If TRUE, run [factor_harmonize] first
 #' @param verbose Logical: If TRUE, print messages to output.
 #'
 #' @export
@@ -292,7 +292,7 @@ precision <- function(true, estimated,
                       harmonize = FALSE,
                       verbose = TRUE) {
   if (harmonize) {
-    estimated <- factorHarmonize(true, estimated, verbose = verbose)
+    estimated <- factor_harmonize(true, estimated, verbose = verbose)
   }
   tbl <- table(estimated, true)
   predicted.totals <- rowSums(tbl)[1]
@@ -313,7 +313,7 @@ precision <- function(true, estimated,
 # #' @param allow.rename Logical: If TRUE, allow renaming - not simply reordering - factor levels of input \code{x}
 #' @export
 
-factorHarmonize <- function(reference, x,
+factor_harmonize <- function(reference, x,
                             verbose = TRUE) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
@@ -330,7 +330,7 @@ factorHarmonize <- function(reference, x,
     x <- factor(x, levels = levels(reference))
   }
   x
-} # rtemis::factorHarmonize
+} # rtemis::factor_harmonize
 
 
 # print.regError.R

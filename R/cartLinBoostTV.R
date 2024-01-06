@@ -303,7 +303,7 @@ cartLinBoostTV <- function(x, y = NULL,
   class(obj) <- c("cartLinBoostTV", "list")
 
   # Fitted ----
-  error.train <- modError(y, obj$fitted_tv[seq(train.ncases)])
+  error.train <- mod_error(y, obj$fitted_tv[seq(train.ncases)])
   if (verbose) errorSummary(error.train)
 
   # Predicted ----
@@ -311,7 +311,7 @@ cartLinBoostTV <- function(x, y = NULL,
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test)
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test)
     }
   }
@@ -642,7 +642,7 @@ update.cartLinBoostTV <- function(object,
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
   object$mod$fitted_tv <- object$mod$init + colSums(fitted * object$mod$learning.rate)
   object$fitted <- object$mod$fitted_tv[seq(object$mod$train.ncases)]
-  object$error.train <- modError(object$y.train, object$mod$fitted_tv[seq(object$mod$train.ncases)])
+  object$error.train <- mod_error(object$y.train, object$mod$fitted_tv[seq(object$mod$train.ncases)])
   if (trace > 0) {
     mse.orig <- mse(object$y.train, fitted.orig)
     mse.new <- mse(object$y.train, fitted)

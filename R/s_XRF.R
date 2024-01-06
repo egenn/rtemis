@@ -33,7 +33,7 @@
 #'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export
@@ -350,7 +350,7 @@ s_XRF <- function(x, y = NULL,
     }
   }
 
-  error.train <- modError(y, fitted, fitted.prob)
+  error.train <- mod_error(y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -372,7 +372,7 @@ s_XRF <- function(x, y = NULL,
       }
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted, predicted.prob)
+      error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

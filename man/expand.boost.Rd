@@ -42,7 +42,7 @@ Columns must correspond to columns in \code{x}}
 \item{y.test}{Numeric vector of testing set outcome}
 
 \item{mod}{Character: Algorithm to train base learners, for options, see
-\link{learnSelect}. Default = "cart"}
+\link{select_learn}. Default = "cart"}
 
 \item{resid}{Float, vector, length = length(y): Residuals to work on. Do
 not change unless you know what you're doing. Default = NULL, for regular

@@ -14,7 +14,7 @@
 #' @param x.valid Data.frame; optional: Validation data
 #' @param y.valid Float, vector; optional: Validation outcome
 #' @param mod Character: Algorithm to train base learners, for options, see
-#' [learnSelect]. Default = "cart"
+#' [select_learn]. Default = "cart"
 #' @param resid Float, vector, length = length(y): Residuals to work on. Do
 #' not change unless you know what you're doing. Default = NULL, for regular
 #' boosting
@@ -130,8 +130,8 @@ boost <- function(x, y = NULL,
 
   # Boost ----
   mod <- learner.short <- toupper(mod)
-  learner <- learnSelect(mod)
-  learner.name <- learnSelect(mod, desc = TRUE)
+  learner <- select_learn(mod)
+  learner.name <- select_learn(mod, desc = TRUE)
   learner.short <- toupper(mod)
 
   if (verbose) {
@@ -345,7 +345,7 @@ boost <- function(x, y = NULL,
   class(obj) <- c("boost", "list")
 
   # Fitted ----
-  error.train <- modError(y, obj$fitted)
+  error.train <- mod_error(y, obj$fitted)
   if (verbose) errorSummary(error.train)
 
   # Predicted ----
@@ -353,7 +353,7 @@ boost <- function(x, y = NULL,
   if (!is.null(x.test)) {
     predicted <- predict(obj, x.test)
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test)
     }
   }
@@ -727,8 +727,8 @@ update.rtMod.boost <- function(object,
 
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
   object$fitted <- object$mod$init + matrixStats::colSums2(fitted * object$mod$learning.rate)
-  object$error.train <- modError(object$y.train, object$fitted)
-  # object$mod$error.valid <- modError(object$mod$y.valid, predicted.valid)
+  object$error.train <- mod_error(object$y.train, object$fitted)
+  # object$mod$error.valid <- mod_error(object$mod$y.valid, predicted.valid)
   if (trace > 0) {
     mse.orig <- mse(object$y.train, fitted.orig)
     mse.new <- mse(object$y.train, fitted)

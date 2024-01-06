@@ -40,7 +40,7 @@
 #'   or `MASS::lm.gls` if `gls = TRUE`
 #' @return `rtMod`
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @examples
 #' x <- rnorm(100)
@@ -197,7 +197,7 @@ s_LM <- function(x, y = NULL,
     fitted <- as.numeric(predict(mod, x))
   }
 
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -213,7 +213,7 @@ s_LM <- function(x, y = NULL,
     }
 
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

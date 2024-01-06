@@ -178,7 +178,7 @@ dplot3_xy <- function(x, y = NULL,
   # Cluster ----
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(
-      clustSelect(cluster),
+      select_clust(cluster),
       c(
         list(
           x = data.frame(x, y),
@@ -330,7 +330,7 @@ dplot3_xy <- function(x, y = NULL,
   if (rsq) .rsq <- list() else .rsq <- NULL
   # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
-    learner <- learnSelect(fit, fn = FALSE)
+    learner <- select_learn(fit, fn = FALSE)
     fitted <- list()
     fitted.text <- character()
     for (i in seq_len(n.groups)) {

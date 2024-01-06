@@ -38,7 +38,7 @@
 #' @param ... Additional parameters to pass to `h2o::h2o.deeplearning`
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning
 #' @export
@@ -205,7 +205,7 @@ s_H2ODL <- function(x, y = NULL,
   if (type == "Classification") {
     fitted <- factor(fitted, levels = levels(y))
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -217,7 +217,7 @@ s_H2ODL <- function(x, y = NULL,
       predicted <- factor(predicted, levels = levels(y))
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

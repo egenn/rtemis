@@ -101,7 +101,7 @@ Train an ensemble of Neural Networks to perform Quantile Regression using \code{
 For more details on hyperparameters, see \code{qrnn::qrnn.fit}
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

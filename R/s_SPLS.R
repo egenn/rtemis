@@ -37,7 +37,7 @@
 #'
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @examples
 #' \dontrun{
@@ -223,7 +223,7 @@ s_SPLS <- function(x, y = NULL,
     fitted <- factor(fitted)
     levels(fitted) <- levels(y)
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Coefficients ----
@@ -238,7 +238,7 @@ s_SPLS <- function(x, y = NULL,
       levels(predicted) <- levels(y)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

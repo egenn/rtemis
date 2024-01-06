@@ -52,7 +52,7 @@ Columns must correspond to columns in \code{x}}
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{mod}{Character: Algorithm to bag, for options, see \link{learnSelect}}
+\item{mod}{Character: Algorithm to bag, for options, see \link{select_learn}}
 
 \item{k}{Integer: Number of base learners to train}
 

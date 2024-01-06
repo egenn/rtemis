@@ -7,7 +7,7 @@ options(rt.font = "sans")
 x <- rnormmat(100, 10, seed = 2015)
 
 # Tests ----
-expect_equal(decomSelect(), 9)
+expect_equal(select_decom(), 9)
 
 ## CUR ----
 # test_that("CUR Clustering succeeds", {

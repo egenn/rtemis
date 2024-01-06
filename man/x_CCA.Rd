@@ -97,7 +97,7 @@ using x_CCA.permute (adapted to run in parallel)
 }
 \seealso{
 Other Cross-Decomposition: 
-\code{\link{xdecomSelect}()}
+\code{\link{xselect_decom}()}
 }
 \author{
 E.D. Gennatas

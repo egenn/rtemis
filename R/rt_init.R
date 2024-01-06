@@ -191,7 +191,7 @@ gridSummary <- function(...) {
 
 #' `rtemis-internals`: `errorSummary`
 #'
-#' Print Fit and Validation modError
+#' Print Fit and Validation mod_error
 #'
 #' @keywords internal
 #' @noRd
@@ -199,7 +199,7 @@ errorSummary <- function(error, mod.name = NULL, pre = NULL) {
   id <- deparse(substitute(error))
   if (class(error)[[1]] == "regError") {
     type <- "Regression"
-  } else if (class(error)[[1]] == "survError") {
+  } else if (class(error)[[1]] == "surv_error") {
     type <- "Survival"
   } else {
     type <- "Classification"

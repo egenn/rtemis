@@ -201,14 +201,14 @@ s_AddTree <- function(x, y = NULL,
 
   # Fitted ----
   fitted <- predict(mod, x)
-  error.train <- try(modError(y, fitted))
+  error.train <- try(mod_error(y, fitted))
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
     if (!is.null(y.test)) {
-      error.test <- try(modError(y.test, predicted))
+      error.test <- try(mod_error(y.test, predicted))
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL

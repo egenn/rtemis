@@ -1,4 +1,4 @@
-# decomSelect.R
+# select_decom.R
 # ::rtemis::
 # 2016 E.D. Gennatas www.lambdamd.org
 
@@ -16,7 +16,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
+select_decom <- function(decom, fn = FALSE, desc = FALSE) {
 
   description <- list(
     # "CUR" = "CUR Matrix Approximation",
@@ -38,7 +38,7 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
   description <- data.frame(Name = rownames(description), Description = description)
 
   if (missing(decom)) {
-    cat(".:decomSelect\nrtemis supports the following decomposition algorithms:\n\n")
+    cat(".:select_decom\nrtemis supports the following decomposition algorithms:\n\n")
     print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
@@ -55,4 +55,4 @@ decomSelect <- function(decom, fn = FALSE, desc = FALSE) {
   d_algname <- paste0("d_", name)
   if (fn) getFromNamespace(d_algname, "rtemis") else d_algname
 
-} # rtemis::decomSelect
+} # rtemis::select_decom

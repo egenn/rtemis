@@ -136,7 +136,7 @@ y <- .6 * x + 12 + rnorm(100) / 2
 mod <- s_LM(x, y)
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

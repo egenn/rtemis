@@ -10,7 +10,7 @@
 #' @param ... Additional arguments to be passed to `mda::bruto`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
@@ -130,7 +130,7 @@ s_BRUTO <- function(x, y = NULL,
 
   # Fitted ----
   fitted <- as.numeric(predict(mod))
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -138,7 +138,7 @@ s_BRUTO <- function(x, y = NULL,
   if (!is.null(x.test)) {
     predicted <- as.numeric(predict(mod, x.test))
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

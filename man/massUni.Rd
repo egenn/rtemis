@@ -19,7 +19,7 @@ massUni(
 
 \item{y}{Matrix / data frame of outcomes}
 
-\item{mod}{\pkg{rtemis} algorithm to use. Options: run \code{learnSelect()}}
+\item{mod}{\pkg{rtemis} algorithm to use. Options: run \code{select_learn()}}
 
 \item{save.mods}{Logical: If TRUE, save fitted models}
 

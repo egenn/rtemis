@@ -141,7 +141,7 @@ mod_c2 <- s_SDA(datc2_train, datc2_test)
 }
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

@@ -73,7 +73,7 @@ splitting at each round. If set to -1, defaults to \code{sqrt(N_features)} for
 classification and \code{N_features/3} for regression.}
 
 \item{nfolds}{Integer: Number of folds for K-fold CV used by \code{h2o.randomForest}.
-Set to 0 to disable (included for experimentation only, use \link{train} for outer
+Set to 0 to disable (included for experimentation only, use \link{train.cv} for outer
 resampling)}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
@@ -132,7 +132,7 @@ as well as full model output, if \code{save.mod} is TRUE}
 Trains a Random Forest model using H2O (http://www.h2o.ai)
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

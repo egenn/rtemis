@@ -14,7 +14,7 @@
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
@@ -100,7 +100,7 @@ s_QDA <- function(x, y = NULL,
   fitted <- fitted.raw$class
   fitted.prob <- fitted.raw$posterior
   train.projections <- fitted.raw$x
-  error.train <- modError(y, fitted, type = "Classification")
+  error.train <- mod_error(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -111,7 +111,7 @@ s_QDA <- function(x, y = NULL,
     predicted.prob <- predicted.raw$posterior
     test.projections <- predicted.raw$x
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted, type = "Classification")
+      error.test <- mod_error(y.test, predicted, type = "Classification")
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

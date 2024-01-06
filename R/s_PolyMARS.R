@@ -19,7 +19,7 @@
 #'
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
@@ -147,7 +147,7 @@ s_PolyMARS <- function(x, y = NULL,
     levels(fitted) <- levels(y)
   }
 
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -160,7 +160,7 @@ s_PolyMARS <- function(x, y = NULL,
       levels(predicted) <- levels(y)
     }
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

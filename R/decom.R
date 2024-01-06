@@ -9,7 +9,7 @@
 #' `decom` returns an R6 class object `rtDecom`
 #'
 #' @param x Numeric matrix / data frame: Input data
-#' @param decom Character: Decomposer name. See ]link{decomSelect}.
+#' @param decom Character: Decomposer name. See ]link{select_decom}.
 #' @param verbose Logical: if TRUE, print messages to console
 #' @param ... Additional arguments to be passed to `decom`
 #'
@@ -22,7 +22,7 @@ decom <- function(x,
                   verbose = TRUE, ...) {
   if (missing(x)) {
     cat('Usage:\n  decom(x, "nmf", ...)\n\n')
-    return(decomSelect())
+    return(select_decom())
   }
 
   args <- c(
@@ -33,7 +33,7 @@ decom <- function(x,
     list(...)
   )
 
-  decom <- do.call(decomSelect(decom, fn = TRUE), args)
+  decom <- do.call(select_decom(decom, fn = TRUE), args)
 
   decom
 } # rtemis::decom

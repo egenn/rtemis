@@ -54,7 +54,7 @@
 #' @param ... Additional arguments to be passed to `randomForest::randomForest`
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Ensembles
@@ -298,7 +298,7 @@ s_RF <- function(x, y = NULL,
   }
   attr(fitted, "names") <- NULL
   fitted.prob <- if (type == "Classification") predict(mod, x, "prob") else NULL
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted  ----
@@ -314,7 +314,7 @@ s_RF <- function(x, y = NULL,
     if (type == "Regression") predicted <- as.numeric(predicted)
     predicted.prob <- if (type == "Classification") predict(mod, x.test, "prob") else NULL
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     } else {
       error.test <- NULL

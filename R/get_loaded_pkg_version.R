@@ -1,4 +1,4 @@
-# loadedPackageVersions.R
+# get_loaded_pkg_version.R
 # ::rtemis::
 # E.D. Gennatas www.lambdamd.org
 
@@ -8,7 +8,7 @@
 #' @return Data frame with columns "Package_Name" and "Version"
 #' @export
 
-loadedPackageVersions <- function() {
+get_loaded_pkg_version <- function() {
 
   loaded_ <- loadedNamespaces()
 
@@ -16,4 +16,4 @@ loadedPackageVersions <- function() {
              Version = sapply(loaded_, function(i) as.character(packageVersion(i))),
              row.names = seq(loaded_))
 
-} # rtemis::loadedPackageVersions
+} # rtemis::get_loaded_pkg_version

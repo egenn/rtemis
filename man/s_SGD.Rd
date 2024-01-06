@@ -148,7 +148,7 @@ From \code{sgd::sgd}:
 such that the risk set of an observation i is all data points after it."
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

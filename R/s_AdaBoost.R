@@ -17,7 +17,7 @@
 #'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @family Ensembles
@@ -111,7 +111,7 @@ s_AdaBoost <- function(x,
   fitted.raw <- predict(mod, x, "both")
   fitted.prob <- fitted.raw$probs
   fitted <- factor(levels(y)[as.numeric(fitted.raw$class)], levels = levels(y))
-  error.train <- modError(y, fitted, type = "Classification")
+  error.train <- mod_error(y, fitted, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -121,7 +121,7 @@ s_AdaBoost <- function(x,
     predicted.prob <- predicted.raw$probs
     predicted <- factor(levels(y)[as.numeric(predicted.raw$class)], levels = levels(y))
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted, type = "Classification")
+      error.test <- mod_error(y.test, predicted, type = "Classification")
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

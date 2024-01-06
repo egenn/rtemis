@@ -283,7 +283,7 @@ s_LIHADBoost <- function(x, y = NULL,
   } else {
     fitted <- predict(mod, x, n.iter = n.iter)
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train)
 
   # VALID ----
@@ -295,7 +295,7 @@ s_LIHADBoost <- function(x, y = NULL,
     if (verbose) cat("\n"); msg2("Getting predicted values...")
     predicted <- predict(mod, x.test, n.iter = n.iter)
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test)
     }
   }

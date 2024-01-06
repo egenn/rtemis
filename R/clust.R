@@ -24,11 +24,11 @@ clust <- function(x,
 
   if (missing(x)) {
     cat('Usage:\n  clust(x, "nmf", ...)\n\n')
-    return(clustSelect())
+    return(select_clust())
   }
 
   # Intro ----
-  clusterer <- clustSelect(clust, fn = FALSE)
+  clusterer <- select_clust(clust, fn = FALSE)
 
   # DECOMPOSER ----
   clust <- R.utils::doCall(clusterer,

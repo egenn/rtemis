@@ -215,7 +215,7 @@ mod <- s_LightGBM(dat)
 }
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

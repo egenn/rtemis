@@ -98,7 +98,7 @@ optimizer method (See \code{optim::method} for details),
 initialization values, and activation function.
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

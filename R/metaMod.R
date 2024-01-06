@@ -20,10 +20,10 @@
 #' @param y.test (Optional) Numeric vector of validation set outcomes
 #' @param x.name Character: Name for predictor set. (What kind of data is it?)
 #' @param y.name Character: Name for outcome
-#' @param base.mods Character vector: Two or more base learners. Options: [learnSelect]
+#' @param base.mods Character vector: Two or more base learners. Options: [select_learn]
 #' @param base.params List of length equal to N of `base.mods`. Each element should be a list of arguments to pass
 #'   to the corresponding base mod
-#' @param meta.mod String. Meta learner. Options: [learnSelect]
+#' @param meta.mod String. Meta learner. Options: [select_learn]
 #' @param resampler String. Resampling method to use. Options: "bootstrap", "kfold", "strat.boot", "strat.sub"
 #' @param se.lty How to plot standard errors. If a number, it corresponds to par("lty") line types and is
 #'   plotted with lines(). If "solid", a transparent polygon is plotted using polygon()
@@ -137,7 +137,7 @@ metaMod <- function(x, y = NULL,
       verbose = verbose
     )
     args <- c(args, params)
-    base.mod1 <- do.call(learnSelect(mod.name), args = args)
+    base.mod1 <- do.call(select_learn(mod.name), args = args)
     base.mod1
   }
 
@@ -198,7 +198,7 @@ metaMod <- function(x, y = NULL,
   base.res.error <- lapply(
     seq(base.mod.names),
     function(mod) {
-      modError(
+      mod_error(
         base.res.y.test,
         base.res.predicted[, mod]
       )
@@ -209,7 +209,7 @@ metaMod <- function(x, y = NULL,
   # Meta Learner ----
   if (verbose) msg2("Training", toupper(meta.mod), "meta learner...")
   meta.mod <- do.call(
-    learnSelect(meta.mod.name),
+    select_learn(meta.mod.name),
     c(
       list(
         x = base.res.predicted,
@@ -229,7 +229,7 @@ metaMod <- function(x, y = NULL,
     base.mods <- pbapply::pblapply(seq(base.mod.names),
       function(mod) {
         do.call(
-          learnSelect(base.mod.names[mod]),
+          select_learn(base.mod.names[mod]),
           list(
             x = x, y = y,
             x.test = x.test, y.test = y.test,
@@ -250,7 +250,7 @@ metaMod <- function(x, y = NULL,
     function(mod) c(mod$error.train)
   ))
   fitted <- as.numeric(predict(meta.mod, base.mods.fitted))
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -276,7 +276,7 @@ metaMod <- function(x, y = NULL,
 
     predicted <- as.numeric(meta.predicted)
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, meta.predicted)
+      error.test <- mod_error(y.test, meta.predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

@@ -10,17 +10,17 @@
 #' Input: features (x) and outcome (y)
 #' Procedure: [resample], train learners
 #' Output: trained learners
-#' This is used internally by [train] and for bagging, when the `bag.resampler`
+#' This is used internally by [train.cv] and for bagging, when the `bag.resampler`
 #' argument is set in a learner.
 #' @param x features - training set
 #' @param y outcome - training set
-#' @param mod Character: \pkg{rtemis} model. See `learnSelect` gives available models
+#' @param mod Character: \pkg{rtemis} model. See `select_learn` gives available models
 #' @param resample.params List: output of [rtset] (or a list of same structure)
 #' @param params List of named elements, each is a single value
 #' @param verbose Logical: If TRUE, print messages to screen
 #' @param res.verbose Logical: Will be passed to each `mod`'s `verbose` argument
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
-#' Use with [train] when training a large number of resamples. Default = TRUE
+#' Use with [train.cv] when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
 #' @param n.workers Integer: Number of cores to use.
 #'
@@ -70,7 +70,7 @@ resLearn <- function(x, y, mod,
   }
 
   # Resamples ----
-  learner <- learnSelect(mod)
+  learner <- select_learn(mod)
   res <- resample(y, rtset = resample.params, verbose = trace > 0)
   resampler <- attr(res, "resampler") # for res.group and res.index
   n.workers <- min(n.workers, resample.params$n.resamples)
@@ -178,7 +178,7 @@ resLearn <- function(x, y, mod,
       loocv = "independent folds (LOOCV)",
       "custom resamples"
     )
-    msg20("Training ", learnSelect(mod, desc = TRUE), " on ",
+    msg20("Training ", select_learn(mod, desc = TRUE), " on ",
       length(res), " ", desc, "...",
       newline.pre = FALSE
     )

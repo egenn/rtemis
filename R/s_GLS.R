@@ -111,7 +111,7 @@ s_GLS <- function(x, y = NULL,
 
   # Fitted ----
   fitted <- as.numeric(mod$fitted)
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -119,7 +119,7 @@ s_GLS <- function(x, y = NULL,
   if (!is.null(x.test)) {
     predicted <- predict(mod, x.test)
     if (!is.null(y.test) && length(y.test) > 1) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

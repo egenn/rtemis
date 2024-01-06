@@ -9,7 +9,7 @@ decom(x, decom = "PCA", verbose = TRUE, ...)
 \arguments{
 \item{x}{Numeric matrix / data frame: Input data}
 
-\item{decom}{Character: Decomposer name. See ]link{decomSelect}.}
+\item{decom}{Character: Decomposer name. See ]link{select_decom}.}
 
 \item{verbose}{Logical: if TRUE, print messages to console}
 

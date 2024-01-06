@@ -11,7 +11,7 @@
 #' @param y Numeric vector of list of vectors for y-axis
 #'   If `data` is provided, name of variable, unquoted.
 #' @param fit Character: \pkg{rtemis} model to calculate `y ~ x` fit.
-#' Options: see `learnSelect()`
+#' Options: see `select_learn()`
 #' Can also be Logical, which will give a GAM fit if TRUE. If you specify
 #' "NLA", the activation function should be passed as a string.
 #' @param formula Formula: Provide a formula to be solved using [s_NLS].
@@ -27,7 +27,7 @@
 #' will be plotted as bars around point
 #' @param cluster Character: Clusterer name. Will cluster
 #' `data.frame(x, y)` and pass result to `group`.
-#' Run [clustSelect] for options
+#' Run [select_clust] for options
 #' @param cluster.params List: Names list of parameters to pass to the
 #' `cluster` function
 #' @param data (Optional) data frame, where `x` and `y` are defined
@@ -397,7 +397,7 @@ mplot3_xy <- function(x, y = NULL,
   # Cluster ----
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(
-      clustSelect(cluster),
+      select_clust(cluster),
       c(
         list(
           x = data.frame(x, y),
@@ -579,7 +579,7 @@ mplot3_xy <- function(x, y = NULL,
   if (rsq) rsql <- list() else rsql <- NULL
   if (rsq.pval) rsqpl <- list() else rsqpl <- NULL
   if (!is.null(fit)) {
-    learner <- learnSelect(fit, fn = FALSE)
+    learner <- select_learn(fit, fn = FALSE)
     fitted <- list()
     for (i in seq_len(Nxgroups)) {
       x <- xl[[i]]
@@ -974,10 +974,10 @@ mplot3_xy <- function(x, y = NULL,
   myerror <- NULL
   if (is.logical(fit.error)) {
     if (fit.error) {
-      myerror <- lapply(seq(Nxgroups), function(i) modError(xl[[i]], yl[[i]]))
+      myerror <- lapply(seq(Nxgroups), function(i) mod_error(xl[[i]], yl[[i]]))
     }
   } else {
-    if (class(fit.error)[1] == "modError") myerror <- list(fit.error)
+    if (class(fit.error)[1] == "mod_error") myerror <- list(fit.error)
   }
   if (!is.null(myerror)) {
     if (Nxgroups == 1) {

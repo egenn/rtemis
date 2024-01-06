@@ -1,4 +1,4 @@
-# survError.R
+# surv_error.R
 # ::rtemis::
 # 2021 E.D. Gennatas www.lambdamd.org
 
@@ -10,7 +10,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-survError <- function(true, estimated) {
+surv_error <- function(true, estimated) {
 
   # Dependencies ----
   dependency_check("survival")
@@ -18,22 +18,22 @@ survError <- function(true, estimated) {
   if (!survival::is.Surv(true)) stop("true must be Survival object")
   out <- survival::concordancefit(true, estimated)
   names(out) <- labelify(names(out), capitalize.strings = "n")
-  class(out) <- c("survError", "survConcordance")
+  class(out) <- c("surv_error", "survConcordance")
   out
 
-} # rtemis::survError
+} # rtemis::surv_error
 
 
-#' Print [survError]
+#' Print [surv_error]
 #'
-#' @param x Object of type [survError]
+#' @param x Object of type [surv_error]
 #' @param decimal.places Integer: Number of decimal places to print. Default = 4
 #' @param ... Not used
 #' 
 #' @author E.D. Gennatas
 #' @export
 
-print.survError <- function(x, decimal.places = 4, ...) {
+print.surv_error <- function(x, decimal.places = 4, ...) {
 
   # printdf1(data.frame(N = x$n,
   #                     N_Corcordant = x$stats[1] |> null2na(),
@@ -47,21 +47,21 @@ print.survError <- function(x, decimal.places = 4, ...) {
   cat("           cvar =", ddSci(x$Cvar), "\n")
   cat("   Concordance : ", hilite(x$Concordance), "\n")
   invisible(x)
-} # rtemis::print.survError
+} # rtemis::print.surv_error
 
-# print.survError.R
+# print.surv_error.R
 # ::rtemis::
 # 2017 E.D. Gennatas www.lambdamd.org
 
-#' Print `survError` object
+#' Print `surv_error` object
 #'
-#' `print` `survError` object
+#' `print` `surv_error` object
 #'
-#' @method print survError
-#' @param x `survError` object
+#' @method print surv_error
+#' @param x `surv_error` object
 #' @author E.D. Gennatas
 
-# print.survError <- function(x, ...) {
+# print.surv_error <- function(x, ...) {
 #
 #   obj <- x
 #   cat("    Concordance =", ddSci(obj$concordance), "\n")
@@ -76,4 +76,4 @@ print.survError <- function(x, decimal.places = 4, ...) {
 #   # cat("      Std (c-d) =", ddSci(obj$stats[[5]]), "\n")
 #   cat("\n")
 #
-# } # rtemis::print.survError
+# } # rtemis::print.surv_error

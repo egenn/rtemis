@@ -95,7 +95,7 @@ dplot3_xy(
 \item{y}{Numeric, vector/data.frame/list: y-axis data}
 
 \item{fit}{Character: \pkg{rtemis} model to calculate \code{y ~ x} fit.
-Options: see \code{learnSelect()}
+Options: see \code{select_learn()}
 Can also be Logical, which will give a GAM fit if TRUE. If you specify
 "NLA", the activation function should be passed as a string.}
 
@@ -108,7 +108,7 @@ error of fit. Defaults to 1.96, which corresponds to 95 percent confidence inter
 
 \item{cluster}{Character: Clusterer name. Will cluster
 \code{data.frame(x, y)} and pass result to \code{group}.
-Run \link{clustSelect} for options}
+Run \link{select_clust} for options}
 
 \item{cluster.params}{List: Names list of parameters to pass to the
 \code{cluster} function}

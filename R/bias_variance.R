@@ -61,7 +61,7 @@ bias_variance <- function(x, y, mod,
       params
     )
     p(sprintf("Running resample: %i/%i...", i, resample.params$n.resamples))
-    do.call(learnSelect(mod), args)
+    do.call(select_learn(mod), args)
   })
 
   # predicted: N cases x N resamples

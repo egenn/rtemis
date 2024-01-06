@@ -207,7 +207,7 @@ If an error is detected, \code{gbm.fit} is rerun until successful and the
 procedure continues normally
 }
 \seealso{
-\link{train} for external cross-validation
+\link{train.cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

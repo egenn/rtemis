@@ -16,7 +16,7 @@
 #' @param ... Additional parameters to pass to `survival::survreg`
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Survival Regression
 #' @export
 
@@ -96,7 +96,7 @@ s_PSurv <- function(x, y,
 
   # Fitted ----
   fitted <- predict(mod, newdata = x, type = "response")
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -104,7 +104,7 @@ s_PSurv <- function(x, y,
   if (!is.null(x.test)) {
       predicted <- predict(mod, newdata = x.test, type = "response")
     if (!is.null(y.test)) {
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

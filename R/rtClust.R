@@ -66,7 +66,7 @@ rtClust <- R6::R6Class("rtClust",
     print = function() {
       "show / print method for rtClust"
       objcat("Clustering object")
-      cat(hilite(self$clust.name), " (", clustSelect(self$clust.name, desc = TRUE),
+      cat(hilite(self$clust.name), " (", select_clust(self$clust.name, desc = TRUE),
         ")\n",
         sep = ""
       )

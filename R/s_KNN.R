@@ -18,7 +18,7 @@
 #' @param outdir Optional. Path to directory to save output
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
@@ -100,7 +100,7 @@ s_KNN <- function(x, y = NULL,
   if (type == "Classification") {
     if (is.null(x.test)) {
       fitted <- factor(mod)
-      error.train <- modError(y, fitted)
+      error.train <- mod_error(y, fitted)
       if (verbose) errorSummary(error.train, mod.name)
       predicted <- NULL
       error.test <- NULL
@@ -108,13 +108,13 @@ s_KNN <- function(x, y = NULL,
       fitted <- NULL
       error.train <- NULL
       predicted <- factor(mod)
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   } else {
     if (is.null(x.test)) {
       fitted <- mod$pred
-      error.train <- modError(y, fitted)
+      error.train <- mod_error(y, fitted)
       if (verbose) errorSummary(error.train, mod.name)
       predicted <- NULL
       error.test <- NULL
@@ -122,7 +122,7 @@ s_KNN <- function(x, y = NULL,
       fitted <- NULL
       error.train <- NULL
       predicted <- mod$pred
-      error.test <- modError(y.test, predicted)
+      error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

@@ -1,4 +1,4 @@
-# synthRegData.R
+# synth_reg_data.R
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
@@ -15,7 +15,7 @@
 #' @return List with elements `dat, dat.train, dat.test, resamples, w, seed`
 #' @export
 
-synthRegData <- function(nrow = 500,
+synth_reg_data <- function(nrow = 500,
                          ncol = 50,
                          noise.sd.factor = 1,
                          resample.params = setup.resample(),
@@ -41,4 +41,4 @@ synthRegData <- function(nrow = 500,
     w = w,
     seed = seed
   )
-} # rtemis::synthRegData
+} # rtemis::synth_reg_data

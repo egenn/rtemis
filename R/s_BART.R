@@ -15,7 +15,7 @@
 #' @param ... Additional arguments to be passed to `bartMachine::bartMachine`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso [train] for external cross-validation
+#' @seealso [train.cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export
@@ -137,7 +137,7 @@ s_BART <- function(x, y = NULL,
     fitted.prob <- NULL
     fitted <- as.numeric(predict(mod, x))
   }
-  error.train <- modError(y, fitted)
+  error.train <- mod_error(y, fitted)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -149,7 +149,7 @@ s_BART <- function(x, y = NULL,
       predicted.prob <- NULL
       predicted <- as.numeric(predict(mod, x.test))
     }
-    error.test <- modError(y.test, predicted)
+    error.test <- mod_error(y.test, predicted)
     if (verbose) errorSummary(error.test, mod.name)
   } else {
     predicted <- error.test <- NULL
