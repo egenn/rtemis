@@ -8,12 +8,14 @@
 #' 
 #' This is a work in progress to be potentially incorporated into [train_cv]
 #'
-#' @param mod List: Model object returned by [train_cv]
+#' @param mod `rtModCV` object returned by [train_cv]
 #' @param alg Character: "gam" or "glm", algorithm to use for calibration
 #' @param learn_params List: List of parameters to pass to the learning algorithm
 #' @param which.repeat Integer: Which repeat to use for calibration
 #'
-#' @return List: Calibrated models, calibrated probabilities, and test set metrics
+#' @return List: Calibrated models, test-set labels, test set performance metrics,
+#' estimated probabilities (uncalibrated), calibrated probabilities,
+#' 
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -33,7 +35,7 @@ calibrate_cv <- function(
   learn <- select_learn(alg)
 
   # Split each test set in half: calibration & test
-  if (verbosity > 0) message("Splitting test sets into calibration & test sets")
+  if (verbosity > 0) msg2("Splitting test sets into calibration & test sets...")
   res_cal <- lapply(
     mod$mod[[which.repeat]],
     \(m) resample(m$mod1$y.test, n.resamples = 2, train.p = .5)
@@ -54,7 +56,7 @@ calibrate_cv <- function(
     }
   )
 
-  if (verbosity > 0) message("Training calibration models")
+  if (verbosity > 0) msg2("Training calibration models...")
   mod_cal <- lapply(
     seq_along(mod$mod[[which.repeat]]), \(i) {
       mod1 <- mod$mod[[which.repeat]][[i]]$mod1
@@ -75,7 +77,7 @@ calibrate_cv <- function(
 
   # Get calibrated probabilities ----
   # Predict on test sets
-  if (verbosity > 0) message("Getting calibrated probabilities")
+  if (verbosity > 0) msg2("Getting calibrated probabilities...")
   calibrated_prob <- lapply(
     seq_along(mod_cal), \(i) {
       predict(
@@ -90,7 +92,7 @@ calibrate_cv <- function(
 
   # Get CV performance ----
   # Model performance on test set not used for training or calibration
-  if (verbosity > 0) message("Getting test set performance")
+  if (verbosity > 0) msg2("Calculating test set performance...")
   res_test_error <- lapply(
     seq_along(mod$mod[[which.repeat]]), \(i) {
       mod1 <- mod$mod[[which.repeat]][[i]]$mod1
@@ -105,9 +107,10 @@ calibrate_cv <- function(
   # Output ----
   list(
     mod_cal = mod_cal,
-    calibrated_prob = calibrated_prob,
     y_test = y_testcal,
-    res_test_error = res_test_error
+    res_test_error = res_test_error,
+    estimated_prob = predicted_prob_cal,
+    calibrated_prob = calibrated_prob
   )
 
 } # rtemis::calibrate_cv
