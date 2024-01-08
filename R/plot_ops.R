@@ -2,6 +2,10 @@
 # ::rtemis::
 # 2020 E.D. Gennatas rtemis.lambdamd.org
 
+#' Get estimated text width
+#' 
+#' @keywords internal
+#' @noRd
 # nchar 46 => 19.5
 # nchar 20 => 10
 # lm(c(10, 19.5) ~ c(20, 46))
@@ -15,7 +19,8 @@ textwidth <- function(x) {
 #' @param pct_lower Numeric: Get y this percent below bottom of plot
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd 
 
 ylo <- function(pct_lower = .08) {
   ylo <- par("usr")[3]
@@ -28,7 +33,8 @@ ylo <- function(pct_lower = .08) {
 #' @param pct_higher Numeric: Get y this percent above top of plot
 #'
 #' @author E.D. Gennatas
-#' @export
+#' @keywords internal
+#' @noRd
 
 yhi <- function(pct_higher = .08) {
 
