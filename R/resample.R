@@ -39,7 +39,7 @@
 #' structure). NOTE: Overrides all other arguments. Default = NULL
 #' @param seed Integer: (Optional) Set seed for random number generator, in order to make
 #' output reproducible. See `?base::set.seed`
-#' @param verbose Logical: If TRUE, print messages to console
+#' @param verbosity Logical: If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
 #' @seealso [train.cv]
@@ -66,9 +66,9 @@ resample <- function(y,
                      id.strat = NULL,
                      rtset = NULL,
                      seed = NULL,
-                     verbose = TRUE) {
+                     verbosity = TRUE) {
   # If rtset is provided, it takes precedence over all other arguments,
-  # excluding the verbose arg
+  # excluding the verbosity arg
   if (!is.null(rtset)) {
     resampler <- rtset$resampler
     n.resamples <- rtset$n.resamples
@@ -91,10 +91,10 @@ resample <- function(y,
     # Input ----
     if (NCOL(y) > 1) {
       if (survival::is.Surv(y)) {
-        if (verbose) msg2("Survival object will be stratified on time")
+        if (verbosity > 0) msg2("Survival object will be stratified on time")
         y <- y[, 1]
       } else {
-        if (verbose) msg2("Input contains more than one columns; will stratify on last")
+        if (verbosity > 0) msg2("Input contains more than one columns; will stratify on last")
         y <- y[[NCOL(y)]]
       }
     }
@@ -123,7 +123,7 @@ resample <- function(y,
     if (resampler == "loocv") n.resamples <- length(y)
 
     # Print parameters ----
-    if (verbose) {
+    if (verbosity > 0) {
       if (resampler == "strat.sub") {
         parameterSummary(n.resamples, resampler, stratify.var,
           train.p, strat.n.bins,
@@ -161,7 +161,7 @@ resample <- function(y,
         stratify.var = .stratify.var,
         strat.n.bins = strat.n.bins,
         seed = seed,
-        verbose = verbose
+        verbosity = verbosity
       )
     } else if (resampler == "loocv") {
       ## LOOCV ----
@@ -185,7 +185,7 @@ resample <- function(y,
         stratify.var = .stratify.var,
         strat.n.bins = strat.n.bins,
         seed = seed,
-        verbose = verbose
+        verbosity = verbosity
       )
     }
     if (!is.null(id.strat)) {
@@ -221,7 +221,7 @@ resample <- function(y,
     "custom resamples"
   )
 
-  if (verbose) msg2("Created", n.resamples, desc)
+  if (verbosity > 0) msg2("Created", n.resamples, desc)
 
   # Attributes ----
   class(res.part) <- c("resample", "list")
@@ -284,7 +284,7 @@ print.resample <- function(x, ...) {
 
 #' @export
 
-print1.resample <- function(x, verbose = TRUE, ...) {
+print1.resample <- function(x, verbosity = TRUE, ...) {
   resampler <- attr(x, "resampler")
   if (resampler == "loocv") {
     .text <- "Leave-one-out crossvalidation"
@@ -300,7 +300,7 @@ print1.resample <- function(x, verbose = TRUE, ...) {
     )
   }
 
-  if (verbose) print(.text)
+  if (verbosity > 0) print(.text)
   invisible(.text)
 } # rtemis::print1.resample
 
@@ -339,7 +339,7 @@ kfold <- function(x, k = 10,
                   stratify.var = NULL,
                   strat.n.bins = 4,
                   seed = NULL,
-                  verbose = TRUE) {
+                  verbosity = TRUE) {
   if (!is.null(seed)) set.seed(seed)
 
   if (is.null(stratify.var)) stratify.var <- x
@@ -348,7 +348,7 @@ kfold <- function(x, k = 10,
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
     if (max.bins == 1) stop("Only one unique value present in stratify.var")
-    if (verbose) msg2("Using max n bins possible =", max.bins)
+    if (verbosity > 0) msg2("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
 
@@ -391,13 +391,13 @@ strat.sub <- function(x,
                       stratify.var = NULL,
                       strat.n.bins = 4,
                       seed = NULL,
-                      verbose = TRUE) {
+                      verbosity = TRUE) {
   if (!is.null(seed)) set.seed(seed)
   if (is.null(stratify.var)) stratify.var <- x
   stratify.var <- as.numeric(stratify.var)
   max.bins <- length(unique(stratify.var))
   if (max.bins < strat.n.bins) {
-    if (verbose) msg2("Using max n bins possible =", max.bins)
+    if (verbosity > 0) msg2("Using max n bins possible =", max.bins)
     strat.n.bins <- max.bins
   }
   ids <- seq_along(x)
@@ -429,7 +429,7 @@ strat.boot <- function(x, n.resamples = 10,
                        strat.n.bins = 4,
                        target.length = NULL,
                        seed = NULL,
-                       verbose = TRUE) {
+                       verbosity = TRUE) {
   if (!is.null(seed)) set.seed(seed)
 
   res.part1 <- strat.sub(
@@ -437,7 +437,7 @@ strat.boot <- function(x, n.resamples = 10,
     train.p = train.p,
     stratify.var = stratify.var,
     strat.n.bins = strat.n.bins,
-    verbose = verbose
+    verbosity = verbosity
   )
 
   # Make sure target.length was not too short by accident
@@ -472,7 +472,7 @@ loocv <- function(x) {
 
 #' @export
 
-print.resamplertset <- function(x, verbose = TRUE, ...) {
+print.resamplertset <- function(x, verbosity = TRUE, ...) {
   if (x$resampler == "loocv") {
     .text <- "Leave-one-out crossvalidation"
   } else {
@@ -488,7 +488,7 @@ print.resamplertset <- function(x, verbose = TRUE, ...) {
     invisible(x)
   }
 
-  if (verbose) print(.text)
+  if (verbosity > 0) print(.text)
 
   ## FIXME: I'm pretty sure print() methods should return the
   ## object itself, i.e. invisible(x) /HB 2023-09-29
