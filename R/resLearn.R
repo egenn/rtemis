@@ -71,7 +71,7 @@ resLearn <- function(x, y, mod,
 
   # Resamples ----
   learner <- select_learn(mod)
-  res <- resample(y, rtset = resample.params, verbose = trace > 0)
+  res <- resample(y, rtset = resample.params, verbosity = trace)
   resampler <- attr(res, "resampler") # for res.group and res.index
   n.workers <- min(n.workers, resample.params$n.resamples)
 

@@ -127,7 +127,7 @@ gridSearchLearn <- function(x, y, mod,
     param.grid <- param.grid[rep(index.per.resample, n.resamples), ]
   }
   learner <- select_learn(mod, fn = FALSE)
-  res <- resample(y = y, rtset = resample.params, verbose = verbose)
+  res <- resample(y = y, rtset = resample.params, verbosity = as.integer(verbose))
 
   if (!is.null(resample.params$id.colname)) {
     x <- x[, -(names(x) == resample.params$id.colname)]

@@ -293,7 +293,7 @@ s_Ranger <- function(x, y = NULL,
     # Get integer index of inbag cases
     inbag.res <- resample(df.train$y,
       rtset = inbag.resample,
-      verbose = verbose
+      verbosity = as.integer(verbose)
     )
     # Convert to counts for each case
     inbag <- lapply(

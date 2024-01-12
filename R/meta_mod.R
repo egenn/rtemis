@@ -116,7 +116,7 @@ meta_mod <- function(x, y = NULL,
   }
 
   # Resamples ----
-  res.part <- resample(y, rtset = base.resample.params, verbose = verbose)
+  res.part <- resample(y, rtset = base.resample.params, verbosity = as.integer(verbose))
 
   # {Grid} Function ----
   waffle1 <- function(index, grid,
