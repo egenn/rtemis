@@ -463,8 +463,8 @@ rtMod <- R6::R6Class("rtMod",
           printls(searched)
         }
         cat(metric, "was", ifelse(self$gridsearch$maximize,
-          "maximized", "minimized"
-        ), "with:\n")
+            "maximized", "minimized"
+            ), "with:\n")
         printls(self$gridsearch$best.tune)
       }
 
@@ -681,8 +681,8 @@ predict.rtMod <- function(object,
     } else if (object$mod.name == "H2ODL") {
       newdata <- h2o::as.h2o(newdata, "newdata")
       estimated <- c(as.matrix(predict(object$mod, newdata)))
-    # } else if (object$mod.name == "DN") {
-    #   estimated <- deepnet::nn.predict(object$mod, x = newdata)
+      # } else if (object$mod.name == "DN") {
+      #   estimated <- deepnet::nn.predict(object$mod, x = newdata)
     } else if (object$mod.name == "MLRF") {
       spark.master <- extraArgs$spark.master
       if (is.null(spark.master)) {
@@ -883,7 +883,7 @@ summary.rtMod <- function(object,
       }
       if (is.null(title.col)) {
         title.col <- ifelse(theme == "box" |
-          theme == "light", "black", "white")
+                            theme == "light", "black", "white")
       }
       mtext(paste(object$mod.name, "diagnostic plots"),
         outer = TRUE,
@@ -1296,7 +1296,7 @@ NULL
 #' @param n.cores Integer: Number of cores to use
 #' @param verbose Logical: If TRUE, print messages to console.
 #' @param ... Not used
-#' 
+#'
 #' @rdname rtModBag-methods
 #' @export
 predict.rtModBag <- function(object,
@@ -1385,7 +1385,8 @@ predict.rtModBag <- function(object,
 #'
 #' @keywords internal
 #' @noRd
-rtModCV <- R6::R6Class("rtModCV",
+rtModCV <- R6::R6Class(
+  classname = "rtModCV",
   public = list(
     ### Attributes
     mod = NULL,
@@ -2263,7 +2264,7 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
 #' @field meta.params List of meta model parameters
 #' @field meta.mod Meta model
 #' @field sessionInfo R session info at training time
-#' 
+#'
 #' @keywords internal
 #' @noRd
 rtMeta <- R6::R6Class("rtMeta",
@@ -2380,8 +2381,7 @@ rtMeta <- R6::R6Class("rtMeta",
     print = function() {
       "R6 show / print method for rtMeta"
       objcat("Meta Model")
-      cat("   Base: ", hilite(paste(self$base.mod.names, collapse = ", "
-      )), "\n")
+      cat("   Base: ", hilite(paste(self$base.mod.names, collapse = ", ")), "\n")
       cat("   Meta: ", hilite(self$meta.mod.name), "\n")
       boxcat("Training Error")
       print(self$error.train)
