@@ -12,7 +12,7 @@ setup.cv.resample(
   strat.n.bins = 4,
   target.length = NULL,
   id.strat = NULL,
-  verbose = TRUE
+  verbosity = 1
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ setup.cv.resample(
 \item{id.strat}{Vector of IDs which may be replicated: resampling should
 force replicates of each ID to only appear in the training or testing.}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Logical: If TRUE, print messages to console}
 }
 \description{
 \code{setup.cv.resample}: \link{resample} defaults for cross-validation

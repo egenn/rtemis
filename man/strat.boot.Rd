@@ -12,7 +12,7 @@ strat.boot(
   strat.n.bins = 4,
   target.length = NULL,
   seed = NULL,
-  verbose = TRUE
+  verbosity = TRUE
 )
 }
 \arguments{
@@ -34,7 +34,7 @@ strat.boot(
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
 output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Logical: If TRUE, print messages to console}
 }
 \description{
 Stratified Bootstrap Resampling

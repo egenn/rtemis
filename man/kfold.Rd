@@ -10,7 +10,7 @@ kfold(
   stratify.var = NULL,
   strat.n.bins = 4,
   seed = NULL,
-  verbose = TRUE
+  verbosity = TRUE
 )
 }
 \arguments{
@@ -26,7 +26,7 @@ kfold(
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
 output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Logical: If TRUE, print messages to console}
 }
 \description{
 K-fold Resampling

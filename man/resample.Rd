@@ -17,7 +17,7 @@ resample(
   id.strat = NULL,
   rtset = NULL,
   seed = NULL,
-  verbose = TRUE
+  verbosity = TRUE
 )
 }
 \arguments{
@@ -55,7 +55,7 @@ structure). NOTE: Overrides all other arguments. Default = NULL}
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
 output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Logical: If TRUE, print messages to console}
 }
 \description{
 Create resamples of your data, e.g. for model building or validation.

@@ -9,6 +9,7 @@ calibrate_cv(
   alg = "gam",
   learn_params = list(),
   which.repeat = 1,
+  seed = NULL,
   verbosity = 1
 )
 }
@@ -20,6 +21,10 @@ calibrate_cv(
 \item{learn_params}{List: List of parameters to pass to the learning algorithm}
 
 \item{which.repeat}{Integer: Which repeat to use for calibration}
+
+\item{seed}{Integer: seed for the resampling}
+
+\item{verbosity}{Integer: 0: silent, > 0: print messages}
 }
 \value{
 List: Calibrated models, test-set labels, test set performance metrics,

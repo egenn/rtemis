@@ -11,7 +11,7 @@ setup.bag.resample(
   train.p = 0.75,
   strat.n.bins = 4,
   target.length = NULL,
-  verbose = TRUE
+  verbosity = 1
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ setup.bag.resample(
 \item{target.length}{Integer: Number of cases for training set for
 \code{resampler = "strat.boot"}.}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Logical: If TRUE, print messages to console}
 }
 \description{
 Set \link{resample} parameters for \code{rtMod} bagging

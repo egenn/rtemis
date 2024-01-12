@@ -11,7 +11,7 @@ strat.sub(
   stratify.var = NULL,
   strat.n.bins = 4,
   seed = NULL,
-  verbose = TRUE
+  verbosity = TRUE
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ strat.sub(
 \item{seed}{Integer: (Optional) Set seed for random number generator, in order to make
 output reproducible. See \code{?base::set.seed}}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Logical: If TRUE, print messages to console}
 }
 \description{
 Resample using Stratified Subsamples

@@ -48,7 +48,7 @@ setup.resample <- function(
 setup.grid.resample <- function(
     resampler = "kfold", n.resamples = 5,
     stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-    target.length = NULL, verbose = TRUE) {
+    target.length = NULL, verbosity = 1) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -56,7 +56,7 @@ setup.grid.resample <- function(
     train.p = train.p,
     strat.n.bins = strat.n.bins,
     target.length = target.length,
-    verbose = verbose
+    verbosity = verbosity
   )
 } # rtemis::setup.grid.resample
 
@@ -69,7 +69,7 @@ setup.grid.resample <- function(
 setup.bag.resample <- function(
     resampler = "strat.sub", n.resamples = 10,
     stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-    target.length = NULL, verbose = TRUE) {
+    target.length = NULL, verbosity = 1) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -77,7 +77,7 @@ setup.bag.resample <- function(
     train.p = train.p,
     strat.n.bins = strat.n.bins,
     target.length = target.length,
-    verbose = verbose
+    verbosity = verbosity
   )
 } # rtemis::setup.bag.resample
 
@@ -90,7 +90,7 @@ setup.bag.resample <- function(
 setup.meta.resample <- function(
     resampler = "strat.sub", n.resamples = 4,
     stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-    target.length = NULL, verbose = TRUE) {
+    target.length = NULL, verbosity = TRUE) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -98,7 +98,7 @@ setup.meta.resample <- function(
     train.p = train.p,
     strat.n.bins = strat.n.bins,
     target.length = target.length,
-    verbose = verbose
+    verbosity = verbosity
   )
 } # rtemis::setup.meta.resample
 
@@ -116,7 +116,7 @@ setup.cv.resample <- function(
     strat.n.bins = 4,
     target.length = NULL,
     id.strat = NULL,
-    verbose = TRUE) {
+    verbosity = 1) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -125,7 +125,7 @@ setup.cv.resample <- function(
     strat.n.bins = strat.n.bins,
     target.length = target.length,
     id.strat = id.strat,
-    verbose = verbose
+    verbosity = verbosity
   )
 } # rtemis::setup.cv.resample
 
