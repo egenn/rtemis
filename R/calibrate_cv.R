@@ -10,7 +10,7 @@
 #'
 #' @param mod `rtModCV` object returned by [train_cv]
 #' @param alg Character: "gam" or "glm", algorithm to use for calibration
-#' @param learn_params List: List of parameters to pass to the learning algorithm
+#' @param learn.params List: List of parameters to pass to the learning algorithm
 #' @param which.repeat Integer: Which repeat to use for calibration
 #' @param seed Integer: seed for the resampling
 #' @param verbosity Integer: 0: silent, > 0: print messages
@@ -25,7 +25,7 @@
 calibrate_cv <- function(
     mod,
     alg = "gam",
-    learn_params = list(),
+    learn.params = list(),
     which.repeat = 1,
     seed = NULL,
     verbosity = 1) {
@@ -37,17 +37,17 @@ calibrate_cv <- function(
   learn <- if (alg == "isoreg") "isotone::isotonic.regression" else select_learn(alg)
 
   # If IFW is set, check that it is not set to TRUE
-  if ("ifw" %in% names(learn_params)) {
-    if (learn_params$ifw == TRUE) {
+  if ("ifw" %in% names(learn.params)) {
+    if (learn.params$ifw == TRUE) {
       stop(
         "\nIFW must be set to FALSE for proper calibration.\n",
-        "You do not need to set it at all in learn_params in this call:",
+        "You do not need to set it at all in learn.params in this call:",
         " it will be set to FALSE internally.\n",
         "This message is to ensure you are aware of this."
       )
     }
   } else {
-    learn_params$ifw <- FALSE
+    learn.params$ifw <- FALSE
   }
 
   # Split each test set in half: calibration & test
@@ -105,13 +105,11 @@ calibrate_cv <- function(
         args = c(
           list(
             x = data.frame(
-              # prob = mod1$predicted.prob[res_cal[[i]][[1]]],
-              # labels = mod1$y.test[res_cal[[i]][[1]]]
               prob = predicted_prob_cal[[i]],
               labels = y_test_cal[[i]]
             )
           ),
-          learn_params
+          learn.params
         )
       )
     }

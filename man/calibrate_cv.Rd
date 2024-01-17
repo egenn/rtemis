@@ -7,7 +7,7 @@
 calibrate_cv(
   mod,
   alg = "gam",
-  learn_params = list(),
+  learn.params = list(),
   which.repeat = 1,
   seed = NULL,
   verbosity = 1
@@ -18,7 +18,7 @@ calibrate_cv(
 
 \item{alg}{Character: "gam" or "glm", algorithm to use for calibration}
 
-\item{learn_params}{List: List of parameters to pass to the learning algorithm}
+\item{learn.params}{List: List of parameters to pass to the learning algorithm}
 
 \item{which.repeat}{Integer: Which repeat to use for calibration}
 
