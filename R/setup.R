@@ -520,10 +520,12 @@ setup.LightRuleFit <- function(
     objective = NULL,
     extra.lgbm.params = NULL,
     lightgbm.ifw = TRUE,
+    lightgbm.resample.params = setup.resample("kfold", 5),
     glmnet.ifw = TRUE,
     importance = FALSE,
     alpha = 1,
-    lambda = NULL) {
+    lambda = NULL,
+    glmnet.resample.params = setup.resample("kfold", 5)) {
   list(
     lgbm.params = c(
       list(
@@ -536,7 +538,8 @@ setup.LightRuleFit <- function(
         lambda_l1 = lambda_l1,
         lambda_l2 = lambda_l2,
         objective = objective,
-        ifw = lightgbm.ifw
+        ifw = lightgbm.ifw,
+        grid.resample.params = lightgbm.resample.params
       ),
       extra.lgbm.params
     ),
@@ -544,7 +547,8 @@ setup.LightRuleFit <- function(
       ifw = glmnet.ifw,
       importance = importance,
       alpha = alpha,
-      lambda = lambda
+      lambda = lambda,
+      grid.resample.params = glmnet.resample.params
     )
   )
 } # rtemis::rteset.LightRuleFit

@@ -16,10 +16,12 @@ setup.LightRuleFit(
   objective = NULL,
   extra.lgbm.params = NULL,
   lightgbm.ifw = TRUE,
+  lightgbm.resample.params = setup.resample("kfold", 5),
   glmnet.ifw = TRUE,
   importance = FALSE,
   alpha = 1,
-  lambda = NULL
+  lambda = NULL,
+  glmnet.resample.params = setup.resample("kfold", 5)
 )
 }
 \arguments{
