@@ -12,7 +12,7 @@
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train.cv]
+#' @seealso [train_cv]
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

@@ -5,10 +5,10 @@
 #' Present elevate models
 #'
 #' Plot training and testing performance boxplots of multiple `rtModCV``
-#' objects created by [train.cv] using [dplot3_box]
+#' objects created by [train_cv] using [dplot3_box]
 #'
 #' @inheritParams dplot3_box
-#' @param ... rtModCV objects created with [train.cv]
+#' @param ... rtModCV objects created with [train_cv]
 #' @param mod.names Character: Names of models being plotted.
 #' @param which.repeat Integer: which `rtModCV` repeat to plot.
 #' @param metric Character: which metric to plot.

@@ -17,7 +17,7 @@
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train.cv] for external cross-validation
+#' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 

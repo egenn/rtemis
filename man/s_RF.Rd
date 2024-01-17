@@ -195,7 +195,7 @@ If \code{autotue = TRUE}, \code{randomForest::tuneRF} will be run to determine b
 value.
 }
 \seealso{
-\link{train.cv} for external cross-validation
+\link{train_cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

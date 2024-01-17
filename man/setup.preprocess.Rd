@@ -2,7 +2,7 @@
 % Please edit documentation in R/setup.R
 \name{setup.preprocess}
 \alias{setup.preprocess}
-\title{Set \link{preprocess} parameters for \link{train.cv} \code{.preprocess} argument}
+\title{Set \link{preprocess} parameters for \link{train_cv} \code{.preprocess} argument}
 \usage{
 setup.preprocess(
   completeCases = FALSE,
@@ -112,5 +112,5 @@ default it is the same as \code{scale}}
 \item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
 }
 \description{
-Set \link{preprocess} parameters for \link{train.cv} \code{.preprocess} argument
+Set \link{preprocess} parameters for \link{train_cv} \code{.preprocess} argument
 }

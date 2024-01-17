@@ -16,7 +16,7 @@
 #' @param ... Additional parameters to pass to `survival::survreg`
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
-#' @seealso [train.cv] for external cross-validation
+#' @seealso [train_cv] for external cross-validation
 #' @family Survival Regression
 #' @export
 

@@ -240,7 +240,7 @@ values are passed. Learn more about XGBoost's parameters here:
 http://xgboost.readthedocs.io/en/latest/parameter.html
 }
 \seealso{
-\link{train.cv} for external cross-validation
+\link{train_cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

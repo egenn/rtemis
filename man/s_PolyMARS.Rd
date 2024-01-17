@@ -109,7 +109,7 @@ Object of class \code{rtMod}
 Trains a POLYMARS model using \code{polspline::polymars} and validates it
 }
 \seealso{
-\link{train.cv} for external cross-validation
+\link{train_cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

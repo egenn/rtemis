@@ -23,7 +23,7 @@
 #' splitting at each round. If set to -1, defaults to `sqrt(N_features)` for 
 #' classification and `N_features/3` for regression.
 #' @param nfolds Integer: Number of folds for K-fold CV used by `h2o.randomForest`.
-#' Set to 0 to disable (included for experimentation only, use [train.cv] for outer 
+#' Set to 0 to disable (included for experimentation only, use [train_cv] for outer 
 #' resampling)
 #' @param balance.classes Logical: If TRUE, `h2o.randomForest` will over/undersample
 #' to balance data. (included for experimentation only)
@@ -34,7 +34,7 @@
 #' 
 #' @return `rtMod` object
 #' @author E.D. Gennatas
-#' @seealso [train.cv] for external cross-validation
+#' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Tree-based methods
 #' @export

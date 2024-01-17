@@ -76,7 +76,7 @@ where GAM or similar is preferable anyway. It is included in \pkg{rtemis} mainly
 not for building predictive models.
 }
 \seealso{
-\link{train.cv}
+\link{train_cv}
 }
 \author{
 E.D. Gennatas

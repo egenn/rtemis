@@ -15,7 +15,7 @@
 #' @param ... Additional arguments to `loess`
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
-#' @seealso [train.cv]
+#' @seealso [train_cv]
 #' @export
 
 s_LOESS <- function(x, y = NULL,

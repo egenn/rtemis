@@ -2,7 +2,7 @@
 % Please edit documentation in R/setup.R
 \name{setup.decompose}
 \alias{setup.decompose}
-\title{Set decomposition parameters for \link{train.cv} \code{.decompose} argument}
+\title{Set decomposition parameters for \link{train_cv} \code{.decompose} argument}
 \usage{
 setup.decompose(decom = "ICA", k = 2, ...)
 }
@@ -14,5 +14,5 @@ setup.decompose(decom = "ICA", k = 2, ...)
 \item{...}{Additional arguments to be passed to decomposer}
 }
 \description{
-Set decomposition parameters for \link{train.cv} \code{.decompose} argument
+Set decomposition parameters for \link{train_cv} \code{.decompose} argument
 }

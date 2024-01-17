@@ -148,7 +148,7 @@ They suggest searching for cost = 2 ^ seq(-5, 15, 2) and
 gamma = 2 ^ seq(-15, 3, 2)
 }
 \seealso{
-\link{train.cv} for external cross-validation
+\link{train_cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

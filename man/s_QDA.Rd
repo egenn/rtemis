@@ -89,7 +89,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 Train a QDA Classifier using \code{MASS::qda}
 }
 \seealso{
-\link{train.cv} for external cross-validation
+\link{train_cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},

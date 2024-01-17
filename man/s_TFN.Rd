@@ -175,7 +175,7 @@ It is important to define network structure and adjust hyperparameters based on 
 defaults to work on any given dataset.
 }
 \seealso{
-\link{train.cv} for external cross-validation
+\link{train_cv} for external cross-validation
 
 Other Supervised Learning: 
 \code{\link{s_AdaBoost}()},
