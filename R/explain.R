@@ -28,6 +28,7 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
   rules_applied <- rules[idi]
   coefs_applied <- coefs[idi]
   expl <- data.table(Rules = rules_applied, Coefficients = coefs_applied)
+  Coefficients <- AbsCoefficients <- NULL # appease R CMD check
   expl <- expl[Coefficients != 0]
   expl[, AbsCoefficients := abs(Coefficients)]
   setorder(expl, -AbsCoefficients)
