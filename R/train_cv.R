@@ -146,14 +146,14 @@ train_cv <- function(x, y = NULL,
   .call[2] <- list(str2lang("dat"))
   if (missing(x)) {
     cat("Usage:\n")
-    print(args(train))
+    print(args(train_cv))
     stop("x is missing: Please provide data")
   }
   if (!is.null(outer.resampling$id.strat)) {
     stopifnot(length(outer.resampling$id.strat) == NROW(x))
   }
   alg <- select_learn(alg, name = TRUE)
-  if (toupper(alg) == "KNN") stop("KNN is not supported by train")
+  if (toupper(alg) == "KNN") stop("KNN is not supported by train_cv")
   if (debug) {
     outer.n.workers <- 1
     train.params$n.cores <- 1
@@ -188,7 +188,7 @@ train_cv <- function(x, y = NULL,
   dependency_check(c("future", "future.apply", "progressr", "plyr"))
 
   # Arguments ----
-  # Allow train(df, "mod")
+  # Allow train_cv(df, "mod")
   # i.e single df with features and outcome followed by mod name
   if (is.character(y) && length(y) == 1) {
     mod <- y
@@ -790,4 +790,4 @@ train_cv <- function(x, y = NULL,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )
   rt
-} # rtemis::train
+} # rtemis::train_cv
