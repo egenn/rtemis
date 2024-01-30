@@ -55,7 +55,8 @@ rtemis.version <- packageVersion("rtemis")
 
 
 #' \pkg{rtemis}: Machine Learning and Visualization
-#'
+#' 
+#' @description
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
@@ -107,8 +108,8 @@ rtemis.version <- packageVersion("rtemis")
 #'
 # @useDynLib rtemis, .registration = TRUE
 # @importFrom Rcpp evalCpp
-#' @docType package
 #' @name rtemis-package
 #' @import graphics grDevices methods stats utils data.table R6 future htmltools
+"_PACKAGE"
 
 NULL
