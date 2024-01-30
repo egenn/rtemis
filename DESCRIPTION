@@ -142,6 +142,8 @@ Suggests:
     visNetwork,
     vroom,
     xgboost
+Remotes:
+    airoldilab/sgd
 Encoding: UTF-8
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
