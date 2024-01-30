@@ -82,6 +82,15 @@ bias_variance <- function(x, y, mod,
   out
 } # rtemis::bias_variance
 
+#' Print method for [bias_variance]
+#' 
+#' @param x Output of [bias_variance]
+#' @param ... Not used
+#' 
+#' @author E.D. Gennatas
+#' @export
+#' 
+
 print.rtBiasVariance <- function(x, ...) {
   cat(".:rtBiasVariance\n")
   cat("Mean squared bias: ")
