@@ -35,8 +35,8 @@ Other Clustering:
 \code{\link{c_HOPACH}()},
 \code{\link{c_KMeans}()},
 \code{\link{c_MeanShift}()},
-\code{\link{c_PAMK}()},
 \code{\link{c_PAM}()},
+\code{\link{c_PAMK}()},
 \code{\link{c_SPEC}()}
 }
 \author{

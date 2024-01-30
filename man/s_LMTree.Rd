@@ -112,13 +112,13 @@ Other Supervised Learning:
 \code{\link{s_CART}()},
 \code{\link{s_CTree}()},
 \code{\link{s_EVTree}()},
+\code{\link{s_GAM}()},
 \code{\link{s_GAM.default}()},
 \code{\link{s_GAM.formula}()},
-\code{\link{s_GAM}()},
 \code{\link{s_GBM}()},
+\code{\link{s_GLM}()},
 \code{\link{s_GLMNET}()},
 \code{\link{s_GLMTree}()},
-\code{\link{s_GLM}()},
 \code{\link{s_GLS}()},
 \code{\link{s_H2ODL}()},
 \code{\link{s_H2OGBM}()},
@@ -138,8 +138,8 @@ Other Supervised Learning:
 \code{\link{s_PolyMARS}()},
 \code{\link{s_QDA}()},
 \code{\link{s_QRNN}()},
-\code{\link{s_RFSRC}()},
 \code{\link{s_RF}()},
+\code{\link{s_RFSRC}()},
 \code{\link{s_Ranger}()},
 \code{\link{s_SDA}()},
 \code{\link{s_SGD}()},
@@ -163,8 +163,8 @@ Other Tree-based methods:
 \code{\link{s_H2ORF}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MLRF}()},
-\code{\link{s_RFSRC}()},
 \code{\link{s_RF}()},
+\code{\link{s_RFSRC}()},
 \code{\link{s_Ranger}()},
 \code{\link{s_XGBoost}()},
 \code{\link{s_XRF}()}
@@ -173,9 +173,9 @@ Other Interpretable models:
 \code{\link{s_AddTree}()},
 \code{\link{s_C50}()},
 \code{\link{s_CART}()},
+\code{\link{s_GLM}()},
 \code{\link{s_GLMNET}()},
-\code{\link{s_GLMTree}()},
-\code{\link{s_GLM}()}
+\code{\link{s_GLMTree}()}
 }
 \author{
 E.D. Gennatas

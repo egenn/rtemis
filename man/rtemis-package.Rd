@@ -2,6 +2,7 @@
 % Please edit documentation in R/zzz.R
 \docType{package}
 \name{rtemis-package}
+\alias{rtemis}
 \alias{rtemis-package}
 \title{\pkg{rtemis}: Machine Learning and Visualization}
 \description{
@@ -79,3 +80,15 @@ factors, where by default the levels are set alphabetically and therefore
 the positive class may not be set correctly.
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://rtemis.lambdamd.org}
+  \item Report bugs at \url{https://github.com/egenn/rtemis/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: E.D. Gennatas \email{gennatas@gmail.com} (\href{https://orcid.org/0000-0001-9280-3609}{ORCID})
+
+}
