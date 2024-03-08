@@ -10,6 +10,8 @@
 #'
 #' @inheritParams s_CART
 #' @param k Integer. Number of bases for smoothing spline
+#' @param select Logical: Passed to `mgcv::gam`'s `select` argument to allow for each
+#' term to be penalized to zero.
 #' @param ... Additional arguments to be passed to `mgcv::gam`
 #'
 #' @return `rtMod`

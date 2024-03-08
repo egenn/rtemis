@@ -7,6 +7,7 @@
 #'
 #' Fit a parametric survival regression model using `survival::survreg`
 #'
+#' @inheritParams s_CART
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Object of class "Surv" created using `survival::Surv`
 #' @param x.test (Optional) Numeric vector or matrix of testing set features

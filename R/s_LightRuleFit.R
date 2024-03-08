@@ -12,9 +12,6 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #'
 #' @inheritParams s_LightGBM
-#' @param n.trees Integer: Number of trees to train. Passed to [s_LightGBM]
-#' `force.n.trees`. If set to NULL, can set `max_nrounds` in `lgbm.params`, to perform
-#' cross-validation to determine optimal number of trees.
 #' @param params Training parameters for GBM and LASSO steps, set using
 #' [setup.LightRuleFit].
 #' @param lgbm.mod rtMod object created by [s_LightGBM]. If provided, the gradient

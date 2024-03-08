@@ -503,6 +503,7 @@ setup.MARS <- function(
 #'
 #' @inheritParams s_LightGBM
 #' @inheritParams s_GLMNET
+#' @inheritParams s_LightRuleFit
 #' @param lightgbm.ifw Logical: Passed to [s_LightGBM]'s `ifw` argument
 #' @param glmnet.ifw Logical: Passed to [s_GLMNET]'s `ifw` argument
 #'

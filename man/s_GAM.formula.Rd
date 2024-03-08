@@ -29,6 +29,8 @@
 )
 }
 \arguments{
+\item{formula}{Formula: A formula of the form \code{y ~ s(x1) + s(x2) + ... + s(xn)}}
+
 \item{data}{data.frame: Training data}
 
 \item{data.test}{data.frame: Testing data}
@@ -38,6 +40,8 @@
 \item{y.name}{Character: Name for outcome}
 
 \item{k}{Integer. Number of bases for smoothing spline}
+
+\item{family}{Family: Distribution and link function to be used in the model}
 
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.

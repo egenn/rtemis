@@ -114,7 +114,6 @@ The overhead incurred by Spark means this is best used for larged datasets on
 a Spark cluster.
 
 See also:
-\href{https://spark.rstudio.com/get-started/}{sparklyr website},
 \href{https://spark.apache.org/docs/latest/api/R/index.html}{Spark MLLib documentation}
 }
 \seealso{

@@ -11,9 +11,11 @@
 #'
 #' [s_GAM.default] is the preferred way to train GAMs
 #' @inheritParams s_CART
+#' @param formula Formula: A formula of the form `y ~ s(x1) + s(x2) + ... + s(xn)`
 #' @param data data.frame: Training data
 #' @param data.test data.frame: Testing data
 #' @param k Integer. Number of bases for smoothing spline
+#' @param family Family: Distribution and link function to be used in the model
 #' @param ... Additional arguments to be passed to `mgcv::gam`
 #'
 #' @return `rtMod`

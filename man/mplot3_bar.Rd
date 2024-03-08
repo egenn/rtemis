@@ -58,6 +58,9 @@ mplot3_bar(
 If Matrix, each column is a vector, so multiple columns signify a different group.
 e.g. Columns could be months and rows could be N days sunshine, N days rainfall, N days snow, etc.}
 
+\item{error}{Vector or Matrix: If Vector, each value will be drawn as an error bar.
+If Matrix, each column is a vector, so multiple columns signify a different group.}
+
 \item{col}{Vector of colors to use}
 
 \item{alpha}{Float: Alpha to be applied to \code{col}}

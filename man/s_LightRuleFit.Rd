@@ -80,10 +80,6 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: Verbosity level}
-
-\item{n.trees}{Integer: Number of trees to train. Passed to \link{s_LightGBM}
-\code{force.n.trees}. If set to NULL, can set \code{max_nrounds} in \code{lgbm.params}, to perform
-cross-validation to determine optimal number of trees.}
 }
 \value{
 \code{rtMod} object

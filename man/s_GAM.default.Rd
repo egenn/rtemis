@@ -76,6 +76,9 @@ Default = NULL (random seed)}
 
 \item{method}{Character: "auto", "anova", "poisson", "class" or "exp".}
 
+\item{select}{Logical: Passed to \code{mgcv::gam}'s \code{select} argument to allow for each
+term to be penalized to zero.}
+
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}

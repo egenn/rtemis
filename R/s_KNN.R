@@ -8,11 +8,7 @@
 #'
 #' Train a k-Nearest Neighbors learner for regression or classification using `FNN`
 #'
-#' @param x Numeric vector or matrix of features, i.e. independent variables
-#' @param y Numeric vector of outcome, i.e. dependent variable
-#' @param x.test (Optional) Numeric vector or matrix of validation set features
-#'   must have set of columns as `x`
-#' @param y.test (Optional) Numeric vector of validation set outcomes
+#' @inheritParams s_CART
 #' @param k Integer: Number of neighbors considered
 #' @param algorithm Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
 #' @param outdir Optional. Path to directory to save output

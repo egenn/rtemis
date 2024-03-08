@@ -10,7 +10,6 @@
 #' a Spark cluster.
 #' 
 #' See also: 
-#' [sparklyr website](https://spark.rstudio.com/get-started/),
 #' [Spark MLLib documentation](https://spark.apache.org/docs/latest/api/R/index.html)
 #' 
 #' @inheritParams s_GLM
