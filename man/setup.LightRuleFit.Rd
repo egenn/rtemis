@@ -25,12 +25,36 @@ setup.LightRuleFit(
 )
 }
 \arguments{
+\item{num_leaves}{Integer: [gS] Maximum tree leaves for base learners.}
+
+\item{max_depth}{Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.}
+
+\item{learning_rate}{Numeric: [gS] Boosting learning rate}
+
+\item{subsample}{Numeric: [gS] Subsample ratio of the training set.}
+
+\item{subsample_freq}{Integer: Subsample every this many iterations}
+
+\item{lambda_l1}{Numeric: [gS] L1 regularization term}
+
+\item{lambda_l2}{Numeric: [gS] L2 regularization term}
+
+\item{objective}{(Default = NULL)}
+
 \item{lightgbm.ifw}{Logical: Passed to \link{s_LightGBM}'s \code{ifw} argument}
 
 \item{glmnet.ifw}{Logical: Passed to \link{s_GLMNET}'s \code{ifw} argument}
+
+\item{importance}{Logical: If \code{TRUE}, calculate variable importance}
+
+\item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
+\code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
+
+\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will
+compute its own lambda sequence}
 }
 \description{
-Sets parameters for the GBM and LASSO steps of \link{s_LightRuleFit}
+Sets parameters for the GBM and GLMNET (LASSO) steps of \link{s_LightRuleFit}
 }
 \author{
 ED Gennatas
