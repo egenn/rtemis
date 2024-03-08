@@ -75,6 +75,7 @@
 #' @param orientation Character: "v" or "h" for vertical, horizontal
 #' @param annotate_n Logical: If TRUE, annotate with N in each box
 #' @param annotate_n_y Numeric: y position for `annotate_n`
+#' @param annotate_mean Logical: If TRUE, annotate with mean of each box
 #' @param annotate_meansd Logical: If TRUE, annotate with mean (SD) of each box
 #' @param annotate_meansd_y Numeric: y position for `annotate_meansd`
 #' @param annotate.col Color for annotations

@@ -5,20 +5,22 @@
 #' Classification Error
 #'
 #' Calculates Classification Metrics
-#' 
+#'
 #' Note that auc.method = "pROC" is the only one that will output an AUC even if
 #' one or more estimated probabilities are NA.
 #'
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated values
 #' @param estimated.prob Numeric vector: Estimated probabilities
-#' @param calc.auc Logical: If TRUE, calculate AUC.
+#' @param calc.auc Logical: If TRUE, calculate AUC. May be slow in very large datasets.
+#' @param auc.method Character: "pROC", "ROCR", "auc_pairs": Method to use, passed to
+#' [auc].
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
-#' 
+#'
 #' @author E.D. Gennatas
 #' @return S3 object of type "class_error"
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' true <- factor(c("a", "a", "a", "b", "b", "b", "b"))
@@ -29,17 +31,16 @@
 #' class_error(true, estimated, estimated.prob, auc.method = "ROCR")
 #' class_error(true, estimated, estimated.prob, auc.method = "auc_pairs")
 #' }
-class_error <- function(true, 
-                       estimated,
-                       estimated.prob = NULL,
-                       calc.auc = TRUE,
-                       auc.method = "pROC",
-                       trace = 0) {
-  
+class_error <- function(true,
+                        estimated,
+                        estimated.prob = NULL,
+                        calc.auc = TRUE,
+                        auc.method = c("pROC", "ROCR", "auc_pairs"),
+                        trace = 0) {
   # Input ----
   # Binary class probabilities only (for now)
   if (length(estimated.prob) > length(true)) estimated.prob <- NULL
-  
+
   # Metrics ----
   if (!all(levels(true) == levels(estimated))) {
     stop("True and Estimated must have the same levels")
@@ -56,9 +57,9 @@ class_error <- function(true,
     }
   }
   tbl <- table(estimated, true)
-  
+
   names(attributes(tbl)$dimnames) <- c("Estimated", "Reference")
-  
+
   Class <- list()
   Overall <- list()
   Class$Totals <- colSums(tbl)
@@ -82,7 +83,7 @@ class_error <- function(true,
   # attr(Class$NPV, "Formula") <- "Class$True.negative/(Total - Class$Predicted.totals)"
   Class$F1 <- 2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)
   # attr(Class$F1, "Formula") <- "2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)"
-  
+
   # Binary vs Multiclass ----
   if (n.classes == 2) {
     Overall$Sensitivity <- Class$Sensitivity[1]
@@ -101,7 +102,7 @@ class_error <- function(true,
   }
   Overall$Accuracy <- sum(Class$Hits) / Total
   # attr(Overall$Accuracy, "Formula") <- "sum(Class$Hits)/Total"
-  
+
   # Prob-based ----
   if (!is.null(estimated.prob) && n.classes == 2) {
     if (calc.auc) {
@@ -109,24 +110,27 @@ class_error <- function(true,
     }
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
-  
+
   # Outro ----
   # Overall <- as.data.frame(do.call(rbind, Overall))
   Overall <- as.data.frame(do.call(cbind, Overall))
   rownames(Overall) <- "Overall"
-  Class <- (data.frame(Sensitivity = Class$Sensitivity,
-                       Specificity = Class$Specificity,
-                       `Balanced Accuracy` = Class$`Balanced Accuracy`,
-                       PPV = Class$PPV,
-                       NPV = Class$NPV,
-                       F1 = Class$F1))
-  metrics <- list(ConfusionMatrix = tbl,
-                  Overall = Overall,
-                  Class = Class,
-                  Positive.class = Positive.class)
+  Class <- (data.frame(
+    Sensitivity = Class$Sensitivity,
+    Specificity = Class$Specificity,
+    `Balanced Accuracy` = Class$`Balanced Accuracy`,
+    PPV = Class$PPV,
+    NPV = Class$NPV,
+    F1 = Class$F1
+  ))
+  metrics <- list(
+    ConfusionMatrix = tbl,
+    Overall = Overall,
+    Class = Class,
+    Positive.class = Positive.class
+  )
   class(metrics) <- c("class_error", "list")
   metrics
-  
 } # rtemis::class_error
 
 
@@ -135,30 +139,31 @@ class_error <- function(true,
 #' @param x Object of type [class_error]
 #' @param decimal.places Integer: Number of decimal places to print
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
 print.class_error <- function(x, decimal.places = 4, ...) {
-  
   x$Overall$`Log loss` <- NULL
   tblpad <- 17 - max(nchar(colnames(x$ConfusionMatrix)), 9)
   printtable(x$ConfusionMatrix, pad = tblpad)
   printdf(x$Overall,
-          transpose = TRUE,
-          ddSci.dp = decimal.places,
-          justify = "left",
-          newline.pre = TRUE,
-          newline = TRUE,
-          spacing = 2,
-          row.col = reset)
+    transpose = TRUE,
+    ddSci.dp = decimal.places,
+    justify = "left",
+    newline.pre = TRUE,
+    newline = TRUE,
+    spacing = 2,
+    row.col = reset
+  )
   if (is.na(x$Positive.class)) {
     printdf(x$Class,
-            transpose = TRUE,
-            ddSci.dp = decimal.places,
-            justify = "left",
-            spacing = 2,
-            row.col = reset)
+      transpose = TRUE,
+      ddSci.dp = decimal.places,
+      justify = "left",
+      spacing = 2,
+      row.col = reset
+    )
   } else {
     cat("  Positive Class: ", hilite(x$Positive.class), "\n")
   }
@@ -178,12 +183,10 @@ print.class_error <- function(x, decimal.places = 4, ...) {
 #'
 #' @param recall Float \[0, 1\]: Recall a.k.a. Sensitivity
 #' @param precision Float \[0, 1\]: Precision a.k.a. Positive Predictive Value
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
 f1 <- function(precision, recall) {
-  
   2 * (recall * precision) / (recall + precision)
-  
 } # rtemis::f1

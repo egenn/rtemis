@@ -130,6 +130,8 @@ violin plot}
 
 \item{annotate_n_y}{Numeric: y position for \code{annotate_n}}
 
+\item{annotate_mean}{Logical: If TRUE, annotate with mean of each box}
+
 \item{annotate_meansd}{Logical: If TRUE, annotate with mean (SD) of each box}
 
 \item{annotate_meansd_y}{Numeric: y position for \code{annotate_meansd}}

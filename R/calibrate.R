@@ -48,18 +48,11 @@ calibrate <- function(true_labels,
                       pos_class_idi = 1,
                       mod = c("gam", "glm"),
                       k = 5,
-                      do.sort = FALSE,
                       verbose = TRUE) {
   stopifnot(pos_class_idi %in% c(1, 2))
   mod <- match.arg(mod)
   if (pos_class_idi == 1) {
     true_labels <- factor(true_labels, levels = rev(levels(true_labels)))
-  }
-
-  if (do.sort) {
-    sort_order <- order(est_prob)
-    est_prob <- est_prob[sort_order]
-    true_labels <- true_labels[sort_order]
   }
 
   # GAM ----

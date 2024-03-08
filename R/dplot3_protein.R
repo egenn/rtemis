@@ -26,9 +26,89 @@
 #' @param layout Character: "1curve", "grid": type of layout to use
 #' @param show.markers Logical: If TRUE, show amino acid markers
 #' @param show.labels Logical: If TRUE, annotate amino acids with elements
+#' @param font.size Integer: Font size for labels
+#' @param label.col Color for labels
+#' @param scatter.mode Character: Mode for scatter plot
+#' @param marker.size Integer: Size of markers
+#' @param marker.col Color for markers
+#' @param marker.alpha Numeric: Alpha for markers
+#' @param marker.symbol Character: Symbol for markers
+#' @param marker.hoverinfo Character: Hoverinfo for markers
+#' @param line.col Color for lines
+#' @param line.alpha Numeric: Alpha for lines
+#' @param line.width Numeric: Width for lines
+#' @param show.full.names Logical: If TRUE, show full names of amino acids
+#' @param region.scatter.mode Character: Mode for scatter plot
+#' @param region.style Integer: Style for regions
+#' @param region.marker.size Integer: Size of region markers
+#' @param region.marker.alpha Numeric: Alpha for region markers
+#' @param region.marker.symbol Character: Symbol for region markers
+#' @param region.line.dash Character: Dash for region lines
+#' @param region.line.shape Character: Shape for region lines
+#' @param region.line.smoothing Numeric: Smoothing for region lines
+#' @param region.line.width Numeric: Width for region lines
+#' @param region.line.alpha Numeric: Alpha for region lines
+#' @param theme Character: Theme to use: Run `themes()` for available themes
+#' @param region.palette Named list of colors for regions
+#' @param region.outline.only Logical: If TRUE, only show outline of regions
+#' @param region.outline.pad Numeric: Padding for region outline
+#' @param region.pad Numeric: Padding for region
+#' @param region.fill.alpha Numeric: Alpha for region fill
+#' @param region.fill.shape Character: Shape for region fill
+#' @param region.fill.smoothing Numeric: Smoothing for region fill
+#' @param bpadcx Numeric: Padding for region border
+#' @param bpadcy Numeric: Padding for region border
+#' @param site.marker.size Integer: Size of site markers
+#' @param site.marker.symbol Character: Symbol for site markers
+#' @param site.marker.alpha Numeric: Alpha for site markers
+#' @param site.border.width Numeric: Width for site borders
+#' @param site.palette Named list of colors for sites
+#' @param variant.col Color for variants
+#' @param disease.variant.col Color for disease variants
+#' @param showlegend.ptm Logical: If TRUE, show legend for PTMs
+#' @param ptm.col Named list of colors for PTMs
+#' @param ptm.symbol Character: Symbol for PTMs
+#' @param ptm.offset Numeric: Offset for PTMs
+#' @param ptm.pad Numeric: Padding for PTMs
+#' @param ptm.marker.size Integer: Size of PTM markers
+#' @param annotate.position.every Integer: Annotate every nth position
+#' @param annotate.position.alpha Numeric: Alpha for position annotations
+#' @param annotate.position.ay Numeric: Y offset for position annotations
+#' @param position.font.size Integer: Font size for position annotations
+#' @param legend.xy Numeric vector, length 2: x and y coordinates for legend
+#' @param legend.xanchor Character: xanchor for legend
+#' @param legend.yanchor Character: yanchor for legend
+#' @param legend.orientation Character: Orientation for legend
+#' @param legend.col Color for legend
+#' @param legend.bg Color for legend background
+#' @param legend.border.col Color for legend border
+#' @param legend.borderwidth Numeric: Width for legend border
+#' @param legend.group.gap Numeric: Gap between legend groups
+#' @param margin List: Margin settings
+#' @param showgrid.x Logical: If TRUE, show x grid
+#' @param showgrid.y Logical: If TRUE, show y grid
+#' @param automargin.x Logical: If TRUE, use automatic margin for x axis
+#' @param automargin.y Logical: If TRUE, use automatic margin for y axis
+#' @param xaxis.autorange Logical: If TRUE, use automatic range for x axis
+#' @param yaxis.autorange Character: If TRUE, use automatic range for y axis
+#' @param scaleanchor.y Character: Scale anchor for y axis  
+#' @param scaleratio.y Numeric: Scale ratio for y axis
+#' @param hoverlabel.align Character: Alignment for hover label
+#' @param displayModeBar Logical: If TRUE, display mode bar
+#' @param modeBar.file.format Character: File format for mode bar
+#' @param scrollZoom Logical: If TRUE, enable scroll zoom
 #' @param modebar.bg Color for modebar background
-#' from input `x`
+#' @param filename Character: File name to save plot
+#' @param file.width Integer: Width for saved file
+#' @param file.height Integer: Height for saved file
+#' @param file.scale Numeric: Scale for saved file
+#' @param width Integer: Width for plot
+#' @param height Integer: Height for plot
+#' @param verbose Logical: If TRUE, print messages to console
+#' @param trace Integer: If > 0, print trace messages
 #' @param ... Additional arguments to pass to the theme function
+#' 
+#' @return A plotly object
 #'
 #' @author E.D. Gennatas
 #' @export

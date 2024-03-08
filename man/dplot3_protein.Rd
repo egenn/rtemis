@@ -143,10 +143,170 @@ middle}
 
 \item{show.labels}{Logical: If TRUE, annotate amino acids with elements}
 
-\item{modebar.bg}{Color for modebar background
-from input \code{x}}
+\item{font.size}{Integer: Font size for labels}
+
+\item{label.col}{Color for labels}
+
+\item{scatter.mode}{Character: Mode for scatter plot}
+
+\item{marker.size}{Integer: Size of markers}
+
+\item{marker.col}{Color for markers}
+
+\item{marker.alpha}{Numeric: Alpha for markers}
+
+\item{marker.symbol}{Character: Symbol for markers}
+
+\item{marker.hoverinfo}{Character: Hoverinfo for markers}
+
+\item{line.col}{Color for lines}
+
+\item{line.alpha}{Numeric: Alpha for lines}
+
+\item{line.width}{Numeric: Width for lines}
+
+\item{show.full.names}{Logical: If TRUE, show full names of amino acids}
+
+\item{region.scatter.mode}{Character: Mode for scatter plot}
+
+\item{region.style}{Integer: Style for regions}
+
+\item{region.marker.size}{Integer: Size of region markers}
+
+\item{region.marker.alpha}{Numeric: Alpha for region markers}
+
+\item{region.marker.symbol}{Character: Symbol for region markers}
+
+\item{region.line.dash}{Character: Dash for region lines}
+
+\item{region.line.shape}{Character: Shape for region lines}
+
+\item{region.line.smoothing}{Numeric: Smoothing for region lines}
+
+\item{region.line.width}{Numeric: Width for region lines}
+
+\item{region.line.alpha}{Numeric: Alpha for region lines}
+
+\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
+
+\item{region.palette}{Named list of colors for regions}
+
+\item{region.outline.only}{Logical: If TRUE, only show outline of regions}
+
+\item{region.outline.pad}{Numeric: Padding for region outline}
+
+\item{region.pad}{Numeric: Padding for region}
+
+\item{region.fill.alpha}{Numeric: Alpha for region fill}
+
+\item{region.fill.shape}{Character: Shape for region fill}
+
+\item{region.fill.smoothing}{Numeric: Smoothing for region fill}
+
+\item{bpadcx}{Numeric: Padding for region border}
+
+\item{bpadcy}{Numeric: Padding for region border}
+
+\item{site.marker.size}{Integer: Size of site markers}
+
+\item{site.marker.symbol}{Character: Symbol for site markers}
+
+\item{site.marker.alpha}{Numeric: Alpha for site markers}
+
+\item{site.border.width}{Numeric: Width for site borders}
+
+\item{site.palette}{Named list of colors for sites}
+
+\item{variant.col}{Color for variants}
+
+\item{disease.variant.col}{Color for disease variants}
+
+\item{showlegend.ptm}{Logical: If TRUE, show legend for PTMs}
+
+\item{ptm.col}{Named list of colors for PTMs}
+
+\item{ptm.symbol}{Character: Symbol for PTMs}
+
+\item{ptm.offset}{Numeric: Offset for PTMs}
+
+\item{ptm.pad}{Numeric: Padding for PTMs}
+
+\item{ptm.marker.size}{Integer: Size of PTM markers}
+
+\item{annotate.position.every}{Integer: Annotate every nth position}
+
+\item{annotate.position.alpha}{Numeric: Alpha for position annotations}
+
+\item{annotate.position.ay}{Numeric: Y offset for position annotations}
+
+\item{position.font.size}{Integer: Font size for position annotations}
+
+\item{legend.xy}{Numeric vector, length 2: x and y coordinates for legend}
+
+\item{legend.xanchor}{Character: xanchor for legend}
+
+\item{legend.yanchor}{Character: yanchor for legend}
+
+\item{legend.orientation}{Character: Orientation for legend}
+
+\item{legend.col}{Color for legend}
+
+\item{legend.bg}{Color for legend background}
+
+\item{legend.border.col}{Color for legend border}
+
+\item{legend.borderwidth}{Numeric: Width for legend border}
+
+\item{legend.group.gap}{Numeric: Gap between legend groups}
+
+\item{margin}{List: Margin settings}
+
+\item{showgrid.x}{Logical: If TRUE, show x grid}
+
+\item{showgrid.y}{Logical: If TRUE, show y grid}
+
+\item{automargin.x}{Logical: If TRUE, use automatic margin for x axis}
+
+\item{automargin.y}{Logical: If TRUE, use automatic margin for y axis}
+
+\item{xaxis.autorange}{Logical: If TRUE, use automatic range for x axis}
+
+\item{yaxis.autorange}{Character: If TRUE, use automatic range for y axis}
+
+\item{scaleanchor.y}{Character: Scale anchor for y axis}
+
+\item{scaleratio.y}{Numeric: Scale ratio for y axis}
+
+\item{hoverlabel.align}{Character: Alignment for hover label}
+
+\item{displayModeBar}{Logical: If TRUE, display mode bar}
+
+\item{modeBar.file.format}{Character: File format for mode bar}
+
+\item{scrollZoom}{Logical: If TRUE, enable scroll zoom}
+
+\item{modebar.bg}{Color for modebar background}
+
+\item{filename}{Character: File name to save plot}
+
+\item{file.width}{Integer: Width for saved file}
+
+\item{file.height}{Integer: Height for saved file}
+
+\item{file.scale}{Numeric: Scale for saved file}
+
+\item{width}{Integer: Width for plot}
+
+\item{height}{Integer: Height for plot}
+
+\item{verbose}{Logical: If TRUE, print messages to console}
+
+\item{trace}{Integer: If > 0, print trace messages}
 
 \item{...}{Additional arguments to pass to the theme function}
+}
+\value{
+A plotly object
 }
 \description{
 Plot the primary amino acid sequence of a protein
