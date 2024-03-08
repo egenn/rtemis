@@ -32,6 +32,7 @@ present <- function(...,
                     htest = "none",
                     htest.annotate.y = NULL,
                     col = NULL,
+                    theme = rtTheme,
                     margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
                     subplot.margin = .0666,
                     filename = NULL,
@@ -81,7 +82,8 @@ present <- function(...,
       htest = htest,
       htest.annotate = htest.annotate.y,
       annotate_meansd = annotate_meansd,
-      margin = margin
+      margin = margin,
+      theme = theme
     )
   }
 
@@ -95,7 +97,8 @@ present <- function(...,
       htest = htest,
       htest.annotate.y = htest.annotate.y,
       annotate_meansd = annotate_meansd,
-      margin = margin
+      margin = margin,
+      theme = theme
     )
   }
 

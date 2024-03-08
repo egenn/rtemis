@@ -18,6 +18,7 @@ present(
   htest = "none",
   htest.annotate.y = NULL,
   col = NULL,
+  theme = rtTheme,
   margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
   subplot.margin = 0.0666,
   filename = NULL,
@@ -57,6 +58,8 @@ to the side of each box}
 
 \item{col}{Color, vector: Color for boxes. If NULL, which will draw
 colors from \code{palette}}
+
+\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
 
 \item{margin}{Named list: plot margins.
 Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}}
