@@ -48,6 +48,7 @@ rtAlgs <- data.frame(rbind(
   c("H2ORF", "H2O Random Forest", TRUE, TRUE, FALSE),
   c("LIHADBoost", "Boosting of Additive Trees", FALSE, TRUE, FALSE),
   c("LIHAD", "Linear Hard Additive Tree", FALSE, TRUE, FALSE),
+  # c("KernelKNN", "Kernel k-Nearest Neighbor", TRUE, TRUE, FALSE),
   c("KNN", "k-Nearest Neighbor", TRUE, TRUE, FALSE),
   c("LDA", "Linear Discriminant Analysis", TRUE, FALSE, FALSE),
   c("LightGBM", "LightGBM", TRUE, TRUE, FALSE),

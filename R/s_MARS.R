@@ -9,12 +9,14 @@
 #' \[gS\] in Arguments description indicates that hyperparameter will be tuned if more than one value are provided
 #' For more info on algorithm hyperparameters, see `?earth::earth`
 #'
+#' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @param x Numeric vector or matrix of features, i.e. independent variables
 #' @param y Numeric vector of outcome, i.e. dependent variable
 #' @param x.test (Optional) Numeric vector or matrix of validation set features
 #'   must have set of columns as `x`
 #' @param y.test (Optional) Numeric vector of validation set outcomes
+#' @param glm List of parameters to pass to [glm]
 #' @param degree \[gS\] Integer: Maximum degree of interaction. Default = 2
 #' @param penalty \[gS\] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
 #' -1 means no penalty. Default = 3
@@ -23,6 +25,8 @@
 #' @param nprune \[gS\] Integer: Max N of terms (incl. intercept) in the pruned model
 #' @param nk \[gS\] Integer: Maximum number of terms created by the forward pass.
 #' See `earth::earth`
+#' @param thresh \[gS\] Numeric: Forward stepping threshold. Forward pass terminates if RSq
+#' reduction is less than this.
 #' @param ... Additional parameters to pass to `earth::earth`
 #'
 #' @return Object of class `rtMod`
@@ -153,7 +157,7 @@ s_MARS <- function(x, y = NULL,
   }
 
   gs <- NULL
-  if (gridCheck(pmethod, degree, nprune, penalty, nk)) {
+  if (gridCheck(pmethod, degree, nprune, penalty, nk, thresh)) {
     gs <- gridSearchLearn(x0, y0, mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -174,6 +178,7 @@ s_MARS <- function(x, y = NULL,
     nprune <- gs$best.tune$nprune
     penalty <- gs$best.tune$penalty
     nk <- gs$best.tune$nk
+    thresh <- gs$best.tune$thresh
   }
 
   # earth::earth ----

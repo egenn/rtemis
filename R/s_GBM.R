@@ -101,8 +101,6 @@ s_GBM <- function(x, y = NULL,
                   plot.res = ifelse(!is.null(outdir), TRUE, FALSE),
                   plot.fitted = NULL,
                   plot.predicted = NULL,
-                  plotRelInf = FALSE,
-                  plotVarImp = FALSE,
                   print.plot = FALSE,
                   plot.theme = rtTheme,
                   x.name = NULL, y.name = NULL,
@@ -481,26 +479,21 @@ s_GBM <- function(x, y = NULL,
   if (relInf) {
     if (verbose) msg2("Calculating relative influence of variables...")
     mod.summary.rel <- gbm::summary.gbm(mod,
-      plotit = plotRelInf,
+      plotit = FALSE,
       order = FALSE, method = gbm::relative.influence
     )
-    if (plotRelInf) mtext(paste0(y.name, " ~ ", x.name, " GBM relative influence"), padj = -2)
   }
 
   mod.summary.perm <- NULL
   if (varImp) {
     if (verbose) msg2("Calculating variable importance by permutation testing...")
     # similar to random forests (stated as experimental)
-    mod.summary.perm <- gbm::summary.gbm(mod,
-      plotit = plotVarImp,
-      order = FALSE, method = gbm::permutation.test.gbm
+    mod.summary.perm <- gbm::summary.gbm(
+      mod,
+      plotit = FALSE,
+      order = FALSE,
+      method = gbm::permutation.test.gbm
     )
-    if (plotVarImp) {
-      mtext(paste0(
-        y.name, " ~ ", x.name,
-        " GBM permutation-based variable importance"
-      ), padj = -2)
-    }
   }
 
   # Predicted ----

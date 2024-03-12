@@ -25,20 +25,42 @@ s_KNN(
 )
 }
 \arguments{
-\item{x}{Numeric vector or matrix of features, i.e. independent variables}
+\item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
 
 \item{y}{Numeric vector of outcome, i.e. dependent variable}
 
-\item{x.test}{(Optional) Numeric vector or matrix of validation set features
-must have set of columns as \code{x}}
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
+Columns must correspond to columns in \code{x}}
 
-\item{y.test}{(Optional) Numeric vector of validation set outcomes}
+\item{y.test}{Numeric vector of testing set outcome}
+
+\item{x.name}{Character: Name for feature set}
+
+\item{y.name}{Character: Name for outcome}
 
 \item{k}{Integer: Number of neighbors considered}
 
 \item{algorithm}{Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"}
 
+\item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
+
+\item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
+
+\item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
+Requires \code{x.test} and \code{y.test}}
+
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
+
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+
+\item{verbose}{Logical: If TRUE, print summary to screen.}
+
 \item{outdir}{Optional. Path to directory to save output}
+
+\item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
+\code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
+is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 }
 \value{
 Object of class \code{rtMod}

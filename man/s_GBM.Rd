@@ -48,8 +48,6 @@ s_GBM(
   plot.res = ifelse(!is.null(outdir), TRUE, FALSE),
   plot.fitted = NULL,
   plot.predicted = NULL,
-  plotRelInf = FALSE,
-  plotVarImp = FALSE,
   print.plot = FALSE,
   plot.theme = rtTheme,
   x.name = NULL,

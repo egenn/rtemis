@@ -7,8 +7,8 @@
 \method{predict}{LightRuleFit}(
   object,
   newdata = NULL,
-  verbose = TRUE,
   return.cases.by.rules = FALSE,
+  verbose = TRUE,
   ...
 )
 }
@@ -16,6 +16,8 @@
 \item{object}{\code{LightRuleFit} object}
 
 \item{newdata}{Feature matrix / data.frame: will be converted to \code{data.table}}
+
+\item{return.cases.by.rules}{Logical: If TRUE, return cases by rules matrix}
 
 \item{verbose}{Logical: If TRUE, print messages during execution. Default = TRUE}
 

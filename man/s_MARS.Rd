@@ -89,6 +89,8 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
+\item{glm}{List of parameters to pass to \link{glm}}
+
 \item{degree}{[gS] Integer: Maximum degree of interaction. Default = 2}
 
 \item{penalty}{[gS] Float: GCV penalty per knot. 0 penalizes only terms, not knots.
@@ -96,6 +98,9 @@ Default = NULL (random seed)}
 
 \item{nk}{[gS] Integer: Maximum number of terms created by the forward pass.
 See \code{earth::earth}}
+
+\item{thresh}{[gS] Numeric: Forward stepping threshold. Forward pass terminates if RSq
+reduction is less than this.}
 
 \item{pmethod}{[gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
 "seqrep", "cv". Default = "forward"}
@@ -127,6 +132,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{trace}{Integer: If higher than 0, will print more information to the console.}
 
 \item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}

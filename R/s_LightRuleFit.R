@@ -319,6 +319,7 @@ s_LightRuleFit <- function(x, y = NULL,
 #'
 #' @param object `LightRuleFit` object
 #' @param newdata Feature matrix / data.frame: will be converted to `data.table`
+#' @param return.cases.by.rules Logical: If TRUE, return cases by rules matrix
 #' @param verbose Logical: If TRUE, print messages during execution. Default = TRUE
 #' @param ... Ignored
 #' @return Vector of estimated values
@@ -326,8 +327,8 @@ s_LightRuleFit <- function(x, y = NULL,
 
 predict.LightRuleFit <- function(object,
                                  newdata = NULL,
-                                 verbose = TRUE,
-                                 return.cases.by.rules = FALSE, ...) {
+                                 return.cases.by.rules = FALSE,
+                                 verbose = TRUE, ...) {
   # Rules ----
   # Get all rules, some have 0 coefficients
   rules <- object$lgbm_rules
