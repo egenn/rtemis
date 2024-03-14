@@ -90,7 +90,6 @@ s_CART <- function(x, y = NULL,
                    save.gridrun = FALSE,
                    metric = NULL,
                    maximize = NULL,
-                   na.action = na.exclude,
                    n.cores = rtCores,
                    print.plot = FALSE,
                    plot.fitted = NULL,
@@ -215,7 +214,6 @@ s_CART <- function(x, y = NULL,
         surrogatestyle = surrogatestyle,
         xval = xval,
         cost = cost,
-        na.action = na.action,
         ifw = ifw,
         ifw.type = ifw.type,
         upsample = upsample,
@@ -252,8 +250,7 @@ s_CART <- function(x, y = NULL,
     surrogatestyle = surrogatestyle,
     maxdepth = maxdepth,
     xval = xval,
-    cost = cost,
-    na.action = na.action
+    cost = cost
   )
 
   control <- list(
@@ -278,8 +275,7 @@ s_CART <- function(x, y = NULL,
     model = model,
     control = control,
     cost = cost,
-    parms = parms,
-    na.action = na.action
+    parms = parms
   )
 
   # Cost-Complexity Pruning ----
