@@ -153,3 +153,8 @@ Get the [rtemis-dark VS Code theme](https://marketplace.visualstudio.com/items?i
 Recommended font is Fira Code with its pretty ligatures.
 
 [&copy;2022 E.D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
+
+## Python & Julia APIs
+
+Python and Julia APIs are in development. The goal is to delliver a unified API across
+all three languages by the time of the 1.0 release.
