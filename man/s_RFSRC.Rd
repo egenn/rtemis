@@ -87,8 +87,6 @@ to \code{randomForestSRC::rfsrc}}
 
 \item{nodedepth}{Integer: Maximum tree depth.}
 
-\item{na.action}{How to handle missing values. See \code{?na.fail}}
-
 \item{trace}{Integer: Number of seconds between messages to the console.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -155,6 +153,7 @@ Other Supervised Learning:
 \code{\link{s_LDA}()},
 \code{\link{s_LM}()},
 \code{\link{s_LMTree}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},
@@ -189,6 +188,7 @@ Other Tree-based methods:
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
 \code{\link{s_LMTree}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MLRF}()},
 \code{\link{s_RF}()},

@@ -67,8 +67,6 @@ the length of the class you are upsampling, thereby introducing randomness}
 \item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
 Default = NULL (random seed)}
 
-\item{na.action}{How to handle missing values. See \code{?na.fail}}
-
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
 
@@ -127,6 +125,7 @@ Other Supervised Learning:
 \code{\link{s_KNN}()},
 \code{\link{s_LDA}()},
 \code{\link{s_LM}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},
@@ -161,6 +160,7 @@ Other Tree-based methods:
 \code{\link{s_GLMTree}()},
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MLRF}()},
 \code{\link{s_RF}()},

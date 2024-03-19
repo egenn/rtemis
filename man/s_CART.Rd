@@ -39,7 +39,6 @@ s_CART(
   save.gridrun = FALSE,
   metric = NULL,
   maximize = NULL,
-  na.action = na.exclude,
   n.cores = rtCores,
   print.plot = FALSE,
   plot.fitted = NULL,
@@ -147,8 +146,6 @@ combinations.}
 \item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
 search is run.}
 
-\item{na.action}{How to handle missing values. See \code{?na.fail}}
-
 \item{n.cores}{Integer: Number of cores to use.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
@@ -213,6 +210,7 @@ Other Supervised Learning:
 \code{\link{s_LDA}()},
 \code{\link{s_LM}()},
 \code{\link{s_LMTree}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},
@@ -247,6 +245,7 @@ Other Tree-based methods:
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
 \code{\link{s_LMTree}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MLRF}()},
 \code{\link{s_RF}()},

@@ -61,8 +61,6 @@ Requires \code{x.test} and \code{y.test}}
 
 \item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
 
-\item{na.action}{How to handle missing values. See \code{?na.fail}}
-
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{n.cores}{Integer: Number of cores to use.}
@@ -116,6 +114,7 @@ Other Supervised Learning:
 \code{\link{s_LDA}()},
 \code{\link{s_LM}()},
 \code{\link{s_LMTree}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},

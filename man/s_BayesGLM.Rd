@@ -177,6 +177,7 @@ Other Supervised Learning:
 \code{\link{s_LDA}()},
 \code{\link{s_LM}()},
 \code{\link{s_LMTree}()},
+\code{\link{s_LightCART}()},
 \code{\link{s_LightGBM}()},
 \code{\link{s_MARS}()},
 \code{\link{s_MLRF}()},

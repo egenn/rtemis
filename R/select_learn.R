@@ -51,6 +51,7 @@ rtAlgs <- data.frame(rbind(
   # c("KernelKNN", "Kernel k-Nearest Neighbor", TRUE, TRUE, FALSE),
   c("KNN", "k-Nearest Neighbor", TRUE, TRUE, FALSE),
   c("LDA", "Linear Discriminant Analysis", TRUE, FALSE, FALSE),
+  c("LightCART", "LightGBM", TRUE, TRUE, FALSE),
   c("LightGBM", "LightGBM", TRUE, TRUE, FALSE),
   c("LightRF", "LightGBM Random Forest", TRUE, TRUE, FALSE),
   c("LightRuleFit", "LightGBM RuleFit", TRUE, TRUE, FALSE),
