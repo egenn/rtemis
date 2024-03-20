@@ -18,6 +18,8 @@
 #' so that they are not treated as numeric.
 #'
 #' @inheritParams s_CART
+#' @inheritParams s_GLM
+#' @inheritParams s_LightGBM
 #' @param num_leaves Integer: \[gS\] Maximum tree leaves for base learners.
 #' @param max_depth Integer: \[gS\] Maximum tree depth for base learners, <=0 means no limit.
 #' @param lambda_l1 Numeric: \[gS\] L1 regularization term
@@ -67,9 +69,6 @@ s_LightCART <- function(x, y = NULL,
                         objective = NULL,
                         num_leaves = 32L,
                         max_depth = -1L,
-                        learning_rate = .01,
-                        subsample = .8,
-                        subsample_freq = 1L,
                         lambda_l1 = 0,
                         lambda_l2 = 0,
                         max_cat_threshold = 32L,
