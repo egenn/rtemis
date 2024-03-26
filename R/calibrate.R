@@ -2,20 +2,19 @@
 # ::rtemis::
 # 2023 EDG www.lambdamd.org
 
-
 #' Calibrate predicted probabilities using GAM
 #'
 #' Calibrate predicted probabilities using a generalized additive model (GAM).
 #'
-#' @param true_labels Factor with true class labels
-#' @param est_prob Numeric vector with predicted probabilities
-#' @param pos_class_idi Integer: Index of the positive class
+#' @param true.labels Factor with true class labels
+#' @param est.prob Numeric vector with predicted probabilities
+#' @param pos.class.idi Integer: Index of the positive class
 #' @param mod Character: Model to use for calibration. Either "gam" or "glm"
 #' @param k Integer: GAM degrees of freedom
-#' @param verbose Logical: If TRUE, printe messages to the console
+#' @param verbose Logical: If TRUE, print messages to the console
 #'
 #' @return mod: fitted GAM model. Use `mod$fitted.values` to get calibrated
-#' input probabilited; use `predict(mod, newdata = newdata, type = "response")`
+#' input probabilities; use `predict(mod, newdata = newdata, type = "response")`
 #' to calibrate other estimated probabilities.
 #'
 #' @author EDG
@@ -26,33 +25,33 @@
 #'
 #' # Plot the calibration curve of the original predictions
 #' dplot3_calibration(
-#'   true_labels = segment_logistic$Class,
-#'   est_prob = segment_logistic$.pred_poor,
+#'   true.labels = segment_logistic$Class,
+#'   est.prob = segment_logistic$.pred_poor,
 #'   n_windows = 10,
-#'   pos_class_idi = 2
+#'   pos.class.idi = 2
 #' )
 #'
 #' # Plot the calibration curve of the calibrated predictions
 #' dplot3_calibration(
-#'   true_labels = segment_logistic$Class,
-#'   est_prob = calibrate(
+#'   true.labels = segment_logistic$Class,
+#'   est.prob = calibrate(
 #'     segment_logistic$Class,
 #'     segment_logistic$.pred_poor
 #'   )$fitted.values,
 #'   n_windows = 10,
-#'   pos_class_idi = 2
+#'   pos.class.idi = 2
 #' )
 #' }
-calibrate <- function(true_labels,
-                      est_prob,
-                      pos_class_idi = 1,
+calibrate <- function(true.labels,
+                      est.prob,
+                      pos.class.idi = 1,
                       mod = c("gam", "glm"),
                       k = 5,
                       verbose = TRUE) {
-  stopifnot(pos_class_idi %in% c(1, 2))
+  stopifnot(pos.class.idi %in% c(1, 2))
   mod <- match.arg(mod)
-  if (pos_class_idi == 1) {
-    true_labels <- factor(true_labels, levels = rev(levels(true_labels)))
+  if (pos.class.idi == 1) {
+    true.labels <- factor(true.labels, levels = rev(levels(true.labels)))
   }
 
   # GAM ----
@@ -64,9 +63,9 @@ calibrate <- function(true_labels,
     }
   }
   if (mod == "glm") {
-    mod <- glm(true_labels ~ est_prob, family = binomial())
+    mod <- glm(true.labels ~ est.prob, family = binomial())
   } else {
-    mod <- mgcv::gam(true_labels ~ s(est_prob, k = k), family = binomial())
+    mod <- mgcv::gam(true.labels ~ s(est.prob, k = k), family = binomial())
   }
   if (verbose) {
     msg2done()
