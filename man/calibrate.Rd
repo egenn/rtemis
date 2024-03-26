@@ -5,30 +5,30 @@
 \title{Calibrate predicted probabilities using GAM}
 \usage{
 calibrate(
-  true_labels,
-  est_prob,
-  pos_class_idi = 1,
+  true.labels,
+  est.prob,
+  pos.class.idi = 1,
   mod = c("gam", "glm"),
   k = 5,
   verbose = TRUE
 )
 }
 \arguments{
-\item{true_labels}{Factor with true class labels}
+\item{true.labels}{Factor with true class labels}
 
-\item{est_prob}{Numeric vector with predicted probabilities}
+\item{est.prob}{Numeric vector with predicted probabilities}
 
-\item{pos_class_idi}{Integer: Index of the positive class}
+\item{pos.class.idi}{Integer: Index of the positive class}
 
 \item{mod}{Character: Model to use for calibration. Either "gam" or "glm"}
 
 \item{k}{Integer: GAM degrees of freedom}
 
-\item{verbose}{Logical: If TRUE, printe messages to the console}
+\item{verbose}{Logical: If TRUE, print messages to the console}
 }
 \value{
 mod: fitted GAM model. Use \code{mod$fitted.values} to get calibrated
-input probabilited; use \code{predict(mod, newdata = newdata, type = "response")}
+input probabilities; use \code{predict(mod, newdata = newdata, type = "response")}
 to calibrate other estimated probabilities.
 }
 \description{
@@ -40,21 +40,21 @@ data(segment_logistic, package = "probably")
 
 # Plot the calibration curve of the original predictions
 dplot3_calibration(
-  true_labels = segment_logistic$Class,
-  est_prob = segment_logistic$.pred_poor,
+  true.labels = segment_logistic$Class,
+  est.prob = segment_logistic$.pred_poor,
   n_windows = 10,
-  pos_class_idi = 2
+  pos.class.idi = 2
 )
 
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
-  true_labels = segment_logistic$Class,
-  est_prob = calibrate(
+  true.labels = segment_logistic$Class,
+  est.prob = calibrate(
     segment_logistic$Class,
     segment_logistic$.pred_poor
   )$fitted.values,
   n_windows = 10,
-  pos_class_idi = 2
+  pos.class.idi = 2
 )
 }
 }
