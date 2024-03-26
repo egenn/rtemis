@@ -6,6 +6,8 @@
 #'
 #' @param true.labels Factor with true class labels
 #' @param est.prob Numeric vector with predicted probabilities
+#' @param bin.method Character: "quantile" or "equal": Method to bin the estimated 
+#' probabilities.
 #' @param n.windows Integer: Number of windows to split the data into
 #' @param pos.class.idi Integer: Index of the positive class
 #' @param xlab Character: x-axis label
@@ -41,18 +43,29 @@
 #' }
 dplot3_calibration <- function(true.labels, est.prob,
                                n.windows = 10,
+                               bin.method = c("quantile", "equal"),
                                pos.class.idi = 1,
                                xlab = "Mean estimated probability",
                                ylab = "Empirical risk",
                                #    conf_level = .95,
                                mode = "markers+lines", ...) {
+
+  bin.method <- match.arg(bin.method)
   if (!is.list(est.prob)) {
     est.prob <- list(estimated_prob = est.prob)
   }
   pos_class <- levels(true.labels)[pos.class.idi]
 
   # Create windows
-  breaks <- seq(0, 1, length.out = n.windows + 1)
+  if (bin.method == "quantile") {
+    breaks <- lapply(est.prob, \(x) {
+      quantile(x, probs = seq(0, 1, length.out = n.windows + 1))
+    })
+  } else if (bin.method == "equal") {
+    breaks <- lapply(seq_along(est.prob), \(x) {
+      seq(0, 1, length.out = n.windows + 1)
+    })
+  }
 
   # Calculate the mean probability in each window
   # mean_window_prob <- sapply(seq_len(n.windows), \(i) {
@@ -60,7 +73,7 @@ dplot3_calibration <- function(true.labels, est.prob,
   # })
   mean_window_prob <- lapply(seq_along(est.prob), \(i) {
     sapply(seq_len(n.windows), \(j) {
-      mean(est.prob[[i]][est.prob[[i]] >= breaks[j] & est.prob[[i]] < breaks[j + 1]])
+      mean(est.prob[[i]][est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]])
     })
   })
 
@@ -71,7 +84,7 @@ dplot3_calibration <- function(true.labels, est.prob,
   # })
   window_empirical_risk <- lapply(seq_along(est.prob), \(i) {
     sapply(seq_len(n.windows), \(j) {
-      idl <- est.prob[[i]] >= breaks[j] & est.prob[[i]] < breaks[j + 1]
+      idl <- est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]
       sum(true.labels[idl] == pos_class) / sum(idl)
     })
   })
