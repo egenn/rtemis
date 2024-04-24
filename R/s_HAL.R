@@ -23,6 +23,7 @@
 s_HAL <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   family = NULL,
+                  max_degree = ifelse(ncol(X) >= 20, 2, 3),
                   lambda = NULL,
                   x.name = NULL, y.name = NULL,
                   grid.resample.params = setup.resample("kfold", 5),
@@ -167,15 +168,17 @@ s_HAL <- function(x, y = NULL,
   }
   # cv.lambda <- is.null(lambda)
   # do.gs <- is.null(lambda) | length(alpha) > 1 | length(lambda) > 1
-  do.gs <- FALSE
-  if (!.gs && do.gs) {
+  # do.gs <- FALSE
+  # if (!.gs && do.gs) {
+  if (gridCheck(max_degree)) {
     gs <- gridSearchLearn(x, y,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
-        lambda = lambda
+        max_degree = max_degree
       ),
       fixed.params = list(
+        lambda = lambda,
         .gs = TRUE
         # which.cv.lambda = which.cv.lambda
       ),
@@ -187,7 +190,8 @@ s_HAL <- function(x, y = NULL,
       verbose = verbose,
       n.cores = n.cores
     )
-    lambda <- gs$best.tune$lambda
+    # lambda <- gs$best.tune$lambda
+    max_degree <- gs$best.tune$max_degree
   } else {
     gs <- NULL
   }
@@ -198,32 +202,15 @@ s_HAL <- function(x, y = NULL,
   }
 
   # fit_hal ----
-  # if (.gs && cv.lambda) {
-  #     mod <- glmnet::cv.glmnet(x,
-  #         if (family == "binomial") reverseLevels(y) else y,
-  #         family = family,
-  #         alpha = alpha,
-  #         lambda = lambda,
-  #         nlambda = nlambda,
-  #         weights = .weights,
-  #         intercept = intercept,
-  #         penalty.factor = penalty.factor, ...
-  #     )
-  # } else {
-  #     if (verbose) msg2("Training elastic net model...", newline.pre = TRUE)
-  #     mod <- glmnet::glmnet(x,
-  #         if (family == "binomial") reverseLevels(y) else y,
-  #         family = family,
-  #         alpha = alpha,
-  #         lambda = lambda,
-  #         nlambda = nlambda,
-  #         weights = .weights,
-  #         intercept = intercept,
-  #         penalty.factor = penalty.factor, ...
-  #     )
-  # }
   if (verbose) msg2("Training Highly Adaptive LASSO...", newline.pre = TRUE)
-  mod <- hal9001::fit_hal(x, as.numeric(y), family = family, lambda = lambda, ...)
+  mod <- hal9001::fit_hal(
+    X = x,
+    Y = as.numeric(y),
+    family = family,
+    max_degree = max_degree,
+    lambda = lambda,
+    ...
+  )
 
   # Fitted ----
   if (type == "Regression" || type == "Survival") {
@@ -295,7 +282,8 @@ s_HAL <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )
