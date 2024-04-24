@@ -10,10 +10,10 @@ bag(
   x.test = NULL,
   y.test = NULL,
   weights = NULL,
-  mod = "cart",
+  alg = "cart",
   k = 10,
   mtry = NULL,
-  mod.params = list(),
+  train.params = list(),
   ifw = TRUE,
   ifw.type = 2,
   upsample = FALSE,
@@ -52,13 +52,13 @@ Columns must correspond to columns in \code{x}}
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
-\item{mod}{Character: Algorithm to bag, for options, see \link{select_learn}}
+\item{alg}{Character: Algorithm to bag, for options, see \link{select_learn}}
 
 \item{k}{Integer: Number of base learners to train}
 
 \item{mtry}{Integer: Number of features to randomly sample for each base learner.}
 
-\item{mod.params}{Named list of arguments for \code{mod}}
+\item{train.params}{Named list of arguments for \code{mod}}
 
 \item{ifw}{Logical: If TRUE, apply inverse frequency weighting
 (for Classification only).

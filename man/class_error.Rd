@@ -9,6 +9,7 @@ class_error(
   estimated,
   estimated.prob = NULL,
   calc.auc = TRUE,
+  calc.brier = TRUE,
   auc.method = c("pROC", "ROCR", "auc_pairs"),
   trace = 0
 )
@@ -21,6 +22,8 @@ class_error(
 \item{estimated.prob}{Numeric vector: Estimated probabilities}
 
 \item{calc.auc}{Logical: If TRUE, calculate AUC. May be slow in very large datasets.}
+
+\item{calc.brier}{Logical: If TRUE, calculate Brier Score}
 
 \item{auc.method}{Character: "pROC", "ROCR", "auc_pairs": Method to use, passed to
 \link{auc}.}
