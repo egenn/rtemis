@@ -8,10 +8,10 @@
 #' Train a bagged ensemble using any learner
 #'
 #' @inheritParams s_GLM
-#' @param mod Character: Algorithm to bag, for options, see [select_learn]
+#' @param alg Character: Algorithm to bag, for options, see [select_learn]
 #' @param k Integer: Number of base learners to train
 #' @param mtry Integer: Number of features to randomly sample for each base learner.
-#' @param mod.params Named list of arguments for `mod`
+#' @param train.params Named list of arguments for `mod`
 #' @param .resample List: Resample settings to use. There is no need to edit this, unless you want to change the type of
 #' resampling. It will use stratified bootstrap by default. Use [setup.resample] for convenience.
 #' Default = `setup.resample(resampler = "strat.boot", n.resamples = k)`
@@ -47,10 +47,10 @@
 bag <- function(x, y = NULL,
                 x.test = NULL, y.test = NULL,
                 weights = NULL,
-                mod = "cart",
+                alg = "cart",
                 k = 10,
                 mtry = NULL,
-                mod.params = list(),
+                train.params = list(),
                 ifw = TRUE,
                 ifw.type = 2,
                 upsample = FALSE,
@@ -96,7 +96,7 @@ bag <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   extra.args <- list(...)
-  mod.params <- c(mod.params, extra.args)
+  train.params <- c(train.params, extra.args)
 
   # Data ----
   dt <- prepare_data(x, y,
@@ -135,19 +135,19 @@ bag <- function(x, y = NULL,
   }
 
   # Bag ----
-  mod.name <- paste0("Bagged", toupper(mod))
-  mod.desc <- select_learn(mod, desc = TRUE)
+  mod.name <- paste0("Bagged", toupper(alg))
+  mod.desc <- select_learn(alg, desc = TRUE)
 
-  if (verbose) parameterSummary(mod, mod.params)
+  if (verbose) parameterSummary(alg, train.params)
 
   # resLearn ----
   if (verbose) msg20("Bagging ", .resample$n.resamples, " ", mod.desc, "...")
   rl <- resLearn(
     x = x, y = y,
-    mod = mod,
+    alg = alg,
     resample.params = .resample,
     weights = weights,
-    params = mod.params,
+    params = train.params,
     verbose = verbose,
     res.verbose = base.verbose,
     save.mods = TRUE,
@@ -207,8 +207,8 @@ bag <- function(x, y = NULL,
 
   # Outro ----
   parameters <- list(
-    mod = mod.name,
-    mod.params = mod.params,
+    alg = mod.name,
+    train.params = train.params,
     k = k
   )
   rt <- rtModBag$new(
