@@ -13,6 +13,7 @@
 #' @param estimated Factor: Estimated values
 #' @param estimated.prob Numeric vector: Estimated probabilities
 #' @param calc.auc Logical: If TRUE, calculate AUC. May be slow in very large datasets.
+#' @param calc.brier Logical: If TRUE, calculate Brier Score
 #' @param auc.method Character: "pROC", "ROCR", "auc_pairs": Method to use, passed to
 #' [auc].
 #' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
@@ -35,6 +36,7 @@ class_error <- function(true,
                         estimated,
                         estimated.prob = NULL,
                         calc.auc = TRUE,
+                        calc.brier = TRUE,
                         auc.method = c("pROC", "ROCR", "auc_pairs"),
                         trace = 0) {
   # Input ----
@@ -107,6 +109,14 @@ class_error <- function(true,
   if (!is.null(estimated.prob) && n.classes == 2) {
     if (calc.auc) {
       Overall$AUC <- auc(preds = estimated.prob, labels = true, method = auc.method)
+    }
+    if (calc.brier) {
+      true_bin <- if (rtenv$binclasspos == 1) {
+        2 - as.numeric(true)
+      } else {
+        as.numeric(true) - 1
+      }
+      Overall$`Brier Score` <- brier_score(true_bin, estimated.prob)
     }
     Overall$`Log loss` <- logloss(true, estimated.prob)
   }
@@ -190,3 +200,19 @@ print.class_error <- function(x, decimal.places = 4, ...) {
 f1 <- function(precision, recall) {
   2 * (recall * precision) / (recall + precision)
 } # rtemis::f1
+
+
+#' Brier Score
+#' 
+#' Calculate the Brier Score for classification:
+#' 
+#' \deqn{BS = \frac{1}{N} \sum_{i=1}^{N} (y_i - p_i)^2}{BS = 1/N * sum_{i=1}^{N} (y_i - p_i)^2}
+#' 
+#' @param true Numeric vector, {0, 1}: True labels
+#' @param estimated.prob Numeric vector, \[0, 1\]: Estimated probabilities
+#' 
+#' @author E.D. Gennatas
+#' @export
+brier_score <- function(true, estimated.prob) {
+  mean((true - estimated.prob)^2)
+} # rtemis::brier_score
