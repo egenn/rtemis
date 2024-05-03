@@ -15,6 +15,7 @@
 #' - **RDS** files using `readRDS()`
 #' - **Parquet** files using `arrow::read_parquet()`
 #' - **XLSX** files using `readxl::read_excel()`
+#' - **DTA** files from Stata using `haven::read_dta()`
 #' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
 #'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`
 #   or `polars::pl$read_csv()`
@@ -114,6 +115,16 @@ read <- function(filename,
       )
     }
     .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
+    if (output == "data.table") setDT(.dat)
+  } else if (ext == "dta") {
+    dependency_check("haven")
+    if (verbose) {
+      msg20(
+        bold(green("\u25B6")), " Reading ",
+        hilite(basename(path)), " using haven::read_dta()..."
+      )
+    }
+    .dat <- haven::read_dta(path, ...)
     if (output == "data.table") setDT(.dat)
   } else {
     if (verbose) {
