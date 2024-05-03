@@ -7,8 +7,8 @@
 dplot3_calibration(
   true.labels,
   est.prob,
-  n.windows = 10,
-  bin.method = c("quantile", "equal"),
+  n.bins = 10,
+  bin.method = c("equidistant", "quantile"),
   pos.class.idi = 1,
   xlab = "Mean estimated probability",
   ylab = "Empirical risk",
@@ -17,13 +17,13 @@ dplot3_calibration(
 )
 }
 \arguments{
-\item{true.labels}{Factor with true class labels}
+\item{true.labels}{Factor or list of factors with true class labels}
 
-\item{est.prob}{Numeric vector with predicted probabilities}
+\item{est.prob}{Numeric vector or list of numeric vectors with predicted probabilities}
 
-\item{n.windows}{Integer: Number of windows to split the data into}
+\item{n.bins}{Integer: Number of windows to split the data into}
 
-\item{bin.method}{Character: "quantile" or "equal": Method to bin the estimated
+\item{bin.method}{Character: "quantile" or "equidistant": Method to bin the estimated
 probabilities.}
 
 \item{pos.class.idi}{Integer: Index of the positive class}
@@ -47,7 +47,7 @@ data(segment_logistic, package = "probably")
 dplot3_calibration(
   true.labels = segment_logistic$Class,
   est.prob = segment_logistic$.pred_poor,
-  n.windows = 10,
+  n.bins = 10,
   pos.class.idi = 2
 )
 
@@ -58,7 +58,7 @@ dplot3_calibration(
     segment_logistic$Class,
     segment_logistic$.pred_poor
   )$fitted.values,
-  n.windows = 10,
+  n.bins = 10,
   pos.class.idi = 2
 )
 }

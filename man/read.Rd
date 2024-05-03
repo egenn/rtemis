@@ -77,6 +77,7 @@ characters to factors
 \item \strong{RDS} files using \code{readRDS()}
 \item \strong{Parquet} files using \code{arrow::read_parquet()}
 \item \strong{XLSX} files using \code{readxl::read_excel()}
+\item \strong{DTA} files from Stata using \code{haven::read_dta()}
 \item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
 \code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}
 }

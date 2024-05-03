@@ -8,8 +8,8 @@ calibrate_cv(
   mod,
   alg = "gam",
   learn.params = list(),
+  resample.params = setup.resample(resampler = "kfold", n.resamples = 5),
   which.repeat = 1,
-  seed = NULL,
   verbosity = 1
 )
 }
@@ -20,9 +20,10 @@ calibrate_cv(
 
 \item{learn.params}{List: List of parameters to pass to the learning algorithm}
 
-\item{which.repeat}{Integer: Which repeat to use for calibration}
+\item{resample.params}{List of parameters to pass to the resampling algorithm.
+Build using \link{setup.resample}}
 
-\item{seed}{Integer: seed for the resampling}
+\item{which.repeat}{Integer: Which repeat to use for calibration}
 
 \item{verbosity}{Integer: 0: silent, > 0: print messages}
 }
@@ -35,6 +36,12 @@ Calibrate cross-validated model trained using \link{train_cv}
 }
 \details{
 This is a work in progress to be potentially incorporated into \link{train_cv}
+You start by training a cross-validated model using \link{train_cv}, then this function
+can be used to calibrate the model. In order to use all available data, each outer
+resample from the input \code{mod} is resampled (using 5-fold CV by default) to train
+and test calibration models. This allows using the original label-based metrics
+of \code{mod} and also extract calibration metrics based on the same data, after
+aggregating the test set predictions of the calibration models.
 }
 \author{
 E.D. Gennatas

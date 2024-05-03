@@ -7,8 +7,8 @@
 calibrate(
   true.labels,
   est.prob,
-  pos.class.idi = 1,
-  mod = c("gam", "glm"),
+  pos.class.idi = NULL,
+  mod = c("gam", "glm", "isoreg"),
   k = 5,
   verbose = TRUE
 )
