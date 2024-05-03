@@ -14,11 +14,11 @@
 #' argument is set in a learner.
 #' @param x features - training set
 #' @param y outcome - training set
-#' @param mod Character: \pkg{rtemis} model. See `select_learn` gives available models
+#' @param alg Character: \pkg{rtemis} supervised learning algorithm to use. See `select_learn` for available options.
 #' @param resample.params List: output of [rtset] (or a list of same structure)
 #' @param params List of named elements, each is a single value
 #' @param verbose Logical: If TRUE, print messages to screen
-#' @param res.verbose Logical: Will be passed to each `mod`'s `verbose` argument
+#' @param res.verbose Logical: Will be passed to each algorithm's `verbose` argument
 #' @param save.mods Logical: If TRUE, save all models, otherwise discard after training.
 #' Use with [train_cv] when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
@@ -28,7 +28,7 @@
 #' @keywords internal
 #' @noRd
 
-resLearn <- function(x, y, mod,
+resLearn <- function(x, y, alg,
                      resample.params = setup.cv.resample(),
                      weights = NULL,
                      params = list(),
@@ -57,7 +57,7 @@ resLearn <- function(x, y, mod,
     print(args(resLearn))
     stop("Input missing")
   }
-  mod.name <- toupper(mod)
+  mod.name <- toupper(alg)
   if (!is.null(outdir)) {
     outdir <- normalizePath(outdir, mustWork = FALSE)
     if (!dir.exists(outdir)) {
@@ -70,7 +70,7 @@ resLearn <- function(x, y, mod,
   }
 
   # Resamples ----
-  learner <- select_learn(mod)
+  learner <- select_learn(alg)
   res <- resample(y, rtset = resample.params, verbosity = trace)
   resampler <- attr(res, "resampler") # for res.group and res.index
   n.workers <- min(n.workers, resample.params$n.resamples)
@@ -112,7 +112,7 @@ resLearn <- function(x, y, mod,
     if (is.null(mtry)) {
       feat.index <- seq_len(NCOL(x))
     } else {
-      feat.index <- sample(seq(NCOL), mtry, replace = FALSE)
+      feat.index <- sample(seq_len(NCOL(x)), mtry, replace = FALSE)
     }
     x.train1 <- x[res1, feat.index, drop = FALSE]
     y.train1 <- y[res1]
@@ -178,7 +178,7 @@ resLearn <- function(x, y, mod,
       loocv = "independent folds (LOOCV)",
       "custom resamples"
     )
-    msg20("Training ", select_learn(mod, desc = TRUE), " on ",
+    msg20("Training ", select_learn(alg, desc = TRUE), " on ",
       length(res), " ", desc, "...",
       newline.pre = FALSE
     )
@@ -200,7 +200,7 @@ resLearn <- function(x, y, mod,
     length(res)
   )
 
-  names(res.run) <- paste0(toupper(mod), seq(res))
+  names(res.run) <- paste0(toupper(alg), seq(res))
   if (res.verbose) cat("\n")
 
   # Outro ----
