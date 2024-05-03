@@ -282,7 +282,7 @@ train_cv <- function(x, y = NULL,
   for (i in seq_len(n.repeats)) {
     res.run[[i]] <- resLearn(
       x = x, y = y,
-      mod = alg,
+      alg = alg,
       resample.params = outer.resampling,
       weights = weights,
       params = train.params,
