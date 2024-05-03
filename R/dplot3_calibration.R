@@ -4,11 +4,11 @@
 
 #' Draw calibration plot
 #'
-#' @param true.labels Factor with true class labels
-#' @param est.prob Numeric vector with predicted probabilities
-#' @param bin.method Character: "quantile" or "equal": Method to bin the estimated 
+#' @param true.labels Factor or list of factors with true class labels
+#' @param est.prob Numeric vector or list of numeric vectors with predicted probabilities
+#' @param bin.method Character: "quantile" or "equidistant": Method to bin the estimated 
 #' probabilities.
-#' @param n.windows Integer: Number of windows to split the data into
+#' @param n.bins Integer: Number of windows to split the data into
 #' @param pos.class.idi Integer: Index of the positive class
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
@@ -26,7 +26,7 @@
 #' dplot3_calibration(
 #'   true.labels = segment_logistic$Class,
 #'   est.prob = segment_logistic$.pred_poor,
-#'   n.windows = 10,
+#'   n.bins = 10,
 #'   pos.class.idi = 2
 #' )
 #'
@@ -37,13 +37,13 @@
 #'     segment_logistic$Class,
 #'     segment_logistic$.pred_poor
 #'   )$fitted.values,
-#'   n.windows = 10,
+#'   n.bins = 10,
 #'   pos.class.idi = 2
 #' )
 #' }
 dplot3_calibration <- function(true.labels, est.prob,
-                               n.windows = 10,
-                               bin.method = c("quantile", "equal"),
+                               n.bins = 10,
+                               bin.method = c("equidistant", "quantile"),
                                pos.class.idi = 1,
                                xlab = "Mean estimated probability",
                                ylab = "Empirical risk",
@@ -51,46 +51,50 @@ dplot3_calibration <- function(true.labels, est.prob,
                                mode = "markers+lines", ...) {
 
   bin.method <- match.arg(bin.method)
+  if (!is.list(true.labels)) {
+    true.labels <- list(true_labels = true.labels)
+  }
   if (!is.list(est.prob)) {
     est.prob <- list(estimated_prob = est.prob)
   }
-  pos_class <- levels(true.labels)[pos.class.idi]
+  # Ensure same number of inputs
+  stopifnot(length(true.labels) == length(est.prob))
+
+  pos_class <- lapply(true.labels, \(x) {
+    levels(x)[pos.class.idi]
+  })
+
+  # Ensure same positive class
+  stopifnot(length(unique(unlist(pos_class))) == 1)
 
   # Create windows
-  if (bin.method == "quantile") {
-    breaks <- lapply(est.prob, \(x) {
-      quantile(x, probs = seq(0, 1, length.out = n.windows + 1))
-    })
-  } else if (bin.method == "equal") {
+  if (bin.method == "equidistant") {
     breaks <- lapply(seq_along(est.prob), \(x) {
-      seq(0, 1, length.out = n.windows + 1)
+      seq(0, 1, length.out = n.bins + 1)
+    })
+  } else if (bin.method == "quantile") {
+    breaks <- lapply(est.prob, \(x) {
+      quantile(x, probs = seq(0, 1, length.out = n.bins + 1))
     })
   }
 
   # Calculate the mean probability in each window
-  # mean_window_prob <- sapply(seq_len(n.windows), \(i) {
-  #     mean(est.prob[est.prob >= breaks[i] & est.prob < breaks[i + 1]])
-  # })
-  mean_window_prob <- lapply(seq_along(est.prob), \(i) {
-    sapply(seq_len(n.windows), \(j) {
+  mean_bin_prob <- lapply(seq_along(est.prob), \(i) {
+    sapply(seq_len(n.bins), \(j) {
       mean(est.prob[[i]][est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]])
     })
   })
 
   # Calculate the proportion of condition positive cases in each window
-  # window_empirical_risk <- sapply(seq_len(n.windows), \(i) {
-  #     idl <- est.prob >= breaks[i] & est.prob < breaks[i + 1]
-  #     sum(true.labels[idl] == pos_class) / sum(idl)
-  # })
   window_empirical_risk <- lapply(seq_along(est.prob), \(i) {
-    sapply(seq_len(n.windows), \(j) {
+    sapply(seq_len(n.bins), \(j) {
       idl <- est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]
-      sum(true.labels[idl] == pos_class) / sum(idl)
+      sum(true.labels[[i]][idl] == pos_class[[i]]) / sum(idl)
     })
   })
 
   # Calculate confidence intervals
-  # confint <- sapply(seq_len(n.windows), \(i) {
+  # confint <- sapply(seq_len(n.bins), \(i) {
   #     events <- length(true.labels[true.labels == pos_class & est.prob >= breaks[i] & est.prob < breaks[i + 1]])
   #     total <- length(est.prob >= breaks[i] & est.prob < breaks[i + 1])
   #     suppressWarnings(pt <- prop.test(
@@ -102,7 +106,7 @@ dplot3_calibration <- function(true.labels, est.prob,
 
   # Plot
   dplot3_xy(
-    mean_window_prob, window_empirical_risk,
+    mean_bin_prob, window_empirical_risk,
     xlab = xlab,
     ylab = ylab,
     axes.square = TRUE, diagonal = TRUE,
