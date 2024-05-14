@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2022 EDG www.lambdamd.org
 
-#' Plot the primary amino acid sequence of a protein
+#' Plot the amino acid sequence with annotations
 #'
 #' @param x Character vector of amino acid sequence (1-letter abbreviations)
 #' @param site Named list of lists with indices of sites. These will be
@@ -11,6 +11,7 @@
 #' highlighted by coloring the markers and lines of regions using the
 #' `palette` colors
 #' @param ptm List of post-translational modifications
+#' @param clv List of cleavage sites
 #' @param variant List of variant information
 #' @param disease.variants List of disease variant information
 #' @param n.per.row Integer: Number of amino acids to show per row
@@ -33,7 +34,6 @@
 #' @param marker.col Color for markers
 #' @param marker.alpha Numeric: Alpha for markers
 #' @param marker.symbol Character: Symbol for markers
-#' @param marker.hoverinfo Character: Hoverinfo for markers
 #' @param line.col Color for lines
 #' @param line.alpha Numeric: Alpha for lines
 #' @param line.width Numeric: Width for lines
@@ -126,6 +126,7 @@ dplot3_protein <- function(x,
                            site = NULL,
                            region = NULL,
                            ptm = NULL,
+                           clv = NULL,
                            variant = NULL,
                            disease.variants = NULL,
                            # label.group = NULL,
@@ -147,7 +148,6 @@ dplot3_protein <- function(x,
                            marker.col = NULL, # "gray18",
                            marker.alpha = 1,
                            marker.symbol = "circle",
-                           marker.hoverinfo = "text",
                            # AA line
                            line.col = NULL, # "gray18",
                            line.alpha = 1,
@@ -187,11 +187,17 @@ dplot3_protein <- function(x,
                            disease.variant.col = "#E266AE", # "#c982d7"
                            # PTMs
                            showlegend.ptm = TRUE,
-                           ptm.col = 2:10,
+                           ptm.col = NULL,
                            ptm.symbol = "circle",
                            ptm.offset = .12,
                            ptm.pad = .35,
                            ptm.marker.size = marker.size / 4.5,
+                           # Cleavage sites
+                           clv.col = NULL,
+                           clv.symbol = "triangle-down",
+                           clv.offset = .12,
+                           clv.pad = .35,
+                           clv.marker.size = marker.size / 4,
                            # Position annotations
                            annotate.position.every = 10,
                            annotate.position.alpha = .5,
@@ -247,6 +253,7 @@ dplot3_protein <- function(x,
       site <- dat$Annotations$site
       region <- dat$Annotations$region
       ptm <- dat$Annotations$ptm
+      clv <- dat$Annotations$clv
     } else {
       dat <- uniprot_get(x, verbose = verbose)
       x <- dat[["Sequence"]]
@@ -391,6 +398,21 @@ dplot3_protein <- function(x,
     )
   }
   if (show.markers) {
+    clvtext <- if (!is.null(clv)) {
+      # Get cleavage sites for each amino acid
+      sapply(position, \(i) {
+        if (i %in% unlist(clv)) {
+          paste0(
+            "\n<b><em>Cleavage site for:</em></b>\n",
+            paste0(names(clv)[sapply(clv, \(x) i %in% x)], collapse = "\n")
+          )
+        } else {
+          ""
+        }
+      })
+    } else {
+      NULL
+    }
     plt <- plt |> plotly::add_trace(
       x = xs,
       y = ys,
@@ -405,9 +427,10 @@ dplot3_protein <- function(x,
         color = plotly::toRGB(line.col, alpha = line.alpha),
         width = line.width
       ),
-      text = paste0(position, ": ", xnames),
+      text = paste0(position, ": ", xnames, clvtext),
       name = aaname,
-      hoverinfo = marker.hoverinfo
+      # hoverinfo = marker.hoverinfo
+      hoverinfo = "text"
     )
   }
 
@@ -612,15 +635,17 @@ dplot3_protein <- function(x,
   } # /sites
 
   # PTMs ----
+  # Note: Do not show both PTMs and cleavage sites using the same padding
   if (!is.null(ptm)) {
     if (trace > 0) msg2("Adding PTM markers...")
+    if (is.null(ptm.col)) ptm.col <- 1 + seq_along(ptm)
     ptm.symbol <- recycle(ptm.symbol, ptm)
     ptm.names <- names(ptm)
     for (i in seq_along(ptm)) {
-      qrtoffset <- qrtpad(i, ptm.pad)
+      polyoffset <- npad(i, n = length(ptm), pad = ptm.pad)
       plt <- plt |> plotly::add_trace(
-        x = xs[ptm[[i]]] + qrtoffset[1],
-        y = ys[ptm[[i]]] + qrtoffset[2],
+        x = xs[ptm[[i]]] + polyoffset[1],
+        y = ys[ptm[[i]]] + polyoffset[2],
         type = "scatter",
         mode = "markers",
         marker = list(
@@ -629,6 +654,31 @@ dplot3_protein <- function(x,
           symbol = ptm.symbol[i]
         ),
         name = ptm.names[i],
+        showlegend = showlegend.ptm
+      )
+    }
+  }
+
+  # Cleavage sites ----
+  # Note: Do not show both PTMs and cleavage sites using the same padding
+  if (!is.null(clv)) {
+    if (trace > 0) msg2("Adding cleavage site markers...")
+    if (is.null(clv.col)) clv.col <- 1 + seq_along(clv)
+    clv.symbol <- recycle(clv.symbol, clv)
+    clv.names <- names(clv)
+    for (i in seq_along(clv)) {
+      polyoffset <- npad(i, n = length(clv), pad = clv.pad)
+      plt <- plt |> plotly::add_trace(
+        x = xs[clv[[i]]] + polyoffset[1],
+        y = ys[clv[[i]]] + polyoffset[2],
+        type = "scatter",
+        mode = "markers",
+        marker = list(
+          color = plotly::toRGB(clv.col[[i]]),
+          size = clv.marker.size,
+          symbol = clv.symbol[i]
+        ),
+        name = clv.names[i],
         showlegend = showlegend.ptm
       )
     }
@@ -966,3 +1016,43 @@ qrtpad <- function(i, pad = .3) {
     `7` = c(-qrt, -qrt)
   )
 }
+
+# plot(x = 0:2, y = 0:2, pch = 19)
+# for (i in 1:7) {
+#   pd <- qrtpad(i)
+#   points(x = 1 + pd[1], y = 1 + pd[2], pch = 2, col = "red")
+# }
+# sapply(1:7, qrtpad)
+
+# npad: function to calculate circular offset of a point from the center of a region
+# by dividing circle into n equal parts, beginning from the top
+npad <- function(i, n = 12, pad = .3) {
+  angle <- 2 * pi / n
+  x <- sin(angle * i) * pad
+  y <- cos(angle * i) * pad
+  c(x, y)
+}
+
+
+# plot(x = 0:2, y = 0:2, pch = 19)
+# for (i in 1:7) {
+#   pd <- npad(i, n = 7)
+#   points(x = 1 + pd[1], y = 1 + pd[2], pch = i, col = "red")
+# }
+# sapply(1:7, qrtpad)
+
+# plot(x = 0:2, y = 0:2, pch = 19)
+# for (i in 1:12) {
+#   pd <- npad(i, n = 12)
+#   points(x = 1 + pd[1], y = 1 + pd[2], pch = i, col = "red")
+# }
+# sapply(1:7, qrtpad)
+
+# plot(1:20, 1:20, pch = 1:20)
+
+# plot(x = 0:2, y = 0:2, pch = 19)
+# for (i in 1:20) {
+#   pd <- npad(i, n = 20)
+#   points(x = 1 + pd[1], y = 1 + pd[2], pch = i, col = "red")
+# }
+# sapply(1:7, qrtpad)
