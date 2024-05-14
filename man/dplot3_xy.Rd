@@ -19,6 +19,7 @@ dplot3_xy(
   mode = "markers",
   order.on.x = NULL,
   main = NULL,
+  subtitle = NULL,
   xlab = NULL,
   ylab = NULL,
   col = NULL,
@@ -57,6 +58,10 @@ dplot3_xy(
   margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
   main.y = 1,
   main.yanchor = "bottom",
+  subtitle.x = 0.02,
+  subtitle.y = 0.99,
+  subtitle.xanchor = "left",
+  subtitle.yanchor = "top",
   automargin.x = TRUE,
   automargin.y = TRUE,
   xlim = NULL,
@@ -217,6 +222,14 @@ joined by \code{+}, e.g. "toaxis+across+marker"}
 \item{main.y}{Numeric: Y position of main title}
 
 \item{main.yanchor}{Character: "top", "middle", "bottom"}
+
+\item{subtitle.x}{Numeric: X position of subtitle relative to paper}
+
+\item{subtitle.y}{Numeric: Y position of subtitle relative to paper}
+
+\item{subtitle.xanchor}{Character: "left", "center", "right"}
+
+\item{subtitle.yanchor}{Character: "top", "middle", "bottom"}
 
 \item{automargin.x}{Logical: If TRUE, automatically set x-axis amrgins}
 

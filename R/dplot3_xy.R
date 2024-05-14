@@ -42,6 +42,10 @@
 #' @param spikethickness Numeric: Thickness of spikes
 #' @param main.y Numeric: Y position of main title
 #' @param main.yanchor Character: "top", "middle", "bottom"
+#' @param subtitle.x Numeric: X position of subtitle relative to paper
+#' @param subtitle.y Numeric: Y position of subtitle relative to paper
+#' @param subtitle.xanchor Character: "left", "center", "right"
+#' @param subtitle.yanchor Character: "top", "middle", "bottom"
 #' @param scrollZoom Logical: If TRUE, enable scroll zoom
 #' @param include.fit.name Logical: If TRUE, include fit name in legend.
 #' @param marker.size Numeric: Marker size.
@@ -72,6 +76,7 @@ dplot3_xy <- function(x, y = NULL,
                       mode = "markers",
                       order.on.x = NULL,
                       main = NULL,
+                      subtitle = NULL,
                       xlab = NULL,
                       ylab = NULL,
                       col = NULL,
@@ -112,6 +117,10 @@ dplot3_xy <- function(x, y = NULL,
                       margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
                       main.y = 1,
                       main.yanchor = "bottom",
+                      subtitle.x = 0.02,
+                      subtitle.y = 0.99,
+                      subtitle.xanchor = "left",
+                      subtitle.yanchor = "top",
                       automargin.x = TRUE,
                       automargin.y = TRUE,
                       xlim = NULL,
@@ -653,6 +662,23 @@ dplot3_xy <- function(x, y = NULL,
       yaxis = list(
         scaleanchor = "x",
         scaleratio = 1
+      )
+    )
+  }
+
+  # Subtitle ----
+  # add annotation at top left with same font as main title
+  if (!is.null(subtitle)) {
+    plt <- plt |> plotly::add_annotations(
+      x = subtitle.x, y = subtitle.y,
+      xref = "paper", yref = "paper",
+      xanchor = subtitle.xanchor, yanchor = subtitle.yanchor,
+      text = subtitle,
+      showarrow = FALSE,
+      font = list(
+        family = theme$font.family,
+        size = font.size,
+        color = main.col
       )
     )
   }
