@@ -6,10 +6,11 @@
 #'
 #' @param true.labels Factor or list of factors with true class labels
 #' @param est.prob Numeric vector or list of numeric vectors with predicted probabilities
-#' @param bin.method Character: "quantile" or "equidistant": Method to bin the estimated 
+#' @param bin.method Character: "quantile" or "equidistant": Method to bin the estimated
 #' probabilities.
 #' @param n.bins Integer: Number of windows to split the data into
 #' @param pos.class.idi Integer: Index of the positive class
+#' @param subtitle Character: Subtitle, placed bottom right of plot
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param mode Character: Plot mode
@@ -43,13 +44,13 @@
 #' }
 dplot3_calibration <- function(true.labels, est.prob,
                                n.bins = 10,
-                               bin.method = c("equidistant", "quantile"),
+                               bin.method = c("quantile", "equidistant"),
                                pos.class.idi = 1,
+                               subtitle = NULL,
                                xlab = "Mean estimated probability",
                                ylab = "Empirical risk",
                                #    conf_level = .95,
                                mode = "markers+lines", ...) {
-
   bin.method <- match.arg(bin.method)
   if (!is.list(true.labels)) {
     true.labels <- list(true_labels = true.labels)
@@ -84,6 +85,7 @@ dplot3_calibration <- function(true.labels, est.prob,
       mean(est.prob[[i]][est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]])
     })
   })
+  names(mean_bin_prob) <- names(est.prob)
 
   # Calculate the proportion of condition positive cases in each window
   window_empirical_risk <- lapply(seq_along(est.prob), \(i) {
@@ -92,6 +94,7 @@ dplot3_calibration <- function(true.labels, est.prob,
       sum(true.labels[[i]][idl] == pos_class[[i]]) / sum(idl)
     })
   })
+  names(window_empirical_risk) <- names(est.prob)
 
   # Calculate confidence intervals
   # confint <- sapply(seq_len(n.bins), \(i) {
@@ -105,12 +108,25 @@ dplot3_calibration <- function(true.labels, est.prob,
   # })
 
   # Plot
+  if (is.null(subtitle)) {
+    subtitle <- paste(
+      "using", n.bins,
+      if (bin.method == "quantile") "quantiles" else "equidistant bins"
+    )
+  }
   dplot3_xy(
-    mean_bin_prob, window_empirical_risk,
+    x = mean_bin_prob,
+    y = window_empirical_risk,
+    subtitle = paste("<i>", subtitle, "</i>"),
+    subtitle.x = 1,
+    subtitle.y = .01,
+    subtitle.xanchor = "right",
+    subtitle.yanchor = "bottom",
     xlab = xlab,
     ylab = ylab,
     axes.square = TRUE, diagonal = TRUE,
     xlim = c(0, 1), ylim = c(0, 1),
     mode = mode, ...
   )
+
 } # rtemis::dplot3_calibration
