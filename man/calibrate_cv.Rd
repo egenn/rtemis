@@ -10,7 +10,8 @@ calibrate_cv(
   learn.params = list(),
   resample.params = setup.resample(resampler = "kfold", n.resamples = 5),
   which.repeat = 1,
-  verbosity = 1
+  verbosity = 1,
+  debug = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,9 @@ Build using \link{setup.resample}}
 \item{which.repeat}{Integer: Which repeat to use for calibration}
 
 \item{verbosity}{Integer: 0: silent, > 0: print messages}
+
+\item{debug}{Logical: If TRUE, run without parallel processing, to allow better
+debugging.}
 }
 \value{
 List: Calibrated models, test-set labels, test set performance metrics,
