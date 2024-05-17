@@ -39,7 +39,7 @@ dplot3_xy(
   se.alpha = 0.4,
   scatter.type = "scatter",
   legend = NULL,
-  legend.xy = c(0, 1),
+  legend.xy = c(0, 0.98),
   legend.xanchor = "left",
   legend.yanchor = "auto",
   legend.orientation = "v",
