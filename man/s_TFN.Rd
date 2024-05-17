@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_TFN.R
 \name{s_TFN}
 \alias{s_TFN}
-\title{Artificial Neural Network with \pkg{tensorflow} (C, R)}
+\title{Feedforward Neural Network with \pkg{tensorflow} (C, R)}
 \usage{
 s_TFN(
   x,
@@ -167,7 +167,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Additional parameters}
 }
 \description{
-Train an Artificial Neural Network using \pkg{keras} and \pkg{tensorflow}
+Train an Feedforward Neural Network using \pkg{keras} and \pkg{tensorflow}
 }
 \details{
 For more information on arguments and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)

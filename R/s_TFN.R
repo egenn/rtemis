@@ -2,9 +2,9 @@
 # ::rtemis::
 # 2019 E.D. Gennatas www.lambdamd.org
 
-#' Artificial Neural Network with \pkg{tensorflow} (C, R)
+#' Feedforward Neural Network with \pkg{tensorflow} (C, R)
 #'
-#' Train an Artificial Neural Network using \pkg{keras} and \pkg{tensorflow}
+#' Train an Feedforward Neural Network using \pkg{keras} and \pkg{tensorflow}
 #'
 #' For more information on arguments and hyperparameters, see (https://keras.rstudio.com/) and (https://keras.io/)
 #' It is important to define network structure and adjust hyperparameters based on your problem. You cannot expect
