@@ -44,31 +44,28 @@
 #' }
 calibrate <- function(true.labels,
                       est.prob,
-                      pos.class.idi = 1,
+                      pos.class.idi = NULL,
                       mod = c("gam", "glm"),
                       k = 5,
                       verbose = TRUE) {
   stopifnot(pos.class.idi %in% c(1, 2))
   mod <- match.arg(mod)
+  if (is.null(pos.class.idi)) {
+    pos.class.idi <- rtenv$binclasspos
+  }
   if (pos.class.idi == 1) {
     true.labels <- factor(true.labels, levels = rev(levels(true.labels)))
   }
 
-  # GAM ----
-  if (verbose) {
-    if (mod == "gam") {
-      msg2start(paste0("Fitting GAM (k=", k, ")..."))
-    } else {
-      msg2start("Fitting GLM...")
-    }
-  }
+  # GLAM ----
   if (mod == "glm") {
     mod <- glm(true.labels ~ est.prob, family = binomial())
-  } else {
+  } else if (mod == "gam") {
     mod <- mgcv::gam(true.labels ~ s(est.prob, k = k), family = binomial())
   }
   if (verbose) {
     msg2done()
   }
   mod
+
 } # rtemis::calibrate
