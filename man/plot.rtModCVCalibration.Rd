@@ -8,7 +8,9 @@
   x,
   what = c("calibration", "brier"),
   type = c("aggregate.all", "aggregate.by.resample"),
+  bin.method = c("quantile", "equidistant"),
   which.resample = 1,
+  filename = NULL,
   ...
 )
 }
@@ -21,7 +23,26 @@
 plotly object
 }
 \description{
-Plot \code{rtModCVCalibration} object
+Plot Calibration plots and Brier score boxplots for \code{rtModCVCalibration} object
+}
+\details{
+For calibration plots, \code{type = "aggregate.all"} is likely the more informative one.
+It shows calibrations curves before and after calibration by aggregating across all
+outer test sets. The \code{type = "aggregate.by.resample"} option shows the calibration
+curves after calibration for each outer resample.
+
+For Brier boxplots, \code{type = "aggregate.all"} shows 1 score per outer resample prior
+to calibration and multiple (equal n.resamples used in \link{calibrate_cv}) brier scores
+per outer resample after calibration. This is for diagnostic purposes mainly.
+For presentation, the \code{type = "aggregate.by.resample"} option shows the mean Brier
+score per outer resample prior to calibration and after calibration and makes more
+sense. The uncalibrated estimates could be resampled using the calibration model
+resamples to produce a more comparable boxplot of Brier scores when using the
+\code{type = "aggregate.all"} option, but that seems artifactual.
+
+More options are certainly possibly, e.g. an "aggregate.none" that would show all
+calibration resamples for all outer ersamples, and can be added in the future if
+needed.
 }
 \author{
 E.D. Gennatas

@@ -2,13 +2,14 @@
 % Please edit documentation in R/dplot3_protein.R
 \name{dplot3_protein}
 \alias{dplot3_protein}
-\title{Plot the primary amino acid sequence of a protein}
+\title{Plot the amino acid sequence with annotations}
 \usage{
 dplot3_protein(
   x,
   site = NULL,
   region = NULL,
   ptm = NULL,
+  clv = NULL,
   variant = NULL,
   disease.variants = NULL,
   n.per.row = NULL,
@@ -28,7 +29,6 @@ dplot3_protein(
   marker.col = NULL,
   marker.alpha = 1,
   marker.symbol = "circle",
-  marker.hoverinfo = "text",
   line.col = NULL,
   line.alpha = 1,
   line.width = 2,
@@ -61,11 +61,16 @@ dplot3_protein(
   variant.col = "#FA6E1E",
   disease.variant.col = "#E266AE",
   showlegend.ptm = TRUE,
-  ptm.col = 2:10,
+  ptm.col = NULL,
   ptm.symbol = "circle",
   ptm.offset = 0.12,
   ptm.pad = 0.35,
   ptm.marker.size = marker.size/4.5,
+  clv.col = NULL,
+  clv.symbol = "triangle-down",
+  clv.offset = 0.12,
+  clv.pad = 0.35,
+  clv.marker.size = marker.size/4,
   annotate.position.every = 10,
   annotate.position.alpha = 0.5,
   annotate.position.ay = -0.4 * marker.size,
@@ -116,6 +121,8 @@ highlighted by coloring the markers and lines of regions using the
 
 \item{ptm}{List of post-translational modifications}
 
+\item{clv}{List of cleavage sites}
+
 \item{variant}{List of variant information}
 
 \item{disease.variants}{List of disease variant information}
@@ -156,8 +163,6 @@ middle}
 \item{marker.alpha}{Numeric: Alpha for markers}
 
 \item{marker.symbol}{Character: Symbol for markers}
-
-\item{marker.hoverinfo}{Character: Hoverinfo for markers}
 
 \item{line.col}{Color for lines}
 
@@ -309,7 +314,7 @@ middle}
 A plotly object
 }
 \description{
-Plot the primary amino acid sequence of a protein
+Plot the amino acid sequence with annotations
 }
 \examples{
 \dontrun{

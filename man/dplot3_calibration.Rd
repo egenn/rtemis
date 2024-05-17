@@ -10,10 +10,12 @@ dplot3_calibration(
   n.bins = 10,
   bin.method = c("quantile", "equidistant"),
   pos.class.idi = 1,
+  main = NULL,
   subtitle = NULL,
   xlab = "Mean estimated probability",
   ylab = "Empirical risk",
   mode = "markers+lines",
+  filename = NULL,
   ...
 )
 }
@@ -29,11 +31,15 @@ probabilities.}
 
 \item{pos.class.idi}{Integer: Index of the positive class}
 
+\item{subtitle}{Character: Subtitle, placed bottom right of plot}
+
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
 
 \item{mode}{Character: Plot mode}
+
+\item{filename}{Character: Path to save output.}
 
 \item{...}{Additional arguments passed to \link{dplot3_xy}}
 }
