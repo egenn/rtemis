@@ -31,6 +31,8 @@ probabilities.}
 
 \item{pos.class.idi}{Integer: Index of the positive class}
 
+\item{main}{Character: Main title}
+
 \item{subtitle}{Character: Subtitle, placed bottom right of plot}
 
 \item{xlab}{Character: x-axis label}

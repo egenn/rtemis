@@ -10,6 +10,7 @@
 #' probabilities.
 #' @param n.bins Integer: Number of windows to split the data into
 #' @param pos.class.idi Integer: Index of the positive class
+#' @param main Character: Main title
 #' @param subtitle Character: Subtitle, placed bottom right of plot
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label

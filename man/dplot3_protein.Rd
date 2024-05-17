@@ -238,6 +238,16 @@ middle}
 
 \item{ptm.marker.size}{Integer: Size of PTM markers}
 
+\item{clv.col}{Color for cleavage site annotations}
+
+\item{clv.symbol}{Character: Symbol for cleavage site annotations}
+
+\item{clv.offset}{Numeric: Offset for cleavage site annotations}
+
+\item{clv.pad}{Numeric: Padding for cleavage site annotations}
+
+\item{clv.marker.size}{Integer: Size of cleavage site annotation markers}
+
 \item{annotate.position.every}{Integer: Annotate every nth position}
 
 \item{annotate.position.alpha}{Numeric: Alpha for position annotations}

@@ -13,7 +13,6 @@ dplot3_linad(
   nodelabels = TRUE,
   ncases.inlabels = TRUE,
   rules.on.edges = FALSE,
-  log = FALSE,
   top = NULL,
   root.col = "#202020",
   node.col = "#5a5a5a",
@@ -49,6 +48,8 @@ dplot3_linad(
 )
 }
 \arguments{
+\item{x}{\code{rtMod} object trained using \link{s_LINAD}}
+
 \item{main}{Character: Title. Default = NULL}
 
 \item{bg}{Background color. Default = "#FFFFFF" (white)}
@@ -64,11 +65,17 @@ node labels. Default = TRUE}
 \item{rules.on.edges}{Logical: If TRUE, display rules on edges instead of
 nodes. Default = FALSE}
 
+\item{top}{Integer: If not NULL, only show the top \code{top} coefficients.}
+
+\item{root.col}{Color for root node. Default = "#202020" (dark gray)}
+
 \item{node.col}{Color for nodes. Default = #7F7F7F" (some gray)}
 
 \item{leaf.col}{Color for leaf nodes. Default = "#18A3AC" (teal)}
 
 \item{edge.col}{Color for edges. Default = "#848484" (another gray)}
+
+\item{edge.width}{Float: Width for edges.}
 
 \item{col.highlight}{Color for surrounding edges when node is selected.
 Default = "#F48024" (orange)}
@@ -118,8 +125,6 @@ Default = "#FFBE00" (light orange)}
 
 \item{trace}{Integer: If > 0, print info to console (not particularly
 informative). Default = 0}
-
-\item{tree}{\code{s_LINAD} tree}
 }
 \description{
 Plot a Linear Additive Tree trained by \code{s_LINAD} using

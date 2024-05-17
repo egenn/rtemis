@@ -26,6 +26,7 @@
 #' to `randomForestSRC::rfsrc`
 #' @param nodesize Integer: Minimum size of terminal nodes.
 #' @param nodedepth Integer: Maximum tree depth.
+#' @param na.action Character: How to handle missing values.
 #' @param trace Integer: Number of seconds between messages to the console.
 #' @param outdir Optional. Path to directory to save output
 #' @param ... Additional arguments to be passed to `randomForestSRC::rfsrc`

@@ -135,6 +135,8 @@ which becomes \code{TRUE} if \code{mode} includes lines.}
 
 \item{main}{Character: Main plot title.}
 
+\item{subtitle}{Character: Subtitle}
+
 \item{xlab}{Character: x-axis label.}
 
 \item{ylab}{Character: y-axis label.}

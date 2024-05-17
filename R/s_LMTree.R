@@ -8,6 +8,7 @@
 #'
 #' @inheritParams s_CART
 #' @param offset Numeric vector of a priori known offsets
+#' @param na.action Character: How to handle missing values. See `?model.frame`
 #' @param ... Additional arguments passed to `partykit::mob_control`
 #'
 #' @return Object of class `rtMod`

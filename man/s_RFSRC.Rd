@@ -87,6 +87,8 @@ to \code{randomForestSRC::rfsrc}}
 
 \item{nodedepth}{Integer: Maximum tree depth.}
 
+\item{na.action}{Character: How to handle missing values.}
+
 \item{trace}{Integer: Number of seconds between messages to the console.}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}

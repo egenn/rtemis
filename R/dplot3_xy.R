@@ -40,6 +40,7 @@
 #' @param spikesnap Character: "data", "cursor", "hovered data"
 #' @param spikecolor Color for spikes
 #' @param spikethickness Numeric: Thickness of spikes
+#' @param subtitle Character: Subtitle
 #' @param main.y Numeric: Y position of main title
 #' @param main.yanchor Character: "top", "middle", "bottom"
 #' @param subtitle.x Numeric: X position of subtitle relative to paper

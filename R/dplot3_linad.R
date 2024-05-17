@@ -5,7 +5,7 @@
 #' Plot a Linear Additive Tree trained by `s_LINAD` using
 #' **visNetwork**
 #'
-#' @param tree `s_LINAD` tree
+#' @param x `rtMod` object trained using [s_LINAD]
 #' @param main Character: Title. Default = NULL
 #' @param bg Background color. Default = "#FFFFFF" (white)
 #' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
@@ -15,9 +15,12 @@
 #' node labels. Default = TRUE
 #' @param rules.on.edges Logical: If TRUE, display rules on edges instead of
 #' nodes. Default = FALSE
+#' @param top Integer: If not NULL, only show the top `top` coefficients.
+#' @param root.col Color for root node. Default = "#202020" (dark gray)
 #' @param node.col Color for nodes. Default = #7F7F7F" (some gray)
 #' @param leaf.col Color for leaf nodes. Default = "#18A3AC" (teal)
 #' @param edge.col Color for edges. Default = "#848484" (another gray)
+#' @param edge.width Float: Width for edges.
 #' @param col.highlight Color for surrounding edges when node is selected.
 #' Default = "#F48024" (orange)
 #' @param node.font.col Color for node labels. Default varies by `shape`,
@@ -61,7 +64,6 @@ dplot3_linad <- function(x,
                          nodelabels = TRUE,
                          ncases.inlabels = TRUE,
                          rules.on.edges = FALSE,
-                         log = FALSE,
                          top = NULL,
                          root.col = "#202020",
                          node.col = "#5a5a5a",

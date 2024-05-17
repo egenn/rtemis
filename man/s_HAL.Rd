@@ -10,7 +10,7 @@ s_HAL(
   x.test = NULL,
   y.test = NULL,
   family = NULL,
-  max_degree = ifelse(ncol(X) >= 20, 2, 3),
+  max_degree = ifelse(ncol(x) >= 20, 2, 3),
   lambda = NULL,
   x.name = NULL,
   y.name = NULL,

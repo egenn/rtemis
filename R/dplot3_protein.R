@@ -71,6 +71,11 @@
 #' @param ptm.offset Numeric: Offset for PTMs
 #' @param ptm.pad Numeric: Padding for PTMs
 #' @param ptm.marker.size Integer: Size of PTM markers
+#' @param clv.col Color for cleavage site annotations
+#' @param clv.symbol Character: Symbol for cleavage site annotations
+#' @param clv.offset Numeric: Offset for cleavage site annotations
+#' @param clv.pad Numeric: Padding for cleavage site annotations
+#' @param clv.marker.size Integer: Size of cleavage site annotation markers
 #' @param annotate.position.every Integer: Annotate every nth position
 #' @param annotate.position.alpha Numeric: Alpha for position annotations
 #' @param annotate.position.ay Numeric: Y offset for position annotations
