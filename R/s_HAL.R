@@ -13,6 +13,8 @@
 #' @inheritParams s_GLM
 #' @inheritParams s_CART
 #' @param lambda Float vector: [hal9001::fit_hal] lambda
+#' @param max.degree Integer: The highest order of interaction terms to generate basis
+#' functions for.
 #' @param .gs Internal use only
 #'
 #' @author E.D. Gennatas
@@ -23,7 +25,7 @@
 s_HAL <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   family = NULL,
-                  max_degree = ifelse(ncol(x) >= 20, 2, 3),
+                  max.degree = ifelse(ncol(x) >= 20, 2, 3),
                   lambda = NULL,
                   x.name = NULL, y.name = NULL,
                   grid.resample.params = setup.resample("kfold", 5),
@@ -170,12 +172,12 @@ s_HAL <- function(x, y = NULL,
   # do.gs <- is.null(lambda) | length(alpha) > 1 | length(lambda) > 1
   # do.gs <- FALSE
   # if (!.gs && do.gs) {
-  if (gridCheck(max_degree)) {
+  if (gridCheck(max.degree)) {
     gs <- gridSearchLearn(x, y,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
-        max_degree = max_degree
+        max.degree = max.degree
       ),
       fixed.params = list(
         lambda = lambda,
@@ -191,7 +193,7 @@ s_HAL <- function(x, y = NULL,
       n.cores = n.cores
     )
     # lambda <- gs$best.tune$lambda
-    max_degree <- gs$best.tune$max_degree
+    max.degree <- gs$best.tune$max.degree
   } else {
     gs <- NULL
   }
@@ -207,7 +209,7 @@ s_HAL <- function(x, y = NULL,
     X = x,
     Y = as.numeric(y),
     family = family,
-    max_degree = max_degree,
+    max_degree = max.degree,
     lambda = lambda,
     ...
   )

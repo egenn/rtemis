@@ -12,6 +12,7 @@
 #' @param k Integer: Number of neighbors considered
 #' @param algorithm Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
 #' @param outdir Optional. Path to directory to save output
+#' 
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
@@ -30,7 +31,7 @@ s_KNN <- function(x, y = NULL,
                   question = NULL,
                   verbose = TRUE,
                   outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
 
   # Intro ----
   if (missing(x)) {
