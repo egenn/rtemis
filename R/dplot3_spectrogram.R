@@ -12,9 +12,31 @@
 #'
 #' @inheritParams colorGrad
 #' @inheritParams mplot3_heatmap
-#' @param x Input matrix
+#' @param x Numeric: Time
+#' @param y Numeric: Frequency
+#' @param z Numeric: Power
+#' @param xlab Character: x-axis label
+#' @param ylab Character: y-axis label
+#' @param zlab Character: z-axis label
+#' @param hover.xlab Character: x-axis label for hover
+#' @param hover.ylab Character: y-axis label for hover
+#' @param hover.zlab Character: z-axis label for hover
+#' @param zmin Numeric: Minimum value for color scale
+#' @param zmax Numeric: Maximum value for color scale
+#' @param zauto Logical: If TRUE, automatically set zmin and zmax
+#' @param hoverlabel.align Character: Alignment of hover labels
+#' @param colorscale Character: Color scale. Default = "Jet"
+#' @param colorbar.y Numeric: Y position of colorbar
+#' @param colorbar.yanchor Character: Y anchor of colorbar
+#' @param colorbar.xpad Numeric: X padding of colorbar
+#' @param colorbar.ypad Numeric: Y padding of colorbar
+#' @param colorbar.len Numeric: Length of colorbar
+#' @param colorbar.title.side Character: Side of colorbar title
+#' @param showgrid Logical: If TRUE, show grid
 #' @param grid.gap Integer: Space between cells. Default = 0 (no space)
-#' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
+#' @param limits Numeric, length 2: Determine color range. Default = NULL, which automatically centers values around 0
+#' @param key.title Character: Title of the key
+#' @param showticklabels Logical: If TRUE, show tick labels
 #' @param font.size Numeric: Font size
 #' @param padding Numeric: Padding between cells
 #' @param displayModeBar Logical: If TRUE, display the plotly mode bar
@@ -54,20 +76,12 @@ dplot3_spectrogram <- function(x, y, z,
                                mid = NULL,
                                midhi = NULL,
                                hi = "#F48024",
-                               k_row = 1,
-                               k_col = 1,
-                               # show_grid = FALSE,
                                grid.gap = 0,
                                limits = NULL,
                                main = NULL,
                                key.title = NULL,
                                showticklabels = NULL,
                                theme = rtTheme,
-                               #    palette = rtPalette,
-                               row_side_colors = NULL, # x[["row_side_colors"]],
-                               row_side_palette = NULL,
-                               col_side_colors = NULL, # x[["col_side_colors"]],
-                               col_side_palette = NULL,
                                font.size = NULL,
                                padding = 0,
                                displayModeBar = TRUE,
@@ -130,20 +144,6 @@ dplot3_spectrogram <- function(x, y, z,
   )
 
   # Plot ----
-  # plt <- plotly::plot_ly(
-  #     x = x, y = y, z = z,
-  #     type = "heatmap",
-  #     zauto = zauto,
-  #     zmin = zmin,
-  #     zmax = zmax,
-  #     colorscale = colorscale,
-  #     colors = colors,
-  #     hovertemplate = paste0(
-  #         hover.xlab, ": %{x}<br>",
-  #         hover.ylab, ": %{y}<br>",
-  #         hover.zlab, ": %{z}"
-  #     )
-  # )
   plt <- plotly::plot_ly()
   plt <- plt |> plotly::add_trace(
     x = x, y = y, z = z,

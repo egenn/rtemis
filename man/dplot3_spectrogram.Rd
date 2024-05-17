@@ -34,18 +34,12 @@ dplot3_spectrogram(
   mid = NULL,
   midhi = NULL,
   hi = "#F48024",
-  k_row = 1,
-  k_col = 1,
   grid.gap = 0,
   limits = NULL,
   main = NULL,
   key.title = NULL,
   showticklabels = NULL,
   theme = rtTheme,
-  row_side_colors = NULL,
-  row_side_palette = NULL,
-  col_side_colors = NULL,
-  col_side_palette = NULL,
   font.size = NULL,
   padding = 0,
   displayModeBar = TRUE,
@@ -58,7 +52,11 @@ dplot3_spectrogram(
 )
 }
 \arguments{
-\item{x}{Input matrix}
+\item{x}{Numeric: Time}
+
+\item{y}{Numeric: Frequency}
+
+\item{z}{Numeric: Power}
 
 \item{colorGrad.n}{Integer: Number of distinct colors to generate using \link{colorGrad}. Default = 101}
 
@@ -68,6 +66,38 @@ dplot3_spectrogram(
 \item{xlab}{Character: x-axis label}
 
 \item{ylab}{Character: y-axis label}
+
+\item{zlab}{Character: z-axis label}
+
+\item{hover.xlab}{Character: x-axis label for hover}
+
+\item{hover.ylab}{Character: y-axis label for hover}
+
+\item{hover.zlab}{Character: z-axis label for hover}
+
+\item{zmin}{Numeric: Minimum value for color scale}
+
+\item{zmax}{Numeric: Maximum value for color scale}
+
+\item{zauto}{Logical: If TRUE, automatically set zmin and zmax}
+
+\item{hoverlabel.align}{Character: Alignment of hover labels}
+
+\item{colorscale}{Character: Color scale. Default = "Jet"}
+
+\item{colorbar.y}{Numeric: Y position of colorbar}
+
+\item{colorbar.yanchor}{Character: Y anchor of colorbar}
+
+\item{colorbar.xpad}{Numeric: X padding of colorbar}
+
+\item{colorbar.ypad}{Numeric: Y padding of colorbar}
+
+\item{colorbar.len}{Numeric: Length of colorbar}
+
+\item{colorbar.title.side}{Character: Side of colorbar title}
+
+\item{showgrid}{Logical: If TRUE, show grid}
 
 \item{space}{Character: Which colorspace to use. Option: "rgb", or "Lab". Default = "rgb".
 Recommendation: If \code{mid} is "white" or "black" (default), use "rgb", otherwise "Lab"}
@@ -85,9 +115,13 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 
 \item{grid.gap}{Integer: Space between cells. Default = 0 (no space)}
 
-\item{limits}{Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0}
+\item{limits}{Numeric, length 2: Determine color range. Default = NULL, which automatically centers values around 0}
 
 \item{main}{Character: Plot title}
+
+\item{key.title}{Character: Title of the key}
+
+\item{showticklabels}{Logical: If TRUE, show tick labels}
 
 \item{theme}{Character: "light", "dark"}
 
