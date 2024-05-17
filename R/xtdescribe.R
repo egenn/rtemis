@@ -132,3 +132,10 @@ xtdescribe <- function(
 
   print(pattern_summary, row.names = FALSE)
 } # xtdescribe
+
+vec_describe <- function(x, sort_unique = FALSE) {
+  # sort_unique defaults to FALSE since it needs to be computed already
+  # within xtdescribe
+  xs <- if (sort_unique) sort(unique(x)) else x
+  paste(xs[1], xs[2], "...", xs[length(xs)], sep = ", ")
+}
