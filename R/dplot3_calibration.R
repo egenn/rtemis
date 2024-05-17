@@ -14,6 +14,7 @@
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param mode Character: Plot mode
+#' @param filename Character: Path to save output.
 #' @param ... Additional arguments passed to [dplot3_xy]
 #'
 #' @return NULL
@@ -46,11 +47,13 @@ dplot3_calibration <- function(true.labels, est.prob,
                                n.bins = 10,
                                bin.method = c("quantile", "equidistant"),
                                pos.class.idi = 1,
+                               main = NULL,
                                subtitle = NULL,
                                xlab = "Mean estimated probability",
                                ylab = "Empirical risk",
                                #    conf_level = .95,
-                               mode = "markers+lines", ...) {
+                               mode = "markers+lines",
+                               filename = NULL, ...) {
   bin.method <- match.arg(bin.method)
   if (!is.list(true.labels)) {
     true.labels <- list(true_labels = true.labels)
@@ -110,14 +113,18 @@ dplot3_calibration <- function(true.labels, est.prob,
   # Plot
   if (is.null(subtitle)) {
     subtitle <- paste(
-      "using", n.bins,
-      if (bin.method == "quantile") "quantiles" else "equidistant bins"
+      "<i> using", n.bins,
+      if (bin.method == "quantile") "quantiles" else "equidistant bins",
+      "</i>"
     )
   }
+  # if (is.null(subtitle) && !is.na(subtitle)) .subtitle <- paste0(subtitle, "\n", .subtitle)
   dplot3_xy(
     x = mean_bin_prob,
     y = window_empirical_risk,
-    subtitle = paste("<i>", subtitle, "</i>"),
+    main = main,
+    # subtitle = paste("<i>", .subtitle, "</i>"),
+    subtitle = subtitle,
     subtitle.x = 1,
     subtitle.y = .01,
     subtitle.xanchor = "right",
@@ -126,7 +133,8 @@ dplot3_calibration <- function(true.labels, est.prob,
     ylab = ylab,
     axes.square = TRUE, diagonal = TRUE,
     xlim = c(0, 1), ylim = c(0, 1),
-    mode = mode, ...
+    mode = mode,
+    filename = filename, ...
   )
 
 } # rtemis::dplot3_calibration
