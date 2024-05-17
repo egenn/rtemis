@@ -23,7 +23,7 @@
 s_HAL <- function(x, y = NULL,
                   x.test = NULL, y.test = NULL,
                   family = NULL,
-                  max_degree = ifelse(ncol(X) >= 20, 2, 3),
+                  max_degree = ifelse(ncol(x) >= 20, 2, 3),
                   lambda = NULL,
                   x.name = NULL, y.name = NULL,
                   grid.resample.params = setup.resample("kfold", 5),
