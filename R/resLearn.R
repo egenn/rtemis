@@ -23,6 +23,8 @@
 #' Use with [train_cv] when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
 #' @param n.workers Integer: Number of cores to use.
+#' @param use.future Logical: If TRUE, use future.apply for parallel processing, 
+#' otherwise use base R with no parallel processing. Set to FALSE for easier debugging.
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -39,7 +41,8 @@ resLearn <- function(x, y, alg,
                      trace = 0,
                      save.mods = TRUE,
                      outdir = NULL,
-                     n.workers = 1) {
+                     n.workers = 1,
+                     use.future = TRUE) {
   # Dependencies ----
   dependency_check("future.apply")
 
@@ -116,6 +119,14 @@ resLearn <- function(x, y, alg,
     }
     x.train1 <- x[res1, feat.index, drop = FALSE]
     y.train1 <- y[res1]
+    # If Classification & there are no positive or negative cases in the resample, skip
+    if (is.factor(y) && length(unique(y.train1)) < 2) {
+      stop(
+        "Reample", index, "has only one class! Skipping.",
+        "Consider different resampling scheme."
+      )
+      return(NA)
+    }
     x.test1 <- x[-res1, feat.index, drop = FALSE]
     y.test1 <- y[-res1]
 
@@ -184,24 +195,46 @@ resLearn <- function(x, y, alg,
     )
   }
 
-  res.run <- future.apply::future_lapply(
-    seq_along(res), learner1,
-    learner,
-    x, y,
-    weights,
-    mtry,
-    res,
-    params,
-    .preprocess,
-    verbose = res.verbose,
-    outdir = outdir,
-    save.mods = save.mods,
-    future.seed = TRUE,
-    length(res)
-  )
-
+  res.run <- if (use.future) {
+    future.apply::future_lapply(
+      seq_along(res), learner1,
+      learner,
+      x, y,
+      weights,
+      mtry,
+      res,
+      params,
+      .preprocess,
+      verbose = res.verbose,
+      outdir = outdir,
+      save.mods = save.mods,
+      future.seed = TRUE,
+      length(res)
+    )
+  } else {
+    lapply(
+      seq_along(res), learner1,
+      learner,
+      x, y,
+      weights,
+      mtry,
+      res,
+      params,
+      .preprocess,
+      verbose = res.verbose,
+      outdir = outdir,
+      save.mods = save.mods,
+      length(res)
+    )
+  }
+  
   names(res.run) <- paste0(toupper(alg), seq(res))
   if (res.verbose) cat("\n")
+
+  # Check for errors ----
+  if (any(sapply(res.run, is.na))) {
+    warning("Some resamples failed because only one class was available. Check resampling scheme.")
+  }
 
   # Outro ----
   outro(start.time, verbose = trace > 0)
