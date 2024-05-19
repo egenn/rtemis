@@ -156,6 +156,8 @@ dplot3_xy <- function(x, y = NULL,
   dependency_check("plotly")
 
   # Arguments ----
+  xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+  yname <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   if (is.null(y) && NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
     if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
@@ -204,10 +206,10 @@ dplot3_xy <- function(x, y = NULL,
   # xlab, ylab ----
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
-    if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+    if (is.list(x)) xlab <- "x" else xlab <- xname
   }
   if (!is.null(y) && is.null(ylab)) {
-    if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
+    if (is.list(y)) ylab <- "y" else ylab <- yname
   }
 
   # Group ----
@@ -260,7 +262,8 @@ dplot3_xy <- function(x, y = NULL,
     if (n.groups > 1) {
       .names <- paste("Group", seq_len(n.groups))
     } else {
-      .names <- if (!is.null(fit)) fit else NULL
+      # .names <- if (!is.null(fit)) fit else NULL
+      .names <- xname
     }
   }
 
@@ -438,7 +441,9 @@ dplot3_xy <- function(x, y = NULL,
   # plotly ----
   if (!is.null(fit) && rsq) {
     if (!include.fit.name) fitted.text <- gsub("^ ", "", fitted.text)
-    .names <- paste0(.names, " (", fitted.text, ")")
+    if (n.groups > 1) {
+      .names <- paste0(.names, " (", fitted.text, ")")
+    }
   }
 
   plt <- plotly::plot_ly(
