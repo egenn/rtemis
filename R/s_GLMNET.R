@@ -260,8 +260,13 @@ s_GLMNET <- function(x, y = NULL,
     fitted.prob <- NULL
   } else {
     if (family == "binomial") {
+      # glmnet predict outputs data.frame with single column of positive case probability
       fitted.prob <- predict(mod, x, type = "response")[, 1]
-      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      if (rtenv$binclasspos == 1) {
+        fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
+      } else {
+        fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(0, 1))
+      }
       levels(fitted) <- levels(y)
     } else {
       fitted.prob <- predict(mod, x, type = "response")
@@ -283,7 +288,11 @@ s_GLMNET <- function(x, y = NULL,
     } else {
       if (family == "binomial") {
         predicted.prob <- predict(mod, x.test, type = "response")[, 1]
-        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        if (rtenv$binclasspos == 1) {
+          predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        } else {
+          predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(0, 1))
+        }
         levels(predicted) <- levels(y)
       } else {
         predicted.prob <- predict(mod, x.test, type = "response")
