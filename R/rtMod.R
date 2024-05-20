@@ -463,8 +463,8 @@ rtMod <- R6::R6Class("rtMod",
           printls(searched)
         }
         cat(metric, "was", ifelse(self$gridsearch$maximize,
-            "maximized", "minimized"
-            ), "with:\n")
+          "maximized", "minimized"
+        ), "with:\n")
         printls(self$gridsearch$best.tune)
       }
 
@@ -562,11 +562,13 @@ fitted.rtMod <- function(object, ...) {
 } # rtemis::fitted.rtMod
 
 
-#' `predict.rtMod`: `predict` method for `rtMod` object
+#' Predict Method for `rtMod` object
 #'
 #' @method predict rtMod
 #' @param object `rtMod` object
-#' @param newdata Features to use for prediction
+#' @param newdata Data frame: Features to use for prediction. If `NULL`, the fitted
+#' values are returned
+#' @param classification.output Character: "prob" or "class" for classification models
 #' @param trace Integer: Set trace level
 #' @param verbose Logical: If TRUE, output messages to console
 #' @param ... Extra arguments to pass to trained model's `predict` method
@@ -574,154 +576,207 @@ fitted.rtMod <- function(object, ...) {
 #' @export
 predict.rtMod <- function(object,
                           newdata,
+                          classification.output = c("prob", "class"),
                           trace = 0,
                           verbose = TRUE, ...) {
   extraArgs <- list(...)
+  classification.output <- match.arg(classification.output)
 
   if (missing(newdata)) {
-    estimated <- object$fitted
-  } else {
-    newdata <- as.data.frame(newdata)
-    if (object$mod.name == "LightGBM") {
-      pred <- predict_LightGBM(object, newdata, ...)
-      estimated.prob <- pred$predicted.prob
-      estimated <- pred$predicted
-    } else if (object$mod.name == "LOGISTIC") {
-      # This is "GLM" which gets names "LOGISTIC" for better or worse
-      estimated.prob <- predict(object$mod, newdata = newdata, type = "response")
-      estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
-      levels(estimated) <- levels(object$y.train)
-    } else if (object$mod.name == "ADDT") {
-      if (is.null(extraArgs$learning.rate)) learning.rate <- object$parameters$learning.rate
-      if (is.null(extraArgs$n.feat)) n.feat <- length(object$xnames)
-      estimated <- predict(object$mod,
-        newdata = newdata,
-        learning.rate = learning.rate,
-        n.feat = n.feat, ...
-      )
-    } else if (object$mod.name == "BRUTO") {
-      # BRUTO: newdata must be matrix
-      estimated <- predict(object$mod, newdata = as.matrix(newdata))
-    } else if (object$mod.name == "CART") {
-      if (object$type == "Classification") {
-        estimated <- predict(object$mod, newdata = newdata, type = "class")
-      } else {
-        estimated <- predict(object$mod, newdata = newdata)
-      }
-    } else if (inherits(object$mod, "gamsel")) {
-      # if (inherits(object$mod, "gamsel")) {
-      if (is.null(extraArgs$which.lambda)) {
-        which.lambda <- length(object$mod$lambdas)
-      } else {
-        which.lambda <- extraArgs$which.lambda
-      }
-      estimated <- predict(object$mod, newdata, index = which.lambda, type = "response")
-      if (object$type == "Classification") {
-        estimated <- factor(ifelse(estimated >= .5, 1, 0), levels = c(1, 0))
-        levels(estimated) <- levels(object$y.train)
-      }
-      # } else {
-      #   estimated <- predict(object$mod, data.frame(newdata))
-      # }
-    } else if (object$mod.name == "GBM" || object$mod.name == "GBM3") {
-      if (is.null(extraArgs$n.trees)) {
-        n.trees <- object$mod$n.trees
-      } else {
-        n.trees <- extraArgs$n.trees
-      }
-      ###
-      mod <- object$mod
-      type <- object$type
-      distribution <- object$mod$distribution
-      y <- object$y.train
-      if (type == "Regression" || type == "Survival") {
-        if (distribution == "poisson") {
-          if (trace > 0) msg2("Using predict for Poisson Regression with type = response")
-          estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
-        } else {
-          if (verbose) msg2("Using predict for", type, "with type = link")
-          estimated <- predict(mod, newdata, n.trees = n.trees)
-        }
-      } else {
-        if (distribution == "multinomial") {
-          if (trace > 0) msg2("Using predict for multinomial classification with type = response")
-          # Get probabilities per class
-          estimated.prob <- estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
-          # Now get the predicted classes
-          estimated <- apply(estimated, 1, function(x) levels(newdata)[which.max(x)])
-        } else {
-          # Bernoulli: convert {0, 1} back to factor
-          if (trace > 0) msg2("Using predict for classification with type = response")
-          estimated.prob <- predict(mod, newdata, n.trees = n.trees, type = "response")
-          estimated <- factor(levels(y)[as.numeric(estimated.prob >= .5) + 1])
-        }
-      }
-      ###
-    } else if (object$mod.name == "GLMNET") {
-      newdata <- model.matrix(~., newdata)[, -1, drop = FALSE]
-      # drop = FALSE needed when predicting on a single case,
-      # will drop to vector otherwise and glmnet predict will fail
-      estimated <- predict(object$mod, newx = newdata, ...)[, 1]
-    } else if (object$mod.name == "Ranger") {
-      predict.ranger <- getFromNamespace("predict.ranger", "ranger")
-      estimated <- predict.ranger(object$mod, data = newdata, ...)$predictions
-    } else if (object$mod.name %in% c("XGBoost", "XGBLIN", "XGBDART")) {
-      # XGB: must convert newdata to xgb.DMatrix
-      if (any(sapply(newdata, is.factor))) {
-        newdata <- preprocess(newdata, oneHot = TRUE)
-      }
-      estimated <- predict(object$mod,
-        newdata = xgboost::xgb.DMatrix(as.matrix(newdata))
-      )
-    } else if (object$mod.name == "MXFFN") {
-      estimated <- predict(object$mod,
-        data.matrix(newdata),
-        array.layout = "rowmajor"
-      )
-    } else if (object$mod.name == "H2ODL") {
-      newdata <- h2o::as.h2o(newdata, "newdata")
-      estimated <- c(as.matrix(predict(object$mod, newdata)))
-      # } else if (object$mod.name == "DN") {
-      #   estimated <- deepnet::nn.predict(object$mod, x = newdata)
-    } else if (object$mod.name == "MLRF") {
-      spark.master <- extraArgs$spark.master
-      if (is.null(spark.master)) {
-        warning("spark.master was not specified, trying 'local'")
-        spark.master <- "local"
-      }
-      sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
-      new.tbl <- sparklyr::sdf_copy_to(sc, newdata)
-      estimated <- as.data.frame(sparklyr::sdf_predict(new.tbl, object$mod))$prediction
-      # } else if (object$mod.name == "MXN") {
-      #   predict.MXFeedForwardModel <- getFromNamespace("predict.MXFeedForwardModel", "mxnet")
-      #   if (object$type == "Classification") {
-      #     estimated.prob <- predict.MXFeedForwardModel(object$mod, data.matrix(newdata),
-      #                                                  array.layout = "rowmajor")
-      #     if (min(dim(estimated.prob)) == 1) {
-      #       # Classification with Logistic output
-      #       estimated <- factor(as.numeric(estimated.prob >= .5))
-      #     } else {
-      #       # Classification with Softmax output
-      #       estimated <- factor(apply(estimated.prob, 2, function(i) which.max(i)))
-      #     }
-      #     levels(estimated) <- levels(object$y.train)
-      #   } else {
-      #     estimated <- c(predict.MXFeedForwardModel(object$mod,
-      #                                               X = data.matrix(newdata),
-      #                                               array.layout = "rowmajor"))
-      #   }
-    } else if (object$mod.name == "SGD") {
-      estimated <- predict(object$mod, newdata = cbind(1, data.matrix(newdata)))
-    } else {
-      estimated <- predict(object$mod, newdata = newdata, ...)
-    }
+    return(object$fitted)
   }
+  stopifnot(is.data.frame(newdata))
+  .class <- object$type == "Classification"
+  if (.class) {
+    nclass <- length(levels(object$y.train))
+  }
+  if (object$mod.name == "LightGBM") {
+    ## LightGBM ----
+    return(
+      predict_LightGBM(object, newdata, classification.output = classification.output)
+    )
+  } else if (object$mod.name == "LOGISTIC") {
+    # This is "GLM" which gets named "LOGISTIC" for better or for worse
+    estimated.prob <- predict(object$mod, newdata = newdata, type = "response")
+    # estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
+    # levels(estimated) <- levels(object$y.train)
+  } else if (object$mod.name == "AddTree") {
+    if (is.null(extraArgs$learning.rate)) learning.rate <- object$parameters$learning.rate
+    if (is.null(extraArgs$n.feat)) n.feat <- length(object$xnames)
+    estimated <- predict(object$mod,
+      newdata = newdata,
+      learning.rate = learning.rate,
+      n.feat = n.feat, ...
+    )
+  } else if (object$mod.name == "BRUTO") {
+    # BRUTO: newdata must be matrix
+    estimated <- predict(object$mod, newdata = as.matrix(newdata))
+  } else if (object$mod.name == "CART") {
+    ## CART ----
+    if (object$type == "Classification") {
+      estimated.prob <- predict(object$mod, newdata = newdata, type = "prob")
+      # estimated <- predict(object$mod, newdata = newdata, type = "class")
+    } else {
+      estimated <- predict(object$mod, newdata = newdata)
+    }
+  } else if (inherits(object$mod, "gamsel")) {
+    ## gamsel ----
+    # if (inherits(object$mod, "gamsel")) {
+    if (is.null(extraArgs$which.lambda)) {
+      which.lambda <- length(object$mod$lambdas)
+    } else {
+      which.lambda <- extraArgs$which.lambda
+    }
+    estimated <- predict(object$mod, newdata, index = which.lambda, type = "response")
+    if (object$type == "Classification") {
+      estimated <- factor(ifelse(estimated >= .5, 1, 0), levels = c(1, 0))
+      levels(estimated) <- levels(object$y.train)
+    }
+    # } else {
+    #   estimated <- predict(object$mod, data.frame(newdata))
+    # }
+  } else if (object$mod.name == "GBM" || object$mod.name == "GBM3") {
+    ## GBM/GBM3 ----
+    if (is.null(extraArgs$n.trees)) {
+      n.trees <- object$mod$n.trees
+    } else {
+      n.trees <- extraArgs$n.trees
+    }
+    ###
+    mod <- object$mod
+    type <- object$type
+    distribution <- object$mod$distribution
+    y <- object$y.train
+    if (type == "Regression" || type == "Survival") {
+      if (distribution == "poisson") {
+        if (trace > 0) msg2("Using predict for Poisson Regression with type = response")
+        estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
+      } else {
+        if (verbose) msg2("Using predict for", type, "with type = link")
+        estimated <- predict(mod, newdata, n.trees = n.trees)
+      }
+    } else {
+      if (distribution == "multinomial") {
+        if (trace > 0) msg2("Using predict for multinomial classification with type = response")
+        # Get probabilities per class
+        estimated.prob <- estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
+        # Now get the predicted classes
+        # estimated <- apply(estimated, 1, function(x) levels(newdata)[which.max(x)])
+      } else {
+        # Bernoulli: convert {0, 1} back to factor
+        if (trace > 0) msg2("Using predict for classification with type = response")
+        estimated.prob <- predict(mod, newdata, n.trees = n.trees, type = "response")
+        # estimated <- factor(levels(y)[as.numeric(estimated.prob >= .5) + 1])
+      }
+    }
+    ###
+  } else if (object$mod.name == "GLMNET") {
+    ## GLMNET ----
+    newdata <- model.matrix(~., newdata)[, -1, drop = FALSE]
+    # drop = FALSE needed when predicting on a single case,
+    # will drop to vector otherwise and glmnet predict will fail
+    if (object$type == "Classification") {
+      estimated.prob <- predict(object$mod, newx = newdata, type = "response")
+      if (nclass == 2) {
+        # In binary classification, GLMNET returns matrix with 1 column
+        estimated.prob <- as.numeric(estimated.prob)
+      }
+      # estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
+      # levels(estimated) <- levels(object$y.train)
+    } else {
+      estimated <- predict(object$mod, newx = newdata)
+    }
+  } else if (object$mod.name == "Ranger") {
+    ## Ranger ----
+    predict.ranger <- getFromNamespace("predict.ranger", "ranger")
+    estimated <- predict.ranger(object$mod, data = newdata)$predictions
+    if (.class && object$parameters$probability) {
+      estimated.prob <- if (nclass  == 2) {
+        estimated[, rtenv$binclasspos]
+      } else {
+        estimated
+      }
+    } else {
+      stop("Please run Ranger with probability = TRUE to get class probabilities")
+    }
+  } else if (object$mod.name %in% c("XGBoost", "XGBLIN", "XGBDART")) {
+    # XGB: must convert newdata to xgb.DMatrix
+    if (any(sapply(newdata, is.factor))) {
+      newdata <- preprocess(newdata, oneHot = TRUE)
+    }
+    estimated <- predict(object$mod,
+      newdata = xgboost::xgb.DMatrix(as.matrix(newdata))
+    )
+  } else if (object$mod.name == "MXFFN") {
+    estimated <- predict(object$mod,
+      data.matrix(newdata),
+      array.layout = "rowmajor"
+    )
+  } else if (object$mod.name == "H2ODL") {
+    newdata <- h2o::as.h2o(newdata, "newdata")
+    estimated <- c(as.matrix(predict(object$mod, newdata)))
+    # } else if (object$mod.name == "DN") {
+    #   estimated <- deepnet::nn.predict(object$mod, x = newdata)
+  } else if (object$mod.name == "MLRF") {
+    spark.master <- extraArgs$spark.master
+    if (is.null(spark.master)) {
+      warning("spark.master was not specified, trying 'local'")
+      spark.master <- "local"
+    }
+    sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
+    new.tbl <- sparklyr::sdf_copy_to(sc, newdata)
+    estimated <- as.data.frame(sparklyr::sdf_predict(new.tbl, object$mod))$prediction
+    # } else if (object$mod.name == "MXN") {
+    #   predict.MXFeedForwardModel <- getFromNamespace("predict.MXFeedForwardModel", "mxnet")
+    #   if (object$type == "Classification") {
+    #     estimated.prob <- predict.MXFeedForwardModel(object$mod, data.matrix(newdata),
+    #                                                  array.layout = "rowmajor")
+    #     if (min(dim(estimated.prob)) == 1) {
+    #       # Classification with Logistic output
+    #       estimated <- factor(as.numeric(estimated.prob >= .5))
+    #     } else {
+    #       # Classification with Softmax output
+    #       estimated <- factor(apply(estimated.prob, 2, function(i) which.max(i)))
+    #     }
+    #     levels(estimated) <- levels(object$y.train)
+    #   } else {
+    #     estimated <- c(predict.MXFeedForwardModel(object$mod,
+    #                                               X = data.matrix(newdata),
+    #                                               array.layout = "rowmajor"))
+    #   }
+  } else if (object$mod.name == "SGD") {
+    estimated <- predict(object$mod, newdata = cbind(1, data.matrix(newdata)))
+  } else {
+    estimated <- predict(object$mod, newdata = newdata, ...)
+  }
+
 
   if (!is.null(object$type) && (object$type == "Regression" || object$type == "Survival")) {
     estimated <- as.numeric(estimated)
   }
 
-  estimated
+  # Classification output ----
+  if (object$type == "Classification") {
+    if (classification.output == "prob") {
+      estimated <- estimated.prob
+    } else {
+      # Classification labels
+      if (length(levels(object$y.train)) > 2) {
+        # Get the class with the highest probability
+        estimated <- factor(apply(estimated.prob, 1, which.max),
+          levels = levels(object$y.train)
+        )
+      } else {
+        if (rtenv$binclasspos == 1) {
+          estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
+        } else {
+          estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(0, 1))
+        }
+      }
+    }
+  }
+
+  return(estimated)
 } # rtemis::predict.rtMod
 
 
@@ -883,7 +938,7 @@ summary.rtMod <- function(object,
       }
       if (is.null(title.col)) {
         title.col <- ifelse(theme == "box" |
-                            theme == "light", "black", "white")
+          theme == "light", "black", "white")
       }
       mtext(paste(object$mod.name, "diagnostic plots"),
         outer = TRUE,
@@ -1584,7 +1639,8 @@ rtModCV <- R6::R6Class(
       if (self$type == "Classification") {
         cat(
           "Mean Balanced Accuracy:",
-          self$error.test.repeats.mean$Balanced.Accuracy, "\n"
+          self$error.test.repeats.mean$Balanced.Accuracy,
+          "\nMean AUC:", self$error.test.repeats.mean$AUC, "\n"
         )
       } else {
         cat(
@@ -1919,28 +1975,39 @@ summary.rtModCV <- function(object, ...) {
 #' @param object `rtModCV` object
 #' @param newdata Set of predictors to use
 #' @param which.repeat Integer: Which repeat to use for prediction
-#' @param bag.fn Function to use to average predictions of different models
+#' @param classification.output Character: "prob" or "class" for classification models
+#' If "class" and `output` is "avg", the mode of the predictions is returned.
+#' @param output Character: "matrix" or "avg". Produce either a matrix with predictions
+#' of each model in different columns, or the mean/mode of the predictions across models
 #' @param n.cores Integer: Number of cores to use
 #'
 #' @rdname rtModCV-methods
 #' @export
 predict.rtModCV <- function(object, newdata,
                             which.repeat = 1,
-                            bag.fn = mean,
-                            n.cores = 1, ...) {
-  # extraArgs <- list(...)
+                            classification.output = c("prob", "class"),
+                            output = c("array", "avg"), ...) {
+  # Arguments ----
+  classification.output <- match.arg(classification.output)
+  output <- match.arg(output)
+
   mods <- object$mod[[which.repeat]]
-  predicted <- as.data.frame(pbapply::pbsapply(
-    mods, function(i) as.numeric(predict(i$mod1, newdata)),
-    cl = n.cores
+
+  # Array of predictions ----
+  predicted <- as.data.frame(sapply(
+    mods, function(i) predict(i$mod1, newdata)
   ))
-  if (object$type == "Classification") {
-    predicted <- apply(predicted, 1, function(j) round(bag.fn(j)))
-    predicted <- factor(predicted)
-    levels(predicted) <- levels(object$y.train)
-  } else {
-    predicted <- apply(predicted, 1, bag.fn)
+  if (output == "array") {
+    return(predicted)
   }
+
+  if (object$type == "Classification" && classification.output == "class") {
+    # Get the mode of the predictions
+    predicted <- apply(predicted, 1, get_mode)
+  } else {
+    predicted <- colMeans(predicted)
+  }
+  return(predicted)
 } # rtemis::predict.rtModCV
 
 
