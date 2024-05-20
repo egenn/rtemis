@@ -294,7 +294,7 @@ s_CART <- function(x, y = NULL,
     fitted <- predict(mod, x, type = "vector")
   } else if (type == "Classification") {
     if (n.classes == 2) {
-      fitted.prob <- predict(mod, x, type = "prob")[, 1]
+      fitted.prob <- predict(mod, x, type = "prob")[, rtenv$binclasspos]
     } else {
       fitted.prob <- predict(mod, x, type = "prob")
     }
@@ -312,7 +312,7 @@ s_CART <- function(x, y = NULL,
       predicted <- predict(mod, x.test, type = "vector")
       predicted.prob <- NULL
     } else if (type == "Classification") {
-      predicted.prob <- predict(mod, x.test, type = "prob")[, 1]
+      predicted.prob <- predict(mod, x.test, type = "prob")[, rtenv$binclasspos]
       predicted <- predict(mod, x.test, type = "class")
     }
 
