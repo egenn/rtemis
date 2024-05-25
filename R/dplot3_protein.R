@@ -102,7 +102,6 @@
 #' @param displayModeBar Logical: If TRUE, display mode bar
 #' @param modeBar.file.format Character: File format for mode bar
 #' @param scrollZoom Logical: If TRUE, enable scroll zoom
-#' @param modebar.bg Color for modebar background
 #' @param filename Character: File name to save plot
 #' @param file.width Integer: Width for saved file
 #' @param file.height Integer: Height for saved file
@@ -234,7 +233,6 @@ dplot3_protein <- function(x,
                            displayModeBar = TRUE,
                            modeBar.file.format = "svg",
                            scrollZoom = TRUE,
-                           modebar.bg = "transparent",
                            # file out
                            filename = NULL,
                            file.width = 1320,
@@ -805,8 +803,7 @@ dplot3_protein <- function(x,
     legend = .legend,
     hoverlabel = list(
       align = "hoverlabel.align"
-    ),
-    modebar = list(bgcolor = modebar.bg)
+    )
   )
 
   # Config
@@ -832,7 +829,7 @@ dplot3_protein <- function(x,
     )
   }
 
-  plt
+  return(plt)
 } # rtemis::dplot3_protein
 
 aa <- data.frame(

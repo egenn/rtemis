@@ -97,7 +97,6 @@ dplot3_protein(
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
   scrollZoom = TRUE,
-  modebar.bg = "transparent",
   filename = NULL,
   file.width = 1320,
   file.height = 990,
@@ -299,8 +298,6 @@ middle}
 \item{modeBar.file.format}{Character: File format for mode bar}
 
 \item{scrollZoom}{Logical: If TRUE, enable scroll zoom}
-
-\item{modebar.bg}{Color for modebar background}
 
 \item{filename}{Character: File name to save plot}
 
