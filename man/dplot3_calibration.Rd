@@ -9,12 +9,13 @@ dplot3_calibration(
   est.prob,
   n.bins = 10,
   bin.method = c("quantile", "equidistant"),
-  pos.class.idi = 1,
+  pos.class = NULL,
   main = NULL,
   subtitle = NULL,
   xlab = "Mean estimated probability",
   ylab = "Empirical risk",
   mode = "markers+lines",
+  print.brier = TRUE,
   filename = NULL,
   ...
 )
@@ -29,7 +30,7 @@ dplot3_calibration(
 \item{bin.method}{Character: "quantile" or "equidistant": Method to bin the estimated
 probabilities.}
 
-\item{pos.class.idi}{Integer: Index of the positive class}
+\item{pos.class}{Integer: Index of the positive class}
 
 \item{main}{Character: Main title}
 
@@ -57,7 +58,7 @@ dplot3_calibration(
   true.labels = segment_logistic$Class,
   est.prob = segment_logistic$.pred_poor,
   n.bins = 10,
-  pos.class.idi = 2
+  pos.class = 2
 )
 
 # Plot the calibration curve of the calibrated predictions
@@ -68,7 +69,7 @@ dplot3_calibration(
     segment_logistic$.pred_poor
   )$fitted.values,
   n.bins = 10,
-  pos.class.idi = 2
+  pos.class = 2
 )
 }
 }
