@@ -7,7 +7,7 @@
 calibrate(
   true.labels,
   est.prob,
-  pos.class.idi = NULL,
+  pos.class = NULL,
   mod = c("gam", "glm"),
   k = 5,
   verbose = TRUE
@@ -18,7 +18,7 @@ calibrate(
 
 \item{est.prob}{Numeric vector with predicted probabilities}
 
-\item{pos.class.idi}{Integer: Index of the positive class}
+\item{pos.class}{Integer: Index of the positive class}
 
 \item{mod}{Character: Model to use for calibration. Either "gam" or "glm"}
 
@@ -43,7 +43,7 @@ dplot3_calibration(
   true.labels = segment_logistic$Class,
   est.prob = segment_logistic$.pred_poor,
   n_windows = 10,
-  pos.class.idi = 2
+  pos.class = 2
 )
 
 # Plot the calibration curve of the calibrated predictions
@@ -54,7 +54,7 @@ dplot3_calibration(
     segment_logistic$.pred_poor
   )$fitted.values,
   n_windows = 10,
-  pos.class.idi = 2
+  pos.class = 2
 )
 }
 }
