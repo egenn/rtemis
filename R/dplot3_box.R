@@ -2,10 +2,6 @@
 # ::rtemis::
 # 201?-22 E.D. Gennatas www.lambdamd.org
 
-# => add bracket-drawing function, annotate with *, p-value, Cohen's D
-# => T1 QA methods
-# pval annotation with * <.05 ** <.01 *** <.001
-
 #' Interactive Boxplots & Violin plots
 #'
 #' Draw interactive boxplots or violin plots using \pkg{plotly}
@@ -109,6 +105,10 @@
 #' @param starbracket.pad Numeric: Padding for htest annotation brackets
 #' @param use.plotly.group If TRUE, use plotly's `group` arg to group
 #' boxes.
+#' @param width Numeric: Force plot size to this width. Default = NULL, i.e. fill
+#' available space
+#' @param height Numeric: Force plot size to this height. Default = NULL, i.e. fill
+#' available space
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
 #' @param filename Character: Path to file to save static plot.
 #' @param modeBar.file.format Character: "svg", "png", "jpeg", "pdf"
@@ -216,6 +216,8 @@ dplot3_box <- function(x,
                        htest.bracket.col = theme$labs.col,
                        starbracket.pad = c(.04, .05, .09),
                        use.plotly.group = FALSE,
+                       width = NULL,
+                       height = NULL,
                        displayModeBar = TRUE,
                        modeBar.file.format = "svg",
                        filename = NULL,
@@ -429,7 +431,7 @@ dplot3_box <- function(x,
           function(i) i > 0,
           sapply(x, function(j) sd(na.exclude(j)))
         ) |>
-          round(digits = 2)  |>
+          round(digits = 2) |>
           format(nsmall = 2)
         plt <- plt |>
           # plotly::add_annotations(
@@ -565,6 +567,7 @@ dplot3_box <- function(x,
           tickvals = 0:(NCOL(dt) - 2),
           ticktext = .xnames
         )
+        .args <- c(list(width = width, height = height), .args)
         plt <- do.call(plotly::plot_ly, .args) |>
           plotly::layout(
             boxmode = "group",
@@ -603,6 +606,7 @@ dplot3_box <- function(x,
         boxindex <- 0
 
         # plt <- plotly::plot_ly(type = type) # box or violin
+        .args <- c(list(width = width, height = height), .args)
         plt <- do.call(plotly::plot_ly, .args)
         for (i in seq_along(varnames)) {
           # loop vars
@@ -752,7 +756,7 @@ dplot3_box <- function(x,
               showarrow = FALSE
             )
         } # /annotate_meansd
-        
+
         # '-Annotate Mean ----
         if (annotate_mean) {
           Meanperbox <- Filter(
@@ -952,6 +956,7 @@ dplot3_box <- function(x,
     }
     if (type == "violin") .args$box <- list(visible = violin.box)
 
+    .args <- c(list(width = width, height = height), .args)
     plt <- do.call(plotly::plot_ly, .args)
     if (!is.null(group) || nvars > 1) {
       plt <- plt |> plotly::layout(boxmode = "group")
