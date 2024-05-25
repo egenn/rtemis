@@ -216,3 +216,18 @@ f1 <- function(precision, recall) {
 brier_score <- function(true, estimated.prob) {
   mean((true - estimated.prob)^2)
 } # rtemis::brier_score
+
+labels2int <- function(x, pos.class = NULL) {
+  if (is.null(pos.class)) {
+    pos.class <- rtenv$binclasspos
+  }
+  stopifnot(is.factor(x))
+  # Convert factor to 0, 1 where 1 is the positive class
+  # defined by pos.class
+  if (pos.class == 1) {
+    xi <- 2 - as.numeric(x)
+  } else {
+    xi <- as.numeric(x) - 1
+  }
+  return(xi)
+} # rtemis::labels2int
