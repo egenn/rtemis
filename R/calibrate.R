@@ -8,7 +8,7 @@
 #'
 #' @param true.labels Factor with true class labels
 #' @param est.prob Numeric vector with predicted probabilities
-#' @param pos.class.idi Integer: Index of the positive class
+#' @param pos.class Integer: Index of the positive class
 #' @param mod Character: Model to use for calibration. Either "gam" or "glm"
 #' @param k Integer: GAM degrees of freedom
 #' @param verbose Logical: If TRUE, print messages to the console
@@ -28,7 +28,7 @@
 #'   true.labels = segment_logistic$Class,
 #'   est.prob = segment_logistic$.pred_poor,
 #'   n_windows = 10,
-#'   pos.class.idi = 2
+#'   pos.class = 2
 #' )
 #'
 #' # Plot the calibration curve of the calibrated predictions
@@ -39,21 +39,21 @@
 #'     segment_logistic$.pred_poor
 #'   )$fitted.values,
 #'   n_windows = 10,
-#'   pos.class.idi = 2
+#'   pos.class = 2
 #' )
 #' }
 calibrate <- function(true.labels,
                       est.prob,
-                      pos.class.idi = NULL,
+                      pos.class = NULL,
                       mod = c("gam", "glm"),
                       k = 5,
                       verbose = TRUE) {
-  stopifnot(pos.class.idi %in% c(1, 2))
+  stopifnot(pos.class %in% c(1, 2))
   mod <- match.arg(mod)
-  if (is.null(pos.class.idi)) {
-    pos.class.idi <- rtenv$binclasspos
+  if (is.null(pos.class)) {
+    pos.class <- rtenv$binclasspos
   }
-  if (pos.class.idi == 1) {
+  if (pos.class == 1) {
     true.labels <- factor(true.labels, levels = rev(levels(true.labels)))
   }
 
