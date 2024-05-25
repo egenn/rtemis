@@ -1,6 +1,6 @@
 # zzz.R
 # ::rtemis::
-# 2016-23 E.D. Gennatas www.lambdamd.org
+# 2016-24 E.D. Gennatas www.lambdamd.org
 
 rtenv <- new.env()
 rtenv$binclasspos <- 1
@@ -37,12 +37,13 @@ rtemis.version <- packageVersion("rtemis")
       bold("\n  Resources"),
       "\n  \u2502    ", italic(gray("Docs:")), " https://rtemis.lambdamd.org",
       "\n  \u2502 ", italic(gray("Learn R:")), " https://class.lambdamd.org/pdsr",
-      "\n  \u2502  ", italic(gray("Themes:")), " https://egenn.lambdamd.org/software/#rtemis_themes",
+      "\n  \u2502  ", italic(gray("Themes:")), " https://egenn.lambdamd.org/Software.html#rtemis-themes",
       "\n  \u2514    ", italic(gray("Cite:")), ' > citation("rtemis")',
       bold("\n  Setup"),
       "\n  \u2514 ", italic(gray("Enable progress reporting:")),
       " > progressr::handlers(global = TRUE)",
-      '\n                               > progressr::handlers("cli")'
+      '\n                               > progressr::handlers("cli")',
+      "\n\n  ", italic(bold(red("PSA: Do not throw data at algorithms. Compute responsibly!")))
     ))
   } else {
     packageStartupMessage(
