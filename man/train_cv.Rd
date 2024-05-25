@@ -137,8 +137,8 @@ on differents resamples under subdirectories of \code{outdir}}
 \item{debug}{Logical: If TRUE, sets \code{outer.n.workers} to 1, \code{options(error=recover)},
 and options(warn = 2)}
 
-\item{...}{Additional train.params to be passed to learner. Will be
-concatenated with \code{train.params}}
+\item{...}{Additional train.params to be passed to learner. Will be concatenated
+with \code{train.params}}
 }
 \value{
 Object of class \code{rtModCV} (Regression) or

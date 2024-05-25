@@ -75,8 +75,8 @@
 #' on differents resamples under subdirectories of `outdir`
 #' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, `options(error=recover)`,
 #' and options(warn = 2)
-#' @param ... Additional train.params to be passed to learner. Will be
-#' concatenated with `train.params`
+#' @param ... Additional train.params to be passed to learner. Will be concatenated 
+#' with `train.params`
 #'
 #' @return Object of class `rtModCV` (Regression) or
 #' `rtModCVClass` (Classification)
