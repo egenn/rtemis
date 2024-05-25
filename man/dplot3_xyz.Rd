@@ -172,10 +172,10 @@ Default = \verb{list(t = 30, b = 0, l = 0, r = 0}}
 \item{fit.params}{List: Arguments for learner defined by \code{fit}.
 Default = NULL, i.e. use default learner parameters}
 
-\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill
+\item{width}{Numeric: Force plot size to this width. Default = NULL, i.e. fill
 available space}
 
-\item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill
+\item{height}{Numeric: Force plot size to this height. Default = NULL, i.e. fill
 available space}
 
 \item{padding}{Numeric: Graph padding.}
