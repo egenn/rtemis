@@ -2,7 +2,7 @@
 % Please edit documentation in R/mplot3_xym.R
 \name{mplot3_xym}
 \alias{mplot3_xym}
-\title{\code{mplot3} Scatter plot with marginal density and/or histogram}
+\title{Scatter plot with marginal density and/or histogram}
 \usage{
 mplot3_xym(
   x,
@@ -24,8 +24,7 @@ mplot3_xym(
   axes.density = FALSE,
   pty = "m",
   mar = c(3, 3, 0, 0),
-  mar.mar = 0.2,
-  axes = TRUE,
+  margin.mar = 0.2,
   xaxs = "r",
   yaxs = "r",
   theme = rtTheme,
@@ -39,13 +38,13 @@ mplot3_xym(
 )
 }
 \arguments{
-\item{x}{x-data}
+\item{x}{Numeric vector: x-axis data}
 
-\item{y}{y-data}
+\item{y}{Numeric vector: y-axis data}
 
-\item{margin}{What type of marginal plots to draw. Options: "density", "histogram", or "both"}
+\item{margin}{Character: "density", "histogram", or "both". Type of marginal plots to draw.}
 
-\item{fit}{What model to use to draw \code{y ~ x}. Options: \code{mode.select()}}
+\item{fit}{Character: Algorithm to use to draw \code{y ~ x}.}
 
 \item{se.fit}{Logical: If TRUE: plot +/- 2 * Standard Error of fit}
 
@@ -55,17 +54,21 @@ mplot3_xym(
 
 \item{col}{Color for marginal plots}
 
-\item{density.alpha}{Alpha for density plots}
+\item{density.alpha}{Numeric: Alpha for density plots}
 
-\item{hist.breaks}{Integer. Number of histogram breaks}
+\item{hist.breaks}{Integer: Number of histogram breaks}
 
-\item{hist.alpha}{Alpha for barplots}
+\item{hist.alpha}{Numeric: Alpha for barplots}
 
-\item{hist.space}{Space between bars in barplots}
+\item{hist.space}{Numeric: Space between bars in barplots}
 
-\item{lwd}{Float: Line width}
+\item{hist.lwd}{Numeric: Line width for barplots}
+
+\item{lwd}{Numeric: Line width}
 
 \item{main}{Character: Main title}
+
+\item{main.adj}{Numeric: Main title adjustment}
 
 \item{axes.density}{Logical: If TRUE, plot margin plot axes for density (debugging only)}
 
@@ -74,6 +77,8 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{mar}{Float, vector, length 4: Margins; see \code{par("mar")}}
 
+\item{margin.mar}{Numeric: Margin for marginal plots}
+
 \item{xaxs}{Character: "r": Extend plot x-axis limits by 4\% on either end;
 "i": Use exact x-axis limits.}
 
@@ -81,7 +86,7 @@ graphics device size. Default = "m" (See \code{par("pty")})}
 
 \item{theme}{Character: Run \code{themes()} for available themes}
 
-\item{par.reset}{Logical. Resest \code{par} to original settings}
+\item{par.reset}{Logical: Resest \code{par} to original settings}
 
 \item{filename}{Character: Path to file to save plot. Default = NULL}
 
@@ -90,14 +95,12 @@ is set).}
 
 \item{pdf.height}{Float: Height in inches for pdf output.}
 
-\item{...}{Additional arguments to be passed to \code{mplot3_xy}}
+\item{...}{Additional arguments to passed to \link{mplot3_xy}}
 }
 \description{
 Draw a scatter plot with fit line and marginal density and/or histogram
 }
 \details{
-At the moment, \code{mplot3_xym} is the only \code{mplot3} function that does not support
-
 To make wide plot, change \code{widths}: e.g. widths = c(7, 1)
 }
 \examples{

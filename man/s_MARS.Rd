@@ -102,6 +102,8 @@ See \code{earth::earth}}
 \item{thresh}{[gS] Numeric: Forward stepping threshold. Forward pass terminates if RSq
 reduction is less than this.}
 
+\item{minspan}{Numeric: Minimum span of the basis functions. Default = 0}
+
 \item{pmethod}{[gS] Character: Pruning method: "backward", "none", "exhaustive", "forward",
 "seqrep", "cv". Default = "forward"}
 

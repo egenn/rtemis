@@ -7,6 +7,15 @@
 #' Build a NLS model
 #'
 #' @inheritParams s_CART
+#' @param formula Formula for the model. If NULL, a model is built with all predictors.
+#' @param start List of starting values for the parameters in the model.
+#' @param control Control parameters for `nls` created by `nls.control`
+#' @param .type Type of model to build. If NULL, a linear model is built. If "sig", a sigmoid model is built.
+#' @param default.start Numeric: Default starting value for all parameters
+#' @param algorithm Character: Algorithm to use for `nls`. See `nls` for details.
+#' @param nls.trace Logical: If TRUE, trace information is printed during the optimization process.
+#' @param save.func Logical: If TRUE, save model as character string
+#' @param verbosity Integer: If > 0, print model summary
 #' @param ... Additional arguments to be passed to `nls`
 #' 
 #' @return Object of class \pkg{rtemis}
@@ -16,7 +25,8 @@
 #' @export
 
 s_NLS <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
+                  x.test = NULL,
+                  y.test = NULL,
                   formula = NULL,
                   weights = NULL,
                   start = NULL,
@@ -33,7 +43,7 @@ s_NLS <- function(x, y = NULL,
                   plot.theme = rtTheme,
                   question = NULL,
                   verbose = TRUE,
-                  trace = 0,
+                  verbosity = 0,
                   outdir = NULL,
                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
 
@@ -84,11 +94,12 @@ s_NLS <- function(x, y = NULL,
       weight.names <- paste0("w", seq(feature.names))
       formula <- as.formula(paste("y ~ b +", paste0(weight.names, "*", feature.names, collapse = " + ")))
       params <- getTerms2(formula, data = df)
-      if (is.null(start)) {
-        lincoefs <- lincoef(x, y)
-        start <- as.list(lincoefs)
-        names(start) <- params
-      }
+      # Doesn't work with single predictor because of glmnet
+      # if (is.null(start)) {
+      #   lincoefs <- lincoef(x, y)
+      #   start <- as.list(lincoefs)
+      #   names(start) <- params
+      # }
     }
     if (is.null(start)) {
       if (verbose) msg2("Initializing all parameters as", default.start, newline.pre = TRUE)
@@ -105,7 +116,7 @@ s_NLS <- function(x, y = NULL,
       start <- lapply(seq(params), function(i) start[[i]] <- default.start)
       names(start) <- params
     }
-    formula <- as.formula(paste0("y ~ b_o + W_o * sigmoid(b_h + ", wxf,")"))
+    formula <- as.formula(paste0("y ~ b_o + W_o * sigmoid(b_h + ", wxf, ")"))
   }
 
   # NLS ----
@@ -116,7 +127,7 @@ s_NLS <- function(x, y = NULL,
              control = control,
              algorithm = algorithm,
              trace = nls.trace, ...)
-  if (trace > 0) print(summary(mod))
+  if (verbosity > 0) print(summary(mod))
 
 
   if (save.func) {

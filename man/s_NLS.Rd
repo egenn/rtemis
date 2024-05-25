@@ -26,7 +26,7 @@ s_NLS(
   plot.theme = rtTheme,
   question = NULL,
   verbose = TRUE,
-  trace = 0,
+  verbosity = 0,
   outdir = NULL,
   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
   ...
@@ -42,13 +42,29 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
+\item{formula}{Formula for the model. If NULL, a model is built with all predictors.}
+
 \item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
 over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
 Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
+\item{start}{List of starting values for the parameters in the model.}
+
+\item{control}{Control parameters for \code{nls} created by \code{nls.control}}
+
+\item{.type}{Type of model to build. If NULL, a linear model is built. If "sig", a sigmoid model is built.}
+
+\item{default.start}{Numeric: Default starting value for all parameters}
+
+\item{algorithm}{Character: Algorithm to use for \code{nls}. See \code{nls} for details.}
+
+\item{nls.trace}{Logical: If TRUE, trace information is printed during the optimization process.}
+
 \item{x.name}{Character: Name for feature set}
 
 \item{y.name}{Character: Name for outcome}
+
+\item{save.func}{Logical: If TRUE, save model as character string}
 
 \item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
 Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
@@ -63,6 +79,8 @@ Requires \code{x.test} and \code{y.test}}
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
 
 \item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{verbosity}{Integer: If > 0, print model summary}
 
 \item{outdir}{Path to output directory.
 If defined, will save Predicted vs. True plot, if available,

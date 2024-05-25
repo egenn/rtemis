@@ -20,8 +20,7 @@ s_KNN(
   question = NULL,
   verbose = TRUE,
   outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-  ...
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
 )
 }
 \arguments{

@@ -27,6 +27,7 @@
 #' See `earth::earth`
 #' @param thresh \[gS\] Numeric: Forward stepping threshold. Forward pass terminates if RSq
 #' reduction is less than this.
+#' @param minspan Numeric: Minimum span of the basis functions. Default = 0
 #' @param ... Additional parameters to pass to `earth::earth`
 #'
 #' @return Object of class `rtMod`

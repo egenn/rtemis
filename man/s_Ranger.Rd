@@ -33,7 +33,7 @@ s_Ranger(
   gridsearch.randomized.p = 0.1,
   metric = NULL,
   maximize = NULL,
-  probability = FALSE,
+  probability = NULL,
   importance = "impurity",
   local.importance = FALSE,
   replace = TRUE,

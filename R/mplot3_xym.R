@@ -3,29 +3,31 @@
 # 2016 E.D. Gennatas www.lambdamd.org
 # TODO: Add group support for marginal plots to mhist
 
-#' `mplot3` Scatter plot with marginal density and/or histogram
+#' Scatter plot with marginal density and/or histogram
 #'
 #' Draw a scatter plot with fit line and marginal density and/or histogram
 #'
-#' At the moment, `mplot3_xym` is the only `mplot3` function that does not support
-#'
 #' To make wide plot, change `widths`: e.g. widths = c(7, 1)
 #' @inheritParams mplot3_xy
-#' @param x x-data
-#' @param y y-data
-#' @param margin What type of marginal plots to draw. Options: "density", "histogram", or "both"
-#' @param fit What model to use to draw `y ~ x`. Options: `mode.select()`
+#' @param x Numeric vector: x-axis data
+#' @param y Numeric vector: y-axis data
+#' @param margin Character: "density", "histogram", or "both". Type of marginal plots to draw.
+#' @param fit Character: Algorithm to use to draw `y ~ x`.
 #' @param se.fit Logical: If TRUE: plot +/- 2 * Standard Error of fit
 #' @param col Color for marginal plots
-#' @param density.alpha Alpha for density plots
-#' @param hist.breaks Integer. Number of histogram breaks
-#' @param hist.alpha Alpha for barplots
-#' @param hist.space Space between bars in barplots
-#' @param lwd Float: Line width
+#' @param density.alpha Numeric: Alpha for density plots
+#' @param hist.breaks Integer: Number of histogram breaks
+#' @param hist.alpha Numeric: Alpha for barplots
+#' @param hist.space Numeric: Space between bars in barplots
+#' @param hist.lwd Numeric: Line width for barplots
+#' @param lwd Numeric: Line width
 #' @param main Character: Main title
+#' @param main.adj Numeric: Main title adjustment
+#' @param margin.mar Numeric: Margin for marginal plots
 #' @param axes.density Logical: If TRUE, plot margin plot axes for density (debugging only)
-#' @param par.reset Logical. Resest `par` to original settings
-#' @param ... Additional arguments to be passed to `mplot3_xy`
+#' @param par.reset Logical: Resest `par` to original settings
+#' @param ... Additional arguments to passed to [mplot3_xy]
+#' 
 #' @author E.D. Gennatas
 #' @examples
 #' \dontrun{
@@ -51,12 +53,11 @@ mplot3_xym <- function(x, y,
                        main = NULL,
                        main.adj = 0,
                        axes.density = FALSE,
-                       pty = 'm',
+                       pty = "m",
                        mar = c(3, 3, 0, 0),
-                       mar.mar = .2,
-                       axes = TRUE,
-                       xaxs = 'r',
-                       yaxs = 'r',
+                       margin.mar = .2,
+                       xaxs = "r",
+                       yaxs = "r",
                        theme = rtTheme,
                        par.reset = TRUE,
                        widths = NULL,
@@ -76,12 +77,12 @@ mplot3_xym <- function(x, y,
   # Auto max fill
   if (is.null(widths)) {
     devw <- dev.size()[1]
-    widths <- c(devw, devw/5)
+    widths <- c(devw, devw / 5)
   }
 
   if (is.null(heights)) {
     devh <- dev.size()[2]
-    heights <- c(devh/5, devh)
+    heights <- c(devh / 5, devh)
   }
 
   # [ LAYOUT ] ----
@@ -101,13 +102,13 @@ mplot3_xym <- function(x, y,
     # Density Top
     mplot3_x(x, type = margin, axes.visible = axes.density,
              density.mean = FALSE, col = col, alpha = density.alpha,
-             lwd = lwd, pty = "m", xaxs = 'i',
-             par.reset = FALSE, mar = c(mar.mar, 3, 1, 0), xlim = lims$xlim)
+             lwd = lwd, pty = "m", xaxs = "i",
+             par.reset = FALSE, mar = c(margin.mar, 3, 1, 0), xlim = lims$xlim)
     # Density Right
     mplot3_x(y, type = margin, axes.visible = axes.density,
              density.mean = FALSE, col = col, alpha = density.alpha,
-             lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = 'i',
-             par.reset = FALSE, mar = c(3, mar.mar, 0, 1), xlim = lims$ylim)
+             lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = "i",
+             par.reset = FALSE, mar = c(3, margin.mar, 0, 1), xlim = lims$ylim)
   } else if (margin == "histogram") {
     x.breaks <- seq(min(x), max(x), diff(range(x)) / hist.breaks)
     y.breaks <- seq(min(y), max(y), diff(range(y)) / hist.breaks)
@@ -115,14 +116,14 @@ mplot3_xym <- function(x, y,
     # yhist <- hist(y, breaks = y.breaks, plot = FALSE)
 
     # Histogram Top
-    par(mar = c(mar.mar, 3, 1, 0), pty = "m")
+    par(mar = c(margin.mar, 3, 1, 0), pty = "m")
     mhist(x, breaks = x.breaks, col = col,
-          xlim = lims$xlim, xaxs = 'i', yaxs = 'r', lwd = hist.lwd,
+          xlim = lims$xlim, xaxs = "i", yaxs = "r", lwd = hist.lwd,
           plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE)
     # Histogram Right
-    par(mar = c(3, mar.mar, 0, 1), pty = "m")
+    par(mar = c(3, margin.mar, 0, 1), pty = "m")
     mhist(y, breaks = y.breaks, col = col,
-          xlim = lims$ylim, xaxs = 'i', yaxs = 'r', lwd = hist.lwd, horiz = TRUE,
+          xlim = lims$ylim, xaxs = "i", yaxs = "r", lwd = hist.lwd, horiz = TRUE,
           plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE)
 
   } else if (margin == "both") {
@@ -134,24 +135,24 @@ mplot3_xym <- function(x, y,
     # densityLim <- max(c(xhist$density, yhist$density))
 
     # Both Top
-    par(mar = c(mar.mar, 3, 1, 0), pty = "m")
+    par(mar = c(margin.mar, 3, 1, 0), pty = "m")
     mhist(x, breaks = x.breaks, col = col,
-          xlim = lims$xlim, xaxs = 'i', yaxs = 'r', lwd = hist.lwd,
+          xlim = lims$xlim, xaxs = "i", yaxs = "r", lwd = hist.lwd,
           plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE)
     mplot3_x(x, type = "density", axes.visible = axes.density,
              density.mean = FALSE, col = col, alpha = density.alpha,
-             lwd = lwd, pty = "m", xaxs = 'i', new = TRUE,
-             par.reset = FALSE, mar = c(mar.mar, 3, 1, 0), xlim = lims$xlim)
+             lwd = lwd, pty = "m", xaxs = "i", new = TRUE,
+             par.reset = FALSE, mar = c(margin.mar, 3, 1, 0), xlim = lims$xlim)
 
     # Both Right
-    par(mar = c(3, mar.mar, 0, 1), pty = "m")
+    par(mar = c(3, margin.mar, 0, 1), pty = "m")
     mhist(y, breaks = y.breaks, col = col,
-          xlim = lims$ylim, xaxs = 'i', yaxs = 'r', lwd = hist.lwd, horiz = TRUE,
+          xlim = lims$ylim, xaxs = "i", yaxs = "r", lwd = hist.lwd, horiz = TRUE,
           plot.axes = FALSE, xaxis = FALSE, yaxis = FALSE)
     mplot3_x(y, type = "density", axes.visible = axes.density,
              density.mean = FALSE, col = col, alpha = density.alpha,
-             lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = 'i', new = TRUE,
-             par.reset = FALSE, mar = c(3, mar.mar, 0, 1), xlim = lims$ylim)
+             lwd = lwd, pty = "m", axes.swap = TRUE, yaxs = "i", new = TRUE,
+             par.reset = FALSE, mar = c(3, margin.mar, 0, 1), xlim = lims$ylim)
 
   }
   if (!is.null(filename)) grDevices::dev.off()

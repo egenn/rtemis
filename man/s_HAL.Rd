@@ -10,7 +10,7 @@ s_HAL(
   x.test = NULL,
   y.test = NULL,
   family = NULL,
-  max_degree = ifelse(ncol(x) >= 20, 2, 3),
+  max.degree = ifelse(ncol(x) >= 20, 2, 3),
   lambda = NULL,
   x.name = NULL,
   y.name = NULL,
@@ -46,6 +46,9 @@ Columns must correspond to columns in \code{x}}
 \item{y.test}{Numeric vector of testing set outcome}
 
 \item{family}{Error distribution and link function. See \code{stats::family}}
+
+\item{max.degree}{Integer: The highest order of interaction terms to generate basis
+functions for.}
 
 \item{lambda}{Float vector: \link[hal9001:fit_hal]{hal9001::fit_hal} lambda}
 
