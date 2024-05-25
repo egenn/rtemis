@@ -72,11 +72,12 @@ outro <- function(start.time,
   elapsed <- as.numeric(proc.time() - start.time)
   if (verbose || sinkOff) {
     if (newline.pre) cat("\n")
-    msg2(
-      "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
-      "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
-      "; System: ", ddSci(elapsed[2]), ")",
-      sep = "",
+    msg20(
+      gray(paste0(
+        "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
+        "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
+        "; System: ", ddSci(elapsed[2]), ")"
+      )),
       # as.message = as.message,
       caller.id = 2
     )
