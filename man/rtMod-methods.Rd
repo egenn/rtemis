@@ -16,7 +16,14 @@
 
 \method{fitted}{rtMod}(object, ...)
 
-\method{predict}{rtMod}(object, newdata, trace = 0, verbose = TRUE, ...)
+\method{predict}{rtMod}(
+  object,
+  newdata,
+  classification.output = c("prob", "class"),
+  trace = 0,
+  verbose = TRUE,
+  ...
+)
 
 \method{residuals}{rtMod}(object, ...)
 
@@ -49,6 +56,8 @@
 \item{object}{\code{rtModLite} object}
 
 \item{newdata}{Testing set features}
+
+\item{classification.output}{Character: "prob" or "class" for classification models}
 
 \item{trace}{Integer: Set trace level}
 
