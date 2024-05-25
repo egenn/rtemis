@@ -66,6 +66,8 @@ dplot3_box(
   htest.bracket.col = theme$labs.col,
   starbracket.pad = c(0.04, 0.05, 0.09),
   use.plotly.group = FALSE,
+  width = NULL,
+  height = NULL,
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
   filename = NULL,
@@ -222,6 +224,12 @@ be set}
 
 \item{use.plotly.group}{If TRUE, use plotly's \code{group} arg to group
 boxes.}
+
+\item{width}{Numeric: Force plot size to this width. Default = NULL, i.e. fill
+available space}
+
+\item{height}{Numeric: Force plot size to this height. Default = NULL, i.e. fill
+available space}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 
