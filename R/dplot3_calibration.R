@@ -9,7 +9,7 @@
 #' @param bin.method Character: "quantile" or "equidistant": Method to bin the estimated
 #' probabilities.
 #' @param n.bins Integer: Number of windows to split the data into
-#' @param pos.class.idi Integer: Index of the positive class
+#' @param pos.class Integer: Index of the positive class
 #' @param main Character: Main title
 #' @param subtitle Character: Subtitle, placed bottom right of plot
 #' @param xlab Character: x-axis label
@@ -30,7 +30,7 @@
 #'   true.labels = segment_logistic$Class,
 #'   est.prob = segment_logistic$.pred_poor,
 #'   n.bins = 10,
-#'   pos.class.idi = 2
+#'   pos.class = 2
 #' )
 #'
 #' # Plot the calibration curve of the calibrated predictions
@@ -41,21 +41,25 @@
 #'     segment_logistic$.pred_poor
 #'   )$fitted.values,
 #'   n.bins = 10,
-#'   pos.class.idi = 2
+#'   pos.class = 2
 #' )
 #' }
 dplot3_calibration <- function(true.labels, est.prob,
                                n.bins = 10,
                                bin.method = c("quantile", "equidistant"),
-                               pos.class.idi = 1,
+                               pos.class = NULL,
                                main = NULL,
                                subtitle = NULL,
                                xlab = "Mean estimated probability",
                                ylab = "Empirical risk",
                                #    conf_level = .95,
                                mode = "markers+lines",
+                               print.brier = TRUE,
                                filename = NULL, ...) {
   bin.method <- match.arg(bin.method)
+  if (is.null(pos.class)) {
+    pos.class <- rtenv$binclasspos
+  }
   if (!is.list(true.labels)) {
     true.labels <- list(true_labels = true.labels)
   }
@@ -66,7 +70,7 @@ dplot3_calibration <- function(true.labels, est.prob,
   stopifnot(length(true.labels) == length(est.prob))
 
   pos_class <- lapply(true.labels, \(x) {
-    levels(x)[pos.class.idi]
+    levels(x)[pos.class]
   })
 
   # Ensure same positive class
@@ -99,6 +103,18 @@ dplot3_calibration <- function(true.labels, est.prob,
     })
   })
   names(window_empirical_risk) <- names(est.prob)
+
+  # Add Brier score
+  if (print.brier) {
+    .brier.score <- sapply(seq_along(est.prob), \(i) {
+      brier_score(
+        true = labels2int(true.labels[[i]], pos.class),
+        estimated.prob = est.prob[[i]]
+      )
+    })
+    # names(mean_bin_prob) <- paste0(names(mean_bin_prob), "(", round(.brier.score, 3), ")")
+    names(window_empirical_risk) <- paste0(names(window_empirical_risk), " (Brier=", round(.brier.score, 3), ")")
+  }
 
   # Calculate confidence intervals
   # confint <- sapply(seq_len(n.bins), \(i) {
