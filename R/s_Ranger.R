@@ -89,7 +89,7 @@ s_Ranger <- function(x, y = NULL,
                      gridsearch.randomized.p = .1,
                      metric = NULL,
                      maximize = NULL,
-                     probability = TRUE,
+                     probability = NULL,
                      importance = "impurity",
                      local.importance = FALSE,
                      replace = TRUE,
@@ -161,7 +161,11 @@ s_Ranger <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   # Default to probability trees in Classification
-  if (is.null(probability) && type == "Classification") probability <- TRUE
+  if (is.null(probability) && type == "Classification") {
+    probability <- TRUE
+  } else {
+    probability <- FALSE
+  }
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, newline.pre = TRUE)
   .weights <- if (is.null(weights) && ifw) dt$weights else weights
