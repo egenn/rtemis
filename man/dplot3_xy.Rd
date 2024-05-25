@@ -276,10 +276,10 @@ or "longdashdot"}
 \item{hovertext}{List of character vectors with hovertext to include for each group
 of markers}
 
-\item{width}{Float: Force plot size to this width. Default = NULL, i.e. fill
+\item{width}{Numeric: Force plot size to this width. Default = NULL, i.e. fill
 available space}
 
-\item{height}{Float: Force plot size to this height. Default = NULL, i.e. fill
+\item{height}{Numeric: Force plot size to this height. Default = NULL, i.e. fill
 available space}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}

@@ -26,9 +26,9 @@
 #' TRUE if there are more than 1 groups, or `fit` is set
 #' @param hovertext List of character vectors with hovertext to include for each group
 #' of markers
-#' @param width Float: Force plot size to this width. Default = NULL, i.e. fill
+#' @param width Numeric: Force plot size to this width. Default = NULL, i.e. fill
 #' available space
-#' @param height Float: Force plot size to this height. Default = NULL, i.e. fill
+#' @param height Numeric: Force plot size to this height. Default = NULL, i.e. fill
 #' available space
 #' @param legend.borderwidth Numeric: Border width for legend
 #' @param legend.group.gap Numeric: Gap between legend groups
