@@ -12,7 +12,14 @@
 
 \method{summary}{rtModCV}(object, ...)
 
-\method{predict}{rtModCV}(object, newdata, which.repeat = 1, bag.fn = mean, n.cores = 1, ...)
+\method{predict}{rtModCV}(
+  object,
+  newdata,
+  which.repeat = 1,
+  classification.output = c("prob", "class"),
+  output = c("array", "avg"),
+  ...
+)
 
 \method{describe}{rtModCV}(object, ...)
 }
@@ -27,7 +34,11 @@
 
 \item{which.repeat}{Integer: Which repeat to use for prediction}
 
-\item{bag.fn}{Function to use to average predictions of different models}
+\item{classification.output}{Character: "prob" or "class" for classification models
+If "class" and \code{output} is "avg", the mode of the predictions is returned.}
+
+\item{output}{Character: "matrix" or "avg". Produce either a matrix with predictions
+of each model in different columns, or the mean/mode of the predictions across models}
 
 \item{n.cores}{Integer: Number of cores to use}
 }

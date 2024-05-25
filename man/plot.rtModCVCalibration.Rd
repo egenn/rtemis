@@ -9,13 +9,20 @@
   what = c("calibration", "brier"),
   type = c("aggregate.all", "aggregate.by.resample"),
   bin.method = c("quantile", "equidistant"),
-  which.resample = 1,
   filename = NULL,
   ...
 )
 }
 \arguments{
 \item{x}{\code{rtModCVCalibration} object}
+
+\item{what}{Character: "calibration" or "brier"}
+
+\item{type}{Character: "aggregate.all" or "aggregate.by.resample"}
+
+\item{bin.method}{Character: "quantile" or "equidistant"}
+
+\item{filename}{Character: Path to save plot as pdf}
 
 \item{...}{Additional arguments}
 }

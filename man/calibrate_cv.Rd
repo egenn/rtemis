@@ -8,7 +8,7 @@ calibrate_cv(
   mod,
   alg = "gam",
   learn.params = list(),
-  resample.params = setup.resample(resampler = "kfold", n.resamples = 5),
+  resample.params = setup.resample(resampler = "kfold", n.resamples = 5, seed = NULL),
   which.repeat = 1,
   verbosity = 1,
   debug = FALSE
