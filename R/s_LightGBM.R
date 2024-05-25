@@ -552,7 +552,9 @@ s_LightRF <- function(x, y = NULL,
   )
 } # rtemis::s_LightRF
 
-predict_LightGBM <- function(x, newdata, ...) {
+predict_LightGBM <- function(x,
+                             newdata,
+                             classification.output = c("prob", "class"), ...) {
   if (!is.null(x$extra$factor_index)) {
     newdata <- preprocess(newdata,
       factor2integer = TRUE, factor2integer_startat0 = TRUE
@@ -560,6 +562,7 @@ predict_LightGBM <- function(x, newdata, ...) {
   }
   predicted <- predict(x$mod, as.matrix(newdata))
   if (x$type == "Classification") {
+    classification.output <- match.arg(classification.output)
     ylevels <- levels(x$y.train)
     nclass <- length(ylevels)
     if (nclass == 2) {
@@ -568,17 +571,24 @@ predict_LightGBM <- function(x, newdata, ...) {
       } else {
         predicted.prob <- predicted
       }
-      predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
-        levels = c(1, 0),
-        labels = ylevels
-      )
+      if (classification.output == "prob") {
+        return(predicted.prob)
+      } else {
+        return(factor(ifelse(predicted.prob >= .5, 1, 0),
+          levels = c(1, 0),
+          labels = ylevels
+        ))
+      }
     } else {
-      predicted <- factor(max.col(predicted),
-        levels = seq(nclass),
-        labels = ylevels
-      )
+      if (classification.output == "prob") {
+        return(predicted)
+      } else {
+        return(factor(max.col(predicted),
+          levels = seq(nclass),
+          labels = ylevels
+        ))
+      }
     }
-    return(list(predicted = predicted, predicted.prob = predicted.prob))
   }
   return(predicted)
-}
+} # rtemis::predict_LightGBM
