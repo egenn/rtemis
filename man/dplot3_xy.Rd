@@ -38,6 +38,15 @@ dplot3_xy(
   se.col = NULL,
   se.alpha = 0.4,
   scatter.type = "scatter",
+  show.marginal.x = FALSE,
+  show.marginal.y = FALSE,
+  marginal.x = x,
+  marginal.y = y,
+  marginal.x.y = NULL,
+  marginal.y.x = NULL,
+  marginal.col = NULL,
+  marginal.alpha = 0.333,
+  marginal.size = 5,
   legend = NULL,
   legend.xy = c(0, 0.98),
   legend.xanchor = "left",
@@ -60,6 +69,8 @@ dplot3_xy(
   main.yanchor = "bottom",
   subtitle.x = 0.02,
   subtitle.y = 0.99,
+  subtitle.xref = "paper",
+  subtitle.yref = "paper",
   subtitle.xanchor = "left",
   subtitle.yanchor = "top",
   automargin.x = TRUE,
@@ -180,6 +191,24 @@ Default = NULL, which uses \code{rownames(x)}}
 \item{scatter.type}{Character: "scatter", "scattergl", "scatter3d", "scatterternary",
 "scatterpolar", "scattermapbox",}
 
+\item{show.marginal.x}{Logical: If TRUE, add marginal distribution line markers on x-axis}
+
+\item{show.marginal.y}{Logical: If TRUE, add marginal distribution line markers on y-axis}
+
+\item{marginal.x}{Numeric: Data whose distribution will be shown on x-axis. Only
+specify if different from \code{x}}
+
+\item{marginal.y}{Numeric: Data whose distribution will be shown on y-axis. Only
+specify if different from \code{y}}
+
+\item{marginal.x.y}{Numeric: Y position of marginal markers on x-axis}
+
+\item{marginal.col}{Color for marginal markers}
+
+\item{marginal.alpha}{Numeric: Alpha for marginal markers}
+
+\item{marginal.size}{Numeric: Size of marginal markers}
+
 \item{legend}{Logical: If TRUE, draw legend. Default = NULL, which will be set to
 TRUE if there are more than 1 groups, or \code{fit} is set}
 
@@ -228,6 +257,10 @@ joined by \code{+}, e.g. "toaxis+across+marker"}
 \item{subtitle.x}{Numeric: X position of subtitle relative to paper}
 
 \item{subtitle.y}{Numeric: Y position of subtitle relative to paper}
+
+\item{subtitle.xref}{Character: "paper", "x", "y"}
+
+\item{subtitle.yref}{Character: "paper", "x", "y"}
 
 \item{subtitle.xanchor}{Character: "left", "center", "right"}
 

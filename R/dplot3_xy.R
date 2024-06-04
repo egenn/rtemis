@@ -45,6 +45,8 @@
 #' @param main.yanchor Character: "top", "middle", "bottom"
 #' @param subtitle.x Numeric: X position of subtitle relative to paper
 #' @param subtitle.y Numeric: Y position of subtitle relative to paper
+#' @param subtitle.xref Character: "paper", "x", "y"
+#' @param subtitle.yref Character: "paper", "x", "y"
 #' @param subtitle.xanchor Character: "left", "center", "right"
 #' @param subtitle.yanchor Character: "top", "middle", "bottom"
 #' @param scrollZoom Logical: If TRUE, enable scroll zoom
@@ -53,6 +55,16 @@
 #' @param symbol Character: Marker symbol.
 #' @param scatter.type Character: "scatter", "scattergl", "scatter3d", "scatterternary",
 #' "scatterpolar", "scattermapbox",
+#' @param show.marginal.x Logical: If TRUE, add marginal distribution line markers on x-axis
+#' @param show.marginal.y Logical: If TRUE, add marginal distribution line markers on y-axis
+#' @param marginal.x Numeric: Data whose distribution will be shown on x-axis. Only 
+#' specify if different from `x`
+#' @param marginal.y Numeric: Data whose distribution will be shown on y-axis. Only
+#' specify if different from `y`
+#' @param marginal.x.y Numeric: Y position of marginal markers on x-axis
+#' @param marginal.col Color for marginal markers
+#' @param marginal.alpha Numeric: Alpha for marginal markers
+#' @param marginal.size Numeric: Size of marginal markers
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -98,6 +110,16 @@ dplot3_xy <- function(x, y = NULL,
                       se.col = NULL,
                       se.alpha = .4,
                       scatter.type = "scatter",
+                      # Marginal plots
+                      show.marginal.x = FALSE,
+                      show.marginal.y = FALSE,
+                      marginal.x = x,
+                      marginal.y = y,
+                      marginal.x.y = NULL,
+                      marginal.y.x = NULL,
+                      marginal.col = NULL,
+                      marginal.alpha = .333,
+                      marginal.size = 5,
                       legend = NULL,
                       legend.xy = c(0, .98),
                       legend.xanchor = "left",
@@ -120,6 +142,8 @@ dplot3_xy <- function(x, y = NULL,
                       main.yanchor = "bottom",
                       subtitle.x = 0.02,
                       subtitle.y = 0.99,
+                      subtitle.xref = "paper",
+                      subtitle.yref = "paper",
                       subtitle.xanchor = "left",
                       subtitle.yanchor = "top",
                       automargin.x = TRUE,
@@ -266,6 +290,10 @@ dplot3_xy <- function(x, y = NULL,
       .names <- xname
     }
   }
+
+  # Marginal data ----
+  if (show.marginal.x && is.null(marginal.x)) marginal.x <- x
+  if (show.marginal.y && is.null(marginal.y)) marginal.y <- y
 
   # Reorder ----
   if (order.on.x) {
@@ -496,8 +524,57 @@ dplot3_xy <- function(x, y = NULL,
       legendgroup = .names[i],
       showlegend = legend
     )
+    # Marginal plots ----
+    # Add marginal plots by plotting short vertical markers on the x and y axes
+    if (show.marginal.x) {
+      if (is.null(marginal.col)) {
+        marginal.col <- plotly::toRGB(marker.col, alpha = marginal.alpha)
+      }
+      if (is.null(marginal.x.y)) marginal.x.y <- ylim[1]
+      for (i in seq_len(n.groups)) {
+        plt <- plotly::add_trace(plt,
+          x = marginal.x[[i]],
+          y = rep(marginal.x.y, length(marginal.x[[i]])),
+          type = "scatter",
+          mode = "markers",
+          marker = list(
+            color = marginal.col[[i]],
+            size = marginal.size,
+            symbol = "line-ns-open"
+          ),
+          showlegend = FALSE,
+          hoverinfo = "x"
+          # legendgroup = .names[i],
+          # inherit = FALSE
+        )
+      }
+    } # /show.marginal.x
+
+    if (show.marginal.y) {
+      if (is.null(marginal.col)) {
+        marginal.col <- plotly::toRGB(marker.col, alpha = marginal.alpha)
+      }
+      if (is.null(marginal.y.x)) marginal.y.x <- xlim[1]
+      for (i in seq_len(n.groups)) {
+        plt <- plotly::add_trace(plt,
+          x = rep(marginal.y.x, length(marginal.y[[i]])),
+          y = marginal.y[[i]],
+          type = "scatter",
+          mode = "markers",
+          marker = list(
+            color = marginal.col[[i]],
+            size = marginal.size,
+            symbol = "line-ew-open"
+          ),
+          showlegend = FALSE,
+          hoverinfo = "y"
+          # legendgroup = .names[i]
+        )
+      }
+    } # /show.marginal.y
+
+    ## { SE band } ----
     if (se.fit) {
-      ## { SE band } ----
       plt <- plotly::add_trace(plt,
         x = x[[i]],
         y = fitted[[i]] + se.times * se[[i]],
@@ -678,8 +755,8 @@ dplot3_xy <- function(x, y = NULL,
     plt <- plt |> plotly::add_annotations(
       x = subtitle.x,
       y = subtitle.y,
-      xref = "paper",
-      yref = "paper",
+      xref = subtitle.xref,
+      yref = subtitle.yref,
       xanchor = subtitle.xanchor,
       yanchor = subtitle.yanchor,
       text = subtitle,

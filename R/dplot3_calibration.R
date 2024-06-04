@@ -4,6 +4,7 @@
 
 #' Draw calibration plot
 #'
+#' @inheritParams dplot3_xy
 #' @param true.labels Factor or list of factors with true class labels
 #' @param est.prob Numeric vector or list of numeric vectors with predicted probabilities
 #' @param bin.method Character: "quantile" or "equidistant": Method to bin the estimated
@@ -14,6 +15,7 @@
 #' @param subtitle Character: Subtitle, placed bottom right of plot
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
+#' @param show.marginal.x Logical: Add marginal plot of distribution of estimated probabilities
 #' @param mode Character: Plot mode
 #' @param filename Character: Path to save output.
 #' @param ... Additional arguments passed to [dplot3_xy]
@@ -52,10 +54,17 @@ dplot3_calibration <- function(true.labels, est.prob,
                                subtitle = NULL,
                                xlab = "Mean estimated probability",
                                ylab = "Empirical risk",
+                               show.marginal.x = TRUE,
+                               marginal.x.y = -.02,
+                               marginal.col = NULL,
+                               marginal.size = 10,
+                               show.bins = TRUE,
                                #    conf_level = .95,
                                mode = "markers+lines",
                                print.brier = TRUE,
+                               theme = rtTheme,
                                filename = NULL, ...) {
+  # Arguments ----
   bin.method <- match.arg(bin.method)
   if (is.null(pos.class)) {
     pos.class <- rtenv$binclasspos
@@ -69,6 +78,10 @@ dplot3_calibration <- function(true.labels, est.prob,
   # Ensure same number of inputs
   stopifnot(length(true.labels) == length(est.prob))
 
+  # Theme ----
+  if (is.character(theme)) {
+    theme <- do.call(paste0("theme_", theme), list())
+  }
   pos_class <- lapply(true.labels, \(x) {
     levels(x)[pos.class]
   })
@@ -136,22 +149,52 @@ dplot3_calibration <- function(true.labels, est.prob,
     )
   }
   # if (is.null(subtitle) && !is.na(subtitle)) .subtitle <- paste0(subtitle, "\n", .subtitle)
-  dplot3_xy(
+  plt <- dplot3_xy(
     x = mean_bin_prob,
     y = window_empirical_risk,
     main = main,
     # subtitle = paste("<i>", .subtitle, "</i>"),
     subtitle = subtitle,
     subtitle.x = 1,
-    subtitle.y = .01,
+    subtitle.y = 0,
+    subtitle.yref = "y",
     subtitle.xanchor = "right",
     subtitle.yanchor = "bottom",
     xlab = xlab,
     ylab = ylab,
-    axes.square = TRUE, diagonal = TRUE,
+    show.marginal.x = show.marginal.x,
+    marginal.x = est.prob,
+    marginal.x.y = marginal.x.y,
+    marginal.size = marginal.size,
+    axes.square = TRUE,
+    diagonal = TRUE,
     xlim = c(0, 1), ylim = c(0, 1),
     mode = mode,
+    theme = theme,
     filename = filename, ...
   )
 
+  # Add marginal.x ----
+  # Using estimated probabilities
+  # if (marginal.x) {
+  #   if (is.null(marginal.col)) marginal.col <- plotly::toRGB(theme$fg, alpha = .5)
+  #   for (i in seq_along(mean_bin_prob)) {
+  #     plt <- plotly::add_trace(
+  #       plt,
+  #       x = est.prob[[i]],
+  #       y = rep(-.02, length(est.prob[[i]])),
+  #       type = "scatter",
+  #       mode = "markers",
+  #       marker = list(
+  #         color = marginal.col,
+  #         size = marginal.size,
+  #         symbol = "line-ns-open"
+  #       ),
+  #       showlegend = FALSE,
+  #       hoverinfo = "x"
+  #     )
+  #   }
+  # } # /marginal.x
+
+  plt
 } # rtemis::dplot3_calibration

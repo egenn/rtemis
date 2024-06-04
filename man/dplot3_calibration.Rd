@@ -14,8 +14,14 @@ dplot3_calibration(
   subtitle = NULL,
   xlab = "Mean estimated probability",
   ylab = "Empirical risk",
+  show.marginal.x = TRUE,
+  marginal.x.y = -0.02,
+  marginal.col = NULL,
+  marginal.size = 10,
+  show.bins = TRUE,
   mode = "markers+lines",
   print.brier = TRUE,
+  theme = rtTheme,
   filename = NULL,
   ...
 )
@@ -40,7 +46,18 @@ probabilities.}
 
 \item{ylab}{Character: y-axis label}
 
+\item{show.marginal.x}{Logical: Add marginal plot of distribution of estimated probabilities}
+
+\item{marginal.x.y}{Numeric: Y position of marginal markers on x-axis}
+
+\item{marginal.col}{Color for marginal markers}
+
+\item{marginal.size}{Numeric: Size of marginal markers}
+
 \item{mode}{Character: Plot mode}
+
+\item{theme}{Character: Theme to use: Use \code{themes()} to get available
+themes}
 
 \item{filename}{Character: Path to save output.}
 
