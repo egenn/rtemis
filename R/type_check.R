@@ -11,9 +11,11 @@
 #' @author EDG
 #' @keywords internal
 #' @examples 
+#' \dontrun{
 #' is_check("papaya", is.character) # TRUE
 #' is_check(c(1, 2.5, 3.2), is.integer) # FALSE
 #' is_check(iris, is.list) # TRUE
+#' }
 
 is_check <- function(x, fn) {
   if (!fn(x)) {
@@ -53,9 +55,11 @@ is_test <- function(x, fn) {
 #' @author EDG
 #' @keywords internal
 #' @examples
+#' \dontrun{
 #' inherits_check("papaya", "character") # TRUE
 #' inherits_check(c(1, 2.5, 3.2), "integer") # FALSE
 #' inherits_check(iris, "list") # FALSE, compare to is_check(iris, is.list)
+#' }
 
 inherits_check <- function(x, cl) {
   if (!inherits(x, cl)) {
