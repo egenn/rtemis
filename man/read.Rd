@@ -80,6 +80,7 @@ characters to factors
 \item \strong{DTA} files from Stata using \code{haven::read_dta()}
 \item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
 \code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}
+\item \strong{FASTA} files using \code{seqinr::read.fasta()}
 }
 }
 \examples{

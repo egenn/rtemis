@@ -19,6 +19,7 @@
 #' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
 #'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`
 #   or `polars::pl$read_csv()`
+#' - **FASTA** files using `seqinr::read.fasta()`
 #'
 #' @param filename Character: filename or full path if `datadir = NULL`
 #' @param datadir Character: Optional path to directory where `filename`
@@ -126,6 +127,18 @@ read <- function(filename,
     }
     .dat <- haven::read_dta(path, ...)
     if (output == "data.table") setDT(.dat)
+  } else if (ext == "fasta") {
+    dependency_check("seqinr")
+    if (verbose) {
+      msg20(
+        bold(green("\u25B6")), " Reading ",
+        hilite(basename(path)), " using seqinr::read.fasta()..."
+      )
+    }
+    .dat <- seqinr::read.fasta(path, ...)
+    # if single sequence, return as character
+    if (length(.dat) == 1) .dat <- as.character(.dat[[1]])
+    return(.dat)
   } else {
     if (verbose) {
       msg20(
@@ -245,7 +258,8 @@ read <- function(filename,
   }
 
   if (timed) outro(start.time)
-  .dat
+
+  return(.dat)
 } # rtemis::read
 
 msgread <- function(x, caller = "", use_basename = TRUE) {
