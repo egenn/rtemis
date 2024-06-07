@@ -11,6 +11,9 @@ is_test(x, fn)
 
 \item{fn}{Function to check against, any \verb{is.*} function, e.g. \code{is.character}}
 }
+\value{
+NULL (invisibly)
+}
 \description{
 Test type of object
 }

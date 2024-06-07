@@ -11,6 +11,9 @@ inherits_test(x, cl)
 
 \item{cl}{Character: class to check against}
 }
+\value{
+NULL (invisibly)
+}
 \description{
 Test class of object
 }

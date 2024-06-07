@@ -18,9 +18,11 @@ Logical
 Check type of object
 }
 \examples{
+\dontrun{
 is_check("papaya", is.character) # TRUE
 is_check(c(1, 2.5, 3.2), is.integer) # FALSE
 is_check(iris, is.list) # TRUE
+}
 }
 \author{
 EDG

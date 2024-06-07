@@ -18,9 +18,11 @@ Logical
 Check class of object
 }
 \examples{
+\dontrun{
 inherits_check("papaya", "character") # TRUE
 inherits_check(c(1, 2.5, 3.2), "integer") # FALSE
 inherits_check(iris, "list") # FALSE, compare to is_check(iris, is.list)
+}
 }
 \author{
 EDG
