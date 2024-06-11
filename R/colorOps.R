@@ -182,7 +182,7 @@ col2grayscale <- function(x,
 #' @param start_with Integer or color: For integer, start with this color out
 #' of `x`, otherwise find color `x` closer to this color and place it
 #' first
-#' @param order_by Character: "similarity" or "dissimilarity"
+#' @param order_by Character: "separation", "dissimilarity", "similarity"
 #'
 #' @author E.D. Gennatas
 #' @export

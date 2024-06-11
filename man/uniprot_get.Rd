@@ -7,7 +7,7 @@
 uniprot_get(
   accession = "Q9UMX9",
   baseURL = "https://rest.uniprot.org/uniprotkb",
-  verbose = TRUE
+  verbosity = 1
 )
 }
 \arguments{
@@ -16,7 +16,7 @@ uniprot_get(
 \item{baseURL}{Character: UniProt rest API base URL.
 Default = "https://rest.uniprot.org/uniprotkb"}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Integer: If > 0, print messages to console}
 }
 \value{
 List with two elements: Annotation & Sequence
@@ -26,7 +26,7 @@ Get protein sequence from UniProt
 }
 \examples{
 \dontrun{
-matp <- uniprot_get("Q9UMX9")
+mapt <- uniprot_get("Q9UMX9")
 }
 }
 \author{

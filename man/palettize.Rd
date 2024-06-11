@@ -21,7 +21,7 @@ is greater than this value}
 of \code{x}, otherwise find color \code{x} closer to this color and place it
 first}
 
-\item{order_by}{Character: "similarity" or "dissimilarity"}
+\item{order_by}{Character: "separation", "dissimilarity", "similarity"}
 }
 \description{
 Filter and order a set of colors to produce a palette suitable for
