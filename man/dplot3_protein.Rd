@@ -103,13 +103,13 @@ dplot3_protein(
   file.scale = 1,
   width = NULL,
   height = NULL,
-  verbose = TRUE,
-  trace = 0,
+  verbosity = 1,
   ...
 )
 }
 \arguments{
-\item{x}{Character vector of amino acid sequence (1-letter abbreviations)}
+\item{x}{Character vector: amino acid sequence (1-letter abbreviations) OR
+\code{a3} object OR Character: path to JSON file OR Character: UniProt accession number}
 
 \item{site}{Named list of lists with indices of sites. These will be
 highlighted by coloring the border of markers}
@@ -311,9 +311,8 @@ middle}
 
 \item{height}{Integer: Height for plot}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
-
-\item{trace}{Integer: If > 0, print trace messages}
+\item{verbosity}{Integer: If > 0, print messages to console. If > 1, print
+trace messages}
 
 \item{...}{Additional arguments to pass to the theme function}
 }

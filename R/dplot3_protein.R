@@ -4,7 +4,8 @@
 
 #' Plot the amino acid sequence with annotations
 #'
-#' @param x Character vector of amino acid sequence (1-letter abbreviations)
+#' @param x Character vector: amino acid sequence (1-letter abbreviations) OR
+#' `a3` object OR Character: path to JSON file OR Character: UniProt accession number
 #' @param site Named list of lists with indices of sites. These will be
 #' highlighted by coloring the border of markers
 #' @param region Named list of lists with indices of regions. These will be
@@ -96,7 +97,7 @@
 #' @param automargin.y Logical: If TRUE, use automatic margin for y axis
 #' @param xaxis.autorange Logical: If TRUE, use automatic range for x axis
 #' @param yaxis.autorange Character: If TRUE, use automatic range for y axis
-#' @param scaleanchor.y Character: Scale anchor for y axis  
+#' @param scaleanchor.y Character: Scale anchor for y axis
 #' @param scaleratio.y Numeric: Scale ratio for y axis
 #' @param hoverlabel.align Character: Alignment for hover label
 #' @param displayModeBar Logical: If TRUE, display mode bar
@@ -108,10 +109,10 @@
 #' @param file.scale Numeric: Scale for saved file
 #' @param width Integer: Width for plot
 #' @param height Integer: Height for plot
-#' @param verbose Logical: If TRUE, print messages to console
-#' @param trace Integer: If > 0, print trace messages
+#' @param verbosity Integer: If > 0, print messages to console. If > 1, print
+#' trace messages
 #' @param ... Additional arguments to pass to the theme function
-#' 
+#'
 #' @return A plotly object
 #'
 #' @author E.D. Gennatas
@@ -240,9 +241,18 @@ dplot3_protein <- function(x,
                            file.scale = 1,
                            width = NULL,
                            height = NULL,
-                           verbose = TRUE,
-                           trace = 0, ...) {
+                           verbosity = 1, ...) {
   # Data ----
+  if (inherits(x, "a3")) {
+    dat <- x
+    x <- dat$Sequence
+    site <- iflengthy(dat$Annotations$Site)
+    region <- iflengthy(dat$Annotations$Region)
+    ptm <- iflengthy(dat$Annotations$PTM)
+    clv <- iflengthy(dat$Annotations$Cleavage_site)
+    variant <- iflengthy(dat$Annotations$Variant)
+    disease.variants <- iflengthy(dat$Annotations$Site$Disease_associated_variant)
+  }
   if (length(x) == 1) {
     if (grepl(".json$", x)) {
       dat <- jsonlite::read_json(
@@ -251,14 +261,14 @@ dplot3_protein <- function(x,
         simplifyMatrix = FALSE
       )
       x <- dat$Sequence
-      disease.variants <- dat$Annotations$site[["Disease Associated Variant"]]
-      dat$Annotations$site[["Disease Associated Variant"]] <- NULL
-      site <- dat$Annotations$site
-      region <- dat$Annotations$region
-      ptm <- dat$Annotations$ptm
-      clv <- dat$Annotations$clv
+      disease.variants <- dat$Annotations$Site[["Disease_associated_variant"]]
+      # dat$Annotations$Site[["Disease_associated_variant"]] <- NULL
+      site <- dat$Annotations$Site
+      region <- dat$Annotations$Region
+      ptm <- dat$Annotations$PTM
+      clv <- dat$Annotations$Cleavage_site
     } else {
-      dat <- uniprot_get(x, verbose = verbose)
+      dat <- uniprot_get(x, verbosity = verbosity)
       x <- dat[["Sequence"]]
       if (is.null(main)) main <- dat[["Identifier"]]
     }
@@ -640,7 +650,7 @@ dplot3_protein <- function(x,
   # PTMs ----
   # Note: Do not show both PTMs and cleavage sites using the same padding
   if (!is.null(ptm)) {
-    if (trace > 0) msg2("Adding PTM markers...")
+    if (verbosity > 1) msg2("Adding PTM markers...")
     if (is.null(ptm.col)) ptm.col <- 1 + seq_along(ptm)
     ptm.symbol <- recycle(ptm.symbol, ptm)
     ptm.names <- names(ptm)
@@ -665,8 +675,13 @@ dplot3_protein <- function(x,
   # Cleavage sites ----
   # Note: Do not show both PTMs and cleavage sites using the same padding
   if (!is.null(clv)) {
-    if (trace > 0) msg2("Adding cleavage site markers...")
-    if (is.null(clv.col)) clv.col <- 1 + seq_along(clv)
+    if (verbosity > 1) msg2("Adding cleavage site markers...")
+    if (is.null(clv.col)) {
+      clv.col <- c(
+        colorspace::qualitative_hcl(round(length(clv) / 2), h = c(0, 360), c = 180, l = 64),
+        colorspace::qualitative_hcl(ceiling(length(clv) / 2), h = c(0, 360), c = 180, l = 80)
+      )
+    }
     clv.symbol <- recycle(clv.symbol, clv)
     clv.names <- names(clv)
     for (i in seq_along(clv)) {
@@ -1034,27 +1049,3 @@ npad <- function(i, n = 12, pad = .3) {
   y <- cos(angle * i) * pad
   c(x, y)
 }
-
-
-# plot(x = 0:2, y = 0:2, pch = 19)
-# for (i in 1:7) {
-#   pd <- npad(i, n = 7)
-#   points(x = 1 + pd[1], y = 1 + pd[2], pch = i, col = "red")
-# }
-# sapply(1:7, qrtpad)
-
-# plot(x = 0:2, y = 0:2, pch = 19)
-# for (i in 1:12) {
-#   pd <- npad(i, n = 12)
-#   points(x = 1 + pd[1], y = 1 + pd[2], pch = i, col = "red")
-# }
-# sapply(1:7, qrtpad)
-
-# plot(1:20, 1:20, pch = 1:20)
-
-# plot(x = 0:2, y = 0:2, pch = 19)
-# for (i in 1:20) {
-#   pd <- npad(i, n = 20)
-#   points(x = 1 + pd[1], y = 1 + pd[2], pch = i, col = "red")
-# }
-# sapply(1:7, qrtpad)
