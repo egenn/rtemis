@@ -7,23 +7,23 @@
 #' @param accession Character: UniProt Accession number - e.g. "Q9UMX9"
 #' @param baseURL Character: UniProt rest API base URL.
 #' Default = "https://rest.uniprot.org/uniprotkb"
-#' @param verbose Logical: If TRUE, print messages to console
+#' @param verbosity Integer: If > 0, print messages to console
 #'
 #' @return List with two elements: Annotation & Sequence
 #' @author E.D. Gennatas
 #' @export
 #' @examples
 #' \dontrun{
-#' matp <- uniprot_get("Q9UMX9")
+#' mapt <- uniprot_get("Q9UMX9")
 #' }
 uniprot_get <- function(accession = "Q9UMX9",
                         baseURL = "https://rest.uniprot.org/uniprotkb",
-                        verbose = TRUE) {
+                        verbosity = 1) {
   path <- paste0(baseURL, "/", accession, ".fasta")
   dat <- seqinr::read.fasta(path, seqtype = "AA")
   Annotation <- attr(dat[[1]], "Annot")
   Identifier <- gsub(" .*", "", Annotation)
-  if (verbose) {
+  if (verbosity > 0) {
     msg2("Got:", hilite(Annotation))
   }
 
