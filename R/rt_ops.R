@@ -513,3 +513,12 @@ filter_order <- function(x, idl, decreasing = FALSE) {
 pval_stars <- function(x) {
   cut(x, breaks = c(0, .001, .01, .05, 1), labels = c("***", "**", "*", ""))
 }
+
+
+#' Return object if it has length > 0
+#' 
+#' @keywords internal
+#' @noRd
+iflengthy <- function(x) {
+  if (length(x) > 0) x else NULL
+}
