@@ -277,7 +277,7 @@ s_LightCART <- function(x, y = NULL,
     parameters$num_class <- nclass
   }
 
-  # LightGBM ----
+  # LightCART ----
   if (verbose) {
     if (tuned) {
       msg2(
