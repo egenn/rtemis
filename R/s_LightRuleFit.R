@@ -12,8 +12,7 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #'
 #' @inheritParams s_LightGBM
-#' @param params Training parameters for GBM and LASSO steps, set using
-#' [setup.LightRuleFit].
+#' @inheritParams s_GLMNET
 #' @param lgbm.mod rtMod object created by [s_LightGBM]. If provided, the gradient
 #' boosting step is skipped.
 #' @param empirical_risk Logical: If TRUE, calculate empirical risk
@@ -31,8 +30,39 @@
 
 s_LightRuleFit <- function(x, y = NULL,
                            x.test = NULL, y.test = NULL,
-                           params = setup.LightRuleFit(),
-                           lgbm.mod = NULL,
+                           #  params = setup.LightRuleFit(),
+                           lgbm.mod = NULL, # pre-trained LightGBM model
+                           # LightGBM params
+                           n_trees = 200,
+                           num_leaves = 32L,
+                           max_depth = 4,
+                           learning_rate = 0.1,
+                           subsample = 0.666,
+                           subsample_freq = 1L,
+                           lambda_l1 = 0,
+                           lambda_l2 = 0,
+                           objective = NULL,
+                           importance = FALSE,
+                           lgbm.ifw = TRUE,
+                           lgbm.grid.resample.params = setup.resample(
+                             resampler = "kfold", n.resamples = 5
+                           ),
+                           # GLMNET params
+                           glmnet.ifw = TRUE,
+                           alpha = 1,
+                           lambda = NULL,
+                           glmnet.grid.resample.params = setup.resample(
+                             resampler = "kfold", n.resamples = 5
+                           ),
+                           # Grid search
+                           grid.resample.params = setup.resample("kfold", 5),
+                           gridsearch.type = "exhaustive",
+                           metric = NULL,
+                           maximize = NULL,
+                           grid.verbose = FALSE,
+                           save.gridrun = FALSE,
+                           weights = NULL, # not used
+                           # RuleFit settings
                            empirical_risk = TRUE,
                            cases_by_rules = NULL,
                            save_cases_by_rules = FALSE,
@@ -47,7 +77,8 @@ s_LightRuleFit <- function(x, y = NULL,
                            outdir = NULL,
                            save.mod = if (!is.null(outdir)) TRUE else FALSE,
                            verbose = TRUE,
-                           trace = 0) {
+                           trace = 0,
+                           .gs = FALSE) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LightRuleFit))
@@ -108,22 +139,116 @@ s_LightRuleFit <- function(x, y = NULL,
   }
   nclasses <- if (type == "Classification") length(levels(y)) else -1
 
+  # Grid Search ----
+  if (is.null(metric)) {
+    if (type == "Classification") {
+      metric <- "Balanced Accuracy"
+      if (is.null(maximize)) maximize <- TRUE
+    } else if (type == "Regression") {
+      metric <- "MSE"
+      if (is.null(maximize)) maximize <- FALSE
+    }
+  }
+
+  if (is.null(maximize)) {
+    maximize <- if (type == "Classification") TRUE else FALSE
+  }
+
+  tuned <- FALSE
+  if (gridCheck(
+    n_trees, num_leaves, max_depth, learning_rate, subsample, lambda_l1, lambda_l2,
+    alpha, lambda
+  )) {
+    grid.params <-
+      list(
+        n_trees = n_trees,
+        num_leaves = num_leaves,
+        max_depth = max_depth,
+        learning_rate = learning_rate,
+        subsample = subsample,
+        lambda_l1 = lambda_l1,
+        lambda_l2 = lambda_l2,
+        alpha = alpha,
+        lambda = lambda
+      )
+    gs <- gridSearchLearn(
+      x = x, y = y,
+      mod = mod.name,
+      resample.params = grid.resample.params,
+      grid.params = grid.params,
+      fixed.params = list(
+        objective = objective,
+        lgbm.ifw = lgbm.ifw,
+        glmnet.ifw = glmnet.ifw,
+        .gs = TRUE
+      ),
+      search.type = gridsearch.type,
+      # weights = weights,
+      metric = metric,
+      maximize = maximize,
+      save.mod = save.gridrun,
+      verbose = verbose,
+      grid.verbose = grid.verbose,
+      n.cores = 1
+    )
+
+    n_trees <- gs$best.tune$n_trees
+    num_leaves <- gs$best.tune$num_leaves
+    max_depth <- gs$best.tune$max_depth
+    learning_rate <- gs$best.tune$learning_rate
+    subsample <- gs$best.tune$subsample
+    lambda_l1 <- gs$best.tune$lambda_l1
+    lambda_l2 <- gs$best.tune$lambda_l2
+    alpha <- gs$best.tune$alpha
+    lambda <- gs$best.tune$lambda
+    tuned <- TRUE
+
+    # Now ready to train final full model
+    .gs <- FALSE
+  } else {
+    gs <- NULL
+  }
+
+  # LightGBM ----
   if (is.null(cases_by_rules)) {
     if (is.null(lgbm.mod)) {
-      # No LightGBM model provided
-      # LightGBM ----
-      lgbm_param <- params$lgbm.params
-      lgbm_param$n_trees <- NULL
+      # No LightGBM model provided - train
+      # lgbm_param <- params$lgbm.params
+      lgbm_param <- list(
+        n_trees = n_trees,
+        force_nrounds = num_leaves,
+        max_depth = max_depth,
+        learning_rate = learning_rate,
+        subsample = subsample,
+        subsample_freq = subsample_freq,
+        lambda_l1 = lambda_l1,
+        lambda_l2 = lambda_l2,
+        objective = objective,
+        importance = importance,
+        ifw = lgbm.ifw,
+        grid.resample.params = lgbm.grid.resample.params
+      )
+
       lgbm_args <- c(
         list(
           x = x, y = y,
-          force_nrounds = params$lgbm.params$n_trees,
           verbose = verbose,
           print.plot = FALSE
         ),
         lgbm_param
       )
-      if (verbose) msg2("Running LightGBM...")
+      # if (verbose) msg2("Running LightGBM...")
+      if (verbose) {
+        if (tuned) {
+          msg2(
+            "Training", mod.name, type,
+            "with tuned hyperparameters...",
+            newline.pre = TRUE
+          )
+        } else {
+          msg20("Training ", mod.name, " ", type, "...", newline.pre = TRUE)
+        }
+      }
       mod_lgbm <- do.call("s_LightGBM", lgbm_args)
     } else {
       # LightGBM model provided
@@ -150,14 +275,15 @@ s_LightRuleFit <- function(x, y = NULL,
 
   # Meta: Select Rules ----
   if (verbose) msg2("Running LASSO on GBM rules...")
-  glmnet_select_args <- c(
-    list(
-      x = cases_by_rules, y = y,
-      verbose = verbose,
-      print.plot = FALSE,
-      n.cores = n.cores
-    ),
-    params$glmnet.params
+  glmnet_select_args <- list(
+    x = cases_by_rules, y = y,
+    alpha = alpha,
+    lambda = lambda,
+    ifw = glmnet.ifw,
+    grid.resample.params = glmnet.grid.resample.params,
+    verbose = verbose,
+    print.plot = FALSE,
+    n.cores = n.cores
   )
   mod_glmnet_select <- do.call(s_GLMNET, glmnet_select_args)
   rule_coefs <- data.matrix(coef(mod_glmnet_select$mod))
@@ -273,6 +399,7 @@ s_LightRuleFit <- function(x, y = NULL,
     mod = LightRuleFit_obj,
     mod.name = mod.name,
     type = type,
+    gridsearch = gs,
     call = call,
     y.train = y,
     y.test = y.test,
@@ -287,7 +414,24 @@ s_LightRuleFit <- function(x, y = NULL,
     predicted.prob = predicted.prob,
     se.prediction = NULL,
     error.test = error.test,
-    parameters = params,
+    parameters = list(
+      n_trees = n_trees,
+      num_leaves = num_leaves,
+      max_depth = max_depth,
+      learning_rate = learning_rate,
+      subsample = subsample,
+      subsample_freq = subsample_freq,
+      lambda_l1 = lambda_l1,
+      lambda_l2 = lambda_l2,
+      objective = objective,
+      lgbm.ifw = lgbm.ifw,
+      lgbm.grid.resample.params = lgbm.grid.resample.params,
+      # GLMNET params
+      glmnet.ifw = glmnet.ifw,
+      alpha = alpha,
+      lambda = lambda,
+      glmnet.grid.resample.params = glmnet.grid.resample.params
+    ),
     question = question
   )
 
