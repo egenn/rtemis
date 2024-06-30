@@ -6,53 +6,50 @@
 #' **visNetwork**
 #'
 #' @param x `rtMod` object trained using [s_LINAD]
-#' @param main Character: Title. Default = NULL
-#' @param bg Background color. Default = "#FFFFFF" (white)
-#' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
-#' "text", "diamond". Default = "box"
-#' @param nodelabels Logical: If TRUE, inlcude node labels. Default = TRUE
+#' @param main Character: Title.
+#' @param bg Background color.
+#' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", 
+#' "dot", "star", "ellipse", "database", "text", "diamond".
+#' @param nodelabels Logical: If TRUE, inlcude node labels.
 #' @param ncases.inlabels Logical: If TRUE, include number of cases with the
-#' node labels. Default = TRUE
+#' node labels.
 #' @param rules.on.edges Logical: If TRUE, display rules on edges instead of
-#' nodes. Default = FALSE
+#' nodes.
 #' @param top Integer: If not NULL, only show the top `top` coefficients.
-#' @param root.col Color for root node. Default = "#202020" (dark gray)
-#' @param node.col Color for nodes. Default = #7F7F7F" (some gray)
-#' @param leaf.col Color for leaf nodes. Default = "#18A3AC" (teal)
-#' @param edge.col Color for edges. Default = "#848484" (another gray)
+#' @param root.col Color for root node.
+#' @param node.col Color for nodes.
+#' @param leaf.col Color for leaf nodes.
+#' @param edge.col Color for edges.
 #' @param edge.width Float: Width for edges.
 #' @param col.highlight Color for surrounding edges when node is selected.
-#' Default = "#F48024" (orange)
 #' @param node.font.col Color for node labels. Default varies by `shape`,
 #' black or white depending if
 #' `visNetwork` draws labels on node or underneath
-#' @param edge.font.col Color for edge labels. Default = "#000000" (black)
-#' @param sort.coefs Logical: If TRUE, sort each coefs table. Default = FALSE
+#' @param edge.font.col Color for edge labels.
+#' @param sort.coefs Logical: If TRUE, sort each coefs table.
 #' @param height Float: Height for `visNetwork`. Default = NULL, i.e. auto
 #' @param width Float: Width for `visNetwork`. Default = NULL, i.e. auto
 #' @param levelSeparation Float: N of pixels to separate tree levels.
-#' Default = 100
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22
 #' @param edgethickness.by.ncases Logical: If TRUE, scale edge thickness by
 #' number of cases with weight = 1
 #' @param font.family Character: Font to use throughout.
 #' Default = 'Helvetica Neue', because otherwise it may fail on a
 #' number of external viewers.
+#' @param uselog Logical: If TRUE, use log10 scale for coefficient colors.
 #' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover
 #' over nodes. This was placed here before a custom html table creation
 #' function was made to replace some impossibly slow alternatives.
 #' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before
-#' showing tooltip. Default = 50
+#' showing tooltip.
 #' @param table.font.size Character: Font size for html coefficient on-hover
-#' tables. Default = "14px"
+#' tables.
 #' @param table.dat.padding Ignore, has no visible effect. Otherwise,
-#' Character: html table padding. Default = "0px"
-#' @param table.lo.col Color for lowest coefficient values (negative).
-#' Default = "#80FFFF" (light blue)
+#' Character: html table padding. 
+#' @param table.lo.col Color for lowest coefficient values (negative)
 #' @param table.hi.col Color for highest coefficient values (positive).
-#' Default = "#FFBE00" (light orange)
 #' @param trace Integer: If > 0, print info to console (not particularly
-#' informative). Default = 0
+#' informative).
 #'
 #' @author E.D. Gennatas
 #' @export
@@ -84,6 +81,7 @@ dplot3_linad <- function(x,
                          edgethickness.by.ncases = FALSE,
                          font.family = "Lato",
                          # Coef tables
+                         uselog = FALSE,
                          tooltip.coefs = TRUE,
                          tooltip.delay = 50,
                          table.font.size = "16px",
@@ -163,7 +161,7 @@ dplot3_linad <- function(x,
     # exclude intercept so that it doesn't soak up all the range
     # account for sorting and/or top
     # coefsl.noint <- lapply(coefsl, function(i) i[-1, ])
-    val <- if (log) {
+    val <- if (uselog) {
       log10n(unlist(lapply(coefsl, function(i) i[-1, 2])))
     } else {
       unlist(lapply(coefsl, function(i) i[-1, 2]))
