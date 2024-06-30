@@ -31,6 +31,7 @@ dplot3_linad(
   tree.font.size = 22,
   edgethickness.by.ncases = FALSE,
   font.family = "Lato",
+  uselog = FALSE,
   tooltip.coefs = TRUE,
   tooltip.delay = 50,
   table.font.size = "16px",
@@ -50,50 +51,48 @@ dplot3_linad(
 \arguments{
 \item{x}{\code{rtMod} object trained using \link{s_LINAD}}
 
-\item{main}{Character: Title. Default = NULL}
+\item{main}{Character: Title.}
 
-\item{bg}{Background color. Default = "#FFFFFF" (white)}
+\item{bg}{Background color.}
 
-\item{shape}{Character: Node shape; one of: "square", "triangle", "box", "circle", "dot", "star", "ellipse", "database",
-"text", "diamond". Default = "box"}
+\item{shape}{Character: Node shape; one of: "square", "triangle", "box", "circle",
+"dot", "star", "ellipse", "database", "text", "diamond".}
 
-\item{nodelabels}{Logical: If TRUE, inlcude node labels. Default = TRUE}
+\item{nodelabels}{Logical: If TRUE, inlcude node labels.}
 
 \item{ncases.inlabels}{Logical: If TRUE, include number of cases with the
-node labels. Default = TRUE}
+node labels.}
 
 \item{rules.on.edges}{Logical: If TRUE, display rules on edges instead of
-nodes. Default = FALSE}
+nodes.}
 
 \item{top}{Integer: If not NULL, only show the top \code{top} coefficients.}
 
-\item{root.col}{Color for root node. Default = "#202020" (dark gray)}
+\item{root.col}{Color for root node.}
 
-\item{node.col}{Color for nodes. Default = #7F7F7F" (some gray)}
+\item{node.col}{Color for nodes.}
 
-\item{leaf.col}{Color for leaf nodes. Default = "#18A3AC" (teal)}
+\item{leaf.col}{Color for leaf nodes.}
 
-\item{edge.col}{Color for edges. Default = "#848484" (another gray)}
+\item{edge.col}{Color for edges.}
 
 \item{edge.width}{Float: Width for edges.}
 
-\item{col.highlight}{Color for surrounding edges when node is selected.
-Default = "#F48024" (orange)}
+\item{col.highlight}{Color for surrounding edges when node is selected.}
 
 \item{node.font.col}{Color for node labels. Default varies by \code{shape},
 black or white depending if
 \code{visNetwork} draws labels on node or underneath}
 
-\item{edge.font.col}{Color for edge labels. Default = "#000000" (black)}
+\item{edge.font.col}{Color for edge labels.}
 
-\item{sort.coefs}{Logical: If TRUE, sort each coefs table. Default = FALSE}
+\item{sort.coefs}{Logical: If TRUE, sort each coefs table.}
 
 \item{height}{Float: Height for \code{visNetwork}. Default = NULL, i.e. auto}
 
 \item{width}{Float: Width for \code{visNetwork}. Default = NULL, i.e. auto}
 
-\item{levelSeparation}{Float: N of pixels to separate tree levels.
-Default = 100}
+\item{levelSeparation}{Float: N of pixels to separate tree levels.}
 
 \item{tree.font.size}{Integer: Font size for tree labels. Default = 22}
 
@@ -104,27 +103,27 @@ number of cases with weight = 1}
 Default = 'Helvetica Neue', because otherwise it may fail on a
 number of external viewers.}
 
+\item{uselog}{Logical: If TRUE, use log10 scale for coefficient colors.}
+
 \item{tooltip.coefs}{Logical: If TRUE, show html coefficient tables on hover
 over nodes. This was placed here before a custom html table creation
 function was made to replace some impossibly slow alternatives.}
 
 \item{tooltip.delay}{Float: Delay (in milliseconds) on mouse over before
-showing tooltip. Default = 50}
+showing tooltip.}
 
 \item{table.font.size}{Character: Font size for html coefficient on-hover
-tables. Default = "14px"}
+tables.}
 
 \item{table.dat.padding}{Ignore, has no visible effect. Otherwise,
-Character: html table padding. Default = "0px"}
+Character: html table padding.}
 
-\item{table.lo.col}{Color for lowest coefficient values (negative).
-Default = "#80FFFF" (light blue)}
+\item{table.lo.col}{Color for lowest coefficient values (negative)}
 
-\item{table.hi.col}{Color for highest coefficient values (positive).
-Default = "#FFBE00" (light orange)}
+\item{table.hi.col}{Color for highest coefficient values (positive).}
 
 \item{trace}{Integer: If > 0, print info to console (not particularly
-informative). Default = 0}
+informative).}
 }
 \description{
 Plot a Linear Additive Tree trained by \code{s_LINAD} using

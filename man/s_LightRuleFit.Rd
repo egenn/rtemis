@@ -9,8 +9,30 @@ s_LightRuleFit(
   y = NULL,
   x.test = NULL,
   y.test = NULL,
-  params = setup.LightRuleFit(),
   lgbm.mod = NULL,
+  n_trees = 200,
+  num_leaves = 32L,
+  max_depth = 4,
+  learning_rate = 0.1,
+  subsample = 0.666,
+  subsample_freq = 1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  objective = NULL,
+  importance = FALSE,
+  lgbm.ifw = TRUE,
+  lgbm.grid.resample.params = setup.resample(resampler = "kfold", n.resamples = 5),
+  glmnet.ifw = TRUE,
+  alpha = 1,
+  lambda = NULL,
+  glmnet.grid.resample.params = setup.resample(resampler = "kfold", n.resamples = 5),
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  metric = NULL,
+  maximize = NULL,
+  grid.verbose = FALSE,
+  save.gridrun = FALSE,
+  weights = NULL,
   empirical_risk = TRUE,
   cases_by_rules = NULL,
   save_cases_by_rules = FALSE,
@@ -25,7 +47,8 @@ s_LightRuleFit(
   outdir = NULL,
   save.mod = if (!is.null(outdir)) TRUE else FALSE,
   verbose = TRUE,
-  trace = 0
+  trace = 0,
+  .gs = FALSE
 )
 }
 \arguments{
@@ -38,11 +61,54 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.test}{Numeric vector of testing set outcome}
 
-\item{params}{Training parameters for GBM and LASSO steps, set using
-\link{setup.LightRuleFit}.}
-
 \item{lgbm.mod}{rtMod object created by \link{s_LightGBM}. If provided, the gradient
 boosting step is skipped.}
+
+\item{num_leaves}{Integer: [gS] Maximum tree leaves for base learners.}
+
+\item{max_depth}{Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.}
+
+\item{learning_rate}{Numeric: [gS] Boosting learning rate}
+
+\item{subsample}{Numeric: [gS] Subsample ratio of the training set.}
+
+\item{subsample_freq}{Integer: Subsample every this many iterations}
+
+\item{lambda_l1}{Numeric: [gS] L1 regularization term}
+
+\item{lambda_l2}{Numeric: [gS] L2 regularization term}
+
+\item{objective}{(Default = NULL)}
+
+\item{importance}{Logical: If \code{TRUE}, calculate variable importance}
+
+\item{alpha}{[gS] Float [0, 1]: The elasticnet mixing parameter:
+\code{a = 0} is the ridge penalty, \code{a = 1} is the lasso penalty}
+
+\item{lambda}{[gS] Float vector: Best left to NULL, \code{cv.glmnet} will
+compute its own lambda sequence}
+
+\item{grid.resample.params}{List: Output of \link{setup.resample} defining
+grid search parameters.}
+
+\item{gridsearch.type}{Character: Type of grid search to perform:
+"exhaustive" or "randomized".}
+
+\item{metric}{Character: Metric to minimize, or maximize if
+\code{maximize = TRUE} during grid search. Default = NULL, which results in
+"Balanced Accuracy" for Classification,
+"MSE" for Regression, and "Coherence" for Survival Analysis.}
+
+\item{maximize}{Logical: If TRUE, \code{metric} will be maximized if grid
+search is run.}
+
+\item{grid.verbose}{Logical: Passed to \code{gridSearchLearn}}
+
+\item{save.gridrun}{Logical: If \code{TRUE}, save all grid search models}
+
+\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
 
 \item{empirical_risk}{Logical: If TRUE, calculate empirical risk}
 
@@ -80,6 +146,8 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{trace}{Integer: Verbosity level}
+
+\item{.gs}{(Internal use only)}
 }
 \value{
 \code{rtMod} object

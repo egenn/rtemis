@@ -83,7 +83,7 @@ the positive class may not be set correctly.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://rtemis.lambdamd.org}
+  \item \url{https://rtemis.org}
   \item Report bugs at \url{https://github.com/egenn/rtemis/issues}
 }
 
