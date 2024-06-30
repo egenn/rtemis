@@ -120,15 +120,11 @@ test_that("LightGBM 3-class Classification succeeds", {
 
 ## LightRuleFit ----
 test_that("LightRuleFit Regression succeeds", {
-  mod_r <- s_LightRuleFit(datr_train, datr_test,
-    params = setup.LightRuleFit(n_trees = 20)
-  )
+  mod_r <- s_LightRuleFit(datr_train, datr_test, n_trees = 20)
   expect_s3_class(mod_r, "rtMod")
 })
 
 test_that("LightRuleFit Binary Classification succeeds", {
-  mod_c <- s_LightRuleFit(datc2_train, datc2_test,
-    params = setup.LightRuleFit(n_trees = 20)
-  )
+  mod_c <- s_LightRuleFit(datc2_train, datc2_test, n_trees = 20)
   expect_s3_class(mod_c, "rtModClass")
 })
