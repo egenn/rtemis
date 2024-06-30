@@ -541,13 +541,13 @@ setup.LightRuleFit <- function(
         lambda_l2 = lambda_l2,
         objective = objective,
         ifw = lightgbm.ifw,
+        importance = importance,
         grid.resample.params = lightgbm.resample.params
       ),
       extra.lgbm.params
     ),
     glmnet.params = list(
       ifw = glmnet.ifw,
-      importance = importance,
       alpha = alpha,
       lambda = lambda,
       grid.resample.params = glmnet.resample.params
