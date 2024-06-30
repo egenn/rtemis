@@ -1,11 +1,11 @@
 Package: rtemis
-Version: 0.97.3
+Version: 0.97.4
 Title: Machine Learning and Visualization
-Date: 2024-06-11
+Date: 2024-06-27
 Authors@R: person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
 Description: Advanced Machine Learning and Visualization. Unsupervised Learning (Clustering, Decomposition), Supervised Learning (Classification, Regression), Cross-Decomposition, Bagging, Boosting, Meta-models. Static and interactive graphics.
 License: GPL (>= 3)
-URL: https://rtemis.lambdamd.org
+URL: https://rtemis.org
 BugReports: https://github.com/egenn/rtemis/issues
 ByteCompile: yes
 Depends:
@@ -147,5 +147,5 @@ Suggests:
 Encoding: UTF-8
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 LazyData: true
