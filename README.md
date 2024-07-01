@@ -73,7 +73,7 @@ FLIBS   = -L/usr/local/opt/gcc/lib
 
 ### More setup info
 
-See [here](https://rtemis.lambdamd.org/Setup.html) for more setup and
+See [here](https://rtemis.org/rtemis/Setup.html) for more setup and
 installation instructions.
 
 **Note:** Make sure to keep your installation updated by running
@@ -101,12 +101,12 @@ mod <- train_cv(iris)
 
 We are working towards the 1.0 release, which will feature updates to the
 API as well as the backend, and preparing for CRAN submission.
-This will be accompanied by expansion of the [documentation](https://rtemis.lambdamd.org).  For all updates, please see the [NEWS](NEWS.md) file.
+This will be accompanied by expansion of the [documentation](https://rtemis.org/rtemis).  
+For all updates, please see the [NEWS](NEWS.md) file.
 
 The Python and Julia ports, `rtemispy` and `Rtemis.jl`, which are not yet 
 publicly available, are in parallel development. With the upcoming 1.0 release
 of rtemis, the aim is to offer a unified API across all three languages.
-
 
 ## Features
 
@@ -151,8 +151,6 @@ and will be made publicly available once funding is secured for a hosting server
 Get the [rtemis-dark VS Code theme](https://marketplace.visualstudio.com/items?itemName=egenn.rtemis-dark).
 
 Recommended font is Fira Code with its pretty ligatures.
-
-[&copy;2022 E.D. Gennatas MBBS AICSM PhD](https://egenn.lambdamd.org)
 
 ## Python & Julia APIs
 
