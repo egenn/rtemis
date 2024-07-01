@@ -7,13 +7,13 @@ A platform for advanced Machine Learning research and applications.
 The goal of **rtemis** is to make data science efficient and accessible with no compromise on flexibility.
 
 <div style="text-align:center">
-<a href="https://rtemis.lambdamd.org">
+<a href="https://rtemis.org">
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png"></a>
 </div>
 
 ## Documentation
 
-* [**Documentation and vignettes**](https://rtemis.lambdamd.org)  
+* [**Documentation and vignettes**](https://rtemis.org/rtemis)  
 
 ## Requirements
 
