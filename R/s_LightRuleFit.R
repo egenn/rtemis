@@ -114,6 +114,10 @@ s_LightRuleFit <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
+  # Currently only supports binary classification
+  if (type == "Classification" && length(levels(y)) > 2) {
+    stop("Only binary classification is currently supported")
+  }
   # if (any(sapply(x, is.factor))) {
   #   factor_index <- names(x)[which(sapply(x, is.factor))]
   #   xp <- preprocess(x,
@@ -286,6 +290,8 @@ s_LightRuleFit <- function(x, y = NULL,
     n.cores = n.cores
   )
   mod_glmnet_select <- do.call(s_GLMNET, glmnet_select_args)
+  # binary classification: coef(mod_glmnet_select$mod) is n x 1 sparse Matrix of class "dgCMatrix"
+  # multiclass classification
   rule_coefs <- data.matrix(coef(mod_glmnet_select$mod))
   intercept_coef <- rule_coefs[1, , drop = FALSE]
   colnames(intercept_coef) <- "Coefficient"
