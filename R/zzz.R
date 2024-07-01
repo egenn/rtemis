@@ -37,7 +37,7 @@ rtemis.version <- packageVersion("rtemis")
       bold("\n  Resources"),
       "\n  \u2502    ", italic(gray("Docs:")), " https://rtemis.org/rtemis",
       "\n  \u2502 ", italic(gray("Learn R:")), " https://rtemis.org/pdsr",
-      "\n  \u2502  ", italic(gray("Themes:")), " https://egenn.lambdamd.org/Software.html#rtemis-themes",
+      "\n  \u2502  ", italic(gray("Themes:")), " https://rtemis.org/themes",
       "\n  \u2514    ", italic(gray("Cite:")), ' > citation("rtemis")',
       bold("\n  Setup"),
       "\n  \u2514 ", italic(gray("Enable progress reporting:")),
