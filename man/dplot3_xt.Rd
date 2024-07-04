@@ -41,6 +41,7 @@ dplot3_xt(
   x.standoff = 20L,
   y.standoff = 20L,
   y2.standoff = 20L,
+  hovermode = "x",
   displayModeBar = TRUE,
   modeBar.file.format = "svg",
   scrollZoom = TRUE,

@@ -47,6 +47,7 @@ dplot3_xt <- function(
     x.standoff = 20L,
     y.standoff = 20L,
     y2.standoff = 20L,
+    hovermode = "x",
     displayModeBar = TRUE,
     modeBar.file.format = "svg",
     scrollZoom = TRUE,
@@ -189,7 +190,8 @@ dplot3_xt <- function(
       ),
       paper_bgcolor = bg,
       plot_bgcolor = plot.bg,
-      margin = margin
+      margin = margin,
+      hovermode = hovermode
     )
 
   if (!is.null(y2)) {
