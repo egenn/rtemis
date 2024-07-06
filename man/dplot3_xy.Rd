@@ -203,6 +203,8 @@ specify if different from \code{y}}
 
 \item{marginal.x.y}{Numeric: Y position of marginal markers on x-axis}
 
+\item{marginal.y.x}{Numeric: X position of marginal markers on y-axis}
+
 \item{marginal.col}{Color for marginal markers}
 
 \item{marginal.alpha}{Numeric: Alpha for marginal markers}

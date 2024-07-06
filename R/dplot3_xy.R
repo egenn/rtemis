@@ -62,6 +62,7 @@
 #' @param marginal.y Numeric: Data whose distribution will be shown on y-axis. Only
 #' specify if different from `y`
 #' @param marginal.x.y Numeric: Y position of marginal markers on x-axis
+#' @param marginal.y.x Numeric: X position of marginal markers on y-axis
 #' @param marginal.col Color for marginal markers
 #' @param marginal.alpha Numeric: Alpha for marginal markers
 #' @param marginal.size Numeric: Size of marginal markers
@@ -254,7 +255,7 @@ dplot3_xy <- function(x, y = NULL,
     if (is.null(.names) && !is.null(names(x))) .names <- names(x)
   }
 
-  # Convert to lists ----
+  # Data to lists ----
   x <- if (!is.list(x)) as.list(as.data.frame(x)) else x
   y <- if (!is.null(y) && !is.list(y)) as.list(as.data.frame(y)) else y
   hovertext <- if (!is.null(hovertext) && !is.list(hovertext)) {

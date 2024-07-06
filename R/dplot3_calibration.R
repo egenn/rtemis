@@ -16,7 +16,8 @@
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
 #' @param show.marginal.x Logical: Add marginal plot of distribution of estimated probabilities
-#' @param mode Character: Plot mode
+#' @param mode Character: "lines", "markers", "lines+markers": How to plot.
+#' @param show.brier Logical: If TRUE, add Brier scores to trace names.
 #' @param filename Character: Path to save output.
 #' @param ... Additional arguments passed to [dplot3_xy]
 #'
@@ -58,10 +59,10 @@ dplot3_calibration <- function(true.labels, est.prob,
                                marginal.x.y = -.02,
                                marginal.col = NULL,
                                marginal.size = 10,
-                               show.bins = TRUE,
+                              #  show.bins = TRUE,
                                #    conf_level = .95,
                                mode = "markers+lines",
-                               print.brier = TRUE,
+                               show.brier = TRUE,
                                theme = rtTheme,
                                filename = NULL, ...) {
   # Arguments ----
@@ -118,7 +119,7 @@ dplot3_calibration <- function(true.labels, est.prob,
   names(window_empirical_risk) <- names(est.prob)
 
   # Add Brier score
-  if (print.brier) {
+  if (show.brier) {
     .brier.score <- sapply(seq_along(est.prob), \(i) {
       brier_score(
         true = labels2int(true.labels[[i]], pos.class),

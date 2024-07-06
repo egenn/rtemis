@@ -18,9 +18,8 @@ dplot3_calibration(
   marginal.x.y = -0.02,
   marginal.col = NULL,
   marginal.size = 10,
-  show.bins = TRUE,
   mode = "markers+lines",
-  print.brier = TRUE,
+  show.brier = TRUE,
   theme = rtTheme,
   filename = NULL,
   ...
@@ -54,7 +53,9 @@ probabilities.}
 
 \item{marginal.size}{Numeric: Size of marginal markers}
 
-\item{mode}{Character: Plot mode}
+\item{mode}{Character: "lines", "markers", "lines+markers": How to plot.}
+
+\item{show.brier}{Logical: If TRUE, add Brier scores to trace names.}
 
 \item{theme}{Character: Theme to use: Use \code{themes()} to get available
 themes}

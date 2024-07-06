@@ -36,7 +36,7 @@ dplot3_xt(
   x.showspikes = TRUE,
   spike.dash = "solid",
   spike.col = NULL,
-  x.spikethickness = -2,
+  x.spike.thickness = -2,
   tickfont.size = 16,
   legend.x = 0,
   legend.y = 1.1,
@@ -124,6 +124,8 @@ side of the plot}
 
 \item{spike.col}{Color for spikes.}
 
+\item{x.spike.thickness}{Numeric: Thickness of spikes. \code{-2} avoids drawing border around spikes.}
+
 \item{tickfont.size}{Numeric: Font size for tick labels.}
 
 \item{legend.x}{Numeric: X position of legend.}
@@ -161,8 +163,6 @@ bar image export.}
 \item{file.scale}{Numeric: Scale factor for mode bar image export.}
 
 \item{...}{Additional theme arguments.}
-
-\item{x.spike.thickness}{Numeric: Thickness of spikes. \code{-2} avoids drawing border around spikes.}
 }
 \value{
 A plotly object

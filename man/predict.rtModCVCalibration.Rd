@@ -4,7 +4,7 @@
 \alias{predict.rtModCVCalibration}
 \title{Predict using calibrated model}
 \usage{
-\method{predict}{rtModCVCalibration}(mod_cal, mod, newdata, which.repeat = 1)
+\method{predict}{rtModCVCalibration}(mod_cal, mod, newdata, ...)
 }
 \arguments{
 \item{mod_cal}{\code{rtModCVCalibration} object returned by \link{calibrate_cv}}
@@ -13,7 +13,8 @@
 
 \item{newdata}{Data frame: New data to predict on}
 
-\item{which.repeat}{Integer: Which repeat to use for prediction}
+\item{...}{Additional arguments - Use to define \code{which.repeat}, which should be an integer
+defining which repeat to use for prediction. Defaults to 1 if not specified.}
 }
 \description{
 Predict using a calibrated model returned by \link{calibrate_cv}

@@ -287,14 +287,22 @@ calibrate_cv <- function(
 #' @param mod `rtModCV` object returned by [train_cv]
 #' @param mod_cal `rtModCVCalibration` object returned by [calibrate_cv]
 #' @param newdata Data frame: New data to predict on
-#' @param which.repeat Integer: Which repeat to use for prediction
+#' @param ... Additional arguments - Use to define `which.repeat`, which should be an integer
+#' defining which repeat to use for prediction. Defaults to 1 if not specified.
 #' 
 #' @author EDG
 #' @export
-predict.rtModCVCalibration <- function(mod_cal, mod, newdata, which.repeat = 1) {
+predict.rtModCVCalibration <- function(mod_cal, mod, newdata, ...) {
   stopifnot(inherits(mod_cal, "rtModCVCalibration"))
   stopifnot(inherits(mod, "rtModCV"))
   stopifnot(is.data.frame(newdata))
+
+  # Read extra arguments
+  args <- list(...)
+  which.repeat <- args$which.repeat
+  if (is.null(which.repeat)) {
+    which.repeat <- 1
+  }
 
   # Predict using the original cross-validated model
   pred <- predict(mod, newdata = newdata, which.repeat = which.repeat)
@@ -302,17 +310,20 @@ predict.rtModCVCalibration <- function(mod_cal, mod, newdata, which.repeat = 1) 
   # Predict using the calibration models
   # There are n.resamples outer resamples, each with n.resamples calibration resamples
   # total calibration models.
-  # Get a prediction from each and average them.
-  preds <- sapply(mod_cal$mod_cal, \(m) {
+  # Get a prediction from each.
+  prec_cal_res <- sapply(mod_cal$mod_cal, \(m) {
     lapply(m$mods, \(m1) {
       predict(m1, newdata = data.frame(est_prob = pred$predicted.prob))
     })
   })
 
+  # Average predictions across calibration resamples
+
   # Output ----
   out <- list(
     pred = pred,
-    pred_cal = pred_cal
+    prec_cal_res = prec_cal_res
+    # pred_cal = pred_cal
   )
   out
 } # rtemis::predict.rtModCVCalibration
@@ -379,7 +390,7 @@ plot.rtModCVCalibration <- function(
         Raw = unlist(x$predicted_prob),
         Calibrated = prob_caltest_agg
       )
-      names(est.prob) <- paste0(mod$mod.name, " ", names(est.prob))
+      names(est.prob) <- paste0(x$mod.name, " ", names(est.prob))
       dplot3_calibration(
         true.labels = list(
           Raw = unlist(x$y_test),

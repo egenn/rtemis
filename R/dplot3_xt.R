@@ -102,7 +102,7 @@ dplot3_xt <- function(
     x.showspikes = TRUE,
     spike.dash = "solid",
     spike.col = NULL,
-    x.spikethickness = -2,
+    x.spike.thickness = -2,
     tickfont.size = 16,
     # legend
     legend.x = 0,
@@ -355,7 +355,7 @@ dplot3_xt <- function(
       showspikes = x.showspikes,
       spikedash = spike.dash,
       spikecolor = spike.col,
-      spikethickness = x.spikethickness,
+      spikethickness = x.spike.thickness,
       titlefont = f,
       showgrid = theme$grid,
       gridcolor = grid.col,
