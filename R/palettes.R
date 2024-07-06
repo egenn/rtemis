@@ -1661,9 +1661,11 @@ rtPalettes <- list(
 
 #' \pkg{rtemis} Color Palettes
 #'
-#' `rtPalette` prints names of available color palettes
+#' `rtpalette()` prints names of available color palettes
 #' Each palette is a named list of hexadecimal color definitions which can be used with
 #' any graphics function.
+#' `rtpalette(palette_name)` returns a list of colors for a given palette.
+#' 
 #' @param palette Character: Name of palette to return. Default = NULL: available palette
 #' names are printed and no palette is returned
 #' @param verbose Logical: If `TRUE`, print messages to console
