@@ -7,10 +7,19 @@
 dplot3_xt(
   x,
   y,
+  x2 = NULL,
   y2 = NULL,
   xname = NULL,
   yname = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  y2lab = NULL,
+  xunits = NULL,
+  yunits = NULL,
+  y2units = NULL,
   y2name = NULL,
+  yunits.col = NULL,
+  y2units.col = NULL,
   main = NULL,
   main.y = 1,
   main.yanchor = "bottom",
@@ -18,23 +27,21 @@ dplot3_xt(
   slider.start = NULL,
   slider.end = NULL,
   theme = rtTheme,
+  palette = rtpalette(rtPalette),
   font.size = 16,
   yfill = "tozeroy",
   y2fill = "none",
-  line1.col = "#16A0AC",
+  fill.alpha = 0.2,
   line1.width = 2,
-  line1.fill.col = NULL,
-  line2.col = "#FA6E1E",
-  line2.fill.col = NULL,
   line2.width = 2,
   x.showspikes = TRUE,
   spike.dash = "solid",
   spike.col = NULL,
   x.spikethickness = -2,
   tickfont.size = 16,
-  legend.x = 1,
+  legend.x = 0,
   legend.y = 1.1,
-  legend.xanchor = "right",
+  legend.xanchor = "left",
   legend.yanchor = "top",
   legend.orientation = "v",
   margin = list(l = 75, r = 75, b = 75, t = 75),
@@ -65,6 +72,9 @@ A plotly object
 }
 \description{
 Plot timeseries data
+}
+\details{
+We are switching to \code{palette} being a color vector instead of the name of a built-in palette.
 }
 \author{
 EDG
