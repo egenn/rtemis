@@ -9,15 +9,14 @@ dplot3_xt(
   y,
   x2 = NULL,
   y2 = NULL,
-  xname = NULL,
-  yname = NULL,
+  ynames = NULL,
+  y2names = NULL,
   xlab = NULL,
   ylab = NULL,
   y2lab = NULL,
   xunits = NULL,
   yunits = NULL,
   y2units = NULL,
-  y2name = NULL,
   yunits.col = NULL,
   y2units.col = NULL,
   main = NULL,
@@ -32,8 +31,8 @@ dplot3_xt(
   yfill = "tozeroy",
   y2fill = "none",
   fill.alpha = 0.2,
-  line1.width = 2,
-  line2.width = 2,
+  yline.width = 2,
+  y2line.width = 2,
   x.showspikes = TRUE,
   spike.dash = "solid",
   spike.col = NULL,
@@ -60,12 +59,110 @@ dplot3_xt(
 )
 }
 \arguments{
-\item{x}{Datetime vector}
+\item{x}{Datetime vector or list of vectors.}
 
-\item{y}{Numeric vector}
+\item{y}{Numeric vector or named list of vectors: y-axis data.}
 
-\item{y2}{Numeric vector. If provided, a second y-axis will be added to the right
+\item{x2}{Datetime vector or list of vectors, optional: must be provided if \code{y2} does not
+correspond to values in \code{x}. A single x-axis will be drawn for all values in \code{x} and \code{x2}.}
+
+\item{y2}{Numeric vector, optional: If provided, a second y-axis will be added to the right
 side of the plot}
+
+\item{ynames}{Character vector, optional: Names for each vector in \code{y}.}
+
+\item{y2names}{Character vector, optional: Names for each vector in \code{y2}.}
+
+\item{xlab}{Character: x-axis label.}
+
+\item{ylab}{Character: y-axis label.}
+
+\item{y2lab}{Character: y2-axis label.}
+
+\item{xunits}{Character: x-axis units.}
+
+\item{yunits}{Character: y-axis units.}
+
+\item{y2units}{Character: y2-axis units.}
+
+\item{yunits.col}{Color for y-axis units.}
+
+\item{y2units.col}{Color for y2-axis units.}
+
+\item{main}{Character: Main title.}
+
+\item{main.y}{Numeric: Y position of main title.}
+
+\item{main.yanchor}{Character: "top", "middle", "bottom".}
+
+\item{show.rangeslider}{Logical: If TRUE, show a range slider.}
+
+\item{slider.start}{Numeric: Start of range slider.}
+
+\item{slider.end}{Numeric: End of range slider.}
+
+\item{theme}{Character or list: Name of theme or list of plot parameters.}
+
+\item{palette}{Color list: will be used to draw each vector in \code{y} and \code{y2}, in order.}
+
+\item{font.size}{Numeric: Font size for text.}
+
+\item{yfill}{Character: Fill type for y-axis: "none", "tozeroy", "tonexty"}
+
+\item{y2fill}{Character: Fill type for y2-axis: "none", "tozeroy", "tonexty"}
+
+\item{fill.alpha}{Numeric: Fill opacity for y-axis.}
+
+\item{yline.width}{Numeric: Line width for y-axis lines.}
+
+\item{y2line.width}{Numeric: Line width for y2-axis lines.}
+
+\item{x.showspikes}{Logical: If TRUE, show spikes on x-axis.}
+
+\item{spike.dash}{Character: Dash type for spikes: "solid", "dot", "dash", "longdash",
+"dashdot", "longdashdot".}
+
+\item{spike.col}{Color for spikes.}
+
+\item{tickfont.size}{Numeric: Font size for tick labels.}
+
+\item{legend.x}{Numeric: X position of legend.}
+
+\item{legend.y}{Numeric: Y position of legend.}
+
+\item{legend.xanchor}{Character: "left", "center", "right".}
+
+\item{legend.yanchor}{Character: "top", "middle", "bottom".}
+
+\item{legend.orientation}{Character: "v" for vertical, "h" for horizontal.}
+
+\item{margin}{Named list with 4 numeric values: "l", "r", "t", "b" for left, right, top, bottom
+margins.}
+
+\item{x.standoff}{Numeric: Distance from x-axis to x-axis label.}
+
+\item{y.standoff}{Numeric: Distance from y-axis to y-axis label.}
+
+\item{y2.standoff}{Numeric: Distance from y2-axis to y2-axis label.}
+
+\item{hovermode}{Character: "closest", "x", "x unified"}
+
+\item{displayModeBar}{Logical: If TRUE, display plotly mode bar.}
+
+\item{modeBar.file.format}{Character: "png", "svg", "jpeg", "webp", "pdf": file format for mode
+bar image export.}
+
+\item{scrollZoom}{Logical: If TRUE, enable zooming by scrolling.}
+
+\item{file.width}{Numeric: Width of mode bar image export.}
+
+\item{file.height}{Numeric: Height of mode bar image export.}
+
+\item{file.scale}{Numeric: Scale factor for mode bar image export.}
+
+\item{...}{Additional theme arguments.}
+
+\item{x.spike.thickness}{Numeric: Thickness of spikes. \code{-2} avoids drawing border around spikes.}
 }
 \value{
 A plotly object

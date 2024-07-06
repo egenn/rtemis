@@ -12,10 +12,61 @@
 #'
 #' We are switching to `palette` being a color vector instead of the name of a built-in palette.
 #'
-#' @param x Datetime vector
-#' @param y Numeric vector
-#' @param y2 Numeric vector. If provided, a second y-axis will be added to the right
+#' @param x Datetime vector or list of vectors.
+#' @param y Numeric vector or named list of vectors: y-axis data.
+#' @param x2 Datetime vector or list of vectors, optional: must be provided if `y2` does not 
+#' correspond to values in `x`. A single x-axis will be drawn for all values in `x` and `x2`.
+#' @param y2 Numeric vector, optional: If provided, a second y-axis will be added to the right
 #' side of the plot
+#' @param ynames Character vector, optional: Names for each vector in `y`.
+#' @param y2names Character vector, optional: Names for each vector in `y2`.
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
+#' @param y2lab Character: y2-axis label.
+#' @param xunits Character: x-axis units.
+#' @param yunits Character: y-axis units.
+#' @param y2units Character: y2-axis units.
+#' @param yunits.col Color for y-axis units.
+#' @param y2units.col Color for y2-axis units.
+#' @param main Character: Main title.
+#' @param main.y Numeric: Y position of main title.
+#' @param main.yanchor Character: "top", "middle", "bottom".
+#' @param show.rangeslider Logical: If TRUE, show a range slider.
+#' @param slider.start Numeric: Start of range slider.
+#' @param slider.end Numeric: End of range slider.
+#' @param theme Character or list: Name of theme or list of plot parameters.
+#' @param palette Color list: will be used to draw each vector in `y` and `y2`, in order.
+#' @param font.size Numeric: Font size for text.
+#' @param yfill Character: Fill type for y-axis: "none", "tozeroy", "tonexty"
+#' @param y2fill Character: Fill type for y2-axis: "none", "tozeroy", "tonexty"
+#' @param fill.alpha Numeric: Fill opacity for y-axis.
+#' @param yline.width Numeric: Line width for y-axis lines.
+#' @param y2line.width Numeric: Line width for y2-axis lines.
+#' @param x.showspikes Logical: If TRUE, show spikes on x-axis.
+#' @param spike.dash Character: Dash type for spikes: "solid", "dot", "dash", "longdash", 
+#' "dashdot", "longdashdot".
+#' @param spike.col Color for spikes.
+#' @param x.spike.thickness Numeric: Thickness of spikes. `-2` avoids drawing border around spikes.
+#' @param tickfont.size Numeric: Font size for tick labels.
+#' @param legend.x Numeric: X position of legend.
+#' @param legend.y Numeric: Y position of legend.
+#' @param legend.xanchor Character: "left", "center", "right".
+#' @param legend.yanchor Character: "top", "middle", "bottom".
+#' @param legend.orientation Character: "v" for vertical, "h" for horizontal.
+#' @param margin Named list with 4 numeric values: "l", "r", "t", "b" for left, right, top, bottom
+#' margins.
+#' @param x.standoff Numeric: Distance from x-axis to x-axis label.
+#' @param y.standoff Numeric: Distance from y-axis to y-axis label.
+#' @param y2.standoff Numeric: Distance from y2-axis to y2-axis label.
+#' @param hovermode Character: "closest", "x", "x unified"
+#' @param displayModeBar Logical: If TRUE, display plotly mode bar.
+#' @param modeBar.file.format Character: "png", "svg", "jpeg", "webp", "pdf": file format for mode 
+#' bar image export.
+#' @param scrollZoom Logical: If TRUE, enable zooming by scrolling.
+#' @param file.width Numeric: Width of mode bar image export.
+#' @param file.height Numeric: Height of mode bar image export.
+#' @param file.scale Numeric: Scale factor for mode bar image export.
+#' @param ... Additional theme arguments.
 #'
 #' @return A plotly object
 #' @author EDG
@@ -23,15 +74,15 @@
 dplot3_xt <- function(
     x, y,
     x2 = NULL, y2 = NULL,
-    xname = NULL,
-    yname = NULL,
+    # xname = NULL,
+    ynames = NULL,
+    y2names = NULL,
     xlab = NULL,
     ylab = NULL,
     y2lab = NULL,
     xunits = NULL,
     yunits = NULL,
     y2units = NULL,
-    y2name = NULL,
     yunits.col = NULL,
     y2units.col = NULL,
     main = NULL,
@@ -46,12 +97,8 @@ dplot3_xt <- function(
     yfill = "tozeroy",
     y2fill = "none",
     fill.alpha = .2,
-    # line1.col = "#16A0AC",
-    line1.width = 2,
-    # line1.fill.col = NULL,
-    # line2.col = "#FA6E1E",
-    # line2.fill.col = NULL,
-    line2.width = 2,
+    yline.width = 2,
+    y2line.width = 2,
     x.showspikes = TRUE,
     spike.dash = "solid",
     spike.col = NULL,
@@ -78,8 +125,8 @@ dplot3_xt <- function(
     file.height = 500,
     file.scale = 1, ...) {
   # Names ----
-  .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
-  .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
+  # .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+  # .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
   .yname <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   .y2name <- labelify(gsub(".*\\$", "", deparse(substitute(y2))))
   # if (is.null(y2name) && !is.null(y2)) {
@@ -130,17 +177,20 @@ dplot3_xt <- function(
   #   }
   # }
 
-  ynames <- if (is.null(names(y))) {
-    if (length(y) > 1) {
-      paste(.yname, seq_along(y), sep = "_")
+  if (is.null(ynames)) {
+    ynames <- if (is.null(names(y))) {
+      if (length(y) > 1) {
+        paste(.yname, seq_along(y), sep = "_")
+      } else {
+        .yname
+      }
     } else {
-      .yname
+      names(y)
     }
-  } else {
-    names(y)
   }
+  
 
-  if (!is.null(y2)) {
+  if (!is.null(y2) && is.null(y2names)) {
     y2names <- if (is.null(names(y2))) {
       if (length(y2) > 1) {
         paste(.y2name, seq_along(y2), sep = "_")
@@ -243,7 +293,7 @@ dplot3_xt <- function(
       y = y[[i]],
       type = "scatter",
       mode = "lines",
-      line = list(color = palette.y[[i]], width = line1.width),
+      line = list(color = palette.y[[i]], width = yline.width),
       fill = yfill[[i]],
       fillcolor = plotly::toRGB(palette.y[[i]], alpha = fill.alpha),
       name = ynames[[i]]
@@ -259,7 +309,7 @@ dplot3_xt <- function(
         y = y2[[i]],
         type = "scatter",
         mode = "lines",
-        line = list(color = palette.y2[[i]], width = line2.width),
+        line = list(color = palette.y2[[i]], width = y2line.width),
         fill = y2fill[[i]],
         fillcolor = plotly::toRGB(palette.y2[[i]], alpha = fill.alpha),
         name = y2names[[i]],
@@ -375,7 +425,7 @@ dplot3_xt <- function(
             standoff = y2.standoff
           ),
           titlefont = f,
-          tickfont = f
+          tickfont = tickfont
         )
       )
   }
