@@ -14,10 +14,13 @@
 #'
 #' @param x Datetime vector or list of vectors.
 #' @param y Numeric vector or named list of vectors: y-axis data.
-#' @param x2 Datetime vector or list of vectors, optional: must be provided if `y2` does not 
+#' @param x2 Datetime vector or list of vectors, optional: must be provided if `y2` does not
 #' correspond to values in `x`. A single x-axis will be drawn for all values in `x` and `x2`.
 #' @param y2 Numeric vector, optional: If provided, a second y-axis will be added to the right
 #' side of the plot
+#' @param shade.interval List of numeric vectors: Intervals to shade on the plot.
+#' @param shade.col Color: Color to shade intervals.
+#' @param shade.x Numeric vector: x-values to use for shading.
 #' @param ynames Character vector, optional: Names for each vector in `y`.
 #' @param y2names Character vector, optional: Names for each vector in `y2`.
 #' @param xlab Character: x-axis label.
@@ -31,6 +34,8 @@
 #' @param main Character: Main title.
 #' @param main.y Numeric: Y position of main title.
 #' @param main.yanchor Character: "top", "middle", "bottom".
+#' @param x.nticks Integer: Number of ticks on x-axis.
+#' @param y.nticks Integer: Number of ticks on y-axis.
 #' @param show.rangeslider Logical: If TRUE, show a range slider.
 #' @param slider.start Numeric: Start of range slider.
 #' @param slider.end Numeric: End of range slider.
@@ -43,11 +48,14 @@
 #' @param yline.width Numeric: Line width for y-axis lines.
 #' @param y2line.width Numeric: Line width for y2-axis lines.
 #' @param x.showspikes Logical: If TRUE, show spikes on x-axis.
-#' @param spike.dash Character: Dash type for spikes: "solid", "dot", "dash", "longdash", 
+#' @param spike.dash Character: Dash type for spikes: "solid", "dot", "dash", "longdash",
 #' "dashdot", "longdashdot".
 #' @param spike.col Color for spikes.
 #' @param x.spike.thickness Numeric: Thickness of spikes. `-2` avoids drawing border around spikes.
 #' @param tickfont.size Numeric: Font size for tick labels.
+#' @param x.tickmode Character: "auto", "linear", "array".
+#' @param x.tickvals Numeric vector: Tick positions.
+#' @param x.ticktext Character vector: Tick labels.
 #' @param legend.x Numeric: X position of legend.
 #' @param legend.y Numeric: Y position of legend.
 #' @param legend.xanchor Character: "left", "center", "right".
@@ -60,7 +68,7 @@
 #' @param y2.standoff Numeric: Distance from y2-axis to y2-axis label.
 #' @param hovermode Character: "closest", "x", "x unified"
 #' @param displayModeBar Logical: If TRUE, display plotly mode bar.
-#' @param modeBar.file.format Character: "png", "svg", "jpeg", "webp", "pdf": file format for mode 
+#' @param modeBar.file.format Character: "png", "svg", "jpeg", "webp", "pdf": file format for mode
 #' bar image export.
 #' @param scrollZoom Logical: If TRUE, enable zooming by scrolling.
 #' @param file.width Numeric: Width of mode bar image export.
@@ -74,7 +82,12 @@
 dplot3_xt <- function(
     x, y,
     x2 = NULL, y2 = NULL,
-    # xname = NULL,
+    # Shade intervals
+    shade.interval = NULL,
+    shade.col = NULL,
+    shade.x = x[[1]],
+    shade.name = NULL,
+    shade.showlegend = FALSE,
     ynames = NULL,
     y2names = NULL,
     xlab = NULL,
@@ -88,13 +101,15 @@ dplot3_xt <- function(
     main = NULL,
     main.y = 1,
     main.yanchor = "bottom",
+    x.nticks = 0,
+    y.nticks = 0,
     show.rangeslider = FALSE,
     slider.start = NULL,
     slider.end = NULL,
     theme = rtTheme,
     palette = rtpalette(rtPalette),
     font.size = 16,
-    yfill = "tozeroy",
+    yfill = "none",
     y2fill = "none",
     fill.alpha = .2,
     yline.width = 2,
@@ -104,6 +119,9 @@ dplot3_xt <- function(
     spike.col = NULL,
     x.spike.thickness = -2,
     tickfont.size = 16,
+    x.tickmode = "auto",
+    x.tickvals = NULL,
+    x.ticktext = NULL,
     # legend
     legend.x = 0,
     legend.y = 1.1,
@@ -155,28 +173,6 @@ dplot3_xt <- function(
   }
 
   # Names ----
-  # xnames <- if (is.null(names(x))) {
-  #   if (length(x) > 1) {
-  #     paste(.xname, seq_along(x), sep = "_")
-  #   } else {
-  #     .xname
-  #   }
-  # } else {
-  #   names(x)
-  # }
-
-  # if (!is.null(x2)) {
-  #   x2names <- if (is.null(names(x2))) {
-  #     if (length(x) > 1) {
-  #       paste(.x2name, seq_along(x2), sep = "_")
-  #     } else {
-  #       .x2name
-  #     }
-  #   } else {
-  #     names(x2)
-  #   }
-  # }
-
   if (is.null(ynames)) {
     ynames <- if (is.null(names(y))) {
       if (length(y) > 1) {
@@ -188,7 +184,7 @@ dplot3_xt <- function(
       names(y)
     }
   }
-  
+
 
   if (!is.null(y2) && is.null(y2names)) {
     y2names <- if (is.null(names(y2))) {
@@ -265,11 +261,13 @@ dplot3_xt <- function(
   if (length(y) > 1 && length(yfill) == 1) {
     yfill <- rep(yfill, length(y))
   }
+  stopifnot(length(yfill) == length(y))
+
   if (length(y2) > 1 && length(y2fill) == 1) {
     y2fill <- rep(y2fill, length(y2))
   }
-  stopifnot(length(yfill) == length(y))
-  stopifnot(length(y2fill) == length(y2))
+
+  if (!is.null(y2)) stopifnot(length(y2fill) == length(y2))
 
   # Fonts ----
   f <- list(
@@ -285,6 +283,35 @@ dplot3_xt <- function(
 
   # Plot ----
   plt <- plotly::plot_ly()
+
+  # Shade intervals ----
+  if (!is.null(shade.interval)) {
+    if (is.null(shade.col)) shade.col <- plotly::toRGB(theme$fg, 0.15)
+    ymax <- max(unlist(y), unlist(y2))
+    # Draw rectangles from xy = 0 to y = 1, yref = "paper"
+    for (i in seq_along(shade.interval)) {
+      plt <- plotly::add_trace(
+        plt,
+        x = c(
+          shade.x[shade.interval[[i]][1]],
+          shade.x[shade.interval[[i]][2]],
+          shade.x[shade.interval[[i]][2]],
+          shade.x[shade.interval[[i]][1]]
+        ),
+        y = c(0, 0, ymax, ymax),
+        type = "scatter",
+        mode = "lines",
+        fill = "toself",
+        fillcolor = shade.col,
+        line = list(color = "transparent"),
+        yaxis = "y",
+        xaxis = "x",
+        name = shade.name,
+        legendgroup = shade.name,
+        showlegend = shade.showlegend && i == 1
+      )
+    }
+  }
 
   for (i in seq_along(y)) {
     plt <- plotly::add_trace(
@@ -352,6 +379,7 @@ dplot3_xt <- function(
         text = xlab,
         standoff = x.standoff
       ),
+      nticks = x.nticks,
       showspikes = x.showspikes,
       spikedash = spike.dash,
       spikecolor = spike.col,
@@ -360,6 +388,9 @@ dplot3_xt <- function(
       showgrid = theme$grid,
       gridcolor = grid.col,
       gridwidth = theme$grid.lwd,
+      tickmode = x.tickmode,
+      tickvals = x.tickvals,
+      ticktext = x.ticktext,
       tickcolor = tick.col,
       tickfont = tickfont,
       zeroline = theme$zerolines,
@@ -371,6 +402,7 @@ dplot3_xt <- function(
         text = ylab,
         standoff = y.standoff
       ),
+      nticks = y.nticks,
       titlefont = f,
       showgrid = theme$grid,
       gridcolor = grid.col,
@@ -466,3 +498,5 @@ dplot3_xt <- function(
 
   plt
 } # rtemis::dplot3_xt
+
+# tickmode = "array", tickvals: placement, ticktext: labels

@@ -9,6 +9,11 @@ dplot3_xt(
   y,
   x2 = NULL,
   y2 = NULL,
+  shade.interval = NULL,
+  shade.col = NULL,
+  shade.x = x[[1]],
+  shade.name = NULL,
+  shade.showlegend = FALSE,
   ynames = NULL,
   y2names = NULL,
   xlab = NULL,
@@ -22,13 +27,15 @@ dplot3_xt(
   main = NULL,
   main.y = 1,
   main.yanchor = "bottom",
+  x.nticks = 0,
+  y.nticks = 0,
   show.rangeslider = FALSE,
   slider.start = NULL,
   slider.end = NULL,
   theme = rtTheme,
   palette = rtpalette(rtPalette),
   font.size = 16,
-  yfill = "tozeroy",
+  yfill = "none",
   y2fill = "none",
   fill.alpha = 0.2,
   yline.width = 2,
@@ -38,6 +45,9 @@ dplot3_xt(
   spike.col = NULL,
   x.spike.thickness = -2,
   tickfont.size = 16,
+  x.tickmode = "auto",
+  x.tickvals = NULL,
+  x.ticktext = NULL,
   legend.x = 0,
   legend.y = 1.1,
   legend.xanchor = "left",
@@ -69,6 +79,12 @@ correspond to values in \code{x}. A single x-axis will be drawn for all values i
 \item{y2}{Numeric vector, optional: If provided, a second y-axis will be added to the right
 side of the plot}
 
+\item{shade.interval}{List of numeric vectors: Intervals to shade on the plot.}
+
+\item{shade.col}{Color: Color to shade intervals.}
+
+\item{shade.x}{Numeric vector: x-values to use for shading.}
+
 \item{ynames}{Character vector, optional: Names for each vector in \code{y}.}
 
 \item{y2names}{Character vector, optional: Names for each vector in \code{y2}.}
@@ -94,6 +110,10 @@ side of the plot}
 \item{main.y}{Numeric: Y position of main title.}
 
 \item{main.yanchor}{Character: "top", "middle", "bottom".}
+
+\item{x.nticks}{Integer: Number of ticks on x-axis.}
+
+\item{y.nticks}{Integer: Number of ticks on y-axis.}
 
 \item{show.rangeslider}{Logical: If TRUE, show a range slider.}
 
@@ -127,6 +147,12 @@ side of the plot}
 \item{x.spike.thickness}{Numeric: Thickness of spikes. \code{-2} avoids drawing border around spikes.}
 
 \item{tickfont.size}{Numeric: Font size for tick labels.}
+
+\item{x.tickmode}{Character: "auto", "linear", "array".}
+
+\item{x.tickvals}{Numeric vector: Tick positions.}
+
+\item{x.ticktext}{Character vector: Tick labels.}
 
 \item{legend.x}{Numeric: X position of legend.}
 
