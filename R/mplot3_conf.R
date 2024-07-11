@@ -175,15 +175,15 @@ mplot3_conf <- function(object,
   total <- sum(tbl)
   hits <- diag(tbl)
   misses <- class.totals - hits
-  class.sensitivity <- hits/class.totals
+  class.sensitivity <- hits / class.totals
   condition.negative <- total - class.totals
   true.negative <- total - predicted.totals - (class.totals - hits)
   class.specificity <- true.negative / condition.negative
-  class.balancedAccuracy <- .5*(class.sensitivity + class.specificity)
+  class.balancedAccuracy <- .5 * (class.sensitivity + class.specificity)
   # PPV = true positive / predicted condition positive
-  class.ppv <- hits/predicted.totals
+  class.ppv <- hits / predicted.totals
   # NPV  = true negative / predicted condition negative
-  class.npv <- true.negative/(total - predicted.totals)
+  class.npv <- true.negative / (total - predicted.totals)
 
   if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
                                          title = "rtemis Graphics")
@@ -212,10 +212,10 @@ mplot3_conf <- function(object,
                    rep(dim.in, n.classes),
                    rep(dim.out, ifelse(n.classes > 2, 2, 1))))
 
-  leftpad <- 2*dim.lab
-  bottompad <- ifelse(n.classes > 2, 2, 1)*dim.out
-  width <- leftpad + n.classes*dim.in + ifelse(n.classes == 2, 1, 2)*dim.out
-  height <- bottompad + 2*dim.lab + n.classes*dim.in + dim.main
+  leftpad <- 2 * dim.lab
+  bottompad <- ifelse(n.classes > 2, 2, 1) * dim.out
+  width <- leftpad + n.classes * dim.in + ifelse(n.classes == 2, 1, 2) * dim.out
+  height <- bottompad + 2 * dim.lab + n.classes * dim.in + dim.main
 
   plot(NULL, NULL,
        xlim = c(0, width),
@@ -225,26 +225,26 @@ mplot3_conf <- function(object,
 
   # "Estimated"
   # y: middle of confusion matrix
-  text(x = widths[1]/2,
-       y = bottompad + n.classes/2 * dim.in,
+  text(x = widths[1] / 2,
+       y = bottompad + n.classes / 2 * dim.in,
        labels = ylab, col = col.lab, cex = cex.lab, srt = 90,
        adj = c(.5, .5), font = 2)
 
   # Estimated classes
-  text(x = widths[1] + widths[2]/2,
-       y = bottompad + dim.in/2 + c(seq(n.classes) - 1) * dim.in,
+  text(x = widths[1] + widths[2] / 2,
+       y = bottompad + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
        labels = rev(class.labels),
        adj = c(.5, .5),
        srt = 90, cex = cex.lab2, col = col.lab)
 
   # "Reference"
-  text(x = leftpad + n.classes/2 * dim.in,
-       y = bottompad + n.classes*dim.in + 1.5*dim.lab,
+  text(x = leftpad + n.classes / 2 * dim.in,
+       y = bottompad + n.classes * dim.in + 1.5 * dim.lab,
        labels = xlab, col = col.lab, cex = cex.lab,
        adj = c(.5, .5), font = 2)
   # Reference classes
-  text(x = sum(widths[1:2]) + dim.in/2 + c(seq(n.classes) - 1) * dim.in,
-       bottompad + n.classes*dim.in + .5*dim.lab,
+  text(x = sum(widths[1:2]) + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
+       bottompad + n.classes * dim.in + .5 * dim.lab,
        labels = class.labels,
        adj = c(.5, .5),
        cex = cex.lab2, col = col.lab)
@@ -252,22 +252,22 @@ mplot3_conf <- function(object,
   # '- Confusion matrix ----
   for (i in seq_len(n.classes)) {
     for (j in seq_len(n.classes)) {
-      frac <- tbl[j, i]/class.totals[i]
+      frac <- tbl[j, i] / class.totals[i]
       if (i == j) {
-        col <- color.pos[round(frac*100)]
+        col <- color.pos[round(frac * 100)]
       } else {
-        col <- color.neg[round(frac*100)]
+        col <- color.neg[round(frac * 100)]
       }
       # {xi, yj}: top-left starting point
-      xi <- leftpad + (i - 1)*dim.in
+      xi <- leftpad + (i - 1) * dim.in
       yj <- bottompad + (n.classes + 1 - j) * dim.in
       polygon(x = c(xi, rep(xi + dim.in, 2), xi),
               y = c(rep(yj, 2),
                     rep((yj - dim.in), 2)),
               col = col, border = NA)
       # N in each cell
-      text(x = xi + .5*dim.in,
-           y = yj - .5*dim.in,
+      text(x = xi + .5 * dim.in,
+           y = yj - .5 * dim.in,
            labels = tbl[j, i],
            cex = cex.in, font = font.in,
            col = ifelse(frac >= .5, col.text.hi, col.text.lo))
@@ -279,30 +279,29 @@ mplot3_conf <- function(object,
   if (plot.metrics) {
     if (n.classes == 2) {
       # 2 classes
-
       # Sensitivity & Specificity
       polygon(x = c(leftpad, rep(leftpad + dim.in, 2), leftpad),
               y = c(rep(dim.out, 2), rep(0, 2)),
               border = NA, col = col.bg.out1)
-      polygon(x = c(leftpad + dim.in, rep(leftpad + 2*dim.in, 2), leftpad + dim.in),
+      polygon(x = c(leftpad + dim.in, rep(leftpad + 2 * dim.in, 2), leftpad + dim.in),
               y = c(rep(dim.out, 2), rep(0, 2)),
               border = NA, col = col.bg.out2)
-      text(x = leftpad + c(.5, 1.5)*dim.in,
-           y = .5*dim.out,
+      text(x = leftpad + c(.5, 1.5) * dim.in,
+           y = .5 * dim.out,
            labels = c(paste("Sensitivity\n", ddSci(class.sensitivity[1])),
                       paste("Specificity\n", ddSci(class.specificity[1]))),
            col = col.text.out, cex = cex.out, font = font.out)
 
       # PPV & NPV
-      xright <- leftpad + 2*dim.in
+      xright <- leftpad + 2 * dim.in
       polygon(x = c(xright, rep(xright + dim.out, 2), xright),
-              y = c(rep(dim.out + 2*dim.in, 2), rep(dim.out + dim.in, 2)),
+              y = c(rep(dim.out + 2 * dim.in, 2), rep(dim.out + dim.in, 2)),
               border = NA, col = col.bg.out1)
       polygon(x = c(xright, rep(xright + dim.out, 2), xright),
               y = c(rep(dim.out + dim.in, 2), rep(dim.out, 2)),
               border = NA, col = col.bg.out2)
-      text(x = xright + .5*dim.out,
-           y = dim.out + c(.5, 1.5)*dim.in,
+      text(x = xright + .5 * dim.out,
+           y = dim.out + c(.5, 1.5) * dim.in,
            labels = c(paste("NPV\n", ddSci(class.npv[1])),
                       paste("PPV\n", ddSci(class.ppv[1]))),
            col = col.text.out, cex = cex.out,
@@ -311,50 +310,50 @@ mplot3_conf <- function(object,
       # 3+ classes
       # "Sens.", "Spec."
       text(x = dim.lab,
-           y = c(1.5, .5)*dim.out,
+           y = c(1.5, .5) * dim.out,
            labels = c("Sens.", "Spec."),
            adj = c(.5, .5),
            col = col.text.out, cex = cex.lab3)
-      polygon(x = c(leftpad, rep(leftpad + n.classes*dim.in, 2), leftpad),
-              y = c(rep(2*dim.out, 2), rep(dim.out, 2)),
+      polygon(x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
+              y = c(rep(2 * dim.out, 2), rep(dim.out, 2)),
               col = col.bg.out1, border = NA)
-      polygon(x = c(leftpad, rep(leftpad + n.classes*dim.in, 2), leftpad),
+      polygon(x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
               y = c(rep(dim.out, 2), rep(0, 2)),
               col = col.bg.out2, border = NA)
       # Sensitivity values
-      text(x = leftpad + c(seq(n.classes) - .5)*dim.in,
-           y = 1.5*dim.out,
+      text(x = leftpad + c(seq(n.classes) - .5) * dim.in,
+           y = 1.5 * dim.out,
            labels = ddSci(class.sensitivity),
            col = col.text.out, cex = cex.out, font = font.out)
       # Specificity values
-      text(x = leftpad + c(seq(n.classes) - .5)*dim.in,
-           y = .5*dim.out,
+      text(x = leftpad + c(seq(n.classes) - .5) * dim.in,
+           y = .5 * dim.out,
            labels = ddSci(class.specificity),
            col = col.text.out, cex = cex.out, font = font.out)
 
       # "PPV", "NPV"
-      text(x = leftpad + n.classes*dim.in + c(.5, 1.5)*dim.out,
-           y = bottompad + n.classes*dim.in + dim.lab,
+      text(x = leftpad + n.classes * dim.in + c(.5, 1.5) * dim.out,
+           y = bottompad + n.classes * dim.in + dim.lab,
            labels = c("PPV", "NPV"),
            adj = c(.5, .5), xpd = TRUE,
            col = col.text.out, cex = cex.lab3, srt = 90)
-      xstart <- leftpad + n.classes*dim.in
-      ystart <- bottompad + n.classes*dim.in
+      xstart <- leftpad + n.classes * dim.in
+      ystart <- bottompad + n.classes * dim.in
       polygon(x = c(xstart, rep(xstart + dim.out, 2), xstart),
-              y = c(rep(ystart, 2), rep(ystart - n.classes*dim.in, 2)),
+              y = c(rep(ystart, 2), rep(ystart - n.classes * dim.in, 2)),
               col = col.bg.out1, border = NA)
       # PPV values
-      text(x = xstart + .5*dim.out,
+      text(x = xstart + .5 * dim.out,
            y = rev(bottompad + c(seq_len(n.classes) - .5) * dim.in),
            labels = ddSci(class.ppv),
            srt = 90, adj = c(.5, .5),
            col = col.text.out, cex = cex.out, font = font.out)
       # NPV values
-      xstart <- leftpad + n.classes*dim.in + dim.out
+      xstart <- leftpad + n.classes * dim.in + dim.out
       polygon(x = c(xstart, rep(xstart + dim.out, 2), xstart),
-              y = c(rep(ystart, 2), rep(ystart - n.classes*dim.in, 2)),
+              y = c(rep(ystart, 2), rep(ystart - n.classes * dim.in, 2)),
               col = col.bg.out2, border = NA)
-      text(x = xstart + .5*dim.out,
+      text(x = xstart + .5 * dim.out,
            y = bottompad + c(seq_len(n.classes) - .5) * dim.in,
            labels = ddSci(rev(class.npv)),
            srt = 90, adj = c(.5, .5),
@@ -364,8 +363,8 @@ mplot3_conf <- function(object,
 
   # Balanced Accuracy
   if (show.ba) {
-    text(x = width - .5*bottompad,
-         y = .5*bottompad,
+    text(x = width - .5 * bottompad,
+         y = .5 * bottompad,
          labels = paste0("BA\n", ddSci(mean(class.sensitivity))),
          # srt = 45,
          adj = c(.5, .5),
@@ -385,7 +384,7 @@ mplot3_conf <- function(object,
 
   if (length(main) > 0) {
     text(x = leftpad,
-         y = height - .5*dim.main,
+         y = height - .5 * dim.main,
          labels = main, font = theme$main.font,
          cex = cex.main,
          col = theme$main.col, adj = 0, xpd = TRUE)
