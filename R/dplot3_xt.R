@@ -9,16 +9,22 @@
 #' Plot timeseries data
 #'
 #' @details
-#'
 #' We are switching to `palette` being a color vector instead of the name of a built-in palette.
 #'
-#' @param x Datetime vector or list of vectors.
+#' @param x Datetime vector or list of vectors OR object of class `xt`. If `xt`, `x2`, `y`, `y2`,
+#' `xunits`, `yunits`, and `y2units` will be extracted from the object and the corresponding
+#' arguments will be ignored.
 #' @param y Numeric vector or named list of vectors: y-axis data.
 #' @param x2 Datetime vector or list of vectors, optional: must be provided if `y2` does not
 #' correspond to values in `x`. A single x-axis will be drawn for all values in `x` and `x2`.
 #' @param y2 Numeric vector, optional: If provided, a second y-axis will be added to the right
 #' side of the plot
-#' @param shade.interval List of numeric vectors: Intervals to shade on the plot.
+#' @param shade.bin Integer vector {0, 1}: Time points in `x` to shade on the plot. For example,
+#' if there are 10 time points in `x`, and you want to shade time points 3 to 7, 
+#' `shade.bin = c(0, 0, 1, 1, 1, 1, 1, 0, 0, 0)`. Only set `shade.bin` or `shade.interval`, not
+#' both.
+#' @param shade.interval List of numeric vectors: Intervals to shade on the plot. Only set
+#' `shade.bin` or `shade.interval`, not both.
 #' @param shade.col Color: Color to shade intervals.
 #' @param shade.x Numeric vector: x-values to use for shading.
 #' @param ynames Character vector, optional: Names for each vector in `y`.
@@ -80,13 +86,14 @@
 #' @author EDG
 #' @export
 dplot3_xt <- function(
-    x, y,
+    x, y = NULL,
     x2 = NULL, y2 = NULL,
     # Shade intervals
+    shade.bin = NULL,
     shade.interval = NULL,
     shade.col = NULL,
-    shade.x = x[[1]],
-    shade.name = NULL,
+    shade.x = NULL,
+    shade.name = "",
     shade.showlegend = FALSE,
     ynames = NULL,
     y2names = NULL,
@@ -127,7 +134,7 @@ dplot3_xt <- function(
     legend.y = 1.1,
     legend.xanchor = "left",
     legend.yanchor = "top",
-    legend.orientation = "v",
+    legend.orientation = "h",
     margin = list(l = 75, r = 75, b = 75, t = 75),
     # axis labels
     x.standoff = 20L,
@@ -143,22 +150,41 @@ dplot3_xt <- function(
     file.height = 500,
     file.scale = 1, ...) {
   # Names ----
-  # .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
-  # .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
+  .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+  .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
+  if (!is.null(x2) && .xname != .x2name) {
+    .xname <- NULL
+  }
   .yname <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   .y2name <- labelify(gsub(".*\\$", "", deparse(substitute(y2))))
   # if (is.null(y2name) && !is.null(y2)) {
   #   y2name <- labelify(gsub(".*\\$", "", deparse(substitute(y2))))
   # }
 
-  # Data to lists ----
+  # Data ----
+  if (inherits(x, "xt")) {
+    y <- x$y
+    x2 <- x$x2
+    y2 <- x$y2
+    xunits <- x$xunits
+    yunits <- x$yunits
+    y2units <- x$y2units
+    shade.bin <- x$shade
+    x <- x$x
+  } else {
+    if (is.null(y)) {
+      stop("y must be provided")
+    }
+  }
+
+  # Data to lists
   if (!is.null(y2) && is.null(x2)) x2 <- x
   if (!is.list(x)) x <- list(x)
   if (!is.list(y)) y <- list(y)
   if (!is.null(y2) && !is.list(y2)) y2 <- list(y2)
   if (!is.null(y2) && !is.list(x2)) x2 <- list(x2)
 
-  # Recycle x and x2 as needed ----
+  # Recycle x and x2 as needed
   if (length(y) > 1 && length(x) == 1) {
     x <- rep(x, length(y))
   }
@@ -170,6 +196,11 @@ dplot3_xt <- function(
   }
   if (!is.null(y2) && length(x2) != length(y2)) {
     stop("x2 and y2 must be the same length")
+  }
+
+  # Check args ----
+  if (!is.null(shade.bin) && !is.null(shade.interval)) {
+    stop("Only set shade.bin or shade.interval, not both")
   }
 
   # Names ----
@@ -184,7 +215,6 @@ dplot3_xt <- function(
       names(y)
     }
   }
-
 
   if (!is.null(y2) && is.null(y2names)) {
     y2names <- if (is.null(names(y2))) {
@@ -281,14 +311,39 @@ dplot3_xt <- function(
     color = theme$tick.labels.col
   )
 
+  # Calculate shade.interval from shade.bin ----
+  if (!is.null(shade.bin)) {
+    shade.bin_p <- c(0, shade.bin, 0)
+    shade.bin_starts <- which(diff(shade.bin_p) == 1)
+    shade.bin_ends <- which(diff(shade.bin_p) == -1)
+    shade.interval <- lapply(
+      seq_along(shade.bin_starts),
+      \(i) c(shade.bin_starts[i], shade.bin_ends[i])
+    )
+  }
+
   # Plot ----
-  plt <- plotly::plot_ly()
+  # if (!is.null(x.ticktext)) {
+  #   stopifnot(!is.null(x.tickvals))
+  #   plt <- plotly::plot_ly(
+  #     x = x.tickvals,
+  #     y = NA,
+  #     type = "scatter",
+  #     mode = "lines",
+  #     text = x.ticktext
+  #   )
+  # } else {
+  #   plt <- plotly::plot_ly(type = "scatter", mode = "lines")
+  # }
+  plt <- plotly::plot_ly(type = "scatter", mode = "lines")
+  # browser()
 
   # Shade intervals ----
   if (!is.null(shade.interval)) {
+    if (is.null(shade.x)) shade.x <- x[[1]]
     if (is.null(shade.col)) shade.col <- plotly::toRGB(theme$fg, 0.15)
     ymax <- max(unlist(y), unlist(y2))
-    # Draw rectangles from xy = 0 to y = 1, yref = "paper"
+    # Draw shaded rectangles
     for (i in seq_along(shade.interval)) {
       plt <- plotly::add_trace(
         plt,
@@ -299,34 +354,30 @@ dplot3_xt <- function(
           shade.x[shade.interval[[i]][1]]
         ),
         y = c(0, 0, ymax, ymax),
-        type = "scatter",
-        mode = "lines",
         fill = "toself",
         fillcolor = shade.col,
         line = list(color = "transparent"),
         yaxis = "y",
         xaxis = "x",
         name = shade.name,
-        legendgroup = shade.name,
+        legendgroup = if (shade.showlegend) shade.name else NULL,
         showlegend = shade.showlegend && i == 1
       )
     }
-  }
+  } # /shade.interval
 
   for (i in seq_along(y)) {
     plt <- plotly::add_trace(
       plt,
       x = x[[i]],
       y = y[[i]],
-      type = "scatter",
-      mode = "lines",
       line = list(color = palette.y[[i]], width = yline.width),
       fill = yfill[[i]],
       fillcolor = plotly::toRGB(palette.y[[i]], alpha = fill.alpha),
-      name = ynames[[i]]
-      # legendgroup = "legend_y"
+      name = ynames[[i]],
+      legendgroup = if (!is.null(y2)) "legend_y" else NULL
     )
-  }
+  } # /y scatter
 
   if (!is.null(y2)) {
     for (i in seq_along(y)) {
@@ -334,25 +385,20 @@ dplot3_xt <- function(
         plt,
         x = x2[[i]],
         y = y2[[i]],
-        type = "scatter",
-        mode = "lines",
         line = list(color = palette.y2[[i]], width = y2line.width),
         fill = y2fill[[i]],
         fillcolor = plotly::toRGB(palette.y2[[i]], alpha = fill.alpha),
         name = y2names[[i]],
-        # legendgroup = "legend_y2",
+        legendgroup = "legend_y2",
         yaxis = "y2"
       )
     }
-  }
+  } # /y2 scatter
 
   # Labels ----
+  if (is.null(xlab)) xlab <- .xname
   if (!is.null(xunits)) {
-    xlab <- if (is.null(xlab)) {
-      xunits
-    } else {
-      paste0(xlab, " (", xunits, ")")
-    }
+    xlab <- paste0(xlab, " (", xunits, ")")
   }
 
   if (!is.null(yunits)) {
@@ -377,14 +423,14 @@ dplot3_xt <- function(
     xaxis = list(
       title = list(
         text = xlab,
-        standoff = x.standoff
+        standoff = x.standoff,
+        font = f
       ),
       nticks = x.nticks,
       showspikes = x.showspikes,
       spikedash = spike.dash,
       spikecolor = spike.col,
       spikethickness = x.spike.thickness,
-      titlefont = f,
       showgrid = theme$grid,
       gridcolor = grid.col,
       gridwidth = theme$grid.lwd,
@@ -396,14 +442,14 @@ dplot3_xt <- function(
       zeroline = theme$zerolines,
       zerolinecolor = zerocol,
       zerolinewidth = theme$zerolines.lwd
-    ),
+    ), # /layout > xaxis
     yaxis = list(
       title = list(
         text = ylab,
-        standoff = y.standoff
+        standoff = y.standoff,
+        font = f
       ),
       nticks = y.nticks,
-      titlefont = f,
       showgrid = theme$grid,
       gridcolor = grid.col,
       gridwidth = theme$grid.lwd,
@@ -413,7 +459,7 @@ dplot3_xt <- function(
       zerolinecolor = zerocol,
       zerolinewidth = theme$zerolines.lwd,
       standoff = y.standoff
-    ),
+    ), # /layout > yaxis
     title = list(
       text = main,
       font = list(
@@ -439,12 +485,12 @@ dplot3_xt <- function(
       ),
       orientation = legend.orientation,
       bgcolor = "#ffffff00"
-    ), # /legend
+    ), # /layout > legend
     paper_bgcolor = bg,
     plot_bgcolor = plot.bg,
     margin = margin,
     hovermode = hovermode
-  )
+  ) # /layout
 
   if (!is.null(y2)) {
     plt <- plt |>
@@ -454,13 +500,13 @@ dplot3_xt <- function(
           side = "right",
           title = list(
             text = y2lab,
-            standoff = y2.standoff
+            standoff = y2.standoff,
+            font = f
           ),
-          titlefont = f,
           tickfont = tickfont
         )
       )
-  }
+  } # /yaxis2 layout
 
   # Config ----
   plt <- plotly::config(plt,
@@ -472,7 +518,7 @@ dplot3_xt <- function(
       height = file.height
     ),
     scrollZoom = scrollZoom
-  )
+  ) # /config
 
   # Write to file ----
   if (!is.null(filename)) {
@@ -483,7 +529,7 @@ dplot3_xt <- function(
       height = file.height,
       scale = file.scale
     )
-  }
+  } # /save_image
 
   # Rangeslider ----
   if (show.rangeslider) {
@@ -494,9 +540,9 @@ dplot3_xt <- function(
     }
     plt <- plt |>
       plotly::rangeslider(start = slider.start, end = slider.end)
-  }
+  } # /rangeslider
 
-  plt
+  return(plt)
 } # rtemis::dplot3_xt
 
 # tickmode = "array", tickvals: placement, ticktext: labels

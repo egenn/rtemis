@@ -6,13 +6,14 @@
 \usage{
 dplot3_xt(
   x,
-  y,
+  y = NULL,
   x2 = NULL,
   y2 = NULL,
+  shade.bin = NULL,
   shade.interval = NULL,
   shade.col = NULL,
-  shade.x = x[[1]],
-  shade.name = NULL,
+  shade.x = NULL,
+  shade.name = "",
   shade.showlegend = FALSE,
   ynames = NULL,
   y2names = NULL,
@@ -52,7 +53,7 @@ dplot3_xt(
   legend.y = 1.1,
   legend.xanchor = "left",
   legend.yanchor = "top",
-  legend.orientation = "v",
+  legend.orientation = "h",
   margin = list(l = 75, r = 75, b = 75, t = 75),
   x.standoff = 20L,
   y.standoff = 20L,
@@ -69,7 +70,9 @@ dplot3_xt(
 )
 }
 \arguments{
-\item{x}{Datetime vector or list of vectors.}
+\item{x}{Datetime vector or list of vectors OR object of class \code{xt}. If \code{xt}, \code{x2}, \code{y}, \code{y2},
+\code{xunits}, \code{yunits}, and \code{y2units} will be extracted from the object and the corresponding
+arguments will be ignored.}
 
 \item{y}{Numeric vector or named list of vectors: y-axis data.}
 
@@ -79,7 +82,13 @@ correspond to values in \code{x}. A single x-axis will be drawn for all values i
 \item{y2}{Numeric vector, optional: If provided, a second y-axis will be added to the right
 side of the plot}
 
-\item{shade.interval}{List of numeric vectors: Intervals to shade on the plot.}
+\item{shade.bin}{Integer vector {0, 1}: Time points in \code{x} to shade on the plot. For example,
+if there are 10 time points in \code{x}, and you want to shade time points 3 to 7,
+\code{shade.bin = c(0, 0, 1, 1, 1, 1, 1, 0, 0, 0)}. Only set \code{shade.bin} or \code{shade.interval}, not
+both.}
+
+\item{shade.interval}{List of numeric vectors: Intervals to shade on the plot. Only set
+\code{shade.bin} or \code{shade.interval}, not both.}
 
 \item{shade.col}{Color: Color to shade intervals.}
 
