@@ -148,7 +148,13 @@ labelify <- function(x,
   if (toLower) xf <- tolower(xf)
   if (toTitleCase) xf <- tools::toTitleCase(xf)
   xf <- gsub(" {2,}", " ", xf)
-  gsub(" $", "", xf)
+  xf <- gsub(" $", "", xf)
+
+  # Remove [[X]], where X is any length of characters or numbers
+  xf <- gsub("\\[\\[.*\\]\\]", "", xf)
+
+  return(xf)
+
 } # rtemis::labelify
 
 
