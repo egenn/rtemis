@@ -380,7 +380,7 @@ dplot3_xt <- function(
   } # /y scatter
 
   if (!is.null(y2)) {
-    for (i in seq_along(y)) {
+    for (i in seq_along(y2)) {
       plt <- plotly::add_trace(
         plt,
         x = x2[[i]],
