@@ -9,6 +9,8 @@ dplot3_xt(
   y = NULL,
   x2 = NULL,
   y2 = NULL,
+  which.xy = NULL,
+  which.xy2 = NULL,
   shade.bin = NULL,
   shade.interval = NULL,
   shade.col = NULL,
@@ -30,7 +32,7 @@ dplot3_xt(
   main.yanchor = "bottom",
   x.nticks = 0,
   y.nticks = 0,
-  show.rangeslider = FALSE,
+  show.rangeslider = NULL,
   slider.start = NULL,
   slider.end = NULL,
   theme = rtTheme,
@@ -81,6 +83,12 @@ correspond to values in \code{x}. A single x-axis will be drawn for all values i
 
 \item{y2}{Numeric vector, optional: If provided, a second y-axis will be added to the right
 side of the plot}
+
+\item{which.xy}{Integer vector: Indices of \code{x} and \code{y} to plot.
+If not provided, will select up to the first two x-y traces.}
+
+\item{which.xy2}{Integer vector: Indices of \code{x2} and \code{y2} to plot.
+If not provided, will select up to the first two x2-y2 traces.}
 
 \item{shade.bin}{Integer vector {0, 1}: Time points in \code{x} to shade on the plot. For example,
 if there are 10 time points in \code{x}, and you want to shade time points 3 to 7,

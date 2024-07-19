@@ -19,6 +19,10 @@
 #' correspond to values in `x`. A single x-axis will be drawn for all values in `x` and `x2`.
 #' @param y2 Numeric vector, optional: If provided, a second y-axis will be added to the right
 #' side of the plot
+#' @param which.xy Integer vector: Indices of `x` and `y` to plot.
+#' If not provided, will select up to the first two x-y traces.
+#' @param which.xy2 Integer vector: Indices of `x2` and `y2` to plot.
+#' If not provided, will select up to the first two x2-y2 traces.
 #' @param shade.bin Integer vector {0, 1}: Time points in `x` to shade on the plot. For example,
 #' if there are 10 time points in `x`, and you want to shade time points 3 to 7, 
 #' `shade.bin = c(0, 0, 1, 1, 1, 1, 1, 0, 0, 0)`. Only set `shade.bin` or `shade.interval`, not
@@ -88,6 +92,8 @@
 dplot3_xt <- function(
     x, y = NULL,
     x2 = NULL, y2 = NULL,
+    which.xy = NULL,
+    which.xy2 = NULL,
     # Shade intervals
     shade.bin = NULL,
     shade.interval = NULL,
@@ -110,7 +116,7 @@ dplot3_xt <- function(
     main.yanchor = "bottom",
     x.nticks = 0,
     y.nticks = 0,
-    show.rangeslider = FALSE,
+    show.rangeslider = NULL,
     slider.start = NULL,
     slider.end = NULL,
     theme = rtTheme,
@@ -171,6 +177,11 @@ dplot3_xt <- function(
     y2units <- x$y2units
     shade.bin <- x$shade
     x <- x$x
+    if (!is.null(names(x)) && length(x) == 1) {
+      .xname <- names(x)
+    } else {
+      .xname <- NULL
+    }
   } else {
     if (is.null(y)) {
       stop("y must be provided")
@@ -196,6 +207,33 @@ dplot3_xt <- function(
   }
   if (!is.null(y2) && length(x2) != length(y2)) {
     stop("x2 and y2 must be the same length")
+  }
+
+  # Which traces to plot ----
+  # By default, plot up to two for each y axis
+  if (is.null(which.xy)) {
+    if (length(x) > 2) {
+      x <- x[1:2]
+      y <- y[1:2]
+    }
+  } else {
+    x <- x[which.xy]
+    y <- y[which.xy]
+  }
+
+  if (is.null(which.xy2)) {
+    if (length(x2) > 2) {
+      x2 <- x2[1:2]
+      y2 <- y2[1:2]
+    }
+  } else {
+    x2 <- x2[which.xy2]
+    y2 <- y2[which.xy2]
+  }
+
+  # Rangeslider ----
+  if (is.null(show.rangeslider)) {
+    show.rangeslider <- length(x[[1]]) > 500
   }
 
   # Check args ----
@@ -403,7 +441,11 @@ dplot3_xt <- function(
 
   if (!is.null(yunits)) {
     ylab <- if (is.null(ylab)) {
-      yunits
+      if (length(y) == 1) {
+        ynames
+      } else {
+        yunits
+      }
     } else {
       paste(ylab, yunits)
     }
@@ -411,7 +453,11 @@ dplot3_xt <- function(
 
   if (!is.null(y2units)) {
     y2lab <- if (is.null(y2lab)) {
-      y2units
+      if (length(y2) == 1) {
+        y2names
+      } else {
+        y2units
+      }
     } else {
       paste(y2lab, y2units)
     }
@@ -533,10 +579,10 @@ dplot3_xt <- function(
 
   # Rangeslider ----
   if (show.rangeslider) {
-    if (is.null(slider.start)) slider.start <- x[1]
+    if (is.null(slider.start)) slider.start <- x[[1]][1]
     if (is.null(slider.end)) {
-      idi <- min(50, length(x))
-      slider.end <- x[idi]
+      idi <- min(500, length(x[[1]]))
+      slider.end <- x[[1]][idi]
     }
     plt <- plt |>
       plotly::rangeslider(start = slider.start, end = slider.end)
