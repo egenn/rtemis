@@ -41,6 +41,14 @@
 #' @param y2units Character: y2-axis units.
 #' @param yunits.col Color for y-axis units.
 #' @param y2units.col Color for y2-axis units.
+#' @param zt Numeric vector: Zeitgeber time. If provided, will be shown on the x-axis instead of
+#' `x`. To be used only with a single `x` vector and no `x2`.
+#' @param show.zt Logical: If TRUE, show zt on x-axis, if zt is provided.
+#' @param show.zt.every Integer: Show zt every `show.zt.every` ticks. If NULL, will be calculated
+#' to be `x.nticks` +/- 1 if `x.nticks` is not 0, otherwise 12 +/- 1.
+#' @param zt.nticks Integer: Number of zt ticks to show. Only used if `show.zt.every` is NULL.
+#' The actual number of ticks shown will depend on the periodicity of zt, so that zt = 0 is always
+#' included.
 #' @param main Character: Main title.
 #' @param main.y Numeric: Y position of main title.
 #' @param main.yanchor Character: "top", "middle", "bottom".
@@ -66,6 +74,7 @@
 #' @param x.tickmode Character: "auto", "linear", "array".
 #' @param x.tickvals Numeric vector: Tick positions.
 #' @param x.ticktext Character vector: Tick labels.
+#' @param x.tickangle Numeric: Angle of tick labels.
 #' @param legend.x Numeric: X position of legend.
 #' @param legend.y Numeric: Y position of legend.
 #' @param legend.xanchor Character: "left", "center", "right".
@@ -111,6 +120,11 @@ dplot3_xt <- function(
     y2units = NULL,
     yunits.col = NULL,
     y2units.col = NULL,
+    zt = NULL,
+    show.zt = TRUE,
+    show.zt.every = NULL,
+    zt.nticks = 18L,
+    # zt.start.at = 1L,
     main = NULL,
     main.y = 1,
     main.yanchor = "bottom",
@@ -135,6 +149,7 @@ dplot3_xt <- function(
     x.tickmode = "auto",
     x.tickvals = NULL,
     x.ticktext = NULL,
+    x.tickangle = NULL,
     # legend
     legend.x = 0,
     legend.y = 1.1,
@@ -176,6 +191,7 @@ dplot3_xt <- function(
     yunits <- x$yunits
     y2units <- x$y2units
     shade.bin <- x$shade
+    zt <- x$zt
     x <- x$x
     if (!is.null(names(x)) && length(x) == 1) {
       .xname <- names(x)
@@ -360,6 +376,40 @@ dplot3_xt <- function(
     )
   }
 
+  # zt ----
+  if (show.zt && !is.null(zt)) {
+    x.tickmode <- "array"
+    if (is.null(show.zt.every)) {
+      # Get periodicity of ZT
+      idi0 <- which(zt == 0)
+      # Get differences between 0s
+      diff_idi0 <- diff(idi0)[1]
+      # Pick show.zt.every to be perfect divisor of diff_idi0 so that total length is closest to zt.nticks
+      # a) diff_idi0 %% show.zt.every must be 0
+      # b) length(zt) / show.zt.every must be closest to zt.nticks
+      sze <- round(length(zt) / zt.nticks)
+      i <- 0
+      # if diff_idi0 %% sze != 0, search for closest integer above or below sze
+      sze_high <- sze_low <- sze
+      while (diff_idi0 %% sze_low != 0) {
+        sze_low <- sze_low - 1
+      }
+      while (diff_idi0 %% sze_high != 0) {
+        sze_high <- sze_high + 1
+      }
+      show.zt.every <- c(sze_low, sze_high)[which.min(abs(c(sze - sze_low, sze - sze_high)))]
+    }
+    idi <- seq(1, length(zt), by = show.zt.every)
+    # Make sure 0 is included
+    while (!0 %in% zt[idi]) {
+      idi <- idi + 1
+    }
+    idi <- idi[idi <= length(zt)]
+    x.tickvals <- x[[1]][idi]
+    x.ticktext <- zt[idi]
+    if (is.null(xlab)) xlab <- "ZT"
+  }
+
   # Plot ----
   # if (!is.null(x.ticktext)) {
   #   stopifnot(!is.null(x.tickvals))
@@ -483,6 +533,7 @@ dplot3_xt <- function(
       tickmode = x.tickmode,
       tickvals = x.tickvals,
       ticktext = x.ticktext,
+      tickangle = x.tickangle,
       tickcolor = tick.col,
       tickfont = tickfont,
       zeroline = theme$zerolines,

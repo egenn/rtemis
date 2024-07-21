@@ -27,6 +27,10 @@ dplot3_xt(
   y2units = NULL,
   yunits.col = NULL,
   y2units.col = NULL,
+  zt = NULL,
+  show.zt = TRUE,
+  show.zt.every = NULL,
+  zt.nticks = 18L,
   main = NULL,
   main.y = 1,
   main.yanchor = "bottom",
@@ -51,6 +55,7 @@ dplot3_xt(
   x.tickmode = "auto",
   x.tickvals = NULL,
   x.ticktext = NULL,
+  x.tickangle = NULL,
   legend.x = 0,
   legend.y = 1.1,
   legend.xanchor = "left",
@@ -122,6 +127,18 @@ both.}
 
 \item{y2units.col}{Color for y2-axis units.}
 
+\item{zt}{Numeric vector: Zeitgeber time. If provided, will be shown on the x-axis instead of
+\code{x}. To be used only with a single \code{x} vector and no \code{x2}.}
+
+\item{show.zt}{Logical: If TRUE, show zt on x-axis, if zt is provided.}
+
+\item{show.zt.every}{Integer: Show zt every \code{show.zt.every} ticks. If NULL, will be calculated
+to be \code{x.nticks} +/- 1 if \code{x.nticks} is not 0, otherwise 12 +/- 1.}
+
+\item{zt.nticks}{Integer: Number of zt ticks to show. Only used if \code{show.zt.every} is NULL.
+The actual number of ticks shown will depend on the periodicity of zt, so that zt = 0 is always
+included.}
+
 \item{main}{Character: Main title.}
 
 \item{main.y}{Numeric: Y position of main title.}
@@ -170,6 +187,8 @@ both.}
 \item{x.tickvals}{Numeric vector: Tick positions.}
 
 \item{x.ticktext}{Character vector: Tick labels.}
+
+\item{x.tickangle}{Numeric: Angle of tick labels.}
 
 \item{legend.x}{Numeric: X position of legend.}
 
