@@ -89,3 +89,7 @@ docs
 
 # Log files
 *.log
+
+# Julia
+Manifest.toml
+Project.toml
