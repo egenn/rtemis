@@ -1,7 +1,7 @@
 # dplot3_x.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
-# TIP: Use plotly::schema() to explore arguments/parameters to plotly functions
+# 2019- EDG rtemis.org
+
 # todo: figure out why list is reordered with ridge
 
 #' Interactive Univariate Plots
