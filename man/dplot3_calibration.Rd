@@ -57,8 +57,9 @@ probabilities.}
 
 \item{show.brier}{Logical: If TRUE, add Brier scores to trace names.}
 
-\item{theme}{Character: Theme to use: Use \code{themes()} to get available
-themes}
+\item{theme}{List or Character: Either the output of a \verb{theme_*()} function or the name of  a
+theme. Use \code{themes()} to get available theme names. Theme functions are of the form
+\verb{theme_<name>}.}
 
 \item{filename}{Character: Path to save output.}
 
