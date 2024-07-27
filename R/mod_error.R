@@ -51,93 +51,99 @@ mod_error <- function(true,
   }
   if (NROW(x) < 2) {
     # if (verbose) msg2("Vector of length 1; no error estimated for LOOCV; estimate aggregate error")
-    if (verbose) warning("Vector of length 1; no per resample test error can be estimated for LOOCV; estimate aggregate error")
+    if (verbose) {
+      warning("Vector of length 1; no per-resample test error can be estimated for LOOCV; estimate aggregate error")
+    }
     return(NULL)
   }
 
   if (type == "Regression") {
-    # Regression ----
-    x <- as.numeric(x)
-    y <- as.numeric(y)
-    error <- x - y
-    mae <- mean(abs(error), na.rm = na.rm)
-    mse <- mean(error^2, na.rm = na.rm)
-    rmse <- sqrt(mse)
-    nrmse <- rmse / diff(range(x, na.rm = na.rm))
-    if (length(y) > 2) {
-      corr <- suppressWarnings(cor.test(x, y))
-      r <- corr$estimate
-      r.p <- corr$p.value
-    } else {
-      r <- r.p <- NA
-    }
-
-    # Sum of Squared Errors of prediction (SSE) a.k.a. Residual Sum of Squares (RSS)
-    SSE <- sum((x - y)^2, na.rm = na.rm)
-    # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
-    SSR <- sum((mean(x, na.rm = na.rm) - y)^2, na.rm = na.rm)
-    # Total Sum of Squares (TSS or SST)
-    SST <- sum((x - mean(y, na.rm = na.rm))^2, na.rm = na.rm)
-    # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
-    Rsq <- 1 - (SSE / SST)
-
-    # Standard Error of the Estimate
-    stderr <- sqrt((sum((x - y)^2, na.rm = na.rm)) / length(x))
-
-    # Error of expectation(x) and percent reduction
-    error.exp <- x - mean(x, na.rm = na.rm)
-    mae.exp <- mean(abs(error.exp))
-    mae.red <- (mae.exp - mae) / mae.exp
-    mse.exp <- mean(error.exp^2)
-    mse.red <- (mse.exp - mse) / mse.exp
-    rmse.exp <- sqrt(mse.exp)
-    rmse.red <- (rmse.exp - rmse) / rmse.exp
-
-    s.out <- data.frame(
-      MAE = mae,
-      MSE = mse,
-      RMSE = rmse,
-      NRMSE = nrmse,
-      MAE.EXP = mae.exp,
-      MAE.RED = mae.red,
-      MSE.EXP = mse.exp,
-      MSE.RED = mse.red,
-      RMSE.EXP = rmse.exp,
-      RMSE.RED = rmse.red,
-      r = r,
-      r.p = r.p,
-      SSE = SSE,
-      SSR = SSR,
-      SST = SST,
-      Rsq = Rsq,
-      stderr = stderr,
-      row.names = NULL
-    )
-    if (rho) {
-      s.out$rho <- suppressWarnings(cor(x, y, method = "spearman"))
-      s.out$rho.p <- suppressWarnings(cor.test(x, y, method = "spearman")$p.value)
-    }
-    if (tau) {
-      s.out$tau <- cor(x, y, method = "kendall")
-      s.out$tau.p <- cor.test(x, y, method = "kendall")$p.value
-    }
-
-    if (verbose) print(s.out, row.names = FALSE)
-    class(s.out) <- c("regError", "data.frame")
+    reg_error(x, y)
   } else if (type == "Classification") {
-    # Classification ----
     if (!is.factor(x)) x <- as.factor(x)
     n.classes <- length(levels(x))
     if (n.classes < 2) stop("Classification requires at least two classes")
-    s.out <- class_error(x, y, estimated.prob)
+    class_error(x, y, estimated.prob)
+  } else if (type == "Survival") {
+    surv_error(x, y)
   } else {
-    # Survival ----
-    s.out <- surv_error(x, y)
+    stop("Unknown type: ", type)
   }
 
-  s.out
 } # rtemis::mod_error
 
+
+reg_error <- function(x, y) {
+
+  inherits_test(x, "numeric")
+  inherits_test(y, "numeric")
+  error <- x - y
+  mae <- mean(abs(error), na.rm = na.rm)
+  mse <- mean(error^2, na.rm = na.rm)
+  rmse <- sqrt(mse)
+  nrmse <- rmse / diff(range(x, na.rm = na.rm))
+  if (length(y) > 2) {
+    corr <- suppressWarnings(cor.test(x, y))
+    r <- corr$estimate
+    r.p <- corr$p.value
+  } else {
+    r <- r.p <- NA
+  }
+
+  # Sum of Squared Errors of prediction (SSE) a.k.a. Residual Sum of Squares (RSS)
+  SSE <- sum((x - y)^2, na.rm = na.rm)
+  # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
+  SSR <- sum((mean(x, na.rm = na.rm) - y)^2, na.rm = na.rm)
+  # Total Sum of Squares (TSS or SST)
+  SST <- sum((x - mean(y, na.rm = na.rm))^2, na.rm = na.rm)
+  # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
+  Rsq <- 1 - (SSE / SST)
+
+  # Standard Error of the Estimate
+  stderr <- sqrt((sum((x - y)^2, na.rm = na.rm)) / length(x))
+
+  # Error of expectation(x) and percent reduction
+  error.exp <- x - mean(x, na.rm = na.rm)
+  mae.exp <- mean(abs(error.exp))
+  mae.red <- (mae.exp - mae) / mae.exp
+  mse.exp <- mean(error.exp^2)
+  mse.red <- (mse.exp - mse) / mse.exp
+  rmse.exp <- sqrt(mse.exp)
+  rmse.red <- (rmse.exp - rmse) / rmse.exp
+
+  out <- data.frame(
+    MAE = mae,
+    MSE = mse,
+    RMSE = rmse,
+    NRMSE = nrmse,
+    MAE.EXP = mae.exp,
+    MAE.RED = mae.red,
+    MSE.EXP = mse.exp,
+    MSE.RED = mse.red,
+    RMSE.EXP = rmse.exp,
+    RMSE.RED = rmse.red,
+    r = r,
+    r.p = r.p,
+    SSE = SSE,
+    SSR = SSR,
+    SST = SST,
+    Rsq = Rsq,
+    stderr = stderr,
+    row.names = NULL
+  )
+  if (rho) {
+    out$rho <- suppressWarnings(cor(x, y, method = "spearman"))
+    out$rho.p <- suppressWarnings(cor.test(x, y, method = "spearman")$p.value)
+  }
+  if (tau) {
+    out$tau <- cor(x, y, method = "kendall")
+    out$tau.p <- cor.test(x, y, method = "kendall")$p.value
+  }
+
+  if (verbose) print(out, row.names = FALSE)
+  class(out) <- c("regError", "data.frame")
+  out
+} # rtemis::reg_error
 
 #' Error functions
 #'
