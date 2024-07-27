@@ -330,7 +330,7 @@ s_GLMNET <- function(x, y = NULL,
     predicted.prob = predicted.prob,
     se.prediction = NULL,
     error.test = error.test,
-    varimp = as.matrix(coef(mod))[-1, 1],
+    varimp = as.matrix(coef(mod))[-1, 1], # todo: adjust for multiclass
     question = question
   )
 
