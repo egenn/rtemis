@@ -58,14 +58,14 @@ class_error <- function(true,
       msg2("There are", n.classes, "classes:", true.levels)
     }
   }
-  tbl <- table(estimated, true)
+  tbl <- table(true, estimated)
 
-  names(attributes(tbl)$dimnames) <- c("Estimated", "Reference")
+  names(attributes(tbl)$dimnames) <- c("Reference", "Estimated")
 
   Class <- list()
   Overall <- list()
-  Class$Totals <- colSums(tbl)
-  Class$Predicted.totals <- rowSums(tbl)
+  Class$Totals <- rowSums(tbl)
+  Class$Predicted.totals <- colSums(tbl)
   Total <- sum(tbl)
   Class$Hits <- diag(tbl)
   # Class$Misses <- Class$Totals - Class$Hits
