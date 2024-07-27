@@ -58,7 +58,7 @@ mod_error <- function(true,
   }
 
   if (type == "Regression") {
-    reg_error(x, y)
+    reg_error(x, y, na.rm = na.rm)
   } else if (type == "Classification") {
     if (!is.factor(x)) x <- as.factor(x)
     n.classes <- length(levels(x))
@@ -73,7 +73,7 @@ mod_error <- function(true,
 } # rtemis::mod_error
 
 
-reg_error <- function(x, y) {
+reg_error <- function(x, y, na.rm = FALSE) {
 
   inherits_test(x, "numeric")
   inherits_test(y, "numeric")
