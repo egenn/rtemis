@@ -303,7 +303,7 @@ s_RuleFit <- function(x, y = NULL,
       predicted <- predicted$estimate
     }
     if (!is.null(y.test)) {
-      error.test <- mod_error(y.test, predicted, predicted.prob, verbose)
+      error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

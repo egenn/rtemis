@@ -11,7 +11,7 @@
 #' @param estimated Vector: Estimated values
 #' @param estimated.prob Vector: Estimated probabilities for Classification,
 #' if available.
-#' @param verbose Logical: If TRUE, print output to screen
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @param type Character: "Regression", "Classification", or "Survival".
 #' If not provided, will be set to Regression if y is numeric.
 #' @param rho Logical: If TRUE, calculate Spearman's rho.
@@ -26,11 +26,11 @@
 mod_error <- function(true,
                       estimated,
                       estimated.prob = NULL,
-                      verbose = FALSE,
                       type = NULL,
                       rho = FALSE,
                       tau = FALSE,
-                      na.rm = TRUE) {
+                      na.rm = TRUE,
+                      verbosity = 0) {
   x <- true
   y <- estimated
 
@@ -50,15 +50,14 @@ mod_error <- function(true,
     )
   }
   if (NROW(x) < 2) {
-    # if (verbose) msg2("Vector of length 1; no error estimated for LOOCV; estimate aggregate error")
-    if (verbose) {
+    if (verbosity > 0) {
       warning("Vector of length 1; no per-resample test error can be estimated for LOOCV; estimate aggregate error")
     }
     return(NULL)
   }
 
   if (type == "Regression") {
-    reg_error(x, y, na.rm = na.rm)
+    reg_error(x, y, rho = rho, tau = tau, na.rm = na.rm, verbosity = verbosity)
   } else if (type == "Classification") {
     if (!is.factor(x)) x <- as.factor(x)
     n.classes <- length(levels(x))
@@ -69,12 +68,10 @@ mod_error <- function(true,
   } else {
     stop("Unknown type: ", type)
   }
-
 } # rtemis::mod_error
 
 
-reg_error <- function(x, y, na.rm = FALSE) {
-
+reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity = 0) {
   inherits_test(x, "numeric")
   inherits_test(y, "numeric")
   error <- x - y
@@ -140,7 +137,7 @@ reg_error <- function(x, y, na.rm = FALSE) {
     out$tau.p <- cor.test(x, y, method = "kendall")$p.value
   }
 
-  if (verbose) print(out, row.names = FALSE)
+  if (verbosity > 0) print(out, row.names = FALSE)
   class(out) <- c("regError", "data.frame")
   out
 } # rtemis::reg_error
@@ -228,13 +225,13 @@ logloss <- function(true, estimated.prob) {
 #' @param true True labels
 #' @param estimated Estimated labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
 sensitivity <- function(true, estimated,
                         harmonize = FALSE,
-                        verbose = TRUE) {
-  if (harmonize) estimated <- factor_harmonize(true, estimated, verbose = verbose)
+                        verbosity = 1) {
+  if (harmonize) estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   pos.index <- true == levels(true)[1]
   condition.pos <- sum(pos.index)
   true.pos <- sum(true[pos.index] == estimated[pos.index])
@@ -249,13 +246,13 @@ sensitivity <- function(true, estimated,
 #' @param true True labels
 #' @param estimated Estimated labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
 specificity <- function(true, estimated,
                         harmonize = FALSE,
-                        verbose = TRUE) {
-  if (harmonize) estimated <- factor_harmonize(true, estimated, verbose = verbose)
+                        verbosity = 1) {
+  if (harmonize) estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   neg.index <- true == levels(true)[2]
   condition.neg <- sum(neg.index)
   true.neg <- sum(true[neg.index] == estimated[neg.index])
@@ -273,14 +270,14 @@ specificity <- function(true, estimated,
 #' @param predicted Estimated labels
 #' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factor_harmonize].
 #' Default = FALSE
-#' @param verbose Logical: If TRUE, print messages to output
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
 bacc <- function(true, predicted,
                  harmonize = FALSE,
-                 verbose = TRUE) {
-  .5 * (sensitivity(true, predicted, harmonize = harmonize, verbose = verbose) +
-    specificity(true, predicted, harmonize = harmonize, verbose = verbose))
+                 verbosity = 1) {
+  .5 * (sensitivity(true, predicted, harmonize = harmonize, verbosity = verbosity) +
+    specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
 }
 
 #' Precision (aka PPV)
@@ -290,15 +287,15 @@ bacc <- function(true, predicted,
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbose Logical: If TRUE, print messages to output.
+#' @param verbosity Integer: If > 0, print messages to console.
 #'
 #' @export
 
 precision <- function(true, estimated,
                       harmonize = FALSE,
-                      verbose = TRUE) {
+                      verbosity = 1) {
   if (harmonize) {
-    estimated <- factor_harmonize(true, estimated, verbose = verbose)
+    estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   }
   tbl <- table(estimated, true)
   predicted.totals <- rowSums(tbl)[1]
@@ -315,22 +312,22 @@ precision <- function(true, estimated,
 #'
 #' @param x Input factor
 #' @param reference Reference factor
-#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
+#' @param verbosity Integer: If > 0, print messages to console.
 # #' @param allow.rename Logical: If TRUE, allow renaming - not simply reordering - factor levels of input \code{x}
 #' @export
 
 factor_harmonize <- function(reference, x,
-                             verbose = TRUE) {
+                             verbosity = 1) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
-      if (verbose) msg2("Levels of x:")
+      if (verbosity > 0) msg2("Levels of x:")
       levels(x)
-      if (verbose) msg2("levels of reference:")
+      if (verbosity > 0) msg2("levels of reference:")
       levels(reference)
       stop("Levels of two inputs do not match")
     }
-    if (verbose) {
+    if (verbosity > 0) {
       msg2("Input factor levels are not in the same order, correcting")
     }
     x <- factor(x, levels = levels(reference))
