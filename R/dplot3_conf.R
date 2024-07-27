@@ -5,9 +5,10 @@
 #' Plot confusion matrix
 #'
 #' @inheritParams dplot3_x
-#' @param x Confusion matrix
+#' @param x Confusion matrix where rows are the reference and columns are the estimated classes
 #' @param true.col Color for true positives & true negatives
 #' @param false.col Color for false positives & false negatives
+#' @param pos.class Integer: Index of factor level to treat as the positive class
 #' @param font.size Integer: font size
 #' @param main Character: plot title
 #' @param main.y Numeric: y position of the title
@@ -32,17 +33,18 @@ dplot3_conf <- function(
     x,
     true.col = "#72CDF4",
     false.col = "#FEB2E0",
+    pos.class = rtenv$binclasspos,
     font.size = 18,
     main = NULL,
     main.y = 1,
     main.yanchor = "bottom",
     theme = rtTheme,
-    margin = list(l = 75, r = 75, b = 75, t = 75), ...) {
+    margin = list(l = 20, r = 5, b = 5, t = 20), ...) {
   
   # Metrics ----
   nclasses <- ncol(x)
-  class.totals <- colSums(x)
-  predicted.totals <- rowSums(x)
+  class.totals <- rowSums(x)
+  predicted.totals <- colSums(x)
   total <- sum(x)
   hits <- diag(x)
   misses <- class.totals - hits
@@ -103,27 +105,13 @@ dplot3_conf <- function(
   plt <- plotly::layout(
     plt,
     xaxis = list(
-      # title = list(
-      #   text = "Reference",
-      #   font = f
-      # ),
       side = "above",
       showticklabels = FALSE,
-      # tickvals = seq_len(nclasses) - 0.5,
-      # ticktext = colnames(x),
-      # tickfont = f,
       showgrid = FALSE,
       zeroline = FALSE
     ),
     yaxis = list(
-      # title = list(
-      #   text = "Estimated",
-      #   font = f
-      # ),
       showticklabels = FALSE,
-      # tickvals = seq_len(nclasses) - 0.5,
-      # ticktext = colnames(x),
-      # tickfont = f,
       showgrid = FALSE,
       zeroline = FALSE,
       autorange = "reversed",
@@ -150,245 +138,269 @@ dplot3_conf <- function(
     margin = margin
   )
 
+  # Class labels ----
   # Add class labels above and to the left of the plot
-  for (i in seq_len(nclasses)) {
-    plt <- plotly::add_trace(
-      plt,
-      x = -0.125,
-      y = i - 0.5,
-      mode = "text",
-      text = colnames(x)[i],
-      textposition = "middle right",
-      textfont = f,
-      showlegend = FALSE
-    )
-    plt <- plotly::add_trace(
-      plt,
-      x = i - 0.5,
-      y = -0.125,
-      mode = "text",
-      text = colnames(x)[i],
-      textposition = "bottom center",
-      textfont = f,
-      showlegend = FALSE
-    )
-  }
+  # Left
+  plt <- plotly::add_annotations(
+    plt,
+    x = rep(-0.125, nclasses),
+    y = seq_len(nclasses) - 0.5,
+    text = colnames(x),
+    # textposition = "middle right",
+    font = f,
+    showarrow = FALSE,
+    textangle = -90
+  )
+  # Above
+  plt <- plotly::add_annotations(
+    plt,
+    x = seq_len(nclasses) - 0.5,
+    y = rep(-0.125, nclasses),
+    text = colnames(x),
+    # textposition = "bottom center",
+    font = f,
+    showarrow = FALSE
+  )
 
   # Add x- and y-axis labels as annotations
   plt <- plotly::add_annotations(
     plt,
     x = nclasses / 2,
-    y = -0.25,
-    text = "Reference",
-    font = f,
-    showarrow = FALSE
-  )
-  plt <- plotly::add_annotations(
-    plt,
-    x = -0.25,
-    y = nclasses / 2,
+    y = ifelse(nclasses == 2, -.3, -0.5),
     text = "Estimated",
     font = f,
+    showarrow = FALSE
+  )
+  plt <- plotly::add_annotations(
+    plt,
+    x = ifelse(nclasses == 2, -.3, -0.5),
+    y = nclasses / 2,
+    text = "Reference",
+    font = f,
     showarrow = FALSE,
     textangle = -90
   )
 
-  # For binary classification, add sensitivity and specificity below each column
-  # at +0.25 below the plot
-  # For multiclass classification, add class sensitivity below each column
-  # at height = 0.25
-  # if (nclasses == 2) {
-  #   # Sensitivity
-  #   plt <- plotly::add_annotations(
-  #     plt,
-  #     x = 0.5,
-  #     y = 2.125,
-  #     text = paste0("Sensitivity = ", ddSci(x[1, 1] / sum(x[1, ]), 3)),
-  #     font = f,
-  #     showarrow = FALSE
-  #   )
-  #   # Specificity
-  #   plt <- plotly::add_annotations(
-  #     plt,
-  #     x = 1.5,
-  #     y = 2.125,
-  #     text = paste0("Specificity\n", ddSci(x[2, 2] / sum(x[2, ]), 3)),
-  #     font = f,
-  #     showarrow = FALSE
-  #   )
-  # } else {
-  #   # Class sensitivities
-  #   for (i in seq_len(nclasses)) {
-  #     plt <- plotly::add_annotations(
-  #       plt,
-  #       x = i - 0.5,
-  #       y = nclasses + .125,
-  #       text = paste0("Sensitivity\n", ddSci(x[i, i] / sum(x[i, ]), 3)),
-  #       font = f,
-  #       showarrow = FALSE
-  #     )
-  #   }
-  # }
+  # Metrics ----
+  if (nclasses == 2) {
+    # Sens./Spec. ----
+    # Rect: Sens./Spec. bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(nclasses, nclasses + 0.3, nclasses + 0.3, nclasses),
+      y = c(0, 0, nclasses, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
 
-  # Class sensitivities
-  # "Sens" at bottom left corner offset by .125
-  plt <- plotly::add_annotations(
-    plt,
-    x = -0.05,
-    y = nclasses + .1,
-    xanchor = "right",
-    yanchor = "middle",
-    text = "Sens.",
-    font = f,
-    showarrow = FALSE
-  )
-
-  # "Spec" below "Sens"
-  plt <- plotly::add_annotations(
-    plt,
-    x = -0.05,
-    y = nclasses + .3,
-    xanchor = "right",
-    yanchor = "middle",
-    text = "Spec.",
-    font = f,
-    showarrow = FALSE
-  )
-
-  # Add gray rectangle background for class sensitivities
-  plt <- plotly::add_trace(
-    plt,
-    x = c(0, nclasses, nclasses, 0, 0),
-    y = c(nclasses, nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .05),
-    showlegend = FALSE
-  )
-
-  # Per-class sensitivities
-  for (i in seq_len(nclasses)) {
+    # Text: Sens. & Spec.
     plt <- plotly::add_annotations(
       plt,
-      x = i - 0.5,
+      x = rep(nclasses + 0.15, 2),
+      y = c(.5, 1.5),
+      text = paste0(
+        c("Sensitivity\n", "Specificity\n"),
+        c(ddSci(class.sensitivity[pos.class], 3), ddSci(class.specificity[pos.class], 3))
+      ),
+      font = f,
+      showarrow = FALSE,
+      textangle = -90
+    )
+
+    # PPV/NPV ----
+    # Rect: PPV/NPV bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(0, nclasses, nclasses, 0, 0),
+      y = c(nclasses, nclasses, nclasses + 0.3, nclasses + 0.3, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
+
+    # Text: PPV & NPV
+    plt <- plotly::add_annotations(
+      plt,
+      x = c(.5, 1.5),
+      y = rep(nclasses + 0.15, 2),
+      text = paste0(
+        c("PPV\n", "NPV\n"),
+        c(ddSci(class.ppv[pos.class], 3), ddSci(class.npv[pos.class], 3))
+      ),
+      font = f,
+      showarrow = FALSE
+    )
+
+  } else {
+    # PPV ----
+    # Label: "PPV" at bottom left corner
+    plt <- plotly::add_annotations(
+      plt,
+      x = -0.05,
       y = nclasses + .1,
-      text = ddSci(class.sensitivity[i], 3),
+      xanchor = "right",
+      yanchor = "middle",
+      text = "PPV",
       font = f,
       showarrow = FALSE
     )
-  }
 
-  # Add gray rectangle background for class specificities
-  plt <- plotly::add_trace(
-    plt,
-    x = c(0, nclasses, nclasses, 0, 0),
-    y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .025),
-    showlegend = FALSE
-  )
+    # Rect: PPV bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(0, nclasses, nclasses, 0, 0),
+      y = c(nclasses, nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
 
-  # Per-class specificities
-  for (i in seq_len(nclasses)) {
+    # Text: Per-class PPV
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = i - 0.5,
+        y = nclasses + .1,
+        text = ddSci(class.ppv[i], 3),
+        font = f,
+        showarrow = FALSE
+      )
+    }
+
+    # NPV ----
+    # Label: "NPV" at bottom left corner
     plt <- plotly::add_annotations(
       plt,
-      x = i - 0.5,
+      x = -0.05,
       y = nclasses + .3,
-      text = ddSci(class.specificity[i], 3),
+      xanchor = "right",
+      yanchor = "middle",
+      text = "NPV",
       font = f,
       showarrow = FALSE
     )
-  }
 
-  # Add PPV label top right vertically
-  plt <- plotly::add_annotations(
-    plt,
-    x = nclasses + 0.1,
-    y = -.05,
-    yanchor = "bottom",
-    text = "PPV",
-    font = f,
-    showarrow = FALSE,
-    textangle = -90
-  )
+    # Rect: NPV bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(0, nclasses, nclasses, 0, 0),
+      y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .05),
+      showlegend = FALSE
+    )
 
-  # NPV label right of PPV
-  plt <- plotly::add_annotations(
-    plt,
-    x = nclasses + 0.3,
-    y = -.05,
-    yanchor = "bottom",
-    text = "NPV",
-    font = f,
-    showarrow = FALSE,
-    textangle = -90
-  )
+    # Text: Per-class NPV
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = i - 0.5,
+        y = nclasses + .3,
+        text = ddSci(class.npv[i], 3),
+        font = f,
+        showarrow = FALSE
+      )
+    }
 
-  # Add rectangle background for PPV 
-  plt <- plotly::add_trace(
-    plt,
-    x = c(nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
-    y = c(0, 0, nclasses, nclasses),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .075),
-    showlegend = FALSE
-  )
-
-  # Add rectangle background for NPV
-  plt <- plotly::add_trace(
-    plt,
-    x = c(nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
-    y = c(0, 0, nclasses, nclasses),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .05),
-    showlegend = FALSE
-  )
-
-  # Per-class PPV
-  for (i in seq_len(nclasses)) {
+    # Sensitivity ----
+    # Label: "Sens." top right vertically
     plt <- plotly::add_annotations(
       plt,
       x = nclasses + 0.1,
-      y = i - 0.5,
-      text = ddSci(class.ppv[i], 3),
+      y = -.05,
+      yanchor = "bottom",
+      text = "Sens.",
       font = f,
       showarrow = FALSE,
       textangle = -90
     )
-  }
 
-  # Per-class NPV
-  for (i in seq_len(nclasses)) {
+    # Rect: Sens. bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
+      y = c(0, 0, nclasses, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
+
+    # Text: Per-class Sens.
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = nclasses + 0.1,
+        y = i - 0.5,
+        text = ddSci(class.sensitivity[i], 3),
+        font = f,
+        showarrow = FALSE,
+        textangle = -90
+      )
+    }
+
+    # Specificity ----
+    # Label: "Spec." top right vertically
     plt <- plotly::add_annotations(
       plt,
       x = nclasses + 0.3,
-      y = i - 0.5,
-      text = ddSci(class.npv[i], 3),
+      y = -.05,
+      yanchor = "bottom",
+      text = "Spec.",
       font = f,
       showarrow = FALSE,
       textangle = -90
     )
+
+    # Rect: Spec. bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
+      y = c(0, 0, nclasses, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .05),
+      showlegend = FALSE
+    )
+
+    # Text: Per-class Spec.
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = nclasses + 0.3,
+        y = i - 0.5,
+        text = ddSci(class.specificity[i], 3),
+        font = f,
+        showarrow = FALSE,
+        textangle = -90
+      )
+    }
   }
 
-  # Add rectangle background for balanced accuracy
+  # Balanced Accuracy ----
+  # Rect: BA bg
+  ba_pad <- ifelse(nclasses == 2, 0.3, 0.4)
   plt <- plotly::add_trace(
     plt,
-    x = c(nclasses, nclasses + 0.4, nclasses + 0.4, nclasses),
-    y = c(nclasses, nclasses, nclasses + 0.4, nclasses + 0.4),
+    x = c(nclasses, nclasses + ba_pad, nclasses + ba_pad, nclasses),
+    y = c(nclasses, nclasses, nclasses + ba_pad, nclasses + ba_pad),
     line = list(color = "transparent"),
     fill = "toself",
     fillcolor = plotly::toRGB(theme$fg, alpha = .025),
     showlegend = FALSE
   )
 
-  # Balanced accuracy at bottom right corner
+  # Text: Balanced accuracy
+  ba_pad <- ifelse(nclasses == 2, 0.15, 0.2)
   plt <- plotly::add_annotations(
     plt,
-    x = nclasses + 0.2,
-    y = nclasses + .2,
+    x = nclasses + ba_pad,
+    y = nclasses + ba_pad,
     xanchor = "center",
     yanchor = "middle",
     text = paste0("BA\n", ddSci(mean(diag(x) / colSums(x)), 3)),
@@ -406,7 +418,7 @@ make_plotly_conf_tile <- function(
     p, x, i, j, pos_color, neg_color,
     font.size,
     xref = "x", yref = "y") {
-  val <- x[i, j] / class.totals[i]
+  val <- x[i, j] / rowSums(x)[i]
   col <- if (i == j) {
     pos_color(val)
   } else {
@@ -432,7 +444,7 @@ make_plotly_conf_tile <- function(
     textposition = "middle center",
     textfont = list(
       family = theme$font.family,
-      color = ifelse(val > 0.5, "black", "white"),
+      color = ifelse(val > 0.5, theme$bg, theme$fg),
       size = font.size
     ),
     showlegend = FALSE
