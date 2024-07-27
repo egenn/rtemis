@@ -24,13 +24,13 @@
 #' @export
 
 mod_error <- function(true,
-                     estimated,
-                     estimated.prob = NULL,
-                     verbose = FALSE,
-                     type = NULL,
-                     rho = FALSE,
-                     tau = FALSE,
-                     na.rm = TRUE) {
+                      estimated,
+                      estimated.prob = NULL,
+                      verbose = FALSE,
+                      type = NULL,
+                      rho = FALSE,
+                      tau = FALSE,
+                      na.rm = TRUE) {
   x <- true
   y <- estimated
 
@@ -314,7 +314,7 @@ precision <- function(true, estimated,
 #' @export
 
 factor_harmonize <- function(reference, x,
-                            verbose = TRUE) {
+                             verbose = TRUE) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
@@ -344,7 +344,7 @@ factor_harmonize <- function(reference, x,
 #' @method print regError
 #' @param x `regError` object
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
