@@ -8,21 +8,24 @@ dplot3_conf(
   x,
   true.col = "#72CDF4",
   false.col = "#FEB2E0",
+  pos.class = rtenv$binclasspos,
   font.size = 18,
   main = NULL,
   main.y = 1,
   main.yanchor = "bottom",
   theme = rtTheme,
-  margin = list(l = 75, r = 75, b = 75, t = 75),
+  margin = list(l = 20, r = 5, b = 5, t = 20),
   ...
 )
 }
 \arguments{
-\item{x}{Confusion matrix}
+\item{x}{Confusion matrix where rows are the reference and columns are the estimated classes}
 
 \item{true.col}{Color for true positives & true negatives}
 
 \item{false.col}{Color for false positives & false negatives}
+
+\item{pos.class}{Integer: Index of factor level to treat as the positive class}
 
 \item{font.size}{Integer: font size}
 

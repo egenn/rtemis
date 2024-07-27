@@ -46,7 +46,8 @@ mplot3_conf(
 )
 }
 \arguments{
-\item{object}{Either a classification \code{rtMod}, or a table/matrix/data.frame.}
+\item{object}{Either a classification \code{rtMod}, or a table/matrix/data.frame confusion matrix
+where rows are the reference classes and columns are the estimated classes.}
 
 \item{main}{Character: Plot title.}
 
