@@ -8,7 +8,8 @@
 #'
 #' This function uses its multiple cex args instead of the theme's `cex` parameter
 #'
-#' @param object Either a classification `rtMod`, or a table/matrix/data.frame.
+#' @param object Either a classification `rtMod`, or a table/matrix/data.frame confusion matrix
+#' where rows are the reference classes and columns are the estimated classes.
 #' @param main Character: Plot title.
 #' @param xlab Character: x-axis label.
 #' @param ylab Character: y-axis label.
@@ -170,8 +171,8 @@ mplot3_conf <- function(object,
   if (dim.out == -1) dim.out <- if (n.classes == 2) 1.2 else 1
 
   # metrics ----
-  class.totals <- colSums(tbl)
-  predicted.totals <- rowSums(tbl)
+  class.totals <- rowSums(tbl)
+  predicted.totals <- colSums(tbl)
   total <- sum(tbl)
   hits <- diag(tbl)
   misses <- class.totals - hits
@@ -279,7 +280,7 @@ mplot3_conf <- function(object,
   if (plot.metrics) {
     if (n.classes == 2) {
       # 2 classes
-      # Sensitivity & Specificity
+      # PPV & NPV
       polygon(x = c(leftpad, rep(leftpad + dim.in, 2), leftpad),
               y = c(rep(dim.out, 2), rep(0, 2)),
               border = NA, col = col.bg.out1)
@@ -288,11 +289,11 @@ mplot3_conf <- function(object,
               border = NA, col = col.bg.out2)
       text(x = leftpad + c(.5, 1.5) * dim.in,
            y = .5 * dim.out,
-           labels = c(paste("Sensitivity\n", ddSci(class.sensitivity[1])),
-                      paste("Specificity\n", ddSci(class.specificity[1]))),
+           labels = c(paste("PPV\n", ddSci(class.ppv[1])),
+                      paste("NPV\n", ddSci(class.npv[1]))),
            col = col.text.out, cex = cex.out, font = font.out)
 
-      # PPV & NPV
+      # Sensitivity & Specificity
       xright <- leftpad + 2 * dim.in
       polygon(x = c(xright, rep(xright + dim.out, 2), xright),
               y = c(rep(dim.out + 2 * dim.in, 2), rep(dim.out + dim.in, 2)),
@@ -302,16 +303,16 @@ mplot3_conf <- function(object,
               border = NA, col = col.bg.out2)
       text(x = xright + .5 * dim.out,
            y = dim.out + c(.5, 1.5) * dim.in,
-           labels = c(paste("NPV\n", ddSci(class.npv[1])),
-                      paste("PPV\n", ddSci(class.ppv[1]))),
+           labels = c(paste("Specificity\n", ddSci(class.specificity[1])),
+                      paste("Sensitivity\n", ddSci(class.sensitivity[1]))),
            col = col.text.out, cex = cex.out,
            srt = 90, font = font.out)
     } else {
       # 3+ classes
-      # "Sens.", "Spec."
+      # "PPV", "NPV"
       text(x = dim.lab,
            y = c(1.5, .5) * dim.out,
-           labels = c("Sens.", "Spec."),
+           labels = c("PPV", "NPV"),
            adj = c(.5, .5),
            col = col.text.out, cex = cex.lab3)
       polygon(x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
@@ -323,18 +324,18 @@ mplot3_conf <- function(object,
       # Sensitivity values
       text(x = leftpad + c(seq(n.classes) - .5) * dim.in,
            y = 1.5 * dim.out,
-           labels = ddSci(class.sensitivity),
+           labels = ddSci(class.ppv),
            col = col.text.out, cex = cex.out, font = font.out)
       # Specificity values
       text(x = leftpad + c(seq(n.classes) - .5) * dim.in,
            y = .5 * dim.out,
-           labels = ddSci(class.specificity),
+           labels = ddSci(class.npv),
            col = col.text.out, cex = cex.out, font = font.out)
 
-      # "PPV", "NPV"
+      # "Sens.", "Spec."
       text(x = leftpad + n.classes * dim.in + c(.5, 1.5) * dim.out,
            y = bottompad + n.classes * dim.in + dim.lab,
-           labels = c("PPV", "NPV"),
+           labels = c("Sens.", "Spec."),
            adj = c(.5, .5), xpd = TRUE,
            col = col.text.out, cex = cex.lab3, srt = 90)
       xstart <- leftpad + n.classes * dim.in
@@ -345,7 +346,7 @@ mplot3_conf <- function(object,
       # PPV values
       text(x = xstart + .5 * dim.out,
            y = rev(bottompad + c(seq_len(n.classes) - .5) * dim.in),
-           labels = ddSci(class.ppv),
+           labels = ddSci(class.sensitivity),
            srt = 90, adj = c(.5, .5),
            col = col.text.out, cex = cex.out, font = font.out)
       # NPV values
@@ -355,7 +356,7 @@ mplot3_conf <- function(object,
               col = col.bg.out2, border = NA)
       text(x = xstart + .5 * dim.out,
            y = bottompad + c(seq_len(n.classes) - .5) * dim.in,
-           labels = ddSci(rev(class.npv)),
+           labels = ddSci(rev(class.specificity)),
            srt = 90, adj = c(.5, .5),
            col = col.text.out, cex = cex.out, font = font.out)
     }
