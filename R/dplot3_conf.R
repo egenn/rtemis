@@ -5,7 +5,8 @@
 #' Plot confusion matrix
 #'
 #' @inheritParams dplot3_x
-#' @param x Confusion matrix where rows are the reference and columns are the estimated classes
+#' @param x Confusion matrix where rows are the reference and columns are the estimated classes or
+#' rtemis `class_error` object produced by [mod_error]
 #' @param true.col Color for true positives & true negatives
 #' @param false.col Color for false positives & false negatives
 #' @param pos.class Integer: Index of factor level to treat as the positive class
@@ -24,10 +25,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' true_labels <- factor(c("a", "b", "a", "a", "b", "b", "b", "b"))
-#' predicted_labels <- factor(c("a", "a", "b", "a", "b", "b", "a", "a"))
-#' error <- mod_error(true_labels, predicted_labels)
-#' dplot3_conf(error$ConfusionMatrix)
+#' true <- factor(c("a", "a", "a", "a", "b", "b", "b", "b", "b", "b", "b", "b"))
+#' predicted <- factor(c("a", "a", "b", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
+#' predicted.prob <- c(0.7, 0.55, 0.45, 0.62, 0.41, 0.32, 0.59, .63, .32, .21, .52, .58)
+#' error <- mod_error(true, predicted, predicted.prob)
+#' dplot3_conf(error)
 #' }
 dplot3_conf <- function(
     x,
@@ -46,6 +48,11 @@ dplot3_conf <- function(
     file.height = 500,
     file.scale = 1, ...) {
   
+  # Input ----
+  if (inherits(x, "class_error")) {
+    x <- x$ConfusionMatrix
+  }
+
   # Metrics ----
   nclasses <- ncol(x)
   total <- sum(x)
@@ -101,7 +108,7 @@ dplot3_conf <- function(
   for (i in seq_len(nclasses)) {
     for (j in seq_len(nclasses)) {
       plt <- make_plotly_conf_tile(
-        plt, x, i, j, pos_color, neg_color, font.size
+        plt, x, i, j, pos_color, neg_color, font.size, theme
       )
     }
   }
@@ -433,7 +440,7 @@ dplot3_conf <- function(
 
 make_plotly_conf_tile <- function(
     p, x, i, j, pos_color, neg_color,
-    font.size,
+    font.size, theme,
     xref = "x", yref = "y") {
   val <- x[i, j] / rowSums(x)[i]
   col <- if (i == j) {

@@ -23,7 +23,8 @@ dplot3_conf(
 )
 }
 \arguments{
-\item{x}{Confusion matrix where rows are the reference and columns are the estimated classes}
+\item{x}{Confusion matrix where rows are the reference and columns are the estimated classes or
+rtemis \code{class_error} object produced by \link{mod_error}}
 
 \item{true.col}{Color for true positives & true negatives}
 
@@ -65,10 +66,11 @@ Plot confusion matrix
 }
 \examples{
 \dontrun{
-true_labels <- factor(c("a", "b", "a", "a", "b", "b", "b", "b"))
-predicted_labels <- factor(c("a", "a", "b", "a", "b", "b", "a", "a"))
-error <- mod_error(true_labels, predicted_labels)
-dplot3_conf(error$ConfusionMatrix)
+true <- factor(c("a", "a", "a", "a", "b", "b", "b", "b", "b", "b", "b", "b"))
+predicted <- factor(c("a", "a", "b", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
+predicted.prob <- c(0.7, 0.55, 0.45, 0.62, 0.41, 0.32, 0.59, .63, .32, .21, .52, .58)
+error <- mod_error(true, predicted, predicted.prob)
+dplot3_conf(error)
 }
 }
 \author{
