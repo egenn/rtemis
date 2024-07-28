@@ -39,17 +39,22 @@ dplot3_conf <- function(
     main.y = 1,
     main.yanchor = "bottom",
     theme = rtTheme,
-    margin = list(l = 20, r = 5, b = 5, t = 20), ...) {
+    margin = list(l = 20, r = 5, b = 5, t = 20),
+    # write to file
+    filename = NULL,
+    file.width = 500,
+    file.height = 500,
+    file.scale = 1, ...) {
   
   # Metrics ----
   nclasses <- ncol(x)
-  class.totals <- rowSums(x)
-  predicted.totals <- colSums(x)
   total <- sum(x)
+  class.totals <- rowSums(x)
+  condition.negative <- total - class.totals
+  predicted.totals <- colSums(x)
   hits <- diag(x)
   misses <- class.totals - hits
   class.sensitivity <- hits / class.totals
-  condition.negative <- total - class.totals
   true.negative <- total - predicted.totals - (class.totals - hits)
   class.specificity <- true.negative / condition.negative
   class.balancedAccuracy <- .5 * (class.sensitivity + class.specificity)
@@ -397,19 +402,31 @@ dplot3_conf <- function(
 
   # Text: Balanced accuracy
   ba_pad <- ifelse(nclasses == 2, 0.15, 0.2)
+  ba <- ifelse(nclasses == 2, class.balancedAccuracy[pos.class], mean(class.balancedAccuracy))
   plt <- plotly::add_annotations(
     plt,
     x = nclasses + ba_pad,
     y = nclasses + ba_pad,
     xanchor = "center",
     yanchor = "middle",
-    text = paste0("BA\n", ddSci(mean(diag(x) / colSums(x)), 3)),
+    text = paste0("BA\n", ddSci(ba, 3)),
     font = f,
     showarrow = FALSE
   )
 
   # Disable hoverinfo
   plt <- plotly::style(plt, hoverinfo = "none")
+
+  # Write to file ----
+  if (!is.null(filename)) {
+    plotly::save_image(
+      plt,
+      file = normalizePath(filename, mustWork = FALSE),
+      width = file.width,
+      height = file.height,
+      scale = file.scale
+    )
+  }
 
   return(plt)
 } # rtemis::dplot3_conf
