@@ -24,9 +24,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' true <- factor(c("a", "a", "a", "b", "b", "b", "b"))
-#' estimated <- c("a", "a", "b", "b", "a", "a", "b")
-#' estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+#' true <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
+#' estimated <- factor(c("a", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
+#' estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2, .37, .57, .61)
 #'
 #' class_error(true, estimated, estimated.prob, auc.method = "pROC")
 #' class_error(true, estimated, estimated.prob, auc.method = "ROCR")

@@ -171,7 +171,7 @@ dplot3_xy <- function(x, y = NULL,
                       displayModeBar = TRUE,
                       modeBar.file.format = "svg",
                       scrollZoom = TRUE,
-                      # file out
+                      # write to file
                       filename = NULL,
                       file.width = 500,
                       file.height = 500,

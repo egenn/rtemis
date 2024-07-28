@@ -48,13 +48,7 @@
 #' @param hline.annotation.x Numeric: x position to place annotation with paper
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area
 #' @param margin Named list: plot margins.
-#' @param padding Integer: N pixels to pad plot. Default = 0
-#' @param filename Character: Path to file to save static plot. Default = NULL
-#' @param file.width Integer: File width in pixels for when `filename` is
-#' set.
-#' @param file.height Integer: File height in pixels for when `filename`
-#' is set.
-#' @param file.scale Numeric: If saving to file, scale plot by this number
+#' @param padding Integer: N pixels to pad plot.
 #' @param horizontal Logical: If TRUE, plot bars horizontally
 #' @param annotate Logical: If TRUE, annotate stacked bars
 #' @param annotate.col Color for annotations
@@ -70,6 +64,12 @@
 #' @param modeBar.file.format Character: "svg", "png", "jpeg", "pdf" / any
 #' output file type supported by plotly and your system
 # @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
+#' @param filename Character: Path to file to save static plot. Default = NULL
+#' @param file.width Integer: File width in pixels for when `filename` is
+#' set.
+#' @param file.height Integer: File height in pixels for when `filename`
+#' is set.
+#' @param file.scale Numeric: If saving to file, scale plot by this number
 #' @param trace Integer: The height the number the more diagnostic info is
 #' printed to the console
 #' @param ... Additional arguments passed to theme
