@@ -15,6 +15,10 @@ dplot3_conf(
   main.yanchor = "bottom",
   theme = rtTheme,
   margin = list(l = 20, r = 5, b = 5, t = 20),
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
   ...
 )
 }
@@ -41,7 +45,17 @@ theme. Use \code{themes()} to get available theme names. Theme functions are of 
 
 \item{margin}{List: Plot margins}
 
-\item{...}{Additional arguments passed to theme}
+\item{filename}{Character: Path to file to save static plot. Default = NULL}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
+set.}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename}
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{...}{Additional arguments passed to theme function.}
 }
 \value{
 A plotly object

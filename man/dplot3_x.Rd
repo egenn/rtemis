@@ -210,7 +210,7 @@ is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
-\item{...}{Additional arguments passed to theme}
+\item{...}{Additional arguments passed to theme function.}
 }
 \value{
 A plotly object

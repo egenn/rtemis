@@ -4,14 +4,14 @@
 \alias{factor_harmonize}
 \title{Factor harmonize}
 \usage{
-factor_harmonize(reference, x, verbose = TRUE)
+factor_harmonize(reference, x, verbosity = 1)
 }
 \arguments{
 \item{reference}{Reference factor}
 
 \item{x}{Input factor}
 
-\item{verbose}{Logical: If TRUE, print messages to console. Default = TRUE}
+\item{verbosity}{Integer: If > 0, print messages to console.}
 }
 \description{
 Factor harmonize

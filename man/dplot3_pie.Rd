@@ -77,7 +77,7 @@ theme}
 
 \item{margin}{Named list: plot margins.}
 
-\item{padding}{Integer: N pixels to pad plot. Default = 0}
+\item{padding}{Integer: N pixels to pad plot.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 

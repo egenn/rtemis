@@ -4,7 +4,7 @@
 \alias{bacc}
 \title{Balanced Accuracy}
 \usage{
-bacc(true, predicted, harmonize = FALSE, verbose = TRUE)
+bacc(true, predicted, harmonize = FALSE, verbosity = 1)
 }
 \arguments{
 \item{true}{True labels}
@@ -14,7 +14,7 @@ bacc(true, predicted, harmonize = FALSE, verbose = TRUE)
 \item{harmonize}{Logical: passed to \link{sensitivity} and \link{specificity}, which use \link{factor_harmonize}.
 Default = FALSE}
 
-\item{verbose}{Logical: If TRUE, print messages to output}
+\item{verbosity}{Integer: If > 0, print messages to console.}
 }
 \description{
 Balanced Accuracy of a binary classifier

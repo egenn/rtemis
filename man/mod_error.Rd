@@ -8,11 +8,11 @@ mod_error(
   true,
   estimated,
   estimated.prob = NULL,
-  verbose = FALSE,
   type = NULL,
   rho = FALSE,
   tau = FALSE,
-  na.rm = TRUE
+  na.rm = TRUE,
+  verbosity = 0
 )
 }
 \arguments{
@@ -23,8 +23,6 @@ mod_error(
 \item{estimated.prob}{Vector: Estimated probabilities for Classification,
 if available.}
 
-\item{verbose}{Logical: If TRUE, print output to screen}
-
 \item{type}{Character: "Regression", "Classification", or "Survival".
 If not provided, will be set to Regression if y is numeric.}
 
@@ -34,6 +32,8 @@ If not provided, will be set to Regression if y is numeric.}
 This can be slow for long vectors}
 
 \item{na.rm}{Logical: Passed to \code{mean} and \code{range} functions.}
+
+\item{verbosity}{Integer: If > 0, print messages to console.}
 }
 \value{
 Object of class \code{mod_error}

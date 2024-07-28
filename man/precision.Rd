@@ -4,7 +4,7 @@
 \alias{precision}
 \title{Precision (aka PPV)}
 \usage{
-precision(true, estimated, harmonize = FALSE, verbose = TRUE)
+precision(true, estimated, harmonize = FALSE, verbosity = 1)
 }
 \arguments{
 \item{true}{Factor: True labels}
@@ -13,7 +13,7 @@ precision(true, estimated, harmonize = FALSE, verbose = TRUE)
 
 \item{harmonize}{Logical: If TRUE, run \link{factor_harmonize} first}
 
-\item{verbose}{Logical: If TRUE, print messages to output.}
+\item{verbosity}{Integer: If > 0, print messages to console.}
 }
 \description{
 The first factor level is considered the positive case.
