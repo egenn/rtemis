@@ -9,7 +9,7 @@
 #' This function uses its multiple cex args instead of the theme's `cex` parameter
 #'
 #' @param object Either a classification `rtMod`, or a table/matrix/data.frame confusion matrix
-#' where rows are the reference classes and columns are the estimated classes.
+#' where rows are the reference classes and columns are the predicted classes.
 #' @param main Character: Plot title.
 #' @param xlab Character: x-axis label.
 #' @param ylab Character: y-axis label.
@@ -73,7 +73,7 @@
 mplot3_conf <- function(object,
                         main = "auto",
                         xlab = "Reference",
-                        ylab = "Estimated",
+                        ylab = "Predicted",
                         plot.metrics = TRUE,
                         mod.name = NULL,
                         oma = c(0, 0, 0, 0),
@@ -224,14 +224,14 @@ mplot3_conf <- function(object,
        axes = FALSE, ann = FALSE,
        xaxs = "i", yaxs = "i")
 
-  # "Estimated"
+  # "Predicted"
   # y: middle of confusion matrix
   text(x = widths[1] / 2,
        y = bottompad + n.classes / 2 * dim.in,
        labels = ylab, col = col.lab, cex = cex.lab, srt = 90,
        adj = c(.5, .5), font = 2)
 
-  # Estimated classes
+  # Predicted classes
   text(x = widths[1] + widths[2] / 2,
        y = bottompad + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
        labels = rev(class.labels),

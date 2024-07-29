@@ -144,11 +144,10 @@ dplot3_conf <- function(
       yanchor = main.yanchor
     ),
     showlegend = FALSE,
-    title = main,
     paper_bgcolor = bg,
     plot_bgcolor = plot.bg,
     margin = margin
-  )
+  ) # /layout
 
   # Class labels ----
   # Add class labels above and to the left of the plot
@@ -174,15 +173,17 @@ dplot3_conf <- function(
     showarrow = FALSE
   )
 
-  # Add x- and y-axis labels as annotations
+  # x-axis label
   plt <- plotly::add_annotations(
     plt,
     x = nclasses / 2,
     y = ifelse(nclasses == 2, -.3, -0.5),
-    text = "Estimated",
+    text = "Predicted",
     font = f,
     showarrow = FALSE
   )
+
+  # y-axis label
   plt <- plotly::add_annotations(
     plt,
     x = ifelse(nclasses == 2, -.3, -0.5),
@@ -226,7 +227,7 @@ dplot3_conf <- function(
     plt <- plotly::add_trace(
       plt,
       x = c(0, nclasses, nclasses, 0, 0),
-      y = c(nclasses, nclasses, nclasses + 0.3, nclasses + 0.3, nclasses),
+      y = c(nclasses, nclasses, nclasses + .3, nclasses + .3, nclasses),
       line = list(color = "transparent"),
       fill = "toself",
       fillcolor = plotly::toRGB(theme$fg, alpha = .075),
@@ -248,7 +249,7 @@ dplot3_conf <- function(
 
   } else {
     # PPV ----
-    # Label: "PPV" at bottom left corner
+    # Text: "PPV" at bottom left corner
     plt <- plotly::add_annotations(
       plt,
       x = -0.05,
@@ -442,7 +443,7 @@ make_plotly_conf_tile <- function(
     p, x, i, j, pos_color, neg_color,
     font.size, theme,
     xref = "x", yref = "y") {
-  val <- x[i, j] / rowSums(x)[i]
+  val <- x[i, j] / sum(x[i, ])
   col <- if (i == j) {
     pos_color(val)
   } else {
