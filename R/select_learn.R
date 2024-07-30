@@ -1,6 +1,6 @@
 # select_learn.R
 # ::rtemis::
-# 2016-23 E.D. Gennatas www.lambdamd.org
+# 2016-23 E.D. Gennatas rtemis.org
 
 # Name + CRS ----
 rtAlgs <- data.frame(rbind(

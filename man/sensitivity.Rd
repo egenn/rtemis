@@ -4,7 +4,7 @@
 \alias{sensitivity}
 \title{Sensitivity}
 \usage{
-sensitivity(true, estimated, harmonize = FALSE, verbose = TRUE)
+sensitivity(true, estimated, harmonize = FALSE, verbosity = 1)
 }
 \arguments{
 \item{true}{True labels}
@@ -13,7 +13,7 @@ sensitivity(true, estimated, harmonize = FALSE, verbose = TRUE)
 
 \item{harmonize}{Logical: If TRUE, run \link{factor_harmonize} first}
 
-\item{verbose}{Logical: If TRUE, print messages to output. Default = TRUE}
+\item{verbosity}{Integer: If > 0, print messages to console.}
 }
 \description{
 The first factor level is considered the positive case.

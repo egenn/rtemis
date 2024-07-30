@@ -1,6 +1,6 @@
 # rtlayout.R
 # ::rtemis::
-# 2018 EDG lambdamd.org
+# 2018 EDG rtemis.org
 
 #' Create multipanel plots with the `mplot3` family
 #'

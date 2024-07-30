@@ -1,6 +1,6 @@
 # synth_reg_data.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Synthesize Simple Regression Data
 #'

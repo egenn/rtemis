@@ -1,6 +1,6 @@
 # shyoptleaves.R
 # ::rtemis::
-# 2018-9 E.D. Gennatas www.lambdamd.org
+# 2018-9 E.D. Gennatas rtemis.org
 
 #' \pkg{rtemis internal}: Low-level Stepwise Hybrid Tree procedure
 #'

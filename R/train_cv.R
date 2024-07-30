@@ -1,6 +1,6 @@
 # train_cv.R
 # ::rtemis::
-# 2023 E.D. Gennatas www.lambdamd.org
+# 2023 E.D. Gennatas rtemis.org
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner by Nested Resampling
 #'

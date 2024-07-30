@@ -1,6 +1,6 @@
 # class_error.R
 # :: rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Classification Error
 #'
@@ -24,9 +24,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' true <- factor(c("a", "a", "a", "b", "b", "b", "b"))
-#' estimated <- c("a", "a", "b", "b", "a", "a", "b")
-#' estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+#' true <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
+#' estimated <- factor(c("a", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
+#' estimated.prob <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2, .37, .57, .61)
 #'
 #' class_error(true, estimated, estimated.prob, auc.method = "pROC")
 #' class_error(true, estimated, estimated.prob, auc.method = "ROCR")
@@ -58,14 +58,14 @@ class_error <- function(true,
       msg2("There are", n.classes, "classes:", true.levels)
     }
   }
-  tbl <- table(estimated, true)
+  tbl <- table(true, estimated)
 
-  names(attributes(tbl)$dimnames) <- c("Estimated", "Reference")
+  names(attributes(tbl)$dimnames) <- c("Reference", "Estimated")
 
   Class <- list()
   Overall <- list()
-  Class$Totals <- colSums(tbl)
-  Class$Predicted.totals <- rowSums(tbl)
+  Class$Totals <- rowSums(tbl)
+  Class$Predicted.totals <- colSums(tbl)
   Total <- sum(tbl)
   Class$Hits <- diag(tbl)
   # Class$Misses <- Class$Totals - Class$Hits

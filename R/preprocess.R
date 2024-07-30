@@ -1,6 +1,6 @@
 # preprocess.R
 # ::rtemis::
-# 2017-23 E.D. Gennatas www.lambdamd.org
+# 2017-23 E.D. Gennatas rtemis.org
 # todo: merge with preprocess_ as single data.table-based preprocess
 
 #' Data preprocessing

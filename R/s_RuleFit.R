@@ -1,6 +1,6 @@
 # s_RuleFit.R
 # ::rtemis::
-# 2017-23 E.D. Gennatas www.lambdamd.org
+# 2017-23 E.D. Gennatas rtemis.org
 
 #' Rulefit \[C, R\]
 #'
@@ -303,7 +303,7 @@ s_RuleFit <- function(x, y = NULL,
       predicted <- predicted$estimate
     }
     if (!is.null(y.test)) {
-      error.test <- mod_error(y.test, predicted, predicted.prob, verbose)
+      error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

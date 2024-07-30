@@ -1,6 +1,6 @@
 # s_EVTree.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Evolutionary Learning of Globally Optimal Trees (C, R)
 #'

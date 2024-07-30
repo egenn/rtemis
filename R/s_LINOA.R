@@ -1,6 +1,6 @@
 # s_LINOA.R
 # ::rtemis::
-# 2019-20 E.D. Gennatas www.lambdamd.org
+# 2019-20 E.D. Gennatas rtemis.org
 # Allow early stopping
 # LINOA -> shyoptleaves -> splitlin_ -> splitline -> cutnsplit
 

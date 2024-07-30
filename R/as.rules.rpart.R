@@ -1,6 +1,6 @@
 # as.rules.rpart
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Convert `rpart` object to rules
 #'

@@ -1,6 +1,6 @@
 # c_CMEANS.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Fuzzy C-means Clustering
 #'

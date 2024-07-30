@@ -1,6 +1,6 @@
 # c_HOPACH.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Hierarchical Ordered Partitioning and Collapsing Hybrid
 #'

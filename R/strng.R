@@ -1,6 +1,6 @@
 # strng.R
 # ::rtemis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas rtemis.org
 
 #' String formatting utilities
 #'
@@ -107,7 +107,7 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 
 # labelify.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Format text for label printing
 #'

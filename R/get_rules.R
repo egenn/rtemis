@@ -1,6 +1,6 @@
 # get_rules.R
 # ::rtemis::
-# 2023 EDG lambdamd.org
+# 2023 EDG rtemis.org
 
 #' Get RuleFit rules
 #'

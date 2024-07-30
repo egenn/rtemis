@@ -1,6 +1,6 @@
 # mplot3_roc.R
 # ::rtemis::
-# 2017 EDG www.lambdamd.org
+# 2017 EDG rtemis.org
 
 #' `mplot3` ROC curves
 #'

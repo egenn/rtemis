@@ -1,6 +1,6 @@
 # html_ops.R
 # ::rtemis::
-# 2023 EDG lambdamd.org
+# 2023 EDG rtemis.org
 
 html_highlight <- function(..., bold = TRUE) {
   if (bold) {

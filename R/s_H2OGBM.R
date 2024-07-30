@@ -1,6 +1,6 @@
 # s_H2OGBM.R
 # ::rtemis::
-# 2017-8 E.D. Gennatas www.lambdamd.org
+# 2017-8 E.D. Gennatas rtemis.org
 
 #' Gradient Boosting Machine on H2O (C, R)
 #'

@@ -1,6 +1,6 @@
 # calibrate.R
 # ::rtemis::
-# 2023 EDG www.lambdamd.org
+# 2023 EDG rtemis.org
 
 #' Calibrate predicted probabilities using GAM
 #'

@@ -1,6 +1,6 @@
 # s_SVM.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas www.lambdamd.org
+# 2016-8 E.D. Gennatas rtemis.org
 
 #' Support Vector Machines (C, R)
 #'

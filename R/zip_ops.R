@@ -1,6 +1,6 @@
 # zipops.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Get Longitude and Lattitude for zip code(s)
 #'

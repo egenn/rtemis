@@ -200,7 +200,7 @@ available space}
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e.
 fill available space}
 
-\item{filename}{Character: Path to file to save static plot. Default = NULL}
+\item{filename}{Character: Path to file to save static plot.}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
@@ -210,7 +210,7 @@ is set.}
 
 \item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
-\item{...}{Additional arguments passed to theme}
+\item{...}{Additional arguments passed to theme function.}
 }
 \value{
 A plotly object

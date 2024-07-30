@@ -1,6 +1,6 @@
 # dt_describe.R
 # ::rtemis::
-# 2022 EDG lambdamd.org
+# 2022 EDG rtemis.org
 
 #' Describe data.table
 #'

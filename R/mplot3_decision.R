@@ -1,6 +1,6 @@
 # mplot3_decision
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 
 #' `mplot3`: Decision boundaries
 #'

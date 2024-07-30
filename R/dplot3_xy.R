@@ -1,6 +1,6 @@
 # dplot3_xy.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Interactive Scatter Plots
 #'
@@ -171,7 +171,7 @@ dplot3_xy <- function(x, y = NULL,
                       displayModeBar = TRUE,
                       modeBar.file.format = "svg",
                       scrollZoom = TRUE,
-                      # file out
+                      # write to file
                       filename = NULL,
                       file.width = 500,
                       file.height = 500,
@@ -795,3 +795,28 @@ dplot3_xy <- function(x, y = NULL,
 
   plt
 } # rtemis::dplot3_xy
+
+
+#' True vs. Predicted Plot
+#'
+#' A `dplot3_xy` wrapper for plotting true vs. predicted values
+#'
+#' @inheritParams dplot3_xy
+#' @param x Numeric, vector/data.frame/list: True values. If y is NULL and
+#' `NCOL(x) > 1`, first two columns used as `x` and `y`, respectively
+#' @param y Numeric, vector/data.frame/list: Predicted values
+#' @param ... Additional arguments passed to [dplot3_xy]
+#'
+#' @author EDG
+#' @export
+#' 
+#' @examples
+#' \dontrun{
+#' x <- rnorm(500)
+#' y <- x + rnorm(500)
+#' dplot3_fit(x, y)
+#' }
+
+dplot3_fit <- function(x, y, fit = "gam", se.fit = TRUE, ...) {
+  dplot3_xy(x, y, fit = fit, se.fit = se.fit, ...)
+} # rtemis::dplot3_fit

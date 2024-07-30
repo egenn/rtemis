@@ -1,6 +1,6 @@
 # hytboostnow.R
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 # 05-2020: switched to hytreenow
 
 #' \pkg{rtemis} internal: Low-level function for boosting Hard Hybrid Trees (no weights)

@@ -1,6 +1,6 @@
 # colorMix.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Create an alternating sequence of graded colors
 #'

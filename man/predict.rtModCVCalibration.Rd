@@ -4,10 +4,10 @@
 \alias{predict.rtModCVCalibration}
 \title{Predict using calibrated model}
 \usage{
-\method{predict}{rtModCVCalibration}(mod_cal, mod, newdata, ...)
+\method{predict}{rtModCVCalibration}(object, mod, newdata, ...)
 }
 \arguments{
-\item{mod_cal}{\code{rtModCVCalibration} object returned by \link{calibrate_cv}}
+\item{object}{\code{rtModCVCalibration} object returned by \link{calibrate_cv}}
 
 \item{mod}{\code{rtModCV} object returned by \link{train_cv}}
 

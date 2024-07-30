@@ -1,6 +1,6 @@
 # d_LLE.R
 # ::rtemis::
-# 2023 E.D. Gennatas www.lambdamd.org
+# 2023 E.D. Gennatas rtemis.org
 
 #' Locally Linear Embedding
 #'

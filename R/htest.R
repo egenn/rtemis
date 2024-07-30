@@ -1,6 +1,6 @@
 # htest.R
 # ::rtemis::
-# 2021 E.D. Gennatas www.lambdamd.org
+# 2021 E.D. Gennatas rtemis.org
 
 #' Basic Bivariate Hypothesis Testing and Plotting
 #'

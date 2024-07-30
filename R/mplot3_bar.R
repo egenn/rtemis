@@ -1,6 +1,6 @@
 # mplot3_bar
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 # TODO: groups support (set xlim for besides = T)
 
 #' `mplot3`: Barplot

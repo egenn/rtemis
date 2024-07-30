@@ -136,7 +136,7 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{automargin.y}{Logical: If TRUE, automatically set y-axis amrgins}
 
-\item{padding}{Integer: N pixels to pad plot. Default = 0}
+\item{padding}{Integer: N pixels to pad plot.}
 
 \item{displayModeBar}{Logical: If TRUE, show plotly's modebar}
 

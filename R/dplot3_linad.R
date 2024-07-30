@@ -1,6 +1,6 @@
 # dplot3_linad.R
 # ::rtemis::
-# 2020 E.D. Gennatas www.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Plot a Linear Additive Tree trained by `s_LINAD` using
 #' **visNetwork**

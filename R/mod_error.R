@@ -1,6 +1,6 @@
 # mod_error.R
 # ::rtemis::
-# 2015-8 E.D. Gennatas www.lambdamd.org
+# 2015-8 E.D. Gennatas rtemis.org
 
 #' Error Metrics for Supervised Learning
 #'
@@ -11,7 +11,7 @@
 #' @param estimated Vector: Estimated values
 #' @param estimated.prob Vector: Estimated probabilities for Classification,
 #' if available.
-#' @param verbose Logical: If TRUE, print output to screen
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @param type Character: "Regression", "Classification", or "Survival".
 #' If not provided, will be set to Regression if y is numeric.
 #' @param rho Logical: If TRUE, calculate Spearman's rho.
@@ -26,11 +26,11 @@
 mod_error <- function(true,
                       estimated,
                       estimated.prob = NULL,
-                      verbose = FALSE,
                       type = NULL,
                       rho = FALSE,
                       tau = FALSE,
-                      na.rm = TRUE) {
+                      na.rm = TRUE,
+                      verbosity = 0) {
   x <- true
   y <- estimated
 
@@ -50,94 +50,97 @@ mod_error <- function(true,
     )
   }
   if (NROW(x) < 2) {
-    # if (verbose) msg2("Vector of length 1; no error estimated for LOOCV; estimate aggregate error")
-    if (verbose) warning("Vector of length 1; no per resample test error can be estimated for LOOCV; estimate aggregate error")
+    if (verbosity > 0) {
+      warning("Vector of length 1; no per-resample test error can be estimated for LOOCV; estimate aggregate error")
+    }
     return(NULL)
   }
 
   if (type == "Regression") {
-    # Regression ----
-    x <- as.numeric(x)
-    y <- as.numeric(y)
-    error <- x - y
-    mae <- mean(abs(error), na.rm = na.rm)
-    mse <- mean(error^2, na.rm = na.rm)
-    rmse <- sqrt(mse)
-    nrmse <- rmse / diff(range(x, na.rm = na.rm))
-    if (length(y) > 2) {
-      corr <- suppressWarnings(cor.test(x, y))
-      r <- corr$estimate
-      r.p <- corr$p.value
-    } else {
-      r <- r.p <- NA
-    }
-
-    # Sum of Squared Errors of prediction (SSE) a.k.a. Residual Sum of Squares (RSS)
-    SSE <- sum((x - y)^2, na.rm = na.rm)
-    # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
-    SSR <- sum((mean(x, na.rm = na.rm) - y)^2, na.rm = na.rm)
-    # Total Sum of Squares (TSS or SST)
-    SST <- sum((x - mean(y, na.rm = na.rm))^2, na.rm = na.rm)
-    # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
-    Rsq <- 1 - (SSE / SST)
-
-    # Standard Error of the Estimate
-    stderr <- sqrt((sum((x - y)^2, na.rm = na.rm)) / length(x))
-
-    # Error of expectation(x) and percent reduction
-    error.exp <- x - mean(x, na.rm = na.rm)
-    mae.exp <- mean(abs(error.exp))
-    mae.red <- (mae.exp - mae) / mae.exp
-    mse.exp <- mean(error.exp^2)
-    mse.red <- (mse.exp - mse) / mse.exp
-    rmse.exp <- sqrt(mse.exp)
-    rmse.red <- (rmse.exp - rmse) / rmse.exp
-
-    s.out <- data.frame(
-      MAE = mae,
-      MSE = mse,
-      RMSE = rmse,
-      NRMSE = nrmse,
-      MAE.EXP = mae.exp,
-      MAE.RED = mae.red,
-      MSE.EXP = mse.exp,
-      MSE.RED = mse.red,
-      RMSE.EXP = rmse.exp,
-      RMSE.RED = rmse.red,
-      r = r,
-      r.p = r.p,
-      SSE = SSE,
-      SSR = SSR,
-      SST = SST,
-      Rsq = Rsq,
-      stderr = stderr,
-      row.names = NULL
-    )
-    if (rho) {
-      s.out$rho <- suppressWarnings(cor(x, y, method = "spearman"))
-      s.out$rho.p <- suppressWarnings(cor.test(x, y, method = "spearman")$p.value)
-    }
-    if (tau) {
-      s.out$tau <- cor(x, y, method = "kendall")
-      s.out$tau.p <- cor.test(x, y, method = "kendall")$p.value
-    }
-
-    if (verbose) print(s.out, row.names = FALSE)
-    class(s.out) <- c("regError", "data.frame")
+    reg_error(x, y, rho = rho, tau = tau, na.rm = na.rm, verbosity = verbosity)
   } else if (type == "Classification") {
-    # Classification ----
     if (!is.factor(x)) x <- as.factor(x)
     n.classes <- length(levels(x))
     if (n.classes < 2) stop("Classification requires at least two classes")
-    s.out <- class_error(x, y, estimated.prob)
+    class_error(x, y, estimated.prob)
+  } else if (type == "Survival") {
+    surv_error(x, y)
   } else {
-    # Survival ----
-    s.out <- surv_error(x, y)
+    stop("Unknown type: ", type)
   }
-
-  s.out
 } # rtemis::mod_error
 
+
+reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity = 0) {
+  inherits_test(x, "numeric")
+  inherits_test(y, "numeric")
+  error <- x - y
+  mae <- mean(abs(error), na.rm = na.rm)
+  mse <- mean(error^2, na.rm = na.rm)
+  rmse <- sqrt(mse)
+  nrmse <- rmse / diff(range(x, na.rm = na.rm))
+  if (length(y) > 2) {
+    corr <- suppressWarnings(cor.test(x, y))
+    r <- corr$estimate
+    r.p <- corr$p.value
+  } else {
+    r <- r.p <- NA
+  }
+
+  # Sum of Squared Errors of prediction (SSE) a.k.a. Residual Sum of Squares (RSS)
+  SSE <- sum((x - y)^2, na.rm = na.rm)
+  # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
+  SSR <- sum((mean(x, na.rm = na.rm) - y)^2, na.rm = na.rm)
+  # Total Sum of Squares (TSS or SST)
+  SST <- sum((x - mean(y, na.rm = na.rm))^2, na.rm = na.rm)
+  # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
+  Rsq <- 1 - (SSE / SST)
+
+  # Standard Error of the Estimate
+  stderr <- sqrt((sum((x - y)^2, na.rm = na.rm)) / length(x))
+
+  # Error of expectation(x) and percent reduction
+  error.exp <- x - mean(x, na.rm = na.rm)
+  mae.exp <- mean(abs(error.exp))
+  mae.red <- (mae.exp - mae) / mae.exp
+  mse.exp <- mean(error.exp^2)
+  mse.red <- (mse.exp - mse) / mse.exp
+  rmse.exp <- sqrt(mse.exp)
+  rmse.red <- (rmse.exp - rmse) / rmse.exp
+
+  out <- data.frame(
+    MAE = mae,
+    MSE = mse,
+    RMSE = rmse,
+    NRMSE = nrmse,
+    MAE.EXP = mae.exp,
+    MAE.RED = mae.red,
+    MSE.EXP = mse.exp,
+    MSE.RED = mse.red,
+    RMSE.EXP = rmse.exp,
+    RMSE.RED = rmse.red,
+    r = r,
+    r.p = r.p,
+    SSE = SSE,
+    SSR = SSR,
+    SST = SST,
+    Rsq = Rsq,
+    stderr = stderr,
+    row.names = NULL
+  )
+  if (rho) {
+    out$rho <- suppressWarnings(cor(x, y, method = "spearman"))
+    out$rho.p <- suppressWarnings(cor.test(x, y, method = "spearman")$p.value)
+  }
+  if (tau) {
+    out$tau <- cor(x, y, method = "kendall")
+    out$tau.p <- cor.test(x, y, method = "kendall")$p.value
+  }
+
+  if (verbosity > 0) print(out, row.names = FALSE)
+  class(out) <- c("regError", "data.frame")
+  out
+} # rtemis::reg_error
 
 #' Error functions
 #'
@@ -222,13 +225,13 @@ logloss <- function(true, estimated.prob) {
 #' @param true True labels
 #' @param estimated Estimated labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
 sensitivity <- function(true, estimated,
                         harmonize = FALSE,
-                        verbose = TRUE) {
-  if (harmonize) estimated <- factor_harmonize(true, estimated, verbose = verbose)
+                        verbosity = 1) {
+  if (harmonize) estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   pos.index <- true == levels(true)[1]
   condition.pos <- sum(pos.index)
   true.pos <- sum(true[pos.index] == estimated[pos.index])
@@ -243,13 +246,13 @@ sensitivity <- function(true, estimated,
 #' @param true True labels
 #' @param estimated Estimated labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
 specificity <- function(true, estimated,
                         harmonize = FALSE,
-                        verbose = TRUE) {
-  if (harmonize) estimated <- factor_harmonize(true, estimated, verbose = verbose)
+                        verbosity = 1) {
+  if (harmonize) estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   neg.index <- true == levels(true)[2]
   condition.neg <- sum(neg.index)
   true.neg <- sum(true[neg.index] == estimated[neg.index])
@@ -267,14 +270,14 @@ specificity <- function(true, estimated,
 #' @param predicted Estimated labels
 #' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factor_harmonize].
 #' Default = FALSE
-#' @param verbose Logical: If TRUE, print messages to output
+#' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
 bacc <- function(true, predicted,
                  harmonize = FALSE,
-                 verbose = TRUE) {
-  .5 * (sensitivity(true, predicted, harmonize = harmonize, verbose = verbose) +
-    specificity(true, predicted, harmonize = harmonize, verbose = verbose))
+                 verbosity = 1) {
+  .5 * (sensitivity(true, predicted, harmonize = harmonize, verbosity = verbosity) +
+    specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
 }
 
 #' Precision (aka PPV)
@@ -284,15 +287,15 @@ bacc <- function(true, predicted,
 #' @param true Factor: True labels
 #' @param estimated Factor: Estimated labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbose Logical: If TRUE, print messages to output.
+#' @param verbosity Integer: If > 0, print messages to console.
 #'
 #' @export
 
 precision <- function(true, estimated,
                       harmonize = FALSE,
-                      verbose = TRUE) {
+                      verbosity = 1) {
   if (harmonize) {
-    estimated <- factor_harmonize(true, estimated, verbose = verbose)
+    estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   }
   tbl <- table(estimated, true)
   predicted.totals <- rowSums(tbl)[1]
@@ -309,22 +312,22 @@ precision <- function(true, estimated,
 #'
 #' @param x Input factor
 #' @param reference Reference factor
-#' @param verbose Logical: If TRUE, print messages to console. Default = TRUE
+#' @param verbosity Integer: If > 0, print messages to console.
 # #' @param allow.rename Logical: If TRUE, allow renaming - not simply reordering - factor levels of input \code{x}
 #' @export
 
 factor_harmonize <- function(reference, x,
-                             verbose = TRUE) {
+                             verbosity = 1) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
-      if (verbose) msg2("Levels of x:")
+      if (verbosity > 0) msg2("Levels of x:")
       levels(x)
-      if (verbose) msg2("levels of reference:")
+      if (verbosity > 0) msg2("levels of reference:")
       levels(reference)
       stop("Levels of two inputs do not match")
     }
-    if (verbose) {
+    if (verbosity > 0) {
       msg2("Input factor levels are not in the same order, correcting")
     }
     x <- factor(x, levels = levels(reference))
@@ -335,7 +338,7 @@ factor_harmonize <- function(reference, x,
 
 # print.regError.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas www.lambdamd.org
+# 2016-8 E.D. Gennatas rtemis.org
 
 #' Print `regError` object
 #'

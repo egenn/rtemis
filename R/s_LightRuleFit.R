@@ -1,6 +1,6 @@
 # s_LightRuleFit.R
 # ::rtemis::
-# 2023 E.D. Gennatas www.lambdamd.org
+# 2023 E.D. Gennatas rtemis.org
 
 #' RuleFit with LightGBM (C, R)
 #'
@@ -395,7 +395,7 @@ s_LightRuleFit <- function(x, y = NULL,
       predicted <- predicted$predicted
     }
     if (!is.null(y.test)) {
-      error.test <- mod_error(y.test, predicted, predicted.prob, verbose)
+      error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
     }
   }

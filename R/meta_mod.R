@@ -1,6 +1,6 @@
 # meta_mod.R
 # ::rtemis::
-# 2016-9 E.D. Gennatas www.lambdamd.org
+# 2016-9 E.D. Gennatas rtemis.org
 
 #' Meta Models for Regression (Model Stacking)
 #'

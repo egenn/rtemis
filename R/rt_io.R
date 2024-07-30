@@ -1,6 +1,6 @@
 # rt_io.R
 # ::rtemis::
-# 2022 EDG lambdamd.org
+# 2022 EDG rtemis.org
 
 #' Write \pkg{rtemis} model to RDS file
 #'

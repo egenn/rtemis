@@ -1,6 +1,6 @@
 # d_UMAP.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Uniform Manifold Approximation and Projection (UMAP)
 #'

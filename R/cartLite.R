@@ -1,6 +1,6 @@
 # cartLite.R
 # ::rtemis::
-# E.D. Gennatas MBBS PhD www.lambdamd.org
+# E.D. Gennatas MBBS PhD rtemis.org
 
 #' Bare bones decision tree derived from `rpart`
 #'

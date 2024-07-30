@@ -1,6 +1,6 @@
 # uniprot_get.R
 # ::rtemis::
-# 2022 E.D. Gennatas lambdamd.org
+# 2022 E.D. Gennatas rtemis.org
 
 #' Get protein sequence from UniProt
 #'

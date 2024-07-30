@@ -1,6 +1,6 @@
 # dplot3_box.R
 # ::rtemis::
-# 201?-22 E.D. Gennatas www.lambdamd.org
+# 201?-22 E.D. Gennatas rtemis.org
 
 #' Interactive Boxplots & Violin plots
 #'

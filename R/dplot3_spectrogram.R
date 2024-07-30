@@ -1,6 +1,6 @@
 # dplot3_spectrogram.R
 # ::rtemis::
-# 2023 EDG www.lambdamd.org
+# 2023 EDG rtemis.org
 # https://plotly.com/r/heatmaps/
 
 #' Interactive Spectrogram

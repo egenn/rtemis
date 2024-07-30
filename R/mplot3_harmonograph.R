@@ -1,6 +1,6 @@
 # mplot3_harmonograph
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 # Harmonograph source: https://fronkonstin.com/2014/10/13/beautiful-curves-the-harmonograph/
 
@@ -23,7 +23,11 @@
 #' @param text.adj Float: `adj` argument for `mtext`
 #' @param text.padj Float: `padj` argument for `mtext`
 #' @param text.col Color: Text color. Default is same as `col`
-#' @param mar Float vector, length 4: Plot margins. (`par`'s `mar` argument) Default = c(0, 0, 0, 0)
+#' @param mar Float vector, length 4: Plot margins. (`par`'s `mar` argument)
+#' @param oma Float vector, length 4: Outer margins. (`par`'s `oma` argument)
+#' @param xlim Float vector, length 2: x-axis limits
+#' @param ylim Float vector, length 2: y-axis limits
+#' @param new Logical. If TRUE, do not clear plot before drawing
 #' @param par.reset Logical. If TRUE, reset par before exit
 #' @author E.D. Gennatas
 #' @export

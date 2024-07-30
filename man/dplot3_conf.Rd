@@ -8,21 +8,29 @@ dplot3_conf(
   x,
   true.col = "#72CDF4",
   false.col = "#FEB2E0",
+  pos.class = rtenv$binclasspos,
   font.size = 18,
   main = NULL,
   main.y = 1,
   main.yanchor = "bottom",
   theme = rtTheme,
-  margin = list(l = 75, r = 75, b = 75, t = 75),
+  margin = list(l = 20, r = 5, b = 5, t = 20),
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
   ...
 )
 }
 \arguments{
-\item{x}{Confusion matrix}
+\item{x}{Confusion matrix where rows are the reference and columns are the estimated classes or
+rtemis \code{class_error} object produced by \link{mod_error}}
 
 \item{true.col}{Color for true positives & true negatives}
 
 \item{false.col}{Color for false positives & false negatives}
+
+\item{pos.class}{Integer: Index of factor level to treat as the positive class}
 
 \item{font.size}{Integer: font size}
 
@@ -38,7 +46,17 @@ theme. Use \code{themes()} to get available theme names. Theme functions are of 
 
 \item{margin}{List: Plot margins}
 
-\item{...}{Additional arguments passed to theme}
+\item{filename}{Character: Path to file to save static plot.}
+
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
+set.}
+
+\item{file.height}{Integer: File height in pixels for when \code{filename}
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{...}{Additional arguments passed to theme function.}
 }
 \value{
 A plotly object
@@ -48,10 +66,11 @@ Plot confusion matrix
 }
 \examples{
 \dontrun{
-true_labels <- factor(c("a", "b", "a", "a", "b", "b", "b", "b"))
-predicted_labels <- factor(c("a", "a", "b", "a", "b", "b", "a", "a"))
-error <- mod_error(true_labels, predicted_labels)
-dplot3_conf(error$ConfusionMatrix)
+true <- factor(c("a", "a", "a", "a", "b", "b", "b", "b", "b", "b", "b", "b"))
+predicted <- factor(c("a", "a", "b", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
+predicted.prob <- c(0.7, 0.55, 0.45, 0.62, 0.41, 0.32, 0.59, .63, .32, .21, .52, .58)
+error <- mod_error(true, predicted, predicted.prob)
+dplot3_conf(error)
 }
 }
 \author{

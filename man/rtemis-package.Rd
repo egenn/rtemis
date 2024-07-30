@@ -10,7 +10,7 @@ Advanced Machine Learning made easy, efficient, reproducible
 }
 \section{Online Documentation and Vignettes}{
 
-\url{https://rtemis.lambdamd.org}
+\url{https://rtemis.org}
 }
 
 \section{System Setup}{

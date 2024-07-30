@@ -1,6 +1,6 @@
 # mergelongtreatment.R
 # ::rtemis::
-# E.D. Gennatas rtemis.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Merge panel data treatment and outcome data
 #'

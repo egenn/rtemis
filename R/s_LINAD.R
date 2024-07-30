@@ -1,6 +1,6 @@
 # s_LINAD.R
 # ::rtemis::
-# 2019-22 E.D. Gennatas www.lambdamd.org
+# 2019-22 E.D. Gennatas rtemis.org
 # varimp: N cases-weighted mean of absolute coefficients
 
 #' Linear Additive Tree (C, R)

@@ -1,6 +1,6 @@
 # format.call.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Format method for `call` objects
 #'

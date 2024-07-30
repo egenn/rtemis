@@ -8,7 +8,7 @@ mplot3_conf(
   object,
   main = "auto",
   xlab = "Reference",
-  ylab = "Estimated",
+  ylab = "Predicted",
   plot.metrics = TRUE,
   mod.name = NULL,
   oma = c(0, 0, 0, 0),
@@ -46,7 +46,8 @@ mplot3_conf(
 )
 }
 \arguments{
-\item{object}{Either a classification \code{rtMod}, or a table/matrix/data.frame.}
+\item{object}{Either a classification \code{rtMod}, or a table/matrix/data.frame confusion matrix
+where rows are the reference classes and columns are the predicted classes.}
 
 \item{main}{Character: Plot title.}
 

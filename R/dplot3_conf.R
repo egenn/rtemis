@@ -5,9 +5,11 @@
 #' Plot confusion matrix
 #'
 #' @inheritParams dplot3_x
-#' @param x Confusion matrix
+#' @param x Confusion matrix where rows are the reference and columns are the estimated classes or
+#' rtemis `class_error` object produced by [mod_error]
 #' @param true.col Color for true positives & true negatives
 #' @param false.col Color for false positives & false negatives
+#' @param pos.class Integer: Index of factor level to treat as the positive class
 #' @param font.size Integer: font size
 #' @param main Character: plot title
 #' @param main.y Numeric: y position of the title
@@ -23,31 +25,43 @@
 #'
 #' @examples
 #' \dontrun{
-#' true_labels <- factor(c("a", "b", "a", "a", "b", "b", "b", "b"))
-#' predicted_labels <- factor(c("a", "a", "b", "a", "b", "b", "a", "a"))
-#' error <- mod_error(true_labels, predicted_labels)
-#' dplot3_conf(error$ConfusionMatrix)
+#' true <- factor(c("a", "a", "a", "a", "b", "b", "b", "b", "b", "b", "b", "b"))
+#' predicted <- factor(c("a", "a", "b", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
+#' predicted.prob <- c(0.7, 0.55, 0.45, 0.62, 0.41, 0.32, 0.59, .63, .32, .21, .52, .58)
+#' error <- mod_error(true, predicted, predicted.prob)
+#' dplot3_conf(error)
 #' }
 dplot3_conf <- function(
     x,
     true.col = "#72CDF4",
     false.col = "#FEB2E0",
+    pos.class = rtenv$binclasspos,
     font.size = 18,
     main = NULL,
     main.y = 1,
     main.yanchor = "bottom",
     theme = rtTheme,
-    margin = list(l = 75, r = 75, b = 75, t = 75), ...) {
+    margin = list(l = 20, r = 5, b = 5, t = 20),
+    # write to file
+    filename = NULL,
+    file.width = 500,
+    file.height = 500,
+    file.scale = 1, ...) {
   
+  # Input ----
+  if (inherits(x, "class_error")) {
+    x <- x$ConfusionMatrix
+  }
+
   # Metrics ----
   nclasses <- ncol(x)
-  class.totals <- colSums(x)
-  predicted.totals <- rowSums(x)
   total <- sum(x)
+  class.totals <- rowSums(x)
+  condition.negative <- total - class.totals
+  predicted.totals <- colSums(x)
   hits <- diag(x)
   misses <- class.totals - hits
   class.sensitivity <- hits / class.totals
-  condition.negative <- total - class.totals
   true.negative <- total - predicted.totals - (class.totals - hits)
   class.specificity <- true.negative / condition.negative
   class.balancedAccuracy <- .5 * (class.sensitivity + class.specificity)
@@ -94,7 +108,7 @@ dplot3_conf <- function(
   for (i in seq_len(nclasses)) {
     for (j in seq_len(nclasses)) {
       plt <- make_plotly_conf_tile(
-        plt, x, i, j, pos_color, neg_color, font.size
+        plt, x, i, j, pos_color, neg_color, font.size, theme
       )
     }
   }
@@ -103,27 +117,13 @@ dplot3_conf <- function(
   plt <- plotly::layout(
     plt,
     xaxis = list(
-      # title = list(
-      #   text = "Reference",
-      #   font = f
-      # ),
       side = "above",
       showticklabels = FALSE,
-      # tickvals = seq_len(nclasses) - 0.5,
-      # ticktext = colnames(x),
-      # tickfont = f,
       showgrid = FALSE,
       zeroline = FALSE
     ),
     yaxis = list(
-      # title = list(
-      #   text = "Estimated",
-      #   font = f
-      # ),
       showticklabels = FALSE,
-      # tickvals = seq_len(nclasses) - 0.5,
-      # ticktext = colnames(x),
-      # tickfont = f,
       showgrid = FALSE,
       zeroline = FALSE,
       autorange = "reversed",
@@ -144,254 +144,280 @@ dplot3_conf <- function(
       yanchor = main.yanchor
     ),
     showlegend = FALSE,
-    title = main,
     paper_bgcolor = bg,
     plot_bgcolor = plot.bg,
     margin = margin
+  ) # /layout
+
+  # Class labels ----
+  # Add class labels above and to the left of the plot
+  # Left
+  plt <- plotly::add_annotations(
+    plt,
+    x = rep(-0.125, nclasses),
+    y = seq_len(nclasses) - 0.5,
+    text = colnames(x),
+    # textposition = "middle right",
+    font = f,
+    showarrow = FALSE,
+    textangle = -90
+  )
+  # Above
+  plt <- plotly::add_annotations(
+    plt,
+    x = seq_len(nclasses) - 0.5,
+    y = rep(-0.125, nclasses),
+    text = colnames(x),
+    # textposition = "bottom center",
+    font = f,
+    showarrow = FALSE
   )
 
-  # Add class labels above and to the left of the plot
-  for (i in seq_len(nclasses)) {
-    plt <- plotly::add_trace(
-      plt,
-      x = -0.125,
-      y = i - 0.5,
-      mode = "text",
-      text = colnames(x)[i],
-      textposition = "middle right",
-      textfont = f,
-      showlegend = FALSE
-    )
-    plt <- plotly::add_trace(
-      plt,
-      x = i - 0.5,
-      y = -0.125,
-      mode = "text",
-      text = colnames(x)[i],
-      textposition = "bottom center",
-      textfont = f,
-      showlegend = FALSE
-    )
-  }
-
-  # Add x- and y-axis labels as annotations
+  # x-axis label
   plt <- plotly::add_annotations(
     plt,
     x = nclasses / 2,
-    y = -0.25,
+    y = ifelse(nclasses == 2, -.3, -0.5),
+    text = "Predicted",
+    font = f,
+    showarrow = FALSE
+  )
+
+  # y-axis label
+  plt <- plotly::add_annotations(
+    plt,
+    x = ifelse(nclasses == 2, -.3, -0.5),
+    y = nclasses / 2,
     text = "Reference",
     font = f,
-    showarrow = FALSE
-  )
-  plt <- plotly::add_annotations(
-    plt,
-    x = -0.25,
-    y = nclasses / 2,
-    text = "Estimated",
-    font = f,
     showarrow = FALSE,
     textangle = -90
   )
 
-  # For binary classification, add sensitivity and specificity below each column
-  # at +0.25 below the plot
-  # For multiclass classification, add class sensitivity below each column
-  # at height = 0.25
-  # if (nclasses == 2) {
-  #   # Sensitivity
-  #   plt <- plotly::add_annotations(
-  #     plt,
-  #     x = 0.5,
-  #     y = 2.125,
-  #     text = paste0("Sensitivity = ", ddSci(x[1, 1] / sum(x[1, ]), 3)),
-  #     font = f,
-  #     showarrow = FALSE
-  #   )
-  #   # Specificity
-  #   plt <- plotly::add_annotations(
-  #     plt,
-  #     x = 1.5,
-  #     y = 2.125,
-  #     text = paste0("Specificity\n", ddSci(x[2, 2] / sum(x[2, ]), 3)),
-  #     font = f,
-  #     showarrow = FALSE
-  #   )
-  # } else {
-  #   # Class sensitivities
-  #   for (i in seq_len(nclasses)) {
-  #     plt <- plotly::add_annotations(
-  #       plt,
-  #       x = i - 0.5,
-  #       y = nclasses + .125,
-  #       text = paste0("Sensitivity\n", ddSci(x[i, i] / sum(x[i, ]), 3)),
-  #       font = f,
-  #       showarrow = FALSE
-  #     )
-  #   }
-  # }
+  # Metrics ----
+  if (nclasses == 2) {
+    # Sens./Spec. ----
+    # Rect: Sens./Spec. bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(nclasses, nclasses + 0.3, nclasses + 0.3, nclasses),
+      y = c(0, 0, nclasses, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
 
-  # Class sensitivities
-  # "Sens" at bottom left corner offset by .125
-  plt <- plotly::add_annotations(
-    plt,
-    x = -0.05,
-    y = nclasses + .1,
-    xanchor = "right",
-    yanchor = "middle",
-    text = "Sens.",
-    font = f,
-    showarrow = FALSE
-  )
-
-  # "Spec" below "Sens"
-  plt <- plotly::add_annotations(
-    plt,
-    x = -0.05,
-    y = nclasses + .3,
-    xanchor = "right",
-    yanchor = "middle",
-    text = "Spec.",
-    font = f,
-    showarrow = FALSE
-  )
-
-  # Add gray rectangle background for class sensitivities
-  plt <- plotly::add_trace(
-    plt,
-    x = c(0, nclasses, nclasses, 0, 0),
-    y = c(nclasses, nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .05),
-    showlegend = FALSE
-  )
-
-  # Per-class sensitivities
-  for (i in seq_len(nclasses)) {
+    # Text: Sens. & Spec.
     plt <- plotly::add_annotations(
       plt,
-      x = i - 0.5,
+      x = rep(nclasses + 0.15, 2),
+      y = c(.5, 1.5),
+      text = paste0(
+        c("Sensitivity\n", "Specificity\n"),
+        c(ddSci(class.sensitivity[pos.class], 3), ddSci(class.specificity[pos.class], 3))
+      ),
+      font = f,
+      showarrow = FALSE,
+      textangle = -90
+    )
+
+    # PPV/NPV ----
+    # Rect: PPV/NPV bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(0, nclasses, nclasses, 0, 0),
+      y = c(nclasses, nclasses, nclasses + .3, nclasses + .3, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
+
+    # Text: PPV & NPV
+    plt <- plotly::add_annotations(
+      plt,
+      x = c(.5, 1.5),
+      y = rep(nclasses + 0.15, 2),
+      text = paste0(
+        c("PPV\n", "NPV\n"),
+        c(ddSci(class.ppv[pos.class], 3), ddSci(class.npv[pos.class], 3))
+      ),
+      font = f,
+      showarrow = FALSE
+    )
+
+  } else {
+    # PPV ----
+    # Text: "PPV" at bottom left corner
+    plt <- plotly::add_annotations(
+      plt,
+      x = -0.05,
       y = nclasses + .1,
-      text = ddSci(class.sensitivity[i], 3),
+      xanchor = "right",
+      yanchor = "middle",
+      text = "PPV",
       font = f,
       showarrow = FALSE
     )
-  }
 
-  # Add gray rectangle background for class specificities
-  plt <- plotly::add_trace(
-    plt,
-    x = c(0, nclasses, nclasses, 0, 0),
-    y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .025),
-    showlegend = FALSE
-  )
+    # Rect: PPV bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(0, nclasses, nclasses, 0, 0),
+      y = c(nclasses, nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
 
-  # Per-class specificities
-  for (i in seq_len(nclasses)) {
+    # Text: Per-class PPV
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = i - 0.5,
+        y = nclasses + .1,
+        text = ddSci(class.ppv[i], 3),
+        font = f,
+        showarrow = FALSE
+      )
+    }
+
+    # NPV ----
+    # Label: "NPV" at bottom left corner
     plt <- plotly::add_annotations(
       plt,
-      x = i - 0.5,
+      x = -0.05,
       y = nclasses + .3,
-      text = ddSci(class.specificity[i], 3),
+      xanchor = "right",
+      yanchor = "middle",
+      text = "NPV",
       font = f,
       showarrow = FALSE
     )
-  }
 
-  # Add PPV label top right vertically
-  plt <- plotly::add_annotations(
-    plt,
-    x = nclasses + 0.1,
-    y = -.05,
-    yanchor = "bottom",
-    text = "PPV",
-    font = f,
-    showarrow = FALSE,
-    textangle = -90
-  )
+    # Rect: NPV bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(0, nclasses, nclasses, 0, 0),
+      y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .05),
+      showlegend = FALSE
+    )
 
-  # NPV label right of PPV
-  plt <- plotly::add_annotations(
-    plt,
-    x = nclasses + 0.3,
-    y = -.05,
-    yanchor = "bottom",
-    text = "NPV",
-    font = f,
-    showarrow = FALSE,
-    textangle = -90
-  )
+    # Text: Per-class NPV
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = i - 0.5,
+        y = nclasses + .3,
+        text = ddSci(class.npv[i], 3),
+        font = f,
+        showarrow = FALSE
+      )
+    }
 
-  # Add rectangle background for PPV 
-  plt <- plotly::add_trace(
-    plt,
-    x = c(nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
-    y = c(0, 0, nclasses, nclasses),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .075),
-    showlegend = FALSE
-  )
-
-  # Add rectangle background for NPV
-  plt <- plotly::add_trace(
-    plt,
-    x = c(nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
-    y = c(0, 0, nclasses, nclasses),
-    line = list(color = "transparent"),
-    fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .05),
-    showlegend = FALSE
-  )
-
-  # Per-class PPV
-  for (i in seq_len(nclasses)) {
+    # Sensitivity ----
+    # Label: "Sens." top right vertically
     plt <- plotly::add_annotations(
       plt,
       x = nclasses + 0.1,
-      y = i - 0.5,
-      text = ddSci(class.ppv[i], 3),
+      y = -.05,
+      yanchor = "bottom",
+      text = "Sens.",
       font = f,
       showarrow = FALSE,
       textangle = -90
     )
-  }
 
-  # Per-class NPV
-  for (i in seq_len(nclasses)) {
+    # Rect: Sens. bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
+      y = c(0, 0, nclasses, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      showlegend = FALSE
+    )
+
+    # Text: Per-class Sens.
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = nclasses + 0.1,
+        y = i - 0.5,
+        text = ddSci(class.sensitivity[i], 3),
+        font = f,
+        showarrow = FALSE,
+        textangle = -90
+      )
+    }
+
+    # Specificity ----
+    # Label: "Spec." top right vertically
     plt <- plotly::add_annotations(
       plt,
       x = nclasses + 0.3,
-      y = i - 0.5,
-      text = ddSci(class.npv[i], 3),
+      y = -.05,
+      yanchor = "bottom",
+      text = "Spec.",
       font = f,
       showarrow = FALSE,
       textangle = -90
     )
+
+    # Rect: Spec. bg
+    plt <- plotly::add_trace(
+      plt,
+      x = c(nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
+      y = c(0, 0, nclasses, nclasses),
+      line = list(color = "transparent"),
+      fill = "toself",
+      fillcolor = plotly::toRGB(theme$fg, alpha = .05),
+      showlegend = FALSE
+    )
+
+    # Text: Per-class Spec.
+    for (i in seq_len(nclasses)) {
+      plt <- plotly::add_annotations(
+        plt,
+        x = nclasses + 0.3,
+        y = i - 0.5,
+        text = ddSci(class.specificity[i], 3),
+        font = f,
+        showarrow = FALSE,
+        textangle = -90
+      )
+    }
   }
 
-  # Add rectangle background for balanced accuracy
+  # Balanced Accuracy ----
+  # Rect: BA bg
+  ba_pad <- ifelse(nclasses == 2, 0.3, 0.4)
   plt <- plotly::add_trace(
     plt,
-    x = c(nclasses, nclasses + 0.4, nclasses + 0.4, nclasses),
-    y = c(nclasses, nclasses, nclasses + 0.4, nclasses + 0.4),
+    x = c(nclasses, nclasses + ba_pad, nclasses + ba_pad, nclasses),
+    y = c(nclasses, nclasses, nclasses + ba_pad, nclasses + ba_pad),
     line = list(color = "transparent"),
     fill = "toself",
     fillcolor = plotly::toRGB(theme$fg, alpha = .025),
     showlegend = FALSE
   )
 
-  # Balanced accuracy at bottom right corner
+  # Text: Balanced accuracy
+  ba_pad <- ifelse(nclasses == 2, 0.15, 0.2)
+  ba <- ifelse(nclasses == 2, class.balancedAccuracy[pos.class], mean(class.balancedAccuracy))
   plt <- plotly::add_annotations(
     plt,
-    x = nclasses + 0.2,
-    y = nclasses + .2,
+    x = nclasses + ba_pad,
+    y = nclasses + ba_pad,
     xanchor = "center",
     yanchor = "middle",
-    text = paste0("BA\n", ddSci(mean(diag(x) / colSums(x)), 3)),
+    text = paste0("BA\n", ddSci(ba, 3)),
     font = f,
     showarrow = FALSE
   )
@@ -399,14 +425,25 @@ dplot3_conf <- function(
   # Disable hoverinfo
   plt <- plotly::style(plt, hoverinfo = "none")
 
+  # Write to file ----
+  if (!is.null(filename)) {
+    plotly::save_image(
+      plt,
+      file = normalizePath(filename, mustWork = FALSE),
+      width = file.width,
+      height = file.height,
+      scale = file.scale
+    )
+  }
+
   return(plt)
 } # rtemis::dplot3_conf
 
 make_plotly_conf_tile <- function(
     p, x, i, j, pos_color, neg_color,
-    font.size,
+    font.size, theme,
     xref = "x", yref = "y") {
-  val <- x[i, j] / class.totals[i]
+  val <- x[i, j] / sum(x[i, ])
   col <- if (i == j) {
     pos_color(val)
   } else {
@@ -432,7 +469,7 @@ make_plotly_conf_tile <- function(
     textposition = "middle center",
     textfont = list(
       family = theme$font.family,
-      color = ifelse(val > 0.5, "black", "white"),
+      color = ifelse(val > 0.5, theme$bg, theme$fg),
       size = font.size
     ),
     showlegend = FALSE

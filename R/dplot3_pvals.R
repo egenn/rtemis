@@ -1,6 +1,6 @@
 # dplot3_pvals.R
 # ::rtemis::
-# 2021 E.D. Gennatas www.lambdamd.org
+# 2021 E.D. Gennatas rtemis.org
 
 #' Barplot p-values using [dplot3_bar]
 #'

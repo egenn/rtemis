@@ -1,6 +1,6 @@
 # rtXDecom.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' R6 class for \pkg{rtemis} cross-decompositions
 #'

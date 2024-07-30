@@ -1,6 +1,6 @@
 # auc.R
 # ::rtemis::
-# 2019-23 E.D. Gennatas lambdamd.org
+# 2019-23 E.D. Gennatas rtemis.org
 
 #' Area under the ROC Curve
 #'

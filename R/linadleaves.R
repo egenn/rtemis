@@ -1,6 +1,6 @@
 # linadleaves.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 # g$n.nodes
 # => full linear model as first step
 

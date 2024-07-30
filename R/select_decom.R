@@ -1,6 +1,6 @@
 # select_decom.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Select \pkg{rtemis} Decomposer
 #'

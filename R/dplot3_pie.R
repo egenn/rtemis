@@ -1,6 +1,6 @@
 # dplot3_pie.R
 # ::rtemis::
-# 2019 EDG www.lambdamd.org
+# 2019 EDG rtemis.org
 
 #' Interactive Pie Chart
 #'

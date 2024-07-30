@@ -1,6 +1,6 @@
 # s_LightGBM.R
 # ::rtemis::
-# 2023 E.D. Gennatas www.lambdamd.org
+# 2023 E.D. Gennatas rtemis.org
 # https://lightgbm.readthedocs.io/en/latest/R/index.html
 # LightGBM parameters:
 # https://lightgbm.readthedocs.io/en/latest/Parameters.html

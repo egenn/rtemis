@@ -1,6 +1,6 @@
 # read.R
 # ::rtemis::
-# 2022-3 E.D. Gennatas www.lambdamd.org
+# 2022-3 E.D. Gennatas rtemis.org
 # need a way to ignore errors with duckdb::duckdb_read_csv()
 # polars nullstring is buggy, only recognizes NULL
 

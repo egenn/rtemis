@@ -1,6 +1,6 @@
 # s_AddTree.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 # TODO: check if factor outcome with string levels works & with addtree_path_to_rules
 
 #' Additive Tree: Tree-Structured Boosting [C]

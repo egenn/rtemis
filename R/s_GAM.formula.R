@@ -1,6 +1,6 @@
 # s_GAM.formula.R
 # ::rtemis::
-# 2015 E.D. Gennatas www.lambdamd.org
+# 2015 E.D. Gennatas rtemis.org
 # rtTODO: use s_GAM.default so that classification works
 
 #' Generalized Additive Model (GAM) {C, R}

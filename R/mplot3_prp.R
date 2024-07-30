@@ -1,6 +1,6 @@
 # mplot3_prp
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Plot CART Decision Tree
 #'

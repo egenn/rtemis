@@ -1,6 +1,6 @@
 # JL_splitlin.R
 # ::rtemis::
-# 2020 E.D. Gennatas www.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Split where lines minimize error
 #'

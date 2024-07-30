@@ -1,6 +1,6 @@
 # dt_ops.R
 # ::rtemis::
-# 2022-3 EDG lambdamd.org
+# 2022-3 EDG rtemis.org
 
 #' Number of unique values per feature
 #'
