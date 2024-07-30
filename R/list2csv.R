@@ -1,6 +1,6 @@
 # list2csv.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Write list elements to CSV files
 #'

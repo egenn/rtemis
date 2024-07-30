@@ -1,6 +1,6 @@
 # s_H2ODL.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Deep Learning on H2O (C, R)
 #'

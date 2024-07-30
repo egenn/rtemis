@@ -1,6 +1,6 @@
 # dplot3_calibration.R
 # ::rtemis::
-# 2023 EDG lambdamd.original
+# 2023 EDG rtemis.org
 
 #' Draw calibration plot
 #'

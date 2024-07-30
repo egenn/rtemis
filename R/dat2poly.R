@@ -1,6 +1,6 @@
 # dat2poly.R
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 
 #' Create n-degree polynomial from data frame
 #' 

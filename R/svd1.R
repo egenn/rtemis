@@ -1,6 +1,6 @@
 # svd1.R
 # ::rtemis::
-# 2015 E.D. Gennatas www.lambdamd.org
+# 2015 E.D. Gennatas rtemis.org
 
 #' `rtemis-internals` Project Variables to First Eigenvector
 #'

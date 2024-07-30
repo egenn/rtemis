@@ -1,6 +1,6 @@
 # mplot_raster.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Plot Array as Raster Image
 #'

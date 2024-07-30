@@ -1,6 +1,6 @@
 # padnums.R
 # ::rtemis::
-# 2021 E.D. Gennatas www.lambdamd.org
+# 2021 E.D. Gennatas rtemis.org
 
 padnums <- function(x, pad = "X") {
   for (i in seq_along(x)) {

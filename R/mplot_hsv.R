@@ -1,6 +1,6 @@
 # mplot_hsv.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Plot HSV color range
 #'

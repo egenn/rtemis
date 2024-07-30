@@ -1,6 +1,6 @@
 # learn.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Supervised Learning with \pkg{rtemis}
 #'

@@ -1,6 +1,6 @@
 # print_ops.R
 # ::rtemis::
-# 2016-23 E.D. Gennatas www.lambdamd.org
+# 2016-23 E.D. Gennatas rtemis.org
 
 #' Pretty print list
 #'
@@ -108,7 +108,7 @@ printls <- function(x,
 
 # printdf1
 # ::rtemis::
-# 2016 www.lambdamd.org
+# 2016 rtemis.org
 #' Print 1 x N data frame
 #'
 #' Pretty print a data frame containing 1 row of data with named columns as a vertical list
@@ -309,7 +309,7 @@ headdot <- function(x, maxlength = 6) {
 
 # twocol2html.R
 # ::rtemis::
-# 2020 E.D. Gennatas www.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Create html table from a data.frame with 2 columns: Var name, and Coefs
 #'

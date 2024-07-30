@@ -1,6 +1,6 @@
 # present_gridsearch.R
 # ::rtremis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas rtemis.org
 
 #' Present gridsearch results
 #'

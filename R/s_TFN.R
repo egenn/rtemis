@@ -1,6 +1,6 @@
 # s_TFN.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Feedforward Neural Network with \pkg{tensorflow} (C, R)
 #'

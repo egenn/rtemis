@@ -1,6 +1,6 @@
 # mplot_missing.R
 # :: rtemis::
-# 2020 E.D. Gennatas www.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Plot missingness
 #'

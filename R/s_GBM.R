@@ -1,6 +1,6 @@
 # s_GBM.R
 # ::rtemis::
-# 2015-8 E.D. Gennatas www.lambdamd.org
+# 2015-8 E.D. Gennatas rtemis.org
 #
 # Notes: gbm.more currently fails with distribution "multinomial" due to a bug in gbm.
 

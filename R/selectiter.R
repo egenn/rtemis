@@ -1,6 +1,6 @@
 # selectiter.R
 # ::rtemis::
-# 2020 E.D. Gennatas www.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Select N of learning iterations based on loss
 #'

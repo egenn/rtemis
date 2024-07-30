@@ -1,6 +1,6 @@
 # zzz.R
 # ::rtemis::
-# 2016-24 E.D. Gennatas www.lambdamd.org
+# 2016-24 E.D. Gennatas rtemis.org
 
 rtenv <- new.env()
 rtenv$binclasspos <- 1
@@ -61,7 +61,7 @@ rtemis.version <- packageVersion("rtemis")
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
-#' <https://rtemis.lambdamd.org>
+#' <https://rtemis.org>
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.

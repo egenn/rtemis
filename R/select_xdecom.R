@@ -1,6 +1,6 @@
 # xselect_decom.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Select \pkg{rtemis} cross-decomposer
 #'

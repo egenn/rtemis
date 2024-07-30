@@ -1,5 +1,5 @@
 # s_LightCART.R
-# 2024 E.D. Gennatas www.lambdamd.org
+# 2024 E.D. Gennatas rtemis.org
 # https://lightgbm.readthedocs.io/en/latest/R/index.html
 # LightGBM parameters:
 # https://lightgbm.readthedocs.io/en/latest/Parameters.html

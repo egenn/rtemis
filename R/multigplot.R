@@ -1,6 +1,6 @@
 # multigplot.R
 # ::rtemis::
-# 2020 E.D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Multipanel **ggplot2** plots
 #'

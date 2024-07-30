@@ -1,6 +1,6 @@
 # s_NLA.R
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 
 #' NonLinear Activation unit Regression (NLA) \[R\]
 #'

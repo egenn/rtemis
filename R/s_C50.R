@@ -1,6 +1,6 @@
 # s_C50.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' C5.0 Decision Trees and Rule-Based Models [C]
 #'

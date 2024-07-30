@@ -1,6 +1,6 @@
 # c_EMC.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Expectation Maximization Clustering
 #'

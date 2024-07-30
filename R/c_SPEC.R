@@ -1,6 +1,6 @@
 # c_SPEC.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Spectral Clustering
 #'

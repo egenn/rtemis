@@ -1,6 +1,6 @@
 # s_PPR.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Projection Pursuit Regression (PPR) \[R\]
 #'

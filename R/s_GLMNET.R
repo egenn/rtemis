@@ -1,6 +1,6 @@
 # s_GLMNET.R
 # ::rtemis::
-# 2016-7 E.D. Gennatas www.lambdamd.org
+# 2016-7 E.D. Gennatas rtemis.org
 
 #' GLM with Elastic Net Regularization \[C, R, S\]
 #'

@@ -1,6 +1,6 @@
 # dplot3_volcano
 # ::rtemis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas rtemis.org
 # allow custom grouping
 
 #' Volcano Plot

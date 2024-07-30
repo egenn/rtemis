@@ -1,6 +1,6 @@
 # explain.R
 # ::rtemis::
-# 2023 EDG lambdamd.org
+# 2023 EDG rtemis.org
 
 #' Explain individual-level model predictions
 #'

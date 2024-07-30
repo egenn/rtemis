@@ -1,6 +1,6 @@
 # xlsx2list.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Read all sheets of an XLSX file into a list
 #'

@@ -1,6 +1,6 @@
 # rt_ops.R
 # ::rtemis::
-# 2016-2023 EDG lambdamd.org
+# 2016-2023 EDG rtemis.org
 
 #' \pkg{rtemis} internal: Get Variable Name from Arguments
 #'
@@ -296,7 +296,7 @@ ifNotNull <- function(x, defType) {
 
 # psd.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Population Standard Deviation
 #'

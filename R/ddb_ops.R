@@ -1,6 +1,6 @@
 # ddb_ops.R
 # ::rtemis::
-# 2022-3 EDG lambdamd.org
+# 2022-3 EDG rtemis.org
 
 #' Read CSV using DuckDB
 #'

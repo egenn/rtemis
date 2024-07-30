@@ -1,6 +1,6 @@
 # s_GAM.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Generalized Additive Model (GAM) {C, R}
 #'

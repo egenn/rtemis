@@ -1,6 +1,6 @@
 # mplot3_varimp
 # ::rtemis::
-# 2017-9 E.D. Gennatas www.lambdamd.org
+# 2017-9 E.D. Gennatas rtemis.org
 
 #' `mplot3`: Variable Importance
 #'

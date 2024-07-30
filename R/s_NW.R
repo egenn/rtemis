@@ -1,6 +1,6 @@
 # s_NW.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Nadaraya-Watson kernel regression \[R\]
 #'

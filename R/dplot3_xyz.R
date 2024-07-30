@@ -1,6 +1,6 @@
 # dplot3_xyz.R
 # ::rtemis::
-# 2019 E.D. Gennatas www.lambdamd.org
+# 2019 E.D. Gennatas rtemis.org
 
 #' Interactive 3D Plots
 #'

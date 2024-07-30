@@ -1,6 +1,6 @@
 # oddsratio.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Calculate odds ratio for a 2x2 contingency table
 #'

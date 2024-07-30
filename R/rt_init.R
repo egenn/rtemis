@@ -1,6 +1,6 @@
 # rtemisInit.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas www.lambdamd.org
+# 2016-8 E.D. Gennatas rtemis.org
 
 #' `rtemis-internals`: `intro`
 #'

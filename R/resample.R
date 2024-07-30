@@ -1,6 +1,6 @@
 # resample.R
 # ::rtemis::
-# 2015-23 E.D. Gennatas www.lambdamd.org
+# 2015-23 E.D. Gennatas rtemis.org
 
 #' Resampling methods
 #'

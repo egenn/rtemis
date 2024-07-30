@@ -1,6 +1,6 @@
 # lightgbm_ops
 # ::rtemis::
-# 2023 EDG lambdamd.org
+# 2023 EDG rtemis.org
 
 # get_lgb_tree ----
 

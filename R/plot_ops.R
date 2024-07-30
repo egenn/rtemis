@@ -1,6 +1,6 @@
 # plotops.R
 # ::rtemis::
-# 2020 E.D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Get estimated text width
 #' 
@@ -81,7 +81,7 @@ getlim <- function(x, axs = c("r", "i"), axs.r.pct = .04) {
 
 # basegrid.R
 # ::rtemis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas rtemis.org
 
 basegrid <- function(x = NULL,
                      y = NULL,

@@ -1,6 +1,6 @@
 # select_clust.R
 # ::rtemis::
-# 2016-22 E.D. Gennatas www.lambdamd.org
+# 2016-22 E.D. Gennatas rtemis.org
 
 #' Select \pkg{rtemis} Clusterer
 #'

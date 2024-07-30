@@ -1,6 +1,6 @@
 # rtemis RStudio theme
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Apply rtemis theme for RStudio
 #'

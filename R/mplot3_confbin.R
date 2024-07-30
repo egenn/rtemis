@@ -1,6 +1,6 @@
 # mplot3_confbin
 # ::rtemis::
-# 2017-8 E.D. Gennatas www.lambdamd.org
+# 2017-8 E.D. Gennatas rtemis.org
 # TODO: Fix grid col
 
 #' Plot extended confusion matrix for binary classification

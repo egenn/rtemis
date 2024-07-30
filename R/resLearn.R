@@ -1,6 +1,6 @@
 # resLearn.R
 # ::rtemis::
-# 2022 E.D. Gennatas www.lambdamd.org
+# 2022 E.D. Gennatas rtemis.org
 # new version of resLearn using future
 
 #' \pkg{rtemis} internal: Resample Learn

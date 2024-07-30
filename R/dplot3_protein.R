@@ -1,6 +1,6 @@
 # dplot3_protein
 # ::rtemis::
-# 2022 EDG www.lambdamd.org
+# 2022 EDG rtemis.org
 
 #' Plot the amino acid sequence with annotations
 #'

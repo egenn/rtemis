@@ -1,6 +1,6 @@
 # rtDecom.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' R6 Class for \pkg{rtemis} Decompositions
 #'

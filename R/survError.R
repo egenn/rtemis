@@ -1,6 +1,6 @@
 # surv_error.R
 # ::rtemis::
-# 2021 E.D. Gennatas www.lambdamd.org
+# 2021 E.D. Gennatas rtemis.org
 
 #' Survival Analysis Metrics
 #'
@@ -51,7 +51,7 @@ print.surv_error <- function(x, decimal.places = 4, ...) {
 
 # print.surv_error.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' Print `surv_error` object
 #'

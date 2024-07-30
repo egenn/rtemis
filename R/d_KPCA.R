@@ -1,6 +1,6 @@
 # d_KPCA.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 
 #' Kernel Principal Component Analysis
 #'

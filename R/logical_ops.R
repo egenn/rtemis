@@ -1,6 +1,6 @@
 # logical_ops
 # ::rtemis::
-# 2023 EDG lambdamd.org
+# 2023 EDG rtemis.org
 
 #' Inverse of `%in%`
 #'

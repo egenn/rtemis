@@ -1,6 +1,6 @@
 # ddSci.R
 # ::rtemis::
-# 2015 E.D. Gennatas www.lambdamd.org
+# 2015 E.D. Gennatas rtemis.org
 
 #' Format Numbers for Printing
 #'

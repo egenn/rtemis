@@ -1,6 +1,6 @@
 # rules2medmod
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 
 #' Convert rules from cutoffs to median/mode and range
 #'

@@ -1,6 +1,6 @@
 # savePMML.R
 # ::rtemis::
-# 2020 E.D. Gennatas www.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Save rtemis model to PMML file
 #'

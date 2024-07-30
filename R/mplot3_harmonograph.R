@@ -1,6 +1,6 @@
 # mplot3_harmonograph
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 # Harmonograph source: https://fronkonstin.com/2014/10/13/beautiful-curves-the-harmonograph/
 

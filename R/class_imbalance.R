@@ -1,6 +1,6 @@
 # class_imbalance.R
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 
 #' Class Imbalance
 #'

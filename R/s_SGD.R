@@ -1,6 +1,6 @@
 # s_SGD.R
 # ::rtemis::
-# 2018 E.D. Gennatas www.lambdamd.org
+# 2018 E.D. Gennatas rtemis.org
 
 #' Stochastic Gradient Descent (SGD) (C, R)
 #'

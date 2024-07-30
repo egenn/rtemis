@@ -7,7 +7,7 @@
 #
 # rtMod.R
 # ::rtemis::
-# 2016- E.D. Gennatas www.lambdamd.org
+# 2016- E.D. Gennatas rtemis.org
 
 # rtMod R6 ----
 #' \pkg{rtemis} Supervised Model Class

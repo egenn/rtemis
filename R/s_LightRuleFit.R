@@ -1,6 +1,6 @@
 # s_LightRuleFit.R
 # ::rtemis::
-# 2023 E.D. Gennatas www.lambdamd.org
+# 2023 E.D. Gennatas rtemis.org
 
 #' RuleFit with LightGBM (C, R)
 #'

@@ -1,6 +1,6 @@
 # setdiffsym.R
 # ::rtemis::
-# E.D. Gennatas www.lambdamd.org
+# E.D. Gennatas rtemis.org
 
 #' Symmetric Set Difference
 #'

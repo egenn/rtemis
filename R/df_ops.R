@@ -1,6 +1,6 @@
 # dataops
 # ::rtemis::
-# 2021 E.D. Gennatas www.lambdamd.org
+# 2021 E.D. Gennatas rtemis.org
 
 #' Get names by string matching
 #'
@@ -141,7 +141,7 @@ getnamesandtypes <- function(x) {
 
 # df_movecolumn.R
 # ::rtemis::
-# 2020 E.D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Move data frame column
 #'

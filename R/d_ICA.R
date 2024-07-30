@@ -1,6 +1,6 @@
 # d_ICA.R
 # ::rtemis::
-# 2016 E.D. Gennatas www.lambdamd.org
+# 2016 E.D. Gennatas rtemis.org
 # TODO: x.test
 
 #' Independent Component Analysis

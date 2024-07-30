@@ -1,6 +1,6 @@
 # d_SVD.R
 # ::rtemis::
-# 2015 E.D. Gennatas www.lambdamd.org
+# 2015 E.D. Gennatas rtemis.org
 
 #' Singular Value Decomposition
 #'

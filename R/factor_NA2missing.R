@@ -1,6 +1,6 @@
 # factor_NA2missing.R
 # ::rtemis::
-# 2020 E.D. Gennatas rtemis.lambdamd.org
+# 2020 E.D. Gennatas rtemis.org
 
 #' Factor NA to "missing" level
 #'

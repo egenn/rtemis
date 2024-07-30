@@ -1,6 +1,6 @@
 # c_H2OKMeans.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 
 #' K-Means Clustering with H2O
 #'

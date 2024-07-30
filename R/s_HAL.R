@@ -1,6 +1,6 @@
 # s_HAL.R
 # ::rtemis::
-# 2023 E.D. Gennatas www.lambdamd.org
+# 2023 E.D. Gennatas rtemis.org
 # Work in progress
 
 #' Highly Adaptive LASSO \[C, R, S\]

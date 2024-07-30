@@ -1,6 +1,6 @@
 # s_RF.R
 # ::rtemis::
-# 2016-8 E.D. Gennatas www.lambdamd.org
+# 2016-8 E.D. Gennatas rtemis.org
 
 #' Random Forest Classification and Regression (C, R)
 #'

@@ -1,6 +1,6 @@
 # calibrate_cv.R
 # ::rtemis::
-# 2024 EDG lambdamd.org
+# 2024 EDG rtemis.org
 
 #' Calibrate cross-validated model
 #'

@@ -1,6 +1,6 @@
 # s_KNN.R
 # ::rtemis::
-# 2017 E.D. Gennatas www.lambdamd.org
+# 2017 E.D. Gennatas rtemis.org
 # TODO: Consider replacing knn fn
 # FNN's KNN does not have a predict function
 
