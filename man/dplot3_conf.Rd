@@ -46,7 +46,7 @@ theme. Use \code{themes()} to get available theme names. Theme functions are of 
 
 \item{margin}{List: Plot margins}
 
-\item{filename}{Character: Path to file to save static plot. Default = NULL}
+\item{filename}{Character: Path to file to save static plot.}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}

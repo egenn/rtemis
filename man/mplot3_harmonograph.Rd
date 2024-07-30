@@ -50,7 +50,15 @@ mplot3_harmonograph(
 
 \item{text.col}{Color: Text color. Default is same as \code{col}}
 
-\item{mar}{Float vector, length 4: Plot margins. (\code{par}'s \code{mar} argument) Default = c(0, 0, 0, 0)}
+\item{mar}{Float vector, length 4: Plot margins. (\code{par}'s \code{mar} argument)}
+
+\item{oma}{Float vector, length 4: Outer margins. (\code{par}'s \code{oma} argument)}
+
+\item{xlim}{Float vector, length 2: x-axis limits}
+
+\item{ylim}{Float vector, length 2: y-axis limits}
+
+\item{new}{Logical. If TRUE, do not clear plot before drawing}
 
 \item{par.reset}{Logical. If TRUE, reset par before exit}
 }

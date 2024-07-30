@@ -11,6 +11,7 @@
 #' @details
 #' We are switching to `palette` being a color vector instead of the name of a built-in palette.
 #'
+#' @inheritParams dplot3_x
 #' @param x Datetime vector or list of vectors OR object of class `xt`. If `xt`, `x2`, `y`, `y2`,
 #' `xunits`, `yunits`, and `y2units` will be extracted from the object and the corresponding
 #' arguments will be ignored.
@@ -31,6 +32,8 @@
 #' `shade.bin` or `shade.interval`, not both.
 #' @param shade.col Color: Color to shade intervals.
 #' @param shade.x Numeric vector: x-values to use for shading.
+#' @param shade.name Character: Name for shaded intervals.
+#' @param shade.showlegend Logical: If TRUE, show legend for shaded intervals.
 #' @param ynames Character vector, optional: Names for each vector in `y`.
 #' @param y2names Character vector, optional: Names for each vector in `y2`.
 #' @param xlab Character: x-axis label.
@@ -90,9 +93,6 @@
 #' @param modeBar.file.format Character: "png", "svg", "jpeg", "webp", "pdf": file format for mode
 #' bar image export.
 #' @param scrollZoom Logical: If TRUE, enable zooming by scrolling.
-#' @param file.width Numeric: Width of mode bar image export.
-#' @param file.height Numeric: Height of mode bar image export.
-#' @param file.scale Numeric: Scale factor for mode bar image export.
 #' @param ... Additional theme arguments.
 #'
 #' @return A plotly object

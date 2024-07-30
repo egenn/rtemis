@@ -1066,16 +1066,17 @@ mplot3_xy <- function(x, y = NULL,
 } # rtemis::mplot3_xy
 
 
-#' `mplot3`: True vs. Fitted plot
+#' True vs. Fitted plot
 #'
-#' An `mplot3_xy` alias with defaults for plotting a learner's performance
+#' An `mplot3_xy` wrapper with defaults for plotting a learner's performance
 #'
 #' @inheritParams mplot3_xy
-#' @param x Vector, numeric / factor / survival for regression, classification, survival: True values
-#' @param y Vector, numeric / factor / survival for regression, classification, survival: Predicted values
-#' @param fit.error Logical: If TRUE,
+#' @param x Numeric vector: True values
+#' @param y Numeric vector: Predicted values
 #' @param pty Character: "s" for square plot, "m" to fill device. Default = "s"
 #' @param ... Additional argument to be passed to [mplot3_conf] (classification) or [mplot3_xy] (regression)
+#' 
+#' @author EDG
 #' @export
 
 mplot3_fit <- function(x, y,

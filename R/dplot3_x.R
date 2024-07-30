@@ -70,7 +70,7 @@
 #' available space
 #' @param height Float: Force plot size to this height. Default = NULL, i.e.
 #' fill available space
-#' @param filename Character: Path to file to save static plot. Default = NULL
+#' @param filename Character: Path to file to save static plot.
 #' @param file.width Integer: File width in pixels for when `filename` is
 #' set.
 #' @param file.height Integer: File height in pixels for when `filename`

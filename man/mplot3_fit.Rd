@@ -2,7 +2,7 @@
 % Please edit documentation in R/mplot3_xy.R
 \name{mplot3_fit}
 \alias{mplot3_fit}
-\title{\code{mplot3}: True vs. Fitted plot}
+\title{True vs. Fitted plot}
 \usage{
 mplot3_fit(
   x,
@@ -22,9 +22,9 @@ mplot3_fit(
 )
 }
 \arguments{
-\item{x}{Vector, numeric / factor / survival for regression, classification, survival: True values}
+\item{x}{Numeric vector: True values}
 
-\item{y}{Vector, numeric / factor / survival for regression, classification, survival: Predicted values}
+\item{y}{Numeric vector: Predicted values}
 
 \item{fit}{Character: \pkg{rtemis} model to calculate \code{y ~ x} fit.
 Options: see \code{select_learn()}
@@ -33,7 +33,8 @@ Can also be Logical, which will give a GAM fit if TRUE. If you specify
 
 \item{se.fit}{Logical: If TRUE, draw the standard error of the fit}
 
-\item{fit.error}{Logical: If TRUE,}
+\item{fit.error}{Logical: If TRUE: draw fit error annotation.
+Default = NULL, which results in TRUE, if fit is set}
 
 \item{axes.equal}{Logical: Should axes be equal? Defaults to FALSE}
 
@@ -54,5 +55,8 @@ Can also be Logical, which will give a GAM fit if TRUE. If you specify
 \item{...}{Additional argument to be passed to \link{mplot3_conf} (classification) or \link{mplot3_xy} (regression)}
 }
 \description{
-An \code{mplot3_xy} alias with defaults for plotting a learner's performance
+An \code{mplot3_xy} wrapper with defaults for plotting a learner's performance
+}
+\author{
+EDG
 }

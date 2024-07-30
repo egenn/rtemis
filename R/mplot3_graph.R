@@ -4,11 +4,13 @@
 
 #' Plot `igraph` networks
 #'
+#' @inheritParams mplot3_xy
 #' @param net `igraph` network
 #' @param vertex.size Numeric: Vertex size
 #' @param vertex.col Color for vertices
 #' @param vertex.alpha Numeric: Transparency for `vertex.col`
 #' @param vertex.label.col Color for vertex labels
+#' @param vertex.label.alpha Numeric: Transparency for `vertex.label.col`
 #' @param vertex.frame.col Color for vertex border (frame)
 #' @param vertex.label Character vector: Vertex labels. Default = NULL, which will keep
 #' existing names in `net` if any. Set to NA to avoid printing vertex labels

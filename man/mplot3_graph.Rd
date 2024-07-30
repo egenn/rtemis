@@ -53,6 +53,8 @@ mplot3_graph(
 
 \item{vertex.label.col}{Color for vertex labels}
 
+\item{vertex.label.alpha}{Numeric: Transparency for \code{vertex.label.col}}
+
 \item{vertex.frame.col}{Color for vertex border (frame)}
 
 \item{vertex.label}{Character vector: Vertex labels. Default = NULL, which will keep
@@ -107,11 +109,19 @@ precomputed. The colors will be recycled as needed.}
 by \code{theme}. This argument is used when the extra args (...) are passed the plotting
 function (in this case \code{igraph::plot.igraph}) and not to the theme function}
 
+\item{palette}{Vector of colors, or Character defining a builtin palette -
+get options with \code{rtpalette()}}
+
 \item{mar}{Numeric vector, length 4: \code{par}'s margin argument}
 
 \item{par.reset}{Logical: If TRUE, reset par before exiting.}
 
 \item{filename}{Character: If provided, save plot to this filepath}
+
+\item{pdf.width}{Float: Width in inches for pdf output (if \code{filename}
+is set).}
+
+\item{pdf.height}{Float: Height in inches for pdf output.}
 
 \item{verbose}{Logical, If TRUE, print messages to console.}
 

@@ -107,6 +107,10 @@ both.}
 
 \item{shade.x}{Numeric vector: x-values to use for shading.}
 
+\item{shade.name}{Character: Name for shaded intervals.}
+
+\item{shade.showlegend}{Logical: If TRUE, show legend for shaded intervals.}
+
 \item{ynames}{Character vector, optional: Names for each vector in \code{y}.}
 
 \item{y2names}{Character vector, optional: Names for each vector in \code{y2}.}
@@ -218,11 +222,15 @@ bar image export.}
 
 \item{scrollZoom}{Logical: If TRUE, enable zooming by scrolling.}
 
-\item{file.width}{Numeric: Width of mode bar image export.}
+\item{filename}{Character: Path to file to save static plot.}
 
-\item{file.height}{Numeric: Height of mode bar image export.}
+\item{file.width}{Integer: File width in pixels for when \code{filename} is
+set.}
 
-\item{file.scale}{Numeric: Scale factor for mode bar image export.}
+\item{file.height}{Integer: File height in pixels for when \code{filename}
+is set.}
+
+\item{file.scale}{Numeric: If saving to file, scale plot by this number}
 
 \item{...}{Additional theme arguments.}
 }

@@ -200,7 +200,7 @@ available space}
 \item{height}{Float: Force plot size to this height. Default = NULL, i.e.
 fill available space}
 
-\item{filename}{Character: Path to file to save static plot. Default = NULL}
+\item{filename}{Character: Path to file to save static plot.}
 
 \item{file.width}{Integer: File width in pixels for when \code{filename} is
 set.}
