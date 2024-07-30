@@ -24,6 +24,13 @@ Can also be Logical, which will give a GAM fit if TRUE. If you specify
 \description{
 A \code{dplot3_xy} wrapper for plotting true vs. predicted values
 }
+\examples{
+\dontrun{
+x <- rnorm(500)
+y <- x + rnorm(500)
+dplot3_fit(x, y)
+}
+}
 \author{
 EDG
 }
