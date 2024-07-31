@@ -7,7 +7,7 @@
 #' Calibrate predicted probabilities using a generalized additive model (GAM).
 #'
 #' @param true.labels Factor with true class labels
-#' @param est.prob Numeric vector with predicted probabilities
+#' @param predicted.prob Numeric vector with predicted probabilities
 #' @param pos.class Integer: Index of the positive class
 #' @param mod Character: Model to use for calibration. Either "gam" or "glm"
 #' @param k Integer: GAM degrees of freedom
@@ -26,7 +26,7 @@
 #' # Plot the calibration curve of the original predictions
 #' dplot3_calibration(
 #'   true.labels = segment_logistic$Class,
-#'   est.prob = segment_logistic$.pred_poor,
+#'   predicted.prob = segment_logistic$.pred_poor,
 #'   n_windows = 10,
 #'   pos.class = 2
 #' )
@@ -34,7 +34,7 @@
 #' # Plot the calibration curve of the calibrated predictions
 #' dplot3_calibration(
 #'   true.labels = segment_logistic$Class,
-#'   est.prob = calibrate(
+#'   predicted.prob = calibrate(
 #'     segment_logistic$Class,
 #'     segment_logistic$.pred_poor
 #'   )$fitted.values,
@@ -43,7 +43,7 @@
 #' )
 #' }
 calibrate <- function(true.labels,
-                      est.prob,
+                      predicted.prob,
                       pos.class = NULL,
                       mod = c("gam", "glm"),
                       k = 5,
@@ -59,9 +59,9 @@ calibrate <- function(true.labels,
 
   # GLAM ----
   if (mod == "glm") {
-    mod <- glm(true.labels ~ est.prob, family = binomial())
+    mod <- glm(true.labels ~ predicted.prob, family = binomial())
   } else if (mod == "gam") {
-    mod <- mgcv::gam(true.labels ~ s(est.prob, k = k), family = binomial())
+    mod <- mgcv::gam(true.labels ~ s(predicted.prob, k = k), family = binomial())
   }
   if (verbose) {
     msg2done()
