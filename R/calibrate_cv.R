@@ -381,9 +381,6 @@ plot.rtModCVCalibration <- function(
       # Aggregate all y_caltest for all outer resamples
       y_caltest_agg <- unlist(x$y_caltest)
       prob_caltest_agg <- unlist(x$prob_caltest)
-      # Get aggregated Brier scores for raw and calibrated predictions
-      # brier_raw <- brier_score(true = unlist(x$y_test), estimated.prob = y_caltest_agg)
-      # brier_calibrated <- brier_score(true = y_caltest_agg, estimated.prob = prob_caltest_agg)
 
       # Raw vs. Calibrated
       est.prob <- list(
