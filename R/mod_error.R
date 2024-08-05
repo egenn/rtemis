@@ -71,6 +71,19 @@ mod_error <- function(true,
 } # rtemis::mod_error
 
 
+#' Regression Error Metrics
+#' 
+#' Calculate error metrics for regression
+#' 
+#' @param x Numeric vector: True values
+#' @param y Numeric vector: Predicted values
+#' @param rho Logical: If TRUE, calculate Spearman's rho
+#' @param tau Logical: If TRUE, calculate Kendall's tau
+#' @param na.rm Logical: If TRUE, remove NA values before computation
+#' @param verbosity Integer: If > 0, print messages to console
+#' 
+#' @return Object of class `regError`
+#' @author E.D. Gennatas
 reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity = 0) {
   inherits_test(x, "numeric")
   inherits_test(y, "numeric")
@@ -92,7 +105,7 @@ reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity =
   # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
   SSR <- sum((mean(x, na.rm = na.rm) - y)^2, na.rm = na.rm)
   # Total Sum of Squares (TSS or SST)
-  SST <- sum((x - mean(y, na.rm = na.rm))^2, na.rm = na.rm)
+  SST <- sum((x - mean(x, na.rm = na.rm))^2, na.rm = na.rm)
   # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
   Rsq <- 1 - (SSE / SST)
 
