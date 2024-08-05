@@ -72,19 +72,19 @@ mod_error <- function(true,
 
 
 #' Regression Error Metrics
-#' 
+#'
 #' Calculate error metrics for regression
-#' 
+#'
 #' @param x Numeric vector: True values
 #' @param y Numeric vector: Predicted values
 #' @param rho Logical: If TRUE, calculate Spearman's rho
 #' @param tau Logical: If TRUE, calculate Kendall's tau
 #' @param na.rm Logical: If TRUE, remove NA values before computation
 #' @param verbosity Integer: If > 0, print messages to console
-#' 
+#'
 #' @return Object of class `regError`
 #' @author E.D. Gennatas
-reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity = 0) {
+reg_error <- function(x, y, rho = FALSE, tau = FALSE, pct.red = FALSE, na.rm = FALSE, verbosity = 0) {
   inherits_test(x, "numeric")
   inherits_test(y, "numeric")
   error <- x - y
@@ -113,25 +113,22 @@ reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity =
   stderr <- sqrt((sum((x - y)^2, na.rm = na.rm)) / length(x))
 
   # Error of expectation(x) and percent reduction
-  error.exp <- x - mean(x, na.rm = na.rm)
-  mae.exp <- mean(abs(error.exp))
-  mae.red <- (mae.exp - mae) / mae.exp
-  mse.exp <- mean(error.exp^2)
-  mse.red <- (mse.exp - mse) / mse.exp
-  rmse.exp <- sqrt(mse.exp)
-  rmse.red <- (rmse.exp - rmse) / rmse.exp
+  if (pct.red) {
+    error.exp <- x - mean(x, na.rm = na.rm)
+    mae.exp <- mean(abs(error.exp))
+    mae.red <- (mae.exp - mae) / mae.exp
+    mse.exp <- mean(error.exp^2)
+    mse.red <- (mse.exp - mse) / mse.exp # R-squared
+    rmse.exp <- sqrt(mse.exp)
+    rmse.red <- (rmse.exp - rmse) / rmse.exp
+  }
+  
 
   out <- data.frame(
     MAE = mae,
     MSE = mse,
     RMSE = rmse,
     NRMSE = nrmse,
-    MAE.EXP = mae.exp,
-    MAE.RED = mae.red,
-    MSE.EXP = mse.exp,
-    MSE.RED = mse.red,
-    RMSE.EXP = rmse.exp,
-    RMSE.RED = rmse.red,
     r = r,
     r.p = r.p,
     SSE = SSE,
@@ -141,6 +138,11 @@ reg_error <- function(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity =
     stderr = stderr,
     row.names = NULL
   )
+  if (pct.red) {
+    out$MAE.RED <- mae.red
+    out$MSE.RED <- mse.red
+    out$RMSE.RED <- rmse.red
+  }
   if (rho) {
     out$rho <- suppressWarnings(cor(x, y, method = "spearman"))
     out$rho.p <- suppressWarnings(cor.test(x, y, method = "spearman")$p.value)
@@ -208,9 +210,9 @@ mae <- function(x, y, na.rm = TRUE) {
 rsq <- function(x, y) {
   SSE <- sum((x - y)^2)
   # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
-  SSR <- sum((mean(x) - y)^2)
+  # SSR <- sum((mean(x) - y)^2)
   # Total Sum of Squares (TSS or SST)
-  SST <- sum((x - mean(y))^2)
+  SST <- sum((x - mean(x))^2)
   # R-squared a.k.a. Coefficient of Determination i.e. percent variance explained
   1 - (SSE / SST)
 } # rtemis::rsq
@@ -366,9 +368,15 @@ factor_harmonize <- function(reference, x,
 
 print.regError <- function(x, ...) {
   obj <- as.data.frame(x)
-  cat("    MSE = ", ddSci(obj$MSE), " (", ddSci(obj$MSE.RED * 100), "%)\n", sep = "")
-  cat("   RMSE = ", ddSci(obj$RMSE), " (", ddSci(obj$RMSE.RED * 100), "%)\n", sep = "")
-  cat("    MAE = ", ddSci(obj$MAE), " (", ddSci(obj$MAE.RED * 100), "%)\n", sep = "")
+  if (!is.null(x$MSE.RED)) {
+    cat("    MSE = ", ddSci(obj$MSE), " (", ddSci(obj$MSE.RED * 100), "%)\n", sep = "")
+    cat("   RMSE = ", ddSci(obj$RMSE), " (", ddSci(obj$RMSE.RED * 100), "%)\n", sep = "")
+    cat("    MAE = ", ddSci(obj$MAE), " (", ddSci(obj$MAE.RED * 100), "%)\n", sep = "")
+  } else {
+    cat("    MSE = ", ddSci(obj$MSE), "\n", sep = "")
+    cat("   RMSE = ", ddSci(obj$RMSE), "\n", sep = "")
+    cat("    MAE = ", ddSci(obj$MAE), "\n", sep = "")
+  }
   cat("      r = ", ddSci(obj$r), " (p = ", ddSci(obj$r.p), ")\n", sep = "")
   if (!is.null(obj$rho)) {
     cat("    rho = ", ddSci(obj$rho), " (p = ", ddSci(obj$rho.p), ")\n", sep = "")
