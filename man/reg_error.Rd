@@ -4,7 +4,15 @@
 \alias{reg_error}
 \title{Regression Error Metrics}
 \usage{
-reg_error(x, y, rho = FALSE, tau = FALSE, na.rm = FALSE, verbosity = 0)
+reg_error(
+  x,
+  y,
+  rho = FALSE,
+  tau = FALSE,
+  pct.red = FALSE,
+  na.rm = FALSE,
+  verbosity = 0
+)
 }
 \arguments{
 \item{x}{Numeric vector: True values}
