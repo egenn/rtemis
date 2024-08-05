@@ -1644,8 +1644,8 @@ rtModCV <- R6::R6Class(
         )
       } else {
         cat(
-          "  Mean MSE % reduction:",
-          self$error.test.repeats.mean$MSE.RED * 100, "\n"
+          "  Mean R-squared:",
+          self$error.test.repeats.mean$Rsq * 100, "\n"
         )
       }
     },

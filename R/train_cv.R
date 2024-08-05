@@ -485,7 +485,7 @@ train_cv <- function(x, y = NULL,
           hilite(paste(
             ddSci(plyr::laply(
               error.test.res.aggr,
-              function(x) x$MSE.RED
+              function(x) x$Rsq
             ) * 100),
             collapse = "%, "
           ), "%\n", sep = ""),
@@ -528,7 +528,7 @@ train_cv <- function(x, y = NULL,
           hilite(paste(
             ddSci(plyr::laply(
               error.test.res.mean,
-              function(x) x$MSE.RED * 100
+              function(x) x$Rsq * 100
             )),
             collapse = "%, "
           ), "%\n", sep = ""),
@@ -560,9 +560,9 @@ train_cv <- function(x, y = NULL,
           ), "\n"
         )
         cat(
-          "MSE was reduced on average by",
+          "Mean R-squared was",
           hilite(
-            ddSci(error.test.repeats.mean$MSE.RED)
+            ddSci(error.test.repeats.mean$Rsq)
           ), "\n"
         )
       } else if (type == "Classification") {
