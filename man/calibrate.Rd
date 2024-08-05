@@ -6,7 +6,7 @@
 \usage{
 calibrate(
   true.labels,
-  est.prob,
+  predicted.prob,
   pos.class = NULL,
   mod = c("gam", "glm"),
   k = 5,
@@ -16,7 +16,7 @@ calibrate(
 \arguments{
 \item{true.labels}{Factor with true class labels}
 
-\item{est.prob}{Numeric vector with predicted probabilities}
+\item{predicted.prob}{Numeric vector with predicted probabilities}
 
 \item{pos.class}{Integer: Index of the positive class}
 
@@ -41,7 +41,7 @@ data(segment_logistic, package = "probably")
 # Plot the calibration curve of the original predictions
 dplot3_calibration(
   true.labels = segment_logistic$Class,
-  est.prob = segment_logistic$.pred_poor,
+  predicted.prob = segment_logistic$.pred_poor,
   n_windows = 10,
   pos.class = 2
 )
@@ -49,7 +49,7 @@ dplot3_calibration(
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
   true.labels = segment_logistic$Class,
-  est.prob = calibrate(
+  predicted.prob = calibrate(
     segment_logistic$Class,
     segment_logistic$.pred_poor
   )$fitted.values,

@@ -6,7 +6,7 @@
 #'
 #' @inheritParams dplot3_xy
 #' @param true.labels Factor or list of factors with true class labels
-#' @param est.prob Numeric vector or list of numeric vectors with predicted probabilities
+#' @param predicted.prob Numeric vector or list of numeric vectors with predicted probabilities
 #' @param bin.method Character: "quantile" or "equidistant": Method to bin the estimated
 #' probabilities.
 #' @param n.bins Integer: Number of windows to split the data into
@@ -31,7 +31,7 @@
 #' # Plot the calibration curve of the original predictions
 #' dplot3_calibration(
 #'   true.labels = segment_logistic$Class,
-#'   est.prob = segment_logistic$.pred_poor,
+#'   predicted.prob = segment_logistic$.pred_poor,
 #'   n.bins = 10,
 #'   pos.class = 2
 #' )
@@ -39,7 +39,7 @@
 #' # Plot the calibration curve of the calibrated predictions
 #' dplot3_calibration(
 #'   true.labels = segment_logistic$Class,
-#'   est.prob = calibrate(
+#'   predicted.prob = calibrate(
 #'     segment_logistic$Class,
 #'     segment_logistic$.pred_poor
 #'   )$fitted.values,
@@ -47,13 +47,13 @@
 #'   pos.class = 2
 #' )
 #' }
-dplot3_calibration <- function(true.labels, est.prob,
+dplot3_calibration <- function(true.labels, predicted.prob,
                                n.bins = 10,
                                bin.method = c("quantile", "equidistant"),
                                pos.class = NULL,
                                main = NULL,
                                subtitle = NULL,
-                               xlab = "Mean estimated probability",
+                               xlab = "Mean predicted probability",
                                ylab = "Empirical risk",
                                show.marginal.x = TRUE,
                                marginal.x.y = -.02,
@@ -73,11 +73,11 @@ dplot3_calibration <- function(true.labels, est.prob,
   if (!is.list(true.labels)) {
     true.labels <- list(true_labels = true.labels)
   }
-  if (!is.list(est.prob)) {
-    est.prob <- list(estimated_prob = est.prob)
+  if (!is.list(predicted.prob)) {
+    predicted.prob <- list(estimated_prob = predicted.prob)
   }
   # Ensure same number of inputs
-  stopifnot(length(true.labels) == length(est.prob))
+  stopifnot(length(true.labels) == length(predicted.prob))
 
   # Theme ----
   if (is.character(theme)) {
@@ -92,38 +92,38 @@ dplot3_calibration <- function(true.labels, est.prob,
 
   # Create windows
   if (bin.method == "equidistant") {
-    breaks <- lapply(seq_along(est.prob), \(x) {
+    breaks <- lapply(seq_along(predicted.prob), \(x) {
       seq(0, 1, length.out = n.bins + 1)
     })
   } else if (bin.method == "quantile") {
-    breaks <- lapply(est.prob, \(x) {
+    breaks <- lapply(predicted.prob, \(x) {
       quantile(x, probs = seq(0, 1, length.out = n.bins + 1))
     })
   }
 
   # Calculate the mean probability in each window
-  mean_bin_prob <- lapply(seq_along(est.prob), \(i) {
+  mean_bin_prob <- lapply(seq_along(predicted.prob), \(i) {
     sapply(seq_len(n.bins), \(j) {
-      mean(est.prob[[i]][est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]])
+      mean(predicted.prob[[i]][predicted.prob[[i]] >= breaks[[i]][j] & predicted.prob[[i]] < breaks[[i]][j + 1]])
     })
   })
-  names(mean_bin_prob) <- names(est.prob)
+  names(mean_bin_prob) <- names(predicted.prob)
 
   # Calculate the proportion of condition positive cases in each window
-  window_empirical_risk <- lapply(seq_along(est.prob), \(i) {
+  window_empirical_risk <- lapply(seq_along(predicted.prob), \(i) {
     sapply(seq_len(n.bins), \(j) {
-      idl <- est.prob[[i]] >= breaks[[i]][j] & est.prob[[i]] < breaks[[i]][j + 1]
+      idl <- predicted.prob[[i]] >= breaks[[i]][j] & predicted.prob[[i]] < breaks[[i]][j + 1]
       sum(true.labels[[i]][idl] == pos_class[[i]]) / sum(idl)
     })
   })
-  names(window_empirical_risk) <- names(est.prob)
+  names(window_empirical_risk) <- names(predicted.prob)
 
   # Add Brier score
   if (show.brier) {
-    .brier.score <- sapply(seq_along(est.prob), \(i) {
+    .brier.score <- sapply(seq_along(predicted.prob), \(i) {
       brier_score(
         true = labels2int(true.labels[[i]], pos.class),
-        estimated.prob = est.prob[[i]]
+        estimated.prob = predicted.prob[[i]]
       )
     })
     # names(mean_bin_prob) <- paste0(names(mean_bin_prob), "(", round(.brier.score, 3), ")")
@@ -132,8 +132,8 @@ dplot3_calibration <- function(true.labels, est.prob,
 
   # Calculate confidence intervals
   # confint <- sapply(seq_len(n.bins), \(i) {
-  #     events <- length(true.labels[true.labels == pos_class & est.prob >= breaks[i] & est.prob < breaks[i + 1]])
-  #     total <- length(est.prob >= breaks[i] & est.prob < breaks[i + 1])
+  #     events <- length(true.labels[true.labels == pos_class & predicted.prob >= breaks[i] & predicted.prob < breaks[i + 1]])
+  #     total <- length(predicted.prob >= breaks[i] & predicted.prob < breaks[i + 1])
   #     suppressWarnings(pt <- prop.test(
   #         events, total,
   #         conf.level = conf_level
@@ -164,7 +164,7 @@ dplot3_calibration <- function(true.labels, est.prob,
     xlab = xlab,
     ylab = ylab,
     show.marginal.x = show.marginal.x,
-    marginal.x = est.prob,
+    marginal.x = predicted.prob,
     marginal.x.y = marginal.x.y,
     marginal.size = marginal.size,
     axes.square = TRUE,
@@ -182,8 +182,8 @@ dplot3_calibration <- function(true.labels, est.prob,
   #   for (i in seq_along(mean_bin_prob)) {
   #     plt <- plotly::add_trace(
   #       plt,
-  #       x = est.prob[[i]],
-  #       y = rep(-.02, length(est.prob[[i]])),
+  #       x = predicted.prob[[i]],
+  #       y = rep(-.02, length(predicted.prob[[i]])),
   #       type = "scatter",
   #       mode = "markers",
   #       marker = list(

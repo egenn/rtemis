@@ -29,7 +29,6 @@
 #' @param min_data_per_group Integer: Minimum number of observations per categorical
 #' group
 #' @param linear_tree Logical: \[gS\] If `TRUE`, use linear trees
-#' @param tree_learner Character: \[gS\] "serial", "feature", "data", "voting"
 #' @param importance Logical: If `TRUE`, calculate variable importance
 #' @param objective (Default = NULL)
 #' @param lightgbm_verbose Integer: Passed to `lightgbm::train`, `< 0`: Fatal,
@@ -74,7 +73,6 @@ s_LightCART <- function(x, y = NULL,
                         max_cat_threshold = 32L,
                         min_data_per_group = 32L,
                         linear_tree = FALSE,
-                        tree_learner = "serial",
                         .gs = FALSE,
                         grid.resample.params = setup.resample("kfold", 5),
                         gridsearch.type = "exhaustive",
@@ -109,6 +107,7 @@ s_LightCART <- function(x, y = NULL,
   }
   start.time <- intro(verbose = verbose, logFile = logFile)
   mod.name <- "LightCART"
+  tree_learner <- "serial"
 
   # Dependencies ----
   dependency_check("lightgbm")

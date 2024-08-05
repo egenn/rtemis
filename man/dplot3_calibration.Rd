@@ -6,13 +6,13 @@
 \usage{
 dplot3_calibration(
   true.labels,
-  est.prob,
+  predicted.prob,
   n.bins = 10,
   bin.method = c("quantile", "equidistant"),
   pos.class = NULL,
   main = NULL,
   subtitle = NULL,
-  xlab = "Mean estimated probability",
+  xlab = "Mean predicted probability",
   ylab = "Empirical risk",
   show.marginal.x = TRUE,
   marginal.x.y = -0.02,
@@ -28,7 +28,7 @@ dplot3_calibration(
 \arguments{
 \item{true.labels}{Factor or list of factors with true class labels}
 
-\item{est.prob}{Numeric vector or list of numeric vectors with predicted probabilities}
+\item{predicted.prob}{Numeric vector or list of numeric vectors with predicted probabilities}
 
 \item{n.bins}{Integer: Number of windows to split the data into}
 
@@ -75,7 +75,7 @@ data(segment_logistic, package = "probably")
 # Plot the calibration curve of the original predictions
 dplot3_calibration(
   true.labels = segment_logistic$Class,
-  est.prob = segment_logistic$.pred_poor,
+  predicted.prob = segment_logistic$.pred_poor,
   n.bins = 10,
   pos.class = 2
 )
@@ -83,7 +83,7 @@ dplot3_calibration(
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
   true.labels = segment_logistic$Class,
-  est.prob = calibrate(
+  predicted.prob = calibrate(
     segment_logistic$Class,
     segment_logistic$.pred_poor
   )$fitted.values,

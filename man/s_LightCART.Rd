@@ -25,7 +25,6 @@ s_LightCART(
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
-  tree_learner = "serial",
   .gs = FALSE,
   grid.resample.params = setup.resample("kfold", 5),
   gridsearch.type = "exhaustive",
@@ -102,8 +101,6 @@ variable}
 group}
 
 \item{linear_tree}{Logical: [gS] If \code{TRUE}, use linear trees}
-
-\item{tree_learner}{Character: [gS] "serial", "feature", "data", "voting"}
 
 \item{.gs}{(Internal use only)}
 

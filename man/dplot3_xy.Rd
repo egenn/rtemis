@@ -46,7 +46,7 @@ dplot3_xy(
   marginal.y.x = NULL,
   marginal.col = NULL,
   marginal.alpha = 0.333,
-  marginal.size = 5,
+  marginal.size = 10,
   legend = NULL,
   legend.xy = c(0, 0.98),
   legend.xanchor = "left",

@@ -120,7 +120,7 @@ dplot3_xy <- function(x, y = NULL,
                       marginal.y.x = NULL,
                       marginal.col = NULL,
                       marginal.alpha = .333,
-                      marginal.size = 5,
+                      marginal.size = 10,
                       legend = NULL,
                       legend.xy = c(0, .98),
                       legend.xanchor = "left",
@@ -457,7 +457,7 @@ dplot3_xy <- function(x, y = NULL,
     }
 
     xlim <- ylim <- range(xlim, ylim)
-  }
+  } # /axes.equal
 
   # unlist will coerce Dates to numeric, also don't want padding
   if (is.null(xlim) && !inherits(x[[1]], "Date")) {
@@ -532,6 +532,8 @@ dplot3_xy <- function(x, y = NULL,
         marginal.col <- plotly::toRGB(marker.col, alpha = marginal.alpha)
       }
       if (is.null(marginal.x.y)) marginal.x.y <- ylim[1]
+      # Extend ylim to include marginal markers
+      ylim[1] <- ylim[1] - 0.02 * diff(ylim)
       for (i in seq_len(n.groups)) {
         plt <- plotly::add_trace(plt,
           x = marginal.x[[i]],
@@ -545,8 +547,6 @@ dplot3_xy <- function(x, y = NULL,
           ),
           showlegend = FALSE,
           hoverinfo = "x"
-          # legendgroup = .names[i],
-          # inherit = FALSE
         )
       }
     } # /show.marginal.x
@@ -556,6 +556,8 @@ dplot3_xy <- function(x, y = NULL,
         marginal.col <- plotly::toRGB(marker.col, alpha = marginal.alpha)
       }
       if (is.null(marginal.y.x)) marginal.y.x <- xlim[1]
+      # Extend xlim to include marginal markers
+      xlim[1] <- xlim[1] - 0.02 * diff(xlim)
       for (i in seq_len(n.groups)) {
         plt <- plotly::add_trace(plt,
           x = rep(marginal.y.x, length(marginal.y[[i]])),
