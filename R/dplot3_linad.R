@@ -2,8 +2,8 @@
 # ::rtemis::
 # 2020 E.D. Gennatas rtemis.org
 
-#' Plot a Linear Additive Tree trained by `s_LINAD` using
-#' **visNetwork**
+#' Plot a Linear Additive Tree trained by [s_LINAD] using
+#' *visNetwork*
 #'
 #' @param x `rtMod` object trained using [s_LINAD]
 #' @param main Character: Title.
@@ -20,16 +20,18 @@
 #' @param node.col Color for nodes.
 #' @param leaf.col Color for leaf nodes.
 #' @param edge.col Color for edges.
-#' @param edge.width Float: Width for edges.
+#' @param edge.width Numeric: Width for edges.
+#' @param arrow.scale Numeric: Scale factor for arrows.
+#' @param arrow.middle Logical: If TRUE, draw arrows in the middle of edges.
 #' @param col.highlight Color for surrounding edges when node is selected.
 #' @param node.font.col Color for node labels. Default varies by `shape`,
 #' black or white depending if
 #' `visNetwork` draws labels on node or underneath
 #' @param edge.font.col Color for edge labels.
 #' @param sort.coefs Logical: If TRUE, sort each coefs table.
-#' @param height Float: Height for `visNetwork`. Default = NULL, i.e. auto
-#' @param width Float: Width for `visNetwork`. Default = NULL, i.e. auto
-#' @param levelSeparation Float: N of pixels to separate tree levels.
+#' @param height Numeric: Height for `visNetwork`. Default = NULL, i.e. auto
+#' @param width Numeric: Width for `visNetwork`. Default = NULL, i.e. auto
+#' @param levelSeparation Numeric: N of pixels to separate tree levels.
 #' @param tree.font.size Integer: Font size for tree labels. Default = 22
 #' @param edgethickness.by.ncases Logical: If TRUE, scale edge thickness by
 #' number of cases with weight = 1
@@ -40,7 +42,7 @@
 #' @param tooltip.coefs Logical: If TRUE, show html coefficient tables on hover
 #' over nodes. This was placed here before a custom html table creation
 #' function was made to replace some impossibly slow alternatives.
-#' @param tooltip.delay Float: Delay (in milliseconds) on mouse over before
+#' @param tooltip.delay Numeric: Delay (in milliseconds) on mouse over before
 #' showing tooltip.
 #' @param table.font.size Character: Font size for html coefficient on-hover
 #' tables.
@@ -48,6 +50,14 @@
 #' Character: html table padding. 
 #' @param table.lo.col Color for lowest coefficient values (negative)
 #' @param table.hi.col Color for highest coefficient values (positive).
+#' @param dragNodes Logical: If TRUE, allow dragging nodes.
+#' @param zoomView Logical: If TRUE, allow zooming.
+#' @param nodeSpacing Numeric: Spacing between nodes.
+#' @param blockShifting Logical: If TRUE, allow block shifting.
+#' @param edgeMinimization Logical: If TRUE, minimize edge length.
+#' @param parentCentralization Logical: If TRUE, centralize parent nodes.
+#' @param direction Character: Direction of tree. One of: "UD", "DU", "LR",
+#' "RL".
 #' @param trace Integer: If > 0, print info to console (not particularly
 #' informative).
 #'

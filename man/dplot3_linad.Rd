@@ -2,8 +2,8 @@
 % Please edit documentation in R/dplot3_linad.R
 \name{dplot3_linad}
 \alias{dplot3_linad}
-\title{Plot a Linear Additive Tree trained by \code{s_LINAD} using
-\strong{visNetwork}}
+\title{Plot a Linear Additive Tree trained by \link{s_LINAD} using
+\emph{visNetwork}}
 \usage{
 dplot3_linad(
   x,
@@ -76,7 +76,11 @@ nodes.}
 
 \item{edge.col}{Color for edges.}
 
-\item{edge.width}{Float: Width for edges.}
+\item{edge.width}{Numeric: Width for edges.}
+
+\item{arrow.scale}{Numeric: Scale factor for arrows.}
+
+\item{arrow.middle}{Logical: If TRUE, draw arrows in the middle of edges.}
 
 \item{col.highlight}{Color for surrounding edges when node is selected.}
 
@@ -88,11 +92,11 @@ black or white depending if
 
 \item{sort.coefs}{Logical: If TRUE, sort each coefs table.}
 
-\item{height}{Float: Height for \code{visNetwork}. Default = NULL, i.e. auto}
+\item{height}{Numeric: Height for \code{visNetwork}. Default = NULL, i.e. auto}
 
-\item{width}{Float: Width for \code{visNetwork}. Default = NULL, i.e. auto}
+\item{width}{Numeric: Width for \code{visNetwork}. Default = NULL, i.e. auto}
 
-\item{levelSeparation}{Float: N of pixels to separate tree levels.}
+\item{levelSeparation}{Numeric: N of pixels to separate tree levels.}
 
 \item{tree.font.size}{Integer: Font size for tree labels. Default = 22}
 
@@ -109,7 +113,7 @@ number of external viewers.}
 over nodes. This was placed here before a custom html table creation
 function was made to replace some impossibly slow alternatives.}
 
-\item{tooltip.delay}{Float: Delay (in milliseconds) on mouse over before
+\item{tooltip.delay}{Numeric: Delay (in milliseconds) on mouse over before
 showing tooltip.}
 
 \item{table.font.size}{Character: Font size for html coefficient on-hover
@@ -122,12 +126,27 @@ Character: html table padding.}
 
 \item{table.hi.col}{Color for highest coefficient values (positive).}
 
+\item{dragNodes}{Logical: If TRUE, allow dragging nodes.}
+
+\item{zoomView}{Logical: If TRUE, allow zooming.}
+
+\item{nodeSpacing}{Numeric: Spacing between nodes.}
+
+\item{blockShifting}{Logical: If TRUE, allow block shifting.}
+
+\item{edgeMinimization}{Logical: If TRUE, minimize edge length.}
+
+\item{parentCentralization}{Logical: If TRUE, centralize parent nodes.}
+
+\item{direction}{Character: Direction of tree. One of: "UD", "DU", "LR",
+"RL".}
+
 \item{trace}{Integer: If > 0, print info to console (not particularly
 informative).}
 }
 \description{
-Plot a Linear Additive Tree trained by \code{s_LINAD} using
-\strong{visNetwork}
+Plot a Linear Additive Tree trained by \link{s_LINAD} using
+\emph{visNetwork}
 }
 \author{
 E.D. Gennatas
