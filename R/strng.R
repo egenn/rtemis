@@ -22,8 +22,8 @@ underline <- function(...) {
 }
 
 #' @rdname strng
-hilite <- function(..., bold = TRUE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;117m", paste(...), "\033[0m")
+hilite <- function(..., col = "69;1", bold = TRUE) {
+  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;", col, "m", paste(...), "\033[0m")
 }
 
 #' @rdname strng
