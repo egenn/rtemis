@@ -190,7 +190,7 @@ dplot3_xt <- function(
     xunits <- x$xunits
     yunits <- x$yunits
     y2units <- x$y2units
-    shade.bin <- x$shade
+    shade.bin <- x$Shade
     zt <- x$zt
     x <- x$x
     if (!is.null(names(x)) && length(x) == 1) {
