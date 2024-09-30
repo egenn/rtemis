@@ -524,7 +524,7 @@ rtMod <- R6::R6Class("rtMod",
       cat("\n")
       invisible(desc)
     } # / describe
-  )
+  ) # /public
 ) # /rtMod
 
 # rtMod S3 methods ----
