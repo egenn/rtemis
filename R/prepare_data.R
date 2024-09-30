@@ -41,10 +41,9 @@ prepare_data <- function(x, y = NULL,
                          removeDots = FALSE,
                          .preprocess = NULL,
                          verbose = FALSE) {
-  if (upsample && downsample) stop("Please choose to upsample OR downsample")
+  if (upsample && downsample) stop("Only one of upsample and downsample can be TRUE")
 
   if (class(x)[1] != "list") {
-    # x <- if (.data.table) data.table::setDT(x) else as.data.frame(x)
     x <- as.data.frame(x)
   } else {
     x <- lapply(x, as.data.frame)
@@ -53,7 +52,6 @@ prepare_data <- function(x, y = NULL,
 
   if (!is.null(x.test)) {
     if (class(x.test)[1] != "list") {
-      # x.test <- if (.data.table) data.table::setDT(x.test) else as.data.frame(x.test)
       x.test <- as.data.frame(x.test)
     } else {
       x.test <- lapply(x.test, as.data.frame)
@@ -106,7 +104,7 @@ prepare_data <- function(x, y = NULL,
     )
   }
 
-  # xnames and Dimensions check ----
+  # xnames and dimensions check ----
   if (class(x)[1] == "list") {
     # for meta models
     # Test list lengths match
@@ -155,7 +153,9 @@ prepare_data <- function(x, y = NULL,
   } else {
     # x is not list
     # '- Test dimensions match ----
-    if (NROW(x) != NROW(y)) stop("Training set features and outcome do not contain same number of cases")
+    if (NROW(x) != NROW(y)) {
+      stop("Training set features and outcome do not contain same number of cases")
+    }
     if (!is.null(x.test)) {
       if (NCOL(x) != NCOL(x.test)) {
         stop("Training and testing set do not contain same number of features")
