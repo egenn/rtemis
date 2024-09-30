@@ -79,14 +79,15 @@ mod_error <- function(true,
 #' @param y Numeric vector: Predicted values
 #' @param rho Logical: If TRUE, calculate Spearman's rho
 #' @param tau Logical: If TRUE, calculate Kendall's tau
+#' @param pct.red Logical: If TRUE, calculate percent reduction in error
 #' @param na.rm Logical: If TRUE, remove NA values before computation
 #' @param verbosity Integer: If > 0, print messages to console
 #'
 #' @return Object of class `regError`
 #' @author E.D. Gennatas
 reg_error <- function(x, y, rho = FALSE, tau = FALSE, pct.red = FALSE, na.rm = FALSE, verbosity = 0) {
-  inherits_test(x, "numeric")
-  inherits_test(y, "numeric")
+  inherits_check(x, "numeric")
+  inherits_check(y, "numeric")
   error <- x - y
   mae <- mean(abs(error), na.rm = na.rm)
   mse <- mean(error^2, na.rm = na.rm)

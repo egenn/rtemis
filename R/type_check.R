@@ -61,7 +61,7 @@ is_test <- function(x, fn) {
 #' inherits_check(iris, "list") # FALSE, compare to is_check(iris, is.list)
 #' }
 
-inherits_check <- function(x, cl) {
+inherits_test <- function(x, cl) {
   if (!inherits(x, cl)) {
     input <- deparse(substitute(x))
     message(red(bold(input), "is not", bold(cl)))
@@ -79,10 +79,36 @@ inherits_check <- function(x, cl) {
 #' @author EDG
 #' @keywords internal
 
-inherits_test <- function(x, cl) {
+inherits_check <- function(x, cl) {
   if (!is.null(x) && !inherits(x, cl)) {
     input <- deparse(substitute(x))
-    stop(bold(input), " is not ", bold(cl))
+    stop(bold(input), " must be ", bold(cl))
   }
   invisible(NULL)
 } # /rtemis::inherits_test
+
+
+#' Function that returns object if it is of a certain class
+#' 
+#' @param object Object to check and return
+#' @param class Character vector: class(es) to check against
+#' @param allow_null Logical: if TRUE, allows NULL objects
+#' 
+#' @return Object
+#' @author EDG
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#' strict("papaya", "character") # "papaya"
+#' strict(c(1, 2.5, 3.2), "integer") # Error
+#' strict(iris, "list") # Error
+strict <- function(object, class, allow_null = TRUE) {
+  if (allow_null && is.null(object)) {
+    return(NULL)
+  }
+  if (inherits(object, class)) {
+    return(object)
+  } else {
+    stop(bold(input), " must be ", bold(cl))
+  }
+} # /rtemis::strict
