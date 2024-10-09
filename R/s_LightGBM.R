@@ -80,6 +80,7 @@ s_LightGBM <- function(x, y = NULL,
                        resample.seed = NULL,
                        boosting = "gbdt",
                        objective = NULL,
+                       # Hyperparameters
                        max_nrounds = 1000L,
                        force_nrounds = NULL,
                        early_stopping_rounds = 10L,

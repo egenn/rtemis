@@ -2,27 +2,15 @@
 % Please edit documentation in R/type_check.R
 \name{inherits_check}
 \alias{inherits_check}
-\title{Check class of object}
+\title{Test class of object}
 \usage{
 inherits_check(x, cl)
 }
-\arguments{
-\item{x}{Object to check}
-
-\item{cl}{Character: class to check against}
-}
 \value{
-Logical
+NULL (invisibly)
 }
 \description{
-Check class of object
-}
-\examples{
-\dontrun{
-inherits_check("papaya", "character") # TRUE
-inherits_check(c(1, 2.5, 3.2), "integer") # FALSE
-inherits_check(iris, "list") # FALSE, compare to is_check(iris, is.list)
-}
+Test class of object
 }
 \author{
 EDG

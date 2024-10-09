@@ -21,7 +21,7 @@ italic(...)
 
 underline(...)
 
-hilite(..., bold = TRUE)
+hilite(..., col = "69;1", bold = TRUE)
 
 hilitebig(x)
 

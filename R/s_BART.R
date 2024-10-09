@@ -13,6 +13,7 @@
 #' @inheritParams s_GLM
 #' @param save.mod Logical: if TRUE, sets `bartMachine`'s `serialize` to TRUE and saves model to `outdir`
 #' @param ... Additional arguments to be passed to `bartMachine::bartMachine`
+#' 
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation

@@ -6,13 +6,15 @@
 #'
 #' Allow assignment only if input is of correct class and/or type
 #'
-#' @param x Value to be assigned if `type` matches
-#' @param accept.class Required class of value
-#' @param accept.type Required type of value
+#' @param x Value to be assigned if class and/or type check passes
+#' @param accept.class Required class of `x`
+#' @param accept.type Required type of `x`
+#' @param non.null.val Function which should have a non-null value when applied to `x`
+#' 
 #' @author E.D. Gennatas
 #' @export
 
-strict <- function(x, accept.class = NULL, accept.type = NULL) {
+strict <- function(x, accept.class = NULL, accept.type = NULL, non.null.val = NULL) {
   input.class <- class(x)
   input.type <- typeof(x)
   if (!is.null(accept.class)) {

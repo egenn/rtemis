@@ -2,7 +2,7 @@
 % Please edit documentation in R/type_check.R
 \name{inherits_test}
 \alias{inherits_test}
-\title{Test class of object}
+\title{Check class of object}
 \usage{
 inherits_test(x, cl)
 }
@@ -12,10 +12,17 @@ inherits_test(x, cl)
 \item{cl}{Character: class to check against}
 }
 \value{
-NULL (invisibly)
+Logical
 }
 \description{
-Test class of object
+Check class of object
+}
+\examples{
+\dontrun{
+inherits_check("papaya", "character") # TRUE
+inherits_check(c(1, 2.5, 3.2), "integer") # FALSE
+inherits_check(iris, "list") # FALSE, compare to is_check(iris, is.list)
+}
 }
 \author{
 EDG

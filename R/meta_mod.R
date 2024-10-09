@@ -28,41 +28,41 @@
 #' @param resampler String. Resampling method to use. Options: "bootstrap", "kfold", "strat.boot", "strat.sub"
 #' @param se.lty How to plot standard errors. If a number, it corresponds to par("lty") line types and is
 #'   plotted with lines(). If "solid", a transparent polygon is plotted using polygon()
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
 meta_mod <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    base.mods = c("mars", "ranger"),
-                    base.params = vector("list", length(base.mods)),
-                    base.resample.params = setup.resample(
-                      resampler = "kfold",
-                      n.resamples = 4
-                    ),
-                    meta.mod = "gam",
-                    # meta.input = c("retrain", "bag"),
-                    meta.params = list(),
-                    x.name = NULL,
-                    y.name = NULL,
-                    save.base.res = TRUE,
-                    save.base.full = FALSE,
-                    col = NULL,
-                    se.lty = 3,
-                    print.base.plot = FALSE,
-                    print.plot = TRUE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose.base.res.mods = FALSE,
-                    verbose.base.mods = FALSE,
-                    verbose = TRUE,
-                    trace = 0,
-                    base.n.cores = 1,
-                    n.cores = rtCores,
-                    save.mod = FALSE,
-                    outdir = NULL, ...) {
+                     x.test = NULL, y.test = NULL,
+                     base.mods = c("mars", "ranger"),
+                     base.params = vector("list", length(base.mods)),
+                     base.resample.params = setup.resample(
+                       resampler = "kfold",
+                       n.resamples = 4
+                     ),
+                     meta.mod = "gam",
+                     # meta.input = c("retrain", "bag"),
+                     meta.params = list(),
+                     x.name = NULL,
+                     y.name = NULL,
+                     save.base.res = TRUE,
+                     save.base.full = FALSE,
+                     col = NULL,
+                     se.lty = 3,
+                     print.base.plot = FALSE,
+                     print.plot = TRUE,
+                     plot.fitted = NULL,
+                     plot.predicted = NULL,
+                     plot.theme = rtTheme,
+                     question = NULL,
+                     verbose.base.res.mods = FALSE,
+                     verbose.base.mods = FALSE,
+                     verbose = TRUE,
+                     trace = 0,
+                     base.n.cores = 1,
+                     n.cores = rtCores,
+                     save.mod = FALSE,
+                     outdir = NULL, ...) {
   # Intro ----
   if (missing(x)) {
     print(args(meta_mod))

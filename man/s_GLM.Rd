@@ -156,8 +156,6 @@ Other Supervised Learning:
 \code{\link{s_CTree}()},
 \code{\link{s_EVTree}()},
 \code{\link{s_GAM}()},
-\code{\link{s_GAM.default}()},
-\code{\link{s_GAM.formula}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLMNET}()},
 \code{\link{s_GLMTree}()},

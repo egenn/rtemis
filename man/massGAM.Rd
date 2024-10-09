@@ -24,8 +24,6 @@ massGAM(
 )
 }
 \arguments{
-\item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
-
 \item{y}{Numeric matrix / data frame: Outcomes}
 
 \item{covariates}{Numeric matrix / data.frame of additional covariates}

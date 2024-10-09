@@ -2,12 +2,106 @@
 % Please edit documentation in R/s_GAM.R
 \name{s_GAM}
 \alias{s_GAM}
-\title{Generalized Additive Model (GAM) {C, R}}
+\title{Generalized Additive Model (GAM) (C, R)}
 \usage{
-s_GAM(x, ...)
+s_GAM(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  k = 6,
+  family = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  method = "REML",
+  select = FALSE,
+  removeMissingLevels = TRUE,
+  spline.index = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  na.action = na.exclude,
+  question = NULL,
+  n.cores = rtCores,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+)
 }
 \arguments{
 \item{x}{Numeric vector or matrix / data frame of features i.e. independent variables}
+
+\item{y}{Numeric vector of outcome, i.e. dependent variable}
+
+\item{x.test}{Numeric vector or matrix / data frame of testing set features
+Columns must correspond to columns in \code{x}}
+
+\item{y.test}{Numeric vector of testing set outcome}
+
+\item{x.name}{Character: Name for feature set}
+
+\item{y.name}{Character: Name for outcome}
+
+\item{k}{Integer. Number of bases for smoothing spline}
+
+\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
+over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
+Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
+
+\item{ifw}{Logical: If TRUE, apply inverse frequency weighting
+(for Classification only).
+Note: If \code{weights} are provided, \code{ifw} is not used.}
+
+\item{ifw.type}{Integer {0, 1, 2}
+1: class.weights as in 0, divided by min(class.weights)
+2: class.weights as in 0, divided by max(class.weights)}
+
+\item{upsample}{Logical: If TRUE, upsample cases to balance outcome classes (for Classification only)
+Note: upsample will randomly sample with replacement if the length of the majority class is more than double
+the length of the class you are upsampling, thereby introducing randomness}
+
+\item{downsample}{Logical: If TRUE, downsample majority class to match size of minority class}
+
+\item{resample.seed}{Integer: If provided, will be used to set the seed during upsampling.
+Default = NULL (random seed)}
+
+\item{method}{Character: "auto", "anova", "poisson", "class" or "exp".}
+
+\item{select}{Logical: Passed to \code{mgcv::gam}'s \code{select} argument to allow for each
+term to be penalized to zero.}
+
+\item{verbose}{Logical: If TRUE, print summary to screen.}
+
+\item{print.plot}{Logical: if TRUE, produce plot using \code{mplot3}
+Takes precedence over \code{plot.fitted} and \code{plot.predicted}.}
+
+\item{plot.fitted}{Logical: if TRUE, plot True (y) vs Fitted}
+
+\item{plot.predicted}{Logical: if TRUE, plot True (y.test) vs Predicted.
+Requires \code{x.test} and \code{y.test}}
+
+\item{plot.theme}{Character: "zero", "dark", "box", "darkbox"}
+
+\item{question}{Character: the question you are attempting to answer with this model, in plain language.}
+
+\item{n.cores}{Integer: Number of cores to use.}
+
+\item{outdir}{Path to output directory.
+If defined, will save Predicted vs. True plot, if available,
+as well as full model output, if \code{save.mod} is TRUE}
+
+\item{save.mod}{Logical: If TRUE, save all output to an RDS file in \code{outdir}
+\code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
+is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
 \item{...}{Additional arguments to be passed to \code{mgcv::gam}}
 }
@@ -17,10 +111,7 @@ s_GAM(x, ...)
 \description{
 Trains a GAM using \code{mgcv::gam} and validates it.
 Input will be used to create a formula of the form:
-\deqn{y = s(x_{1}, k = gam.k) + s(x_{2}, k = gam.k) + ... + s(x_{n}, k = gam.k)}
-}
-\details{
-Only \code{s_GAM.default} is actively maintained at the moment
+\deqn{y = s(x_{1}, k) + s(x_{2}, k) + ... + s(x_{n}, k)}
 }
 \seealso{
 \link{train_cv} for external cross-validation
@@ -35,8 +126,6 @@ Other Supervised Learning:
 \code{\link{s_CART}()},
 \code{\link{s_CTree}()},
 \code{\link{s_EVTree}()},
-\code{\link{s_GAM.default}()},
-\code{\link{s_GAM.formula}()},
 \code{\link{s_GBM}()},
 \code{\link{s_GLM}()},
 \code{\link{s_GLMNET}()},
