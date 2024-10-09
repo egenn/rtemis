@@ -294,11 +294,15 @@ rtMod <- R6::R6Class("rtMod",
     #' @param print.plot Logical: If TRUE show plot
     #' @param theme Theme to be passed on to plotting function
     #' @param filename Character: path to file to save plot
-    #' @param ... Additional arguments passed to `mplot3_conf`
+    #' @param ... Additional arguments passed to [mplot3_conf] or [mplot3_fit]
     plotFittedPredicted = function(print.plot = TRUE,
                                    theme = rtTheme,
                                    filename = NULL, ...) {
-      "Plot fitted & predicted vs. true values"
+      if (length(self$y.test) < 1 | length(self$predicted) < 1) {
+        warning("No testing data available")
+        return(NULL)
+      }
+
       if (self$type == "Classification") {
         rtlayout(2, 1)
         mplot3_conf(self$error.train,
@@ -320,21 +324,18 @@ rtMod <- R6::R6Class("rtMod",
           self$y.test,
           self$error.test
         ))
+      } else {
+        mplot3_fit(list(Train = self$y.train, Test = self$y.test),
+          list(Train = self$fitted, Test = self$predicted),
+          xlab = paste("True", self$y.name),
+          ylab = paste("Predicted", self$y.name),
+          main = paste(self$mod.name, "Training & Testing"),
+          col = c("#18A3AC", "#F48024"),
+          theme = theme,
+          filename = filename, ...
+        )
       }
-      if (length(self$y.test) < 1 | length(self$predicted) < 1) {
-        warning("No testing data available")
-        return(NULL)
-      }
-      mplot3_fit(list(Train = self$y.train, Test = self$y.test),
-        list(Train = self$fitted, Test = self$predicted),
-        xlab = paste("True", self$y.name),
-        ylab = paste("Predicted", self$y.name),
-        main = paste(self$mod.name, "Training & Testing"),
-        col = c("#18A3AC", "#F48024"),
-        theme = theme,
-        filename = filename, ...
-      )
-    },
+    }, # /plotFittedPredicted
     # Plot variable importance rtMod ----
     #' @description
     #' Plot variable importance
