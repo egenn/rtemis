@@ -300,63 +300,27 @@ s_GLM <- function(x, y = NULL,
     weights = .weights,
     polynomial = polynomial
   )
-  # rtmod <- rtModSet(
-  #   mod = mod,
-  #   mod.name = mod.name,
-  #   type = type,
-  #   y.train = y,
-  #   y.test = y.test,
-  #   x.name = x.name,
-  #   y.name = y.name,
-  #   xnames = xnames,
-  #   fitted = fitted,
-  #   fitted.prob = fitted.prob,
-  #   se.fit = se.fit,
-  #   error.train = error.train,
-  #   predicted = predicted,
-  #   predicted.prob = predicted.prob,
-  #   se.prediction = se.prediction,
-  #   error.test = error.test,
-  #   # varimp = mod$coefficients[-1] * apply(x, 2, sd), #adjust for categorical with 3+ levels
-  #   varimp = mod$coefficients[-1],
-  #   question = question,
-  #   extra = extra
-  # )
-  rtmod <- make_Super(
-    alg = mod.name,
-    type = type,
+  rtmod <- rtModSet(
     mod = mod,
-    params = list(
-      formula = .formula,
-      family = family,
-      interactions = interactions,
-      class.method = class.method,
-      weights = weights,
-      ifw = ifw,
-      ifw.type = ifw.type,
-      upsample = upsample,
-      downsample = downsample,
-      resample.seed = resample.seed,
-      intercept = intercept,
-      polynomial = polynomial,
-      poly.d = poly.d,
-      poly.raw = poly.raw,
-      na.action = na.action,
-      removeMissingLevels = removeMissingLevels
-    ),
-    gs = NULL,
-    y_train = y,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
     fitted = fitted,
-    fitted_prob = fitted.prob,
-    y_valid = NULL,
-    predicted_valid = NULL,
-    predicted_valid_prob = NULL,
-    y_test = y.test,
+    fitted.prob = fitted.prob,
+    se.fit = se.fit,
+    error.train = error.train,
     predicted = predicted,
-    predicted_prob = predicted.prob,
-    class_labels = levels(y),
-    positive_class = levels(y)[rtenv$binclasspos],
-    question = question
+    predicted.prob = predicted.prob,
+    se.prediction = se.prediction,
+    error.test = error.test,
+    # varimp = mod$coefficients[-1] * apply(x, 2, sd), #adjust for categorical with 3+ levels
+    varimp = mod$coefficients[-1],
+    question = question,
+    extra = extra
   )
 
   rtMod.out(
