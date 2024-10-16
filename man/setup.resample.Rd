@@ -5,7 +5,7 @@
 \title{Set \link{resample} settings}
 \usage{
 setup.resample(
-  resampler = "strat.sub",
+  resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
   n.resamples = 10,
   stratify.var = NULL,
   train.p = 0.8,
