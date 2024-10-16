@@ -29,6 +29,13 @@ Object
 \description{
 Allow assignment only if input is of correct class and/or type
 }
+\examples{
+\dontrun{
+strict("papaya", "character") # "papaya"
+strict(c(1, 2.5, 3.2), "integer") # Error
+strict(iris, "list") # Error
+}
+}
 \author{
 E.D. Gennatas
 

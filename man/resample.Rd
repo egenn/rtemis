@@ -80,7 +80,6 @@ res <- resample(y, 10, "kfold")
 res <- resample(y, 25, "strat.sub")
 # 100 stratified bootstraps
 res <- resample(y, 100, "strat.boot")
-
 }
 \seealso{
 \link{train_cv}

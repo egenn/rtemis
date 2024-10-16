@@ -14,12 +14,11 @@ NULL
 
 #' Set [resample] settings
 #'
-#'
 #' @inheritParams resample
 #' @export
 
 setup.resample <- function(
-    resampler = "strat.sub",
+    resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
     n.resamples = 10,
     stratify.var = NULL,
     train.p = .8,
@@ -28,7 +27,7 @@ setup.resample <- function(
     id.strat = NULL,
     seed = NULL) {
   list(
-    resampler = resampler,
+    resampler = match.arg(resampler),
     n.resamples = n.resamples,
     stratify.var = stratify.var,
     train.p = train.p,

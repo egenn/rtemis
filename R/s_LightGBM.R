@@ -443,7 +443,7 @@ s_LightGBM <- function(x, y = NULL,
   rt
 } # rtemis::s_LightGBM
 
-#' Random Forest with LightGBM
+#' Random Forest using LightGBM
 #'
 #' @inheritParams s_LightGBM
 #' @param nrounds Integer: Number of trees to grow

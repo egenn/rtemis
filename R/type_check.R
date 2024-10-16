@@ -89,11 +89,11 @@ inherits_check <- function(x, cl) {
 
 
 #' Function that returns object if it is of a certain class
-#' 
+#'
 #' @param object Object to check and return
 #' @param class Character vector: class(es) to check against
 #' @param allow_null Logical: if TRUE, allows NULL objects
-#' 
+#'
 #' @return Object
 #' @author EDG
 #' @keywords internal
@@ -102,6 +102,7 @@ inherits_check <- function(x, cl) {
 #' strict("papaya", "character") # "papaya"
 #' strict(c(1, 2.5, 3.2), "integer") # Error
 #' strict(iris, "list") # Error
+#' }
 strict <- function(object, class, allow_null = TRUE) {
   if (allow_null && is.null(object)) {
     return(NULL)

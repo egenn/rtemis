@@ -52,7 +52,7 @@
 #' res <- resample(y, 25, "strat.sub")
 #' # 100 stratified bootstraps
 #' res <- resample(y, 100, "strat.boot")
-#'
+
 resample <- function(y,
                      n.resamples = 10,
                      resampler = c("strat.sub", "strat.boot", "kfold", 

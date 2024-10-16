@@ -248,7 +248,7 @@ msg2 <- function(...,
   }
   cat(paste(txt, collapse = sep))
   if (!is.null(caller) && !is.na(caller)) {
-    cat(gray(" [", caller, "]\n", sep = ""), sep = "")
+    cat(gray(" :", caller, "\n", sep = ""), sep = "")
   } else if (newline) {
     cat("\n")
   }
@@ -287,14 +287,12 @@ msg20 <- function(...,
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  # .dt <- if (date) paste0(as.character(Sys.time())) else NULL
   .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
   if (newline.pre) cat("\n")
   cat(gray(paste0(.dt, gray(" "))))
   cat(paste(txt, collapse = sep))
-  # cat(gray(" [", caller, "]\n", sep = ""), sep = "")
   if (!is.null(caller) && !is.na(caller)) {
-    cat(gray(" [", caller, "]\n", sep = ""), sep = "")
+    cat(gray(" :", caller, "\n", sep = ""), sep = "")
   } else if (newline) {
     cat("\n")
   }
