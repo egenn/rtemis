@@ -149,6 +149,29 @@ train_cv <- function(x, y = NULL,
     print(args(train_cv))
     stop("x is missing: Please provide data")
   }
+
+  # Support for rtemis_config file
+  if (is.character(x) && length(x) == 1) {
+    config_path <- path.expand(x)
+    if (!file.exists(config_path)) {
+      stop(
+        "The 'x' you input was a character. ",
+        "Assuming this is the path to a config file, but file not found: ", config_path
+      )
+    }
+    config <- read_config(config_path)
+    x <- read(config$data_path, character2factor = TRUE)
+    if (length(config$target) > 0) {
+      y <- x[[config$target]]
+      x <- x[setdiff(names(x), config$target)]
+    }
+    alg <- config$alg
+    train.params <- config$train.params
+    inner.resampling <- config$inner.resampling
+    outer.resampling <- config$outer.resampling
+    outdir <- dirname(config$outdir)
+  }
+
   if (!is.null(outer.resampling$id.strat)) {
     stopifnot(length(outer.resampling$id.strat) == NROW(x))
   }
