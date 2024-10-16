@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_LightGBM.R
 \name{s_LightRF}
 \alias{s_LightRF}
-\title{Random Forest with LightGBM}
+\title{Random Forest using LightGBM}
 \usage{
 s_LightRF(
   x,
@@ -182,7 +182,7 @@ is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 \item{...}{Extra arguments appended to \code{lgb.train}'s \code{params}.}
 }
 \description{
-Random Forest with LightGBM
+Random Forest using LightGBM
 }
 \examples{
 \dontrun{
