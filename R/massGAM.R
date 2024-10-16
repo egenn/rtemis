@@ -9,7 +9,7 @@
 #'
 #' NA in the input will be kept as NA in the results, maintaining n of cases.
 #'
-#' @inheritParams s_GAM.default
+#' @inheritParams s_GAM
 #' @param y Numeric matrix / data frame: Outcomes
 #' @param covariates Numeric matrix / data.frame of additional covariates
 #' @param x.name Character: Name of the predictor
