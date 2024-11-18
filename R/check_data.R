@@ -522,6 +522,12 @@ print.CheckData <- function(x,
       sep = "\n"
     )
     if (sum(n_character, n_constant, n_dups, n_cols_anyna) > 0) {
+      if (n_character > 0) {
+        out <- paste(out,
+          bold(orange("  * Consider converting character features to factors or excluding them")),
+          sep = "\n"
+        )
+      }
       if (n_constant > 0) {
         out <- paste(out,
           bold(red(paste(
