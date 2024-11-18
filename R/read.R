@@ -12,14 +12,15 @@
 #' @details
 #' `read` is a convenience function to read:
 #'
-#' - **RDS** files using `readRDS()`
-#' - **Parquet** files using `arrow::read_parquet()`
-#' - **XLSX** files using `readxl::read_excel()`
-#' - **DTA** files from Stata using `haven::read_dta()`
 #' - **Delimited** files using `data.table:fread()`, `arrow:read_delim_arrow()`,
 #'   `vroom::vroom()`, `duckdb::duckdb_read_csv()`
 #   or `polars::pl$read_csv()`
+#' - **ARFF** files using `farff::readARFF()`
+#' - **Parquet** files using `arrow::read_parquet()`
+#' - **XLSX** files using `readxl::read_excel()`
+#' - **DTA** files from Stata using `haven::read_dta()`
 #' - **FASTA** files using `seqinr::read.fasta()`
+#' - **RDS** files using `readRDS()`
 #'
 #' @param filename Character: filename or full path if `datadir = NULL`
 #' @param datadir Character: Optional path to directory where `filename`
@@ -139,6 +140,15 @@ read <- function(filename,
     # if single sequence, return as character
     if (length(.dat) == 1) .dat <- as.character(.dat[[1]])
     return(.dat)
+  } else if (ext == "arff") {
+    dependency_check("farff")
+    if (verbose) {
+      msg20(
+        bold(green("\u25B6")), " Reading ",
+        hilite(basename(path)), " using farff::readARFF()..."
+      )
+    }
+    .dat <- farff::readARFF(path, ...)
   } else {
     if (verbose) {
       msg20(
