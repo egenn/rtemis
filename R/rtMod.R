@@ -1623,7 +1623,7 @@ rtModCV <- R6::R6Class(
       # cat("              N of repeats:", self$n.repeats, "\n")
       cat(
         "      Outer resampling: ",
-        print1(self$resamples[[1]], verbose = FALSE),
+        print1(self$resamples[[1]], verbosity = 0),
         " (", singorplu(self$n.repeats, "repeat"),
         ")\n",
         sep = ""
@@ -1641,7 +1641,7 @@ rtModCV <- R6::R6Class(
         cat(
           "Mean Balanced Accuracy:",
           self$error.test.repeats.mean$Balanced.Accuracy,
-          "\nMean AUC:", self$error.test.repeats.mean$AUC, "\n"
+          "\n              Mean AUC:", self$error.test.repeats.mean$AUC, "\n"
         )
       } else {
         cat(

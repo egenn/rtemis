@@ -284,7 +284,7 @@ print.resample <- function(x, ...) {
 
 #' @export
 
-print1.resample <- function(x, verbosity = TRUE, ...) {
+print1.resample <- function(x, verbosity = 0, ...) {
   resampler <- attr(x, "resampler")
   if (resampler == "loocv") {
     .text <- "Leave-one-out crossvalidation"
