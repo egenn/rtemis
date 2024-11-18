@@ -323,6 +323,9 @@ preprocess <- function(x,
   # len2factor ----
   if (len2factor > 1) {
     index.len <- which(sapply(x, \(i) length(unique(i)) <= len2factor))
+    # Exclude factors
+    index.factor <- which(sapply(x, is.factor))
+    index.len <- setdiff(index.len, index.factor)
     if (verbose) {
       if (length(index.len) > 0) {
         msg2("Converting", singorplu(length(index.len), "feature"), "with <=", len2factor, "unique values to factors...")
