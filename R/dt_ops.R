@@ -10,9 +10,9 @@
 #' @author E.D. Gennatas
 #' @export
 
-dt_Nuniqueperfeat <- function(x, excludeNA = FALSE) {
-  sapply(x, \(i) uniqueN(i, na.rm = excludeNA))
-} # rtemis::dt_Nuniqueperfeat
+nunique_perfeat <- function(x, excludeNA = FALSE) {
+  sapply(x, \(i) data.table::uniqueN(i, na.rm = excludeNA))
+} # rtemis::nunique_perfeat
 
 
 #' Long to wide key-value reshaping
