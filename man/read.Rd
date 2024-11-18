@@ -74,13 +74,14 @@ characters to factors
 \details{
 \code{read} is a convenience function to read:
 \itemize{
-\item \strong{RDS} files using \code{readRDS()}
+\item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
+\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}
+\item \strong{ARFF} files using \code{farff::readARFF()}
 \item \strong{Parquet} files using \code{arrow::read_parquet()}
 \item \strong{XLSX} files using \code{readxl::read_excel()}
 \item \strong{DTA} files from Stata using \code{haven::read_dta()}
-\item \strong{Delimited} files using \code{data.table:fread()}, \code{arrow:read_delim_arrow()},
-\code{vroom::vroom()}, \code{duckdb::duckdb_read_csv()}
 \item \strong{FASTA} files using \code{seqinr::read.fasta()}
+\item \strong{RDS} files using \code{readRDS()}
 }
 }
 \examples{
