@@ -31,6 +31,8 @@
 #' @param num_leaves Integer: \[gS\] Maximum tree leaves for base learners.
 #' @param max_depth Integer: \[gS\] Maximum tree depth for base learners, <=0 means no limit.
 #' @param learning_rate Numeric: \[gS\] Boosting learning rate
+#' @param feature_fraction Numeric (0, 1): \[gS\] Fraction of features to consider at each iteration 
+#' (i.e. tree)
 #' @param subsample Numeric: \[gS\] Subsample ratio of the training set.
 #' @param subsample_freq Integer: Subsample every this many iterations
 #' @param lambda_l1 Numeric: \[gS\] L1 regularization term
@@ -88,6 +90,7 @@ s_LightGBM <- function(x, y = NULL,
                        num_leaves = 32L,
                        max_depth = -1L,
                        learning_rate = .01,
+                       feature_fraction = 1.0,
                        subsample = .8,
                        subsample_freq = 1L,
                        lambda_l1 = 0,
@@ -230,7 +233,7 @@ s_LightGBM <- function(x, y = NULL,
   }
 
   gc <- gridCheck(
-    num_leaves, max_depth, learning_rate, subsample, lambda_l1, lambda_l2
+    num_leaves, max_depth, learning_rate, feature_fraction, subsample, lambda_l1, lambda_l2
   )
 
   tuned <- FALSE
@@ -240,6 +243,7 @@ s_LightGBM <- function(x, y = NULL,
         num_leaves = num_leaves,
         max_depth = max_depth,
         learning_rate = learning_rate,
+        feature_fraction = feature_fraction,
         subsample = subsample,
         lambda_l1 = lambda_l1,
         lambda_l2 = lambda_l2
@@ -286,6 +290,7 @@ s_LightGBM <- function(x, y = NULL,
     num_leaves <- gs$best.tune$num_leaves
     max_depth <- gs$best.tune$max_depth
     learning_rate <- gs$best.tune$learning_rate
+    feature_fraction <- gs$best.tune$feature_fraction
     subsample <- gs$best.tune$subsample
     lambda_l1 <- gs$best.tune$lambda_l1
     lambda_l2 <- gs$best.tune$lambda_l2
@@ -304,6 +309,7 @@ s_LightGBM <- function(x, y = NULL,
     num_leaves = num_leaves,
     max_depth = max_depth,
     learning_rate = learning_rate,
+    feature_fraction = feature_fraction,
     subsample = subsample,
     lambda_l1 = lambda_l1,
     lambda_l2 = lambda_l2,
@@ -474,6 +480,7 @@ s_LightRF <- function(x, y = NULL,
                       num_leaves = 4096L,
                       max_depth = -1L,
                       learning_rate = 1,
+                      feature_fraction = 1.0,
                       subsample = .623,
                       subsample_freq = 1L,
                       lambda_l1 = 0,
@@ -524,6 +531,7 @@ s_LightRF <- function(x, y = NULL,
     num_leaves = num_leaves,
     max_depth = max_depth,
     learning_rate = learning_rate,
+    feature_fraction = feature_fraction,
     subsample = subsample,
     subsample_freq = subsample_freq,
     lambda_l1 = lambda_l1,

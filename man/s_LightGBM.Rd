@@ -26,6 +26,7 @@ s_LightGBM(
   num_leaves = 32L,
   max_depth = -1L,
   learning_rate = 0.01,
+  feature_fraction = 1,
   subsample = 0.8,
   subsample_freq = 1L,
   lambda_l1 = 0,
@@ -113,6 +114,9 @@ cross-validation fails - likely will never be used}
 \item{max_depth}{Integer: [gS] Maximum tree depth for base learners, <=0 means no limit.}
 
 \item{learning_rate}{Numeric: [gS] Boosting learning rate}
+
+\item{feature_fraction}{Numeric (0, 1): [gS] Fraction of features to consider at each iteration
+(i.e. tree)}
 
 \item{subsample}{Numeric: [gS] Subsample ratio of the training set.}
 
