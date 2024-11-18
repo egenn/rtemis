@@ -149,6 +149,7 @@ read <- function(filename,
       )
     }
     .dat <- farff::readARFF(path, ...)
+    if (output == "data.table") setDT(.dat)
   } else {
     if (verbose) {
       msg20(
