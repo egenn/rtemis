@@ -77,14 +77,6 @@ mplot3_roc <- function(prob,
   if (exists("rtpar")) par.reset <- FALSE
 
   # Theme ----
-  # extraargs <- list(...)
-  # if (is.character(theme)) {
-  #     theme <- do.call(paste0("theme_", theme), extraargs)
-  # } else {
-  #     for (i in seq(extraargs)) {
-  #         theme[[names(extraargs)[i]]] <- extraargs[[i]]
-  #     }
-  # }
   theme <- do.call(paste0("theme_", theme), list())
   theme$zerolines <- FALSE
 
@@ -137,6 +129,7 @@ mplot3_roc <- function(prob,
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
   if (type == "Sens.Spec") {
+    # '- type Sens.Spec ----
     mplot3_xy(Specificity, Sensitivity,
       main = main,
       xlab = "Specificity", ylab = "Sensitivity",
@@ -179,6 +172,7 @@ mplot3_roc <- function(prob,
       }
     }
   } else {
+    # '- type TPR.FPR ----
     mplot3_xy(FPR, TPR,
       main = main,
       xlab = "False Positive Rate", ylab = "True Positive Rate",
@@ -220,7 +214,7 @@ mplot3_roc <- function(prob,
         )
       }
     }
-  }
+  } # /type TPR.FPR
 
   # AUC annotation ----
   if (annotation) {
