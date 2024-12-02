@@ -107,7 +107,7 @@ default it is the same as \code{scale}}
 
 \item{removeConstants}{Logical: If TRUE, remove constant columns.}
 
-\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
+\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding.}
 
 \item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
 }

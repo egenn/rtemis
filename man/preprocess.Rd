@@ -37,6 +37,9 @@ preprocess(
   removeConstants.skipMissing = TRUE,
   removeDuplicates = FALSE,
   oneHot = FALSE,
+  add_date_features = FALSE,
+  date_features = c("weekday", "month", "year"),
+  add_holidays = FALSE,
   exclude = NULL,
   xname = NULL,
   verbose = TRUE
@@ -151,11 +154,17 @@ checking if feature is constant}
 
 \item{removeDuplicates}{Logical: If TRUE, remove duplicate cases.}
 
-\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding}
+\item{oneHot}{Logical: If TRUE, convert all factors using one-hot encoding.}
+
+\item{add_date_features}{Logical: If TRUE, extract date features from date columns.}
+
+\item{date_features}{Character vector: Features to extract from dates.}
+
+\item{add_holidays}{Logical: If TRUE, extract holidays from date columns.}
 
 \item{exclude}{Integer, vector: Exclude these columns from preprocessing.}
 
-\item{xname}{Character: Name of \code{x} for messages}
+\item{xname}{Character: Name of \code{x} for messages.}
 
 \item{verbose}{Logical: If TRUE, write messages to console.}
 }
