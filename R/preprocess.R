@@ -109,9 +109,12 @@
 #' @param removeConstants.skipMissing Logical: If TRUE, skip missing values, before
 #' checking if feature is constant
 #' @param removeDuplicates Logical: If TRUE, remove duplicate cases.
-#' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
+#' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding.
+#' @param add_date_features Logical: If TRUE, extract date features from date columns.
+#' @param date_features Character vector: Features to extract from dates.
+#' @param add_holidays Logical: If TRUE, extract holidays from date columns.
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
-#' @param xname Character: Name of `x` for messages
+#' @param xname Character: Name of `x` for messages.
 #' @param verbose Logical: If TRUE, write messages to console.
 #'
 #' @author E.D. Gennatas
@@ -159,6 +162,9 @@ preprocess <- function(x,
                        removeDuplicates = FALSE,
                        oneHot = FALSE,
                        #    cleanfactorlevels = FALSE,
+                       add_date_features = FALSE,
+                       date_features = c("weekday", "month", "year"),
+                       add_holidays = FALSE,
                        exclude = NULL,
                        xname = NULL,
                        verbose = TRUE) {
@@ -550,6 +556,31 @@ preprocess <- function(x,
 
   # One Hot Encoding ----
   if (oneHot) x <- oneHot(x, verbose = verbose)
+
+  # Add date features ----
+  if (add_date_features) {
+    if (verbose) msg2("Extracting date features...")
+    # Find date columns
+    date_cols <- which(sapply(x, function(col) inherits(col, "Date")))
+    # For each date column, extract features
+    for (i in date_cols) {
+      .date_features <- dates2features(x[[i]], features = date_features)
+      names(.date_features) <- paste0(names(x)[i], "_", names(.date_features))
+      x <- cbind(x, .date_features)
+    }
+  }
+
+  # Add holidays ----
+  if (add_holidays) {
+    if (verbose) msg2("Extracting holidays...")
+    # Find date columns
+    date_cols <- which(sapply(x, \(col) inherits(col, "Date")))
+    # For each date column, extract holidays
+    for (i in date_cols) {
+      .holidays <- get_holidays(x[, i])
+      x[[paste0(names(x)[i], "_holidays")]] <- .holidays
+    }
+  }
 
   # Add back excluded ----
   if (!is.null(exclude) && length(exclude) > 0) {
