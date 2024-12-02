@@ -286,7 +286,7 @@ ucsdCol <- list(
 #' (http://brand.universityofcalifornia.edu/guidelines/color.html#!primary-colors)
 #' @name rtPalettes
 
-californiaCol <- list(
+ucCol <- list(
   ucBlue = "#1295D8",
   ucGold = "#FFB511",
   blue = "#005581",
@@ -1612,7 +1612,7 @@ rtPalettes <- list(
   ucrColor = ucrColor,
   uciCol = uciCol,
   ucsdCol = ucsdCol,
-  californiaCol = californiaCol,
+  ucCol = ucCol,
   scrippsCol = scrippsCol,
   caltechCol = caltechCol,
   cmuCol = cmuCol,
