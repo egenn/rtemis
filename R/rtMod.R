@@ -354,7 +354,7 @@ rtMod <- R6::R6Class("rtMod",
       } else {
         type <- match.arg(type)
         if (is.null(xlab)) {
-          xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "LOGISTIC", "MULTINOM", "POLY")) {
+          xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "Logistic", "MULTINOM", "POLY")) {
             paste(self$mod.name, "Coefficients")
           } else {
             paste(self$mod.name, "Variable Importance")
@@ -596,8 +596,19 @@ predict.rtMod <- function(object,
     return(
       predict_LightGBM(object, newdata, classification.output = classification.output)
     )
-  } else if (object$mod.name == "LOGISTIC") {
-    # This is "GLM" which gets named "LOGISTIC" for better or for worse
+  } else if (object$mod.name == "LightRuleFit") {
+    ## LightRuleFit ----
+    .predicted <- predict.LightRuleFit(object$mod, newdata)
+    if (object$type == "Classification") {
+      if (classification.output == "prob") {
+        return(.predicted$predicted.prob)
+      } else {
+        return(.predicted$predicted)
+      }
+    }
+    .predicted
+  } else if (object$mod.name == "Logistic") {
+    # This is "GLM" which gets named "Logistic" for better or for worse
     estimated.prob <- predict(object$mod, newdata = newdata, type = "response")
     # estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
     # levels(estimated) <- levels(object$y.train)
@@ -1778,7 +1789,7 @@ rtModCV <- R6::R6Class(
                           xlab = NULL,
                           theme = rtTheme, ...) {
       if (is.null(xlab)) {
-        xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "LOGISTIC", "MULTINOM", "POLY")) {
+        xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "Logistic", "MULTINOM", "POLY")) {
           paste(self$mod.name, "Coefficients")
         } else {
           paste(self$mod.name, "Variable Importance")
@@ -2662,15 +2673,15 @@ predict.rtModLite <- function(object, newdata, ...) {
 #' @noRd
 
 rtMod.out <- function(rt,
-                      print.plot,
-                      plot.fitted,
-                      plot.predicted,
+                      print.plot = FALSE,
+                      plot.fitted = FALSE,
+                      plot.predicted = FALSE,
                       y.test,
                       mod.name,
                       outdir,
                       save.mod,
                       verbose,
-                      theme, ...) {
+                      theme = rtTheme, ...) {
   if (!is.null(outdir)) {
     filename.train <- paste0(outdir, "s_", mod.name, "_Fitted.vs.True.pdf")
     if (!is.null(y.test)) {
