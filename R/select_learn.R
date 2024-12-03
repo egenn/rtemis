@@ -46,6 +46,7 @@ rtAlgs <- data.frame(rbind(
   c("H2ODL", "H2O Deep Learning", TRUE, TRUE, FALSE),
   c("H2OGBM", "H2O Gradient Boosting Machine", TRUE, TRUE, FALSE),
   c("H2ORF", "H2O Random Forest", TRUE, TRUE, FALSE),
+  c("Isotonic", "Isotonic Regression", FALSE, TRUE, FALSE),
   c("LIHADBoost", "Boosting of Additive Trees", FALSE, TRUE, FALSE),
   c("LIHAD", "Linear Hard Additive Tree", FALSE, TRUE, FALSE),
   # c("KernelKNN", "Kernel k-Nearest Neighbor", TRUE, TRUE, FALSE),
@@ -110,9 +111,9 @@ colnames(rtAlgs) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 #' @export
 
 select_learn <- function(alg,
-                        fn = FALSE,
-                        name = FALSE,
-                        desc = FALSE) {
+                         fn = FALSE,
+                         name = FALSE,
+                         desc = FALSE) {
   if (missing(alg)) {
     cat(hilite("\n  rtemis supports the following algorithms for training learners:\n\n"))
     # Exclude first so many
