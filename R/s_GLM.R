@@ -165,8 +165,8 @@ s_GLM <- function(x, y = NULL,
     if (is.null(family)) family <- gaussian()
   } else {
     if (is.null(class.method)) {
-      mod.name <- if (length(levels(y)) > 2) "MULTINOM" else "LOGISTIC"
-      if (is.null(family) && mod.name == "LOGISTIC") family <- binomial()
+      mod.name <- if (length(levels(y)) > 2) "MULTINOM" else "Logistic"
+      if (is.null(family) && mod.name == "Logistic") family <- binomial()
     } else {
       mod.name <- toupper(class.method)
     }
@@ -183,7 +183,7 @@ s_GLM <- function(x, y = NULL,
   # do not use data.frame() here; x already data.frame from prepare_data.
   # If colnames was integers, data.frame() would add 'X' in front of those.
   # For example, splines produces output with integers as colnames.
-  df.train <- cbind(x, y = if (mod.name == "LOGISTIC") reverseLevels(y) else y)
+  df.train <- cbind(x, y = if (mod.name == "Logistic") reverseLevels(y) else y)
   if (!polynomial) {
     .formula <- paste(y.name, "~ .")
   } else {
@@ -234,7 +234,7 @@ s_GLM <- function(x, y = NULL,
     se.fit <- as.numeric(fitted$se.fit)
     fitted <- as.numeric(fitted$fit)
   } else {
-    if (mod.name == "LOGISTIC") {
+    if (mod.name == "Logistic") {
       fitted.prob <- as.numeric(predict(mod, x, type = "response"))
       fitted <- factor(ifelse(fitted.prob >= .5, 1, 0), levels = c(1, 0))
       levels(fitted) <- levels(y)
@@ -278,7 +278,7 @@ s_GLM <- function(x, y = NULL,
       se.prediction <- predicted$se.fit
       predicted <- as.numeric(predicted$fit)
     } else {
-      if (mod.name == "LOGISTIC") {
+      if (mod.name == "Logistic") {
         predicted.prob <- as.numeric(predict(mod, x.test, type = "response"))
         predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
         levels(predicted) <- levels(y)
@@ -349,10 +349,10 @@ s_GLM <- function(x, y = NULL,
 #' Convenience alias for `s_GLM(family = binomial(link = "logit"))`.
 #' @inheritParams s_GLM
 #' @export
-s_LOGISTIC <- function(x, y, x.test = NULL, y.test = NULL,
+s_Logistic <- function(x, y, x.test = NULL, y.test = NULL,
                        family = binomial(link = "logit"), ...) {
   s_GLM(x, y, x.test = x.test, y.test = y.test, family = family, ...)
-} # rtemis::s_LOGISTIC
+} # rtemis::s_Logistic
 
 
 #' Multinomial Logistic Regression
