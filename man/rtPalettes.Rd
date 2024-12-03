@@ -14,7 +14,7 @@
 \alias{ucrColor}
 \alias{uciCol}
 \alias{ucsdCol}
-\alias{californiaCol}
+\alias{ucCol}
 \alias{stanfordCol}
 \alias{csuCol}
 \alias{calpolyCol}
@@ -220,7 +220,7 @@ uciCol
 
 ucsdCol
 
-californiaCol
+ucCol
 
 stanfordCol
 

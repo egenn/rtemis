@@ -140,6 +140,7 @@ Other Supervised Learning:
 \code{\link{s_H2ODL}()},
 \code{\link{s_H2OGBM}()},
 \code{\link{s_H2ORF}()},
+\code{\link{s_Isotonic}()},
 \code{\link{s_KNN}()},
 \code{\link{s_LDA}()},
 \code{\link{s_LM}()},

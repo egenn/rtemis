@@ -2,7 +2,7 @@
 % Please edit documentation in R/calibrate.R
 \name{calibrate}
 \alias{calibrate}
-\title{Calibrate predicted probabilities using GAM}
+\title{Calibrate predicted probabilities using GAMs}
 \usage{
 calibrate(
   true.labels,
