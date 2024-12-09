@@ -15,7 +15,7 @@
 #' aggregating the test set predictions of the calibration models.
 #'
 #' @param mod `rtModCV` object returned by [train_cv]
-#' @param alg Character: "gam" or "glm", algorithm to use for calibration
+#' @param alg Character: Algorithm to use for calibration
 #' @param learn.params List: List of parameters to pass to the learning algorithm
 #' @param resample.params List of parameters to pass to the resampling algorithm.
 #' Build using [setup.resample]
@@ -32,7 +32,7 @@
 
 calibrate_cv <- function(
     mod,
-    alg = "gam",
+    alg = "isotonic",
     learn.params = list(),
     resample.params = setup.resample(resampler = "kfold", n.resamples = 5, seed = NULL),
     which.repeat = 1,
@@ -393,10 +393,10 @@ plot.rtModCVCalibration <- function(
           Raw = unlist(x$y_test),
           Calibrated = y_caltest_agg
         ),
-        est.prob = est.prob,
+        predicted.prob = est.prob,
         bin.method = bin.method,
         subtitle = paste(
-          "Aggregating across", length(x$y_caltest), "outer &",
+          "Aggregating across", length(x$y_caltest), "outer *<br>",
           length(x$y_caltest[[1]]), "calibration resamples"
         ),
         filename = filename, ...
@@ -408,7 +408,7 @@ plot.rtModCVCalibration <- function(
       prob_caltest_agg <- lapply(x$prob_caltest, unlist)
       dplot3_calibration(
         true.labels = y_caltest_agg,
-        est.prob = prob_caltest_agg,
+        predicted.prob = prob_caltest_agg,
         bin.method = bin.method,
         subtitle = paste(
           "Aggregating across", length(x$y_caltest[[1]]), "calibration resamples",
