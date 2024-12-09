@@ -8,6 +8,7 @@
 #'
 #'
 #' @inheritParams s_CART
+#' @param ... Not used
 #'
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
@@ -16,15 +17,16 @@
 #' @export
 
 s_Isotonic <- function(x, y = NULL,
-                       x.test = NULL, y.test = NULL,
-                       x.name = NULL, y.name = NULL,
-                       weights = NULL,
+                       x.test = NULL,
+                       y.test = NULL,
+                       x.name = NULL,
+                       y.name = NULL,
+                       binclasspos = NULL,
                        verbose = TRUE,
                        question = NULL,
                        outdir = NULL,
-                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
-  # .call <- match.call()
-  tree.depth <- getFromNamespace("tree.depth", "rpart")
+                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+  if (is.null(binclasspos)) binclasspos <- rtenv$binclasspos
 
   # Intro ----
   if (missing(x)) {
@@ -41,23 +43,17 @@ s_Isotonic <- function(x, y = NULL,
   mod.name <- "Isotonic"
 
   # Arguments ----
-  if (is.null(y) && NCOL(x) < 2) {
-    print(args(s_Isotonic))
-    stop("y is missing")
-  }
+  check_supervised_inputs(x, y)
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
-  if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
   if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
-    verbose = verbose
-  )
+  dt <- prepare_data(x, y, x.test, y.test, verbose = verbose)
   x <- dt$x
-  # x must be a single vector
+  # isoreg: x must be a single vector
   if (NCOL(x) > 1) {
     print(args(s_Isotonic))
     stop("x must be a single vector")
@@ -66,25 +62,45 @@ s_Isotonic <- function(x, y = NULL,
   x.test <- dt$x.test
   y.test <- dt$y.test
   xnames <- dt$xnames
-  type <- dt$type
-  if (type != "Regression") stop("Isotonic regression only supports continuous outcomes")
+  .class <- dt$type == "Classification"
 
   # Model ----
   if (verbose) msg2("Training Isotonic regression...", newline.pre = TRUE)
+  if (.class) {
+    # Positive class => 1, negative class => 0
+    yf <- y
+    y <- if (rtenv$binclasspos == 1) {
+      2 - as.numeric(y)
+    } else {
+      as.numeric(y) - 1
+    }
+  }
   ir <- isoreg(cbind(x, y))
   mod <- as.stepfun(ir)
 
-
   # Fitted ----
   fitted <- mod(x[[1]])
-  error.train <- mod_error(y, fitted)
+  if (.class) {
+    fitted.prob <- fitted
+    fitted <- prob2categorical(fitted.prob, levels(yf), binclasspos = rtenv$binclasspos)
+  } else {
+    fitted.prob <- NULL
+  }
+  
+  error.train <- mod_error(if (.class) yf else y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
-  predicted <- error.test <- NULL
+  predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     predicted <- mod(x.test[[1]])
-    error.test <- mod_error(y.test, predicted)
+    if (.class) {
+      predicted.prob <- predicted
+      predicted <- prob2categorical(predicted.prob, levels(yf), binclasspos = rtenv$binclasspos)
+    } else {
+      predicted.prob <- NULL
+    }
+    error.test <- mod_error(if (.class) y.test else y.test, predicted, predicted.prob)
     if (verbose) errorSummary(error.test, mod.name)
   }
 
@@ -93,18 +109,18 @@ s_Isotonic <- function(x, y = NULL,
     rtclass = "rtMod",
     mod = mod,
     mod.name = mod.name,
-    type = type,
+    type = dt$type,
     y.train = y,
     y.test = y.test,
     x.name = x.name,
     y.name = y.name,
     xnames = xnames,
     fitted = fitted,
-    fitted.prob = NULL,
+    fitted.prob = fitted.prob,
     se.fit = NULL,
     error.train = error.train,
     predicted = predicted,
-    predicted.prob = NULL,
+    predicted.prob = predicted.prob,
     se.prediction = NULL,
     error.test = error.test,
     question = question
