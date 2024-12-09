@@ -66,7 +66,7 @@ prepare_data <- function(x, y = NULL,
     y.test <- y[, ncol.x]
     x.test <- y[, -ncol.x]
     y <- x[, ncol.x]
-    x <- x[, -ncol.x]
+    x <- x[, -ncol.x, drop = FALSE]
   }
 
   # '- (x = x.train_y) or (x = x.train_y, x.test = x.test_y) ----
