@@ -59,7 +59,7 @@ dplot3_calibration <- function(true.labels, predicted.prob,
                                marginal.x.y = -.02,
                                marginal.col = NULL,
                                marginal.size = 10,
-                              #  show.bins = TRUE,
+                               #  show.bins = TRUE,
                                #    conf_level = .95,
                                mode = "markers+lines",
                                show.brier = TRUE,
@@ -144,9 +144,8 @@ dplot3_calibration <- function(true.labels, predicted.prob,
   # Plot
   if (is.null(subtitle)) {
     subtitle <- paste(
-      "<i> using", n.bins,
-      if (bin.method == "quantile") "quantiles" else "equidistant bins",
-      "</i>"
+      "using", n.bins,
+      if (bin.method == "quantile") "quantiles" else "equidistant bins"
     )
   }
   # if (is.null(subtitle) && !is.na(subtitle)) .subtitle <- paste0(subtitle, "\n", .subtitle)
