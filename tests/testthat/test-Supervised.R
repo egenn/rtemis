@@ -128,3 +128,14 @@ test_that("LightRuleFit Binary Classification succeeds", {
   mod_c <- s_LightRuleFit(datc2_train, datc2_test, n_trees = 20)
   expect_s3_class(mod_c, "rtModClass")
 })
+
+## Isotonic Regression ----
+test_that("Isotonic Regression succeeds", {
+  mod_r <- s_Isotonic(datr_train[, 5:6], datr_test[, 5:6])
+  expect_s3_class(mod_r, "rtMod")
+})
+
+test_that("Isotonic Binary Classification succeeds", {
+  mod_c <- s_Isotonic(datc2_train[, 4:5], datc2_test[, 4:5])
+  expect_s3_class(mod_c, "rtModClass")
+})
