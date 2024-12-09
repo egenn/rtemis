@@ -2,58 +2,56 @@
 % Please edit documentation in R/calibrate.R
 \name{calibrate}
 \alias{calibrate}
-\title{Calibrate predicted probabilities using GAMs}
+\title{Calibrate predicted probabilities}
 \usage{
 calibrate(
   true.labels,
   predicted.prob,
   pos.class = NULL,
-  mod = c("gam", "glm"),
-  k = 5,
+  alg = "isotonic",
+  learn.params = list(),
   verbose = TRUE
 )
 }
 \arguments{
-\item{true.labels}{Factor with true class labels}
+\item{true.labels}{Factor with true class labels.}
 
-\item{predicted.prob}{Numeric vector with predicted probabilities}
+\item{predicted.prob}{Numeric vector with predicted probabilities.}
 
-\item{pos.class}{Integer: Index of the positive class}
+\item{pos.class}{Integer: Index of the positive class.}
 
-\item{mod}{Character: Model to use for calibration. Either "gam" or "glm"}
+\item{alg}{Character: Algorithm to use to train calibration model. See \code{\link[=select_learn]{select_learn()}}.}
 
-\item{k}{Integer: GAM degrees of freedom}
+\item{learn.params}{List: List of parameters to pass to the learning algorithm}
 
 \item{verbose}{Logical: If TRUE, print messages to the console}
 }
 \value{
-mod: fitted GAM model. Use \code{mod$fitted.values} to get calibrated
+Trained calibration model. Use \verb{$fitted.values} to get calibrated
 input probabilities; use \code{predict(mod, newdata = newdata, type = "response")}
 to calibrate other estimated probabilities.
 }
 \description{
-Calibrate predicted probabilities using a generalized additive model (GAM).
+Calibrate predicted probabilities
 }
 \examples{
 \dontrun{
-data(segment_logistic, package = "probably")
+data("segment_naive_bayes", package = "probably")
 
 # Plot the calibration curve of the original predictions
 dplot3_calibration(
-  true.labels = segment_logistic$Class,
-  predicted.prob = segment_logistic$.pred_poor,
-  n_windows = 10,
+  true.labels = segment_naive_bayes$Class,
+  predicted.prob = segment_naive_bayes$.pred_poor,
   pos.class = 2
 )
 
 # Plot the calibration curve of the calibrated predictions
 dplot3_calibration(
-  true.labels = segment_logistic$Class,
+  true.labels = segment_naive_bayes$Class,
   predicted.prob = calibrate(
-    segment_logistic$Class,
-    segment_logistic$.pred_poor
+    segment_naive_bayes$Class,
+    segment_naive_bayes$.pred_poor
   )$fitted.values,
-  n_windows = 10,
   pos.class = 2
 )
 }

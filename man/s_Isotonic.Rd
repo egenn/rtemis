@@ -12,11 +12,12 @@ s_Isotonic(
   y.test = NULL,
   x.name = NULL,
   y.name = NULL,
-  weights = NULL,
+  binclasspos = NULL,
   verbose = TRUE,
   question = NULL,
   outdir = NULL,
-  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
 )
 
 \method{predict}{Isotonic}(object, newdata, ...)
@@ -35,10 +36,6 @@ Columns must correspond to columns in \code{x}}
 
 \item{y.name}{Character: Name for outcome}
 
-\item{weights}{Numeric vector: Weights for cases. For classification, \code{weights} takes precedence
-over \code{ifw}, therefore set \code{weights = NULL} if using \code{ifw}.
-Note: If \code{weight} are provided, \code{ifw} is not used. Leave NULL if setting \code{ifw = TRUE}.}
-
 \item{verbose}{Logical: If TRUE, print summary to screen.}
 
 \item{question}{Character: the question you are attempting to answer with this model, in plain language.}
@@ -51,11 +48,11 @@ as well as full model output, if \code{save.mod} is TRUE}
 \code{save.mod} is TRUE by default if an \code{outdir} is defined. If set to TRUE, and no \code{outdir}
 is defined, outdir defaults to \code{paste0("./s.", mod.name)}}
 
+\item{...}{Not used}
+
 \item{object}{Object of class \code{rtMod} that has been trained with \link{s_Isotonic}}
 
 \item{newdata}{Data frame of new data to predict}
-
-\item{...}{Not used}
 }
 \value{
 Object of class \code{rtMod}

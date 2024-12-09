@@ -6,7 +6,7 @@
 \usage{
 calibrate_cv(
   mod,
-  alg = "gam",
+  alg = "isotonic",
   learn.params = list(),
   resample.params = setup.resample(resampler = "kfold", n.resamples = 5, seed = NULL),
   which.repeat = 1,
@@ -17,7 +17,7 @@ calibrate_cv(
 \arguments{
 \item{mod}{\code{rtModCV} object returned by \link{train_cv}}
 
-\item{alg}{Character: "gam" or "glm", algorithm to use for calibration}
+\item{alg}{Character: Algorithm to use for calibration}
 
 \item{learn.params}{List: List of parameters to pass to the learning algorithm}
 
