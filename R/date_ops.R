@@ -8,6 +8,10 @@
 #'
 #' @param dates Date vector
 #' @param features Character vector: features to extract
+#' @param drop.dates Logical: If TRUE, drop original date column
+#' 
+#' @author EDG
+#' @export
 #'
 #' @return data.table with extracted features
 dates2features <- function(dates, features = c("weekday", "month", "year"), drop.dates = TRUE) {

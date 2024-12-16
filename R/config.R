@@ -10,6 +10,7 @@
 #' Excel, or RDS.
 #' @param target Character: Name of the target variable in the data. If not specified, the last 
 #' column of `data` will be used.
+#' @param binclass_posid Integer: Position of the positive class in a binary classification problem.
 #' @param alg Character: Algorithm to use. Any of `select_learn()`.
 #' @param train.params List: Parameters for the training algorithm.
 #' @param inner.resampling List: Resampling method for the inner loop, i.e. hyperparameter tuning, 
@@ -19,6 +20,8 @@
 #' @param config.path Character: Path to save configuration file.
 #' @param model.outdir Character: Directory to save trained model and associated files. If NULL,
 #' the directory of `config.path` will be used.
+#' @param allow.overwrite Logical: If TRUE, overwrite existing config file.
+#' @param verbose Logical: If TRUE, print messages
 #'
 #' @author EDG
 #' @return config as list, invisibly.

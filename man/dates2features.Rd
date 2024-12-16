@@ -14,6 +14,8 @@ dates2features(
 \item{dates}{Date vector}
 
 \item{features}{Character vector: features to extract}
+
+\item{drop.dates}{Logical: If TRUE, drop original date column}
 }
 \value{
 data.table with extracted features
@@ -23,4 +25,7 @@ Extract features from dates
 }
 \details{
 weekday and month will be extracted as factors, year as integer
+}
+\author{
+EDG
 }

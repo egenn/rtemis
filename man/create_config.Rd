@@ -25,6 +25,8 @@ Excel, or RDS.}
 \item{target}{Character: Name of the target variable in the data. If not specified, the last
 column of \code{data} will be used.}
 
+\item{binclass_posid}{Integer: Position of the positive class in a binary classification problem.}
+
 \item{alg}{Character: Algorithm to use. Any of \code{select_learn()}.}
 
 \item{train.params}{List: Parameters for the training algorithm.}
@@ -39,6 +41,10 @@ a.k.a. model selection. Set using \link{setup.resample}}
 
 \item{model.outdir}{Character: Directory to save trained model and associated files. If NULL,
 the directory of \code{config.path} will be used.}
+
+\item{allow.overwrite}{Logical: If TRUE, overwrite existing config file.}
+
+\item{verbose}{Logical: If TRUE, print messages}
 }
 \value{
 config as list, invisibly.
