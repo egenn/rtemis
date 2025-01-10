@@ -1,3 +1,14 @@
+# Dev
+dev/
+validation/
+
+# Mac OS
+.DS_Store
+
+# VS Code
+.vscode
+*.code-workspace
+
 # History files
 .Rhistory
 .Rapp.history
