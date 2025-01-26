@@ -11,6 +11,12 @@ The goal of **rtemis** is to make data science efficient and accessible with no 
 <img align = "center" src="https://egenn.github.io/imgs/rtemis_logo.png"></a>
 </div>
 
+## What's new
+
+rtemis version 0.99 is currently being developed and includes extensive rewriting of the core code,
+focussing on a "functional OOP" design throughout. This will be the test release prior to CRAN 
+submission of version 1.0.
+
 ## Documentation
 
 * [**Documentation and vignettes**](https://rtemis.org/rtemis)  
