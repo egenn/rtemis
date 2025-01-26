@@ -1,4 +1,6 @@
-# Data ----
+# test-massGLM.R
+# ::rtemis::
+# EDG rtemis.org
 
 options(rt.font = "sans")
 

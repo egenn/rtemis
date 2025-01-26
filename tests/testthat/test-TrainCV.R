@@ -1,7 +1,9 @@
-# Data ----
+# test-TrainCV.R
+# ::rtemis::
+# EDG rtemis.org
 
 options(rt.font = "sans")
-
+# Data ----
 # '- Regression ----
 x <- rnormmat(200, 5)
 y <- x[, 3] + x[, 5] + rnorm(200)

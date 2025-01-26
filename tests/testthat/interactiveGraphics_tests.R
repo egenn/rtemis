@@ -1,13 +1,13 @@
 # interactiveGraphics_tests.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019- EDG rtemis.org
 
 options(rt.font = "sans")
 library(rtemis)
 
 if (requireNamespace("plotly", quietly = TRUE)) {
   dplot3_bar(VADeaths)
-  x <- rnormmat(20, 5, return.df = T, seed = 2019)
+  x <- rnormmat(20, 5, return.df = TRUE, seed = 2019)
   dplot3_box(x)
   dplot3_box(x, type = "violin")
   dplot3_x(split(iris$Sepal.Length, iris$Species))
@@ -21,8 +21,8 @@ if (requireNamespace("plotly", quietly = TRUE)) {
   dplot3_varimp(varimp)
 }
 
-if (requireNamespace("data.tree", quietly = TRUE) &
-    requireNamespace("DiagrammeR", quietly = TRUE)) {
+if (requireNamespace("data.tree", quietly = TRUE) &&
+      requireNamespace("DiagrammeR", quietly = TRUE)) {
   iris2 <- iris[51:150, ]
   iris2$Species <- factor(iris2$Species)
   mod <- s_CART(iris2, maxdepth = 2)

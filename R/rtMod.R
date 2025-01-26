@@ -2655,7 +2655,7 @@ predict.rtModLite <- function(object, newdata, ...) {
 # Print plots / save plots and mods to outdir
 #' rtMod.out
 #'
-#' @param rt rtemid object
+#' @param rt rtemis object
 #' @param print.plot Logical: If TRUE, print plot
 #' @param plot.fitted Logical: If TRUE, print fitted values plot
 #' @param plot.predicted Logical: If TRUE, print predicted values plot

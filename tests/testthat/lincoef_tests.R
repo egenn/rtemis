@@ -1,19 +1,19 @@
 # lincoef_tests.R
 # ::rtemis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019- EDG rtemis.org
 
 options(rt.font = "sans")
 
-# Library ====
+# Packages ----
 library(rtemis)
 
-# Data ====
+# Data ----
 x <- rnormmat(100, 50, seed = 2019)
 w <- rnorm(50)
 y <- c(x %*% w + rnorm(100))
 x <- data.frame(x)
 
-# lincoef ====
+# lincoef ----
 coefs.glm <- lincoef(x, y, method = "glm")
 if (requireNamespace("glmnet", quietly = TRUE)) {
   coefs.glmnet <- lincoef(x, y, method = "glmnet")

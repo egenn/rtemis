@@ -1,5 +1,6 @@
+# test-Clustering.R
 # ::rtemis::
-# EDG lambdamd.org
+# EDG rtemis.org
 
 # Clustering Tests ----
 options(rt.font = "sans")

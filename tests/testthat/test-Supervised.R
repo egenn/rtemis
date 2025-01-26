@@ -1,3 +1,7 @@
+# test-Supervised.R
+# ::rtemis::
+# EDG rtemis.org
+
 # Supervised Learning Tests ----
 options(rt.font = "sans")
 

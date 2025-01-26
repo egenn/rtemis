@@ -490,7 +490,5 @@ print.resamplertset <- function(x, verbosity = TRUE, ...) {
 
   if (verbosity > 0) print(.text)
 
-  ## FIXME: I'm pretty sure print() methods should return the
-  ## object itself, i.e. invisible(x) /HB 2023-09-29
-  invisible(.text)
+  invisible(x)
 } # rtemis::print.resamplertset

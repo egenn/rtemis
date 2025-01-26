@@ -1,6 +1,6 @@
 # var_tests.R
 # ::rtemmis::
-# 2019 Efstathios D. Gennatas egenn.github.io
+# 2019- EDG rtemis.org
 
 options(rt.font = "sans")
 
