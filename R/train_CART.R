@@ -2,48 +2,6 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' Setup CART hyperparameters
-#'
-#' Setup hyperparameters for CART training
-#'
-#' @author EDG
-#' @export
-setup_CART <- function(
-    # tunable
-    cp = 0.01,
-    maxdepth = 20,
-    minsplit = 2,
-    minbucket = 1, # round(minsplit / 3),
-    prune.cp = NULL,
-    # fixed
-    method = "auto",
-    model = TRUE,
-    maxcompete = 4,
-    maxsurrogate = 5,
-    usesurrogate = 2,
-    surrogatestyle = 0,
-    xval = 0,
-    cost = NULL) {
-  CARTHyperparameters$new(
-    cp = cp,
-    maxdepth = maxdepth,
-    minsplit = minsplit,
-    minbucket = minbucket,
-    prune.cp = prune.cp,
-    method = method,
-    model = model,
-    maxcompete = maxcompete,
-    maxsurrogate = maxsurrogate,
-    usesurrogate = usesurrogate,
-    surrogatestyle = surrogatestyle,
-    xval = xval,
-    cost = cost
-  )
-}
-
-# Test that all CART hyperparameters are set by setup_CART
-stopifnot(all(c(CART_tunable, CART_fixed) %in% names(formals(setup_CART))))
-
 #' Train a CART decision tree
 #'
 #' Train a CART decision tree using `rpart::rpart`
@@ -52,15 +10,15 @@ stopifnot(all(c(CART_tunable, CART_fixed) %in% names(formals(setup_CART))))
 #' It works with numeric and factor variables and handles missing values.
 #' The "train_*" functions train a single model.
 #' Use [train] for tuning and testing using nested cross-validation.
-#' 
+#'
 #' @param dat_training data.frame or similar: Training set.
 #' @param dat_validation data.frame or similar: Validation set.
 #' @param dat_testing data.frame or similar: Testing set.
 #' @param preprocessor `Preprocessor` object: make using [setup_preprocessor].
 #' @param hyperparameters `CARTHyperparameters` object: make using [setup_CART].
 #' @param tuner `Tuner` object: make using [setup_tuner].
-#' @param verbose Logical: If TRUE, print messages to console.
-#' 
+#' @param verbosity Integer: If > 0, print messages.
+#'
 #' @author EDG
 
 train_CART <- function(
@@ -70,9 +28,9 @@ train_CART <- function(
     preprocessor = setup_preprocessor(),
     hyperparameters = setup_CART(),
     tuner = setup_tuner(),
-    verbose = TRUE) {
+    verbosity = 1L) {
   # Dependencies ----
-  dependency_check("rpart")
+  check_dependencies("rpart")
 
   # Arguments ----
   if (missing(dat_training)) {
@@ -94,11 +52,14 @@ train_CART <- function(
     dat_training = dat_training,
     dat_validation = dat_validation,
     dat_testing = dat_testing,
-    verbose = verbose
+    verbosity = verbosity
   )
+  type <- supervised_type(dat_training)
 
   # Train ----
-  if (verbose) msg2("Training CART...")
+  # if (verbosity > 0) {
+  #   msg20("Training ", hilite("CART", type), "...")
+  # }
   mod <- rpart::rpart(
     make_formula(dat_training),
     data = dat_training,
@@ -115,13 +76,34 @@ train_CART <- function(
     )
   )
 
-  inherits_check(mod, "rpart")
+  check_inherits(mod, "rpart")
 
   mod
-
 } # rtemis::train_CART
 
-predict_CART <- function(object, newdata) {
-  predict(object, newdata = newdata)
-}
+#' Predict from rpart model
+#' 
+#' @param model rpart model.
+#' @param newdata data.frame or similar: Data to predict on.
+#' @param binclasspos Integer: Position of positive class in factor levels.
+#' 
+#' @keywords internal
+predict_CART <- function(model, newdata, binclasspos = 1L) {
+  if (model$method == "class")  {
+    # Classification
+    # predict.rpart returns a matrix n_cases x n_classes,
+    # with classes are ordered the same as factor levels
+    predict(model, newdata = newdata)[, binclasspos]
+  } else {
+    predict(model, newdata = newdata)
+  }
+} # /rtemis::predict_CART
 
+#' Get variable importance from rpart model
+#' 
+#' @param model rpart model.
+#' 
+#' @keywords internal
+varimp_CART <- function(model) {
+  model[["variable.importance"]]
+} # /rtemis::varimp_CART
