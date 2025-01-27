@@ -1,0 +1,17 @@
+utils::bibentry(
+  header = "To cite rtemis in publications, please use:",
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # BibTeX:
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  bibtype = "PhdThesis",
+  title = "Towards Precision Psychiatry: Gray Matter Development and Cognition in Adolescence",
+  author = "Efstathios D. Gennatas",
+  year = "2017",
+  school = "University of Pennsylvania",
+  
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Plain text:
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  textVersion = "Gennatas, E. D. (2017). Towards Precision Psychiatry: Gray Matter Development and Cognition in Adolescence (Doctoral dissertation, University of Pennsylvania)."
+)
