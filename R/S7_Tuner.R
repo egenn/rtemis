@@ -1,0 +1,260 @@
+# S7_Tuner.R
+# ::rtemis::
+# 2025 EDG rtemis.org
+
+# References
+# S7
+# https://github.com/RConsortium/S7/
+# https://rconsortium.github.io/S7
+# future
+# https://www.futureverse.org/backends.html
+
+# Description
+# `TunerParams` class and subclasses create objects that store tuner parameters.
+# They are set by `setup_Tuner()` and perform type checking and validation.
+# They are used by `tune()`.
+# `Tuner` class and subclasses create objects that store tuning results.
+# They are created by `tune()`.
+
+# Dev
+# Should both class constructors (e.g. GridSearch@constructor) and setup functions
+# (e.g. setup_GridSearch) perform type checking and validation?
+
+# TunerParameters ----
+#' @title TunerParameters
+#'
+#' @description
+#' Superclass for tuner parameters.
+#'
+#' @field type Character: Type of tuner.
+#' @field parameters Named list of tuner parameters.
+#'
+#' @author EDG
+#' @export
+TunerParameters <- new_class(
+  name = "TunerParameters",
+  properties = list(
+    type = class_character,
+    parameters = class_list
+  )
+) # /TunerParameters
+
+# Print TunerParameters ----
+#' Print TunerParameters
+#'
+#' Print TunerParameters object
+#'
+#' @param x TunerParameters object.
+#' @param ... Not used
+#'
+#' @author EDG
+#' @export
+print.TunerParameters <- function(x, ...) {
+  objcat(paste(x@type, "TunerParameters"))
+  printls(props(x)$parameters)
+  invisible(x)
+}
+method(print, TunerParameters) <- function(x) {
+  print.TunerParameters(x)
+}
+
+# Make TunerParameters@parameters `$`-accessible
+method(`$`, TunerParameters) <- function(x, name) {
+  x@parameters[[name]]
+}
+
+# Make TunerParameters@parameters `[[`-accessible
+method(`[[`, TunerParameters) <- function(x, name) {
+  x@parameters[[name]]
+}
+
+# `$`-autocomplete TunerParameters@parameters ----
+method(`.DollarNames`, TunerParameters) <- function(x, pattern = "") {
+  all_names <- names(x@parameters)
+  grep(pattern, all_names, value = TRUE)
+}
+
+# GridSearchParams ----
+#' @title GridSearchParams
+#'
+#' @description
+#' TunerParameters subclass for grid search parameters.
+#'
+#' @author EDG
+#' @export
+GridSearchParams <- new_class(
+  name = "GridSearchParams",
+  parent = TunerParameters,
+  constructor = function(resample_params = NULL,
+                         search_type = NULL,
+                         randomize_p = NULL,
+                         metrics_aggregate_fn = NULL,
+                         metric = NULL,
+                         maximize = NULL,
+                         future_plan = NULL,
+                         n_workers = NULL) {
+    check_is_S7(resample_params, ResamplerParameters)
+    check_inherits(search_type, "character")
+    randomize_p <- check_float01exc(randomize_p)
+    check_inherits(metrics_aggregate_fn, "function")
+    check_inherits(metric, "character")
+    check_inherits(maximize, "logical")
+    check_inherits(future_plan, "character")
+    n_workers <- check_posint(n_workers)
+    # Only assign randomize_p if search_type is "randomized"
+    params <- list(
+      search_type = search_type,
+      resample_params = resample_params,
+      metrics_aggregate_fn = metrics_aggregate_fn,
+      metric = metric,
+      maximize = maximize,
+      future_plan = future_plan,
+      n_workers = n_workers
+    )
+    if (search_type == "randomized") {
+      params[["randomize_p"]] <- randomize_p
+    }
+    new_object(
+      TunerParameters(
+        type = "GridSearch",
+        parameters = params
+      )
+    )
+  }
+) # /GridSearchParams
+
+#' Setup Grid Search Parameters
+#'
+#' Create a `GridSearchParams` object that can be passed to [train].
+#'
+#' @param hyperparameters Named list of tunable and fixed hyperparameters.
+#' @param resample_params `ResamplerParameters` set by [setup_Resampler].
+#' @param search_type Character: "exhaustive" or "randomized". Type of
+#' grid search to use. Exhaustive search will try all combinations of
+#' parameters. Randomized will try a random sample of size
+#' `randomize_p` * `N of total combinations`
+#' @param randomize_p Float (0, 1): For `search_type == "randomized"`,
+#' randomly test this proportion of combinations.
+#' @param metrics_aggregate_fn Function: Use this when aggregating error metrics.
+#' @param metric Character: Metric to minimize or maximize.
+#' @param maximize Logical: If TRUE, maximize `metric`, otherwise minimize it.
+#' @param future_plan Character: Future backend to use, see [future::plan].
+#'
+#' @author EDG
+#' @export
+setup_GridSearch <- function(
+    resample_params = setup_Resampler(5L, "KFold"),
+    search_type = "exhaustive",
+    randomize_p = NULL,
+    metrics_aggregate_fn = mean,
+    metric = NULL,
+    maximize = NULL,
+    future_plan = "multicore",
+    n_workers = NULL) {
+  # Arguments ----
+  if (is.null(n_workers)) n_workers <- rtCores
+  S7_inherits(resample_params, ResamplerParameters)
+  check_inherits(search_type, "character")
+  randomize_p <- check_float01exc(randomize_p)
+  if (search_type == "exhaustive" && !is.null(randomize_p)) {
+    stop("search_type is 'exhaustive': do not set randomize_p.")
+  }
+  check_inherits(metrics_aggregate_fn, "function")
+  check_inherits(metric, "character")
+  check_inherits(maximize, "logical")
+  check_inherits(future_plan, "character")
+  n_workers <- clean_integer(n_workers)
+  GridSearchParams(
+    resample_params = resample_params,
+    search_type = search_type,
+    randomize_p = randomize_p,
+    metrics_aggregate_fn = metrics_aggregate_fn,
+    metric = metric,
+    maximize = maximize,
+    future_plan = future_plan,
+    n_workers = n_workers
+  )
+} # /setup_GridSearch
+
+# Tuner ----
+#' Tuner class
+#'
+#' @field type Character: Type of tuner.
+#' @field hyperparameters Named list of tunable and fixed hyperparameters.
+#' @field tuning_results Data.frame: Tuning results.
+#' @field best_hyperparameters Named list of best hyperparameter values. Includes only
+#' hyperparameters that were tuned.
+#'
+#' @author EDG
+Tuner <- new_class(
+  name = "Tuner",
+  properties = list(
+    type = class_character,
+    hyperparameters = Hyperparameters,
+    tuner_parameters = TunerParameters,
+    tuning_results = class_list, # with 2 elements: metrics_training, metrics_validation
+    best_hyperparameters = class_list
+  )
+) # /Tuner
+
+# GridSearch ----
+GridSearch <- new_class(
+  name = "GridSearch",
+  parent = Tuner,
+  constructor = function(hyperparameters,
+                         tuner_parameters,
+                         tuning_results,
+                         best_hyperparameters) {
+    type <- "GridSearch"
+    new_object(
+      Tuner(
+        type = type,
+        hyperparameters = hyperparameters,
+        tuner_parameters = tuner_parameters,
+        tuning_results = tuning_results,
+        best_hyperparameters = best_hyperparameters
+      )
+    )
+  }
+) # /GridSearch
+
+# Print GridSearch ----
+#' Print GridSearch
+#'
+#' Print GridSearch object
+#'
+#' @param x GridSearch object.
+#' @param ... Not used
+#'
+#' @author EDG
+#' @export
+print.GridSearch <- function(x, ...) {
+  objcat(paste(x@type, "Tuner"))
+  type <- if (x@tuner_parameters$search_type == "exhaustive") {
+    "An exhaustive grid search"
+  } else {
+    paste0("A randomized grid search (p = ", x@tuner_parameters$randomize_p, ")")
+  }
+  resamples <- if (x@tuner_parameters$resample_params@type == "KFold") {
+    "independent folds"
+  } else if (x@tuner_parameters$resample_params@type == "StratSub") {
+    "stratified subsamples"
+  } else if (x@tuner_parameters$resample_params@type == "Bootstraps") {
+    "bootstraps"
+  } else if (x@tuner_parameters$resample_params@type == "StratBoot") {
+    "stratified bootstraps"
+  }
+  cat(type, " was performed using ", x@tuner_parameters$resample_params$n, " ",
+    resamples, ".\n",
+    sep = ""
+  )
+  cat(
+    x@tuner_parameters$metric, "was", ifelse(x@tuner_parameters$maximize, "maximized", "minimized"),
+    "with the following parameters:\n"
+  )
+  printls(x@best_hyperparameters)
+  invisible(x)
+}
+method(print, GridSearch) <- function(x) {
+  print.GridSearch(x)
+}
