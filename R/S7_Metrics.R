@@ -69,9 +69,9 @@ RegressionMetrics <- new_class(
 # Print RegressionMetrics ----
 method(print, RegressionMetrics) <- function(x) {
   if (!is.null(x@sample)) {
-    objcat(paste(" ", x@sample, "Regression Metrics\n\n"))
+    objcat(paste(" ", x@sample, "Regression Metrics\n"))
   } else {
-    objcat("  Regression Metrics\n\n")
+    objcat("  Regression Metrics\n")
   }
   printls(x@metrics)
   invisible(x)
@@ -106,9 +106,9 @@ ClassificationMetrics <- new_class(
 # Print ClassificationMetrics ----
 method(print, ClassificationMetrics) <- function(x, decimal_places = 3) {
   if (!is.null(x@sample)) {
-    objcat(paste(" ", x@sample, "Classification Metrics\n\n"))
+    objcat(paste(" ", x@sample, "Classification Metrics\n"))
   } else {
-    objcat("  Classification Metrics\n\n")
+    objcat("  Classification Metrics\n")
   }
   tblpad <- 17 - max(nchar(colnames(x@metrics$Confusion_Matrix)), 9)
   printtable(x$Confusion_Matrix, pad = tblpad)
