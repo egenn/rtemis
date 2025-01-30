@@ -46,12 +46,18 @@ Hyperparameters <- new_class(
     # Test if any tunable_hyperparameters have more than one value
     if (length(tunable_hyperparameters) > 0) {
       if (any(sapply(hyperparameters[tunable_hyperparameters], length) > 1)) {
-        tuned <- 0L
+        tuned <- 0L # Search values defined for tunable hyperparameters.
       } else {
-        tuned <- -1L
+        tuned <- -1L # No search values defined for tunable hyperparameters.
       }
     } else {
-      tuned <- -2L
+      tuned <- -2L # No tunable hyperparameters
+    }
+    # GLMNET
+    if (algorithm == "GLMNET") {
+      if (is.null(hyperparameters$lambda)) {
+        tuned <- 0L
+      }
     }
     new_object(
       S7_object(),
@@ -65,16 +71,18 @@ Hyperparameters <- new_class(
   }
 ) # /Hyperparameters
 
+# Print Hyperparameters ----
 #' Print Hyperparameters
 #'
 #' @description
-#' print Hyperparameters object
+#' Print Hyperparameters object.
 #'
-#' @param x Hyperparameters object
+#' @param x Hyperparameters object.
+#' @param ... Not used.
 #'
 #' @author EDG
 #' @export
-print.Hyperparameters <- function(x) {
+print.Hyperparameters <- function(x, ...) {
   objcat(paste(x@algorithm, "Hyperparameters"))
   printls(props(x))
   if (x@tuned == -9L) {
@@ -184,10 +192,10 @@ method(needs_tuning, Hyperparameters) <- function(x) {
 
 # get_params_need_tuning ----
 get_params_need_tuning <- new_generic("get_params_need_tuning", "x")
-method(get_params_need_tuning, Hyperparameters) <- function(x) {
+method(get_params_need_tuning, Hyperparameters) <- function(x) { # -> list
   # Get tunable hyperparameters with more than one value
   x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
-}
+} # /get_params_need_tuning.Hyperparameters
 
 # CARTHyperparameters ----
 CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp")
@@ -218,7 +226,7 @@ CART_fixed <- c(
 #' @title CARTHyperparameters
 #' 
 #' @description
-#' Hyperparameters subclass for CART hyperparameters.
+#' Hyperparameters subclass for CART.
 #' 
 #' @author EDG
 #' @export
@@ -262,19 +270,19 @@ CARTHyperparameters <- new_class(
       )
     )
   } # /constructor
-) # /CARTHyperparameters
+) # /rtemis::CARTHyperparameters
 
-#' Setup CART hyperparameters
+#' Setup CART Hyperparameters
 #'
-#' Setup hyperparameters for CART training
+#' Setup hyperparameters for CART training.
 #'
 #' Get more information from [rpart::rpart] and [rpart::rpart.control].
 #'
-#' @param cp Numeric: Complexity parameter.
-#' @param maxdepth Integer: Maximum depth of tree.
-#' @param minsplit Integer: Minimum number of observations in a node to split.
-#' @param minbucket Integer: Minimum number of observations in a terminal node.
-#' @param prune.cp Numeric: Complexity for cost-complexity pruning after tree is built
+#' @param cp (Tunable) Numeric: Complexity parameter.
+#' @param maxdepth (Tunable) Integer: Maximum depth of tree.
+#' @param minsplit (Tunable) Integer: Minimum number of observations in a node to split.
+#' @param minbucket (Tunable) Integer: Minimum number of observations in a terminal node.
+#' @param prune.cp (Tunable) Numeric: Complexity for cost-complexity pruning after tree is built
 #' @param method String: Splitting method.
 #' @param model Logical: If TRUE, return a model.
 #' @param maxcompete Integer: Maximum number of competitive splits.
@@ -334,3 +342,111 @@ setup_CART <- function(
 
 # Test that all CART hyperparameters are set by setup_CART
 stopifnot(all(c(CART_tunable, CART_fixed) %in% names(formals(setup_CART))))
+
+# GLMNETHyperparameters ----
+GLMNET_tunable <- "alpha"
+GLMNET_fixed <- c(
+  "family", "offset", "which.cv.lambda", "nlambda", "penalty.factor", "standardize", "intercept"
+)
+
+#' @title GLMNETHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for GLMNET.
+#'
+#' @author EDG
+#' @export
+GLMNETHyperparameters <- new_class(
+  name = "GLMNETHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(alpha = NULL,
+                         family = NULL,
+                         offset = NULL,
+                         which.cv.lambda = NULL,
+                         nlambda = NULL,
+                         lambda = NULL,
+                         penalty.factor = NULL,
+                         standardize = NULL,
+                         intercept = TRUE) {
+    alpha <- check_float01inc(alpha)
+    check_inherits(which.cv.lambda, "character")
+    nlambda <- check_posint(nlambda)
+    check_inherits(penalty.factor, "numeric")
+    check_inherits(standardize, "logical")
+    new_object(
+      Hyperparameters(
+        algorithm = "GLMNET",
+        hyperparameters = list(
+          alpha = alpha,
+          family = family,
+          offset = offset,
+          which.cv.lambda = which.cv.lambda,
+          nlambda = nlambda,
+          lambda = lambda,
+          penalty.factor = penalty.factor,
+          standardize = standardize,
+          intercept = intercept
+        ),
+        tunable_hyperparameters = GLMNET_tunable,
+        fixed_hyperparameters = GLMNET_fixed
+      )
+    )
+  } # /constructor
+) # /rtemis::GLMNETHyperparameters
+
+#' Setup GLMNET Hyperparameters
+#'
+#' Setup hyperparameters for GLMNET training.
+#'
+#' Get more information from [glmnet::glmnet].
+#'
+#' @param alpha (Tunable) Numeric: Mixing parameter.
+#' @param which.cv.lambda Character: Which lambda to use for prediction:
+#' "lambda.1se" or "lambda.min"
+#' @param nlambda Positive integer: Number of lambda values.
+#' @param penalty.factor Numeric: Penalty factor for each feature.
+#' @param standardize Logical: If TRUE, standardize features.
+#'
+#' @author EDG
+#' @export
+setup_GLMNET <- function(
+    # tunable
+    alpha = 1,
+    # fixed
+    family = NULL,
+    offset = NULL,
+    which.cv.lambda = "lambda.1se",
+    nlambda = 100L,
+    lambda = NULL,
+    penalty.factor = NULL,
+    standardize = TRUE,
+    intercept = TRUE) {
+  alpha <- check_float01inc(alpha)
+  check_inherits(which.cv.lambda, "character")
+  nlambda <- check_posint(nlambda)
+  check_inherits(penalty.factor, "numeric")
+  check_inherits(standardize, "logical")
+  GLMNETHyperparameters(
+    family = family,
+    offset = offset,
+    alpha = alpha,
+    which.cv.lambda = which.cv.lambda,
+    nlambda = nlambda,
+    lambda = lambda,
+    penalty.factor = penalty.factor,
+    standardize = standardize,
+    intercept = intercept
+  )
+} # /setup_GLMNET
+
+# Test that all GLMNET hyperparameters are set by setup_GLMNET
+stopifnot(all(c(GLMNET_tunable, GLMNET_fixed) %in% names(formals(setup_GLMNET))))
+
+method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
+  # Get tunable hyperparameters with more than one value
+  out <- x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
+  if (is.null(x$lambda)) {
+    out <- c(out, list(lambda = NULL))
+  }
+  out
+} # /get_params_need_tuning.GLMNETHyperparameters
