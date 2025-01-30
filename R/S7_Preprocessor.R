@@ -6,17 +6,6 @@
 # https://github.com/RConsortium/S7/
 # https://rconsortium.github.io/S7
 
-# preprocessor_args <- c(
-#   "factor2integer",
-#   "scale",
-#   "center",
-#   "ifw",
-#   "ifw_type",
-#   "upsample",
-#   "downsample",
-#   "resample_seed"
-# )
-
 # Preprocessor ----
 #' @title Preprocessor
 #'
@@ -58,7 +47,7 @@ Preprocessor <- new_class(
     remove_constants = class_logical,
     remove_constants_skip_missing = class_logical,
     remove_duplicates = class_logical,
-    oneHot = class_logical,
+    one_hot = class_logical,
     add_date_features = class_logical,
     date_features = class_character,
     add_holidays = class_logical,
@@ -103,15 +92,89 @@ method(print, Preprocessor) <- function(x, ...) {
 
 #' Create a `Preprocessor` object
 #'
-#' @param factor2integer Logical: If TRUE, convert factors to integers.
-#' @param scale Logical: If TRUE, scale numeric features.
-#' @param center Logical: If TRUE, center numeric features.
-#' @param ifw Logical: If TRUE, return class weights for inverse frequency
-#' weighting for Classification.
-#' @param ifw_type {1, 2}: Type of inverse frequency weighting for Classification.
-#' @param upsample Logical: If TRUE, upsample minority class to match size of majority class.
-#' @param downsample Logical: If TRUE, downsample majority class to match size of minority class.
-#' @param resample_seed Integer: Seed for resampling.
+#' @param complete_cases Logical: If TRUE, only retain complete cases (no missing data).
+#' Default = FALSE
+#' @param remove_cases_thres Float (0, 1): Remove cases with >= to this fraction
+#' of missing features.
+#' @param remove_features_thres Float (0, 1): Remove features with missing
+#' values in >= to this fraction of cases.
+#' @param missingness Logical: If TRUE, generate new boolean columns for each
+#' feature with missing values, indicating which cases were missing data.
+#' @param impute Logical: If TRUE, impute missing cases. See `impute_discrete` and
+#' `impute_numeric` for how
+#' @param impute.type Character: How to impute data: "missRanger" and
+#' "missForest" use the packages of the same name to impute by iterative random
+#' forest regression. "rfImpute" uses `randomForest::rfImpute` (see its
+#' documentation), "meanMode" will use mean and mode by default or any custom
+#' function defined in `impute_discrete` and `impute_numeric`.
+#' Default = "missRanger" (which is much faster than "missForest").
+#' "missForest" is included for compatibility with older pipelines.
+#' @param impute.missRanger.params Named list with elements "pmm.k" and
+#' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
+#' greater than 0 results in predictive mean matching. Default `pmm.k = 3`
+#' `maxiter = 10` `num.trees = 500`. Reduce `num.trees` for
+#' faster imputation especially in large datasets. Set `pmm.k = 0` to
+#' disable predictive mean matching
+#  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
+#' to `missForest::missForest`
+# @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
+#' @param impute_discrete Function that returns single value: How to impute
+#' discrete variables for `impute.type = "meanMode"`.
+#' Default = [get_mode]
+#' @param impute_numeric Function that returns single value: How to impute
+#' continuous variables for `impute.type = "meanMode"`.
+#' Default = `mean`
+#' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
+#' `bit64::integer64` columns
+#' @param integer2numeric Logical: If TRUE, convert all integers to numeric
+#' (will only work if `integer2factor = FALSE`) This includes
+#' `bit64::integer64` columns
+#' @param logical2factor Logical: If TRUE, convert all logical variables to
+#' factors
+#' @param logical2numeric Logical: If TRUE, convert all logical variables to
+#' numeric
+#' @param numeric2factor Logical: If TRUE, convert all numeric variables to
+#' factors
+#' @param numeric2factor.levels Character vector: Optional - will be passed to
+#' `levels` arg of `factor()` if `numeric2factor = TRUE` (For advanced/
+#' specific use cases; need to know unique values of numeric vector(s) and given all
+#' numeric vars have same unique values)
+#' @param numeric.cut.n Integer: If > 0, convert all numeric variables to factors by
+#' binning using `base::cut` with `breaks` equal to this number
+#' @param numeric.cut.labels Logical: The `labels` argument of [base::cut]
+#' @param numeric.quant.n Integer: If > 0, convert all numeric variables to factors by
+#' binning using `base::cut` with `breaks` equal to this number of quantiles
+#' produced using `stats::quantile`
+#' @param numeric.quant.NAonly Logical: If TRUE, only bin numeric variables with
+#' missing values
+#' @param len2factor Integer (>=2): Convert all variables with less
+#' than or equal to this number of unique values to factors. Default = NULL.
+#' For example, if binary variables are encoded with 1, 2, you could use
+#' `len2factor = 2` to convert them to factors.
+#' @param character2factor Logical: If TRUE, convert all character variables to
+#' factors
+#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
+#' level `factorNA2missing.level`. In many cases this is the preferred way
+#' to handle missing data in categorical variables. Note that since this step
+#' is performed before imputation, you can use this option to handle missing
+#' data in categorical variables and impute numeric variables in the same
+#' `preprocess` call.
+#' @param factorNA2missing.level Character: Name of level if
+#' `factorNA2missing = TRUE`. Default = "missing"
+#' @param factor2integer Logical: If TRUE, convert all factors to integers
+#' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0
+#' @param scale Logical: If TRUE, scale columns of `x`
+#' @param center Logical: If TRUE, center columns of `x`. Note that by
+#' default it is the same as `scale`
+#' @param remove_constants Logical: If TRUE, remove constant columns.
+#' @param remove_constants.skipMissing Logical: If TRUE, skip missing values, before
+#' checking if feature is constant
+#' @param remove_duplicates Logical: If TRUE, remove duplicate cases.
+#' @param one_hot Logical: If TRUE, convert all factors using one-hot encoding.
+#' @param add_date_features Logical: If TRUE, extract date features from date columns.
+#' @param date_features Character vector: Features to extract from dates.
+#' @param add_holidays Logical: If TRUE, extract holidays from date columns.
+#' @param exclude Integer, vector: Exclude these columns from preprocessing.
 #'
 #' @author EDG
 #' @export
@@ -155,7 +218,7 @@ setup_Preprocessor <- function(
     remove_constants = FALSE,
     remove_constants_skip_missing = TRUE,
     remove_duplicates = FALSE,
-    oneHot = FALSE,
+    one_hot = FALSE,
     #    cleanfactorlevels = FALSE,
     add_date_features = FALSE,
     date_features = c("weekday", "month", "year"),
@@ -192,7 +255,7 @@ setup_Preprocessor <- function(
     remove_constants = remove_constants,
     remove_constants_skip_missing = remove_constants_skip_missing,
     remove_duplicates = remove_duplicates,
-    oneHot = oneHot,
+    one_hot = one_hot,
     add_date_features = add_date_features,
     date_features = date_features,
     add_holidays = add_holidays,
