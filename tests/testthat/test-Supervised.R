@@ -4,9 +4,11 @@
 
 # Data ----
 ## Regression ----
-x <- rnormmat(200, 5, seed = 2025)
-y <- x[, 3] + x[, 5] + rnorm(200)
-datr <- data.frame(x, y)
+n <- 400
+x <- rnormmat(n, 5, seed = 2025)
+g <- factor(sample(c("A", "B"), n, replace = TRUE))
+y <- x[, 3] + x[, 5] + ifelse(g == "A", 2, -1) + rnorm(n)
+datr <- data.frame(x, g, y)
 resr <- resample(datr)
 datr_train <- datr[resr$Fold_1, ]
 datr_test <- datr[-resr$Fold_1, ]
@@ -34,12 +36,17 @@ hyperparameters
 hyperparameters <- setup_CART(maxdepth = c(1L, 3L, 10L))
 hyperparameters
 
+# train_CART ----
+test_that("train_CART() succeeds", {
+  mod_r_rpart <- train_CART(dat_training = datr_train, dat_testing = datr_test)
+  expect_s3_class(mod_r_rpart, "rpart")
+})
+
 # train Regression ----
-# model <- train_CART(dat_training = datr_train, dat_testing = datr_test)
 # model$method # "anova"
 test_that("train() Regression succeeds", {
   mod_r_cart <- train(
-    dat_training = datr_train,
+    datr_train,
     dat_testing = datr_test,
     algorithm = "cart"
   )
@@ -51,7 +58,7 @@ tuner_parameters <- setup_GridSearch()
 tuner_parameters
 test_that("train() Regression with grid_search() succeeds", {
   mod_r_cart_tuned <- train(
-    dat_training = datr_train,
+    datr_train,
     dat_testing = datr_test,
     hyperparameters = setup_CART(
       maxdepth = c(1, 2, 10),
@@ -97,4 +104,70 @@ test_that("train() Classification with grid_search() succeeds", {
     )
   )
   expect_s7_class(mod_c_cart_tuned, Classification)
+})
+
+# GLMNET ----
+hyperparameters <- setup_GLMNET()
+hyperparameters
+hyperparameters <- setup_GLMNET(alpha = c(0, 0.5, 1))
+hyperparameters
+get_params_need_tuning(hyperparameters)
+
+# train_GLMNET ----
+test_that("train_GLMNET() succeeds", {
+  mod_r_glmnet <- train_GLMNET(dat_training = datr_train, dat_testing = datr_test)
+  expect_s3_class(mod_r_glmnet, "glmnet")
+})
+
+# train() GLMNET Regression ----
+test_that("train() GLMNET Regression with fixed lambda succeeds", {
+  mod_r_glmnet <- train(
+    dat_training = datr_train,
+    dat_testing = datr_test,
+    algorithm = "glmnet",
+    hyperparameters = setup_GLMNET(lambda = 0.01)
+  )
+  expect_s7_class(mod_r_glmnet, Regression)
+})
+
+test_that("train() GLMNET Regression with auto-lambda grid search succeeds", {
+  mod_r_glmnet <- train(
+    dat_training = datr_train,
+    dat_testing = datr_test,
+    algorithm = "glmnet",
+    hyperparameters = setup_GLMNET()
+  )
+  expect_s7_class(mod_r_glmnet, Regression)
+})
+
+test_that("train() GLMNET Regression with auto-lambda + alpha grid search succeeds", {
+  mod_r_glmnet <- train(
+    dat_training = datr_train,
+    dat_testing = datr_test,
+    algorithm = "glmnet",
+    hyperparameters = setup_GLMNET(alpha = c(0, 0.5, 1))
+  )
+  expect_s7_class(mod_r_glmnet, Regression)
+})
+
+test_that("train() CV-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
+  mod_r_glmnet <- train(
+    dat_training = datr_train,
+    dat_testing = datr_test,
+    algorithm = "glmnet",
+    hyperparameters = setup_GLMNET(alpha = c(0, 0.5, 1)),
+    crossvalidation = setup_Resampler(n_resamples = 10L, type = "KFold")
+  )
+  expect_s7_class(mod_r_glmnet, Regression)
+})
+
+# train() GLMNET Binary Classification ----
+test_that("train() GLMNET Classification with fixed lambda succeeds", {
+  mod_c_glmnet <- train(
+    dat_training = datc2_train,
+    dat_testing = datc2_test,
+    algorithm = "glmnet",
+    hyperparameters = setup_GLMNET(lambda = 0.01)
+  )
+  expect_s7_class(mod_c_glmnet, Classification)
 })
