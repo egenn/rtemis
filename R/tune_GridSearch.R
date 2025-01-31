@@ -8,7 +8,7 @@
 #'
 #' Note that weights, if defined (and not NULL), should be passed directly to `grid_search`
 #' as they need to be resampled along `x` and `y`, and should not be passed along with
-#' `grid_params`. `ifw` and `ifw.type` should be passed as part of `grid_params`
+#' `grid_params`. `ifw` and `ifw_type` should be passed as part of `grid_params`
 #' and will be passed on to the learner.
 #' Includes a special case for training [s_H2OGBM] or [s_GBM] which requires extracting and averaging n.trees
 #' along with params.
@@ -29,6 +29,10 @@ tune_GridSearch <- function(dat_training,
                             weights = NULL,
                             save_mods = FALSE,
                             verbosity = 1) {
+  check_is_S7(hyperparameters, Hyperparameters)
+  check_is_S7(tuner_parameters, TunerParameters)
+  stopifnot(needs_tuning(hyperparameters))
+  
   # Dependencies ----
   check_dependencies(c("future", "future.apply"))
 
@@ -37,7 +41,8 @@ tune_GridSearch <- function(dat_training,
     message = "Running grid search...",
     call_depth = 2,
     newline_pre = TRUE,
-    verbosity = verbosity
+    verbosity = verbosity,
+    caller = "tune_GridSearch"
   )
 
   # Arguments ----
@@ -77,10 +82,15 @@ tune_GridSearch <- function(dat_training,
   n_params <- length(grid_params)
   n_resamples <- tuner_parameters$resample_params$n
   search_type <- tuner_parameters$search_type
-  param_grid <- expand.grid(grid_params, stringsAsFactors = FALSE)
+  param_grid <- expand_grid(grid_params, stringsAsFactors = FALSE)
+  # param_grid <- expand.grid(grid_params, stringsAsFactors = FALSE)
   param_grid <- cbind(param_combo_id = seq_len(NROW(param_grid)), param_grid)
   n_param_combinations <- NROW(param_grid)
-  res_param_grid <- expand.grid(
+  # res_param_grid <- expand.grid(
+  #   c(list(resample_id = seq_len(n_resamples)), grid_params),
+  #   stringsAsFactors = FALSE
+  # )
+  res_param_grid <- expand_grid(
     c(list(resample_id = seq_len(n_resamples)), grid_params),
     stringsAsFactors = FALSE
   )
@@ -113,6 +123,7 @@ tune_GridSearch <- function(dat_training,
     if (verbosity > 0) {
       msg2("Running grid line #", hilite(index), "/",
         NROW(res_param_grid), "...",
+        caller = "tune_GridSearch",
         sep = ""
       )
     }
@@ -150,30 +161,30 @@ tune_GridSearch <- function(dat_training,
 
     # Algorithm-specific params ----
     # => add to hyperparameters
+    if (algorithm == "GLMNET") {
+      out1$hyperparameters@hyperparameters$lambda.min <- mod1@model$lambda.min
+      out1$hyperparameters@hyperparameters$lambda.1se <- mod1@model$lambda.1se
+    }
     if (algorithm == "H2OGBM") {
       out1$est.n.trees <-
         mod1$mod@model$model_summary$number_of_trees
     }
-    if (algorithm == "s_GBM" || algorithm == "s_GBM3") {
+    if (algorithm == "GBM" || algorithm == "GBM3") {
       out1$est.n.trees <- which.min(mod1$mod$valid.error)
       if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
     }
-    if (algorithm == "s_LightGBM") {
+    if (algorithm == "LightGBM") {
       out1$best_iter <- mod1$mod$best_iter
       out1$best_score <- mod1$mod$best_score
     }
-    if (algorithm == "s_XGBoost") {
+    if (algorithm == "XGBoost") {
       out1$best_iteration <- mod1$mod$best_iteration
       out1$best_score <- mod1$mod$best_score
     }
-    if (algorithm == "s_GLMNET") {
-      out1$lambda.min <- mod1$mod$lambda.min
-      out1$lambda.1se <- mod1$mod$lambda.1se
-    }
-    if (algorithm %in% c("s_LINAD", "s_LINOA")) {
+    if (algorithm %in% c("LINAD", "LINOA")) {
       out1$est.n.leaves <- mod1$mod$n.leaves
     }
-    if (algorithm == "s_LIHADBoost") {
+    if (algorithm == "LIHADBoost") {
       out1$sel.n.steps <- mod1$mod$selected.n.steps
     }
     if (save_mods) out1$mod1 <- mod1
@@ -274,133 +285,137 @@ tune_GridSearch <- function(dat_training,
   # Algorithm-specific collection ----
   # N of iterations is the one hyperparameter that may be determined
   # automatically, we therefore need to extract it and average it
-
-  ## GBM, H2OGBM ----
-  if (algorithm %in% c("s_H2OGBM", "s_GBM", "s_GBM3")) {
-    est.n.trees.all <- data.frame(n.trees = plyr::laply(
-      grid_run,
-      function(x) x$est.n.trees
-    ))
-    est.n.trees.all$param_combo_id <- rep(seq_len(n_param_combinations), each = n_resamples)
-    est.n.trees.by.param_combo_id <- aggregate(
-      n.trees ~ param_combo_id, est.n.trees.all,
-      metrics_aggregate_fn
-    )
-    tune_results <- cbind(
-      n.trees = round(est.n.trees.by.param_combo_id$n.trees),
-      tune_results
-    )
-    n_params <- n_params + 1
-  }
-
-  ## LightGBM ----
-  if (algorithm == "s_LightGBM") {
-    if (verbosity > 1) {
-      msg2(hilite("Extracting best N of iterations from LightGBM models..."))
-    }
-    est.nrounds.all <- data.frame(
-      nrounds = plyr::laply(grid_run, \(m) m$best_iter)
-    )
-    est.nrounds.all$param_combo_id <- rep(seq_len(n_param_combinations),
-      each = n_resamples
-    )
-    est.nrounds.by.param_combo_id <- aggregate(
-      nrounds ~ param_combo_id, est.nrounds.all,
-      metrics_aggregate_fn
-    )
-    tune_results <- cbind(
-      nrounds = round(est.nrounds.by.param_combo_id$nrounds),
-      tune_results
-    )
-    n_params <- n_params + 1
-  }
-
-  ## XGBoost ----
-  if (algorithm == "s_XGBoost") {
-    if (verbosity > 1) {
-      msg2(hilite("Extracting best N of iterations from XGBoost models..."))
-    }
-    est.nrounds.all <- data.frame(nrounds = plyr::laply(
-      grid_run,
-      \(m) m$best_iteration
-    ))
-    est.nrounds.all$param_combo_id <- rep(seq_len(n_param_combinations),
-      each = n_resamples
-    )
-    est.nrounds.by.param_combo_id <- aggregate(
-      nrounds ~ param_combo_id, est.nrounds.all,
-      metrics_aggregate_fn
-    )
-    tune_results <- cbind(
-      nrounds = round(est.nrounds.by.param_combo_id$nrounds),
-      tune_results
-    )
-    n_params <- n_params + 1
-  }
-
   ## GLMNET ----
-  if (algorithm == "s_GLMNET") {
+  if (algorithm == "GLMNET") {
     if (verbosity > 1) {
-      msg2(hilite("Extracting best lambda from GLMNET models..."))
+      info("Extracting best lambda from GLMNET models...")
     }
     if (is.null(grid_params$lambda)) {
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-      lambda.all <- data.frame(lambda = plyr::laply(grid_run, \(x) x[[hyperparameters$which.cv.lambda]]))
-      lambda.all$param_combo_id <- rep(1:n_param_combinations, each = n_resamples)
-      lambda.by.param_combo_id <- aggregate(
-        lambda ~ param_combo_id, lambda.all,
-        metrics_aggregate_fn
+      # lambda_cv2 <- data.frame(lambda = plyr::laply(grid_run, \(x) x$hyperparameters[[hyperparameters$which.cv.lambda]]))
+      # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which.cv.lambda]]
+      lambda_cv2 <- data.frame(
+        lambda = sapply(grid_run, \(x) x$hyperparameters[[x$hyperparameters$which.cv.lambda]])
       )
-      tune_results <- cbind(lambda = lambda.by.param_combo_id$lambda, tune_results)
-      n_params <- n_params + 1
+      lambda_cv2$param_combo_id <- rep(1:n_param_combinations, each = n_resamples)
+      lambda_by_param_combo_id <- aggregate(
+        lambda ~ param_combo_id, lambda_cv2,
+        tuner_parameters$metrics_aggregate_fn
+      )
+      # Replace NULL lambda in tune_results$param_grid with average value of CV-squared lambda
+      stopifnot(tune_results$param_grid$lambda == "null")
+      param_grid$lambda <- tune_results$param_grid$lambda <- lambda_by_param_combo_id$lambda
     }
-  }
+  } # /GLMNET
+
+  ## GBM, H2OGBM ----
+  # if (algorithm %in% c("H2OGBM", "GBM", "GBM3")) {
+  #   est.n.trees.all <- data.frame(n.trees = plyr::laply(
+  #     grid_run,
+  #     function(x) x$est.n.trees
+  #   ))
+  #   est.n.trees.all$param_combo_id <- rep(seq_len(n_param_combinations), each = n_resamples)
+  #   est.n.trees.by.param_combo_id <- aggregate(
+  #     n.trees ~ param_combo_id, est.n.trees.all,
+  #     metrics_aggregate_fn
+  #   )
+  #   tune_results <- cbind(
+  #     n.trees = round(est.n.trees.by.param_combo_id$n.trees),
+  #     tune_results
+  #   )
+  #   n_params <- n_params + 1
+  # } # /GBM, H2OGBM
+
+  ## LightGBM ----
+  # if (algorithm == "LightGBM") {
+  #   if (verbosity > 1) {
+  #     msg2(hilite("Extracting best N of iterations from LightGBM models..."))
+  #   }
+  #   est.nrounds.all <- data.frame(
+  #     nrounds = plyr::laply(grid_run, \(m) m$best_iter)
+  #   )
+  #   est.nrounds.all$param_combo_id <- rep(seq_len(n_param_combinations),
+  #     each = n_resamples
+  #   )
+  #   est.nrounds.by.param_combo_id <- aggregate(
+  #     nrounds ~ param_combo_id, est.nrounds.all,
+  #     metrics_aggregate_fn
+  #   )
+  #   tune_results <- cbind(
+  #     nrounds = round(est.nrounds.by.param_combo_id$nrounds),
+  #     tune_results
+  #   )
+  #   n_params <- n_params + 1
+  # } # /LightGBM
+
+  ## XGBoost ----
+  # if (algorithm == "XGBoost") {
+  #   if (verbosity > 1) {
+  #     msg2(hilite("Extracting best N of iterations from XGBoost models..."))
+  #   }
+  #   est.nrounds.all <- data.frame(nrounds = plyr::laply(
+  #     grid_run,
+  #     \(m) m$best_iteration
+  #   ))
+  #   est.nrounds.all$param_combo_id <- rep(seq_len(n_param_combinations),
+  #     each = n_resamples
+  #   )
+  #   est.nrounds.by.param_combo_id <- aggregate(
+  #     nrounds ~ param_combo_id, est.nrounds.all,
+  #     metrics_aggregate_fn
+  #   )
+  #   tune_results <- cbind(
+  #     nrounds = round(est.nrounds.by.param_combo_id$nrounds),
+  #     tune_results
+  #   )
+  #   n_params <- n_params + 1
+  # } /XGBoost
 
   ## LINAD ----
-  if (algorithm %in% c("s_LINAD", "s_LINOA")) {
-    if (verbosity > 1) {
-      msg2(hilite("Extracting best N leaves from LINAD models..."))
-    }
-    est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
-      grid_run,
-      \(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
-    ))
-    est.n.leaves.all$param_combo_id <- rep(seq_len(n_param_combinations),
-      each = n_resamples
-    )
-    est.n.leaves.by.param_combo_id <- aggregate(
-      n.leaves ~ param_combo_id, est.n.leaves.all,
-      metrics_aggregate_fn
-    )
-    tune_results <- cbind(
-      n.leaves =
-        round(est.n.leaves.by.param_combo_id$n.leaves), tune_results
-    )
-    n_params <- n_params + 1
-  }
+  # if (algorithm %in% c("LINAD", "LINOA")) {
+  #   if (verbosity > 1) {
+  #     info("Extracting best N leaves from LINAD models...")
+  #   }
+  #   est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
+  #     grid_run,
+  #     \(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
+  #   ))
+  #   est.n.leaves.all$param_combo_id <- rep(seq_len(n_param_combinations),
+  #     each = n_resamples
+  #   )
+  #   est.n.leaves.by.param_combo_id <- aggregate(
+  #     n.leaves ~ param_combo_id, est.n.leaves.all,
+  #     metrics_aggregate_fn
+  #   )
+  #   tune_results <- cbind(
+  #     n.leaves =
+  #       round(est.n.leaves.by.param_combo_id$n.leaves), tune_results
+  #   )
+  #   n_params <- n_params + 1
+  # } # /LINAD, LINOA
 
   ## LIHADBoost ----
-  if (algorithm == "s_LIHADBoost") {
-    if (verbosity > 1) {
-      msg2(hilite("Extracting best N steps from LIHADBoost models..."))
-    }
-    est.n.steps.all <- data.frame(n.steps = plyr::laply(
-      grid_run,
-      \(x) x$sel.n.steps
-    ))
-    est.n.steps.all$param_combo_id <- rep(seq_len(n_param_combinations),
-      each = n_resamples
-    )
-    est.n.steps.by.param_combo_id <- aggregate(
-      n.steps ~ param_combo_id, est.n.steps.all,
-      metrics_aggregate_fn
-    )
-    tune_results <- cbind(
-      n.steps = round(est.n.steps.by.param_combo_id$n.steps),
-      tune_results
-    )
-    n_params <- n_params + 1
-  }
+  # if (algorithm == "LIHADBoost") {
+  #   if (verbosity > 1) {
+  #     msg2(hilite("Extracting best N steps from LIHADBoost models..."))
+  #   }
+  #   est.n.steps.all <- data.frame(n.steps = plyr::laply(
+  #     grid_run,
+  #     \(x) x$sel.n.steps
+  #   ))
+  #   est.n.steps.all$param_combo_id <- rep(seq_len(n_param_combinations),
+  #     each = n_resamples
+  #   )
+  #   est.n.steps.by.param_combo_id <- aggregate(
+  #     n.steps ~ param_combo_id, est.n.steps.all,
+  #     metrics_aggregate_fn
+  #   )
+  #   tune_results <- cbind(
+  #     n.steps = round(est.n.steps.by.param_combo_id$n.steps),
+  #     tune_results
+  #   )
+  #   n_params <- n_params + 1
+  # } # /LIHADBoost
 
   # Consider explicitly sorting hyperparam values in increasing order,
   # so that in case of tie, lowest value is chosen -
@@ -408,14 +423,16 @@ tune_GridSearch <- function(dat_training,
   best_param_combo_id <- as.integer(
     tune_results$metrics_validation[select_fn(tune_results$metrics_validation[[metric]]), 1]
   )
-  best_param_combo <- as.list(param_grid[best_param_combo_id, -1])
+  best_param_combo <- as.list(param_grid[best_param_combo_id, -1, drop = FALSE])
   if (verbosity > 0) {
+    cat("\n")
     msg2(hilite(paste0("Best parameters to ", paste(verb, metric), ":")))
     printls(best_param_combo)
   }
 
   # Outro ----
-  outro(start_time, verbosity = verbosity)
+  # Since this is always called from within `train()`, we don't want to print "Completed..."
+  outro(start_time, verbosity = verbosity - 1)
 
   # => add optional mods field to GridSearch
   # if (save_mods) mods <- grid_run
