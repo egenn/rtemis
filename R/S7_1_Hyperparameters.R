@@ -453,7 +453,10 @@ method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
 
 
 # LightRFHyperparameters ----
-LightRF_tunable <- c("nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample")
+LightRF_tunable <- c(
+  "nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample",
+  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group"
+)
 LightRF_fixed <- character(0)
 
 #' @title LightRFHyperparameters
@@ -504,16 +507,16 @@ LightRFHyperparameters <- new_class(
 #'
 #' Get more information from [lightgbm::lgb.train].
 #'
-#' @param nrounds Positive integer: Number of boosting rounds.
-#' @param num_leaves Positive integer: Maximum number of leaves in one tree.
-#' @param maxdepth Integer: Maximum depth of tree.
-#' @param feature_fraction Numeric: Fraction of features to use.
-#' @param subsample Numeric: Fraction of data to use.
-#' @param lambda_l1 Numeric: L1 regularization.
-#' @param lambda_l2 Numeric: L2 regularization.
-#' @param max_cat_threshold Positive integer: Maximum number of categories for categorical features.
-#' @param min_data_per_group Positive integer: Minimum number of data per categorical group.
-#' @param linear_tree Logical: If TRUE, use linear tree.
+#' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
+#' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
+#' @param maxdepth (Tunable) Integer: Maximum depth of trees.
+#' @param feature_fraction (Tunable) Numeric: Fraction of features to use.
+#' @param subsample (Tunable) Numeric: Fraction of data to use.
+#' @param lambda_l1 (Tunable) Numeric: L1 regularization.
+#' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
+#' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
+#' @param linear_tree Logical: If TRUE, use linear trees.
 #'
 #' @author EDG
 #' @export
