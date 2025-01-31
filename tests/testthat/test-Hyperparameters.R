@@ -37,3 +37,23 @@ test_that("setup_CART() succeeds", {
 test_that("needs_tuning() succeeds", {
   expect_type(needs_tuning(cart_hpr), "logical")
 })
+
+# GLMNETHyperparameters ----
+test_that("GLMNETHyperparameters succeeds", {
+  expect_s7_class(GLMNETHyperparameters(), GLMNETHyperparameters)
+})
+
+# setup_GLMNET ----
+test_that("setup_GLMNET() succeeds", {
+  expect_s7_class(setup_GLMNET(), GLMNETHyperparameters)
+})
+
+# LightRFHyperparameters ----
+test_that("LightRFHyperparameters succeeds", {
+  expect_s7_class(LightRFHyperparameters(), LightRFHyperparameters)
+})
+
+# setup_LightRF ----
+test_that("setup_LightRF() succeeds", {
+  expect_s7_class(setup_LightRF(), LightRFHyperparameters)
+})
