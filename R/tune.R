@@ -32,6 +32,8 @@ tune <- function(
   weights = NULL,
   verbosity = 1
 ) {
+  check_is_S7(hyperparameters, Hyperparameters)
+  check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
   tuner_fn <- get_tuner_fn(tuner_parameters@type)
   do.call(tuner_fn, list(
