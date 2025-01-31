@@ -18,19 +18,18 @@
 # 1: Running on cross-validated training sets.
 
 #' @title Hyperparameters
-#' 
+#'
 #' @description
 #' Superclass for hyperparameters.
-#' 
+#'
 #' @field algorithm Character: Algorithm name.
 #' @field hyperparameters Named list of algorithm hyperparameter values.
 #' @field tuned Integer: Tuning status.
 #' @field crossvalidated Integer: Cross-validation status.
 #' @field tunable_hyperparameters Character: Names of tunable hyperparameters.
-#' @field fixed_hyperparameters Character: Names of fixed hyperparameters. 
-#' 
+#' @field fixed_hyperparameters Character: Names of fixed hyperparameters.
+#'
 #' @author EDG
-#' @export
 Hyperparameters <- new_class(
   name = "Hyperparameters",
   properties = list(
@@ -41,8 +40,7 @@ Hyperparameters <- new_class(
     tuned = class_integer,
     crossvalidated = class_integer
   ),
-  constructor = function(
-      algorithm, hyperparameters, tunable_hyperparameters, fixed_hyperparameters) {
+  constructor = function(algorithm, hyperparameters, tunable_hyperparameters, fixed_hyperparameters) {
     # Test if any tunable_hyperparameters have more than one value
     if (length(tunable_hyperparameters) > 0) {
       if (any(sapply(hyperparameters[tunable_hyperparameters], length) > 1)) {
@@ -94,7 +92,10 @@ print.Hyperparameters <- function(x, ...) {
     cat(hilite2(
       "\n  ",
       ngettext(length(need_tuning), "Hyperparameter", "Hyperparameters"),
-      oxfordcomma(need_tuning, format_fn = underline), ngettext(length(need_tuning), "needs", "need"), "tuning.\n"
+      oxfordcomma(
+        need_tuning,
+        format_fn = underline
+      ), ngettext(length(need_tuning), "needs", "need"), "tuning.\n"
     ))
   } else if (x@tuned == -1L) {
     cat(hilite2("\n  No search values defined for tunable hyperparameters.\n"))
@@ -224,29 +225,28 @@ CART_fixed <- c(
 # )
 
 #' @title CARTHyperparameters
-#' 
+#'
 #' @description
 #' Hyperparameters subclass for CART.
-#' 
+#'
 #' @author EDG
 #' @export
 CARTHyperparameters <- new_class(
   name = "CARTHyperparameters",
   parent = Hyperparameters,
-  constructor = function(
-      cp = NULL,
-      maxdepth = NULL,
-      minsplit = NULL,
-      minbucket = NULL,
-      prune.cp = NULL,
-      method = NULL,
-      model = NULL,
-      maxcompete = NULL,
-      maxsurrogate = NULL,
-      usesurrogate = NULL,
-      surrogatestyle = NULL,
-      xval = NULL,
-      cost = NULL) {
+  constructor = function(cp = NULL,
+                         maxdepth = NULL,
+                         minsplit = NULL,
+                         minbucket = NULL,
+                         prune.cp = NULL,
+                         method = NULL,
+                         model = NULL,
+                         maxcompete = NULL,
+                         maxsurrogate = NULL,
+                         usesurrogate = NULL,
+                         surrogatestyle = NULL,
+                         xval = NULL,
+                         cost = NULL) {
     new_object(
       Hyperparameters(
         algorithm = "CART",
@@ -368,9 +368,9 @@ GLMNETHyperparameters <- new_class(
                          penalty.factor = NULL,
                          standardize = NULL,
                          intercept = TRUE) {
-    alpha <- check_float01inc(alpha)
+    check_float01inc(alpha)
     check_inherits(which.cv.lambda, "character")
-    nlambda <- check_posint(nlambda)
+    nlambda <- clean_posint(nlambda)
     check_inherits(penalty.factor, "numeric")
     check_inherits(standardize, "logical")
     new_object(
@@ -421,9 +421,9 @@ setup_GLMNET <- function(
     penalty.factor = NULL,
     standardize = TRUE,
     intercept = TRUE) {
-  alpha <- check_float01inc(alpha)
+  check_float01inc(alpha)
   check_inherits(which.cv.lambda, "character")
-  nlambda <- check_posint(nlambda)
+  nlambda <- clean_posint(nlambda)
   check_inherits(penalty.factor, "numeric")
   check_inherits(standardize, "logical")
   GLMNETHyperparameters(
@@ -450,3 +450,104 @@ method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
   }
   out
 } # /get_params_need_tuning.GLMNETHyperparameters
+
+
+# LightRFHyperparameters ----
+LightRF_tunable <- c("nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample")
+LightRF_fixed <- character(0)
+
+#' @title LightRFHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for LightRF
+#'
+#' @author EDG
+#' @export
+LightRFHyperparameters <- new_class(
+  name = "LightRFHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(nrounds = NULL,
+                         num_leaves = NULL,
+                         maxdepth = NULL,
+                         feature_fraction = NULL,
+                         subsample = NULL,
+                         lambda_l1 = NULL,
+                         lambda_l2 = NULL,
+                         max_cat_threshold = NULL,
+                         min_data_per_group = NULL,
+                         linear_tree = NULL) {
+    new_object(
+      Hyperparameters(
+        algorithm = "LightRF",
+        hyperparameters = list(
+          nrounds = nrounds,
+          num_leaves = num_leaves,
+          maxdepth = maxdepth,
+          feature_fraction = feature_fraction,
+          subsample = subsample,
+          lambda_l1 = lambda_l1,
+          lambda_l2 = lambda_l2,
+          max_cat_threshold = max_cat_threshold,
+          min_data_per_group = min_data_per_group,
+          linear_tree = linear_tree
+        ),
+        tunable_hyperparameters = LightRF_tunable,
+        fixed_hyperparameters = LightRF_fixed
+      )
+    )
+  }
+) # /rtemis::LightRFHyperparameters
+
+#' Setup LightRF Hyperparameters
+#'
+#' Setup hyperparameters for LightRF training.
+#'
+#' Get more information from [lightgbm::lgb.train].
+#'
+#' @param nrounds Positive integer: Number of boosting rounds.
+#' @param num_leaves Positive integer: Maximum number of leaves in one tree.
+#' @param maxdepth Integer: Maximum depth of tree.
+#' @param feature_fraction Numeric: Fraction of features to use.
+#' @param subsample Numeric: Fraction of data to use.
+#' @param lambda_l1 Numeric: L1 regularization.
+#' @param lambda_l2 Numeric: L2 regularization.
+#' @param max_cat_threshold Positive integer: Maximum number of categories for categorical features.
+#' @param min_data_per_group Positive integer: Minimum number of data per categorical group.
+#' @param linear_tree Logical: If TRUE, use linear tree.
+#'
+#' @author EDG
+#' @export
+setup_LightRF <- function(
+    nrounds = 500L,
+    num_leaves = 4096L,
+    maxdepth = -1L,
+    feature_fraction = 1.0,
+    subsample = .623,
+    lambda_l1 = 0,
+    lambda_l2 = 0,
+    max_cat_threshold = 32L,
+    min_data_per_group = 32L,
+    linear_tree = FALSE) {
+  nrounds <- clean_posint(nrounds)
+  num_leaves <- clean_posint(num_leaves)
+  maxdepth <- clean_integer(maxdepth)
+  check_float01inc(feature_fraction)
+  check_float01inc(subsample)
+  check_float01inc(lambda_l1)
+  check_float01inc(lambda_l2)
+  max_cat_threshold <- clean_posint(max_cat_threshold)
+  min_data_per_group <- clean_posint(min_data_per_group)
+  check_logical(linear_tree)
+  LightRFHyperparameters(
+    nrounds = nrounds,
+    num_leaves = num_leaves,
+    maxdepth = maxdepth,
+    feature_fraction = feature_fraction,
+    subsample = subsample,
+    lambda_l1 = lambda_l1,
+    lambda_l2 = lambda_l2,
+    max_cat_threshold = max_cat_threshold,
+    min_data_per_group = min_data_per_group,
+    linear_tree = linear_tree
+  )
+} # /rtemis::setupLightRF

@@ -21,16 +21,14 @@
 # (e.g. setup_GridSearch) perform type checking and validation?
 
 # TunerParameters ----
-#' @title TunerParameters
+#' TunerParameters
 #'
-#' @description
 #' Superclass for tuner parameters.
 #'
 #' @field type Character: Type of tuner.
 #' @field parameters Named list of tuner parameters.
 #'
 #' @author EDG
-#' @export
 TunerParameters <- new_class(
   name = "TunerParameters",
   properties = list(
@@ -81,7 +79,6 @@ method(`.DollarNames`, TunerParameters) <- function(x, pattern = "") {
 #' TunerParameters subclass for grid search parameters.
 #'
 #' @author EDG
-#' @export
 GridSearchParams <- new_class(
   name = "GridSearchParams",
   parent = TunerParameters,
@@ -95,12 +92,12 @@ GridSearchParams <- new_class(
                          n_workers = NULL) {
     check_is_S7(resample_params, ResamplerParameters)
     check_inherits(search_type, "character")
-    randomize_p <- check_float01exc(randomize_p)
+    check_float01exc(randomize_p)
     check_inherits(metrics_aggregate_fn, "function")
     check_inherits(metric, "character")
     check_inherits(maximize, "logical")
     check_inherits(future_plan, "character")
-    n_workers <- check_posint(n_workers)
+    n_workers <- clean_posint(n_workers)
     # Only assign randomize_p if search_type is "randomized"
     params <- list(
       search_type = search_type,
@@ -155,7 +152,7 @@ setup_GridSearch <- function(
   if (is.null(n_workers)) n_workers <- rtCores
   S7_inherits(resample_params, ResamplerParameters)
   check_inherits(search_type, "character")
-  randomize_p <- check_float01exc(randomize_p)
+  check_float01exc(randomize_p)
   if (search_type == "exhaustive" && !is.null(randomize_p)) {
     stop("search_type is 'exhaustive': do not set randomize_p.")
   }
@@ -177,7 +174,7 @@ setup_GridSearch <- function(
 } # /setup_GridSearch
 
 # Tuner ----
-#' Tuner class
+#' Tuner Class
 #'
 #' @field type Character: Type of tuner.
 #' @field hyperparameters Named list of tunable and fixed hyperparameters.
@@ -198,6 +195,11 @@ Tuner <- new_class(
 ) # /Tuner
 
 # GridSearch ----
+#' GridSearch Class
+#' 
+#' Tuner subclass for grid search.
+#' 
+#' @author EDG
 GridSearch <- new_class(
   name = "GridSearch",
   parent = Tuner,
@@ -227,7 +229,6 @@ GridSearch <- new_class(
 #' @param ... Not used
 #'
 #' @author EDG
-#' @export
 print.GridSearch <- function(x, ...) {
   objcat(paste(x@type, "Tuner"))
   type <- if (x@tuner_parameters$search_type == "exhaustive") {
@@ -254,7 +255,7 @@ print.GridSearch <- function(x, ...) {
   )
   printls(x@best_hyperparameters)
   invisible(x)
-}
+} # /print.GridSearch
 method(print, GridSearch) <- function(x) {
   print.GridSearch(x)
 }

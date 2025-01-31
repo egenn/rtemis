@@ -12,7 +12,6 @@
 #' @field parameters List: Algorithm-specific parameters.
 #'
 #' @author EDG
-#' @export
 ClusteringParameters <- new_class(
   name = "ClusteringParameters",
   properties = list(
@@ -51,7 +50,6 @@ method(`[[`, ClusteringParameters) <- function(x, name) {
 #' @field parameters ClusteringParameters: Algorithm-specific parameters.
 #'
 #' @author EDG
-#' @export
 Clustering <- new_class(
   name = "Clustering",
   properties = list(
@@ -74,7 +72,6 @@ Clustering <- new_class(
 #' @field parameters List: Algorithm-specific parameters.
 #' 
 #' @author EDG
-#' @export
 DecompositionParameters <- new_class(
   name = "DecompositionParameters",
   properties = list(
@@ -111,7 +108,6 @@ method(`[[`, DecompositionParameters) <- function(x, name) {
 #' @field parameters List: Algorithm-specific parameters.
 #'
 #' @author EDG
-#' @export
 Decomposition <- new_class(
   name = "Decomposition",
   properties = list(

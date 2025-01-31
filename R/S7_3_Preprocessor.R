@@ -13,7 +13,6 @@
 #' Preprocessor class.
 #'
 #' @author EDG
-#' @export
 Preprocessor <- new_class(
   name = "Preprocessor",
   properties = list(

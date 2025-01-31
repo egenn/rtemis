@@ -9,7 +9,6 @@
 #' Superclass for Metrics metrics.
 #'
 #' @author EDG
-#' @export
 Metrics <- new_class(
   name = "Metrics",
   properties = list(

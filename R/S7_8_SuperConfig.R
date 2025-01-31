@@ -1,0 +1,54 @@
+# S7_SuperConfig.R
+# ::rtemis::
+# 2025 EDG rtemis.org
+
+# References ----
+# https://github.com/RConsortium/S7
+# https://rconsortium.github.io/S7/
+
+# SuperConfig ----
+#' @title SuperConfig
+#'
+#' @description
+#' Supervised Learning Configuration Class.
+#'
+#' @author EDG
+#' @export
+SuperConfig <- new_class(
+  name = "SuperConfig",
+  properties = list(
+    dat_training = class_character,
+    dat_validation = class_character,
+    dat_testing = class_character,
+    algorithm = class_character,
+    preprocessor = Preprocessor | NULL,
+    hyperparameters = Hyperparameters | NULL,
+    tuner = TunerParameters | NULL,
+    crossvalidation = ResamplerParameters | NULL,
+    weights = class_character | NULL, # column name in dat_training
+    binclasspos = class_integer,
+    question = class_character | NULL,
+    outdir = class_character,
+    verbosity = class_integer
+  )
+) # /rtemis::SuperConfig
+
+# Print SuperConfig ----
+#' Print SuperConfig
+#'
+#' Print SuperConfig object
+#'
+#' @param x SuperConfig object.
+#' @param ... Not used
+#'
+#' @author EDG
+#' @export
+print.SuperConfig <- function(x, ...) {
+  
+} # /rtemis::print.SuperConfig
+
+method(print, SuperConfig) <- function(x) {
+  objcat("SuperConfig")
+  printls(props(x))
+  invisible(x)
+} # /rtemis::print.SuperConfig

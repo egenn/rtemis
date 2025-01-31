@@ -15,7 +15,6 @@
 #' Superclass for supervised learning models.
 #'
 #' @author EDG
-#' @export
 Supervised <- new_class(
   name = "Supervised",
   properties = list(
@@ -86,7 +85,17 @@ Supervised <- new_class(
 ) # /Supervised
 
 # Print Supervised ----
-method(print, Supervised) <- function(x) {
+#' Print Supervised
+#'
+#' Print Supervised object
+#'
+#' @param x Supervised object.
+#' @param ... Not used
+#'
+#' @author EDG
+#' @export
+print.Supervised <- function(x, ...) {
+  cat(gray(".:"))
   objcat(paste(x@type, "Model"))
   cat("  ",
     hilite(x@algorithm),
@@ -104,6 +113,9 @@ method(print, Supervised) <- function(x) {
     print(x@metrics_testing)
   }
 } # /print.Supervised
+method(print, Supervised) <- function(x) {
+  print.Supervised(x)
+}
 
 # Plot Variable Importance ----
 plot_varimp <- new_generic("plot_varimp", "x")
@@ -710,11 +722,6 @@ RegressionCV <- new_class(
                          question = NULL,
                          extra = NULL) {
     metrics_training <- lapply(models, function(mod) mod@metrics_training@metrics)
-    # metrics_validation <- if (!is.null(models[[1]]@metrics_validation)) {
-    #   lapply(models, function(mod) mod@metrics_validation@metrics)
-    # } else {
-    #   NULL
-    # }
     metrics_testing <- if (!is.null(models[[1]]@metrics_testing)) {
       lapply(models, function(mod) mod@metrics_testing@metrics)
     } else {
@@ -723,19 +730,10 @@ RegressionCV <- new_class(
     # metrics_training <- Filter(
     #   Negate(is.null), lapply(models, function(mod) mod@metrics_training@metrics)
     # )
-    # metrics_validation <- Filter(
-    #   Negate(is.null), lapply(models, function(mod) mod@metrics_validation@metrics)
-    # )
     # metrics_testing <- Filter(
     #   Negate(is.null), lapply(models, function(mod) mod@metrics_testing@metrics)
     # )
     metrics_training_mean <- colMeans(do.call(rbind, metrics_training))
-    # metrics_validation_mean <- if (length(metrics_validation) > 0) {
-    #   colMeans(do.call(rbind, metrics_validation))
-    # } else {
-    #   NULL
-    # }
-    # metrics_validation_mean <- try(colMeans(do.call(rbind, metrics_validation)), silent = TRUE)
     metrics_testing_mean <- if (length(metrics_testing) > 0) {
       colMeans(do.call(rbind, metrics_testing))
     } else {

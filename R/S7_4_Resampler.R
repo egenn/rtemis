@@ -29,7 +29,6 @@ source("R/S7_validators.R")
 #' @field n Integer: Number of resamples.
 #'
 #' @author EDG
-#' @export
 ResamplerParameters <- new_class(
   name = "ResamplerParameters",
   properties = list(
