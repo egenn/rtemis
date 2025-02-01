@@ -4,7 +4,7 @@
 
 # Preprocessor ----
 testthat::test_that("setup_Preprocessor() succeeds", {
-  expect_s7_class(setup_Preprocessor(), Preprocessor)
+  expect_s7_class(setup_Preprocessor(), PreprocessorParameters)
 })
 
 
@@ -13,5 +13,5 @@ testthat::test_that("setup_Preprocessor() succeeds", {
     remove_constants = TRUE,
     remove_duplicates = TRUE
   )
-  expect_s7_class(prp, Preprocessor)
+  expect_s7_class(prp, PreprocessorParameters)
 })
