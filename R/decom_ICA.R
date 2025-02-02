@@ -5,16 +5,12 @@
 #' ICA Decomposition
 #' 
 decom_ICA <- function(x, parameters, verbosity = 1L) {
-  # Checks
+  # Checks ----
   check_is_S7(parameters, ICAParameters)
-
-  # Dependencies
   check_dependencies("fastICA")
-
-  # Data
   check_unsupervised_data(x = x, allow_missing = FALSE)
 
-  # Decompose
+  # Decompose ----
   decom <- fastICA::fastICA(
     X = as.matrix(x),
     n.comp = parameters$k,
@@ -27,5 +23,7 @@ decom_ICA <- function(x, parameters, verbosity = 1L) {
     tol = parameters$tol,
     verbose = verbosity > 0L
   )
+  check_inherits(decom, "list")
+  list(decom = decom, projections = decom$S)
 
 } # /rtemis::decom_ICA
