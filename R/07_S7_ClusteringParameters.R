@@ -31,12 +31,9 @@ method(`[[`, ClusteringParameters) <- function(x, name) {
 }
 
 # `$`-autocomplete ClusteringParameters@parameters ----
-.DollarNames.ClusteringParameters <- function(x, pattern = "") {
+method(`.DollarNames`, ClusteringParameters) <- function(x, pattern = "") {
   all_names <- names(x@parameters)
   grep(pattern, all_names, value = TRUE)
-}
-method(`.DollarNames`, ClusteringParameters) <- function(x, pattern = "") {
-  .DollarNames.ClusteringParameters(x, pattern)
 }
 
 # Print ClusteringParameters ----
