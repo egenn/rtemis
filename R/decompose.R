@@ -1,0 +1,54 @@
+# decompose.R
+# ::rtemis::
+# 2025 EDG rtemis.org
+
+#' Decompose matrix
+#'
+#' @param x Matrix or data frame: Input data.
+#' @param algorithm Character: Decomposition algorithm.
+#' @param parameters DecompositionParameters: Algorithm-specific parameters.
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @author EDG
+#' @export
+decompose <- new_generic("decompose", "x")
+method(decompose, class_numeric | class_data.frame) <- function(x,
+                                                               algorithm = "PCA",
+                                                               parameters = NULL,
+                                                               verbosity = 1L) {
+  # Checks ----
+  if (is.null(parameters)) {
+    parameters <- get_default_decomparams(algorithm)
+  }
+  check_is_S7(parameters, DecompositionParameters)
+
+  # Intro ----
+  start_time <- intro(verbosity = verbosity)
+
+  # Data ----
+  if (verbosity > 0L) {
+    cat("\n")
+    summarize_unsupervised_data(x)
+    cat("\n")
+  }
+
+  # Decompose ----
+  algorithm <- get_decom_name(algorithm)
+  decom_fn <- get_decom_fn(algorithm)
+  if (verbosity > 0L) {
+    msg20("Decomposing with ", algorithm, "...\n")
+  }
+  decom <- do.call(
+    decom_fn,
+    list(x = x, parameters = parameters)
+  )
+
+  # Outro ----
+  outro(start_time, verbosity = verbosity)
+  Decomposition(
+    algorithm = algorithm,
+    parameters = parameters,
+    decom = decom$decom,
+    projections = decom$projections
+  )
+} # /rtemis::decompose
