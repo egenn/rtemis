@@ -72,8 +72,7 @@ Hyperparameters <- new_class(
 # Print Hyperparameters ----
 #' Print Hyperparameters
 #'
-#' @description
-#' Print Hyperparameters object.
+#' Print method for Hyperparameters object.
 #'
 #' @param x Hyperparameters object.
 #' @param ... Not used.
@@ -82,7 +81,8 @@ Hyperparameters <- new_class(
 #' @export
 print.Hyperparameters <- function(x, ...) {
   objcat(paste(x@algorithm, "Hyperparameters"))
-  printls(props(x))
+  cat("\n")
+  printls(props(x)[-1])
   if (x@tuned == -9L) {
     cat(hilite2("\n  Hyperparameters are being tuned.\n"))
   } else if (x@tuned == -2L) {

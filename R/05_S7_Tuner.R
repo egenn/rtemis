@@ -149,7 +149,7 @@ setup_GridSearch <- function(
     future_plan = "multicore",
     n_workers = NULL) {
   # Arguments ----
-  if (is.null(n_workers)) n_workers <- rtCores
+  # if (is.null(n_workers)) n_workers <- rtCores
   check_is_S7(resample_params, ResamplerParameters)
   check_inherits(search_type, "character")
   check_float01exc(randomize_p)

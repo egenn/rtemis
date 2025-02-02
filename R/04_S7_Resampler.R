@@ -48,13 +48,13 @@ method(`$`, ResamplerParameters) <- function(x, name) {
 #'
 #' @author EDG
 #' @export
-print.ResamplerParameters <- function(x, pad = 0, ...) {
+print.ResamplerParameters <- function(x, pad = 0L, ...) {
   objcat(paste(x@type, "ResamplerParameters"), pad = pad)
   propsl <- props(x)
   propsl$type <- NULL
-  printls(propsl, pad = pad + 2)
+  printls(propsl, pad = pad + 2L)
 }
-method(print, ResamplerParameters) <- function(x, pad = 0, ...) {
+method(print, ResamplerParameters) <- function(x, pad = 0L, ...) {
   print.ResamplerParameters(x, pad = pad)
 } # rtemis::print.ResamplerParameters
 
@@ -256,7 +256,7 @@ setup_Resampler <- function(n_resamples = 10L,
                             target_length = NULL,
                             id_strat = NULL,
                             seed = NULL,
-                            verbosity = 1) {
+                            verbosity = 1L) {
   # Arguments
   type <- match_arg(type, c("KFold", "StratSub", "StratBoot", "Bootstrap", "LOOCV"))
   if (length(type) == 0) {
@@ -373,7 +373,7 @@ method(`.DollarNames`, Resampler) <- function(x, pattern = "") {
   .DollarNames.Resampler(x, pattern)
 }
 
-# print1.resample <- function(x, verbosity = 0, ...) {
+# print1.resample <- function(x, verbosity = 0L, ...) {
 #   resampler <- attr(x, "resampler")
 #   if (resampler == "loocv") {
 #     .text <- "Leave-one-out crossvalidation"
@@ -389,7 +389,7 @@ method(`.DollarNames`, Resampler) <- function(x, pattern = "") {
 #     )
 #   }
 
-#   if (verbosity > 0) print(.text)
+#   if (verbosity > 0L) print(.text)
 #   invisible(.text)
 # } # rtemis::print1.resample
 

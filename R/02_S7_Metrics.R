@@ -8,6 +8,9 @@
 #' @description
 #' Superclass for Metrics metrics.
 #'
+#' @field sample Character: Sample name.
+#' @field metrics List or data.frame: Metrics.
+#'
 #' @author EDG
 Metrics <- new_class(
   name = "Metrics",
@@ -74,7 +77,7 @@ method(print, RegressionMetrics) <- function(x) {
   }
   printls(x@metrics)
   invisible(x)
-} # /print.RegressionMetrics
+} # /rtemis::print.RegressionMetrics
 
 # ClassificationMetrics ----
 #' @title ClassificationMetrics
@@ -100,7 +103,7 @@ ClassificationMetrics <- new_class(
       )
     )
   }
-) # /ClassificationMetrics
+) # /rtemis::ClassificationMetrics
 
 # Print ClassificationMetrics ----
 method(print, ClassificationMetrics) <- function(x, decimal_places = 3) {
@@ -132,4 +135,89 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3) {
     cat("   Positive Class ", hilite(x@metrics$Positive_Class), "\n")
   }
   invisible(x)
-} # /print.ClassificationMetrics
+} # /rtemis::print.ClassificationMetrics
+
+
+# MetricsCV ----
+#' @title MetricsCV
+#'
+#' @description
+#' Superclass for MetricsCV metrics.
+#'
+#' @field sample Character: Sample name.
+#'
+#' @author EDG
+MetricsCV <- new_class(
+  name = "MetricsCV",
+  properties = list(
+    sample = class_character | NULL,
+    cv_metrics = class_list,
+    mean_metrics = class_data.frame,
+    sd_metrics = class_data.frame
+  )
+) # /rtemis::MetricsCV
+
+# Print MetricsCV ----
+#' Print MetricsCV
+#' 
+#' @param x MetricsCV object.
+#' @param decimal_places Integer: Number of decimal places.
+#' 
+#' @author EDG
+#' @export
+print.MetricsCV <- function(x, decimal_places = 3L, ...) {
+  type <- if (inherits(x, "RegressionMetricsCV")) "Regression" else "Classification"
+  objcat(paste("  Crossvalidated", type, x@sample, "Metrics"))
+  cat("\n")
+  # Create list with mean_metrics (sd_metrics)
+  out <- lapply(seq_along(x@mean_metrics), function(i) {
+    paste0(
+      ddSci(x@mean_metrics[[i]], decimal_places),
+      " (", ddSci(x@sd_metrics[[i]], decimal_places), ")"
+    )
+  })
+  names(out) <- names(x@mean_metrics)
+  printls(out)
+  invisible(x)
+}
+method(print, MetricsCV) <- function(x, decimal_places = 3) {
+  print.MetricsCV(x, decimal_places)
+} # /rtemis::print.MetricsCV
+
+RegressionMetricsCV <- new_class(
+  name = "RegressionMetricsCV",
+  parent = MetricsCV,
+  constructor = function(sample, cv_metrics) {
+    new_object(
+      MetricsCV(
+        sample = sample,
+        cv_metrics = cv_metrics,
+        mean_metrics = vec2df(
+          colMeans(do.call(rbind, lapply(cv_metrics, function(x) x@metrics)))
+        ),
+        sd_metrics = vec2df(
+          sapply(do.call(rbind, lapply(cv_metrics, function(x) x@metrics)), sd)
+        )
+      )
+    )
+  }
+) # /rtemis::RegressionMetricsCV
+
+ClassificationMetricsCV <- new_class(
+  name = "ClassificationMetricsCV",
+  parent = MetricsCV,
+  constructor = function(sample, cv_metrics) {
+    new_object(
+      MetricsCV(
+        sample = sample,
+        cv_metrics = cv_metrics,
+        mean_metrics = vec2df(
+          colMeans(do.call(rbind, lapply(cv_metrics, function(x) x@metrics$Overall)))
+        ),
+        sd_metrics = vec2df(
+          sapply(do.call(rbind, lapply(cv_metrics, function(x) x@metrics$Overall)), sd)
+        )
+      )
+    )
+  }
+) # /rtemis::ClassificationMetricsCV

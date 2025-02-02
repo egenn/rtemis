@@ -23,8 +23,8 @@ SuperConfig <- new_class(
     algorithm = class_character,
     preprocessor = PreprocessorParameters | NULL,
     hyperparameters = Hyperparameters | NULL,
-    tuner = TunerParameters | NULL,
-    crossvalidation = ResamplerParameters | NULL,
+    tuner_parameters = TunerParameters | NULL,
+    crossvalidation_parameters = ResamplerParameters | NULL,
     weights = class_character | NULL, # column name in dat_training
     question = class_character | NULL,
     outdir = class_character,
