@@ -23,3 +23,31 @@ Decomposition <- new_class(
     parameters = DecompositionParameters
   )
 ) # /Decomposition
+
+# Make Decomposition properties `$`-accessible
+method(`$`, Decomposition) <- function(x, name) {
+  prop_names <- names(props(x))
+  if (name %in% prop_names) {
+    prop(x, name)
+  } else {
+    stop(paste0("No property named '", name, "' in Decomposition object."))
+  }
+}
+method(`.DollarNames`, Decomposition) <- function(x, pattern = "") {
+  prop_names <- names(props(x))
+  grep(pattern, prop_names, value = TRUE)
+}
+
+# Make Decomposition@decom `[[`-accessible
+method(`[[`, Decomposition) <- function(x, index) {
+  props(x, "decom")[[index]]
+}
+
+# Print Decomposition ----
+method(print, Decomposition) <- function(x, pad = 0L) {
+  cat(gray(".:"))
+  objcat(paste(x@algorithm, "Decomposition"), pad = pad)
+  cat("\n")
+  printls(props(x)[-1], pad = pad)
+  invisible(x)
+}
