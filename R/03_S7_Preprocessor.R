@@ -96,7 +96,6 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' Setup `PreprocessorParameters`
 #'
 #' @param complete_cases Logical: If TRUE, only retain complete cases (no missing data).
-#' Default = FALSE
 #' @param remove_cases_thres Float (0, 1): Remove cases with >= to this fraction
 #' of missing features.
 #' @param remove_features_thres Float (0, 1): Remove features with missing
@@ -110,7 +109,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' forest regression. "rfImpute" uses `randomForest::rfImpute` (see its
 #' documentation), "meanMode" will use mean and mode by default or any custom
 #' function defined in `impute_discrete` and `impute_numeric`.
-#' Default = "missRanger" (which is much faster than "missForest").
+#' "missRanger" is parallelized and much faster than "missForest".
 #' "missForest" is included for compatibility with older pipelines.
 #' @param impute.missRanger.params Named list with elements "pmm.k" and
 #' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
@@ -123,10 +122,8 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 # @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
 #' @param impute_discrete Character: Name of function that returns single value: How to impute
 #' discrete variables for `impute.type = "meanMode"`.
-#' Default = [get_mode]
 #' @param impute_numeric Character: Name of function that returns single value: How to impute
 #' continuous variables for `impute.type = "meanMode"`.
-#' Default = `mean`
 #' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
 #' `bit64::integer64` columns
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric
@@ -151,7 +148,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param numeric_quant_NAonly Logical: If TRUE, only bin numeric variables with
 #' missing values
 #' @param len2factor Integer (>=2): Convert all variables with less
-#' than or equal to this number of unique values to factors. Default = NULL.
+#' than or equal to this number of unique values to factors.
 #' For example, if binary variables are encoded with 1, 2, you could use
 #' `len2factor = 2` to convert them to factors.
 #' @param character2factor Logical: If TRUE, convert all character variables to
@@ -163,7 +160,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' data in categorical variables and impute numeric variables in the same
 #' `preprocess` call.
 #' @param factorNA2missing.level Character: Name of level if
-#' `factorNA2missing = TRUE`. Default = "missing"
+#' `factorNA2missing = TRUE`.
 #' @param factor2integer Logical: If TRUE, convert all factors to integers
 #' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0
 #' @param scale Logical: If TRUE, scale columns of `x`
