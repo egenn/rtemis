@@ -3,7 +3,7 @@
 # 2025 EDG rtemis.org
 
 #' ICA Decomposition
-#' 
+#'
 decom_ICA <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, ICAParameters)
@@ -24,6 +24,5 @@ decom_ICA <- function(x, parameters, verbosity = 1L) {
     verbose = verbosity > 0L
   )
   check_inherits(decom, "list")
-  list(decom = decom, projections = decom$S)
-
+  list(decom = decom, transformed = decom$S)
 } # /rtemis::decom_ICA

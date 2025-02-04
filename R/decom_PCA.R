@@ -3,7 +3,7 @@
 # 2025 EDG rtemis.org
 
 #' PCA Decomposition
-#' 
+#'
 decom_PCA <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, PCAParameters)
@@ -18,6 +18,5 @@ decom_PCA <- function(x, parameters, verbosity = 1L) {
     rank. = parameters$k
   )
   check_inherits(decom, "prcomp")
-  list(decom = decom, projections = decom$x)
-
+  list(decom = decom, transformed = decom$x)
 } # /rtemis::decom_ICA
