@@ -4,9 +4,11 @@
 
 #' Tune, Train, and Test an \pkg{rtemis} Learner
 #'
-#' `train` is a high-level function to tune, train, and test an
-#' \pkg{rtemis} model by nested resampling, with optional preprocessing and
-#' decomposition of input features
+#' `train` is a high-level function to preprocess, tune, train, and test an
+#' \pkg{rtemis} model using nested crossvalidation.
+#'
+#' For binary classification, the outcome should be a factor where the 2nd level corresponds to the
+#' positive class.
 #'
 #' - Note on resampling: You should never use an outer resampling method with
 #' replacement if you will also be using an inner resampling (for tuning).
@@ -14,88 +16,61 @@
 #' training and testing sets of the inner resamples, leading to underestimated
 #' testing error.
 #'
-#' - If there is an error while running either the outer or inner resamples in
-#' parallel, the error message returned by R will likely be unhelpful. Repeat
-#' the command after setting both inner and outer resample run to use a single
-#' core, which should provide an informative message.
-#'
-#' The `train` command is replacing `elevate`.
-#' Note: specifying id_strat for the inner resampling is not yet supported.
-#'
-#' @param dat_training data.frame or similar: Training set data.
+#' @param x data.frame or similar: Training set data.
 #' @param dat_validation data.frame or similar: Validation set data.
 #' @param dat_testing data.frame or similar: Testing set data.
 #' @param algorithm Character: Algorithm to use. Can be left NULL, if `hyperparameters` is defined.
-#' @param preprocessor Preprocessor object or NULL. Setup using [setup_Preprocessor].
-#' @param hyperparameters Hyperparameter object. Setup using one of `setup_*` functions.
-#' @param tuner Tuner object. Setup using [setup_Tuner].
-#' @param crossvalidation Crossvalidation object or NULL. Setup using [setup_Resampler].
+#' @param preprocessor_parameters PreprocessorParameters object or NULL: Setup using [setup_Preprocessor].
+#' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
+#' @param tuner_parameters TunerParameters object: Setup using [setup_Tuner].
+#' @param crossvalidation_parameters ResamplerParameters object or NULL: Setup using [setup_Resampler].
 #' @param weights Optional vector of case weights.
-#' @param question Optional character string defining the question that the model is trying to 
+#' @param question Optional character string defining the question that the model is trying to
 #' answer.
 #' @param outdir Character, optional: String defining the output directory.
 #' @param config Character, optional: Path to configuration file.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return Object of class `Regression(Supervised)` `RegressionCV(SupervisedCV)`, 
+#' @return Object of class `Regression(Supervised)` `RegressionCV(SupervisedCV)`,
 #' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`
 #' @author EDG
 #' @export
-
-train <- function(dat_training,
-                  dat_validation = NULL,
-                  dat_testing = NULL,
-                  algorithm = "cart", # can eliminate
-                  preprocessor = NULL,
-                  hyperparameters = setup_CART(),
-                  tuner = setup_GridSearch(),
-                  crossvalidation = NULL,
-                  weights = NULL,
-                  binclasspos = 1L, # => ? move to hyperparameters?
-                  question = NULL,
-                  outdir = NULL,
-                  # outdir_save_model = TRUE,
-                  config = NULL,
-                  verbosity = 1) {
-  # Intro ----
-  .call <- match.call()
-  # => Make sure data is not substituted by list with entire raw data
-  .call[2] <- list(str2lang("dat_training"))
-  .call[3] <- list(str2lang("dat_validation"))
-  .call[4] <- list(str2lang("dat_testing"))
-  # mode <- switch(hyperparameters@crossvalidated,
-  #                `0` = "inner",
-  #                `1` = "outer")
-
-  # Config ----
-  # Use config file if provided.
-  if (!is.null(config)) {
-    config_path <- path.expand(config)
-    if (!file.exists(config_path)) {
-      stop("Configuration file not found at: ", config_path)
-    }
-    config <- read_config(config_path)
-    dat_training <- read(config$data_path, character2factor = TRUE)
-    if (length(config$target) > 0) {
-      dat_training <- set_outcome(dat_training, config$target)
-    }
-    if (is.null(algorithm)) {
-      if (!is.null(config$algorithm)) {
-        algorithm <- config$algorithm
-      } else {
-        algorithm <- hyperparameters@algorithm
-      }
-    }
-    hyperparameters <- config$hyperparameters
-    tuner <- config$tuner
-    weights <- config$weights
-    crossvalidation <- config$crossvalidation
-    outdir <- dirname(config$outdir)
+train <- new_generic("train", "x")
+method(train, class_data.frame) <- function(x,
+                                            dat_validation = NULL,
+                                            dat_testing = NULL,
+                                            algorithm = "cart", # can eliminate
+                                            preprocessor_parameters = NULL, # PreprocessorParameters
+                                            hyperparameters = NULL, # Hyperparameters
+                                            tuner_parameters = setup_GridSearch(), # TunerParameters
+                                            crossvalidation_parameters = NULL, # ResamplerParameters
+                                            weights = NULL,
+                                            question = NULL,
+                                            outdir = NULL,
+                                            # outdir_save_model = TRUE,
+                                            config = NULL,
+                                            verbosity = 1L) {
+  # Checks ----
+  if (!is.null(preprocessor_parameters)) {
+    check_is_S7(preprocessor_parameters, PreprocessorParameters)
+  }
+  if (is.null(hyperparameters)) {
+    hyperparameters <- get_default_hyperparameters(algorithm)
+  }
+  check_is_S7(hyperparameters, Hyperparameters)
+  if (!is.null(tuner_parameters)) {
+    check_is_S7(tuner_parameters, TunerParameters)
+  }
+  if (!is.null(crossvalidation_parameters)) {
+    check_is_S7(crossvalidation_parameters, ResamplerParameters)
   }
 
+  # Dependencies ----
+  check_dependencies(c("future.apply", "progressr"))
+
   # Arguments ----
-  if (!is.null(crossvalidation$id_strat)) {
-    stopifnot(length(crossvalidation$id_strat) == NROW(x))
+  if (!is.null(crossvalidation_parameters$id_strat)) {
+    stopifnot(length(crossvalidation_parameters$id_strat) == NROW(x))
   }
   algorithm <- get_alg_name(algorithm)
   if (!is.null(outdir)) {
@@ -103,7 +78,7 @@ train <- function(dat_training,
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    if (verbosity > 0) {
+    if (verbosity > 0L) {
       cat("Output directory set to", outdir, "\n")
     }
   }
@@ -120,140 +95,167 @@ train <- function(dat_training,
   }
   start_time <- intro(verbosity = verbosity, log_file = log_file)
 
-  # Dependencies ----
-  check_dependencies(c("future.apply", "progressr"))
-
   # Data ----
   check_supervised_data(
-    dat_training = dat_training,
+    x = x,
     dat_validation = dat_validation,
     dat_testing = dat_testing
   )
-  ncols <- ncol(dat_training)
-  type <- supervised_type(dat_training)
+  ncols <- ncol(x)
+  type <- supervised_type(x)
   if (type == "Classification") {
-    classes <- levels(dat_training[, ncols])
+    classes <- levels(x[, ncols])
     n_classes <- length(classes)
   }
 
   ## Print data summary ----
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     summarize_supervised_data(
-      dat_training = dat_training,
+      x = x,
       dat_validation = dat_validation,
       dat_testing = dat_testing
     )
   }
-  if (type == "Classification") {
-    nclasses <- length(levels(dat_training[, ncol(dat_training)]))
-  }
 
-  # Train ----
-  train_fn <- get_train_fn(algorithm)
-  # Default hyperparameters
-  if (is.null(hyperparameters)) {
-    hyperparameters <- get_default_hyperparameters(algorithm)
-  }
-  check_is_S7(hyperparameters, Hyperparameters)
-
-  ## CV ----
-  # if crossvallidation is set, this function runs itself
-  # on multiple outer resamples (training-testing), each of which may run itself on
-  # on multiple inner resamples (training-validation) for tuning.
-  if (!is.null(crossvalidation)) {
-    if (verbosity > 0) {
+  # CV ----
+  # if crossvallidation is set, this function calls itself
+  # on multiple outer resamples (training-testing sets), each of which may call itself
+  # on multiple inner resamples (training-validation set) for hyperparameter tuning.
+  if (!is.null(crossvalidation_parameters)) {
+    if (verbosity > 0L) {
       msg2("Training", hilite(algorithm, type), "by cross-validation...")
     }
-    cvres <- resample(dat_training, parameters = crossvalidation, verbosity = verbosity)
+    cvres <- resample(x, parameters = crossvalidation_parameters, verbosity = verbosity)
+    pcv <- progressr::progressor(cvres@parameters@n)
     mods <- future.apply::future_lapply(
       seq_len(cvres@parameters@n),
       function(i) {
+        pcv(message = sprintf("Crossvalidation %i/%i", i, cvres@parameters@n))
         train(
-          dat_training = dat_training[cvres[[i]], ],
-          dat_testing = dat_training[-cvres[[i]], ],
+          x = x[cvres[[i]], ],
+          dat_testing = x[-cvres[[i]], ],
           algorithm = algorithm,
-          preprocessor = preprocessor,
+          preprocessor_parameters = preprocessor_parameters,
           hyperparameters = hyperparameters,
-          tuner = tuner,
-          crossvalidation = NULL,
+          tuner_parameters = tuner_parameters,
+          crossvalidation_parameters = NULL,
           weights = weights,
           question = question,
           outdir = outdir,
           config = NULL,
           verbosity = verbosity - 1L
         )
-      }
+      },
+      future.seed = TRUE,
+      future.label = paste0("CV_train_", algorithm, "_%d")
     )
     hyperparameters@crossvalidated <- 1L
     msg2("Crossvalidation done.")
-  } # /crossvalidation
+  } # /Crossvalidation
 
   if (hyperparameters@crossvalidated == 0L) {
     # Tune ----
     tuning <- NULL
     if (needs_tuning(hyperparameters)) {
       tuning <- tune(
-        dat_training = dat_training,
+        x,
         hyperparameters = hyperparameters,
-        tuner_parameters = tuner,
+        tuner_parameters = tuner_parameters,
         weights = weights,
         verbosity = verbosity
       )
       # Update hyperparameters
       hyperparameters <- update(hyperparameters, tuning@best_hyperparameters, tuned = 1L)
     }
-    if (verbosity > 0) cat("\n")
+    if (verbosity > 0L) cat("\n")
 
-    # Train ----
-    if (verbosity > 0) {
-      msg20("Training ", hilite(algorithm, type), "...")
+    # Preprocess ----
+    if (!is.null(preprocessor_parameters)) {
+      dat_prp <- preprocess(
+        x = x,
+        parameters = preprocessor_parameters,
+        dat_validation = dat_validation,
+        dat_testing = dat_testing
+      )
+      x <- if (is.null(dat_validation) && is.null(dat_testing)) {
+        dat_prp@preprocessed
+      } else {
+        dat_prp@preprocessed$training
+      }
+      if (!is.null(dat_validation)) dat_validation <- dat_prp@preprocessed$validation
+      if (!is.null(dat_testing))  dat_testing <- dat_prp@preprocessed$testing
+    }
+
+    # Weights ----
+    # must follow preprocessing since N cases may change
+    # => IFW
+
+    # Train ALG ----
+    if (verbosity > 0L) {
+      if (hyperparameters@tuned == 1L) {
+        msg2("Training", hilite(algorithm, type), "with tuned hyperparameters...")
+      } else {
+        msg20("Training ", hilite(algorithm, type), "...")
+      }
       cat("\n")
     }
     mod <- do.call(
-      train_fn,
+      get_train_fn(algorithm),
       list(
-        dat_training = dat_training,
+        x = x,
         dat_validation = dat_validation,
         dat_testing = dat_testing,
-        preprocessor = preprocessor,
+        weights = weights,
         hyperparameters = hyperparameters,
-        tuner = tuner,
+        tuner_parameters = tuner_parameters,
         verbosity = verbosity
       )
     )
-    # train_* checks output is the right class
+    # each train_ function checks output is the correct class.
 
     # Supervised ----
     predict_fn <- get_predict_fn(algorithm)
-    # if (type == "Classification") predict_prob_fn <- get_predict_prob_fn(algorithm)
     varimp_fn <- get_varimp_fn(algorithm)
     predicted_prob_training <- predicted_prob_validation <- predicted_prob_testing <- NULL
-    predicted_training <- do.call(predict_fn, list(mod, newdata = dat_training))
+    predicted_training <- do.call(
+      predict_fn,
+      list(mod, newdata = x[, -ncols, drop = FALSE], type = type)
+    )
     if (type == "Classification") {
       predicted_prob_training <- predicted_training
       predicted_training <- prob2categorical(
         predicted_prob_training,
-        levels = classes, binclasspos = binclasspos
+        levels = classes
       )
     }
     predicted_validation <- predicted_testing <- NULL
     if (!is.null(dat_validation)) {
-      predicted_validation <- do.call(predict_fn, list(mod, newdata = dat_validation))
+      predicted_validation <- do.call(
+        predict_fn, list(mod,
+          newdata = dat_validation[, -ncols, drop = FALSE],
+          type = type
+        )
+      )
       if (type == "Classification") {
         predicted_prob_validation <- predicted_validation
         predicted_validation <- prob2categorical(
           predicted_prob_validation,
-          levels = classes, binclasspos = binclasspos
+          levels = classes
         )
       }
     }
     if (!is.null(dat_testing)) {
-      predicted_testing <- do.call(predict_fn, list(mod, newdata = dat_testing))
+      predicted_testing <- do.call(
+        predict_fn, list(mod,
+          newdata = dat_testing[, -ncols, drop = FALSE],
+          type = type
+        )
+      )
       if (type == "Classification") {
         predicted_prob_testing <- predicted_testing
         predicted_testing <- prob2categorical(
           predicted_prob_testing,
-          levels = classes, binclasspos = binclasspos
+          levels = classes
         )
       }
     }
@@ -261,10 +263,10 @@ train <- function(dat_training,
     mod <- make_Supervised(
       algorithm = algorithm,
       model = mod,
-      preprocessor = preprocessor,
+      preprocessor_parameters = preprocessor_parameters,
       hyperparameters = hyperparameters,
-      tuner = tuner,
-      y_training = dat_training[[ncols]],
+      tuner_parameters = tuner_parameters,
+      y_training = x[[ncols]],
       y_validation = if (!is.null(dat_validation)) dat_validation[[ncols]],
       y_testing = if (!is.null(dat_testing)) dat_testing[[ncols]],
       predicted_training = predicted_training,
@@ -272,7 +274,7 @@ train <- function(dat_training,
       predicted_testing = predicted_testing,
       predicted_prob_training = predicted_prob_training,
       predicted_prob_testing = predicted_prob_testing,
-      xnames = names(dat_training)[-ncols],
+      xnames = names(x)[-ncols],
       varimp = do.call(varimp_fn, list(mod)),
       question = question
     )
@@ -290,26 +292,26 @@ train <- function(dat_training,
     varimp_fn <- get_varimp_fn(algorithm)
     mod <- make_SupervisedCV(
       algorithm = algorithm,
+      type = type,
       models = mods,
-      preprocessor = preprocessor,
+      preprocessor_parameters = preprocessor_parameters,
       hyperparameters = hyperparameters,
-      tuner = tuner,
+      tuner_parameters = tuner_parameters,
+      crossvalidation_parameters = crossvalidation_parameters,
       y_training = y_training,
       y_testing = y_testing,
       predicted_training = predicted_training,
       predicted_testing = predicted_testing,
       predicted_prob_training = predicted_prob_training,
       predicted_prob_testing = predicted_prob_testing,
-      # se_training = se_training,
-      # se_testing = se_testing,
-      xnames = names(dat_training)[-ncols],
-      varimp = do.call(varimp_fn, list(mods)),
+      xnames = names(x)[-ncols],
+      varimp = lapply(mods, \(mod) mod@varimp),
       question = question
     )
   }
 
   # Outro ----
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     print(mod)
     cat("\n")
   }
@@ -318,4 +320,4 @@ train <- function(dat_training,
     sink_off = ifelse(is.null(log_file), FALSE, TRUE)
   )
   mod
-} # rtemis::train
+} # /rtemis::train
