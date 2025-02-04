@@ -23,8 +23,8 @@ PreprocessorParameters <- new_class(
     impute = class_logical,
     impute_type = class_character,
     impute_missRanger_params = class_list,
-    impute_discrete = class_function,
-    impute_numeric = class_function,
+    impute_discrete = class_character,
+    impute_numeric = class_character,
     integer2factor = class_logical,
     integer2numeric = class_logical,
     logical2factor = class_logical,
@@ -43,10 +43,14 @@ PreprocessorParameters <- new_class(
     factor2integer_startat0 = class_logical,
     scale = class_logical,
     center = class_logical,
+    scale_centers = class_numeric | NULL,
+    scale_coefficients = class_numeric | NULL,
     remove_constants = class_logical,
     remove_constants_skip_missing = class_logical,
     remove_duplicates = class_logical,
+    remove_features = class_character | NULL,
     one_hot = class_logical,
+    one_hot_levels = class_list | NULL,
     add_date_features = class_logical,
     date_features = class_character,
     add_holidays = class_logical,
@@ -82,14 +86,14 @@ method(`[[`, PreprocessorParameters) <- function(x, name) {
 #'
 #' @export
 print.PreprocessorParameters <- function(x, ...) {
-  objcat(PreprocessorParameters)
+  objcat("PreprocessorParameters")
   printls(props(x))
 }
 method(print, PreprocessorParameters) <- function(x, ...) {
   print.PreprocessorParameters(x, ...)
 }
 
-#' Create a `PreprocessorParameters` object
+#' Setup `PreprocessorParameters`
 #'
 #' @param complete_cases Logical: If TRUE, only retain complete cases (no missing data).
 #' Default = FALSE
@@ -117,10 +121,10 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
 #' to `missForest::missForest`
 # @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
-#' @param impute_discrete Function that returns single value: How to impute
+#' @param impute_discrete Character: Name of function that returns single value: How to impute
 #' discrete variables for `impute.type = "meanMode"`.
 #' Default = [get_mode]
-#' @param impute_numeric Function that returns single value: How to impute
+#' @param impute_numeric Character: Name of function that returns single value: How to impute
 #' continuous variables for `impute.type = "meanMode"`.
 #' Default = `mean`
 #' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
@@ -165,11 +169,16 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param scale Logical: If TRUE, scale columns of `x`
 #' @param center Logical: If TRUE, center columns of `x`. Note that by
 #' default it is the same as `scale`
+#' @param scale_centers Named vector: Centering values for each feature.
+#' @param scale_coefficients Named vector: Scaling values for each feature.
 #' @param remove_constants Logical: If TRUE, remove constant columns.
 #' @param remove_constants.skipMissing Logical: If TRUE, skip missing values, before
 #' checking if feature is constant
+#' @param remove_features Character vector: Features to remove.
 #' @param remove_duplicates Logical: If TRUE, remove duplicate cases.
 #' @param one_hot Logical: If TRUE, convert all factors using one-hot encoding.
+#' @param one_hot_levels List: Named list of the form "feature_name" = "levels". Used when applying
+#' one-hot encoding to validation or testing data using `Preprocessor`.
 #' @param add_date_features Logical: If TRUE, extract date features from date columns.
 #' @param date_features Character vector: Features to extract from dates.
 #' @param add_holidays Logical: If TRUE, extract holidays from date columns.
@@ -193,8 +202,8 @@ setup_Preprocessor <- function(
       maxiter = 10,
       num.trees = 500
     ),
-    impute_discrete = get_mode,
-    impute_numeric = mean,
+    impute_discrete = "get_mode",
+    impute_numeric = "mean",
     integer2factor = FALSE,
     integer2numeric = FALSE,
     logical2factor = FALSE,
@@ -214,15 +223,20 @@ setup_Preprocessor <- function(
     factor2integer_startat0 = TRUE,
     scale = FALSE,
     center = scale,
+    scale_centers = NULL,
+    scale_coefficients = NULL,
     remove_constants = FALSE,
     remove_constants_skip_missing = TRUE,
+    remove_features = NULL,
     remove_duplicates = FALSE,
     one_hot = FALSE,
+    one_hot_levels = NULL,
     #    cleanfactorlevels = FALSE,
     add_date_features = FALSE,
     date_features = c("weekday", "month", "year"),
     add_holidays = FALSE,
     exclude = NULL) {
+  # Checks performed in the `PreprocessorParameters` constructor
   PreprocessorParameters(
     complete_cases = complete_cases,
     remove_features_thres = remove_features_thres,
@@ -251,13 +265,72 @@ setup_Preprocessor <- function(
     factor2integer_startat0 = factor2integer_startat0,
     scale = scale,
     center = center,
+    scale_centers = scale_centers,
+    scale_coefficients = scale_coefficients,
     remove_constants = remove_constants,
     remove_constants_skip_missing = remove_constants_skip_missing,
+    remove_features = remove_features,
     remove_duplicates = remove_duplicates,
     one_hot = one_hot,
+    one_hot_levels = one_hot_levels,
     add_date_features = add_date_features,
     date_features = date_features,
     add_holidays = add_holidays,
     exclude = exclude
   )
 } # /setup_Preprocessor
+
+data_dependent_props <- c(
+  "scale_centers", # Named vector with feature scaling centers.
+  "scale_coefficients", # Named vector with feature scaling coefficients.
+  "one_hot_levels", # Named list of the form "feature_name" = "levels".
+  "remove_features" # Character vector of feature names to remove.
+)
+# Preprocessor ----
+#' @title Preprocessor
+#'
+#' @description
+#' Class to hold output of preprocessing values after applying `PreprocessorParameters` to
+#' training dataset, so that the same preprocessing can be applied to validation and testing
+#' datasets.
+#'
+#' @field parameters `PreprocessorParameters` object.
+#' @field preprocessed Data frame or list: Preprocessed data. If a single data.frame is passed to
+#' `preprocess`, this will be a data.frame. If additional data sets are passed to the
+#' `dat_validation` and/or `dat_testing` arguments, this will be a named list.
+#' @field values List: Data-dependent preprocessing values to be used for validation and testing set
+#' preprocessing.
+Preprocessor <- new_class(
+  name = "Preprocessor",
+  properties = list(
+    parameters = PreprocessorParameters,
+    preprocessed = class_data.frame | class_list,
+    values = class_list
+  ),
+  constructor = function(
+      parameters,
+      preprocessed,
+      scale_centers = NULL,
+      scale_coefficients = NULL,
+      one_hot_levels = NULL,
+      remove_features = NULL) {
+    new_object(
+      S7_object(),
+      parameters = parameters,
+      preprocessed = preprocessed,
+      values = list(
+        scale_centers = scale_centers,
+        scale_coefficients = scale_coefficients,
+        one_hot_levels = one_hot_levels,
+        remove_features = remove_features
+      )
+    )
+  }
+) # /Preprocessor
+
+# Print Preprocessor ----
+method(print, Preprocessor) <- function(x, pad = 0L) {
+  objcat("Preprocessor", pad = pad)
+  printls(props(x), pad = pad + 2L)
+  invisible(x)
+} # /rtemis::print.Preprocessor

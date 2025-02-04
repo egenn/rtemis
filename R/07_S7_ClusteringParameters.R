@@ -37,15 +37,15 @@ method(`.DollarNames`, ClusteringParameters) <- function(x, pattern = "") {
 }
 
 # Print ClusteringParameters ----
-#' Print ClusteringParameters
-#'
-#' Print method for ClusteringParameters object.
+#' Print Method for ClusteringParameters
 #'
 #' @param x ClusteringParameters object.
 #' @param pad Integer: Left side padding.
+#' 
+#' @returns ClusteringParameters object, invisibly.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 method(print, ClusteringParameters) <- function(x, pad = 0L) {
   objcat(paste(x@algorithm, "ClusteringParameters"), pad = pad)
   printls(props(x)$parameters, pad = pad)

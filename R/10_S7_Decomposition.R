@@ -10,17 +10,18 @@
 #'
 #' @field algorithm Character: Algorithm name.
 #' @field decom Any: Decomposition object.
-#' @field xnames Character vector: feature names.
 #' @field parameters List: Algorithm-specific parameters.
+#' @field decom: Decomposition model.
+#' @field transformed: transformedransformed data, i.e. either a projection or an embedding of the input data.
 #'
 #' @author EDG
 Decomposition <- new_class(
   name = "Decomposition",
   properties = list(
     algorithm = class_character,
+    parameters = DecompositionParameters,
     decom = class_any,
-    xnames = class_character,
-    parameters = DecompositionParameters
+    transformed = class_any
   )
 ) # /Decomposition
 

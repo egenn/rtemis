@@ -46,14 +46,11 @@ TunerParameters <- new_class(
 #' @param ... Not used
 #'
 #' @author EDG
-#' @export
-print.TunerParameters <- function(x, ...) {
+#' @noRd 
+method(print, TunerParameters) <- function(x, pad = 0L) {
   objcat(paste(x@type, "TunerParameters"))
-  printls(props(x)$parameters)
+  printls(props(x)$parameters, pad = pad + 2L)
   invisible(x)
-}
-method(print, TunerParameters) <- function(x) {
-  print.TunerParameters(x)
 }
 
 # Make TunerParameters@parameters `$`-accessible
@@ -147,9 +144,8 @@ setup_GridSearch <- function(
     metric = NULL,
     maximize = NULL,
     future_plan = "multicore",
-    n_workers = NULL) {
+    n_workers = rtemis_cores) {
   # Arguments ----
-  # if (is.null(n_workers)) n_workers <- rtCores
   check_is_S7(resample_params, ResamplerParameters)
   check_inherits(search_type, "character")
   check_float01exc(randomize_p)

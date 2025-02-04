@@ -75,7 +75,7 @@ method(print, RegressionMetrics) <- function(x) {
   } else {
     objcat("  Regression Metrics\n")
   }
-  printls(x@metrics)
+  printls(x@metrics, print_class = FALSE)
   invisible(x)
 } # /rtemis::print.RegressionMetrics
 
@@ -168,7 +168,7 @@ MetricsCV <- new_class(
 print.MetricsCV <- function(x, decimal_places = 3L, ...) {
   type <- if (inherits(x, "RegressionMetricsCV")) "Regression" else "Classification"
   objcat(paste("  Crossvalidated", type, x@sample, "Metrics"))
-  cat("\n")
+  cat("  Values are mean (sd) across resamples.\n\n")
   # Create list with mean_metrics (sd_metrics)
   out <- lapply(seq_along(x@mean_metrics), function(i) {
     paste0(
@@ -177,7 +177,7 @@ print.MetricsCV <- function(x, decimal_places = 3L, ...) {
     )
   })
   names(out) <- names(x@mean_metrics)
-  printls(out)
+  printls(out, print_class = FALSE)
   invisible(x)
 }
 method(print, MetricsCV) <- function(x, decimal_places = 3) {

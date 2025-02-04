@@ -47,15 +47,11 @@ method(`$`, ResamplerParameters) <- function(x, name) {
 #' @param x ResamplerParameters object
 #'
 #' @author EDG
-#' @export
-print.ResamplerParameters <- function(x, pad = 0L, ...) {
+#' @noRd
+method(print, ResamplerParameters) <- function(x, pad = 0L) {
   objcat(paste(x@type, "ResamplerParameters"), pad = pad)
-  propsl <- props(x)
-  propsl$type <- NULL
-  printls(propsl, pad = pad + 2L)
-}
-method(print, ResamplerParameters) <- function(x, pad = 0L, ...) {
-  print.ResamplerParameters(x, pad = pad)
+  printls(props(x)[-1], pad = pad + 2L)
+  invisible(x)
 } # rtemis::print.ResamplerParameters
 
 # KFoldParams ----

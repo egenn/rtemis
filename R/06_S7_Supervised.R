@@ -120,7 +120,7 @@ method(print, Supervised) <- function(x) {
 # Plot Variable Importance ----
 plot_varimp <- new_generic("plot_varimp", "x")
 method(plot_varimp, Supervised) <- function(x,
-                                            theme = rtTheme,
+                                            theme = rtemis_theme,
                                             filename = NULL, ...) {
   if (is.null(x@varimp)) {
     msg2(hilite2("No variable importance available."))
@@ -484,7 +484,7 @@ make_Supervised <- function(
 write_Supervised <- function(object,
                              outdir = NULL,
                              save_mod = FALSE,
-                             theme = rtTheme,
+                             theme = rtemis_theme,
                              verbosity = 1L) {
   if (verbosity > 0L) {
     print(object)
