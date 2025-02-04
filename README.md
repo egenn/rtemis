@@ -1,2 +1,3 @@
 # rtemis
-Advanced Machine Learning &amp; Visualization
+
+Advanced Machine Learning &amp; Visualization.
