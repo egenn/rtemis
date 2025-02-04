@@ -13,9 +13,9 @@
 #' @export
 decompose <- new_generic("decompose", "x")
 method(decompose, class_numeric | class_data.frame) <- function(x,
-                                                               algorithm = "PCA",
-                                                               parameters = NULL,
-                                                               verbosity = 1L) {
+                                                                algorithm = "PCA",
+                                                                parameters = NULL,
+                                                                verbosity = 1L) {
   # Checks ----
   if (is.null(parameters)) {
     parameters <- get_default_decomparams(algorithm)
@@ -49,6 +49,6 @@ method(decompose, class_numeric | class_data.frame) <- function(x,
     algorithm = algorithm,
     parameters = parameters,
     decom = decom$decom,
-    projections = decom$projections
+    transformed = decom$transformed
   )
 } # /rtemis::decompose
