@@ -13,7 +13,7 @@
 #' Includes a special case for training [s_H2OGBM] or [s_GBM] which requires extracting and averaging n.trees
 #' along with params.
 #'
-#' @param dat_training data.frame or similar: Training set
+#' @param x data.frame or similar: Training set
 #' @param hyperparameters List: Hyperparameters.
 #' @param tuner_parameters List: Tuner parameters.
 #' @param weights Vector: Class weights.
@@ -23,16 +23,16 @@
 #' @keywords internal
 #' @noRd
 
-tune_GridSearch <- function(dat_training,
+tune_GridSearch <- function(x,
                             hyperparameters,
                             tuner_parameters,
                             weights = NULL,
                             save_mods = FALSE,
-                            verbosity = 1) {
+                            verbosity = 1L) {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
-  
+
   # Dependencies ----
   check_dependencies(c("future", "future.apply"))
 
@@ -49,10 +49,11 @@ tune_GridSearch <- function(dat_training,
   algorithm <- hyperparameters@algorithm
 
   # future plan ----
-  n_workers <- check_plan_for_learner(
+  n_workers <- get_n_workers_for_learner(
     algorithm = hyperparameters@algorithm,
     plan = tuner_parameters$future_plan,
-    n_workers = tuner_parameters$n_workers
+    n_workers = tuner_parameters$n_workers,
+    verbosity = verbosity - 1L
   )
   if (!is.null(tuner_parameters$future_plan)) {
     # => Only allow parallelization on same machine, if learner is NOT parallelized itself.
@@ -60,7 +61,7 @@ tune_GridSearch <- function(dat_training,
     on.exit(plan(og_plan), add = TRUE)
     # => Only pass n_workers if arg workers is supported by plan
     future::plan(tuner_parameters$future_plan, workers = tuner_parameters$n_workers)
-    if (verbosity > 0) {
+    if (verbosity > 0L) {
       msg2(hilite2(
         "Tuning crossvalidation (inner resampling) future plan set to",
         underline(tuner_parameters$future_plan), "with", underline(n_workers), "workers."
@@ -105,14 +106,15 @@ tune_GridSearch <- function(dat_training,
 
   # Resamples ----
   res <- resample(
-    dat_training,
+    x,
     parameters = tuner_parameters$resample_params,
     verbosity = verbosity
   )
 
   # learner1 ----
-  p <- progressr::progressor(steps = NROW(res_param_grid))
+  ptn <- progressr::progressor(steps = NROW(res_param_grid))
   learner1 <- function(index,
+                       x,
                        res,
                        res_param_grid,
                        hyperparameters,
@@ -120,7 +122,7 @@ tune_GridSearch <- function(dat_training,
                        verbosity,
                        save_mods,
                        n_res_x_comb) {
-    if (verbosity > 0) {
+    if (verbosity > 0L) {
       msg2("Running grid line #", hilite(index), "/",
         NROW(res_param_grid), "...",
         caller = "tune_GridSearch",
@@ -128,9 +130,9 @@ tune_GridSearch <- function(dat_training,
       )
     }
     res1 <- res[[res_param_grid[index, "resample_id"]]]
-    dat_train1 <- dat_training[res1, ]
+    dat_train1 <- x[res1, ]
     weights1 <- weights[res1]
-    dat_valid1 <- dat_training[-res1, ]
+    dat_valid1 <- x[-res1, ]
     hyperparams1 <- hyperparameters
     hyperparams1 <- update(
       hyperparams1,
@@ -141,7 +143,7 @@ tune_GridSearch <- function(dat_training,
     mod1 <- do.call(
       "train",
       args = list(
-        dat_training = dat_train1,
+        x = dat_train1,
         dat_validation = dat_valid1,
         algorithm = hyperparams1@algorithm,
         hyperparameters = hyperparams1,
@@ -188,12 +190,12 @@ tune_GridSearch <- function(dat_training,
       out1$sel.n.steps <- mod1$mod$selected.n.steps
     }
     if (save_mods) out1$mod1 <- mod1
-    p(sprintf("Inner resample: %i/%i...", index, n_res_x_comb))
+    ptn(sprintf("Tuning resample %i/%i", index, n_res_x_comb))
     out1
   } # /learner1
 
   # Train Grid ----
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     msg2(
       hilite(
         "Tuning", hyperparameters@algorithm, "by",
@@ -212,6 +214,7 @@ tune_GridSearch <- function(dat_training,
   grid_run <- future.apply::future_lapply(
     X = seq_len(n_res_x_comb),
     FUN = learner1,
+    x = x,
     res = res,
     hyperparameters = hyperparameters,
     res_param_grid = res_param_grid,
@@ -224,7 +227,7 @@ tune_GridSearch <- function(dat_training,
   )
 
   # Metric ----
-  type <- supervised_type(dat_training)
+  type <- supervised_type(x)
   metric <- tuner_parameters@parameters$metric
   maximize <- tuner_parameters@parameters$maximize
   if (is.null(metric)) {
@@ -424,7 +427,7 @@ tune_GridSearch <- function(dat_training,
     tune_results$metrics_validation[select_fn(tune_results$metrics_validation[[metric]]), 1]
   )
   best_param_combo <- as.list(param_grid[best_param_combo_id, -1, drop = FALSE])
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     cat("\n")
     msg2(hilite(paste0("Best parameters to ", paste(verb, metric), ":")))
     printls(best_param_combo)

@@ -4,65 +4,57 @@
 
 #' Train a CART decision tree
 #'
-#' Train a CART decision tree using `rpart::rpart`
+#' Train a CART decision tree using `rpart`.
 #'
 #' CART does not need any special preprocessing.
 #' It works with numeric and factor variables and handles missing values.
 #' The "train_*" functions train a single model.
 #' Use [train] for tuning and testing using nested cross-validation.
 #'
-#' @param dat_training data.frame or similar: Training set.
-#' @param dat_validation data.frame or similar: Validation set.
-#' @param dat_testing data.frame or similar: Testing set.
-#' @param preprocessor `Preprocessor` object: make using [setup_preprocessor].
+#' @inheritParams train_GLMNET
 #' @param hyperparameters `CARTHyperparameters` object: make using [setup_CART].
-#' @param tuner `Tuner` object: make using [setup_tuner].
-#' @param verbosity Integer: If > 0, print messages.
 #'
 #' @author EDG
+#' @keywords internal
 
 train_CART <- function(
-    dat_training,
+    x,
     dat_validation = NULL,
     dat_testing = NULL,
-    preprocessor = setup_preprocessor(),
+    weights = NULL,
     hyperparameters = setup_CART(),
-    tuner = setup_tuner(),
+    tuner_parameters = setup_tuner(),
     verbosity = 1L) {
   # Dependencies ----
   check_dependencies("rpart")
 
   # Arguments ----
-  if (missing(dat_training)) {
-    print(args(train_CART))
-    stop("dat_training is missing")
-  }
-  # Hyperparameters must be untunable or frozen by `train`
+  # Hyperparameters must be either untunable or frozen by `train`
   if (needs_tuning(hyperparameters)) {
     stop("Hyperparameters must be fixed - use train() instead.")
   }
 
-  # Preprocess ----
-  # dat_training <- preprocessor$preprocess(dat_training)
-  # if (!is.null(dat_validation)) dat_validation <- preprocessor$apply_preprocessing(dat_validation)
-  # if (!is.null(dat_testing)) dat_testing <- preprocessor$apply_preprocessing(dat_testing)
-
   # Data ----
   check_supervised_data(
-    dat_training = dat_training,
+    x = x,
     dat_validation = dat_validation,
     dat_testing = dat_testing,
+    allow_missing = TRUE,
     verbosity = verbosity
   )
-  type <- supervised_type(dat_training)
+  if (is.null(weights)) {
+    weights <- rep(1, NROW(x))
+  }
+  type <- supervised_type(x)
 
   # Train ----
-  # if (verbosity > 0) {
-  #   msg20("Training ", hilite("CART", type), "...")
-  # }
+  # weights can't be NULL.
+  # !If formula is character, the input to weights must be the unquoted column name in the data.frame
+  # that contains weights, e.g. by doing cbind(x, weights = weights)
   mod <- rpart::rpart(
-    make_formula(dat_training),
-    data = dat_training,
+    as.formula(make_formula(x)),
+    data = x,
+    weights = weights,
     control = rpart::rpart.control(
       minsplit = hyperparameters$minsplit,
       minbucket = hyperparameters$minbucket,
@@ -76,33 +68,42 @@ train_CART <- function(
     )
   )
 
+  # Cost-Complexity Pruning ----
+  if (!is.null(hyperparameters$prune.cp)) {
+    mod <- rpart::prune(mod, cp = prune.cp)
+  }
+
   check_inherits(mod, "rpart")
 
   mod
-} # rtemis::train_CART
+} # /rtemis::train_CART
 
 #' Predict from rpart model
-#' 
+#'
 #' @param model rpart model.
 #' @param newdata data.frame or similar: Data to predict on.
-#' @param binclasspos Integer: Position of positive class in factor levels.
-#' 
+#'
 #' @keywords internal
-predict_CART <- function(model, newdata, binclasspos = 1L) {
-  if (model$method == "class")  {
+predict_CART <- function(model, newdata, type) {
+  if (type == "Classification") {
     # Classification
     # predict.rpart returns a matrix n_cases x n_classes,
     # with classes are ordered the same as factor levels
-    predict(model, newdata = newdata)[, binclasspos]
+    predicted_prob <- predict(model, newdata = newdata, type = "prob") # binclasspos = 2L
+    if (NCOL(predicted_prob) == 2L) {
+      # In binary classification, rpart returns matrix with 2 columns
+      predicted_prob <- predicted_prob[, 2L]
+    }
+    predicted_prob
   } else {
     predict(model, newdata = newdata)
   }
 } # /rtemis::predict_CART
 
 #' Get variable importance from rpart model
-#' 
+#'
 #' @param model rpart model.
-#' 
+#'
 #' @keywords internal
 varimp_CART <- function(model) {
   model[["variable.importance"]]
