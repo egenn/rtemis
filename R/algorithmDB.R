@@ -95,7 +95,7 @@ supervised_algorithms <- data.frame(rbind(
 colnames(supervised_algorithms) <- c("Name", "Description", "Class", "Reg", "Surv")
 
 get_alg_name <- function(algorithm) {
-  algname <- rt_algorithms[, 1][tolower(algorithm) == tolower(rt_algorithms[, 1])]
+  algname <- supervised_algorithms[, 1][tolower(algorithm) == tolower(supervised_algorithms[, 1])]
   if (length(algname) == 0) {
     stop(algorithm, ": Incorrect algorithm specified")
   }
@@ -103,7 +103,7 @@ get_alg_name <- function(algorithm) {
 }
 
 get_alg_desc <- function(algorithm) {
-  algdesc <- rt_algorithms[, 2][tolower(algorithm) == tolower(rt_algorithms[, 1])]
+  algdesc <- supervised_algorithms[, 2][tolower(algorithm) == tolower(supervised_algorithms[, 1])]
   if (length(algdesc) == 0) {
     stop(algorithm, ": Incorrect algorithm specified")
   }
@@ -213,8 +213,12 @@ get_decom_desc <- function(algorithm) {
 } # /rtemis::get_decom_desc
 
 get_decom_fn <- function(algorithm) {
-  paste0("d_", get_decom_name(algorithm))
+  paste0("decom_", get_decom_name(algorithm))
 } # /rtemis::get_decom_fn
+
+get_default_decomparams <- function(algorithm) {
+  do.call(paste0("setup_", get_decom_name(algorithm)), list())
+} # /rtemis::get_default_decomparams
 
 get_decom_setup_fn <- function(algorithm) {
   paste0("setup_", get_decom_name(algorithm))
