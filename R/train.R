@@ -95,6 +95,9 @@ method(train, class_data.frame) <- function(x,
   }
   start_time <- intro(verbosity = verbosity, log_file = log_file)
 
+  # Init ----
+  tuner <- NULL
+
   # Data ----
   check_supervised_data(
     x = x,
@@ -125,15 +128,15 @@ method(train, class_data.frame) <- function(x,
     if (verbosity > 0L) {
       msg2("Training", hilite(algorithm, type), "by cross-validation...")
     }
-    cvres <- resample(x, parameters = crossvalidation_parameters, verbosity = verbosity)
-    pcv <- progressr::progressor(cvres@parameters@n)
+    crossvalidation_resampler <- resample(x, parameters = crossvalidation_parameters, verbosity = verbosity)
+    pcv <- progressr::progressor(crossvalidation_resampler@parameters@n)
     mods <- future.apply::future_lapply(
-      seq_len(cvres@parameters@n),
+      seq_len(crossvalidation_resampler@parameters@n),
       function(i) {
-        pcv(message = sprintf("Crossvalidation %i/%i", i, cvres@parameters@n))
+        pcv(message = sprintf("Crossvalidation %i/%i", i, crossvalidation_resampler@parameters@n))
         train(
-          x = x[cvres[[i]], ],
-          dat_testing = x[-cvres[[i]], ],
+          x = x[crossvalidation_resampler[[i]], ],
+          dat_testing = x[-crossvalidation_resampler[[i]], ],
           algorithm = algorithm,
           preprocessor_parameters = preprocessor_parameters,
           hyperparameters = hyperparameters,
@@ -155,9 +158,8 @@ method(train, class_data.frame) <- function(x,
 
   if (hyperparameters@crossvalidated == 0L) {
     # Tune ----
-    tuning <- NULL
     if (needs_tuning(hyperparameters)) {
-      tuning <- tune(
+      tuner <- tune(
         x,
         hyperparameters = hyperparameters,
         tuner_parameters = tuner_parameters,
@@ -165,25 +167,27 @@ method(train, class_data.frame) <- function(x,
         verbosity = verbosity
       )
       # Update hyperparameters
-      hyperparameters <- update(hyperparameters, tuning@best_hyperparameters, tuned = 1L)
+      hyperparameters <- update(hyperparameters, tuner@best_hyperparameters, tuned = 1L)
     }
     if (verbosity > 0L) cat("\n")
 
     # Preprocess ----
     if (!is.null(preprocessor_parameters)) {
-      dat_prp <- preprocess(
+      preprocessor <- preprocess(
         x = x,
         parameters = preprocessor_parameters,
         dat_validation = dat_validation,
         dat_testing = dat_testing
       )
       x <- if (is.null(dat_validation) && is.null(dat_testing)) {
-        dat_prp@preprocessed
+        preprocessor@preprocessed
       } else {
-        dat_prp@preprocessed$training
+        preprocessor@preprocessed$training
       }
-      if (!is.null(dat_validation)) dat_validation <- dat_prp@preprocessed$validation
-      if (!is.null(dat_testing))  dat_testing <- dat_prp@preprocessed$testing
+      if (!is.null(dat_validation)) dat_validation <- preprocessor@preprocessed$validation
+      if (!is.null(dat_testing))  dat_testing <- preprocessor@preprocessed$testing
+    } else {
+      preprocessor <- NULL
     }
 
     # Weights ----
@@ -263,9 +267,9 @@ method(train, class_data.frame) <- function(x,
     mod <- make_Supervised(
       algorithm = algorithm,
       model = mod,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
+      tuner = tuner,
       y_training = x[[ncols]],
       y_validation = if (!is.null(dat_validation)) dat_validation[[ncols]],
       y_testing = if (!is.null(dat_testing)) dat_testing[[ncols]],
@@ -294,10 +298,10 @@ method(train, class_data.frame) <- function(x,
       algorithm = algorithm,
       type = type,
       models = mods,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
-      crossvalidation_parameters = crossvalidation_parameters,
+      tuner = tuner,
+      crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
       y_testing = y_testing,
       predicted_training = predicted_training,
