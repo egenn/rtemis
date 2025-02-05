@@ -12,7 +12,7 @@ cluster_KMeans <- function(x, parameters) {
   check_dependencies("flexclust")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = TRUE)
+  check_unsupervised_data(x = x, allow_missing = FALSE)
 
   # Cluster ----
   clust <- flexclust::cclust(
@@ -34,7 +34,7 @@ cluster_HardCL <- function(x, parameters) {
   check_dependencies("flexclust")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = TRUE)
+  check_unsupervised_data(x = x, allow_missing = FALSE)
 
   # Cluster ----
   clust <- flexclust::cclust(
@@ -56,7 +56,7 @@ cluster_NeuralGas <- function(x, parameters) {
   check_dependencies("flexclust")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = TRUE)
+  check_unsupervised_data(x = x, allow_missing = FALSE)
 
   # Cluster ----
   clust <- flexclust::cclust(
