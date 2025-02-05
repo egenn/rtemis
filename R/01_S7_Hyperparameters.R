@@ -136,6 +136,7 @@ method(get_tuned_status, Hyperparameters) <- function(x) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 # update <- new_generic("update", "x")
 method(update, Hyperparameters) <- function(x, hyperparameters, tuned = NULL) {
   for (hp in names(hyperparameters)) {
