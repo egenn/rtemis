@@ -168,7 +168,7 @@ MetricsCV <- new_class(
 print.MetricsCV <- function(x, decimal_places = 3L, ...) {
   type <- if (inherits(x, "RegressionMetricsCV")) "Regression" else "Classification"
   objcat(paste("  Crossvalidated", type, x@sample, "Metrics"))
-  cat("  Values are mean (sd) across resamples.\n\n")
+  cat(italic("  Showing mean (sd) across resamples.\n\n"))
   # Create list with mean_metrics (sd_metrics)
   out <- lapply(seq_along(x@mean_metrics), function(i) {
     paste0(

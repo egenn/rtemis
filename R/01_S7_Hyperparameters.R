@@ -57,6 +57,12 @@ Hyperparameters <- new_class(
         tuned <- 0L
       }
     }
+    # LightGBM
+    if (algorithm == "LightGBM") {
+      if (is.null(hyperparameters$nrounds)) {
+        tuned <- 0L
+      }
+    }
     new_object(
       S7_object(),
       algorithm = algorithm,
@@ -130,7 +136,7 @@ method(get_tuned_status, Hyperparameters) <- function(x) {
 #'
 #' @author EDG
 #' @keywords internal
-update <- new_generic("update", "x")
+# update <- new_generic("update", "x")
 method(update, Hyperparameters) <- function(x, hyperparameters, tuned = NULL) {
   for (hp in names(hyperparameters)) {
     x@hyperparameters[[hp]] <- hyperparameters[[hp]]
@@ -292,17 +298,17 @@ setup_CART <- function(
     xval = 0L,
     cost = NULL) {
   check_inherits(cp, "numeric")
-  maxdepth <- clean_integer(maxdepth)
-  minsplit <- clean_integer(minsplit)
-  minbucket <- clean_integer(minbucket)
+  maxdepth <- clean_int(maxdepth)
+  minsplit <- clean_int(minsplit)
+  minbucket <- clean_int(minbucket)
   check_inherits(prune.cp, "numeric")
   check_inherits(method, "character")
   check_inherits(model, "logical")
-  maxcompete <- clean_integer(maxcompete)
-  maxsurrogate <- clean_integer(maxsurrogate)
-  usesurrogate <- clean_integer(usesurrogate)
-  surrogatestyle <- clean_integer(surrogatestyle)
-  xval <- clean_integer(xval)
+  maxcompete <- clean_int(maxcompete)
+  maxsurrogate <- clean_int(maxsurrogate)
+  usesurrogate <- clean_int(usesurrogate)
+  surrogatestyle <- clean_int(surrogatestyle)
+  xval <- clean_int(xval)
   check_inherits(cost, "numeric")
   CARTHyperparameters(
     cp = cp,
@@ -438,7 +444,7 @@ LightRF_tunable <- c(
   "nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample",
   "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group"
 )
-LightRF_fixed <- character(0)
+LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner")
 
 #' @title LightRFHyperparameters
 #'
@@ -459,7 +465,11 @@ LightRFHyperparameters <- new_class(
                          lambda_l2 = NULL,
                          max_cat_threshold = NULL,
                          min_data_per_group = NULL,
-                         linear_tree = NULL) {
+                         linear_tree = NULL,
+                         # fixed LightGBM params for RF
+                         subsample_freq = 1L,
+                         early_stopping_rounds = -1L,
+                         tree_learner = "data_parallel") {
     new_object(
       Hyperparameters(
         algorithm = "LightRF",
@@ -473,7 +483,10 @@ LightRFHyperparameters <- new_class(
           lambda_l2 = lambda_l2,
           max_cat_threshold = max_cat_threshold,
           min_data_per_group = min_data_per_group,
-          linear_tree = linear_tree
+          linear_tree = linear_tree,
+          subsample_freq = subsample_freq,
+          early_stopping_rounds = early_stopping_rounds,
+          tree_learner = tree_learner
         ),
         tunable_hyperparameters = LightRF_tunable,
         fixed_hyperparameters = LightRF_fixed
@@ -487,6 +500,9 @@ LightRFHyperparameters <- new_class(
 #' Setup hyperparameters for LightRF training.
 #'
 #' Get more information from [lightgbm::lgb.train].
+#' Note that hyperparameters subsample_freq, early_stopping_rounds, and tree_learner are fixed,
+#' and cannot be set because they are what makes `lightgbm` train a random forest.
+#' These can all be set when training gradient boosting with LightGBM.
 #'
 #' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
 #' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
@@ -514,7 +530,7 @@ setup_LightRF <- function(
     linear_tree = FALSE) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
-  maxdepth <- clean_integer(maxdepth)
+  maxdepth <- clean_int(maxdepth)
   check_float01inc(feature_fraction)
   check_float01inc(subsample)
   check_float01inc(lambda_l1)
@@ -535,3 +551,155 @@ setup_LightRF <- function(
     linear_tree = linear_tree
   )
 } # /rtemis::setupLightRF
+
+# Test that all LightRF hyperparameters are set by setup_LightRF
+# LightRF fixed hyperparameters are not editable.
+stopifnot(all(LightRF_tunable %in% names(formals(setup_LightRF))))
+
+
+# LightGBMHyperparameters ----
+LightGBM_tunable <- c(
+  "num_leaves", "max_depth", "learning_rate", "feature_fraction", "subsample", "subsample_freq",
+  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "linear_tree"
+)
+LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds")
+
+#' @title LightGBMHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for LightGBM
+#'
+#' @author EDG
+#' @export
+LightGBMHyperparameters <- new_class(
+  name = "LightGBMHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(max_nrounds = NULL,
+                         force_nrounds = NULL,
+                         early_stopping_rounds = NULL,
+                         # tunable
+                         num_leaves = NULL,
+                         max_depth = NULL,
+                         learning_rate = NULL,
+                         feature_fraction = NULL,
+                         subsample = NULL,
+                         subsample_freq = NULL,
+                         lambda_l1 = NULL,
+                         lambda_l2 = NULL,
+                         max_cat_threshold = NULL,
+                         min_data_per_group = NULL,
+                         linear_tree = NULL) {
+    nrounds <- if (!is.null(force_nrounds)) {
+      force_nrounds
+    } else {
+      NULL
+    }
+    new_object(
+      Hyperparameters(
+        algorithm = "LightGBM",
+        hyperparameters = list(
+          nrounds = nrounds,
+          max_nrounds = max_nrounds,
+          force_nrounds = force_nrounds,
+          early_stopping_rounds = early_stopping_rounds,
+          num_leaves = num_leaves,
+          max_depth = max_depth,
+          learning_rate = learning_rate,
+          subsample = subsample,
+          subsample_freq = subsample_freq,
+          lambda_l1 = lambda_l1,
+          lambda_l2 = lambda_l2,
+          max_cat_threshold = max_cat_threshold,
+          min_data_per_group = min_data_per_group,
+          linear_tree = linear_tree
+        ),
+        tunable_hyperparameters = LightGBM_tunable,
+        fixed_hyperparameters = LightGBM_fixed
+      )
+    )
+  }
+) # /rtemis::LightGBMHyperparameters
+
+# References:
+# LightGBM parameters: https://lightgbm.readthedocs.io/en/latest/Parameters.html
+
+#' Setup LightGBM Hyperparameters
+#'
+#' Setup hyperparameters for LightGBM training.
+#'
+#' Get more information from [lightgbm::lgb.train].
+#'
+#' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
+#' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
+#' @param max_depth (Tunable) Integer: Maximum depth of trees.
+#' @param feature_fraction (Tunable) Numeric: Fraction of features to use.
+#' @param subsample (Tunable) Numeric: Fraction of data to use.
+#' @param lambda_l1 (Tunable) Numeric: L1 regularization.
+#' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
+#' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
+#' @param linear_tree Logical: If TRUE, use linear trees.
+#'
+#' @author EDG
+#' @export
+setup_LightGBM <- function(
+    # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
+    # using early_stopping_rounds.
+    max_nrounds = 1000L,
+    force_nrounds = NULL,
+    early_stopping_rounds = 10L,
+    # tunable
+    num_leaves = 4096L,
+    max_depth = -1L,
+    learning_rate = 0.01,
+    feature_fraction = 1.0,
+    subsample = .623,
+    subsample_freq = 1L,
+    lambda_l1 = 0,
+    lambda_l2 = 0,
+    max_cat_threshold = 32L,
+    min_data_per_group = 32L,
+    linear_tree = FALSE) {
+  max_nrounds <- clean_posint(max_nrounds)
+  force_nrounds <- clean_posint(force_nrounds)
+  early_stopping_rounds <- clean_posint(early_stopping_rounds)
+  num_leaves <- clean_posint(num_leaves)
+  max_depth <- clean_int(max_depth)
+  check_floatpos1(learning_rate)
+  check_floatpos1(feature_fraction)
+  check_floatpos1(subsample)
+  subsample_freq <- clean_posint(subsample_freq)
+  check_inherits(lambda_l1, "numeric")
+  check_inherits(lambda_l2, "numeric")
+  max_cat_threshold <- clean_posint(max_cat_threshold)
+  min_data_per_group <- clean_posint(min_data_per_group)
+  check_logical(linear_tree)
+  LightGBMHyperparameters(
+    max_nrounds = max_nrounds,
+    force_nrounds = force_nrounds,
+    early_stopping_rounds = early_stopping_rounds,
+    num_leaves = num_leaves,
+    max_depth = max_depth,
+    learning_rate = learning_rate,
+    feature_fraction = feature_fraction,
+    subsample = subsample,
+    subsample_freq = subsample_freq,
+    lambda_l1 = lambda_l1,
+    lambda_l2 = lambda_l2,
+    max_cat_threshold = max_cat_threshold,
+    min_data_per_group = min_data_per_group,
+    linear_tree = linear_tree
+  )
+} # /rtemis::setupLightGBM
+
+# Test that all LightGBM hyperparameters are set by setup_LightGBM
+stopifnot(all(c(LightGBM_tunable, LightGBM_fixed) %in% names(formals(setup_LightGBM))))
+
+method(get_params_need_tuning, LightGBMHyperparameters) <- function(x) {
+  # Get tunable hyperparameters with more than one value
+  out <- x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
+  if (is.null(x$nrounds)) {
+    out <- c(out, list(nrounds = NULL))
+  }
+  out
+} # /get_params_need_tuning.GLMNETHyperparameters

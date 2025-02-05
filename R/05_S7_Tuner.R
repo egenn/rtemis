@@ -46,7 +46,7 @@ TunerParameters <- new_class(
 #' @param ... Not used
 #'
 #' @author EDG
-#' @noRd 
+#' @noRd
 method(print, TunerParameters) <- function(x, pad = 0L) {
   objcat(paste(x@type, "TunerParameters"))
   printls(props(x)$parameters, pad = pad + 2L)
@@ -156,7 +156,7 @@ setup_GridSearch <- function(
   check_inherits(metric, "character")
   check_inherits(maximize, "logical")
   check_inherits(future_plan, "character")
-  n_workers <- clean_integer(n_workers)
+  n_workers <- clean_int(n_workers)
   GridSearchParams(
     resample_params = resample_params,
     search_type = search_type,
@@ -189,6 +189,13 @@ Tuner <- new_class(
     best_hyperparameters = class_list
   )
 ) # /Tuner
+
+# Describe Tuner ----
+method(desc, Tuner) <- function(x) {
+  if (x@type == "GridSearch") {
+    paste(x@tuner_parameters$search_type, "grid search")
+  }
+} # /rtemis::describe.Tuner
 
 # GridSearch ----
 #' GridSearch Class

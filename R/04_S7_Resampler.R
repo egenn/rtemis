@@ -54,6 +54,17 @@ method(print, ResamplerParameters) <- function(x, pad = 0L) {
   invisible(x)
 } # rtemis::print.ResamplerParameters
 
+# desc ResamplerParameters ----
+method(desc, ResamplerParameters) <- function(x) {
+  switch(x@type,
+    KFold = paste0(x@n, "-fold crossvalidation"),
+    StratSub = paste0(x@n, " stratified subsamples"),
+    StratBoot = paste0(x@n, " stratified bootstraps"),
+    Bootstrap = paste0(x@n, " bootstraps"),
+    LOOCV = "Leave-one-out crossvalidation"
+  )
+} # /rtemis::desc.ResamplerParameters
+
 # KFoldParams ----
 #' @title KFoldParams
 #'
@@ -258,7 +269,7 @@ setup_Resampler <- function(n_resamples = 10L,
   if (length(type) == 0) {
     stop("Invalid resampler type. Must be one of: 'StratSub', 'StratBoot', 'KFold', 'Bootstrap', 'LOOCV'")
   }
-  seed <- clean_integer(seed)
+  seed <- clean_int(seed)
 
   if (type == "KFold") {
     KFoldParams(
@@ -368,6 +379,11 @@ method(`[[`, Resampler) <- function(x, name) {
 method(`.DollarNames`, Resampler) <- function(x, pattern = "") {
   .DollarNames.Resampler(x, pattern)
 }
+
+# desc Resampler ----
+method(desc, Resampler) <- function(x) {
+  desc(x@parameters)
+} # /rtemis::desc.Resampler
 
 # print1.resample <- function(x, verbosity = 0L, ...) {
 #   resampler <- attr(x, "resampler")

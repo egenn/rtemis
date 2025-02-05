@@ -21,9 +21,9 @@ Supervised <- new_class(
     algorithm = class_character,
     model = class_any,
     type = class_character,
-    preprocessor_parameters = PreprocessorParameters | NULL,
+    preprocessor = Preprocessor | NULL,
     hyperparameters = Hyperparameters,
-    tuner_parameters = TunerParameters | NULL,
+    tuner = Tuner | NULL,
     y_training = class_any,
     y_validation = class_any,
     y_testing = class_any,
@@ -42,9 +42,9 @@ Supervised <- new_class(
   constructor = function(algorithm,
                          model,
                          type,
-                         preprocessor_parameters,
+                         preprocessor,
                          hyperparameters,
-                         tuner_parameters,
+                         tuner,
                          y_training,
                          y_validation,
                          y_testing,
@@ -63,9 +63,9 @@ Supervised <- new_class(
       algorithm = algorithm,
       model = model,
       type = type,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
+      tuner = tuner,
       y_training = y_training,
       y_validation = y_validation,
       y_testing = y_testing,
@@ -99,9 +99,15 @@ print.Supervised <- function(x, ...) {
   objcat(paste(x@type, "Model"))
   cat("  ",
     hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n\n",
+    " (", get_alg_desc(x@algorithm), ")\n",
     sep = ""
   )
+  if (!is.null(x@tuner)) {
+    cat(
+      "  Tuned using ",
+      desc(x@tuner), ".\n\n", sep = ""
+    )
+  }
   # padcat("Training Metrics")
   print(x@metrics_training)
   if (length(x@metrics_validation) > 0) {
@@ -130,7 +136,6 @@ method(plot_varimp, Supervised) <- function(x,
 } # /plot_varimp.Supervised
 
 # Describe Supervised ----
-describe <- new_generic("describe", "x")
 method(describe, Supervised) <- function(x) {
   type <- x@type
   algorithm <- select_learn(x@algorithm, desc = TRUE)
@@ -138,8 +143,8 @@ method(describe, Supervised) <- function(x) {
   desc <- paste0(algorithm, " was used for ", tolower(type), ".")
 
   # Tuning ----
-  if (length(x@tuner_parameters) > 0) {
-    res <- x@tuner_parameters$resample_params
+  if (length(x@tuner) > 0) {
+    res <- x@tuner$resample_params
     n_resamples <- res$n_resamples
     resampler <- res$resampler
     resamples <- switch(resampler,
@@ -158,7 +163,7 @@ method(describe, Supervised) <- function(x) {
       " Hyperparameter tuning was performed using ",
       n_resamples, resamples, "."
     )
-    params <- x@tuner_parameters$params$search
+    params <- x@tuner$params$search
     search.index <- which(lapply(params, length) > 1)
     fixed.index <- which(lapply(params, length) == 1)
     fixed <- searched <- list()
@@ -170,7 +175,7 @@ method(describe, Supervised) <- function(x) {
       fixed[[i]] <- params[[fixed.index[i]]]
     }
     names(fixed) <- names(params)[fixed.index]
-    metric <- x@tuner_parameters$metric
+    metric <- x@tuner$metric
 
     if (length(fixed) > 0) {
       cat("The following parameters were fixed:\n")
@@ -180,8 +185,8 @@ method(describe, Supervised) <- function(x) {
       cat("Grid search was performed on:\n")
       printls(searched)
     }
-    cat(metric, "was", ifelse(x@tuner_parameters$maximize, "maximized", "minimized"), "with:\n")
-    printls(x@tuner_parameters$best_tune)
+    cat(metric, "was", ifelse(x@tuner$maximize, "maximized", "minimized"), "with:\n")
+    printls(x@tuner$best_tune)
   }
 
   # Metrics ----
@@ -258,9 +263,9 @@ Classification <- new_class(
   ),
   constructor = function(algorithm = NULL,
                          model = NULL,
-                         preprocessor_parameters = NULL, # PreprocessorParameters
+                         preprocessor = NULL, # Preprocessor
                          hyperparameters = NULL, # Hyperparameters
-                         tuner_parameters = NULL, # TunerParameters
+                         tuner = NULL, # Tuner
                          y_training = NULL,
                          y_validation = NULL,
                          y_testing = NULL,
@@ -305,9 +310,9 @@ Classification <- new_class(
         algorithm = algorithm,
         model = model,
         type = "Classification",
-        preprocessor_parameters = preprocessor_parameters,
+        preprocessor = preprocessor,
         hyperparameters = hyperparameters,
-        tuner_parameters = tuner_parameters,
+        tuner = tuner,
         y_training = y_training,
         y_validation = y_validation,
         y_testing = y_testing,
@@ -346,9 +351,9 @@ Regression <- new_class(
   ),
   constructor = function(algorithm = NULL,
                          model = NULL,
-                         preprocessor_parameters = NULL, # PreprocessorParameters
+                         preprocessor = NULL, # Preprocessor
                          hyperparameters = NULL, # Hyperparameters
-                         tuner_parameters = NULL, # TunerParameters
+                         tuner = NULL, # Tuner
                          y_training = NULL,
                          y_validation = NULL,
                          y_testing = NULL,
@@ -387,9 +392,9 @@ Regression <- new_class(
         algorithm = algorithm,
         model = model,
         type = "Regression",
-        preprocessor_parameters = preprocessor_parameters,
+        preprocessor = preprocessor,
         hyperparameters = hyperparameters,
-        tuner_parameters = tuner_parameters,
+        tuner = tuner,
         y_training = y_training,
         y_validation = y_validation,
         y_testing = y_testing,
@@ -415,9 +420,9 @@ Regression <- new_class(
 make_Supervised <- function(
     algorithm = NULL,
     model = NULL,
-    preprocessor_parameters = list(),
-    hyperparameters = list(),
-    tuner_parameters = list(),
+    preprocessor = NULL,
+    hyperparameters = NULL,
+    tuner = NULL,
     y_training = NULL,
     y_validation = NULL,
     y_testing = NULL,
@@ -439,9 +444,9 @@ make_Supervised <- function(
     Classification(
       algorithm = algorithm,
       model = model,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
+      tuner = tuner,
       y_training = y_training,
       y_validation = y_validation,
       y_testing = y_testing,
@@ -460,9 +465,9 @@ make_Supervised <- function(
     Regression(
       algorithm = algorithm,
       model = model,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
+      tuner = tuner,
       y_training = y_training,
       y_validation = y_validation,
       y_testing = y_testing,
@@ -519,10 +524,10 @@ SupervisedCV <- new_class(
     algorithm = class_character,
     models = class_list,
     type = class_character,
-    preprocessor_parameters = PreprocessorParameters | NULL,
+    preprocessor = Preprocessor | NULL,
     hyperparameters = Hyperparameters | NULL,
-    tuner_parameters = TunerParameters | NULL,
-    crossvalidation_parameters = ResamplerParameters,
+    tuner = Tuner | NULL,
+    crossvalidation_resampler = Resampler,
     y_training = class_any,
     y_testing = class_any,
     predicted_training = class_any,
@@ -538,10 +543,10 @@ SupervisedCV <- new_class(
   constructor = function(algorithm,
                          models,
                          type,
-                         preprocessor_parameters,
+                         preprocessor,
                          hyperparameters,
-                         tuner_parameters,
-                         crossvalidation_parameters,
+                         tuner,
+                         crossvalidation_resampler,
                          y_training,
                          y_testing,
                          predicted_training,
@@ -560,8 +565,8 @@ SupervisedCV <- new_class(
       models = models,
       type = models[[1]]@type,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
-      crossvalidation_parameters = crossvalidation_parameters,
+      tuner = tuner,
+      crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
       y_testing = y_testing,
       predicted_training = predicted_training,
@@ -588,7 +593,12 @@ method(print, SupervisedCV) <- function(x) {
     " (", get_alg_desc(x@algorithm), ")\n",
     sep = ""
   )
-  cat("\n  Mean (SD) across", length(x@models), "models.\n\n")
+  cat("  Trained on", length(x@models), "resamples.\n")
+  if (!is.null(x@tuner)) {
+    cat("  Tuned using ", desc(x@crossvalidation_resampler), ".\n\n", sep = "")
+  } else {
+    cat("\n")
+  }
   print(x@metrics_training)
   cat("\n")
   print(x@metrics_testing)
@@ -611,10 +621,10 @@ ClassificationCV <- new_class(
   ),
   constructor = function(algorithm,
                          models,
-                         preprocessor_parameters,
+                         preprocessor,
                          hyperparameters,
-                         tuner_parameters,
-                         crossvalidation_parameters,
+                         tuner,
+                         crossvalidation_resampler,
                          y_training,
                          y_validation = NULL,
                          y_testing = NULL,
@@ -643,10 +653,10 @@ ClassificationCV <- new_class(
         algorithm = algorithm,
         models = models,
         type = "Classification",
-        preprocessor_parameters = preprocessor_parameters,
+        preprocessor = preprocessor,
         hyperparameters = hyperparameters,
-        tuner_parameters = tuner_parameters,
-        crossvalidation_parameters = crossvalidation_parameters,
+        tuner = tuner,
+        crossvalidation_resampler = crossvalidation_resampler,
         y_training = y_training,
         y_testing = y_testing,
         predicted_training = predicted_training,
@@ -684,10 +694,10 @@ RegressionCV <- new_class(
   ),
   constructor = function(algorithm,
                          models,
-                         preprocessor_parameters,
+                         preprocessor,
                          hyperparameters,
-                         tuner_parameters,
-                         crossvalidation_parameters,
+                         tuner,
+                         crossvalidation_resampler,
                          y_training,
                          y_validation = NULL,
                          y_testing = NULL,
@@ -727,10 +737,10 @@ RegressionCV <- new_class(
         algorithm = algorithm,
         models = models,
         type = "Regression",
-        preprocessor_parameters = preprocessor_parameters,
+        preprocessor = preprocessor,
         hyperparameters = hyperparameters,
-        tuner_parameters = tuner_parameters,
-        crossvalidation_parameters = crossvalidation_parameters,
+        tuner = tuner,
+        crossvalidation_resampler = crossvalidation_resampler,
         y_training = y_training,
         y_testing = y_testing,
         predicted_training = predicted_training,
@@ -768,10 +778,10 @@ make_SupervisedCV <- function(
     algorithm,
     type,
     models,
-    preprocessor_parameters,
+    preprocessor,
     hyperparameters,
-    tuner_parameters,
-    crossvalidation_parameters,
+    tuner,
+    crossvalidation_resampler,
     y_training,
     y_testing,
     predicted_training,
@@ -789,10 +799,10 @@ make_SupervisedCV <- function(
     ClassificationCV(
       algorithm = algorithm,
       models = models,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
-      crossvalidation_parameters = crossvalidation_parameters,
+      tuner = tuner,
+      crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
       y_testing = y_testing,
       predicted_training = predicted_training,
@@ -808,10 +818,10 @@ make_SupervisedCV <- function(
     RegressionCV(
       algorithm = algorithm,
       models = models,
-      preprocessor_parameters = preprocessor_parameters,
+      preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
-      crossvalidation_parameters = crossvalidation_parameters,
+      tuner = tuner,
+      crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
       y_testing = y_testing,
       predicted_training = predicted_training,
