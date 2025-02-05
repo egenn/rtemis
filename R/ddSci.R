@@ -12,9 +12,9 @@
 #' This function can be used to format numbers in plots, on the console, in logs, etc.
 #'
 #' @param x Vector of numbers
-#' @param decimal_places Integer: Return this many decimal places. Default = 2
-#' @param hi Float: Threshold at or above which scientific notation is used. Default = 1e06
-#' @param as_numeric Logical: If TRUE, convert to numeric before returning. Default = FALSE.
+#' @param decimal_places Integer: Return this many decimal places.
+#' @param hi Float: Threshold at or above which scientific notation is used.
+#' @param as_numeric Logical: If TRUE, convert to numeric before returning.
 #' This will not force all numbers to print 2 decimal places. For example:
 #' 1.2035 becomes "1.20" if `as_numeric = FALSE`, but 1.2 otherwise
 #' This can be helpful if you want to be able to use the output as numbers / not just for printing.
