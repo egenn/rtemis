@@ -13,6 +13,7 @@
 #' @param pad Integer: Pad output with this many spaces.
 #' @param center_title Logical: If TRUE, autopad title for centering, if present.
 #' @param format_fn Formatting function.
+#' @param print_class Logical: If TRUE, print abbreviated class of object.
 #'
 #' @author EDG
 #' @keywords internal
@@ -28,6 +29,8 @@ printls <- function(x,
                     title_newline = FALSE,
                     newline_pre = FALSE,
                     format_fn_rhs = ddSci,
+                    print_class = TRUE,
+                    abbrev_class_n = 3L,
                     print_S4 = FALSE) {
   # Arguments ----
   if (newline_pre) cat("\n")
@@ -40,13 +43,15 @@ printls <- function(x,
     }
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
   } else if (length(x) == 0) {
-    cat(class(x), "of length 0\n")
+    cat(class(x), "of length 0.\n")
   } else {
     x <- as.list(x)
+    # Get class of each element
+    classes_ <- sapply(x, class)
     # Remove closures that will cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
-      for (i in is_fn) x[[i]] <- paste0(as.character(head(x[[i]], n = 1L)), "...")
+      for (i in is_fn) x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
     }
     # Remove NULLs
     null_index <- sapply(x, is.null)
@@ -86,6 +91,7 @@ printls <- function(x,
           item_format(format(paste0(prefix, xnames[i]),
             width = lhs, justify = "right"
           )), ": ",
+          if (print_class) gray(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
           ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"), "\n"
         ))
       } else if (S7_inherits(x[[i]])) {
@@ -114,6 +120,7 @@ printls <- function(x,
           item_format(format(paste0(prefix, xnames[i]),
             width = lhs, justify = "right"
           )), ": ",
+          if (print_class) gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
           headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs), "\n"
         ))
       }
@@ -131,7 +138,7 @@ printls <- function(x,
 #'      " other.name : other.value"
 #'
 #' @param x data frame
-#' @param pad Integer: Pad output with this many spaces. Default = 2
+#' @param pad Integer: Pad output with this many spaces.
 #'
 #' @author EDG
 #' @keywords internal
@@ -172,18 +179,18 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' By design, numbers will not be justified, but using ddSci_dp will convert to characters,
 #' which will be justified. This is intentional for internal use.
 #' @param x data frame
-#' @param pad Integer: Pad output with this many spaces. Default = 2
-#' @param spacing Integer: Number of spaces between columns. Default = 1
+#' @param pad Integer: Pad output with this many spaces.
+#' @param spacing Integer: Number of spaces between columns.
 #' @param ddSci_dp Integer: Number of decimal places to print using [ddSci]. Default = NULL for no
 #' formatting
-#' @param transpose Logical: If TRUE, transpose `x` before printing. Default = FALSE
-#' @param justify Character: "right", "left". Default = "right"
-#' @param colnames Logical: If TRUE, print column names. Default = TRUE
-#' @param rownames Logical: If TRUE, print row names. Default = TRUE
+#' @param transpose Logical: If TRUE, transpose `x` before printing.
+#' @param justify Character: "right", "left".
+#' @param colnames Logical: If TRUE, print column names.
+#' @param rownames Logical: If TRUE, print row names.
 #' @param column_col Color fn for printing column names.
 #' @param row_col Color fn for printing row names.
-#' @param newline_pre Logical: If TRUE, print a new line before printing data frame. Default = FALSE
-#' @param newline Logical: If TRUE, print a new line after printing data frame. Default = FALSE
+#' @param newline_pre Logical: If TRUE, print a new line before printing data frame.
+#' @param newline Logical: If TRUE, print a new line after printing data frame.
 #'
 #' @author EDG
 #' @keywords internal
@@ -318,7 +325,7 @@ headdot <- function(x, maxlength = 6, format_fn = identity) {
   if (length(x) < maxlength) {
     paste(format_fn(x), collapse = ", ")
   } else {
-    paste0(paste(format_fn(head(x, n = maxlength)), collapse = ", "), "...")
+    paste0(paste(format_fn(head(as.vector(x), n = maxlength)), collapse = ", "), "...")
   }
 } # /rtemis::headdot
 
