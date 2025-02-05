@@ -1,6 +1,12 @@
-# S7_validators.R
+# S7_init.R
 # ::rtemis::
 # 2025 EDG rtemis.org
+
+#' Generics
+# Short description for in-line printing.
+desc <- new_generic("desc", "x")
+# Full description.
+describe <- new_generic("describe", "x")
 
 #' Custom S7 validators
 #' 
