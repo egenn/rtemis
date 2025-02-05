@@ -167,6 +167,11 @@ tune_GridSearch <- function(x,
       out1$hyperparameters@hyperparameters$lambda.min <- mod1@model$lambda.min
       out1$hyperparameters@hyperparameters$lambda.1se <- mod1@model$lambda.1se
     }
+    if (algorithm == "LightGBM") {
+      out1$hyperparameters@hyperparameters$best_iter <- mod1@model$best_iter
+      out1$hyperparameters@hyperparameters$best_score <- mod1@model$best_score
+    }
+    # --
     if (algorithm == "H2OGBM") {
       out1$est.n.trees <-
         mod1$mod@model$model_summary$number_of_trees
@@ -175,10 +180,7 @@ tune_GridSearch <- function(x,
       out1$est.n.trees <- which.min(mod1$mod$valid.error)
       if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
     }
-    if (algorithm == "LightGBM") {
-      out1$best_iter <- mod1$mod$best_iter
-      out1$best_score <- mod1$mod$best_score
-    }
+    
     if (algorithm == "XGBoost") {
       out1$best_iteration <- mod1$mod$best_iteration
       out1$best_score <- mod1$mod$best_score
@@ -290,13 +292,12 @@ tune_GridSearch <- function(x,
   # automatically, we therefore need to extract it and average it
   ## GLMNET ----
   if (algorithm == "GLMNET") {
-    if (verbosity > 1) {
-      info("Extracting best lambda from GLMNET models...")
-    }
     if (is.null(grid_params$lambda)) {
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-      # lambda_cv2 <- data.frame(lambda = plyr::laply(grid_run, \(x) x$hyperparameters[[hyperparameters$which.cv.lambda]]))
       # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which.cv.lambda]]
+      if (verbosity > 1) {
+        info("Extracting best lambda from GLMNET models...")
+      }
       lambda_cv2 <- data.frame(
         lambda = sapply(grid_run, \(x) x$hyperparameters[[x$hyperparameters$which.cv.lambda]])
       )
@@ -310,6 +311,27 @@ tune_GridSearch <- function(x,
       param_grid$lambda <- tune_results$param_grid$lambda <- lambda_by_param_combo_id$lambda
     }
   } # /GLMNET
+
+  ## LightGBM ----
+  if (algorithm == "LightGBM") {
+    if (is.null(grid_params$nrounds)) {
+      if (verbosity > 1) {
+        info("Extracting best N of iterations from LightGBM models...")
+      }
+      nrounds_cv <- data.frame(
+        nrounds = sapply(grid_run, \(x) x$hyperparameters$best_iter)
+      )
+      nrounds_cv$param_combo_id <- rep(seq_len(n_param_combinations), each = n_resamples)
+      nrounds_by_param_combo_id <- aggregate(
+        nrounds ~ param_combo_id, nrounds_cv,
+        tuner_parameters$metrics_aggregate_fn
+      )
+      # Replace NULL nrounds in tune_results$param_grid with average value of CV nrounds
+      stopifnot(tune_results$param_grid$nrounds == "null")
+      param_grid$nrounds <- tune_results$param_grid$nrounds <-
+        as.integer(round(nrounds_by_param_combo_id$nrounds))
+    }
+  } # /LightGBM
 
   ## GBM, H2OGBM ----
   # if (algorithm %in% c("H2OGBM", "GBM", "GBM3")) {
@@ -328,28 +350,6 @@ tune_GridSearch <- function(x,
   #   )
   #   n_params <- n_params + 1
   # } # /GBM, H2OGBM
-
-  ## LightGBM ----
-  # if (algorithm == "LightGBM") {
-  #   if (verbosity > 1) {
-  #     msg2(hilite("Extracting best N of iterations from LightGBM models..."))
-  #   }
-  #   est.nrounds.all <- data.frame(
-  #     nrounds = plyr::laply(grid_run, \(m) m$best_iter)
-  #   )
-  #   est.nrounds.all$param_combo_id <- rep(seq_len(n_param_combinations),
-  #     each = n_resamples
-  #   )
-  #   est.nrounds.by.param_combo_id <- aggregate(
-  #     nrounds ~ param_combo_id, est.nrounds.all,
-  #     metrics_aggregate_fn
-  #   )
-  #   tune_results <- cbind(
-  #     nrounds = round(est.nrounds.by.param_combo_id$nrounds),
-  #     tune_results
-  #   )
-  #   n_params <- n_params + 1
-  # } # /LightGBM
 
   ## XGBoost ----
   # if (algorithm == "XGBoost") {
