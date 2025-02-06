@@ -36,7 +36,7 @@ train_LightRuleFit <- function(
     verbosity = verbosity
   )
   type <- supervised_type(x)
-  nclasses <- if (type == "Classification") length(levels(y)) else -1
+  nclasses <- if (type == "Classification") length(levels(x[[ncol(x)]])) else -1
   
   # Train Gradient Boosting using LightGBM ----
   # LightRuleFit_tunable includes the names of all LightGBM hyperparameters used by LightRuleFit.
@@ -70,7 +70,8 @@ train_LightRuleFit <- function(
     alpha = hyperparameters$alpha,
     lambda = hyperparameters$lambda
   )
-  dat_rules <- data.frame(cbind(cases_by_rules, x[[ncol(x)]]))
+  dat_rules <- data.frame(cases_by_rules, y = x[[ncol(x)]])
+  colnames(dat_rules)[ncol(dat_rules)] <- colnames(x)[ncol(x)]
   mod_glmnet <- train(
     dat_rules,
     hyperparameters = lasso_hyperparameters,
@@ -89,19 +90,20 @@ train_LightRuleFit <- function(
 
   # Empirical risk ----
   if (type == "Classification" && nclasses == 2) {
-    dat <- as.data.table(x)
+    # {data.table}
+    x <- as.data.table(x)
     empirical_risk <- vector("numeric", length(rules_selected))
     for (i in seq_along(rules_selected)) {
-      match <- dat[eval(parse(text = rules_selected[i]))]
-      freq <- table(match$outcome)
-      empirical_risk[i] <- freq[rtenv$binclasspos] / sum(freq)
+      match <- x[eval(parse(text = rules_selected[i]))]
+      freq <- table(match[[ncol(match)]])
+      empirical_risk[i] <- freq[mod_glmnet@binclasspos] / sum(freq)
     }
   } else {
     empirical_risk <- NULL
   }
 
   # Format Rules ----
-  # => FIX format_LightRuleFit_rules' use of gsubfn::gsubfn
+  # => Check format_LightRuleFit_rules' use of gsubfn::gsubfn
   rules_selected_formatted <- format_LightRuleFit_rules(rules_selected, decimal_places = 2)
   # appease R CMD check
   Coefficient <- NULL
