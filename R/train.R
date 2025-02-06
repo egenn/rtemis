@@ -39,7 +39,7 @@ train <- new_generic("train", "x")
 method(train, class_data.frame) <- function(x,
                                             dat_validation = NULL,
                                             dat_testing = NULL,
-                                            algorithm = "cart", # can eliminate
+                                            algorithm = NULL,
                                             preprocessor_parameters = NULL, # PreprocessorParameters
                                             hyperparameters = NULL, # Hyperparameters
                                             tuner_parameters = setup_GridSearch(), # TunerParameters
@@ -47,9 +47,10 @@ method(train, class_data.frame) <- function(x,
                                             weights = NULL,
                                             question = NULL,
                                             outdir = NULL,
-                                            # outdir_save_model = TRUE,
-                                            config = NULL,
                                             verbosity = 1L) {
+  # Dependencies ----
+  check_dependencies(c("future.apply", "progressr"))
+
   # Checks ----
   if (!is.null(preprocessor_parameters)) {
     check_is_S7(preprocessor_parameters, PreprocessorParameters)
@@ -61,16 +62,27 @@ method(train, class_data.frame) <- function(x,
   if (!is.null(tuner_parameters)) {
     check_is_S7(tuner_parameters, TunerParameters)
   }
+  # Arguments ----
   if (!is.null(crossvalidation_parameters)) {
     check_is_S7(crossvalidation_parameters, ResamplerParameters)
+    if (!is.null(crossvalidation_parameters$id_strat)) {
+      stopifnot(length(crossvalidation_parameters$id_strat) == NROW(x))
+    }
   }
-
-  # Dependencies ----
-  check_dependencies(c("future.apply", "progressr"))
-
-  # Arguments ----
-  if (!is.null(crossvalidation_parameters$id_strat)) {
-    stopifnot(length(crossvalidation_parameters$id_strat) == NROW(x))
+  
+  ## Algorithm ----
+  if (!is.null(algorithm) && !is.null(hyperparameters) && tolower(algorithm) != tolower(hyperparameters@algorithm)) {
+    stop(
+      "You defined algorithm to be '", algorithm, "', but defined hyperparameters for ",
+      hyperparameters@algorithm, "."
+    )
+  }
+  if (is.null(algorithm)) {
+    algorithm <- if (is.null(hyperparameters)) {
+      "LightRF"
+    } else {
+      hyperparameters@algorithm
+    }
   }
   algorithm <- get_alg_name(algorithm)
   if (!is.null(outdir)) {
@@ -86,7 +98,6 @@ method(train, class_data.frame) <- function(x,
   log_file <- if (!is.null(outdir)) {
     paste0(
       outdir, "/",
-      # sys.calls()[[1]][[1]],
       "train_",
       format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
     )
@@ -99,11 +110,6 @@ method(train, class_data.frame) <- function(x,
   tuner <- NULL
 
   # Data ----
-  check_supervised_data(
-    x = x,
-    dat_validation = dat_validation,
-    dat_testing = dat_testing
-  )
   ncols <- ncol(x)
   type <- supervised_type(x)
   if (type == "Classification") {
@@ -145,7 +151,6 @@ method(train, class_data.frame) <- function(x,
           weights = weights,
           question = question,
           outdir = outdir,
-          config = NULL,
           verbosity = verbosity - 1L
         )
       },
@@ -203,19 +208,20 @@ method(train, class_data.frame) <- function(x,
       }
       cat("\n")
     }
-    mod <- do.call(
-      get_train_fn(algorithm),
-      list(
-        x = x,
-        dat_validation = dat_validation,
-        dat_testing = dat_testing,
-        weights = weights,
-        hyperparameters = hyperparameters,
-        tuner_parameters = tuner_parameters,
-        verbosity = verbosity
-      )
+    # Only algorithms with early stopping can use dat_validation.
+    # All traiining, validation, and testing metrics are calculated by Supervised or SupervisedCV.
+    args <- list(
+      x = x,
+      weights = weights,
+      hyperparameters = hyperparameters,
+      tuner_parameters = tuner_parameters,
+      verbosity = verbosity
     )
-    # each train_ function checks output is the correct class.
+    if (algorithm %in% early_stopping_algs) {
+      args$dat_validation <- dat_validation
+    }
+    mod <- do_call(get_train_fn(algorithm), args)
+    # each train_* function checks output is the correct model class.
 
     # Supervised ----
     predict_fn <- get_predict_fn(algorithm)
@@ -300,7 +306,7 @@ method(train, class_data.frame) <- function(x,
       models = mods,
       preprocessor = preprocessor,
       hyperparameters = hyperparameters,
-      tuner = tuner,
+      tuner_parameters = tuner_parameters,
       crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
       y_testing = y_testing,
