@@ -62,9 +62,9 @@ tune_GridSearch <- function(x,
     # => Only pass n_workers if arg workers is supported by plan
     future::plan(tuner_parameters$future_plan, workers = tuner_parameters$n_workers)
     if (verbosity > 0L) {
-      msg2(hilite2(
-        "Tuning crossvalidation (inner resampling) future plan set to",
-        underline(tuner_parameters$future_plan), "with", underline(n_workers), "workers."
+      msg20(hilite2(
+        "Tuning crossvalidation (inner resampling) future plan set to ",
+        tuner_parameters$future_plan,  "with ", singorplu(n_workers, "worker"), "."
       ))
     }
   }
@@ -81,16 +81,13 @@ tune_GridSearch <- function(x,
   # Make Grid ----
   grid_params <- get_params_need_tuning(hyperparameters)
   n_params <- length(grid_params)
-  n_resamples <- tuner_parameters$resample_params$n
+  n_resamples <- tuner_parameters$resampler_parameters$n
   search_type <- tuner_parameters$search_type
+  # expand_grid convert NULL to "null" for expansion to work.
   param_grid <- expand_grid(grid_params, stringsAsFactors = FALSE)
   # param_grid <- expand.grid(grid_params, stringsAsFactors = FALSE)
   param_grid <- cbind(param_combo_id = seq_len(NROW(param_grid)), param_grid)
   n_param_combinations <- NROW(param_grid)
-  # res_param_grid <- expand.grid(
-  #   c(list(resample_id = seq_len(n_resamples)), grid_params),
-  #   stringsAsFactors = FALSE
-  # )
   res_param_grid <- expand_grid(
     c(list(resample_id = seq_len(n_resamples)), grid_params),
     stringsAsFactors = FALSE
@@ -107,7 +104,7 @@ tune_GridSearch <- function(x,
   # Resamples ----
   res <- resample(
     x,
-    parameters = tuner_parameters$resample_params,
+    parameters = tuner_parameters$resampler_parameters,
     verbosity = verbosity
   )
 
@@ -171,26 +168,12 @@ tune_GridSearch <- function(x,
       out1$hyperparameters@hyperparameters$best_iter <- mod1@model$best_iter
       out1$hyperparameters@hyperparameters$best_score <- mod1@model$best_score
     }
-    # --
-    if (algorithm == "H2OGBM") {
-      out1$est.n.trees <-
-        mod1$mod@model$model_summary$number_of_trees
-    }
-    if (algorithm == "GBM" || algorithm == "GBM3") {
-      out1$est.n.trees <- which.min(mod1$mod$valid.error)
-      if (length(out1$est.n.trees) == 0) out1$est.n.trees <- NA
-    }
-    
-    if (algorithm == "XGBoost") {
-      out1$best_iteration <- mod1$mod$best_iteration
-      out1$best_score <- mod1$mod$best_score
-    }
-    if (algorithm %in% c("LINAD", "LINOA")) {
-      out1$est.n.leaves <- mod1$mod$n.leaves
-    }
-    if (algorithm == "LIHADBoost") {
-      out1$sel.n.steps <- mod1$mod$selected.n.steps
-    }
+    # if (algorithm %in% c("LINAD", "LINOA")) {
+    #   out1$est.n.leaves <- mod1$mod$n.leaves
+    # }
+    # if (algorithm == "LIHADBoost") {
+    #   out1$sel.n.steps <- mod1$mod$selected.n.steps
+    # }
     if (save_mods) out1$mod1 <- mod1
     ptn(sprintf("Tuning resample %i/%i", index, n_res_x_comb))
     out1
