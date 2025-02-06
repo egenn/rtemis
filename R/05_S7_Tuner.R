@@ -53,6 +53,13 @@ method(print, TunerParameters) <- function(x, pad = 0L) {
   invisible(x)
 }
 
+# Describe Tuner ----
+method(desc, TunerParameters) <- function(x) {
+  if (x@type == "GridSearch") {
+    paste(x@parameters$search_type, "grid search")
+  }
+} # /rtemis::describe.Tuner
+
 # Make TunerParameters@parameters `$`-accessible
 method(`$`, TunerParameters) <- function(x, name) {
   x@parameters[[name]]
@@ -79,7 +86,7 @@ method(`.DollarNames`, TunerParameters) <- function(x, pattern = "") {
 GridSearchParams <- new_class(
   name = "GridSearchParams",
   parent = TunerParameters,
-  constructor = function(resample_params = NULL,
+  constructor = function(resampler_parameters = NULL,
                          search_type = NULL,
                          randomize_p = NULL,
                          metrics_aggregate_fn = NULL,
@@ -87,7 +94,7 @@ GridSearchParams <- new_class(
                          maximize = NULL,
                          future_plan = NULL,
                          n_workers = NULL) {
-    check_is_S7(resample_params, ResamplerParameters)
+    check_is_S7(resampler_parameters, ResamplerParameters)
     check_inherits(search_type, "character")
     check_float01exc(randomize_p)
     check_inherits(metrics_aggregate_fn, "function")
@@ -98,7 +105,7 @@ GridSearchParams <- new_class(
     # Only assign randomize_p if search_type is "randomized"
     params <- list(
       search_type = search_type,
-      resample_params = resample_params,
+      resampler_parameters = resampler_parameters,
       metrics_aggregate_fn = metrics_aggregate_fn,
       metric = metric,
       maximize = maximize,
@@ -122,7 +129,7 @@ GridSearchParams <- new_class(
 #' Create a `GridSearchParams` object that can be passed to [train].
 #'
 #' @param hyperparameters Named list of tunable and fixed hyperparameters.
-#' @param resample_params `ResamplerParameters` set by [setup_Resampler].
+#' @param resampler_parameters `ResamplerParameters` set by [setup_Resampler].
 #' @param search_type Character: "exhaustive" or "randomized". Type of
 #' grid search to use. Exhaustive search will try all combinations of
 #' parameters. Randomized will try a random sample of size
@@ -137,7 +144,7 @@ GridSearchParams <- new_class(
 #' @author EDG
 #' @export
 setup_GridSearch <- function(
-    resample_params = setup_Resampler(5L, "KFold"),
+    resampler_parameters = setup_Resampler(5L, "KFold"),
     search_type = "exhaustive",
     randomize_p = NULL,
     metrics_aggregate_fn = mean,
@@ -146,7 +153,7 @@ setup_GridSearch <- function(
     future_plan = "multicore",
     n_workers = rtemis_cores) {
   # Arguments ----
-  check_is_S7(resample_params, ResamplerParameters)
+  check_is_S7(resampler_parameters, ResamplerParameters)
   check_inherits(search_type, "character")
   check_float01exc(randomize_p)
   if (search_type == "exhaustive" && !is.null(randomize_p)) {
@@ -158,7 +165,7 @@ setup_GridSearch <- function(
   check_inherits(future_plan, "character")
   n_workers <- clean_int(n_workers)
   GridSearchParams(
-    resample_params = resample_params,
+    resampler_parameters = resampler_parameters,
     search_type = search_type,
     randomize_p = randomize_p,
     metrics_aggregate_fn = metrics_aggregate_fn,
@@ -239,16 +246,16 @@ print.GridSearch <- function(x, ...) {
   } else {
     paste0("A randomized grid search (p = ", x@tuner_parameters$randomize_p, ")")
   }
-  resamples <- if (x@tuner_parameters$resample_params@type == "KFold") {
+  resamples <- if (x@tuner_parameters$resampler_parameters@type == "KFold") {
     "independent folds"
-  } else if (x@tuner_parameters$resample_params@type == "StratSub") {
+  } else if (x@tuner_parameters$resampler_parameters@type == "StratSub") {
     "stratified subsamples"
-  } else if (x@tuner_parameters$resample_params@type == "Bootstraps") {
+  } else if (x@tuner_parameters$resampler_parameters@type == "Bootstraps") {
     "bootstraps"
-  } else if (x@tuner_parameters$resample_params@type == "StratBoot") {
+  } else if (x@tuner_parameters$resampler_parameters@type == "StratBoot") {
     "stratified bootstraps"
   }
-  cat(type, " was performed using ", x@tuner_parameters$resample_params$n, " ",
+  cat(type, " was performed using ", x@tuner_parameters$resampler_parameters$n, " ",
     resamples, ".\n",
     sep = ""
   )

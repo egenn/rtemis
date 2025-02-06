@@ -143,7 +143,7 @@ method(describe, Supervised) <- function(x) {
 
   # Tuning ----
   if (length(x@tuner) > 0) {
-    res <- x@tuner$resample_params
+    res <- x@tuner$resampler_parameters
     n_resamples <- res$n_resamples
     resampler <- res$resampler
     resamples <- switch(resampler,
@@ -258,7 +258,8 @@ Classification <- new_class(
   properties = list(
     predicted_prob_training = class_double | NULL,
     predicted_prob_validation = class_double | NULL,
-    predicted_prob_testing = class_double | NULL
+    predicted_prob_testing = class_double | NULL,
+    binclasspos = class_integer
   ),
   constructor = function(algorithm = NULL,
                          model = NULL,
@@ -277,7 +278,8 @@ Classification <- new_class(
                          extra = NULL,
                          predicted_prob_training = NULL,
                          predicted_prob_validation = NULL,
-                         predicted_prob_testing = NULL) {
+                         predicted_prob_testing = NULL,
+                         binclasspos = NULL) {
     metrics_training <- classification_metrics(
       true = y_training,
       predicted = predicted_training,
@@ -328,7 +330,8 @@ Classification <- new_class(
       ),
       predicted_prob_training = predicted_prob_training,
       predicted_prob_validation = predicted_prob_validation,
-      predicted_prob_testing = predicted_prob_testing
+      predicted_prob_testing = predicted_prob_testing,
+      binclasspos = binclasspos
     )
   }
 ) # /Clasiffication
@@ -437,7 +440,8 @@ make_Supervised <- function(
     xnames = character(),
     varimp = NULL,
     question = character(),
-    extra = NULL) {
+    extra = NULL,
+    binclasspos = 2L) {
   # Supervised ----
   if (is.factor(y_training)) {
     Classification(
@@ -458,7 +462,8 @@ make_Supervised <- function(
       xnames = xnames,
       varimp = varimp,
       question = question,
-      extra = extra
+      extra = extra,
+      binclasspos = binclasspos
     )
   } else {
     Regression(
@@ -834,3 +839,40 @@ make_SupervisedCV <- function(
     )
   }
 } # /make_SupervisedCV
+
+early_stopping_algs <- c("LightGBM", "LightRF", "LightRuleFit")
+
+# LightRuleFit ----
+#' @title LightRuleFit
+#'
+#' @description
+#' Class for LightRuleFit models.
+#'
+#' @author EDG
+#' @export
+LightRuleFit <- new_class(
+  name = "LightRuleFit",
+  properties = list(
+    model_lightgbm = Supervised,
+    model_glmnet = Supervised,
+    rules = class_character,
+    rules_coefs = class_data.frame,
+    rules_index = class_integer,
+    rules_selected = class_character,
+    rules_selected_formatted = class_character,
+    rules_selected_formatted_coefs = class_data.frame,
+    y_levels = class_character | NULL,
+    xnames = class_character,
+    complexity_metrics = class_data.frame
+  )
+) # /LightRuleFit
+
+# Print LightRuleFit ----
+method(print, LightRuleFit) <- function(x) {
+  objcat("rtemis LightRuleFit Model")
+  cat("Trained using ", hilite(x@model_lightgbm@algorithm), " and ",
+    hilite(x@model_glmnet@algorithm), ".\n",
+    sep = ""
+  )
+  cat("Selected", hilite(length(x@rules_selected)), "rules.\n")
+} # /rtemis::print.LightRuleFit

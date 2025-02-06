@@ -87,7 +87,6 @@ Hyperparameters <- new_class(
 #' @export
 print.Hyperparameters <- function(x, ...) {
   objcat(paste(x@algorithm, "Hyperparameters"))
-  cat("\n")
   printls(props(x)[-1])
   if (x@tuned == -9L) {
     cat(hilite2("\n  Hyperparameters are being tuned.\n"))
@@ -97,11 +96,11 @@ print.Hyperparameters <- function(x, ...) {
     need_tuning <- names(get_params_need_tuning(x))
     cat(hilite2(
       "\n  ",
-      ngettext(length(need_tuning), "Hyperparameter", "Hyperparameters"),
+      ngettext(length(need_tuning), "Hyperparameter ", "Hyperparameters "),
       oxfordcomma(
         need_tuning,
         format_fn = underline
-      ), ngettext(length(need_tuning), "needs", "need"), "tuning.\n"
+      ), ngettext(length(need_tuning), " needs ", " need "), "tuning.\n"
     ))
   } else if (x@tuned == -1L) {
     cat(hilite2("\n  No search values defined for tunable hyperparameters.\n"))
@@ -192,18 +191,24 @@ method(`.DollarNames`, Hyperparameters) <- function(x, pattern = "") {
   .DollarNames.Hyperparameters(x, pattern)
 }
 
-# needs_tuning ----
+#' needs_tuning ----
+#' 
+#' @noRd
 needs_tuning <- new_generic("needs_tuning", "x")
 method(needs_tuning, Hyperparameters) <- function(x) {
   x@tuned == 0
 } # /needs_tuning.Hyperparameters
 
 # get_params_need_tuning ----
-get_params_need_tuning <- new_generic("get_params_need_tuning", "x")
 method(get_params_need_tuning, Hyperparameters) <- function(x) { # -> list
   # Get tunable hyperparameters with more than one value
   x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
 } # /get_params_need_tuning.Hyperparameters
+
+# get_params.(Hyperparameters, character) ----
+method(get_params, list(Hyperparameters, class_character)) <- function(x, param_names) {
+  sapply(param_names, function(p) x@hyperparameters[p], USE.NAMES = FALSE)
+}
 
 # CARTHyperparameters ----
 CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp")
@@ -621,6 +626,23 @@ LightGBMHyperparameters <- new_class(
   }
 ) # /rtemis::LightGBMHyperparameters
 
+method(update, LightGBMHyperparameters) <- function(x, hyperparameters, tuned = NULL) {
+  for (hp in names(hyperparameters)) {
+    x@hyperparameters[[hp]] <- hyperparameters[[hp]]
+  }
+  # Update tuned status
+  if (is.null(tuned)) {
+    x@tuned <- get_tuned_status(x)
+  } else {
+    x@tuned <- tuned
+  }
+  # Update nrounds (e.g. in LightRuleFit)
+  if (is.null(x@hyperparameters$nrounds) && !is.null(x@hyperparameters$force_nrounds)) {
+    x@hyperparameters$nrounds <- x@hyperparameters$force_nrounds
+  }
+  x
+} # /update.Hyperparameters
+
 # References:
 # LightGBM parameters: https://lightgbm.readthedocs.io/en/latest/Parameters.html
 
@@ -703,4 +725,114 @@ method(get_params_need_tuning, LightGBMHyperparameters) <- function(x) {
     out <- c(out, list(nrounds = NULL))
   }
   out
-} # /get_params_need_tuning.GLMNETHyperparameters
+} # /get_params_need_tuning.LightGBMHyperparameters
+
+
+# LightRuleFitHyperparameters ----
+LightRuleFit_tunable <- c(
+  "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
+  "lambda_l1", "lambda_l2", "alpha"
+)
+LightRuleFit_fixed <- c("lambda")
+LightRuleFit_lightgbm_params <- c(
+  "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
+  "lambda_l1", "lambda_l2"
+)
+LightRuleFit_glmnet_params <- c("alpha", "lambda")
+
+#' @title LightRuleFitHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for LightRuleFit.
+#'
+#' @author EDG
+#' @export
+LightRuleFitHyperparameters <- new_class(
+  name = "LightRuleFitHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(nrounds = NULL,
+                         num_leaves = NULL,
+                         max_depth = NULL,
+                         learning_rate = NULL,
+                         subsample = NULL,
+                         subsample_freq = NULL,
+                         lambda_l1 = NULL,
+                         lambda_l2 = NULL,
+                         # GLMNET
+                         alpha = NULL,
+                         lambda = NULL) {
+    new_object(
+      Hyperparameters(
+        algorithm = "LightRuleFit",
+        hyperparameters = list(
+          nrounds = nrounds,
+          num_leaves = num_leaves,
+          max_depth = max_depth,
+          learning_rate = learning_rate,
+          subsample = subsample,
+          subsample_freq = subsample_freq,
+          lambda_l1 = lambda_l1,
+          lambda_l2 = lambda_l2,
+          # GLMNET
+          alpha = alpha,
+          lambda = lambda
+        ),
+        tunable_hyperparameters = LightRuleFit_tunable,
+        fixed_hyperparameters = LightRuleFit_fixed
+      )
+    )
+  }
+) # /rtemis::LightRuleFitHyperparameters
+
+#' Setup LightRuleFit Hyperparameters
+#'
+#' Setup hyperparameters for LightRuleFit training.
+#'
+#' Get more information from [lightgbm::lgb.train].
+#'
+#' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
+#' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
+#' @param max_depth (Tunable) Integer: Maximum depth of trees.
+#' @param learning_rate (Tunable) Numeric: Learning rate.
+#' @param subsample (Tunable) Numeric: Fraction of data to use.
+#' @param subsample_freq (Tunable) Positive integer: Frequency of subsample.
+#' @param lambda_l1 (Tunable) Numeric: L1 regularization.
+#' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#'
+#' @author EDG
+#' @export
+setup_LightRuleFit <- function(
+    nrounds = 200L,
+    num_leaves = 32L,
+    max_depth = 4L,
+    learning_rate = 0.1,
+    subsample = 0.666,
+    subsample_freq = 1L,
+    lambda_l1 = 0,
+    lambda_l2 = 0,
+    alpha = 1,
+    lambda = NULL) {
+  nrounds <- clean_posint(nrounds)
+  num_leaves <- clean_posint(num_leaves)
+  max_depth <- clean_int(max_depth)
+  check_floatpos1(learning_rate)
+  check_floatpos1(subsample)
+  subsample_freq <- clean_posint(subsample_freq)
+  check_inherits(lambda_l1, "numeric")
+  check_inherits(lambda_l2, "numeric")
+  check_float01inc(alpha)
+  check_inherits(lambda, "numeric")
+  LightRuleFitHyperparameters(
+    nrounds = nrounds,
+    num_leaves = num_leaves,
+    max_depth = max_depth,
+    learning_rate = learning_rate,
+    subsample = subsample,
+    subsample_freq = subsample_freq,
+    lambda_l1 = lambda_l1,
+    lambda_l2 = lambda_l2,
+    alpha = alpha,
+    lambda = lambda
+  )
+} # /rtemis::setup_LightRuleFit
+
