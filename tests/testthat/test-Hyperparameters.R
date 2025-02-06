@@ -22,6 +22,12 @@ test_that("get_params_need_tuning() succeeds", {
   expect_type(get_params_need_tuning(hpr), "list")
 })
 
+# Check printing of hp that need tuning ----
+setup_CART()
+setup_CART(prune.cp = c(.001, .01, .1))
+setup_CART(prune.cp = c(.001, .01, .1), minsplit = c(2L, 10L))
+setup_CART(prune.cp = c(.001, .01, .1), minsplit = c(2L, 10L), minbucket = c(1L, 10L))
+
 # CARTHyperparameters ----
 cart_hpr <- CARTHyperparameters()
 test_that("CARTHyperparameters succeeds", {
@@ -54,6 +60,21 @@ test_that("LightRFHyperparameters succeeds", {
 })
 
 # setup_LightRF ----
+lrf_hpr <- setup_LightRF()
+lrf_hpr
 test_that("setup_LightRF() succeeds", {
   expect_s7_class(setup_LightRF(), LightRFHyperparameters)
+})
+
+# setup_LightGBM ----
+lgbm_hpr <- setup_LightGBM(num_leaves = c(4, 8, 16), learning_rate = c(.001, .01, .1))
+test_that("setup_LightGBM() succeeds", {
+  expect_s7_class(setup_LightGBM(), LightGBMHyperparameters)
+})
+
+# setup_LightRuleFit ----
+lrft_hpr <- setup_LightRuleFit()
+lrft_hpr
+test_that("setup_LightRuleFit() succeeds", {
+  expect_s7_class(setup_LightRuleFit(), LightRuleFitHyperparameters)
 })

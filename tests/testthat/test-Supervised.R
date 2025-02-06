@@ -3,8 +3,8 @@
 # EDG rtemis.org
 
 # Setup progressr ----
-progressr::handlers(global = TRUE)
-progressr::handlers("cli")
+# progressr::handlers(global = TRUE)
+# progressr::handlers("cli")
 
 # Data ----
 ## Regression Data ----
@@ -233,7 +233,7 @@ test_that("train() LightGBM Regression with autotune nrounds succeeds", {
 })
 
 ## CV LightGBM Regression + autotune nrounds grid search ----
-test_that("train() LightGBM Regression with autotune nrounds succeeds", {
+test_that("train() CV LightGBM Regression with autotune nrounds succeeds", {
   cvmod_r_lightgbm <- train(
     x = datr_train,
     dat_testing = datr_test,
@@ -241,7 +241,7 @@ test_that("train() LightGBM Regression with autotune nrounds succeeds", {
     hyperparameters = setup_LightGBM(),
     crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
   )
-  expect_s7_class(mod_r_lightgbm, RegressionCV)
+  expect_s7_class(cvmod_r_lightgbm, RegressionCV)
 })
 
 ## LightRuleFit Regression ----
@@ -310,15 +310,24 @@ test_that("train() LightRF Classification with crossvalidation succeeds", {
   expect_s7_class(mod_c_lightrf_cv, ClassificationCV)
 })
 
-# Multiclass Classification ----
+## LightGBM Binary Classification ----
+mod_c_lightgbm <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "lightgbm"
+)
+test_that("train() LightGBM Classification succeeds", {
+  expect_s7_class(mod_c_lightgbm, Classification)
+})
 
-# train() GLMNET Multiclass Classification ----
-# test_that("train() GLMNET Multiclass Classification with fixed lambda succeeds", {
-#   mod_c_glmnet <- train(
-#     x = datc3_train,
-#     dat_testing = datc3_test,
-#     algorithm = "glmnet",
-#     hyperparameters = setup_GLMNET(lambda = 0.01)
-#   )
-#   expect_s7_class(mod_c_glmnet, Classification)
-# })
+## LightRuleFit Binary Classification ----
+mod_c_lightrlft <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "lightrulefit"
+)
+test_that("train() LightRuleFit Classification succeeds", {
+  expect_s7_class(mod_c_lightrlft, Classification)
+})
+
+# Multiclass Classification ----
