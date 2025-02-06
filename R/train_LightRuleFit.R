@@ -133,7 +133,7 @@ train_LightRuleFit <- function(
     y_levels = levels(x[[ncol(x)]]),
     xnames = names(x)[-ncol(x)],
     complexity_metrics = data.frame(
-      n_rules_total = n_rules_total,
+      n_rules_total = length(lgbm_rules),
       n_nonzero_rules = length(nonzero_index)
     )
   )
@@ -153,7 +153,7 @@ predict_LightRuleFit <- function(model, newdata, type, verbosity = 1L) {
   cases_by_rules <- match_cases_by_rules(newdata, rules, verbosity = verbosity)
   datm <- data.matrix(cases_by_rules)
   if (model@model_lightgbm@type == "Classification") {
-    predicted <- predict(model@model_glmnet@model, newx = datm, type = "response")[, 1]
+    predicted <- predict(model@model_glmnet@model, newx = datm, type = "response")
     if (length(model@y_levels) == 2) {
       predicted[, 1]
     } else {
