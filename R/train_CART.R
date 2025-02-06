@@ -19,8 +19,6 @@
 
 train_CART <- function(
     x,
-    dat_validation = NULL,
-    dat_testing = NULL,
     weights = NULL,
     hyperparameters = setup_CART(),
     tuner_parameters = setup_tuner(),
@@ -37,8 +35,6 @@ train_CART <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
-    dat_testing = dat_testing,
     allow_missing = TRUE,
     verbosity = verbosity
   )
@@ -70,7 +66,7 @@ train_CART <- function(
 
   # Cost-Complexity Pruning ----
   if (!is.null(hyperparameters$prune.cp)) {
-    mod <- rpart::prune(mod, cp = prune.cp)
+    mod <- rpart::prune(mod, cp = hyperparameters$prune.cp)
   }
 
   check_inherits(mod, "rpart")

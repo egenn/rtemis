@@ -12,7 +12,6 @@
 train_LightRF <- function(
     x,
     dat_validation = NULL,
-    dat_testing = NULL,
     weights = NULL,
     hyperparameters = setup_LightRF(),
     tuner_parameters = setup_tuner(),
@@ -33,7 +32,6 @@ train_LightRF <- function(
   check_supervised_data(
     x = x,
     dat_validation = dat_validation,
-    dat_testing = dat_testing,
     allow_missing = TRUE,
     verbosity = verbosity
   )
@@ -46,19 +44,13 @@ train_LightRF <- function(
         factor2integer_startat0 = TRUE
       ),
       dat_validation = dat_validation,
-      dat_testing = dat_testing,
       verbosity = verbosity - 1L
     )
-    if (is.null(dat_validation) && is.null(dat_testing)) {
+    if (is.null(dat_validation)) {
       x <- prp@preprocessed
     } else {
       x <- prp@preprocessed$training
-    }
-    if (!is.null(dat_validation)) {
       dat_validation <- prp@preprocessed$validation
-    }
-    if (!is.null(dat_testing)) {
-      dat_testing <- prp@preprocessed$testing
     }
   } else {
     factor_index <- NULL
@@ -83,18 +75,6 @@ train_LightRF <- function(
         as.integer(dat_validation[[ncol(dat_validation)]]) - 1
       } else {
         dat_validation[[ncol(dat_validation)]]
-      }
-    )
-  }
-
-  if (!is.null(dat_testing)) {
-    dat_testing <- lightgbm::lgb.Dataset(
-      data = as.matrix(dat_testing[, -ncol(dat_testing)]),
-      categorical_feature = factor_index,
-      label = if (type == "Classification") {
-        as.integer(dat_testing[[ncol(dat_testing)]]) - 1
-      } else {
-        dat_testing[[ncol(dat_testing)]]
       }
     )
   }

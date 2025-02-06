@@ -9,10 +9,7 @@
 #' GLMNET does not work in the presence of missing values.
 #'
 #' @param x data.frame or similar: Training set.
-#' @param dat_validation data.frame or similar: Validation set.
-#' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
-#' @param preprocessor_parameters `PreprocessorParameters` object: make using [setup_preprocessor].
 #' @param hyperparameters `GLMNETHyperparameters` object: make using [setup_GLMNET].
 #' @param tuner `Tuner` object: make using [setup_tuner].
 #' @param verbosity Integer: If > 0, print messages.
@@ -22,8 +19,6 @@
 
 train_GLMNET <- function(
     x,
-    dat_validation = NULL,
-    dat_testing = NULL,
     weights = NULL,
     hyperparameters = setup_GLMNET(),
     tuner_parameters = setup_tuner(),
@@ -60,8 +55,6 @@ train_GLMNET <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
-    dat_testing = dat_testing,
     allow_missing = FALSE,
     verbosity = verbosity
   )
