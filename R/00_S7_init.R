@@ -2,11 +2,21 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' Generics
-# Short description for in-line printing.
+# Generics ----
+# Short description for inline printing.
 desc <- new_generic("desc", "x")
-# Full description.
+# Full description for multi-line printing.
 describe <- new_generic("describe", "x")
+# Get parameters that need tuning.
+get_params_need_tuning <- new_generic("get_params_need_tuning", "x")
+# Get parameters.
+get_params <- new_generic("get_params", c("x", "param_names"))
+# Extract rules from a model.
+extract_rules <- new_generic("extract_rules", "x")
+
+# S3 Classes ----
+class_data.table <- new_S3_class("data.table")
+class_lgb.Booster <- new_S3_class("lgb.Booster")
 
 #' Custom S7 validators
 #' 
