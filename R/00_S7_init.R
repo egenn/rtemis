@@ -3,6 +3,8 @@
 # 2025 EDG rtemis.org
 
 # Generics ----
+# Standard error of the fit.
+se <- new_generic("se", "x")
 # Short description for inline printing.
 desc <- new_generic("desc", "x")
 # Full description for multi-line printing.
