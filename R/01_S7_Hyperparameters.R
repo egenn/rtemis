@@ -210,6 +210,43 @@ method(get_params, list(Hyperparameters, class_character)) <- function(x, param_
   sapply(param_names, function(p) x@hyperparameters[p], USE.NAMES = FALSE)
 }
 
+# GAMHyperparameters ----
+GAM_tunable <- c("k")
+GAM_fixed <- character()
+
+GAMHyperparameters <- new_class(
+  name = "GAMHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(k = NULL) {
+    new_object(
+      Hyperparameters(
+        algorithm = "GAM",
+        hyperparameters = list(
+          k = k
+        ),
+        tunable_hyperparameters = GAM_tunable,
+        fixed_hyperparameters = GAM_fixed
+      )
+    )
+  } # /constructor
+) # /rtemis::GAMHyperparameters
+
+#' Setup GAM Hyperparameters
+#' 
+#' Setup hyperparameters for GAM training.
+#' 
+#' Get more information from [mgcv::gam].
+#' 
+#' @param k (Tunable) Integer: Number of knots.
+#' 
+#' @author EDG
+#' @export
+setup_GAM <- function(k = 5L) {
+  k <- clean_posint(k)
+  GAMHyperparameters(k = k)
+} # /rtemis::setup_GAM
+
+
 # CARTHyperparameters ----
 CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp")
 CART_fixed <- c(
