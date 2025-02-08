@@ -22,7 +22,7 @@ Supervised <- new_class(
     model = class_any,
     type = class_character,
     preprocessor = Preprocessor | NULL,
-    hyperparameters = Hyperparameters,
+    hyperparameters = Hyperparameters | NULL,
     tuner = Tuner | NULL,
     y_training = class_any,
     y_validation = class_any,
@@ -84,6 +84,47 @@ Supervised <- new_class(
   }
 ) # /Supervised
 
+# Predict Supervised ----
+#' Predict Supervised
+#'
+#' Predict Method for Supervised objects
+#'
+#' @param object Supervised object.
+#' @param newdata data.frame or similar: New data to predict.
+#' 
+#' @noRd
+method(predict, Supervised) <- function(object, newdata, ...) {
+  check_inherits(newdata, "data.frame")
+  predict_fn <- get_predict_fn(object@algorithm)
+  do_call(predict_fn, list(model = object@model, newdata = newdata))
+} # /predict.Supervised
+
+# Fitted Supervised ----
+#' Fitted Supervised
+#'
+#' Fitted Method for Supervised objects
+#'
+#' @param object Supervised object.
+#'
+#' @keywords internal
+#' @noRd
+method(fitted, Supervised) <- function(object, ...) {
+  object@predicted_training
+} # /fitted.Supervised
+
+# Standard Error Supervised ----
+#' Standard Error Supervised
+#' 
+#' Standard Error Method for Supervised objects
+#' 
+#' @param object Supervised object.
+#' 
+#' @keywords internal
+#' @noRd
+method(se, Supervised) <- function(x, ...) {
+  x@se_training
+} # /se.Supervised
+
 # Print Supervised ----
 #' Print Supervised
 #'
@@ -131,7 +172,7 @@ method(plot_varimp, Supervised) <- function(x,
     msg2(hilite2("No variable importance available."))
     return(invisible(NULL))
   }
-  dplot3_varimp(x@varimp, theme = theme, filename = filename, ...)
+  draw_varimp(x@varimp, theme = theme, filename = filename, ...)
 } # /plot_varimp.Supervised
 
 # Describe Supervised ----
@@ -336,6 +377,8 @@ Classification <- new_class(
   }
 ) # /Clasiffication
 
+se_compat_algorithms <- c("GLM", "GAM")
+
 # Regression ----
 #' @title Regression
 #' @description
@@ -347,9 +390,9 @@ Regression <- new_class(
   name = "Regression",
   parent = Supervised,
   properties = list(
-    se_training = NULL,
-    se_validation = NULL,
-    se_testing = NULL
+    se_training = class_double | NULL,
+    se_validation = class_double | NULL,
+    se_testing = class_double | NULL
   ),
   constructor = function(algorithm = NULL,
                          model = NULL,
@@ -369,6 +412,7 @@ Regression <- new_class(
                          varimp = NULL,
                          question = NULL,
                          extra = NULL) {
+    # Metrics ----
     metrics_training <- regression_metrics(
       y_training, predicted_training,
       sample = "Training"
@@ -418,7 +462,41 @@ Regression <- new_class(
   }
 ) # /Regression
 
-# Make Supervised ----
+# Plot Regression ----
+#' @name plot.Regression
+#'
+#' @title Plot Regression
+#'
+#' @param x Regression object.
+#' @param what Character vector: What to plot. Can include "training", "validation", "testing", or
+#' "all", which will plot all available of the above.
+#'
+#' @author EDG
+method(plot, Regression) <- function(x, what = "all", fit = "gam", theme = "darkgraygrid", ...) {
+  if (length(what) == 1 && what == "all") {
+    what <- c("training", "validation", "testing")
+  }
+  true <- paste0("y_", what)
+  true_l <- Filter(
+    Negate(is.null),
+    sapply(true, function(z) prop(x, z))
+  )
+  predicted <- paste0("predicted_", what)
+  predicted_l <- Filter(
+    Negate(is.null),
+    sapply(predicted, function(z) prop(x, z))
+  )
+  draw_fit(
+    x = true_l,
+    y = predicted_l,
+    # fit = fit, # change when GAM is available
+    fit = "none",
+    theme = theme,
+    ...
+  )
+} # /rtemis::plot.Regression
+
+# make_Supervised() ----
 make_Supervised <- function(
     algorithm = NULL,
     model = NULL,
@@ -608,6 +686,35 @@ method(print, SupervisedCV) <- function(x) {
   print(x@metrics_testing)
 } # /SupervisedCV
 
+# Predict SupervisedCV ----
+#' Predict SupervisedCV
+#'
+#' Predict Method for SupervisedCV objects
+#'
+#' @param object SupervisedCV object.
+#' @param newdata data.frame or similar: New data to predict.
+#' @param type Character: Type of prediction to output: "avg" applies `avg_fn` (default "mean") to
+#' the predictions of individual models, "all" returns the predictions of all models in a
+#' data.frame. "metrics" returns a list of data.frames with a) predictions from each model, b)
+#' the mean of the predictions, and c) the standard deviation of the predictions.
+#' 
+#' @keywords internal
+#' @noRd
+method(predict, SupervisedCV) <- function(object, newdata, type = "avg", avg_fn = "mean", ...) {
+  check_inherits(newdata, "data.frame")
+  predict_fn <- get_predict_fn(object@algorithm)
+  predicted <- lapply(object@models, function(mod) do_call(predict_fn, list(model = mod, newdata = newdata)))
+  
+  if (type == "metrics") {
+    predictions_df <- do.call(rbind, predicted)
+    mean_predictions <- apply(predictions_df, 2, mean)
+    sd_predictions <- apply(predictions_df, 2, sd)
+    return(list(predictions = predictions_df, mean = mean_predictions, sd = sd_predictions))
+  }
+  
+  predicted
+}
+
 # ClassificationCV ----
 #' @title ClassificationCV
 #'
@@ -715,19 +822,6 @@ RegressionCV <- new_class(
                          extra = NULL) {
     metrics_training <- lapply(models, function(mod) mod@metrics_training@metrics)
     metrics_testing <- lapply(models, function(mod) mod@metrics_testing@metrics)
-    # metrics_training <- Filter(
-    #   Negate(is.null), lapply(models, function(mod) mod@metrics_training@metrics)
-    # )
-    # metrics_testing <- Filter(
-    #   Negate(is.null), lapply(models, function(mod) mod@metrics_testing@metrics)
-    # )
-    # metrics_training_mean <- colMeans(do.call(rbind, metrics_training))
-    # metrics_testing_mean <- if (length(metrics_testing) > 0) {
-    #   colMeans(do.call(rbind, metrics_testing))
-    # } else {
-    #   NULL
-    # }
-    # metrics_testing_mean <- try(colMeans(do.call(rbind, metrics_testing)), silent = TRUE)
     metrics_training <- RegressionMetricsCV(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)
