@@ -210,19 +210,52 @@ method(get_params, list(Hyperparameters, class_character)) <- function(x, param_
   sapply(param_names, function(p) x@hyperparameters[p], USE.NAMES = FALSE)
 }
 
+
+# GLMHyperparameters ----
+GLMHyperparameters <- new_class(
+  name = "GLMHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(ifw = NULL) {
+    new_object(
+      Hyperparameters(
+        algorithm = "GLM",
+        hyperparameters = list(
+          ifw = ifw
+        ),
+        tunable_hyperparameters = "ifw",
+        fixed_hyperparameters = character()
+      )
+    )
+  } # /constructor
+) # /rtemis::GLMHyperparameters
+
+#' Setup GLM Hyperparameters
+#' 
+#' Setup hyperparameters for GLM training.
+#' 
+#' There are no hyperparameters to set for GLM.
+#' 
+#' @author EDG
+#' @keywords internal
+#' @noRd
+setup_GLM <- function(ifw = FALSE) {
+  GLMHyperparameters(ifw = ifw)
+}
+
 # GAMHyperparameters ----
-GAM_tunable <- c("k")
+GAM_tunable <- c("k", "ifw")
 GAM_fixed <- character()
 
 GAMHyperparameters <- new_class(
   name = "GAMHyperparameters",
   parent = Hyperparameters,
-  constructor = function(k = NULL) {
+  constructor = function(k = NULL, ifw = FALSE) {
     new_object(
       Hyperparameters(
         algorithm = "GAM",
         hyperparameters = list(
-          k = k
+          k = k,
+          ifw = ifw
         ),
         tunable_hyperparameters = GAM_tunable,
         fixed_hyperparameters = GAM_fixed
@@ -241,14 +274,14 @@ GAMHyperparameters <- new_class(
 #' 
 #' @author EDG
 #' @export
-setup_GAM <- function(k = 5L) {
+setup_GAM <- function(k = 5L, ifw = FALSE) {
   k <- clean_posint(k)
   GAMHyperparameters(k = k)
 } # /rtemis::setup_GAM
 
 
 # CARTHyperparameters ----
-CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp")
+CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp", "ifw")
 CART_fixed <- c(
   "method", "model", "maxcompete", "maxsurrogate", "usesurrogate", "surrogatestyle",
   "xval", "cost"
@@ -276,7 +309,8 @@ CARTHyperparameters <- new_class(
                          usesurrogate = NULL,
                          surrogatestyle = NULL,
                          xval = NULL,
-                         cost = NULL) {
+                         cost = NULL,
+                         ifw = NULL) {
     new_object(
       Hyperparameters(
         algorithm = "CART",
@@ -293,7 +327,8 @@ CARTHyperparameters <- new_class(
           usesurrogate = usesurrogate,
           surrogatestyle = surrogatestyle,
           xval = xval,
-          cost = cost
+          cost = cost,
+          ifw = ifw
         ),
         tunable_hyperparameters = CART_tunable,
         fixed_hyperparameters = CART_fixed
@@ -339,7 +374,8 @@ setup_CART <- function(
     usesurrogate = 2L,
     surrogatestyle = 0L,
     xval = 0L,
-    cost = NULL) {
+    cost = NULL,
+    ifw = FALSE) {
   check_inherits(cp, "numeric")
   maxdepth <- clean_int(maxdepth)
   minsplit <- clean_int(minsplit)
@@ -366,7 +402,8 @@ setup_CART <- function(
     usesurrogate = usesurrogate,
     surrogatestyle = surrogatestyle,
     xval = xval,
-    cost = cost
+    cost = cost,
+    ifw = ifw
   )
 } # /setup_CART
 
@@ -374,7 +411,7 @@ setup_CART <- function(
 stopifnot(all(c(CART_tunable, CART_fixed) %in% names(formals(setup_CART))))
 
 # GLMNETHyperparameters ----
-GLMNET_tunable <- "alpha"
+GLMNET_tunable <- c("alpha", "ifw")
 GLMNET_fixed <- c(
   "family", "offset", "which.cv.lambda", "nlambda", "penalty.factor", "standardize", "intercept"
 )
@@ -397,7 +434,8 @@ GLMNETHyperparameters <- new_class(
                          lambda = NULL,
                          penalty.factor = NULL,
                          standardize = NULL,
-                         intercept = TRUE) {
+                         intercept = TRUE,
+                         ifw = NULL) {
     check_float01inc(alpha)
     check_inherits(which.cv.lambda, "character")
     nlambda <- clean_posint(nlambda)
@@ -415,7 +453,8 @@ GLMNETHyperparameters <- new_class(
           lambda = lambda,
           penalty.factor = penalty.factor,
           standardize = standardize,
-          intercept = intercept
+          intercept = intercept,
+          ifw = ifw
         ),
         tunable_hyperparameters = GLMNET_tunable,
         fixed_hyperparameters = GLMNET_fixed
@@ -450,12 +489,14 @@ setup_GLMNET <- function(
     lambda = NULL,
     penalty.factor = NULL,
     standardize = TRUE,
-    intercept = TRUE) {
+    intercept = TRUE,
+    ifw = FALSE) {
   check_float01inc(alpha)
   check_inherits(which.cv.lambda, "character")
   nlambda <- clean_posint(nlambda)
   check_inherits(penalty.factor, "numeric")
-  check_inherits(standardize, "logical")
+  check_logical(standardize)
+  check_logical(ifw)
   GLMNETHyperparameters(
     family = family,
     offset = offset,
@@ -465,7 +506,8 @@ setup_GLMNET <- function(
     lambda = lambda,
     penalty.factor = penalty.factor,
     standardize = standardize,
-    intercept = intercept
+    intercept = intercept,
+    ifw = ifw
   )
 } # /setup_GLMNET
 
@@ -481,11 +523,98 @@ method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
   out
 } # /get_params_need_tuning.GLMNETHyperparameters
 
+# LightCARTHyperparameters ----
+LightCART_tunable <- c(
+  "num_leaves", "max_depth", "lambda_l1", "lambda_l2", "max_cat_threshold",
+  "min_data_per_group", "linear_tree", "ifw"
+)
+LightCART_fixed <- character()
+
+#' @title LightCARTHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for LightCART
+#'
+#' @author EDG
+#' @export
+LightCARTHyperparameters <- new_class(
+  name = "LightCARTHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(num_leaves = NULL,
+                         max_depth = NULL,
+                         lambda_l1 = NULL,
+                         lambda_l2 = NULL,
+                         max_cat_threshold = NULL,
+                         min_data_per_group = NULL,
+                         linear_tree = NULL,
+                         ifw = FALSE) {
+    new_object(
+      Hyperparameters(
+        algorithm = "LightCART",
+        hyperparameters = list(
+          num_leaves = num_leaves,
+          max_depth = max_depth,
+          lambda_l1 = lambda_l1,
+          lambda_l2 = lambda_l2,
+          max_cat_threshold = max_cat_threshold,
+          min_data_per_group = min_data_per_group,
+          linear_tree = linear_tree,
+          ifw = ifw
+        ),
+        tunable_hyperparameters = LightCART_tunable,
+        fixed_hyperparameters = LightCART_fixed
+      )
+    )
+  } # /constructor
+) # /rtemis::LightCARTHyperparameters
+
+#' Setup LightCART Hyperparameters
+#' 
+#' Setup hyperparameters for LightCART training.
+#' 
+#' Get more information from [lightgbm::lgb.train].
+#' 
+#' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
+#' @param max_depth (Tunable) Integer: Maximum depth of trees.
+#' @param lambda_l1 (Tunable) Numeric: L1 regularization.
+#' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
+#' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
+#' @param linear_tree (Tunable) Logical: If TRUE, use linear trees.
+#' 
+#' @author EDG
+#' @export
+setup_LightCART <- function(
+    num_leaves = 31L,
+    max_depth = -1L,
+    lambda_l1 = 0,
+    lambda_l2 = 0,
+    max_cat_threshold = 32L,
+    min_data_per_group = 100L,
+    linear_tree = FALSE) {
+  num_leaves <- clean_posint(num_leaves)
+  max_depth <- clean_int(max_depth)
+  check_float01inc(lambda_l1)
+  check_float01inc(lambda_l2)
+  max_cat_threshold <- clean_posint(max_cat_threshold)
+  min_data_per_group <- clean_posint(min_data_per_group)
+  check_logical(linear_tree)
+  LightCARTHyperparameters(
+    num_leaves = num_leaves,
+    max_depth = max_depth,
+    lambda_l1 = lambda_l1,
+    lambda_l2 = lambda_l2,
+    max_cat_threshold = max_cat_threshold,
+    min_data_per_group = min_data_per_group,
+    linear_tree = linear_tree
+  )
+} # /rtemis::setup_LightCART
+
 
 # LightRFHyperparameters ----
 LightRF_tunable <- c(
   "nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample",
-  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group"
+  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "ifw"
 )
 LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner")
 
@@ -509,6 +638,7 @@ LightRFHyperparameters <- new_class(
                          max_cat_threshold = NULL,
                          min_data_per_group = NULL,
                          linear_tree = NULL,
+                         ifw = NULL,
                          # fixed LightGBM params for RF
                          subsample_freq = 1L,
                          early_stopping_rounds = -1L,
@@ -527,6 +657,7 @@ LightRFHyperparameters <- new_class(
           max_cat_threshold = max_cat_threshold,
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
+          ifw = ifw,
           subsample_freq = subsample_freq,
           early_stopping_rounds = early_stopping_rounds,
           tree_learner = tree_learner
@@ -570,7 +701,8 @@ setup_LightRF <- function(
     lambda_l2 = 0,
     max_cat_threshold = 32L,
     min_data_per_group = 32L,
-    linear_tree = FALSE) {
+    linear_tree = FALSE,
+    ifw = FALSE) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
   maxdepth <- clean_int(maxdepth)
@@ -591,7 +723,8 @@ setup_LightRF <- function(
     lambda_l2 = lambda_l2,
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group,
-    linear_tree = linear_tree
+    linear_tree = linear_tree,
+    ifw = ifw
   )
 } # /rtemis::setupLightRF
 
@@ -603,7 +736,7 @@ stopifnot(all(LightRF_tunable %in% names(formals(setup_LightRF))))
 # LightGBMHyperparameters ----
 LightGBM_tunable <- c(
   "num_leaves", "max_depth", "learning_rate", "feature_fraction", "subsample", "subsample_freq",
-  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "linear_tree"
+  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "linear_tree", "ifw"
 )
 LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds")
 
@@ -631,7 +764,8 @@ LightGBMHyperparameters <- new_class(
                          lambda_l2 = NULL,
                          max_cat_threshold = NULL,
                          min_data_per_group = NULL,
-                         linear_tree = NULL) {
+                         linear_tree = NULL,
+                         ifw = NULL) {
     nrounds <- if (!is.null(force_nrounds)) {
       force_nrounds
     } else {
@@ -654,7 +788,8 @@ LightGBMHyperparameters <- new_class(
           lambda_l2 = lambda_l2,
           max_cat_threshold = max_cat_threshold,
           min_data_per_group = min_data_per_group,
-          linear_tree = linear_tree
+          linear_tree = linear_tree,
+          ifw = ifw
         ),
         tunable_hyperparameters = LightGBM_tunable,
         fixed_hyperparameters = LightGBM_fixed
@@ -719,7 +854,8 @@ setup_LightGBM <- function(
     lambda_l2 = 0,
     max_cat_threshold = 32L,
     min_data_per_group = 32L,
-    linear_tree = FALSE) {
+    linear_tree = FALSE,
+    ifw = FALSE) {
   max_nrounds <- clean_posint(max_nrounds)
   force_nrounds <- clean_posint(force_nrounds)
   early_stopping_rounds <- clean_posint(early_stopping_rounds)
@@ -748,7 +884,8 @@ setup_LightGBM <- function(
     lambda_l2 = lambda_l2,
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group,
-    linear_tree = linear_tree
+    linear_tree = linear_tree,
+    ifw = ifw
   )
 } # /rtemis::setupLightGBM
 
@@ -768,7 +905,7 @@ method(get_params_need_tuning, LightGBMHyperparameters) <- function(x) {
 # LightRuleFitHyperparameters ----
 LightRuleFit_tunable <- c(
   "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
-  "lambda_l1", "lambda_l2", "alpha"
+  "lambda_l1", "lambda_l2", "alpha", "ifw_lightgbm", "ifw_glmnet"
 )
 LightRuleFit_fixed <- c("lambda")
 LightRuleFit_lightgbm_params <- c(
@@ -795,9 +932,13 @@ LightRuleFitHyperparameters <- new_class(
                          subsample_freq = NULL,
                          lambda_l1 = NULL,
                          lambda_l2 = NULL,
+                         ifw_lightgbm = NULL,
                          # GLMNET
                          alpha = NULL,
-                         lambda = NULL) {
+                         lambda = NULL,
+                         ifw_glmnet = NULL,
+                         # IFW
+                         ifw = NULL) {
     new_object(
       Hyperparameters(
         algorithm = "LightRuleFit",
@@ -810,9 +951,13 @@ LightRuleFitHyperparameters <- new_class(
           subsample_freq = subsample_freq,
           lambda_l1 = lambda_l1,
           lambda_l2 = lambda_l2,
+          ifw_lightgbm = ifw_lightgbm,
           # GLMNET
           alpha = alpha,
-          lambda = lambda
+          lambda = lambda,
+          ifw_glmnet = ifw_glmnet,
+          # IFW
+          ifw = ifw
         ),
         tunable_hyperparameters = LightRuleFit_tunable,
         fixed_hyperparameters = LightRuleFit_fixed
@@ -847,8 +992,11 @@ setup_LightRuleFit <- function(
     subsample_freq = 1L,
     lambda_l1 = 0,
     lambda_l2 = 0,
+    ifw_lightgbm = FALSE,
     alpha = 1,
-    lambda = NULL) {
+    lambda = NULL,
+    ifw_glmnet = FALSE,
+    ifw = FALSE) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
   max_depth <- clean_int(max_depth)
@@ -859,6 +1007,18 @@ setup_LightRuleFit <- function(
   check_inherits(lambda_l2, "numeric")
   check_float01inc(alpha)
   check_inherits(lambda, "numeric")
+  check_logical(ifw_lightgbm)
+  check_logical(ifw_glmnet)
+  check_logical(ifw)
+  # If ifw, cannot have ifw_lightgbm or ifw_glmnet
+  if (ifw) {
+    if (ifw_lightgbm) {
+      stop("Cannot set ifw and ifw_lightgbm at the same time.")
+    }
+    if (ifw_glmnet) {
+      stop("Cannot set ifw and ifw_glmnet at the same time.")
+    }
+  }
   LightRuleFitHyperparameters(
     nrounds = nrounds,
     num_leaves = num_leaves,
@@ -868,8 +1028,11 @@ setup_LightRuleFit <- function(
     subsample_freq = subsample_freq,
     lambda_l1 = lambda_l1,
     lambda_l2 = lambda_l2,
+    ifw_lightgbm = ifw_lightgbm,
     alpha = alpha,
-    lambda = lambda
+    lambda = lambda,
+    ifw_glmnet = ifw_glmnet,
+    ifw = ifw
   )
 } # /rtemis::setup_LightRuleFit
 
