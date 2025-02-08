@@ -37,7 +37,15 @@ train_LightRuleFit <- function(
   )
   type <- supervised_type(x)
   nclasses <- if (type == "Classification") length(levels(x[[ncol(x)]])) else -1
-  
+
+  # IFW for LightGBM ----
+  # You can choose to use IFW for both steps with `ifw = TRUE` OR control each steps individually using `ifw_lightgbm` and `ifw_glmnet`.
+  lightgbm_weights <- if (hyperparameters@ifw_lightgbm) {
+    ifw(x[[ncol(x)]], verbosity = verbosity)
+  } else {
+    weights
+  }
+
   # Train Gradient Boosting using LightGBM ----
   # LightRuleFit_tunable includes the names of all LightGBM hyperparameters used by LightRuleFit.
   lgbm_parameters <- update(
@@ -65,6 +73,13 @@ train_LightRuleFit <- function(
   # Match cases x rules ----
   cases_by_rules <- match_cases_by_rules(x, lgbm_rules, verbosity = verbosity)
 
+  # IFW for LASSO ----
+  glmnet_weights <- if (hyperparameters@ifw_glmnet) {
+    ifw(x[[ncol(x)]], verbosity = verbosity)
+  } else {
+    weights
+  }
+
   # LASSO: Select Rules ----
   lasso_hyperparameters <- setup_GLMNET(
     alpha = hyperparameters$alpha,
@@ -75,6 +90,7 @@ train_LightRuleFit <- function(
   mod_glmnet <- train(
     dat_rules,
     hyperparameters = lasso_hyperparameters,
+    weights = glmnet_weights,
     verbosity = verbosity
   )
 
@@ -162,7 +178,6 @@ predict_LightRuleFit <- function(model, newdata, type, verbosity = 1L) {
   } else {
     as.numeric(predict(model@model_glmnet@model, newx = datm))
   }
-
 } # /rtemis::predict_LightRuleFit
 
 #' Get variable importance from LightRuleFit model
