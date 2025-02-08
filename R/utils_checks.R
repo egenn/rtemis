@@ -383,3 +383,35 @@ do_call <- function(
 abbreviate_class <- function(x, n = 4L) {
   paste0("<", abbreviate(class(x)[1], minlength = n), ">")
 } # /rtemis::abbr_class
+
+
+# check_dependencies.R
+# ::rtemis::
+# 2022 EDG rtemis.org
+# replaced depCheck
+
+#' \pkg{rtemis} internal: Dependencies check
+#'
+#' Checks if dependencies can be loaded; names missing dependencies if not.
+#'
+#' @param ... List or vector of strings defining namespaces to be checked
+#' @param verbosity Integer: Verbosity level.
+#' Note: An error will always printed if dependencies are missing.
+#' Setting this to FALSE stops it from printing
+#' "Dependencies check passed".
+#'
+#' @author EDG
+#' @export
+
+check_dependencies <- function(..., verbosity = 0L) {
+  ns <- as.list(c(...))
+  err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))
+  if (any(err)) {
+    stop(
+      "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
+      pastels(ns[err], bullet = "    -")
+    )
+  } else {
+    if (verbosity > 0L) msg2("Dependency check passed", as.message = FALSE)
+  }
+} # rtemis::check_dependencies
