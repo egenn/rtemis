@@ -568,3 +568,174 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 
   preprocess(x, params, verbosity = verbosity)
 } # /rtemis::preprocess(Preprocessor, ...)
+
+
+# one_hot.R
+# ::rtemis::
+# 2019 EDG rtemis.org
+
+#' One hot encoding
+#'
+#' One hot encode a vector or factors in a data.frame
+#'
+#' A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
+#' only column of type factor will be one-hot encoded.
+#' This function is used by [preprocess].
+#' `one_hot.data.table` operates on a copy of its input.
+#' `one_hot_` performs one-hot encoding in-place.
+#'
+#' @param x Vector or data.frame
+#' @param xname Character: Variable name
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @return For vector input, a one-hot-encoded matrix, for data.frame frame
+#' input, an expanded data.frame where all factors are one-hot encoded
+#' @author EDG
+#' @export
+#' @examples
+#' \dontrun{
+#' iris_oh <- one_hot(iris)
+#' # factor with only one unique value but 2 levels:
+#' vf <- factor(rep("alpha", 20), levels = c("alpha", "beta"))
+#' vf_one_hot <- one_hot(vf)
+#' }
+one_hot <- function(x,
+                    xname = NULL,
+                    verbosity = 0L) {
+  UseMethod("one_hot", x)
+} # rtemis::one_hot
+
+
+#' @rdname one_hot
+#' @export
+
+one_hot.default <- function(x,
+                            xname = NULL,
+                            verbosity = 1L) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  # ensures if factor without all levels present, gets all columns created
+  if (!is.factor(x)) x <- factor(x)
+  .levels <- levels(x)
+  ncases <- NROW(x)
+  index <- as.integer(x)
+  oh <- matrix(0, ncases, length(.levels))
+  colnames(oh) <- paste(xname, .levels, sep = "_")
+  for (i in seq(ncases)) oh[i, index[i]] <- 1
+  oh
+} # rtemis::one_hot.default
+
+
+# included for benchmarking mostly
+one_hotcm <- function(x,
+                      xname = deparse(substitute(x)),
+                      return = "data.frame") {
+  stopifnot(is.factor(x))
+  dt <- data.table(
+    ID = seq_along(x),
+    x = x
+  )
+  setnames(dt, "x", xname)
+  out <- dcast(melt(dt, id.vars = "ID"), ID ~ variable + value, fun.aggregate = length)[, -1]
+  if (return == "data.frame") setDF(out)
+  out
+}
+
+# loop is faster than dcast/melt
+# x <- iris$Species
+# microbenchmark::microbenchmark(loop = one_hot.default(x), dt = one_hotcm(x))
+
+#' @rdname one_hot
+#' @export
+#' @examples
+#' one_hot(iris) |> head()
+one_hot.data.frame <- function(x,
+                               xname = NULL,
+                               factor_levels = NULL,
+                               verbosity = 1L) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  ncases <- NROW(x)
+  factor_index <- which(sapply(x, is.factor))
+  # If factor_levels list is provided, check column names match
+  if (!is.null(factor_levels)) {
+    stopifnot(identical(names(factor_levels), colnames(x[, factor_index])))
+  }
+  one.hot <- as.list(x)
+  if (verbosity > 0L) .names <- colnames(x)
+  for (i in factor_index) {
+    if (verbosity > 0L) msg20("One hot encoding ", .names[i], "...")
+    .levles <- if (!is.null(factor_levels)) {
+      factor_levels[[i]]
+    } else {
+      levels(x[[i]])
+    }
+    index <- as.numeric(x[, i])
+    oh <- matrix(0, ncases, length(.levels))
+    colnames(oh) <- paste(xname, .levels, sep = "_")
+    for (j in seq(ncases)) oh[j, index[j]] <- 1
+    one.hot[[i]] <- oh
+  }
+  if (verbosity > 0L) msg2("Done")
+  as.data.frame(one.hot)
+} # rtemis::one_hot.data.frame
+
+
+#' @rdname one_hot
+#'
+#' @export
+#' @examples
+#' ir <- data.table::as.data.table(iris)
+#' ir_oh <- one_hot(ir)
+#' ir_oh
+one_hot.data.table <- function(x,
+                               xname = NULL,
+                               verbosity = 1L) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  x <- copy(x)
+  ncases <- NROW(x)
+  factor_index <- which(sapply(x, is.factor))
+  .names <- colnames(x)
+  for (i in factor_index) {
+    if (verbosity > 0L) info(paste0("One hot encoding ", .names[i], "..."))
+    .levels <- levels(x[[i]])
+    index <- as.numeric(x[[i]])
+    oh <- as.data.table(matrix(0, ncases, length(.levels)))
+    .colnames <- colnames(oh) <- paste(xname, .levels, sep = "_")
+    for (k in seq_along(.levels)) oh[index == k, (.colnames[k]) := 1]
+    x[, (paste(.names[i], .levels, sep = "_")) := oh]
+  }
+  # remove original factor(s)
+  x[, paste(.names[factor_index]) := NULL]
+  if (verbosity > 0L) msg2("Done")
+  invisible(x)
+} # rtemis::one_hot.data.table
+
+
+#' @rdname one_hot
+#'
+#' @export
+#' @examples
+#' ir <- data.table::as.data.table(iris)
+#' # dt_set_one_hot operates in-place; therefore no assignment is used:
+#' dt_set_one_hot(ir)
+#' ir
+dt_set_one_hot <- function(x,
+                           xname = NULL,
+                           verbosity = 1L) {
+  if (is.null(xname)) xname <- deparse(substitute(x))
+  ncases <- NROW(x)
+  factor_index <- which(sapply(x, is.factor))
+  .names <- colnames(x)
+  for (i in factor_index) {
+    if (verbosity > 0L) info(paste0("One hot encoding ", .names[i], "..."))
+    .levels <- levels(x[[i]])
+    index <- as.numeric(x[[i]])
+    oh <- as.data.table(matrix(0, ncases, length(.levels)))
+    .colnames <- colnames(oh) <- paste(xname, .levels, sep = "_")
+    for (k in seq_along(.levels)) oh[index == k, (.colnames[k]) := 1]
+    x[, (paste(.names[i], .levels, sep = "_")) := oh]
+  }
+  # remove original factor(s)
+  x[, paste(.names[factor_index]) := NULL]
+  if (verbosity > 0L) msg2("Done")
+  invisible(x)
+} # rtemis::dt_set_one_hot
