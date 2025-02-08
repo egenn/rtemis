@@ -151,9 +151,9 @@ resample <- function(x,
 
 #' Bootstrap Resampling
 #'
-#' @param x Input vector
-#' @param n_resamples Integer: Number of resamples to make. Default = 10
-#' @param seed Integer: If provided, set seed for reproducibility. Default = NULL
+#' @param x Input vector.
+#' @param n_resamples Integer: Number of resamples to make.
+#' @param seed Integer: If provided, set seed for reproducibility.
 #' @author EDG
 #' @export
 
@@ -174,8 +174,8 @@ bootstrap <- function(x, n_resamples = 10,
 #' K-fold Resampling
 #'
 #' @inheritParams resample
-#' @param x Input Vector
-#' @param k Integer: Number of folds. Default = 10
+#' @param x Input Vector.
+#' @param k Integer: Number of folds.
 #' @author EDG
 #' @export
 
