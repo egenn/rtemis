@@ -5,67 +5,76 @@
 
 #' Volcano Plot
 #'
-#' @inheritParams draw_scatter
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
-#' @param xnames Character vector: `x` names
+#' @param pvals Numeric vector: p-values.
+#' @param xnames Character vector: `x` names.
 #' @param group Factor: Used to color code points. If NULL, significant points
 #' below `x_thresh`, non-significant points, and significant points
 #' above `x_thresh` will be plotted with the first, second and third
-#' color fo `palette`
-#' @param x_thresh Numeric x-axis threshold separating low from high
-#' @param pvals Numeric vector: p-values
+#' color of `palette`.
+#' @param x_thresh Numeric x-axis threshold separating low from high.
 #' @param p_thresh Numeric: p-value threshold of significance.
 #' @param p_transform function.
 #' @param p_adjust_method Character: p-value adjustment method.
-#' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
+#' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".
 #' Default = "holm". Use "none" for raw p-values.
 #' @param legend Logical: If TRUE, show legend. Will default to FALSE, if
-#' `group = NULL`, otherwise to TRUE
+#' `group = NULL`, otherwise to TRUE.
 #' @param legend_lo Character: Legend to annotate significant points below the
-#' `x_thresh`
+#' `x_thresh`.
 #' @param legend_hi Character: Legend to annotate significant points above the
-#' `x_thresh`
-#' @param legend_x_lo Numeric: x position of `legend_lo`
-#' @param legend_x_hi Numeric: x position of `legend_hi`
-#' @param legend_y Numeric: y position for `legend_lo` and `legend_hi`
-#' @param annotate Logical: If TRUE, annotate significant points
-#' @param annotate_n Integer: Number of significant points to annotate
-#' @param ax_lo Numeric: Sets the x component of the arrow tail about the arrow head for
-#' significant points below `x_thresh`
-#' @param ay_lo Numeric: Sets the y component of the arrow tail about the arrow head for
-#' significant points below `x_thresh`
-#' @param ax_hi Numeric: Sets the x component of the arrow tail about the arrow head for
-#' significant points above `x_thresh`
-#' @param ay_hi Numeric: Sets the y component of the arrow tail about the arrow head for
-#' significant points above `x_thresh`
-#' @param label_lo Character: label for low values
-#' @param label_hi Character: label for high values
-#' @param xlab Character: x-axis label
-#' @param ylab Character: y-axis label
+#' `x_thresh`.
+#' @param label_lo Character: label for low values.
+#' @param label_hi Character: label for high values.
+#' @param main Character: Main title.
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
 #' @param margin Named list of plot margins.
-#' Default = `list(b = 65, l = 65, t = 50, r = 10, pad = 0)`
-#' @param xlim Numeric vector, length 2: x-axis limits
-#' @param ylim Numeric vector, length 2: y-axis limits
-#' @param alpha Numeric: point transparency
+#' Default = `list(b = 65, l = 65, t = 50, r = 10, pad = 0)`.
+#' @param xlim Numeric vector, length 2: x-axis limits.
+#' @param ylim Numeric vector, length 2: y-axis limits.
+#' @param alpha Numeric: point transparency.
 #' @param hline Numeric: If defined, draw a horizontal line at this y value.
 #' @param hline_col Color for `hline`.
 #' @param hline_width Numeric: Width for `hline`.
 #' @param hline_dash Character: Type of line to draw: "solid", "dot", "dash",
-#' "longdash", "dashdot",
-#' or "longdashdot"
+#' "longdash", "dashdot", or "longdashdot".
 #' @param hline_annotate Character: Text of horizontal line annotation if
-#' `hline` is set
+#' `hline` is set.
 #' @param hline_annotation_x Numeric: x position to place annotation with paper
-#' as reference. 0: to the left of the plot area; 1: to the right of the plot area
-#' @param annotate Logical: If TRUE, annotate significant points
-#' @param annotate_col Color for annotations
-#' @param annotate_alpha Numeric: Transparency for annotations
+#' as reference. 0: to the left of the plot area; 1: to the right of the plot area.
+#' @param annotate Logical: If TRUE, annotate significant points.
+#' @param annotate_col Color for annotations.
+#' @param theme Output of an rtemis theme function (list of parameters) or theme
+#' name. Use `themes()` to print available themes.
+#' @param font_size Integer: Font size.
+#' @param palette Character: Name of \pkg{rtemis} palette to use.
+#' @param legend_x_lo Numeric: x position of `legend_lo`.
+#' @param legend_x_hi Numeric: x position of `legend_hi`.
+#' @param legend_y Numeric: y position for `legend_lo` and `legend_hi`.
+#' @param annotate_n Integer: Number of significant points to annotate.
+#' @param ax_lo Numeric: Sets the x component of the arrow tail about the arrow head for
+#' significant points below `x_thresh`.
+#' @param ay_lo Numeric: Sets the y component of the arrow tail about the arrow head for
+#' significant points below `x_thresh`.
+#' @param ax_hi Numeric: Sets the x component of the arrow tail about the arrow head for
+#' significant points above `x_thresh`.
+#' @param ay_hi Numeric: Sets the y component of the arrow tail about the arrow head for
+#' significant points above `x_thresh`.
+#' @param annotate_alpha Numeric: Transparency for annotations.
+#' @param hovertext Character vector: Text to display on hover.
+#' @param displayModeBar Logical: If TRUE, display plotly mode bar.
+#' @param filename Character: Path to save the plot image.
+#' @param file_width Numeric: Width of the saved plot image.
+#' @param file_height Numeric: Height of the saved plot image.
+#' @param file_scale Numeric: Scale of the saved plot image.
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Additional parameters passed to [draw_scatter]
+#' @param ... Additional parameters passed to [draw_scatter].
 #'
+#' @return A plotly object.
+#' 
 #' @author EDG
 #' @export
-#'
 #' @examples
 #' \dontrun{
 #' set.seed(2019)
@@ -119,7 +128,6 @@ draw_volcano <- function(x, pvals,
                          annotate_alpha = .7,
                          hovertext = NULL,
                          displayModeBar = FALSE,
-                         #    mathjax = "cdn",
                          filename = NULL,
                          file_width = 500,
                          file_height = 500,

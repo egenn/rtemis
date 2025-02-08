@@ -19,7 +19,7 @@
 #' @param x2 Datetime vector or list of vectors, optional: must be provided if `y2` does not
 #' correspond to values in `x`. A single x-axis will be drawn for all values in `x` and `x2`.
 #' @param y2 Numeric vector, optional: If provided, a second y-axis will be added to the right
-#' side of the plot
+#' side of the plot.
 #' @param which.xy Integer vector: Indices of `x` and `y` to plot.
 #' If not provided, will select up to the first two x-y traces.
 #' @param which.xy2 Integer vector: Indices of `x2` and `y2` to plot.
@@ -63,8 +63,8 @@
 #' @param theme Character or list: Name of theme or list of plot parameters.
 #' @param palette Color list: will be used to draw each vector in `y` and `y2`, in order.
 #' @param font_size Numeric: Font size for text.
-#' @param yfill Character: Fill type for y-axis: "none", "tozeroy", "tonexty"
-#' @param y2fill Character: Fill type for y2-axis: "none", "tozeroy", "tonexty"
+#' @param yfill Character: Fill type for y-axis: "none", "tozeroy", "tonexty".
+#' @param y2fill Character: Fill type for y2-axis: "none", "tozeroy", "tonexty".
 #' @param fill_alpha Numeric: Fill opacity for y-axis.
 #' @param yline_width Numeric: Line width for y-axis lines.
 #' @param y2line_width Numeric: Line width for y2-axis lines.
@@ -88,14 +88,19 @@
 #' @param x_standoff Numeric: Distance from x-axis to x-axis label.
 #' @param y_standoff Numeric: Distance from y-axis to y-axis label.
 #' @param y2_standoff Numeric: Distance from y2-axis to y2-axis label.
-#' @param hovermode Character: "closest", "x", "x unified"
+#' @param hovermode Character: "closest", "x", "x unified".
 #' @param displayModeBar Logical: If TRUE, display plotly mode bar.
 #' @param modeBar_file_format Character: "png", "svg", "jpeg", "webp", "pdf": file format for mode
 #' bar image export.
 #' @param scrollZoom Logical: If TRUE, enable zooming by scrolling.
+#' @param filename Character: Path to save the plot image.
+#' @param file.width Numeric: Width of the saved plot image.
+#' @param file.height Numeric: Height of the saved plot image.
+#' @param file.scale Numeric: Scale of the saved plot image.
 #' @param ... Additional theme arguments.
 #'
-#' @return A plotly object
+#' @return A plotly object.
+#' 
 #' @author EDG
 #' @export
 draw_xt <- function(

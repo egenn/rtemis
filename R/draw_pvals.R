@@ -6,17 +6,24 @@
 #'
 #' Plot 1 - p-values as a barplot
 #'
-#' @param x Float, vector: p-values
-#' @param xnames Character, vector: feature names
-#' @param yname Character: outcome name
+#' @param x Float, vector: p-values.
+#' @param xnames Character, vector: feature names.
+#' @param yname Character: outcome name.
 #' @param p_adjust_method Character: method for [p.adjust].
 #' @param pval_hline Float: Significance level at which to plot horizontal line.
 #' @param hline_col Color for `pval_hline`.
 #' @param hline_dash Character: type of line to draw.
-#' @param ... Additional arguments passed to [draw_bar]
+#' @param ... Additional arguments passed to [draw_bar].
 #'
+#' @return A plotly object.
+#' 
 #' @author EDG
 #' @export
+#' @examples
+#' \dontrun{
+#' draw_pvals(c(0.01, 0.02, 0.03), xnames = c("Feature1", "Feature2", "Feature3"))
+#' }
+#' @author EDG
 
 draw_pvals <- function(x,
                        xnames = NULL,

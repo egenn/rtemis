@@ -4,56 +4,42 @@
 
 #' Plot network using \pkg{threejs::graphjs}
 #'
-#' Interactive plotting of an \pkg{igraph} net using \pkg{threejs}
+#' Interactive plotting of an \pkg{igraph} net using \pkg{threejs}.
 #'
 #' @param net `igraph` network.
 #' @param vertex_size Numeric: Vertex size.
 #' @param vertex_col Color for vertices.
-# @param vertex_alpha Numeric: Transparency for \code{vertex_col}.
 #' @param vertex_label_col Color for vertex labels.
-#' @param vertex_label_alpha Numeric: transparency for `vertex_label_col`.
+#' @param vertex_label_alpha Numeric: Transparency for `vertex_label_col`.
 #' @param vertex_frame_col Color for vertex border (frame).
-#' @param vertex_label Character vector: Vertex labels. Default = NULL, which will keep existing
-#' names in `net` if any. Set to NA to avoid printing vertex labels.
-#' @param vertex_shape Character, vector, length 1 or N nodes: Vertex shape.
-#' See `graphjs("vertex_shape")`.
-#' @param edge_col Color for edges
-#' @param edge_alpha Numeric: Transparency for edges
+#' @param vertex_label Character vector: Vertex labels. Default = NULL, which will keep existing names in `net` if any. Set to NA to avoid printing vertex labels.
+#' @param vertex_shape Character, vector, length 1 or N nodes: Vertex shape. See `graphjs("vertex_shape")`.
+#' @param edge_col Color for edges.
+#' @param edge_alpha Numeric: Transparency for edges.
 #' @param edge_curved Numeric: Curvature of edges.
 #' @param edge_width Numeric: Edge thickness.
-#' @param layout Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk",
-#' "lgl", "mds",
-#' "sugiyama", corresponding to all the available layouts in \pkg{igraph}
-#' @param coords Output of precomputed \pkg{igraph} layout. If provided,
-#' `layout` is ignored.
-#' @param layout_params List of parameters to pass to `layout` function
-#' @param cluster Character: one of: "edge_betweenness", "fast_greedy",
-#' "infomap", "label_prop",
-#' "leading_eigen", "louvain", "optimal", "spinglass", "walktrap",
-#' corresponding to all the available \pkg{igraph} clustering functions.
-#' @param groups Output of precomputed \pkg{igraph} clustering. If provided,
-#' `cluster` is ignored.
-#' @param cluster_params List of parameters to pass to `cluster` function
-#' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate
-#' clusters, if `groups` or `cluster` are defined.
-#' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster
-#' membership.
-#' @param main Character: main title.
+#' @param layout Character: one of: "fr", "dh", "drl", "gem", "graphopt", "kk", "lgl", "mds", "sugiyama", corresponding to all the available layouts in \pkg{igraph}.
+#' @param coords Output of precomputed \pkg{igraph} layout. If provided, `layout` is ignored.
+#' @param layout_params List of parameters to pass to `layout` function.
+#' @param cluster Character: one of: "edge_betweenness", "fast_greedy", "infomap", "label_prop", "leading_eigen", "louvain", "optimal", "spinglass", "walktrap", corresponding to all the available \pkg{igraph} clustering functions.
+#' @param groups Output of precomputed \pkg{igraph} clustering. If provided, `cluster` is ignored.
+#' @param cluster_params List of parameters to pass to `cluster` function.
+#' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate clusters, if `groups` or `cluster` are defined.
+#' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership.
+#' @param main Character: Main title.
 #' @param theme \pkg{rtemis} theme to use.
-#' @param theme_extra_args List of extra arguments to pass to the theme function
-#' defined by `theme`. This argument is used when the extra args (...) are
-#' passed the plotting function, in this case `igraph::plot.igraph` and
-#' not to the theme function.
-#' @param palette Color vector or name of rtemis palette
-#' @param mar Numeric vector, length 4: `par`'s margin argument
+#' @param theme_extra_args List of extra arguments to pass to the theme function defined by `theme`.
+#' @param palette Color vector or name of rtemis palette.
+#' @param mar Numeric vector, length 4: `par`'s margin argument.
 #' @param par_reset Logical: If TRUE, reset par before exiting.
 #' @param filename Character: If provided, save plot to this filepath.
 #' @param verbosity Integer: Verbosity level.
 #' @param ... Extra arguments to pass to `igraph::plot.igraph()`.
 #'
+#' @return A threejs graph object.
+#' 
 #' @author EDG
 #' @export
-
 draw_graphjs <- function(net,
                          vertex_size = 1,
                          vertex_col = NULL,

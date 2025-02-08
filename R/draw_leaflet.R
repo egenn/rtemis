@@ -4,43 +4,35 @@
 
 #' Plot interactive choropleth map using \pkg{leaflet}
 #'
-#' @param fips Character vector of FIPS codes. (If numeric, it will be
-#' appropriately zero-padded)
-#' @param values Values to map to `fips`
-#' @param names Character vector: Optional county names to appear on hover
-#' along `values`
+#' @param fips Character vector of FIPS codes. (If numeric, it will be appropriately zero-padded).
+#' @param values Values to map to `fips`.
+#' @param names Character vector: Optional county names to appear on hover along `values`.
 #' @param fillOpacity Float: Opacity for fill colors.
-#' @param palette Character: Color palette to use
-#' @param color_mapping Character: "Numeric" or "Bin"
-#' @param col_lo Overlay color mapped to lowest value
-#' @param col_hi Overaly color mapped to highest value
-#' @param col_na Color mappes to NA values
+#' @param palette Character: Color palette to use.
+#' @param color_mapping Character: "Numeric" or "Bin".
+#' @param col_lo Overlay color mapped to lowest value.
+#' @param col_hi Overlay color mapped to highest value.
+#' @param col_na Color mapped to NA values.
 #' @param col_highlight Hover border color.
-#' @param col_interpolate Character: "linear" or "spline"
-#' @param col_bins Integer: Number of color bins to create if
-#' `color_mapping = "Bin"`.
-#' @param domain Limits for mapping colors to values.
-#' Default = NULL and set to range.
+#' @param col_interpolate Character: "linear" or "spline".
+#' @param col_bins Integer: Number of color bins to create if `color_mapping = "Bin"`.
+#' @param domain Limits for mapping colors to values. Default = NULL and set to range.
 #' @param weight Float: Weight of county border lines.
 #' @param color Color of county border lines.
-#' @param alpha Float: Overaly transparency.
-#' @param bg_tile_provider Background tile (below overlay colors), one of
-#' `leaflet::providers`
+#' @param alpha Float: Overlay transparency.
+#' @param bg_tile_provider Background tile (below overlay colors), one of `leaflet::providers`.
 #' @param bg_tile_alpha Float: Background tile transparency.
-#' @param fg_tile_provider Foreground tile (above overlay colors), one of
-#' `leaflet::providers`
-#' @param legend_position Character: One of: "topright", "bottomright",
-#' "bottomleft", "topleft".
+#' @param fg_tile_provider Foreground tile (above overlay colors), one of `leaflet::providers`.
+#' @param legend_position Character: One of: "topright", "bottomright", "bottomleft", "topleft".
 #' @param legend_alpha Float: Legend box transparency.
 #' @param legend_title Character: Defaults to name of `values` variable.
-#' @param init_lng Float: Center map around this longitude (in decimal form).
-#' Default = -98.54180833333334 (US geographic center)
-#' @param init_lat Float: Center map around this latitude (in decimal form).
-#' Default = 39.207413888888894 (US geographic center)
-#' @param init_zoom Integer: Initial zoom level (depends on device, i.e. window,
-#' size).
+#' @param init_lng Float: Center map around this longitude (in decimal form). Default = -98.54180833333334 (US geographic center).
+#' @param init_lat Float: Center map around this latitude (in decimal form). Default = 39.207413888888894 (US geographic center).
+#' @param init_zoom Integer: Initial zoom level (depends on device, i.e. window, size).
 #' @param stroke Logical: If TRUE, draw polygon borders.
 #'
+#' @return A leaflet map object.
+#' 
 #' @author EDG
 #' @export
 #' @examples
@@ -48,10 +40,9 @@
 #' fips <- c(06075, 42101)
 #' population <- c(874961, 1579000)
 #' names <- c("SF", "Philly")
-#' draw_leaflet(fips, supervals, names)
+#' draw_leaflet(fips, population, names)
 #' }
 # NA in legend issue: https://github.com/rstudio/leaflet/issues/615
-#'
 draw_leaflet <- function(fips,
                          values,
                          names = NULL,

@@ -8,30 +8,36 @@
 #'
 #' A simple `plotly` wrapper to plot horizontal barplots, sorted by value,
 #' which can be used to visualize variable importance, model coefficients, etc.
-#' @param x Numeric vector: Input
-#' @param names Vector, string: Names of features
-#' @param main Character: main title
-#' @param xlab Character: x-axis label
-#' @param ylab Character: y-axis label
-#' @param plot_top Integer: Plot this many top features
-#' @param orientation Character: "h" or "v"
-#' @param line_width Numeric: Line width
-#' @param labelify Logical: If TRUE, labelify feature names
+#' 
+#' @param x Numeric vector: Input.
+#' @param names Vector, string: Names of features.
+#' @param main Character: Main title.
+#' @param type Character: "bar" or "line".
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
+#' @param plot_top Integer: Plot this many top features.
+#' @param orientation Character: "h" or "v".
+#' @param line_width Numeric: Line width.
+#' @param labelify Logical: If TRUE, labelify feature names.
 #' @param col Vector, colors: Single value, or multiple values to define bar
-#' (feature) color(s)
-#' @param alpha Numeric: Transparency
+#' (feature) color(s).
+#' @param alpha Numeric: Transparency.
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
 #' @param mar Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 #' @param font_size Integer: Overall font size to use (essentially for the
 #' title at this point).
-#' @param axis_font_size Integer: Font size to use for axis labels and tick labels
-#' (Seems not to be in same scale as `font_size` for some reason.
-#' Experiment!)
+#' @param axis_font_size Integer: Font size to use for axis labels and tick labels.
 #' @param theme Output of an rtemis theme function (list of parameters) or theme
 #' name. Use `themes()` to print available themes.
-#' @param showlegend Logical: If TRUE, show legend
-#' @param ... Additional arguments passed to theme
+#' @param showlegend Logical: If TRUE, show legend.
+#' @param filename Character: Path to save the plot image.
+#' @param file_width Numeric: Width of the saved plot image.
+#' @param file_height Numeric: Height of the saved plot image.
+#' @param file_scale Numeric: Scale of the saved plot image.
+#' @param ... Additional arguments passed to theme.
 #'
+#' @return A `plotly` object.
+#' 
 #' @author EDG
 #' @examples
 #' # made-up data

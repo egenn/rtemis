@@ -4,65 +4,63 @@
 
 #' Interactive Heatmaps
 #'
-#' Draw interactive heatmaps using `heatmaply`
+#' Draw interactive heatmaps using `heatmaply`.
 #'
-#' @inheritParams colorgrad
-#' @param x Input matrix
-#' @param Rowv Logical or dendrogram.
-#'   If Logical: Compute dendrogram and reorder rows. Defaults to FALSE
-#'   If dendrogram: use as is, without reordering
-#'   See more at `heatmaply::heatmaply("Rowv")`
-#' @param Colv Logical or dendrogram.
-#'   If Logical: Compute dendrogram and reorder columns. Defaults to FALSE
-#'   If dendrogram: use as is, without reordering
-#'   See more at `heatmaply::heatmaply("Colv")`
-#' @param cluster Logical: If TRUE, set `Rowv` and `Colv` to TRUE
-# @param k Integer: Cut dendogram to this many clusters, displayed by
-# different colors
+#' @param x Input matrix.
+#' @param Rowv Logical or dendrogram. If Logical: Compute dendrogram and reorder rows. Defaults to FALSE. If dendrogram: use as is, without reordering. See more at `heatmaply::heatmaply("Rowv")`.
+#' @param Colv Logical or dendrogram. If Logical: Compute dendrogram and reorder columns. Defaults to FALSE. If dendrogram: use as is, without reordering. See more at `heatmaply::heatmaply("Colv")`.
+#' @param cluster Logical: If TRUE, set `Rowv` and `Colv` to TRUE.
 #' @param symm Logical: If TRUE, treat `x` symmetrically - `x` must be a square matrix.
-#' @param cellnote Matrix with values to be displayed on hover. Defaults to `ddSci(x)`
-#' @param k_row Integer: Number of desired number of groups by which to color dendrogram branches in the rows.
-#' Default = NA (determined automatically). See `heatmaply::heatmaply("k_row")`
-#' @param k_col Integer: Number of desired number of groups by which to color dendrogram branches in the columns.
-#' Default = NA (determined automatically). See `heatmaply::heatmaply("k_col")`
-#' @param grid_gap Integer: Space between cells. Default = 0 (no space)
-#' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0
+#' @param cellnote Matrix with values to be displayed on hover. Defaults to `ddSci(x)`.
+#' @param colorgrad_n Integer: Number of colors in gradient. Default = 101.
+#' @param colors Character vector: Colors to use in gradient.
+#' @param space Character: Color space to use. Default = "rgb".
+#' @param lo Character: Color for low values. Default = "#18A3AC".
+#' @param lomid Character: Color for low-mid values.
+#' @param mid Character: Color for mid values.
+#' @param midhi Character: Color for mid-high values.
+#' @param hi Character: Color for high values. Default = "#F48024".
+#' @param k_row Integer: Number of desired number of groups by which to color dendrogram branches in the rows. Default = 1.
+#' @param k_col Integer: Number of desired number of groups by which to color dendrogram branches in the columns. Default = 1.
+#' @param grid_gap Integer: Space between cells. Default = 0 (no space).
+#' @param limits Float, length 2: Determine color range. Default = NULL, which automatically centers values around 0.
 #' @param margins Float, length 4: Heatmap margins.
+#' @param main Character: Main title.
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
 #' @param key_title Character: Title for the color key.
 #' @param showticklabels Logical: If TRUE, show tick labels.
 #' @param colorbar_len Numeric: Length of the colorbar.
-#' @param row_side_colors Data frame: Column names will be label names, cells
-#' should be label colors. See `heatmaply::heatmaply("row_side_colors")`
-#' @param col_side_colors Data frame: Column names will be label names, cells
-#' @param row_side_palette Color palette function:
-#' See `heatmaply::heatmaply("row_side_palette")`
-#' @param col_side_palette Color palette function:
-#' See `heatmaply::heatmaply("col_side_palette")`
-#' @param font_size Numeric: Font size
-#' @param padding Numeric: Padding between cells
-#' @param displayModeBar Logical: If TRUE, display the plotly mode bar
-#' @param modeBar_file_format Character: File format for image exports from the mode bar
-#' @param file_width Numeric: Width of exported image
-#' @param file_height Numeric: Height of exported image
-#' @param file_scale Numeric: Scale of exported image
-#' @param plot_method Character: Update February 2021: "ggplot" causes R session
-#' to hang on MacOS but "plotly" seems to work
-#' @param ... Additional arguments to be passed to `heatmaply::heatmaply`
+#' @param row_side_colors Data frame: Column names will be label names, cells should be label colors. See `heatmaply::heatmaply("row_side_colors")`.
+#' @param row_side_palette Color palette function. See `heatmaply::heatmaply("row_side_palette")`.
+#' @param col_side_colors Data frame: Column names will be label names, cells should be label colors. See `heatmaply::heatmaply("col_side_colors")`.
+#' @param col_side_palette Color palette function. See `heatmaply::heatmaply("col_side_palette")`.
+#' @param font_size Numeric: Font size.
+#' @param padding Numeric: Padding between cells.
+#' @param displayModeBar Logical: If TRUE, display the plotly mode bar.
+#' @param modeBar_file_format Character: File format for image exports from the mode bar.
+#' @param filename Character: File name to save the plot.
+#' @param file_width Numeric: Width of exported image.
+#' @param file_height Numeric: Height of exported image.
+#' @param file_scale Numeric: Scale of exported image.
+#' @param plot_method Character: Plot method to use. Default = "plotly".
+#' @param theme \pkg{rtemis} theme to use.
+#' @param ... Additional arguments to be passed to `heatmaply::heatmaply`.
 #'
+#' @return A heatmaply object.
+#' 
 #' @author EDG
+#' @export
 #' @examples
 #' \dontrun{
 #' x <- rnormmat(200, 20)
 #' xcor <- cor(x)
 #' draw_heatmap(xcor)
 #' }
-#' @export
-
 draw_heatmap <- function(x,
                          Rowv = TRUE,
                          Colv = TRUE,
                          cluster = FALSE,
-                         #    k = 1,
                          symm = FALSE,
                          cellnote = NULL,
                          colorgrad_n = 101,
@@ -75,10 +73,8 @@ draw_heatmap <- function(x,
                          hi = "#F48024",
                          k_row = 1,
                          k_col = 1,
-                         # show_grid = FALSE,
                          grid_gap = 0,
                          limits = NULL,
-                         # margins = c(50, 50, 50, 50),
                          margins = NULL,
                          main = NULL,
                          xlab = NULL,
@@ -88,10 +84,9 @@ draw_heatmap <- function(x,
                          colorbar_len = .7,
                          plot_method = "plotly",
                          theme = rtemis_theme,
-                         #    palette = rtemis_palette,
-                         row_side_colors = NULL, # x[["row_side_colors"]],
+                         row_side_colors = NULL,
                          row_side_palette = NULL,
-                         col_side_colors = NULL, # x[["col_side_colors"]],
+                         col_side_colors = NULL,
                          col_side_palette = NULL,
                          font_size = NULL,
                          padding = 0,

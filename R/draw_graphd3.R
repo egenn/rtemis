@@ -4,21 +4,21 @@
 
 #' Plot graph using \pkg{networkD3}
 #'
-#' @param net \pkg{igraph} network
-#' @param groups Vector, length n nodes indicating group/cluster/community membership of nodes in
-#' `net`
-#' @param color_scale D3 colorscale (e.g. `networkD3::JS("d3.scaleOrdinal(d3.schemeCategory20b);")`)
-#' @param edge_col Color for edges
-#' @param node_col Color for nodes
+#' @param net \pkg{igraph} network.
+#' @param groups Vector, length n nodes indicating group/cluster/community membership of nodes in `net`.
+#' @param color_scale D3 colorscale (e.g. `networkD3::JS("d3.scaleOrdinal(d3.schemeCategory20b);")`).
+#' @param edge_col Color for edges.
+#' @param node_col Color for nodes.
 #' @param node_alpha Float \[0, 1\]: Node opacity.
 #' @param edge_alpha Float \[0, 1\]: Edge opacity.
 #' @param zoom Logical: If TRUE, graph is zoomable.
-#' @param legend Logical: If TRUE, display legend for groups
-#' @param palette Vector of colors, or Character defining a builtin palette - get options with
-#' `rtpalette()`
-#' @param theme rtemis theme to use
-#' @param ... Additional arguments to pass to `networkD3`
+#' @param legend Logical: If TRUE, display legend for groups.
+#' @param palette Vector of colors, or Character defining a builtin palette - get options with `rtpalette()`.
+#' @param theme \pkg{rtemis} theme to use.
+#' @param ... Additional arguments to pass to `networkD3`.
 #'
+#' @return A networkD3 graph object.
+#' 
 #' @author EDG
 #' @export
 draw_graphd3 <- function(net,

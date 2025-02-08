@@ -45,6 +45,8 @@
 #' @param file_scale Numeric: Scale of exported image
 #' @param ... Additional arguments to be passed to `heatmaply::heatmaply`
 #'
+#' @return A `plotly` object.
+#' 
 #' @author EDG
 #' @export
 

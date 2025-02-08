@@ -4,22 +4,40 @@
 
 #' Interactive Pie Chart
 #'
-#' Draw interactive pie charts using `plotly`
+#' Draw interactive pie charts using `plotly`.
 #'
-#' @inheritParams draw_bar
 #' @param x data.frame: Input: Either a) 1 numeric column with categories defined by rownames, or
 #' b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
-#' the `category.names` argument
-#' @param category.names Character, vector, length = NROW(x): Category names. Default = NULL, which uses
-#' either `rownames(x)`, or the first column of `x` if `ncol(x) = 2`
-#' @param textinfo Character: Info to show over each slince: "label", "percent", "label+percent".
-#' @param main Character: Plot title. Default = NULL, which results in colnames(x)\[1\],
-#' @param theme Character: "light", "dark". Default = `getOption("rtemis_theme", "light")`
-#' @param sep_col Separator color
-#' @param bg Background color
-#' @param plot_bg Plot background color
-#' @param labs_col Color of labels
+#' the `category.names` argument.
+#' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1].
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
+#' @param col Character: Colors for the pie slices.
+#' @param alpha Numeric: Alpha for the pie slices.
+#' @param bg Character: Background color.
+#' @param plot_bg Character: Plot background color.
+#' @param theme Character: "light", "dark". Default = `getOption("rtemis_theme", "light")`.
+#' @param palette Character: Color palette to use.
+#' @param category_names Character, vector, length = NROW(x): Category names. Default = NULL, which uses
+#' either `rownames(x)`, or the first column of `x` if `ncol(x) = 2`.
+#' @param textinfo Character: Info to show over each slice: "label", "percent", "label+percent".
+#' @param font_size Integer: Font size for labels.
+#' @param labs_col Character: Color of labels.
+#' @param legend Logical: If TRUE, show legend.
+#' @param legend_col Character: Color for legend.
+#' @param sep_col Character: Separator color.
+#' @param margin List: Margin settings.
+#' @param padding Numeric: Padding between cells.
+#' @param displayModeBar Logical: If TRUE, display the plotly mode bar.
+#' @param modeBar_file_format Character: File format for image exports from the mode bar.
+#' @param filename Character: File name to save plot.
+#' @param file_width Integer: Width for saved file.
+#' @param file_height Integer: Height for saved file.
+#' @param file_scale Numeric: Scale for saved file.
+#' @param ... Additional arguments to pass to the theme function.
 #'
+#' @return A plotly object.
+#' 
 #' @author EDG
 #' @export
 #' @examples

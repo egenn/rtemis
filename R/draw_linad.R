@@ -5,12 +5,12 @@
 #' Plot a Linear Additive Tree trained by [s_LINAD] using
 #' *visNetwork*
 #'
-#' @param x `rtMod` object trained using [s_LINAD]
+#' @param x `rtMod` object trained using [s_LINAD].
 #' @param main Character: Title.
-#' @param bg Background color.
+#' @param bg Character: Background color.
 #' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle",
 #' "dot", "star", "ellipse", "database", "text", "diamond".
-#' @param nodelabels Logical: If TRUE, inlcude node labels.
+#' @param nodelabels Logical: If TRUE, include node labels.
 #' @param ncases_inlabels Logical: If TRUE, include number of cases with the
 #' node labels.
 #' @param rules_on_edges Logical: If TRUE, display rules on edges instead of
@@ -26,15 +26,15 @@
 #' @param col_highlight Color for surrounding edges when node is selected.
 #' @param node_font_col Color for node labels. Default varies by `shape`,
 #' black or white depending if
-#' `visNetwork` draws labels on node or underneath
+#' `visNetwork` draws labels on node or underneath.
 #' @param edge_font_col Color for edge labels.
 #' @param sort_coefs Logical: If TRUE, sort each coefs table.
-#' @param height Numeric: Height for `visNetwork`. Default = NULL, i.e. auto
-#' @param width Numeric: Width for `visNetwork`. Default = NULL, i.e. auto
+#' @param height Numeric: Height for `visNetwork`. Default = NULL, i.e. auto.
+#' @param width Numeric: Width for `visNetwork`. Default = NULL, i.e. auto.
 #' @param levelSeparation Numeric: N of pixels to separate tree levels.
 #' @param tree_font_size Integer: Font size for tree labels.
 #' @param edgethickness_by_ncases Logical: If TRUE, scale edge thickness by
-#' number of cases with weight = 1
+#' number of cases with weight = 1.
 #' @param font_family Character: Font to use throughout.
 #' Default = 'Helvetica Neue', because otherwise it may fail on a
 #' number of external viewers.
@@ -48,7 +48,7 @@
 #' tables.
 #' @param table_dat_padding Ignore, has no visible effect. Otherwise,
 #' Character: html table padding.
-#' @param table_lo_col Color for lowest coefficient values (negative)
+#' @param table_lo_col Color for lowest coefficient values (negative).
 #' @param table_hi_col Color for highest coefficient values (positive).
 #' @param dragNodes Logical: If TRUE, allow dragging nodes.
 #' @param zoomView Logical: If TRUE, allow zooming.
@@ -59,7 +59,8 @@
 #' @param direction Character: Direction of tree. One of: "UD", "DU", "LR",
 #' "RL".
 #' @param verbosity Integer: Verbosity level.
-#' informative).
+#' 
+#' @return A `visNetwork` object.
 #'
 #' @author EDG
 #' @export
