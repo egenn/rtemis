@@ -4,11 +4,11 @@
 
 # todo: figure out why list is reordered with ridge
 
-#' Interactive Univariate Plots
+#' Draw Distributions using Histograms and Density Plots
 #'
-#' Draw interactive univariate plots using `plotly`
+#' Draw Distributions using Histograms and Density Plots using `plotly`.
 #'
-#' If input is data.frame, non-numeric variables will be removed
+#' If input is data.frame, non-numeric variables will be removed.
 #'
 #' @inheritParams draw_bar
 #' @param x Numeric, vector / data.frame /list: Input. If not a vector, each
