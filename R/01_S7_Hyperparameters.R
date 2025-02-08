@@ -585,7 +585,7 @@ LightCARTHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_LightCART <- function(
-    num_leaves = 31L,
+    num_leaves = 32L,
     max_depth = -1L,
     lambda_l1 = 0,
     lambda_l2 = 0,
