@@ -69,7 +69,7 @@ test_inherits <- function(x, cl) {
     return(FALSE)
   }
   TRUE
-} # /rtemis::check_inherits
+} # /rtemis::test_inherits
 
 
 #' Test class of object
@@ -81,11 +81,12 @@ test_inherits <- function(x, cl) {
 #' @keywords internal
 
 check_inherits <- function(x, cl) {
+  xname <- bold(underline(deparse(substitute(x))))
   if (!is.null(x) && !inherits(x, cl)) {
     input <- deparse(substitute(x))
-    stop(bold(input), " must be of class ", bold(cl), ".")
+    stop(hilite(xname), " must be of class ", bold(cl), ".", call. = FALSE)
   }
-} # /rtemis::test_inherits
+} # /rtemis::check_inherits
 
 
 #' Function that returns object if it is of a certain class
@@ -130,26 +131,27 @@ strict <- function(object, class, allow_null = TRUE) {
 #' @export
 #' @examples
 #' \dontrun{
-#' clean_integer(6L)
-#' clean_integer(3)
-#' clean_integer(12.1) # Error
-#' clean_integer(c(3, 5, 7))
-#' clean_integer(c(3, 5, 7.01)) # Error
+#' clean_int(6L)
+#' clean_int(3)
+#' clean_int(12.1) # Error
+#' clean_int(c(3, 5, 7))
+#' clean_int(c(3, 5, 7.01)) # Error
 #' }
-clean_integer <- function(x) {
+clean_int <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
   if (is.integer(x)) {
     return(x)
   } else if (is.numeric(x)) {
     if (all(x %% 1 == 0)) {
       return(as.integer(x))
     } else {
-      stop("Input must be integer")
+      stop(xname, " must be integer.")
     }
   } else if (is.null(x)) {
     return(NULL)
   }
-  stop("Input must be integer")
-} # /rtemis::clean_integer
+  stop(xname, " must be integer.")
+} # /rtemis::clean_int
 
 
 #' Match Arguments Ignoring Case
@@ -180,13 +182,24 @@ match_arg <- function(x, choices) {
 #' @author EDG
 #' @keywords internal
 check_logical <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop("Input must not contain NAs.")
+    stop(xname, " must not contain NAs.", call. = FALSE)
   }
   if (!is.logical(x)) {
-    stop("Input must be logical.")
+    stop(xname, " must be logical.", call. = FALSE)
   }
 } # /rtemis::check_logical
+
+check_floatpos <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
+  if (anyNA(x)) {
+    stop(xname, " must not contain NAs.", call. = FALSE)
+  }
+  if (any(x <= 0)) {
+    stop(xname, " must be greater than 0.", call. = FALSE)
+  }
+} # /rtemis::check_floatpos
 
 #' Check float between 0 and 1, exclusive
 #'
@@ -200,11 +213,12 @@ check_logical <- function(x) {
 #' check_float01exc(0.5)
 #' }
 check_float01exc <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop("Input must not contain NAs.")
+    stop(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x < 0 | x > 1)) {
-    stop("Input must be between 0 and 1, exclusive.")
+    stop(xname, " must be between 0 and 1, exclusive.", call. = FALSE)
   }
 } # /rtemis::check_float01
 
@@ -221,17 +235,24 @@ check_float01exc <- function(x) {
 #' check_float01inc(0.5)
 #' }
 check_float01inc <- function(x) {
-  if (is.null(x)) {
-    return(NULL)
-  }
+  xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop("Input must not contain NAs.")
+    stop(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x < 0 | x > 1)) {
-    stop("Input must be between 0 and 1, inclusive.")
+    stop(xname, " must be between 0 and 1, inclusive.", call. = FALSE)
   }
 } # /rtemis::check_float01
 
+check_floatpos1 <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
+  if (anyNA(x)) {
+    stop(xname, " must not contain NAs.", call. = FALSE)
+  }
+  if (any(x <= 0) || any(x > 1)) {
+    stop(xname, " must be greater than 0 and less or equal to 1.", call. = FALSE)
+  }
+} # /rtemis::check_floatpos1
 
 #' Check positive integer
 #'
@@ -250,20 +271,21 @@ clean_posint <- function(x) {
     return(NULL)
   }
   if (anyNA(x)) {
-    stop(xname, ": must not contain NAs.")
+    stop(xname, " must not contain NAs.")
   }
   if (any(x <= 0)) {
-    stop(xname, ": must contain only positive integers.")
+    stop(xname, " must contain only positive integers.")
   }
-  clean_integer(x)
+  clean_int(x)
 } # /rtemis::clean_posint
 
 check_float0pos <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop("Input must not contain NAs.")
+    stop(xname, " must not contain NAs.", call. = FALSE)
   }
   if (!is.null(x) && any(x < 0)) {
-    stop("Input must be zero or greater.")
+    stop(xname, " must be zero or greater.", call. = FALSE)
   }
 } # /rtemis::check_float0positive
 
@@ -287,8 +309,8 @@ get_n_workers_for_learner <- function(algorithm, plan, n_workers, verbosity = 1L
   if (plan %in% single_machine_plans && algorithm %in% parallelized_learners) {
     if (verbosity > 0L && !is.null(n_workers) && n_workers > 1) {
       msg2(hilite2(
-        "Running a parallelized learner and n_workers is greater than 1, but plan", plan,
-        "is run on single machine. Setting n_workers to 1."
+        "Running a parallelized learner and n_workers is greater than 1, but plan ", plan,
+        " is run on single machine. Setting n_workers to 1."
       ))
     }
     n_workers <- 1L
