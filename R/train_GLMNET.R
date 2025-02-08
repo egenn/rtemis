@@ -67,13 +67,13 @@ train_GLMNET <- function(
   n_classes <- if (type == "Classification") {
     length(levels(x[, ncol(x)]))
   } else {
-    NA
+    NA_integer_
   }
   family <- if (is.null(hyperparameters$family)) {
     if (type == "Regression") {
       "gaussian"
     } else if (type == "Classification") {
-      if (n_classes == 2) {
+      if (n_classes == 2L) {
         "binomial"
       } else {
         "multinomial"
@@ -150,4 +150,4 @@ predict_GLMNET <- function(model, newdata, type) {
 #' @keywords internal
 varimp_GLMNET <- function(model) {
   coef(model)
-} # /rtemis::varimp_CART
+} # /rtemis::varimp_GLMNET
