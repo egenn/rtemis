@@ -150,7 +150,7 @@ setup_GridSearch <- function(
     metrics_aggregate_fn = mean,
     metric = NULL,
     maximize = NULL,
-    future_plan = "mirai_multisession",
+    future_plan = "multicore",
     n_workers = rtemis_cores) {
   # Arguments ----
   check_is_S7(resampler_parameters, ResamplerParameters)
