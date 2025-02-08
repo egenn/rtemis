@@ -4,7 +4,6 @@
 
 #' Draw calibration plot
 #'
-#' @inheritParams draw_scatter
 #' @param true_labels Factor or list of factors with true class labels
 #' @param predicted_prob Numeric vector or list of numeric vectors with predicted probabilities
 #' @param bin_method Character: "quantile" or "equidistant": Method to bin the estimated
