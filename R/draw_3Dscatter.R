@@ -4,19 +4,67 @@
 
 #' Interactive 3D Plots
 #'
-#' Draw interactive 3D plots using `plotly`
+#' Draw interactive 3D scatter plots using `plotly`.
 #'
-#' Note that `draw_3Dscatter` uses the theme's `plot.bg` as `grid.col`
-#' @inheritParams draw_scatter
-#' @param z Numeric, vector/data.frame/list: z-axis data
-#' @param zlab Character: z-axis label
-#' @param bg Background color
-#' @param plot_bg Plot background color
-#' @param tick_font_size Numeric: Tick font size
-#' @param spike_col Spike lines color
+#' Note that `draw_3Dscatter` uses the theme's `plot_bg` as `grid_col`.
+#'
+#' @param x Numeric, vector/data.frame/list: x-axis data.
+#' @param y Numeric, vector/data.frame/list: y-axis data.
+#' @param z Numeric, vector/data.frame/list: z-axis data.
+#' @param fit Character: Fit method.
+#' @param cluster Character: Clustering method.
+#' @param cluster_params List: Parameters for clustering.
+#' @param group Factor: Grouping variable.
+#' @param formula Formula: Formula for non-linear least squares fit.
+#' @param rsq Logical: If TRUE, print R-squared values in legend if `fit` is set.
+#' @param mode Character, vector: "markers", "lines", "markers+lines".
+#' @param order_on_x Logical: If TRUE, order `x` and `y` on `x`.
+#' @param main Character: Main title.
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
+#' @param zlab Character: z-axis label.
+#' @param col Color for markers.
+#' @param alpha Numeric: Alpha for markers.
+#' @param bg Background color.
+#' @param plot_bg Plot background color.
+#' @param theme List: Plot theme.
+#' @param palette Character: Color palette.
+#' @param axes_square Logical: If TRUE, draw a square plot.
+#' @param group_names Character: Names for groups.
+#' @param font_size Numeric: Font size.
+#' @param marker_col Color for markers.
+#' @param marker_size Numeric: Marker size.
+#' @param fit_col Color for fit line.
+#' @param fit_alpha Numeric: Alpha for fit line.
+#' @param fit_lwd Numeric: Line width for fit line.
+#' @param tick_font_size Numeric: Tick font size.
+#' @param spike_col Spike lines color.
+#' @param legend Logical: If TRUE, draw legend.
+#' @param legend_xy Numeric: Position of legend.
+#' @param legend_xanchor Character: X anchor for legend.
+#' @param legend_yanchor Character: Y anchor for legend.
+#' @param legend_orientation Character: Orientation of legend.
+#' @param legend_col Color for legend text.
+#' @param legend_bg Color for legend background.
+#' @param legend_border_col Color for legend border.
+#' @param legend_borderwidth Numeric: Border width for legend.
+#' @param legend_group_gap Numeric: Gap between legend groups.
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
+#' @param fit_params List: Parameters for fit.
+#' @param width Numeric: Width of plot.
+#' @param height Numeric: Height of plot.
 #' @param padding Numeric: Graph padding.
+#' @param displayModeBar Logical: If TRUE, display mode bar.
+#' @param modeBar_file_format Character: File format for mode bar.
+#' @param verbosity Integer: Verbosity level.
+#' @param filename Character: Filename to save plot.
+#' @param file_width Numeric: Width of saved file.
+#' @param file_height Numeric: Height of saved file.
+#' @param file_scale Numeric: Scale of saved file.
+#' @param ... Additional arguments passed to `plotly::plot_ly`.
 #'
+#' @return A `plotly` object.
+#' 
 #' @author EDG
 #' @export
 #' @examples

@@ -2,7 +2,7 @@
 # ::rtemis::
 # 2019- EDG rtemis.org
 
-# todo: figure out why list is reordered with ridge
+# check whether list is reordered with ridge
 
 #' Draw Distributions using Histograms and Density Plots
 #'
@@ -10,72 +10,61 @@
 #'
 #' If input is data.frame, non-numeric variables will be removed.
 #'
-#' @inheritParams draw_bar
-#' @param x Numeric, vector / data.frame /list: Input. If not a vector, each
-#' column of or each element
-#' @param type Character: "density" or "histogram"
-#' @param mode Character: "overlap", "ridge". How to plot different groups;
-#' on the same axes ("overlap"), or on separate plots with the same x-axis
-#' ("ridge")
-#' @param group Vector: Will be converted to factor; levels define group
-#' members.
-#' @param plot_bg Color: Background color for plot area
-#' @param axes_square Logical: If TRUE: draw a square plot to fill the graphic
-#' device. Default = FALSE. Note: If TRUE, the device size at time of call is
-#' captured and height and width are set so as to draw the largest square
-#' available. This means that resizing the device window will not automatically
-#' resize the plot.
-#' @param font_alpha Float: Alpha transparency for font.
-#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be
-#' set to TRUE if x is a list of more than 1 element
-#' @param legend_bg Color: Background color for legend
-#' @param legend_border_col Color: Border color for legend
-#' @param legend_xy Float, vector, length 2: Relative x, y position for legend.
-#' Default = c(0, 1), which places the legend top left within the plot area.
-#' Set to NULL to place legend top right beside the plot area
-#' @param bargap Float: The gap between adjacent histogram bars in plot
-#' fraction.
+#' @param x Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element.
+#' @param type Character: "density" or "histogram".
+#' @param mode Character: "overlap", "ridge". How to plot different groups; on the same axes ("overlap"), or on separate plots with the same x-axis ("ridge").
+#' @param group Vector: Will be converted to factor; levels define group members.
+#' @param main Character: Main title for the plot.
+#' @param xlab Character: Label for the x-axis.
+#' @param ylab Character: Label for the y-axis.
+#' @param col Color: Colors for the plot.
+#' @param alpha Numeric: Alpha transparency for plot elements.
+#' @param plot_bg Color: Background color for plot area.
+#' @param theme List: Theme settings for the plot.
+#' @param palette Character: Color palette to use.
+#' @param axes_square Logical: If TRUE, draw a square plot to fill the graphic device. Default = FALSE.
+#' @param group_names Character: Names for the groups.
+#' @param font_size Numeric: Font size for plot text.
+#' @param font_alpha Numeric: Alpha transparency for font.
+#' @param legend Logical: If TRUE, draw legend. Default = NULL, which will be set to TRUE if x is a list of more than 1 element.
+#' @param legend_xy Numeric, vector, length 2: Relative x, y position for legend. Default = c(0, 1).
+#' @param legend_col Color: Color for the legend text.
+#' @param legend_bg Color: Background color for legend.
+#' @param legend_border_col Color: Border color for legend.
+#' @param bargap Numeric: The gap between adjacent histogram bars in plot fraction.
+#' @param vline Numeric, vector: If defined, draw a vertical line at this x value(s).
+#' @param vline_col Color: Color for `vline`.
+#' @param vline_width Numeric: Width for `vline`.
+#' @param vline_dash Character: Type of line to draw: "solid", "dot", "dash", "longdash", "dashdot", or "longdashdot".
+#' @param text Character: If defined, add this text over the plot.
+#' @param text_x Numeric: x-coordinate for `text`.
+#' @param text_xref Character: "x": `text_x` refers to plot's x-axis; "paper": `text_x` refers to plotting area from 0-1.
+#' @param text_xanchor Character: "auto", "left", "center", "right".
+#' @param text_y Numeric: y-coordinate for `text`.
+#' @param text_yref Character: "y": `text_y` refers to plot's y-axis; "paper": `text_y` refers to plotting area from 0-1.
+#' @param text_yanchor Character: "auto", "top", "middle", "bottom".
+#' @param text_col Color: Color for `text`.
+#' @param margin List: Margins for the plot.
+#' @param automargin_x Logical: If TRUE, automatically adjust x-axis margins.
+#' @param automargin_y Logical: If TRUE, automatically adjust y-axis margins.
 #' @param zerolines Logical: If TRUE, draw lines at y = 0.
 #' @param density_kernel Character: Kernel to use for density estimation.
 #' @param density_bw Character: Bandwidth to use for density estimation.
-#' @param histnorm Character: NULL, "percent", "probability", "density",
-#' "probability density"
+#' @param histnorm Character: NULL, "percent", "probability", "density", "probability density".
 #' @param histfunc Character: "count", "sum", "avg", "min", "max".
 #' @param hist_n_bins Integer: Number of bins to use if type = "histogram".
-#' @param ridge_sharex Logical: If TRUE, draw single x-axis when
-#' `mode = "ridge"`.
-#' @param ridge_y_labs Lofical: If TRUE, show individual y labs when
-#' `mode = "ridge"`.
-#' @param ridge_order_on_mean Logical: If TRUE, order groups by mean value
-#' when `mode = "ridge"`.
-#' Turn to FALSE, if, for example, groups are ordered by date or similar.
-#' @param vline Float, vector: If defined, draw a vertical line at this x
-#' value(s).
-#' @param vline_col Color for `vline`.
-#' @param vline_width Float: Width for `vline`.
-#' @param vline_dash Character: Type of line to draw: "solid", "dot", "dash",
-#' "longdash", "dashdot",
-#' or "longdashdot"
-#' @param text Character: If defined, add this text over the plot
-#' @param text_x Float: x-coordinate for `text`
-#' @param text_xref Character: "x": `text_x` refers to plot's x-axis;
-#' "paper": `text_x` refers to plotting area from 0-1
-#' @param text_xanchor Character: "auto", "left", "center", "right"
-#' @param text_yanchor Character: "auto", "top", "middle", "bottom"
-#' @param text_y Float: y-coordinate for `text`
-#' @param text_yref Character: "y": `text_y` refers to plot's y-axis;
-#' "paper": `text_y` refers to plotting area from 0-1
-#' @param text_col Color for `text`.
-#' @param width Float: Force plot size to this width. Default = NULL, i.e. fill
-#' available space
-#' @param height Float: Force plot size to this height. Default = NULL, i.e.
-#' fill available space
+#' @param barmode Character: Barmode for histogram. Default = "overlay".
+#' @param ridge_sharex Logical: If TRUE, draw single x-axis when `mode = "ridge"`.
+#' @param ridge_y_labs Logical: If TRUE, show individual y labels when `mode = "ridge"`.
+#' @param ridge_order_on_mean Logical: If TRUE, order groups by mean value when `mode = "ridge"`.
+#' @param displayModeBar Logical: If TRUE, display the mode bar.
+#' @param modeBar_file_format Character: File format for mode bar. Default = "svg".
+#' @param width Numeric: Force plot size to this width. Default = NULL, i.e. fill available space.
+#' @param height Numeric: Force plot size to this height. Default = NULL, i.e. fill available space.
 #' @param filename Character: Path to file to save static plot.
-#' @param file_width Integer: File width in pixels for when `filename` is
-#' set.
-#' @param file_height Integer: File height in pixels for when `filename`
-#' is set.
-#' @param file_scale Numeric: If saving to file, scale plot by this number
+#' @param file_width Integer: File width in pixels for when `filename` is set.
+#' @param file_height Integer: File height in pixels for when `filename` is set.
+#' @param file_scale Numeric: If saving to file, scale plot by this number.
 #' @param ... Additional arguments passed to theme function.
 #'
 #' @return A plotly object
