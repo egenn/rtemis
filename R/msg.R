@@ -33,7 +33,7 @@ info <- function(..., format_fn = hilite2) {
 
 suggest <- function(...) {
   message <- paste(...)
-  cat(hilite2(paste("[Suggestion]", message, "\n")))
+  cat(hilite2("Suggestion: ", message, "\n"))
 }
 
 #' Message with provenance
@@ -139,7 +139,7 @@ msg20 <- function(...,
   message(gray(paste0(.dt, gray(" "))), appendLF = FALSE)
   message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
-    message(gray(" [", caller, "]",sep = ""))
+    message(gray(" [", caller, "]", sep = ""))
   } else if (newline) {
     message("")
   }
