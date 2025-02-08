@@ -172,7 +172,7 @@ method(train, class_data.frame) <- function(x,
       )
       # Update hyperparameters
       hyperparameters <- update(hyperparameters, tuner@best_hyperparameters, tuned = 1L)
-    }
+    } # /Tune
     if (verbosity > 0L) cat("\n")
 
     # Preprocess ----
@@ -192,7 +192,7 @@ method(train, class_data.frame) <- function(x,
       if (!is.null(dat_testing))  dat_testing <- preprocessor@preprocessed$testing
     } else {
       preprocessor <- NULL
-    }
+    } # /Preprocess
 
     # IFW ----
     # Must follow preprocessing since N cases may change
@@ -202,7 +202,7 @@ method(train, class_data.frame) <- function(x,
       } else {
         weights <- ifw(x[[ncols]], type = "case_weights", verbosity = verbosity)
       }
-    }
+    } # /IFW
 
     # Train ALG ----
     if (verbosity > 0L) {
