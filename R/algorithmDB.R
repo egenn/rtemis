@@ -102,6 +102,10 @@ get_alg_name <- function(algorithm) {
   algname
 }
 
+get_alg_setup <- function(algorithm) {
+  paste0("setup_", get_alg_name(algorithm))
+}
+
 get_alg_desc <- function(algorithm) {
   algdesc <- supervised_algorithms[, 2][tolower(algorithm) == tolower(supervised_algorithms[, 1])]
   if (length(algdesc) == 0) {
@@ -122,9 +126,13 @@ get_predict_fn <- function(algorithm) {
   paste0("predict_", get_alg_name(algorithm))
 }
 
-get_predict_prob_fn <- function(algorithm) {
-  paste0("predict_prob_", get_alg_name(algorithm))
+get_se_fn <- function(algorithm) {
+  paste0("se_", get_alg_name(algorithm))
 }
+
+# get_predict_prob_fn <- function(algorithm) {
+#   paste0("predict_prob_", get_alg_name(algorithm))
+# }
 
 get_varimp_fn <- function(algorithm) {
   paste0("varimp_", get_alg_name(algorithm))
