@@ -11,7 +11,6 @@
 #' @details
 #' We are switching to `palette` being a color vector instead of the name of a built-in palette.
 #'
-#' @inheritParams draw_x
 #' @param x Datetime vector or list of vectors OR object of class `xt`. If `xt`, `x2`, `y`, `y2`,
 #' `xunits`, `yunits`, and `y2units` will be extracted from the object and the corresponding
 #' arguments will be ignored.
@@ -20,12 +19,12 @@
 #' correspond to values in `x`. A single x-axis will be drawn for all values in `x` and `x2`.
 #' @param y2 Numeric vector, optional: If provided, a second y-axis will be added to the right
 #' side of the plot.
-#' @param which.xy Integer vector: Indices of `x` and `y` to plot.
+#' @param which_xy Integer vector: Indices of `x` and `y` to plot.
 #' If not provided, will select up to the first two x-y traces.
-#' @param which.xy2 Integer vector: Indices of `x2` and `y2` to plot.
+#' @param which_xy2 Integer vector: Indices of `x2` and `y2` to plot.
 #' If not provided, will select up to the first two x2-y2 traces.
 #' @param shade_bin Integer vector {0, 1}: Time points in `x` to shade on the plot. For example,
-#' if there are 10 time points in `x`, and you want to shade time points 3 to 7, 
+#' if there are 10 time points in `x`, and you want to shade time points 3 to 7,
 #' `shade_bin = c(0, 0, 1, 1, 1, 1, 1, 0, 0, 0)`. Only set `shade_bin` or `shade_interval`, not
 #' both.
 #' @param shade_interval List of numeric vectors: Intervals to shade on the plot. Only set
@@ -42,8 +41,8 @@
 #' @param xunits Character: x-axis units.
 #' @param yunits Character: y-axis units.
 #' @param y2units Character: y2-axis units.
-#' @param yunits.col Color for y-axis units.
-#' @param y2units.col Color for y2-axis units.
+#' @param yunits_col Color for y-axis units.
+#' @param y2units_col Color for y2-axis units.
 #' @param zt Numeric vector: Zeitgeber time. If provided, will be shown on the x-axis instead of
 #' `x`. To be used only with a single `x` vector and no `x2`.
 #' @param show_zt Logical: If TRUE, show zt on x-axis, if zt is provided.
@@ -94,20 +93,20 @@
 #' bar image export.
 #' @param scrollZoom Logical: If TRUE, enable zooming by scrolling.
 #' @param filename Character: Path to save the plot image.
-#' @param file.width Numeric: Width of the saved plot image.
-#' @param file.height Numeric: Height of the saved plot image.
-#' @param file.scale Numeric: Scale of the saved plot image.
+#' @param file_width Numeric: Width of the saved plot image.
+#' @param file_height Numeric: Height of the saved plot image.
+#' @param file_scale Numeric: Scale of the saved plot image.
 #' @param ... Additional theme arguments.
 #'
 #' @return A plotly object.
-#' 
+#'
 #' @author EDG
 #' @export
 draw_xt <- function(
     x, y = NULL,
     x2 = NULL, y2 = NULL,
-    which.xy = NULL,
-    which.xy2 = NULL,
+    which_xy = NULL,
+    which_xy2 = NULL,
     # Shade intervals
     shade_bin = NULL,
     shade_interval = NULL,
@@ -123,8 +122,8 @@ draw_xt <- function(
     xunits = NULL,
     yunits = NULL,
     y2units = NULL,
-    yunits.col = NULL,
-    y2units.col = NULL,
+    yunits_col = NULL,
+    y2units_col = NULL,
     zt = NULL,
     show_zt = TRUE,
     show_zt_every = NULL,
@@ -171,9 +170,9 @@ draw_xt <- function(
     modeBar_file_format = "svg",
     scrollZoom = TRUE,
     filename = NULL,
-    file.width = 960,
-    file.height = 500,
-    file.scale = 1, ...) {
+    file_width = 960,
+    file_height = 500,
+    file_scale = 1, ...) {
   # Names ----
   .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
@@ -231,24 +230,24 @@ draw_xt <- function(
 
   # Which traces to plot ----
   # By default, plot up to two for each y axis
-  if (is.null(which.xy)) {
+  if (is.null(which_xy)) {
     if (length(x) > 2) {
       x <- x[1:2]
       y <- y[1:2]
     }
   } else {
-    x <- x[which.xy]
-    y <- y[which.xy]
+    x <- x[which_xy]
+    y <- y[which_xy]
   }
 
-  if (is.null(which.xy2)) {
+  if (is.null(which_xy2)) {
     if (length(x2) > 2) {
       x2 <- x2[1:2]
       y2 <- y2[1:2]
     }
   } else {
-    x2 <- x2[which.xy2]
-    y2 <- y2[which.xy2]
+    x2 <- x2[which_xy2]
+    y2 <- y2[which_xy2]
   }
 
   # Rangeslider ----
@@ -288,8 +287,8 @@ draw_xt <- function(
 
   # Add units
   if (!is.null(yunits)) {
-    if (is.null(yunits.col)) {
-      yunits.col <- if (length(y) == 1) {
+    if (is.null(yunits_col)) {
+      yunits_col <- if (length(y) == 1) {
         palette[[1]]
       } else {
         "#00ff00"
@@ -297,14 +296,14 @@ draw_xt <- function(
     }
     yunits <- paste0(
       "(",
-      '<span style="color:', yunits.col, ';">', yunits, "</span>",
+      '<span style="color:', yunits_col, ';">', yunits, "</span>",
       ")"
     )
     ynames <- paste(ynames, yunits)
   }
   if (!is.null(y2units)) {
-    if (is.null(y2units.col)) {
-      y2units.col <- if (length(y2) == 1) {
+    if (is.null(y2units_col)) {
+      y2units_col <- if (length(y2) == 1) {
         palette[[length(x) + 1]]
       } else {
         "#ff0000"
@@ -312,7 +311,7 @@ draw_xt <- function(
     }
     y2units <- paste0(
       "(",
-      '<span style="color:', y2units.col, ';">', y2units, "</span>",
+      '<span style="color:', y2units_col, ';">', y2units, "</span>",
       ")"
     )
     y2names <- paste(y2names, y2units)
@@ -615,8 +614,8 @@ draw_xt <- function(
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(
       format = modeBar_file_format,
-      width = file.width,
-      height = file.height
+      width = file_width,
+      height = file_height
     ),
     scrollZoom = scrollZoom
   ) # /config
@@ -626,9 +625,9 @@ draw_xt <- function(
     plotly::save_image(
       plt,
       file = normalizePath(filename, mustWork = FALSE),
-      width = file.width,
-      height = file.height,
-      scale = file.scale
+      width = file_width,
+      height = file_height,
+      scale = file_scale
     )
   } # /save_image
 
