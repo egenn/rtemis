@@ -1,6 +1,6 @@
 # check_data.R
 # ::rtemis::
-# 2022 EDG rtemis.org
+# 2022- EDG rtemis.org
 
 #' Check Data
 #'
@@ -35,7 +35,9 @@ check_data <- function(x,
                        get_duplicates = TRUE,
                        get_na_case_pct = FALSE,
                        get_na_feature_pct = FALSE) {
-  if (is.null(name)) name <- deparse(substitute(x))
+  if (is.null(name)) {
+    name <- deparse(substitute(x))
+  }
   x <- as.data.table(x)
   n_rows <- NROW(x)
   n_cols <- NCOL(x)
@@ -90,8 +92,8 @@ check_data <- function(x,
 
   ## Duplicates ----
   # cindex_dups <- which(duplicated(x))
-  # n_dups <- length(cindex_dups)
-  n_dups <- if (get_duplicates) {
+  # n_duplicates <- length(cindex_dups)
+  n_duplicates <- if (get_duplicates) {
     n_rows - uniqueN(x)
   } else {
     NA
@@ -137,9 +139,9 @@ check_data <- function(x,
     na_feature_pct <- na_case_pct <- rep(0, n_cols)
   }
 
-  # Output ----
-  cd <- list(
-    class = class(x)[1],
+  # CheckData ----
+  CheckData(
+    object_class = class(x)[1],
     name = name,
     n_rows = n_rows,
     n_cols = n_cols,
@@ -150,15 +152,13 @@ check_data <- function(x,
     n_ordered = n_ordered,
     n_date = n_date,
     n_constant = n_constant,
-    n_dups = n_dups,
+    n_duplicates = n_duplicates,
     n_cols_anyna = n_cols_anyna,
     n_na = n_na,
     classes_na = classes_na,
     na_feature_pct = na_feature_pct,
     na_case_pct = na_case_pct
   )
-  class(cd) <- c("CheckData", "list")
-  cd
 } # rtemis::check_data
 
 # chck <- function(x) {
@@ -203,7 +203,7 @@ tohtml <- function(x,
   n_ordered <- x$n_ordered
   n_date <- x$n_date
   n_constant <- x$n_constant
-  n_dups <- x$n_dups
+  n_duplicates <- x$n_duplicates
   n_cols_anyna <- x$n_cols_anyna
   n_na <- x$n_na
   classes_na <- x$classes_na
@@ -248,10 +248,10 @@ tohtml <- function(x,
     .col(n_constant), "constant",
     ngettext(n_constant, "feature", "features")
   ))
-  .col <- if (n_dups > 0) html_orange else strong
+  .col <- if (n_duplicates > 0) html_orange else strong
   duplicates <- HTML(paste(
-    .col(n_dups), "duplicate",
-    ngettext(n_dups, "case", "cases")
+    .col(n_duplicates), "duplicate",
+    ngettext(n_duplicates, "case", "cases")
   ))
 
   .col <- if (n_cols_anyna > 0) html_orange else strong
@@ -288,10 +288,10 @@ tohtml <- function(x,
     NULL
   }
 
-  rec_dups <- if (n_dups > 0) {
+  rec_dups <- if (n_duplicates > 0) {
     tags$li(HTML(paste(html_orange(
       "Consider removing the duplicate",
-      ngettext(n_dups, "case", "cases")
+      ngettext(n_duplicates, "case", "cases")
     ))))
   } else {
     NULL
@@ -318,7 +318,7 @@ tohtml <- function(x,
     NULL
   }
 
-  recs <- if (sum(n_constant, n_dups, n_cols_anyna) == 0) {
+  recs <- if (sum(n_constant, n_duplicates, n_cols_anyna) == 0) {
     tags$li(html_success("Everything looks good"))
   } else {
     list(
@@ -372,217 +372,3 @@ tohtml <- function(x,
     )
   )
 }
-
-#' Print `CheckData` object
-#'
-#' @method print CheckData
-#' @param x `CheckData` object.
-#' @param type Character: Output type: "plaintext" or "html".
-#' @param name Character: Dataset name.
-#' @param check_integers Logical: If TRUE and there are integer features, prints a
-#' message to consider converting to factors.
-#' @param css List with `font.family`, `color`, and `background.color` elements.
-#' @param ... Not used.
-#' 
-#' @author EDG
-#' @export
-print.CheckData <- function(x,
-                            type = c("plaintext", "html"),
-                            name = NULL,
-                            check_integers = FALSE,
-                            css = list(
-                              font.family = "Helvetica",
-                              color = "#fff",
-                              background.color = "#242424"
-                            ),
-                            ...) {
-  if (is.null(name)) {
-    name <- x$name
-    if (is.null(name)) name <- deparse(substitute(x))
-  }
-  type <- match.arg(type)
-
-  n_rows <- x$n_rows
-  n_cols <- x$n_cols
-  n_numeric <- x$n_numeric
-  n_integer <- x$n_integer
-  n_character <- x$n_character
-  n_factor <- x$n_factor
-  n_ordered <- x$n_ordered
-  n_date <- x$n_date
-  n_constant <- x$n_constant
-  n_dups <- x$n_dups
-  n_cols_anyna <- x$n_cols_anyna
-  n_na <- x$n_na
-  na_feature_pct <- x$na_feature_pct
-  na_case_pct <- x$na_case_pct
-
-  if (type == "plaintext") {
-    # plaintext out ----
-    out <- paste0(
-      "  ", hilite(name),
-      paste(
-        ": A", x$class, "with",
-        hilite(n_rows), ngettext(n_rows, "row", "rows"),
-        "and", hilite(n_cols),
-        ngettext(n_cols, "column", "columns")
-      )
-    )
-    ## Data Types ----
-    out <- paste(out,
-      bold("\n  Data types"),
-      paste(
-        "  *", bold(n_numeric), "numeric",
-        ngettext(n_numeric, "feature", "features")
-      ),
-      paste(
-        "  *", bold(n_integer), "integer",
-        ngettext(n_integer, "feature", "features")
-      ),
-      sep = "\n"
-    )
-    isOrdered <- if (n_factor == 1) {
-      paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
-    } else if (n_factor > 1) {
-      paste(", of which", bold(n_ordered), ngettext(n_ordered, "is", "are"), "ordered")
-    } else {
-      ""
-    }
-    out <- paste(out,
-      paste0(
-        "  * ", bold(n_factor),
-        ngettext(n_factor, " factor", " factors"),
-        isOrdered
-      ),
-      sep = "\n"
-    )
-    out <- paste(out,
-      paste(
-        "  *", bold(n_character), "character",
-        ngettext(n_character, "feature", "features")
-      ),
-      sep = "\n"
-    )
-    out <- paste(out,
-      paste(
-        "  *", bold(n_date), "date",
-        ngettext(n_date, "feature", "features")
-      ),
-      sep = "\n"
-    )
-    ## Issues ----
-    out <- paste(out,
-      bold("\n  Issues"),
-      sep = "\n"
-    )
-    fmt <- ifelse(n_constant > 0, red, I)
-    out <- paste(out,
-      paste(
-        "  *", bold(fmt(n_constant)), "constant",
-        ngettext(n_constant, "feature", "features")
-      ),
-      sep = "\n"
-    )
-    fmt <- ifelse(n_dups > 0, orange, I)
-    out <- paste(out,
-      paste(
-        "  *", bold(fmt(n_dups)), "duplicate",
-        ngettext(n_dups, "case", "cases")
-      ),
-      sep = "\n"
-    )
-    nas <- if (n_cols_anyna > 0) {
-      classes_na <- x$classes_na
-      .col <- if (n_cols_anyna > 0) orange else I
-      paste(
-        bold(.col(n_cols_anyna)),
-        ngettext(n_cols_anyna, "feature includes", "features include"),
-        "'NA' values;",
-        bold(.col(n_na)), "'NA'",
-        ngettext(n_na, "value", "values"),
-        "total\n    *",
-        paste0(
-          sapply(seq_along(classes_na), \(i) {
-            paste(
-              bold(.col(classes_na[i])),
-              tolower(names(classes_na)[i])
-            )
-          }),
-          collapse = "\n    * "
-        )
-      )
-    } else {
-      paste(bold("0"), "missing values")
-    }
-    out <- paste0(out, "\n  * ", nas)
-
-    ## Recommendations ----
-    out <- paste(out,
-      bold("\n  Recommendations"),
-      sep = "\n"
-    )
-    if (sum(n_character, n_constant, n_dups, n_cols_anyna) > 0) {
-      if (n_character > 0) {
-        out <- paste(out,
-          bold(orange("  * Consider converting character features to factors or excluding them")),
-          sep = "\n"
-        )
-      }
-      if (n_constant > 0) {
-        out <- paste(out,
-          bold(red(paste(
-            "  * Remove the constant",
-            ngettext(n_constant, "feature", "features")
-          ))),
-          sep = "\n"
-        )
-      }
-
-      if (n_dups > 0) {
-        out <- paste(out,
-          bold(orange(paste(
-            "  * Consider removing the duplicate",
-            ngettext(n_dups, "case", "cases")
-          ))),
-          sep = "\n"
-        )
-      }
-
-      if (n_cols_anyna > 0) {
-        out <- paste(out,
-          bold(orange(paste(
-            "  * Consider imputing missing values or use complete cases only"
-          ))),
-          sep = "\n"
-        )
-      }
-      if (check_integers && n_integer > 0) {
-        out <- paste(out,
-          paste0(
-            "  * Check the",
-            ifelse(n_integer > 1, paste("", n_integer, ""), " "),
-            "integer",
-            ngettext(n_integer, " feature", " features"),
-            " and consider if",
-            ngettext(n_integer, " it", " they"), " should be converted to ",
-            ngettext(n_integer, "factor", "factors")
-          ),
-          sep = "\n"
-        )
-      }
-    } else {
-      out <- paste(out,
-        green("  * Everything looks good", bold = TRUE),
-        sep = "\n"
-      )
-    }
-    cat(out, "\n")
-  } else {
-    # HTML ----
-    htmltools::html_print(
-      tohtml(x),
-      background = css$background.color
-    )
-  }
-  invisible(x)
-} # print.CheckData

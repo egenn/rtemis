@@ -144,13 +144,13 @@ GridSearchParams <- new_class(
 #' @author EDG
 #' @export
 setup_GridSearch <- function(
-    resampler_parameters = setup_Resampler(5L, "KFold"),
+    resampler_parameters = setup_Resampler(n_resamples = 5L, type = "KFold"),
     search_type = "exhaustive",
     randomize_p = NULL,
     metrics_aggregate_fn = mean,
     metric = NULL,
     maximize = NULL,
-    future_plan = "multicore",
+    future_plan = "mirai_multisession",
     n_workers = rtemis_cores) {
   # Arguments ----
   check_is_S7(resampler_parameters, ResamplerParameters)
