@@ -23,7 +23,7 @@ printls <- function(x,
                     prefix = "",
                     pad = 2,
                     item_format = bold,
-                    maxlength = 6,
+                    maxlength = 4L,
                     center_title = TRUE,
                     title = NULL,
                     title_newline = FALSE,
@@ -346,18 +346,18 @@ headdot <- function(x, maxlength = 6, format_fn = identity) {
 #' @keywords internal
 #' @noRd
 twocol2html <- function(x,
-                        font.family = "'Lato'",
-                        font.col = "#ffffff",
-                        font.size = "18px",
-                        header.bg = "#404040",
-                        table.bg = "#7F7F7F",
-                        dat.col = rep("#525252", NROW(x)), # get color grad using all tables
-                        dat.font.col = "#ffffff",
+                        font_family = "'Lato'",
+                        font_col = "#ffffff",
+                        font_size = "18px",
+                        header_bg = "#404040",
+                        table_bg = "#7F7F7F",
+                        dat_col = rep("#525252", NROW(x)), # get color grad using all tables
+                        dat_font_col = "#ffffff",
                         height = "50px",
                         # header
-                        head.padding = "5px",
+                        head_padding = "5px",
                         # table
-                        dat.padding = "5px") {
+                        dat_padding = "5px") {
   # 1. table style ----
   tablestyle <- paste0(
     '<table style="font-family: ', font.family,
@@ -409,7 +409,7 @@ twocol2html <- function(x,
 #'
 #' @param x R object (usually that inherits from matrix or data.frame)
 #' @param name Character: Name of input object
-#' @param verbose Logical: If TRUE, print NROW and NCOL to console.
+#' @param verbosity Integer: Verbosity level.
 #' @param newline Logical: If TRUE, end with new line character.
 #'
 #' @return vector of NROW, NCOL invisibly
