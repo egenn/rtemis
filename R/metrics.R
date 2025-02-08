@@ -10,15 +10,17 @@
 #' @rdname error
 #' @param x Vector of True values
 #' @param y Vector of predicted values
-#' @param na.rm Logical: If TRUE, remove NA values before computation. Default = TRUE
-#' @export
+#' @param na.rm Logical: If TRUE, remove NA values before computation.
+#'
+#' @author EDG
+#' @keywords internal
 mae <- function(x, y, na.rm = TRUE) {
   error <- x - y
   mean(abs(error), na.rm = na.rm)
 } # rtemis::mae
 
 #' @rdname error
-#' @export
+#' @keywords internal
 mse <- function(x, y, na.rm = TRUE) {
   error <- x - y
   mean(error^2, na.rm = na.rm)
@@ -28,7 +30,7 @@ mse <- function(x, y, na.rm = TRUE) {
 #'
 #' @rdname error
 #' @param weights Float, vector: Case weights
-#' @export
+#' @keywords internal
 msew <- function(x, y, weights = rep(1, length(y)), na.rm = TRUE) {
   error <- x - y
   error <- error * weights
@@ -36,7 +38,7 @@ msew <- function(x, y, weights = rep(1, length(y)), na.rm = TRUE) {
 } # rtemis::msew
 
 #' @rdname error
-#' @export
+#' @keywords internal
 rmse <- function(x, y, na.rm = TRUE) {
   sqrt(mse(x, y, na.rm = na.rm))
 } # rtemis::rmse
@@ -46,7 +48,7 @@ rmse <- function(x, y, na.rm = TRUE) {
 #' @param x Float, vector: True values
 #' @param y Float, vector: predicted values
 #' @author EDG
-#' @export
+#' @keywords internal
 
 rsq <- function(x, y) {
   SSE <- sum((x - y)^2)
@@ -63,9 +65,9 @@ rsq <- function(x, y) {
 #'
 #' @param true Factor: True labels. First level is the positive case
 #' @param predicted_prob Float, vector: predicted probabilities
+#'
 #' @author EDG
-#' @export
-
+#' @keywords internal
 logloss <- function(true, predicted_prob) {
   true_bin <- 2 - as.numeric(true)
   eps <- 1e-16
@@ -82,11 +84,11 @@ logloss <- function(true, predicted_prob) {
 #' @param predicted predicted labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
 #' @param verbosity Integer: If > 0, print messages to console.
-#' @export
-
+#'
+#' @keywords internal
 sensitivity <- function(true, predicted,
                         harmonize = FALSE,
-                        verbosity = 1) {
+                        verbosity = 1L) {
   if (harmonize) predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
   pos_index <- true == levels(true)[1]
   condition_pos <- sum(pos_index)
@@ -102,16 +104,17 @@ sensitivity <- function(true, predicted,
 #' @param predicted predicted labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
 #' @param verbosity Integer: If > 0, print messages to console.
-#' @export
+#'
+#' @keywords internal
 
 specificity <- function(true, predicted,
                         harmonize = FALSE,
-                        verbosity = 1) {
+                        verbosity = 1L) {
   if (harmonize) predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
   neg_index <- true == levels(true)[2]
   condition_neg <- sum(neg_index)
-  true.neg <- sum(true[neg_index] == predicted[neg_index])
-  true.neg / condition_neg
+  true_neg <- sum(true[neg_index] == predicted[neg_index])
+  true_neg / condition_neg
 }
 
 #' Balanced Accuracy
@@ -120,16 +123,15 @@ specificity <- function(true, predicted,
 #'
 #' BAcc = .5 * (Sensitivity + Specificity)
 #'
-#' @param true True labels
-#' @param predicted predicted labels
+#' @param true Factor: True labels.
+#' @param predicted Factor: Predicted labels.
 #' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factor_harmonize].
-#' Default = FALSE
 #' @param verbosity Integer: If > 0, print messages to console.
-#' @export
-
+#'
+#' @keywords internal
 bacc <- function(true, predicted,
                  harmonize = FALSE,
-                 verbosity = 1) {
+                 verbosity = 1L) {
   .5 * (sensitivity(true, predicted, harmonize = harmonize, verbosity = verbosity) +
           specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
 }
@@ -143,11 +145,11 @@ bacc <- function(true, predicted,
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
 #' @param verbosity Integer: If > 0, print messages to console.
 #'
-#' @export
+#' @keywords internal
 
 precision <- function(true, predicted,
                       harmonize = FALSE,
-                      verbosity = 1) {
+                      verbosity = 1L) {
   if (harmonize) {
     predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
   }
@@ -164,30 +166,76 @@ precision <- function(true, predicted,
 
 #' Factor harmonize
 #'
-#' @param x Input factor
-#' @param reference Reference factor
+#' @param x Input factor.
+#' @param reference Reference factor.
 #' @param verbosity Integer: If > 0, print messages to console.
-# #' @param allow.rename Logical: If TRUE, allow renaming - not simply reordering - factor levels of input \code{x}
-#' @export
+#'
+#' @author EDG
+#' @return Factor: x with levels in the same order as reference.
+#' @keywords internal
 
 factor_harmonize <- function(reference, x,
-                             verbosity = 1) {
+                             verbosity = 1L) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
-      if (verbosity > 0) msg2("Levels of x:")
+      if (verbosity > 0L) msg2("Levels of x:")
       levels(x)
-      if (verbosity > 0) msg2("levels of reference:")
+      if (verbosity > 0L) msg2("levels of reference:")
       levels(reference)
       stop("Levels of two inputs do not match")
     }
-    if (verbosity > 0) {
+    if (verbosity > 0L) {
       msg2("Input factor levels are not in the same order, correcting")
     }
     x <- factor(x, levels = levels(reference))
   }
   x
-} # rtemis::factor_harmonize
+} # /rtemis::factor_harmonize
+
+#' F1 score
+#'
+#' Calculate the F1 score for classification:
+#'
+#' \deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
+#'
+#' @param recall Float \[0, 1\]: Recall a.k.a. Sensitivity
+#' @param precision Float \[0, 1\]: Precision a.k.a. Positive Predictive Value
+#'
+#' @author EDG
+#' @keywords internal
+
+f1 <- function(precision, recall) {
+  2 * (recall * precision) / (recall + precision)
+} # /rtemis::f1
+
+
+#' Brier Score
+#'
+#' Calculate the Brier Score for classification:
+#'
+#' \deqn{BS = \frac{1}{N} \sum_{i=1}^{N} (y_i - p_i)^2}{BS = 1/N * sum_{i=1}^{N} (y_i - p_i)^2}
+#'
+#' @param true Numeric vector, {0, 1}: True labels
+#' @param predicted_prob Numeric vector, \[0, 1\]: predicted probabilities
+#'
+#' @author EDG
+#' @keywords internal
+brier_score <- function(true, predicted_prob) {
+  mean((true - predicted_prob)^2)
+} # /rtemis::brier_score
+
+labels2int <- function(x, binclasspos = 2L) {
+  stopifnot(is.factor(x))
+  # Convert factor to 0, 1 where 1 is the positive class
+  # defined by binclasspos
+  if (binclasspos == 1L) {
+    xi <- 2 - as.numeric(x)
+  } else {
+    xi <- as.numeric(x) - 1
+  }
+  return(xi)
+} # rtemis::labels2int
 
 # classification_metrics ----
 #' Classification Metrics
@@ -195,15 +243,15 @@ factor_harmonize <- function(reference, x,
 #' Note that auc_method = "pROC" is the only one that will output an AUC even if
 #' one or more predicted probabilities are NA.
 #'
-#' @param true Factor: True labels
-#' @param predicted Factor: predicted values
-#' @param predicted_prob Numeric vector: predicted probabilities
+#' @param true Factor: True labels.
+#' @param predicted Factor: predicted values.
+#' @param predicted_prob Numeric vector: predicted probabilities.
 #' @param binclasspos Integer: Factor level position of the positive class in binary classification.
 #' @param calc_auc Logical: If TRUE, calculate AUC. May be slow in very large datasets.
-#' @param calc_brier Logical: If TRUE, calculate Brier Score
+#' @param calc_brier Logical: If TRUE, calculate Brier Score.
 #' @param auc_method Character: "pROC", "ROCR", "auc_pairs": Method to use, passed to
 #' [auc].
-#' @param trace Integer: If > 0, print  diagnostic messages. Default = 0
+#' @param verbosity Integer: If > 0, print messages to console.
 #'
 #' @author EDG
 #' @return S3 object of type "class_error"
@@ -222,30 +270,34 @@ factor_harmonize <- function(reference, x,
 classification_metrics <- function(true,
                                    predicted,
                                    predicted_prob = NULL,
-                                   binclasspos = 1,
+                                   binclasspos = 2L,
                                    calc_auc = TRUE,
                                    calc_brier = TRUE,
                                    auc_method = c("pROC", "ROCR", "auc_pairs"),
                                    sample = character(),
-                                   trace = 0) {
+                                   verbosity = 0L) {
   # Input ----
   # Binary class probabilities only for now
   if (length(predicted_prob) > length(true)) predicted_prob <- NULL
 
   # Metrics ----
   if (!all(levels(true) == levels(predicted))) {
-    stop("True and predicted must have the same levels.")
+    stop(
+      "True and predicted must have the same levels.",
+      "\nlevels(true): ", paste(levels(true), collapse = ", "),
+      "\nlevels(predicted): ", paste(levels(predicted), collapse = ", ")
+    )
   }
   # Positive class ----
-  # Keep positive class as the first factor level
-  if (binclasspos != 1) {
+  # For confusion table, make positive class the first factor level
+  if (binclasspos == 2L) {
     true <- factor(true, levels = rev(levels(true)))
     predicted <- factor(predicted, levels = rev(levels(predicted)))
   }
   true_levels <- levels(true)
   n_classes <- length(true_levels)
   Positive_Class <- if (n_classes == 2) true_levels[binclasspos] else NA
-  if (trace > 0) {
+  if (verbosity > 0) {
     if (n_classes == 2) {
       msg2("There are two outcome classes:", hilite(paste(true_levels, collapse = ", ")))
       msg2("        The positive class is:", hilite(Positive_Class))
@@ -295,7 +347,7 @@ classification_metrics <- function(true,
       Overall$AUC <- auc(preds = predicted_prob, labels = true, method = auc_method)
     }
     if (calc_brier) {
-      true_bin <- if (binclasspos == 1) {
+      true_bin <- if (binclasspos == 2L) {
         2 - as.numeric(true)
       } else {
         as.numeric(true) - 1
@@ -316,7 +368,7 @@ classification_metrics <- function(true,
     NPV = Class$NPV,
     F1 = Class$F1
   ))
-  
+
   ClassificationMetrics(
     sample = sample,
     Confusion_Matrix = tbl,
@@ -324,7 +376,6 @@ classification_metrics <- function(true,
     Class = Class,
     Positive_Class = Positive_Class
   )
-  
 } # /rtemis::classification_metrics
 
 
@@ -347,55 +398,3 @@ regression_metrics <- function(true, predicted, na.rm = TRUE, sample = character
     sample = sample
   )
 } # /rtemis::regression_metrics
-
-
-# f1.R
-# ::rtemis::
-# 2019 EDG
-
-#' F1 score
-#'
-#' Calculate the F1 score for classification:
-#'
-#' \deqn{F1 = 2 \frac{Recall \cdot Precision}{Recall + Precision}}{F1 = 2 * (Recall * Precision)/(Recall + Precision)}
-#'
-#' @param recall Float \[0, 1\]: Recall a.k.a. Sensitivity
-#' @param precision Float \[0, 1\]: Precision a.k.a. Positive Predictive Value
-#'
-#' @author EDG
-#' @export
-
-f1 <- function(precision, recall) {
-  2 * (recall * precision) / (recall + precision)
-} # rtemis::f1
-
-
-#' Brier Score
-#'
-#' Calculate the Brier Score for classification:
-#'
-#' \deqn{BS = \frac{1}{N} \sum_{i=1}^{N} (y_i - p_i)^2}{BS = 1/N * sum_{i=1}^{N} (y_i - p_i)^2}
-#'
-#' @param true Numeric vector, {0, 1}: True labels
-#' @param predicted_prob Numeric vector, \[0, 1\]: predicted probabilities
-#'
-#' @author EDG
-#' @export
-brier_score <- function(true, predicted_prob) {
-  mean((true - predicted_prob)^2)
-} # rtemis::brier_score
-
-labels2int <- function(x, pos.class = NULL) {
-  if (is.null(pos.class)) {
-    pos.class <- rtenv$binclasspos
-  }
-  stopifnot(is.factor(x))
-  # Convert factor to 0, 1 where 1 is the positive class
-  # defined by pos.class
-  if (pos.class == 1) {
-    xi <- 2 - as.numeric(x)
-  } else {
-    xi <- as.numeric(x) - 1
-  }
-  return(xi)
-} # rtemis::labels2int
