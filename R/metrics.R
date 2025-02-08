@@ -210,6 +210,120 @@ f1 <- function(precision, recall) {
 } # /rtemis::f1
 
 
+# auc.R
+# ::rtemis::
+# 2019-23 EDG rtemis.org
+
+#' Area under the ROC Curve
+#'
+#' Get the Area under the ROC curve to assess classifier performance.
+#'
+#' Important Note: We assume that true labels are a factor where the first level
+#' is the "positive" case, a.k.a. the event. All methods used here, "pROC",
+#' "auc_pairs", "ROCR", have been setup to expect this. This goes against the
+#' default setting for both "pROC" and "ROCR", which will not give an AUC less
+#' than .5 because they will reorder levels. We don't want this because you
+#' can have a classifier perform worse than .5 and it can be very confusing if
+#' levels are reordered automatically and different functions give you different
+#' AUC.
+#'
+#' @param preds Numeric, Vector: Probabilities or model scores
+#' (e.g. c(.32, .75, .63), etc)
+#' @param labels True labels of outcomes (e.g. c(0, 1, 1))
+#' @param method Character: "pROC", "auc_pairs", or "ROCR": Method to use.
+#' Will use `pROC::roc`, [auc_pairs], `ROCR::performance`, respectively.
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @author EDG
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' preds <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+#' labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
+#' auc(preds, labels, method = "ROCR")
+#' auc(preds, labels, method = "pROC")
+#' auc(preds, labels, method = "auc_pairs")
+#' }
+auc <- function(preds, labels,
+                method = c("pROC", "ROCR", "auc_pairs"),
+                verbosity = 0L) {
+  method <- match.arg(method)
+  if (length(unique(labels)) == 1) {
+    return(NaN)
+  }
+
+
+  if (method == "pROC") {
+    check_dependencies("pROC")
+    .auc <- try(as.numeric(pROC::roc(
+      labels, preds,
+      levels = rev(levels(labels)),
+      direction = "<"
+    )$auc))
+  } else if (method == "ROCR") {
+    check_dependencies("ROCR")
+    .pred <- try(ROCR::prediction(preds, labels,
+      label.ordering = rev(levels(labels))
+    ))
+    .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
+  } else if (method == "auc_pairs") {
+    .auc <- auc_pairs(preds, labels, verbosity = verbosity - 1L)
+  }
+
+  if (inherits(.auc, "try-error")) {
+    .auc <- NaN
+  }
+
+  if (verbosity > 0L) msg2("AUC =", .auc)
+  .auc
+} # rtemis::auc
+
+
+#' Area under the Curve by pairwise concordance
+#'
+#' Get the Area under the ROC curve to assess classifier performance using pairwise concordance
+#'
+#' The first level of `true.labels` must be the positive class, and high numbers in
+#' `estimated.score` should correspond to the positive class.
+#'
+#' @param estimated.score Float, Vector: Probabilities or model scores
+#' (e.g. c(.32, .75, .63), etc)
+#' @param true.labels True labels of outcomes (e.g. c(0, 1, 1))
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @examples
+#' \dontrun{
+#' true.labels <- factor(c("a", "a", "a", "b", "b", "b", "b"))
+#' estimated.score <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
+#' auc_pairs(estimated.score, true.labels, verbosity = 1L)
+#' }
+#' @export
+
+
+auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
+  true.labels <- as.factor(true.labels)
+  true.levels <- levels(true.labels)
+  n.levels <- length(true.levels)
+  if (n.levels == 2) {
+    outer.diff <- outer(
+      estimated.score[true.labels == true.levels[1]],
+      estimated.score[true.labels == true.levels[2]],
+      "-"
+    )
+    .auc <- mean((outer.diff > 0) + .5 * (outer.diff == 0))
+  } else {
+    stop("Multiclass AUC does not have a unique definition and is not yet implemented")
+  }
+  if (verbosity > 0L) {
+    msg2("Positive class:", true.levels[1])
+    msg2("AUC =", .auc)
+  }
+  invisible(.auc)
+} # rtemis::auc_pairs
+
+
+
 #' Brier Score
 #'
 #' Calculate the Brier Score for classification:
