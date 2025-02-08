@@ -58,7 +58,6 @@ method(train, class_data.frame) <- function(x,
   if (is.null(hyperparameters)) {
     hyperparameters <- get_default_hyperparameters(algorithm)
   }
-  check_is_S7(hyperparameters, Hyperparameters)
   if (!is.null(tuner_parameters)) {
     check_is_S7(tuner_parameters, TunerParameters)
   }
@@ -195,9 +194,15 @@ method(train, class_data.frame) <- function(x,
       preprocessor <- NULL
     }
 
-    # Weights ----
-    # must follow preprocessing since N cases may change
-    # => IFW
+    # IFW ----
+    # Must follow preprocessing since N cases may change
+    if (hyperparameters$ifw) {
+      if (!is.null(weights)) {
+        stop("Custom weights are defined, but IFW is set to TRUE.")
+      } else {
+        weights <- ifw(x[[ncols]], type = "case_weights", verbosity = verbosity)
+      }
+    }
 
     # Train ALG ----
     if (verbosity > 0L) {
@@ -217,13 +222,15 @@ method(train, class_data.frame) <- function(x,
       tuner_parameters = tuner_parameters,
       verbosity = verbosity
     )
+    # Validation data is only passed to learners using early stopping.
+    # Otherwise, tuning functions collect validation metrics.
     if (algorithm %in% early_stopping_algs) {
       args$dat_validation <- dat_validation
     }
     mod <- do_call(get_train_fn(algorithm), args)
     # each train_* function checks output is the correct model class.
 
-    # Supervised ----
+    # Predicted Values ----
     predict_fn <- get_predict_fn(algorithm)
     varimp_fn <- get_varimp_fn(algorithm)
     predicted_prob_training <- predicted_prob_validation <- predicted_prob_testing <- NULL
@@ -269,6 +276,19 @@ method(train, class_data.frame) <- function(x,
         )
       }
     }
+
+    # Standard Errors ----
+    se_training <- se_validation <- se_testing <- NULL
+    if (type == "Regression" && algorithm %in% se_compat_algorithms) {
+      se_fn <- get_se_fn(algorithm)
+      se_training <- do_call(se_fn, list(mod, newdata = x[, -ncols, drop = FALSE]))
+      if (!is.null(dat_validation)) {
+        se_validation <- do_call(se_fn, list(mod, newdata = dat_validation[, -ncols, drop = FALSE]))
+      }
+      if (!is.null(dat_testing)) {
+        se_testing <- do_call(se_fn, list(mod, newdata = dat_testing[, -ncols, drop = FALSE]))
+      }
+    }
     # Make Supervised/CV ----
     mod <- make_Supervised(
       algorithm = algorithm,
@@ -283,9 +303,13 @@ method(train, class_data.frame) <- function(x,
       predicted_validation = predicted_validation,
       predicted_testing = predicted_testing,
       predicted_prob_training = predicted_prob_training,
+      predicted_prob_validation = predicted_prob_validation,
       predicted_prob_testing = predicted_prob_testing,
+      se_training = se_training,
+      se_validation = se_validation,
+      se_testing = se_testing,
       xnames = names(x)[-ncols],
-      varimp = do.call(varimp_fn, list(mod)),
+      varimp = do_call(varimp_fn, list(mod)),
       question = question
     )
   } else {
@@ -299,7 +323,6 @@ method(train, class_data.frame) <- function(x,
     } else {
       predicted_prob_training <- predicted_prob_testing <- NULL
     }
-    varimp_fn <- get_varimp_fn(algorithm)
     mod <- make_SupervisedCV(
       algorithm = algorithm,
       type = type,
