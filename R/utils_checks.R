@@ -344,7 +344,7 @@ do_call <- function(
     args,
     error_pattern_suggestion = NULL,
     warning_pattern_suggestion = NULL,
-    call. = TRUE) {
+    call. = FALSE) {
   pat_sug <- c(common_errors, error_pattern_suggestion)
   wpat_sug <- c(common_warnings, warning_pattern_suggestion)
   fn_name <- deparse(substitute(fn))
