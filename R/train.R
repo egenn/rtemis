@@ -17,10 +17,10 @@ train <- new_generic("train", "x")
 #' 
 #' @usage 
 #' ## S7 method for signature 'data.frame'
-#' train(x, dat_validation = NULL, dat_testing = NULL, algorithm = NULL, 
-#'      preprocessor_parameters = NULL, hyperparameters = NULL, tuner_parameters = setup_GridSearch(),
-#'      crossvalidation_parameters = NULL, weights = NULL, question = NULL, 
-#'      outdir = NULL, verbosity = 1L)
+#' train(x, dat_validation = NULL, dat_testing = NULL, 
+#'       algorithm = NULL, preprocessor_parameters = NULL, hyperparameters = NULL,
+#'       tuner_parameters = setup_GridSearch(), crossvalidation_parameters = NULL,
+#'       weights = NULL, question = NULL, outdir = NULL, verbosity = 1L)
 #'
 #' @details
 #' For binary classification, the outcome should be a factor where the 2nd level corresponds to the
