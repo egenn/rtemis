@@ -141,17 +141,17 @@ get_varimp_fn <- function(algorithm) {
 # Clustering ----
 clust_algorithms <- data.frame(rbind(
   c("CMeans", "Fuzzy C-means Clustering"),
-  c("DBSCAN", "Density-based spatial clustering of applications with noise"),
-  c("EMC", "Expectation Maximization Clustering"),
+  # c("DBSCAN", "Density-based spatial clustering of applications with noise"),
+  # c("EMC", "Expectation Maximization Clustering"),
   c("HardCL", "Hard Competitive Learning"),
-  c("HOPACH", "Hierarchical Ordered Partitioning And Collapsing Hybrid"),
-  c("H2OKMeans", "H2O K-Means Clustering"),
+  # c("HOPACH", "Hierarchical Ordered Partitioning And Collapsing Hybrid"),
+  # c("H2OKMeans", "H2O K-Means Clustering"),
   c("KMeans", "K-Means Clustering"),
-  c("MeanShift", "Mean Shift Clustering"),
-  c("NeuralGas", "Neural Gas Clustering"),
-  c("PAM", "Partitioning Around Medoids"),
-  c("PAMK", "Partitioning Around Medoids with k estimation"),
-  c("SPEC", "Spectral Clustering")
+  # c("MeanShift", "Mean Shift Clustering"),
+  c("NeuralGas", "Neural Gas Clustering")
+  # c("PAM", "Partitioning Around Medoids"),
+  # c("PAMK", "Partitioning Around Medoids with k estimation"),
+  # c("SPEC", "Spectral Clustering")
 ))
 
 get_clust_name <- function(algorithm) {
@@ -178,28 +178,28 @@ get_default_clusterparams <- function(algorithm) {
   do.call(paste0("setup_", get_clust_name(algorithm)), list())
 }
 
+get_clustpredict_fn <- function(algorithm) {
+  paste0("clustpredict_", get_clust_name(algorithm))
+}
+
 get_clust_setup_fn <- function(algorithm) {
   paste0("setup_", get_clust_name(algorithm))
 } # /rtemis::get_clust_setup_fn
 
-get_clust_predict_fn <- function(algorithm) {
-  paste0("predict_", get_clust_name(algorithm))
-} # /rtemis::get_clust_predict_fn
-
 
 # Decomposition ----
 decom_algorithms <- data.frame(rbind(
-  c("H2OAE", "H2O Autoencoder"),
-  c("H2OGLRM", "H2O Generalized Low-Rank Model"),
+  # c("H2OAE", "H2O Autoencoder"),
+  # c("H2OGLRM", "H2O Generalized Low-Rank Model"),
   c("ICA", "Independent Component Analysis"),
-  c("Isomap", "Isomap"),
-  c("KPCA", "Kernel Principal Component Analysis"),
-  c("LLE", "Locally Linear Embedding"),
-  c("MDS", "Multidimensional Scaling"),
-  c("NMF", "Non-negative Matrix Factorization"),
+  # c("Isomap", "Isomap"),
+  # c("KPCA", "Kernel Principal Component Analysis"),
+  # c("LLE", "Locally Linear Embedding"),
+  # c("MDS", "Multidimensional Scaling"),
+  # c("NMF", "Non-negative Matrix Factorization"),
   c("PCA", "Principal Component Analysis"),
-  c("SPCA", "Sparse Principal Component Analysis"),
-  c("SVD", "Singular Value Decomposition"),
+  # c("SPCA", "Sparse Principal Component Analysis"),
+  # c("SVD", "Singular Value Decomposition"),
   c("TSNE", "t-distributed Stochastic Neighbor Embedding"),
   c("UMAP", "Uniform Manifold Approximation and Projection")
 ))
@@ -235,3 +235,28 @@ get_decom_setup_fn <- function(algorithm) {
 get_decom_predict_fn <- function(algorithm) {
   paste0("predict_", get_decom_name(algorithm))
 } # /rtemis::get_decom_predict_fn
+
+
+#' Available Algorithms
+#'
+#' Print available algorithms for supervised learning, clustering, and decomposition.
+#'
+#' @rdname available_algorithms
+#' @aliases available_algorithms
+#' @export
+available_supervised <- function() {
+  algs <- structure(supervised_algorithms[, 2], names = supervised_algorithms[, 1], class = "list")
+  printls(algs, print_class = FALSE)
+}
+
+#' @rdname available_algorithms
+available_clustering <- function() {
+  algs <- structure(clust_algorithms[, 2], names = clust_algorithms[, 1], class = "list")
+  printls(algs, print_class = FALSE)
+}
+
+#' @rdname available_algorithms
+available_decomposition <- function() {
+  algs <- structure(decom_algorithms[, 2], names = decom_algorithms[, 1], class = "list")
+  printls(algs, print_class = FALSE)
+}
