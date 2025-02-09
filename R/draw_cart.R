@@ -87,11 +87,11 @@ draw_cart <- function(object,
   }
 
   # data.tree ----
-  if (inherits(object, "rtMod")) {
-    if (inherits(object$mod, "rpart")) {
-      .tree <- as.data.tree.rpart(object$mod)
-      method <- object$mod$method
-      y <- object$mod$model$y
+  if (check_is_S7(object, Supervised)) {
+    if (inherits(object@model, "rpart")) {
+      .tree <- as.data.tree.rpart(object@model)
+      method <- object@model$method
+      y <- object@model$model$y
       if (verbosity > 0L) msg2("Object is rtemis rpart model")
     } else {
       stop("Input must be of type rpart")

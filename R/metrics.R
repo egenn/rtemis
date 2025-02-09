@@ -299,8 +299,6 @@ auc <- function(preds, labels,
 #' auc_pairs(estimated.score, true.labels, verbosity = 1L)
 #' }
 #' @export
-
-
 auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
   true.labels <- as.factor(true.labels)
   true.levels <- levels(true.labels)
