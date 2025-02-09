@@ -73,7 +73,7 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
     excluded_names <- colnames(x)[parameters@exclude]
     x <- x[, -parameters@exclude, drop = FALSE]
   }
-  
+
   # Remove named features ----
   if (!is.null(parameters@remove_features)) {
     if (verbosity > 0L) {
@@ -438,7 +438,7 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
         scale = scale_,
         center = center_
       )
-    
+
       # Collect scale and center values
       values$scale_centers <- attr(x_num_scaled, "scaled:center")
       values$scale_coefficients <- attr(x_num_scaled, "scaled:scale")
@@ -511,9 +511,9 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
   if (verbosity > 0L) {
     msg2("Preprocessing completed.")
   }
-  
+
   preprocessed <- list(training = x)
-  
+
   if (!is.null(dat_validation)) {
     if (verbosity > 0L) msg2("Applying preprocessing to validation data...")
     prp_validation <- preprocess(
@@ -574,10 +574,15 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 # ::rtemis::
 # 2019 EDG rtemis.org
 
+#' @name one_hot
+#' 
+#' @title
 #' One hot encoding
 #'
+#' @description
 #' One hot encode a vector or factors in a data.frame
 #'
+#' @details
 #' A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
 #' only column of type factor will be one-hot encoded.
 #' This function is used by [preprocess].
@@ -590,9 +595,10 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 #'
 #' @return For vector input, a one-hot-encoded matrix, for data.frame frame
 #' input, an expanded data.frame where all factors are one-hot encoded
-#' 
+#'
 #' @author EDG
 #' @export
+#' 
 #' @examples
 #' \dontrun{
 #' iris_oh <- one_hot(iris)
@@ -600,17 +606,10 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 #' vf <- factor(rep("alpha", 20), levels = c("alpha", "beta"))
 #' vf_one_hot <- one_hot(vf)
 #' }
-one_hot <- function(x,
-                    xname = NULL,
-                    verbosity = 0L) {
-  UseMethod("one_hot", x)
-} # rtemis::one_hot
-
-
 #' @rdname one_hot
 #' @export
-
-one_hot.default <- function(x,
+one_hot <- new_generic("one_hot", "x")
+method(one_hot, class_any) <- function(x,
                             xname = NULL,
                             verbosity = 1L) {
   if (is.null(xname)) xname <- deparse(substitute(x))
@@ -645,11 +644,15 @@ one_hotcm <- function(x,
 # x <- iris$Species
 # microbenchmark::microbenchmark(loop = one_hot.default(x), dt = one_hotcm(x))
 
-#' @rdname one_hot
-#' @export
+# one_hot.data.frame ----
+#' @name one_hot
+#'
 #' @examples
+#' \dontrun{
 #' one_hot(iris) |> head()
-one_hot.data.frame <- function(x,
+#' }
+# one_hot.data.frame
+method(one_hot, class_data.frame) <- function(x,
                                xname = NULL,
                                factor_levels = NULL,
                                verbosity = 1L) {
@@ -679,15 +682,16 @@ one_hot.data.frame <- function(x,
   as.data.frame(one.hot)
 } # rtemis::one_hot.data.frame
 
-
-#' @rdname one_hot
+# one_hot.data.table ----
+#' @name one_hot
 #'
-#' @export
 #' @examples
+#' \dontrun{
 #' ir <- data.table::as.data.table(iris)
 #' ir_oh <- one_hot(ir)
 #' ir_oh
-one_hot.data.table <- function(x,
+#' }
+method(one_hot, class_data.table) <- function(x,
                                xname = NULL,
                                verbosity = 1L) {
   if (is.null(xname)) xname <- deparse(substitute(x))

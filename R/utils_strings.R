@@ -228,16 +228,21 @@ labelify <- function(x,
 #' Clean character vector by replacing all symbols and sequences of symbols with single
 #' underscores, ensuring no name begins or ends with a symbol
 #'
-#' @param x Character vector
+#' @param x Character vector.
 #' @param prefix_digits Character: prefix to add to names beginning with a
-#' digit. Set to NA to skip
+#' digit. Set to NA to skip.
+#' 
+#' @return Character vector.
 #'
 #' @author EDG
 #' @export
+#' 
 #' @examples
+#' \dontrun{
 #' x <- c("Patient ID", "_Date-of-Birth", "SBP (mmHg)")
 #' x
 #' clean_names(x)
+#' }
 clean_names <- function(x, prefix_digits = "V_") {
   xc <- gsub("[^[:alnum:]]{1,}", "_", x)
   xc <- gsub("^_|_$", "", xc)
@@ -252,12 +257,17 @@ clean_names <- function(x, prefix_digits = "V_") {
 #'
 #' Clean column names by replacing all spaces and punctuation with a single underscore
 #'
-#' @param x Character, vector
+#' @param x Character vector.
+#' 
+#' @return Character vector.
 #'
 #' @author EDG
 #' @export
+#' 
 #' @examples
+#' \dontrun{
 #' clean_colnames(iris)
+#' }
 clean_colnames <- function(x) {
   if (!inherits(x, "character")) {
     x <- if (inherits(x, "matrix")) colnames(x) else names(x)

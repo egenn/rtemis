@@ -24,6 +24,7 @@
 #' @author EDG
 #' @export
 #' @examples
+#' \dontrun{
 #' y <- rnorm(200)
 #' # 10-fold (stratified)
 #' res <- resample(y, 10, "KFold")
@@ -31,6 +32,7 @@
 #' res <- resample(y, 25, "StratSub")
 #' # 100 stratified bootstraps
 #' res <- resample(y, 100, "StratBoot")
+#' }
 resample <- function(x,
                      parameters = setup_Resampler(),
                      #  index = NULL,

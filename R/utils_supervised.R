@@ -278,9 +278,9 @@ class_imbalance <- function(x) {
 
 #' \pkg{rtemis} internal: predict for an object of class `nullmod`
 #'
-#' @param object Object of class `nullmod`
-#' @param newdata Not used
-#' @param ... Not used
+#' @param object `nullmod` object.
+#' @param newdata Not used.
+#' @param ... Not used.
 #'
 #' @method predict nullmod
 #' @export
