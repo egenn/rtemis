@@ -47,8 +47,8 @@ train <- new_generic("train", "x")
 #' @param config Character, optional: Path to configuration file.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return Object of class `Regression(Supervised)` `RegressionCV(SupervisedCV)`,
-#' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`
+#' @return Object of class `Regression(Supervised)`, `RegressionCV(SupervisedCV)`,
+#' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`.
 #' 
 #' @author EDG
 #' @export
