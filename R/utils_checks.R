@@ -166,6 +166,7 @@ clean_int <- function(x) {
 #' @author EDG
 #'
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' match_arg("papaya", c("AppleExtreme", "SuperBanana", "PapayaMaster"))
@@ -182,7 +183,9 @@ match_arg <- function(x, choices) {
 #'
 #' @return nothing
 #' @author EDG
+#'
 #' @keywords internal
+#' @noRd
 check_logical <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
@@ -192,6 +195,16 @@ check_logical <- function(x) {
     stop(xname, " must be logical.", call. = FALSE)
   }
 } # /rtemis::check_logical
+
+check_character <- function(x) {
+  xname <- bold(underline(deparse(substitute(x))))
+  if (anyNA(x)) {
+    stop(xname, " must not contain NAs.", call. = FALSE)
+  }
+  if (!is.character(x)) {
+    stop(xname, " must be character.", call. = FALSE)
+  }
+} # /rtemis::check_character
 
 check_floatpos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
