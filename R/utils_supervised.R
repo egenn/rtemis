@@ -18,10 +18,10 @@ supervised_type <- function(dat) {
 #'
 #' @return Factor
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Binary classification where "A" is the positive class, so .1 => B, .5 & .9 => A
@@ -72,7 +72,7 @@ check_supervised_inputs <- function(x, y = NULL) {
 #' @return object of same class as `data`
 #'
 #' @author EDG
-#' 
+#'
 #' @export
 set_outcome <- function(dat, outcome_column) {
   # Get index of outcome column
@@ -306,15 +306,13 @@ predict.nullmod <- function(object, newdata = NULL, ...) {
 #' So make sure your data does not have cheeky character vector with "null" values in it that are
 #' not actually NULLs.
 #' @param x named list
-#' 
+#'
 #' @return data.frame
-#' 
+#'
 #' @author EDG
-#' @export
-#' 
 #' @keywords internal
 #' @noRd
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' x <- list(a = c(1, 2, 3), b = NULL, c = c("z", "v"))
