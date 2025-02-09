@@ -1,3 +1,5 @@
 ^dev$
 ^validation$
-\\.code-workspace$
+^.*\.code-workspace$
+^.*\.tar.gz$
+^.*\.Rcheck$
