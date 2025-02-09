@@ -301,3 +301,36 @@ print.CheckData <- function(x,
 method(print, CheckData) <- function(x, ...) {
   print.CheckData(x)
 } # /rtemis::print.CheckData
+
+
+# BiasVariance ----
+BiasVariance <- new_class(
+  name = "BiasVariance",
+  properties = list(
+    bias_squared = class_numeric,
+    mean_bias_squared = class_numeric,
+    sd_bias_squared = class_numeric,
+    variance = class_numeric,
+    mean_variance = class_numeric,
+    sd_variance = class_numeric
+  )
+)
+
+# Print BiasVariance ----
+#' Print method for BiasVariance
+#'
+#' @param x BiasVariance object.
+#' @param ... Not used.
+#'
+#' @author EDG
+#' @noRd
+method(print, BiasVariance) <- function(x, ...) {
+  objcat("BiasVariance")
+  cat("Mean squared bias: ")
+  cat(hilite(ddSci(x$mean_bias_squared)))
+  cat(" (", ddSci(x$sd_bias_squared), ")\n", sep = "")
+  cat("    Mean variance: ")
+  cat(hilite(ddSci(x$mean_variance)))
+  cat(" (", ddSci(x$sd_variance), ")\n", sep = "")
+  cat("\n")
+} # /rtemis::print.BiasVariance
