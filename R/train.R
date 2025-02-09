@@ -2,11 +2,25 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+train <- new_generic("train", "x")
+
+#' @name train
+#' 
+#' @title
 #' Tune, Train, and Test an \pkg{rtemis} Learner
 #'
+#' @description
 #' `train` is a high-level function to preprocess, tune, train, and test an
 #' \pkg{rtemis} model using nested crossvalidation.
+#' 
+#' @usage 
+#' ## S7 method for signature 'data.frame'
+#' train(x, dat_validation = NULL, dat_testing = NULL, algorithm = NULL, 
+#'      preprocessor_parameters = NULL, hyperparameters = NULL, tuner_parameters = setup_GridSearch(),
+#'      crossvalidation_parameters = NULL, weights = NULL, question = NULL, 
+#'      outdir = NULL, verbosity = 1L)
 #'
+#' @details
 #' For binary classification, the outcome should be a factor where the 2nd level corresponds to the
 #' positive class.
 #'
@@ -22,7 +36,7 @@
 #' @param algorithm Character: Algorithm to use. Can be left NULL, if `hyperparameters` is defined.
 #' @param preprocessor_parameters PreprocessorParameters object or NULL: Setup using [setup_Preprocessor].
 #' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
-#' @param tuner_parameters TunerParameters object: Setup using [setup_Tuner].
+#' @param tuner_parameters TunerParameters object: Setup using [setup_GridSearch].
 #' @param crossvalidation_parameters ResamplerParameters object or NULL: Setup using [setup_Resampler].
 #' @param weights Optional vector of case weights.
 #' @param question Optional character string defining the question that the model is trying to
@@ -33,9 +47,9 @@
 #'
 #' @return Object of class `Regression(Supervised)` `RegressionCV(SupervisedCV)`,
 #' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`
+#' 
 #' @author EDG
 #' @export
-train <- new_generic("train", "x")
 method(train, class_data.frame) <- function(x,
                                             dat_validation = NULL,
                                             dat_testing = NULL,

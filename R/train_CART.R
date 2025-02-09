@@ -16,6 +16,7 @@
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 
 train_CART <- function(
     x,
@@ -101,6 +102,7 @@ predict_CART <- function(model, newdata, type) {
 #' @param model rpart model.
 #'
 #' @keywords internal
+#' @noRd
 varimp_CART <- function(model) {
   model[["variable.importance"]]
 } # /rtemis::varimp_CART

@@ -11,7 +11,7 @@
 
 # Description
 # `TunerParams` class and subclasses create objects that store tuner parameters.
-# They are set by `setup_Tuner()` and perform type checking and validation.
+# They are set by `setup_GridSearch()` and perform type checking and validation.
 # They are used by `tune()`.
 # `Tuner` class and subclasses create objects that store tuning results.
 # They are created by `tune()`.

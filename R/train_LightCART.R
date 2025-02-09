@@ -4,14 +4,14 @@
 
 #' Decision Tree using LightGBM
 #'
-#' @inheritParams train_GLMNET
+#' @inheritParams train_LightGBM
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 
 train_LightCART <- function(
     x,
-    dat_validation = NULL,
     weights = NULL,
     hyperparameters = setup_LightCART(),
     tuner_parameters = setup_tuner(),
@@ -31,7 +31,6 @@ train_LightCART <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
     allow_missing = TRUE,
     verbosity = verbosity
   )
@@ -43,15 +42,9 @@ train_LightCART <- function(
         factor2integer = TRUE,
         factor2integer_startat0 = TRUE
       ),
-      dat_validation = dat_validation,
       verbosity = verbosity - 1L
     )
-    if (is.null(dat_validation)) {
-      x <- prp@preprocessed
-    } else {
-      x <- prp@preprocessed$training
-      dat_validation <- prp@preprocessed$validation
-    }
+    x <- prp@preprocessed
   } else {
     factor_index <- NULL
   }
@@ -67,28 +60,12 @@ train_LightCART <- function(
     weight = weights
   )
 
-  # if (!is.null(dat_validation)) {
-  #   dat_validation <- lightgbm::lgb.Dataset(
-  #     data = as.matrix(dat_validation[, -ncol(dat_validation)]),
-  #     categorical_feature = factor_index,
-  #     label = if (type == "Classification") {
-  #       as.integer(dat_validation[[ncol(dat_validation)]]) - 1
-  #     } else {
-  #       dat_validation[[ncol(dat_validation)]]
-  #     }
-  #   )
-  # }
-
   # Train ----
   mod <- lightgbm::lgb.train(
     params = hyperparameters@hyperparameters,
     data = x,
     nrounds = 1L,
-    valids = if (!is.null(dat_validation)) {
-      list(training = x, validation = dat_validation)
-    } else {
-      list(training = x)
-    },
+    valids = list(training = x),
     early_stopping_rounds = NULL,
     verbose = verbosity - 2L
   )
@@ -127,6 +104,7 @@ predict_LightCART <- function(model, newdata, type) {
 #' @param model lgb.Booster object trained using `train_LightCART`.
 #'
 #' @keywords internal
+#' @noRd
 varimp_LightCART <- function(model) {
   check_inherits(model, "lgb.Booster")
   vi <- lightgbm::lgb.importance(model, percentage = TRUE)

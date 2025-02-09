@@ -16,6 +16,7 @@
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 
 train_GLMNET <- function(
     x,
@@ -148,6 +149,7 @@ predict_GLMNET <- function(model, newdata, type) {
 #' @param model glmnet model.
 #'
 #' @keywords internal
+#' @noRd
 varimp_GLMNET <- function(model) {
   coef(model)
 } # /rtemis::varimp_GLMNET

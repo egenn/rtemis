@@ -18,6 +18,7 @@
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 
 train_GLM <- function(
     x,
@@ -95,6 +96,7 @@ predict_GLM <- function(model, newdata, type) {
 #' @param model GLM model.
 #'
 #' @keywords internal
+#' @noRd
 varimp_GLM <- function(model) {
   coef(model)
 } # /rtemis::varimp_GLM

@@ -128,7 +128,9 @@ strict <- function(object, class, allow_null = TRUE) {
 #' @return Integer vector
 #' @author EDG
 #'
-#' @export
+#' @keywords internal
+#' @noRd
+#' 
 #' @examples
 #' \dontrun{
 #' clean_int(6L)
@@ -380,6 +382,11 @@ do_call <- function(
 #' @param x Object
 #'
 #' @return Character: Abbreviated class
+#' 
+#' @author EDG
+#' 
+#' @keywords internal
+#' @noRd
 abbreviate_class <- function(x, n = 4L) {
   paste0("<", abbreviate(class(x)[1], minlength = n), ">")
 } # /rtemis::abbr_class
@@ -401,8 +408,9 @@ abbreviate_class <- function(x, n = 4L) {
 #' "Dependencies check passed".
 #'
 #' @author EDG
-#' @export
-
+#' 
+#' @keywords internal
+#' @noRd
 check_dependencies <- function(..., verbosity = 0L) {
   ns <- as.list(c(...))
   err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))

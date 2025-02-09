@@ -138,17 +138,17 @@ method(get_tuned_status, Hyperparameters) <- function(x) {
 #' @keywords internal
 #' @noRd
 # update <- new_generic("update", "x")
-method(update, Hyperparameters) <- function(x, hyperparameters, tuned = NULL) {
+method(update, Hyperparameters) <- function(object, hyperparameters, tuned = NULL, ...) {
   for (hp in names(hyperparameters)) {
-    x@hyperparameters[[hp]] <- hyperparameters[[hp]]
+    object@hyperparameters[[hp]] <- hyperparameters[[hp]]
   }
   # Update tuned status
   if (is.null(tuned)) {
-    x@tuned <- get_tuned_status(x)
+    object@tuned <- get_tuned_status(object)
   } else {
-    x@tuned <- tuned
+    object@tuned <- tuned
   }
-  x
+  object
 } # /update.Hyperparameters
 
 # Freeze Hyperparameters ----
@@ -816,21 +816,21 @@ LightGBMHyperparameters <- new_class(
   }
 ) # /rtemis::LightGBMHyperparameters
 
-method(update, LightGBMHyperparameters) <- function(x, hyperparameters, tuned = NULL) {
+method(update, LightGBMHyperparameters) <- function(object, hyperparameters, tuned = NULL, ...) {
   for (hp in names(hyperparameters)) {
-    x@hyperparameters[[hp]] <- hyperparameters[[hp]]
+    object@hyperparameters[[hp]] <- hyperparameters[[hp]]
   }
   # Update tuned status
   if (is.null(tuned)) {
-    x@tuned <- get_tuned_status(x)
+    object@tuned <- get_tuned_status(object)
   } else {
-    x@tuned <- tuned
+    object@tuned <- tuned
   }
   # Update nrounds (e.g. in LightRuleFit)
-  if (is.null(x@hyperparameters$nrounds) && !is.null(x@hyperparameters$force_nrounds)) {
-    x@hyperparameters$nrounds <- x@hyperparameters$force_nrounds
+  if (is.null(object@hyperparameters$nrounds) && !is.null(object@hyperparameters$force_nrounds)) {
+    object@hyperparameters$nrounds <- object@hyperparameters$force_nrounds
   }
-  x
+  object
 } # /update.Hyperparameters
 
 # References:

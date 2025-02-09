@@ -25,8 +25,8 @@ class_lgb.Booster <- new_S3_class("lgb.Booster")
 #' @description
 #' A collection of custom S7 validators used in rtemis.
 #' 
-#' @rdname S7_validators
 #' @keywords internal
+#' @noRd
 scalar_dbl <- S7::new_property(
   class = S7::class_double | NULL,
   validator = function(value) {
@@ -40,7 +40,8 @@ scalar_dbl <- S7::new_property(
   }
 ) # /scalar_dbl
 
-#' @rdname S7_validators
+#' @keywords internal
+#' @noRd
 scalar_dbl_01excl <- S7::new_property(
   class = S7::class_double | NULL,
   validator = function(value) {
@@ -54,7 +55,8 @@ scalar_dbl_01excl <- S7::new_property(
   }
 ) # /scalar_dbl_01excl
 
-#' @rdname S7_validators
+#' @keywords internal
+#' @noRd
 scalar_dbl_01incl <- S7::new_property(
   class = S7::class_double | NULL,
   validator = function(value) {
@@ -68,7 +70,8 @@ scalar_dbl_01incl <- S7::new_property(
   }
 ) # /scalar_dbl_01incl
 
-#' @rdname S7_validators
+#' @keywords internal
+#' @noRd
 scalar_int <- S7::new_property(
   class = S7::class_integer | NULL,
   validator = function(value) {
@@ -80,7 +83,8 @@ scalar_int <- S7::new_property(
   }
 ) # /scalar_int
 
-#' @rdname S7_validators
+#' @keywords internal
+#' @noRd
 scalar_int_pos <- S7::new_property(
   class = S7::class_integer | NULL,
   validator = function(value) {
@@ -95,7 +99,8 @@ scalar_int_pos <- S7::new_property(
 ) # /scalar_int_pos
 
 
-#' @rdname S7_validators
+#' @keywords internal
+#' @noRd
 scalar_int_12 <- S7::new_property(
   class = S7::class_integer | NULL,
   validator = function(value) {

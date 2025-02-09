@@ -13,16 +13,17 @@
 #' Includes a special case for training [s_H2OGBM] or [s_GBM] which requires extracting and averaging n.trees
 #' along with params.
 #'
-#' @param x data.frame or similar: Training set
+#' @param x data.frame or similar: Training set.
 #' @param hyperparameters List: Hyperparameters.
 #' @param tuner_parameters List: Tuner parameters.
 #' @param weights Vector: Class weights.
 #' @param verbosity Integer: Verbosity level.
+#' 
+#' @return GridSearch object.
 #'
 #' @author EDG
 #' @keywords internal
 #' @noRd
-
 tune_GridSearch <- function(x,
                             hyperparameters,
                             tuner_parameters,

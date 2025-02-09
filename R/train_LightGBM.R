@@ -4,10 +4,16 @@
 
 #' Gradient Boosting with LightGBM
 #'
-#' @inheritParams train_GLMNET
+#' @param x data.frame or similar: Training set.
+#' @param dat_validation data.frame or similar: Validation set.
+#' @param weights Numeric vector: Case weights.
+#' @param hyperparameters `GLMNETHyperparameters` object: make using [setup_GLMNET].
+#' @param tuner_parameters `TunerParameters` object: make using [setup_tuner].
+#' @param verbosity Integer: If > 0, print messages.
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 
 train_LightGBM <- function(
     x,
@@ -132,6 +138,7 @@ predict_LightGBM <- function(model, newdata, type) {
 #' @param model lgb.Booster object trained using `train_LightGBM`.
 #'
 #' @keywords internal
+#' @noRd
 varimp_LightGBM <- function(model) {
   check_inherits(model, "lgb.Booster")
   vi <- lightgbm::lgb.importance(model, percentage = TRUE)

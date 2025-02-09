@@ -8,7 +8,7 @@
 #'
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 train_LightRuleFit <- function(
     x,
     dat_validation = NULL,
@@ -40,7 +40,7 @@ train_LightRuleFit <- function(
 
   # IFW for LightGBM ----
   # You can choose to use IFW for both steps with `ifw = TRUE` OR control each steps individually using `ifw_lightgbm` and `ifw_glmnet`.
-  lightgbm_weights <- if (hyperparameters@ifw_lightgbm) {
+  lightgbm_weights <- if (hyperparameters$ifw_lightgbm) {
     ifw(x[[ncol(x)]], verbosity = verbosity)
   } else {
     weights
@@ -74,7 +74,7 @@ train_LightRuleFit <- function(
   cases_by_rules <- match_cases_by_rules(x, lgbm_rules, verbosity = verbosity)
 
   # IFW for LASSO ----
-  glmnet_weights <- if (hyperparameters@ifw_glmnet) {
+  glmnet_weights <- if (hyperparameters$ifw_glmnet) {
     ifw(x[[ncol(x)]], verbosity = verbosity)
   } else {
     weights
@@ -110,7 +110,7 @@ train_LightRuleFit <- function(
     x <- as.data.table(x)
     empirical_risk <- vector("numeric", length(rules_selected))
     for (i in seq_along(rules_selected)) {
-      match <- x[eval(parse(text = rules_selected[i]))]
+      match <- x[eval(parse(text = rules_selected[i])), ]
       freq <- table(match[[ncol(match)]])
       empirical_risk[i] <- freq[mod_glmnet@binclasspos] / sum(freq)
     }
@@ -185,6 +185,7 @@ predict_LightRuleFit <- function(model, newdata, type, verbosity = 1L) {
 #' @param model lgb.Booster object trained using `train_LightRuleFit`.
 #'
 #' @keywords internal
+#' @noRd
 varimp_LightRuleFit <- function(model) {
   check_is_S7(model, LightRuleFit)
   coef(model@model_glmnet@model)

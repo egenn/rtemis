@@ -7,8 +7,8 @@
 #' @inheritParams train_GLMNET
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 train_LightRF <- function(
     x,
     dat_validation = NULL,
@@ -127,6 +127,7 @@ predict_LightRF <- function(model, newdata, type) {
 #' @param model lgb.Booster object trained using `train_LightRF`.
 #'
 #' @keywords internal
+#' @noRd
 varimp_LightRF <- function(model) {
   check_inherits(model, "lgb.Booster")
   vi <- lightgbm::lgb.importance(model, percentage = TRUE)

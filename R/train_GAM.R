@@ -18,6 +18,7 @@
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 
 train_GAM <- function(
     x,
@@ -57,7 +58,7 @@ train_GAM <- function(
 
   # Formula ----
   # use s(x, k = k) for all numeric predictors
-  index_numeric <- which(sapply(x[, -ncol(x)], is.numeric))
+  index_numeric <- which(sapply(x[, -ncol(x), drop = FALSE], is.numeric))
   spline_features <- if (length(index_numeric) > 0) {
     paste0(
       "s(", colnames(x)[index_numeric], ", k = ", hyperparameters$k, ")",
@@ -66,7 +67,7 @@ train_GAM <- function(
   } else {
     ""
   }
-  index_factor <- which(sapply(x[, -ncol(x)], is.factor))
+  index_factor <- which(sapply(x[, -ncol(x), drop = FALSE], is.factor))
   categorical_features <- if (length(index_factor) > 0) {
     paste0(
       colnames(x)[index_factor],
@@ -78,7 +79,8 @@ train_GAM <- function(
   outcome_name <- colnames(x)[ncol(x)]
   formula <- as.formula(
     gsub(
-      "\\+$", "",
+      "^ \\+ | \\+ $",
+      "",
       paste(outcome_name, "~", paste(spline_features, categorical_features, sep = " + "))
     )
   )
@@ -118,6 +120,7 @@ predict_GAM <- function(model, newdata, type) {
 #' @param model mgcv gam model.
 #'
 #' @keywords internal
+#' @noRd
 varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
   type <- match.arg(type)
   if (type == "p-value") {

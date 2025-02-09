@@ -4,6 +4,8 @@
 
 #' K-means Clustering
 #'
+#' @keywords internal
+#' @noRd
 cluster_KMeans <- function(x, parameters) {
   # Checks ----
   check_is_S7(parameters, KMeansParameters)
@@ -25,7 +27,11 @@ cluster_KMeans <- function(x, parameters) {
   clust
 } # /rtemis::cluster_KMeans
 
+
 #' Hard Competitive Learning Clustering
+#' 
+#' @keywords internal
+#' @noRd
 cluster_HardCL <- function(x, parameters) {
   # Checks ----
   check_is_S7(parameters, HardCLParameters)
@@ -47,7 +53,11 @@ cluster_HardCL <- function(x, parameters) {
   clust
 } # /rtemis::cluster_HardCL
 
+
 #' Neural Gas Clustering
+#' 
+#' @keywords internal
+#' @noRd
 cluster_NeuralGas <- function(x, parameters) {
   # Checks ----
   check_is_S7(parameters, NeuralGasParameters)
