@@ -6,7 +6,7 @@
 #'
 #' @param x data.table
 #' @param excludeNA Logical: If TRUE, exclude NA values.
-#' 
+#'
 #' @return Integer vector of length `NCOL(x)` with number of unique values per column/feature.
 #'
 #' @author EDG
@@ -32,7 +32,7 @@ nunique_perfeat <- function(x, excludeNA = FALSE) {
 #' NOT present in the long format input `x`.
 #' @param xname Character: Name of `x` to be used in messages.
 #' @param verbosity Integer: Verbosity level.
-#' 
+#'
 #' @return `data.table` in wide format.
 #'
 #' @author EDG
@@ -103,7 +103,7 @@ dt_keybin_reshape <- function(x,
 #' @param ... Additional arguments to be passed to `data.table::merge`.
 #'
 #' @return Merged data.table.
-#' 
+#'
 #' @author EDG
 #' @export
 dt_merge <- function(left,
@@ -183,7 +183,7 @@ dt_merge <- function(left,
 #' @param x data.table
 #' @param prefix_digits Character: If not NA, add this prefix to all factor levels that
 #' are numbers
-#' 
+#'
 #' @return Nothing, modifies `x` in-place.
 #'
 #' @author EDG
@@ -534,6 +534,8 @@ dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
 #'
 #' Note: If `x` is not a data.table, it will be converted in place, i.e. the original
 #' object will be modified.
+#' 
+#' @return Nothing, modifies `x` in-place.
 #'
 #' @author EDG
 #' @export
@@ -555,6 +557,9 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
 #'
 #' @param x data.table
 #'
+#' @return List with three data.tables: Numeric, Categorical, and Date.
+#' 
+#' @author EDG
 #' @export
 #'
 #' @examples
@@ -661,18 +666,18 @@ dt_describe <- function(x) {
   }
 
   invisible(list(Numeric = nm_summary, Categorical = cf_summary, Date = dt_summary))
-} # rtemis::dt_describe
+} # /rtemis::dt_describe
 
-#' Decribe factor
+#' Describe factor
 #'
-#' Outputs a single character with names and counts of each level of the input factor
+#' Outputs a single character with names and counts of each level of the input factor.
 #'
-#' @param x factor
-#' @param max_n Integer: Return counts for up to this many levels
+#' @param x factor.
+#' @param max_n Integer: Return counts for up to this many levels.
 #' @param return_ordered Logical: If TRUE, return levels ordered by count, otherwise
-#' return in level order
+#' return in level order.
 #'
-#' @return Character with level counts
+#' @return Character with level counts.
 #'
 #' @author EDG
 #' @export
@@ -692,7 +697,6 @@ dt_describe <- function(x) {
 #     x_freqs <- as.integer(table(x))
 #     paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
 # }
-#'
 fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
   x <- factor(x)
   x_levels <- levels(x)
@@ -723,7 +727,7 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
       )
     }
   }
-} # rtemis::fct_describe
+} # /rtemis::fct_describe
 
 #' fread delimited file in parts
 #'
@@ -739,7 +743,6 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
 #'
 #' @author EDG
 #' @export
-
 pfread <- function(x, part_nrows,
                    nrows = NULL,
                    header = TRUE,
@@ -785,7 +788,9 @@ pfread <- function(x, part_nrows,
   })
 
   dat <- rbindlist(c(list(dat1), parts))
-  if (verbosity > 0L) msg2("Read", hilitebig(nrow(dat)), "rows")
+  if (verbosity > 0L) {
+    msg2("Read", hilitebig(nrow(dat)), "rows")
+  }
 
   invisible(dat)
 } # rtemis::pfread
@@ -862,7 +867,6 @@ pfread1 <- function(x, part_nrows,
 #'
 #' @author EDG
 #' @export
-
 make_key <- function(x,
                      code_name,
                      description_name,
@@ -881,4 +885,3 @@ make_key <- function(x,
 
   .key
 } # rtemis:: make_key
-
