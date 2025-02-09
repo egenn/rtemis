@@ -9,7 +9,7 @@
 #' @param x data.frame: Input: Either a) 1 numeric column with categories defined by rownames, or
 #' b) two columns, the first is category names, the second numeric or c) a numeric vector with categories defined using
 #' the `category.names` argument.
-#' @param main Character: Plot title. Default = NULL, which results in colnames(x)[1].
+#' @param main Character: Plot title. Default = NULL, which results in `colnames(x)[1]`.
 #' @param xlab Character: x-axis label.
 #' @param ylab Character: y-axis label.
 #' @param col Character: Colors for the pie slices.
@@ -37,7 +37,7 @@
 #' @param ... Additional arguments to pass to the theme function.
 #'
 #' @return A plotly object.
-#' 
+#'
 #' @author EDG
 #' @export
 #' @examples
