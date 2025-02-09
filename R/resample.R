@@ -156,9 +156,11 @@ resample <- function(x,
 #' @param x Input vector.
 #' @param n_resamples Integer: Number of resamples to make.
 #' @param seed Integer: If provided, set seed for reproducibility.
+#' 
 #' @author EDG
-#' @export
-
+#' 
+#' @keywords internal
+#' @noRd
 bootstrap <- function(x, n_resamples = 10,
                       seed = NULL) {
   if (!is.null(seed)) set.seed(seed)
@@ -178,9 +180,11 @@ bootstrap <- function(x, n_resamples = 10,
 #' @inheritParams resample
 #' @param x Input Vector.
 #' @param k Integer: Number of folds.
+#' 
 #' @author EDG
-#' @export
-
+#' 
+#' @keywords internal
+#' @noRd
 kfold <- function(x, k = 10,
                   stratify_var = NULL,
                   strat_n_bins = 4,
@@ -228,9 +232,11 @@ kfold <- function(x, k = 10,
 #'
 #' @inheritParams resample
 #' @param x Input vector
+#' 
 #' @author EDG
-#' @export
-
+#' 
+#' @keywords internal
+#' @noRd
 strat.sub <- function(x,
                       n_resamples = 10,
                       train_p = .75,
@@ -266,9 +272,11 @@ strat.sub <- function(x,
 #'
 #' @inheritParams resample
 #' @param x Input vector
+#' 
 #' @author EDG
-#' @export
-
+#' 
+#' @keywords internal
+#' @noRd
 strat.boot <- function(x, n_resamples = 10,
                        train_p = .75,
                        stratify_var = NULL,
@@ -306,9 +314,11 @@ strat.boot <- function(x, n_resamples = 10,
 #' Leave-one-out Resampling
 #'
 #' @param x Input vector
+#' 
 #' @author EDG
-#' @export
-
+#' 
+#' @keywords internal
+#' @noRd
 loocv <- function(x) {
   res <- lapply(seq(x), function(i) (seq(x))[-i])
   names(res) <- paste0("Fold_", seq(res))
