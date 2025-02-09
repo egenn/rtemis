@@ -111,6 +111,7 @@ train_GAM <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
+#' @noRd
 predict_GAM <- function(model, newdata, type) {
   predict(object = model, newdata = newdata)
 } # /rtemis::predict_GAM
@@ -127,7 +128,7 @@ varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
     # Get parametric and smooth term p-values
     summary_ <- summary(model)
     # Exclude intercept
-    1 - c(summary_$s.table[, "p-value"], summary_$p.table[, "Pr(>|t|)"][-1])
+    -log10(c(summary_$s.table[, "p-value"], summary_$p.table[, ncol(summary_$p.table)][-1]))
   } else if (type == "coefficients") {
     coef(model)
   } else if (type == "edf") {
@@ -138,6 +139,9 @@ varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
 #' Get Standard Errors from GAM model
 #'
 #' @param model mgcv gam model.
+#' 
+#' @keywords internal
+#' @noRd
 se_GAM <- function(model, newdata) {
   predict(model, newdata = newdata, se.fit = TRUE)$se.fit
 }
