@@ -40,9 +40,16 @@ method(cluster, class_numeric | class_data.frame) <- function(x,
   if (verbosity > 0L) {
     msg20("Clustering with ", algorithm, "...\n")
   }
-  clust <- do.call(
+  clust <- do_call(
     cluster_fn,
     list(x = x, parameters = parameters)
+  )
+
+  # Clusters ----
+  clustpredict_fn <- get_clustpredict_fn(algorithm)
+  clusters <- do_call(
+    clustpredict_fn,
+    list(clust = clust)
   )
 
   # Outro ----
@@ -51,7 +58,7 @@ method(cluster, class_numeric | class_data.frame) <- function(x,
     algorithm = algorithm,
     clust = clust,
     k = parameters$k,
-    clusters = flexclust::clusters(clust),
+    clusters = clusters,
     parameters = parameters
   )
 } # /rtemis::cluster
