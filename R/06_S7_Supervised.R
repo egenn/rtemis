@@ -15,6 +15,7 @@
 #' Superclass for supervised learning models.
 #'
 #' @author EDG
+#' @noRd
 Supervised <- new_class(
   name = "Supervised",
   properties = list(
@@ -91,7 +92,7 @@ Supervised <- new_class(
 #'
 #' @param object Supervised object.
 #' @param newdata data.frame or similar: New data to predict.
-#' 
+#'
 #' @noRd
 method(predict, Supervised) <- function(object, newdata, ...) {
   check_inherits(newdata, "data.frame")
@@ -114,11 +115,11 @@ method(fitted, Supervised) <- function(object, ...) {
 
 # Standard Error Supervised ----
 #' Standard Error Supervised
-#' 
+#'
 #' Standard Error Method for Supervised objects
-#' 
+#'
 #' @param object Supervised object.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 method(se, Supervised) <- function(x, ...) {
@@ -131,10 +132,10 @@ method(se, Supervised) <- function(x, ...) {
 #' Print Supervised object
 #'
 #' @param x Supervised object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 print.Supervised <- function(x, ...) {
   cat(gray(".:"))
   objcat(paste(x@type, "Model"))
@@ -292,7 +293,7 @@ method(describe, Supervised) <- function(x) {
 #' Supervised subclass for classification models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 Classification <- new_class(
   name = "Classification",
   parent = Supervised,
@@ -385,7 +386,7 @@ se_compat_algorithms <- c("GLM", "GAM")
 #' Supervised subclass for regression models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 Regression <- new_class(
   name = "Regression",
   parent = Supervised,
@@ -599,7 +600,7 @@ write_Supervised <- function(object,
 #' Superclass for cross-validated supervised learning models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 SupervisedCV <- new_class(
   name = "SupervisedCV",
   properties = list(
@@ -697,21 +698,21 @@ method(print, SupervisedCV) <- function(x) {
 #' the predictions of individual models, "all" returns the predictions of all models in a
 #' data.frame. "metrics" returns a list of data.frames with a) predictions from each model, b)
 #' the mean of the predictions, and c) the standard deviation of the predictions.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 method(predict, SupervisedCV) <- function(object, newdata, type = "avg", avg_fn = "mean", ...) {
   check_inherits(newdata, "data.frame")
   predict_fn <- get_predict_fn(object@algorithm)
   predicted <- lapply(object@models, function(mod) do_call(predict_fn, list(model = mod, newdata = newdata)))
-  
+
   if (type == "metrics") {
     predictions_df <- do.call(rbind, predicted)
     mean_predictions <- apply(predictions_df, 2, mean)
     sd_predictions <- apply(predictions_df, 2, sd)
     return(list(predictions = predictions_df, mean = mean_predictions, sd = sd_predictions))
   }
-  
+
   predicted
 }
 
@@ -722,7 +723,7 @@ method(predict, SupervisedCV) <- function(object, newdata, type = "avg", avg_fn 
 #' SupervisedCV subclass for cross-validated classification models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 ClassificationCV <- new_class(
   name = "ClassificationCV",
   parent = SupervisedCV,
@@ -794,7 +795,7 @@ ClassificationCV <- new_class(
 #' SupervisedCV subclass for cross-validated regression models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 RegressionCV <- new_class(
   name = "RegressionCV",
   parent = SupervisedCV,
@@ -943,7 +944,7 @@ early_stopping_algs <- c("LightGBM", "LightRF", "LightRuleFit")
 #' Class for LightRuleFit models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 LightRuleFit <- new_class(
   name = "LightRuleFit",
   properties = list(

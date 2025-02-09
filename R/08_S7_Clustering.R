@@ -15,6 +15,7 @@
 #' @field parameters ClusteringParameters: Algorithm-specific parameters.
 #'
 #' @author EDG
+#' @noRd
 Clustering <- new_class(
   name = "Clustering",
   properties = list(

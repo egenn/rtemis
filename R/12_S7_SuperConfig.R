@@ -13,7 +13,7 @@
 #' Supervised Learning Configuration Class.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 SuperConfig <- new_class(
   name = "SuperConfig",
   properties = list(
@@ -38,10 +38,10 @@ SuperConfig <- new_class(
 #' Print SuperConfig object
 #'
 #' @param x SuperConfig object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 print.SuperConfig <- function(x, ...) {
 
 } # /rtemis::print.SuperConfig

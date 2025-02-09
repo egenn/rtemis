@@ -12,6 +12,7 @@
 #' @field parameters List: Algorithm-specific parameters.
 #'
 #' @author EDG
+#' @noRd
 ClusteringParameters <- new_class(
   name = "ClusteringParameters",
   properties = list(
@@ -59,7 +60,7 @@ method(print, ClusteringParameters) <- function(x, pad = 0L) {
 #' ClusteringParameters subclass for K-means Clustering.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 KMeansParameters <- new_class(
   name = "KMeansParameters",
   parent = ClusteringParameters,
@@ -99,7 +100,7 @@ setup_KMeans <- function(k = 3L, dist = c("euclidean", "manhattan")) {
 #' ClusteringParameters subclass for HardCL Clustering.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 HardCLParameters <- new_class(
   name = "HardCLParameters",
   parent = ClusteringParameters,
@@ -139,7 +140,7 @@ setup_HardCL <- function(k = 3L, dist = c("euclidean", "manhattan")) {
 #' ClusteringParameters subclass for Neural Gas Clustering.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 NeuralGasParameters <- new_class(
   name = "NeuralGasParameters",
   parent = ClusteringParameters,
@@ -161,9 +162,10 @@ NeuralGasParameters <- new_class(
 #' Setup NeuralGasParameters
 #'
 #' @param k Number of clusters.
-#'
-#' @author EDG
+#' 
 #' @return NeuralGasParameters object.
+#' 
+#' @author EDG
 #' @export
 setup_NeuralGas <- function(k = 3L, dist = c("euclidean", "manhattan")) {
   k <- clean_posint(k)

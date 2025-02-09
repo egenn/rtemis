@@ -9,6 +9,7 @@
 #' @field parameters Named list of theme parameters.
 #'
 #' @author EDG
+#' @noRd
 Theme <- new_class(
   name = "Theme",
   properties = list(
@@ -23,10 +24,10 @@ Theme <- new_class(
 #' Print Theme object
 #'
 #' @param x Theme object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 print.Theme <- function(x, ...) {
   objcat(paste(x@name, "Theme"))
   printls(props(x)$parameters)
@@ -52,13 +53,13 @@ method(`[[`, Theme) <- function(x, name) {
 
 # Names Theme ----
 #' Get names of Theme object
-#' 
+#'
 #' @param x Theme object.
-#' 
+#'
 #' @return Character vector of names of Theme object.
-#' 
+#'
 #' @author EDG
-#' @export
+#' @noRd
 names.Theme <- function(x) {
   names(x@parameters)
 } # /rtemis::names.Theme

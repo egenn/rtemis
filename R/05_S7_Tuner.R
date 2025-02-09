@@ -29,6 +29,7 @@
 #' @field parameters Named list of tuner parameters.
 #'
 #' @author EDG
+#' @noRd
 TunerParameters <- new_class(
   name = "TunerParameters",
   properties = list(
@@ -43,7 +44,7 @@ TunerParameters <- new_class(
 #' Print TunerParameters object
 #'
 #' @param x TunerParameters object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
 #' @noRd
@@ -83,6 +84,7 @@ method(`.DollarNames`, TunerParameters) <- function(x, pattern = "") {
 #' TunerParameters subclass for grid search parameters.
 #'
 #' @author EDG
+#' @noRd
 GridSearchParams <- new_class(
   name = "GridSearchParams",
   parent = TunerParameters,
@@ -141,6 +143,8 @@ GridSearchParams <- new_class(
 #' @param maximize Logical: If TRUE, maximize `metric`, otherwise minimize it.
 #' @param future_plan Character: Future backend to use, see [future::plan].
 #'
+#' @return A `GridSearchParams` object.
+#'
 #' @author EDG
 #' @export
 setup_GridSearch <- function(
@@ -186,6 +190,7 @@ setup_GridSearch <- function(
 #' hyperparameters that were tuned.
 #'
 #' @author EDG
+#' @noRd
 Tuner <- new_class(
   name = "Tuner",
   properties = list(
@@ -210,6 +215,7 @@ method(desc, Tuner) <- function(x) {
 #' Tuner subclass for grid search.
 #'
 #' @author EDG
+#' @noRd
 GridSearch <- new_class(
   name = "GridSearch",
   parent = Tuner,
@@ -236,7 +242,7 @@ GridSearch <- new_class(
 #' Print GridSearch object
 #'
 #' @param x GridSearch object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
 print.GridSearch <- function(x, ...) {

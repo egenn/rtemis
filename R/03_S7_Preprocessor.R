@@ -13,6 +13,7 @@
 #' PreprocessorParameters class.
 #'
 #' @author EDG
+#' @noRd
 PreprocessorParameters <- new_class(
   name = "PreprocessorParameters",
   properties = list(
@@ -84,7 +85,7 @@ method(`[[`, PreprocessorParameters) <- function(x, name) {
 #' @param x `PreprocessorParameters` object.
 #' @param ... Ignored.
 #'
-#' @export
+#' @noRd
 print.PreprocessorParameters <- function(x, ...) {
   objcat("PreprocessorParameters")
   printls(props(x))
@@ -180,6 +181,8 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param date_features Character vector: Features to extract from dates.
 #' @param add_holidays Logical: If TRUE, extract holidays from date columns.
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
+#'
+#' @return `PreprocessorParameters` object.
 #'
 #' @author EDG
 #' @export
@@ -297,6 +300,9 @@ data_dependent_props <- c(
 #' `dat_validation` and/or `dat_testing` arguments, this will be a named list.
 #' @field values List: Data-dependent preprocessing values to be used for validation and testing set
 #' preprocessing.
+#'
+#' @author EDG
+#' @noRd
 Preprocessor <- new_class(
   name = "Preprocessor",
   properties = list(

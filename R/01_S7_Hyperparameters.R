@@ -30,6 +30,7 @@
 #' @field fixed_hyperparameters Character: Names of fixed hyperparameters.
 #'
 #' @author EDG
+#' @noRd
 Hyperparameters <- new_class(
   name = "Hyperparameters",
   properties = list(
@@ -192,7 +193,7 @@ method(`.DollarNames`, Hyperparameters) <- function(x, pattern = "") {
 }
 
 #' needs_tuning ----
-#' 
+#'
 #' @noRd
 needs_tuning <- new_generic("needs_tuning", "x")
 method(needs_tuning, Hyperparameters) <- function(x) {
@@ -212,6 +213,8 @@ method(get_params, list(Hyperparameters, class_character)) <- function(x, param_
 
 
 # GLMHyperparameters ----
+#' @author EDG
+#' @noRd
 GLMHyperparameters <- new_class(
   name = "GLMHyperparameters",
   parent = Hyperparameters,
@@ -230,11 +233,11 @@ GLMHyperparameters <- new_class(
 ) # /rtemis::GLMHyperparameters
 
 #' Setup GLM Hyperparameters
-#' 
+#'
 #' Setup hyperparameters for GLM training.
-#' 
+#'
 #' There are no hyperparameters to set for GLM.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -246,6 +249,8 @@ setup_GLM <- function(ifw = FALSE) {
 GAM_tunable <- c("k", "ifw")
 GAM_fixed <- character()
 
+#' @author EDG
+#' @noRd
 GAMHyperparameters <- new_class(
   name = "GAMHyperparameters",
   parent = Hyperparameters,
@@ -265,13 +270,14 @@ GAMHyperparameters <- new_class(
 ) # /rtemis::GAMHyperparameters
 
 #' Setup GAM Hyperparameters
-#' 
+#'
 #' Setup hyperparameters for GAM training.
-#' 
+#'
 #' Get more information from [mgcv::gam].
-#' 
+#'
 #' @param k (Tunable) Integer: Number of knots.
-#' 
+#' @param ifw (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
 #' @author EDG
 #' @export
 setup_GAM <- function(k = 5L, ifw = FALSE) {
@@ -293,7 +299,7 @@ CART_fixed <- c(
 #' Hyperparameters subclass for CART.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 CARTHyperparameters <- new_class(
   name = "CARTHyperparameters",
   parent = Hyperparameters,
@@ -356,6 +362,9 @@ CARTHyperparameters <- new_class(
 #' @param surrogatestyle Integer: Type of surrogate splits.
 #' @param xval Integer: Number of cross-validation folds.
 #' @param cost Numeric (>=0): One for each feature.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @returns CARTHyperparameters object.
 #'
 #' @author EDG
 #' @export
@@ -422,7 +431,7 @@ GLMNET_fixed <- c(
 #' Hyperparameters subclass for GLMNET.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 GLMNETHyperparameters <- new_class(
   name = "GLMNETHyperparameters",
   parent = Hyperparameters,
@@ -470,11 +479,16 @@ GLMNETHyperparameters <- new_class(
 #' Get more information from [glmnet::glmnet].
 #'
 #' @param alpha (Tunable) Numeric: Mixing parameter.
+#' @param family Character: Family for GLMNET.
+#' @param offset Numeric: Offset for GLMNET.
 #' @param which.cv.lambda Character: Which lambda to use for prediction:
 #' "lambda.1se" or "lambda.min"
 #' @param nlambda Positive integer: Number of lambda values.
+#' @param lambda Numeric: Lambda values.
 #' @param penalty.factor Numeric: Penalty factor for each feature.
 #' @param standardize Logical: If TRUE, standardize features.
+#' @param intercept Logical: If TRUE, include intercept.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @author EDG
 #' @export
@@ -536,7 +550,7 @@ LightCART_fixed <- character()
 #' Hyperparameters subclass for LightCART
 #'
 #' @author EDG
-#' @export
+#' @noRd
 LightCARTHyperparameters <- new_class(
   name = "LightCARTHyperparameters",
   parent = Hyperparameters,
@@ -569,11 +583,11 @@ LightCARTHyperparameters <- new_class(
 ) # /rtemis::LightCARTHyperparameters
 
 #' Setup LightCART Hyperparameters
-#' 
+#'
 #' Setup hyperparameters for LightCART training.
-#' 
+#'
 #' Get more information from [lightgbm::lgb.train].
-#' 
+#'
 #' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
 #' @param max_depth (Tunable) Integer: Maximum depth of trees.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
@@ -581,7 +595,10 @@ LightCARTHyperparameters <- new_class(
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree (Tunable) Logical: If TRUE, use linear trees.
-#' 
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return LightCARTHyperparameters object.
+#'
 #' @author EDG
 #' @export
 setup_LightCART <- function(
@@ -624,7 +641,7 @@ LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner")
 #' Hyperparameters subclass for LightRF
 #'
 #' @author EDG
-#' @export
+#' @noRd
 LightRFHyperparameters <- new_class(
   name = "LightRFHyperparameters",
   parent = Hyperparameters,
@@ -688,6 +705,7 @@ LightRFHyperparameters <- new_class(
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree Logical: If TRUE, use linear trees.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @author EDG
 #' @export
@@ -746,7 +764,7 @@ LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds")
 #' Hyperparameters subclass for LightGBM
 #'
 #' @author EDG
-#' @export
+#' @noRd
 LightGBMHyperparameters <- new_class(
   name = "LightGBMHyperparameters",
   parent = Hyperparameters,
@@ -824,16 +842,21 @@ method(update, LightGBMHyperparameters) <- function(x, hyperparameters, tuned = 
 #'
 #' Get more information from [lightgbm::lgb.train].
 #'
-#' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
+#' @param max_nrounds Positive integer: Maximum number of boosting rounds.
+#' @param force_nrounds Positive integer: Use this many boosting rounds. Disable search for nrounds.
+#' @param early_stopping_rounds Positive integer: Number of rounds without improvement to stop training.
 #' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
 #' @param max_depth (Tunable) Integer: Maximum depth of trees.
+#' @param learning_rate (Tunable) Numeric: Learning rate.
 #' @param feature_fraction (Tunable) Numeric: Fraction of features to use.
 #' @param subsample (Tunable) Numeric: Fraction of data to use.
+#' @param subsample_freq (Tunable) Positive integer: Frequency of subsample.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree Logical: If TRUE, use linear trees.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @author EDG
 #' @export
@@ -920,7 +943,7 @@ LightRuleFit_glmnet_params <- c("alpha", "lambda")
 #' Hyperparameters subclass for LightRuleFit.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 LightRuleFitHyperparameters <- new_class(
   name = "LightRuleFitHyperparameters",
   parent = Hyperparameters,
@@ -980,6 +1003,15 @@ LightRuleFitHyperparameters <- new_class(
 #' @param subsample_freq (Tunable) Positive integer: Frequency of subsample.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#' @param ifw_lightgbm (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in the LightGBM
+#' step.
+#' @param alpha (Tunable) Numeric: Alpha for GLMNET.
+#' @param lambda Numeric: Lambda for GLMNET.
+#' @param ifw_glmnet (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in the GLMNET step.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification. This applies IFW
+#' to both LightGBM and GLMNET.
+#'
+#' @return LightRuleFitHyperparameters object.
 #'
 #' @author EDG
 #' @export
@@ -1035,4 +1067,3 @@ setup_LightRuleFit <- function(
     ifw = ifw
   )
 } # /rtemis::setup_LightRuleFit
-

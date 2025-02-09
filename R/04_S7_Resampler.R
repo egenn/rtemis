@@ -26,6 +26,7 @@
 #' @field n Integer: Number of resamples.
 #'
 #' @author EDG
+#' @noRd
 ResamplerParameters <- new_class(
   name = "ResamplerParameters",
   properties = list(
@@ -72,7 +73,7 @@ method(desc, ResamplerParameters) <- function(x) {
 #' ResamplerParameters subclass for k-fold resampling.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 KFoldParams <- new_class(
   name = "KFoldParams",
   parent = ResamplerParameters,
@@ -103,7 +104,7 @@ KFoldParams <- new_class(
 #' ResamplerParameters subclass for stratified subsampling.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 StratSubParams <- new_class(
   name = "StratSubParams",
   parent = ResamplerParameters,
@@ -138,7 +139,7 @@ StratSubParams <- new_class(
 #' ResamplerParameters subclass for stratified bootstrapping.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 StratBootParams <- new_class(
   name = "StratBootParams",
   parent = ResamplerParameters,
@@ -174,7 +175,7 @@ StratBootParams <- new_class(
 #' ResamplerParameters subclass for bootstrap resampling.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 BootstrapParams <- new_class(
   name = "BootstrapParams",
   parent = ResamplerParameters,
@@ -201,7 +202,7 @@ BootstrapParams <- new_class(
 #' ResamplerParameters subclass for leave-one-out cross-validation.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 LOOCVParams <- new_class(
   name = "LOOCVParams",
   parent = ResamplerParameters,
@@ -222,7 +223,7 @@ LOOCVParams <- new_class(
 #' ResamplerParameters subclass for custom resampling.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 CustomParams <- new_class(
   name = "CustomParams",
   parent = ResamplerParameters,
@@ -250,6 +251,8 @@ CustomParams <- new_class(
 #' each case can only be present in the training or testing set, but not both.
 #' @param seed Integer: Random seed.
 #' @param verbosity Integer: Verbosity level.
+#' 
+#' @return ResamplerParameters object.
 #'
 #' @author EDG
 #' @export
@@ -323,7 +326,7 @@ setup_Resampler <- function(n_resamples = 10L,
 #' Class for resampling objects.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 Resampler <- new_class(
   name = "Resampler",
   properties = list(
@@ -339,10 +342,10 @@ Resampler <- new_class(
 #' Print Resampler object
 #'
 #' @param x Resampler object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 print.Resampler <- function(x, ...) {
   objcat(paste(x@type, "Resampler"))
   propsl <- props(x)
@@ -411,13 +414,13 @@ method(desc, Resampler) <- function(x) {
 #' Plot Resampler object
 #'
 #' @param x Resampler object.
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
-#' @export
-plot.Resampler <- function(x, col = NULL, ...) {
-  mplot3_res(x, col = col, ...)
-}
-method(plot, Resampler) <- function(x, col = NULL, ...) {
-  plot.Resampler(x, col = col, ...)
-} # rtemis::plot.Resampler
+#' @noRd
+# plot.Resampler <- function(x, col = NULL, ...) {
+#   mplot3_res(x, col = col, ...)
+# }
+# method(plot, Resampler) <- function(x, col = NULL, ...) {
+#   plot.Resampler(x, col = col, ...)
+# } # rtemis::plot.Resampler

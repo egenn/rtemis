@@ -12,6 +12,7 @@
 #' @field metrics List or data.frame: Metrics.
 #'
 #' @author EDG
+#' @noRd
 Metrics <- new_class(
   name = "Metrics",
   properties = list(
@@ -43,7 +44,7 @@ method(`.DollarNames`, Metrics) <- function(x, pattern = "") {
 #' Metrics subclass for regression models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 RegressionMetrics <- new_class(
   name = "RegressionMetrics",
   parent = Metrics,
@@ -86,7 +87,7 @@ method(print, RegressionMetrics) <- function(x) {
 #' Metrics subclass for classification models.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 ClassificationMetrics <- new_class(
   name = "ClassificationMetrics",
   parent = Metrics,
@@ -147,6 +148,7 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3) {
 #' @field sample Character: Sample name.
 #'
 #' @author EDG
+#' @noRd
 MetricsCV <- new_class(
   name = "MetricsCV",
   properties = list(
@@ -159,12 +161,12 @@ MetricsCV <- new_class(
 
 # Print MetricsCV ----
 #' Print MetricsCV
-#' 
+#'
 #' @param x MetricsCV object.
 #' @param decimal_places Integer: Number of decimal places.
-#' 
+#'
 #' @author EDG
-#' @export
+#' @noRd
 print.MetricsCV <- function(x, decimal_places = 3L, ...) {
   type <- if (inherits(x, "RegressionMetricsCV")) "Regression" else "Classification"
   objcat(paste("  Crossvalidated", type, x@sample, "Metrics"))
@@ -184,6 +186,8 @@ method(print, MetricsCV) <- function(x, decimal_places = 3) {
   print.MetricsCV(x, decimal_places)
 } # /rtemis::print.MetricsCV
 
+#' @author EDG
+#' @noRd
 RegressionMetricsCV <- new_class(
   name = "RegressionMetricsCV",
   parent = MetricsCV,
@@ -203,6 +207,8 @@ RegressionMetricsCV <- new_class(
   }
 ) # /rtemis::RegressionMetricsCV
 
+#' @author EDG
+#' @noRd
 ClassificationMetricsCV <- new_class(
   name = "ClassificationMetricsCV",
   parent = MetricsCV,

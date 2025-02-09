@@ -12,6 +12,7 @@
 #' @field parameters List: Algorithm-specific parameters.
 #'
 #' @author EDG
+#' @noRd
 DecompositionParameters <- new_class(
   name = "DecompositionParameters",
   properties = list(
@@ -61,7 +62,7 @@ method(print, DecompositionParameters) <- function(x, pad = 0L) {
 #' Internal use only.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 PCAParameters <- new_class(
   name = "PCAParameters",
   parent = DecompositionParameters,
@@ -91,9 +92,9 @@ PCAParameters <- new_class(
 #' @param center Logical: If TRUE, center the data.
 #' @param scale Logical: If TRUE, scale the data.
 #' @param tol Numeric: Tolerance.
-#' @param rank Integer: Maximal number of components.
 #'
 #' @return PCAParameters object.
+#'
 #' @author EDG
 #' @export
 setup_PCA <- function(k = 3L, center = TRUE, scale = TRUE, tol = NULL) {
@@ -112,7 +113,7 @@ setup_PCA <- function(k = 3L, center = TRUE, scale = TRUE, tol = NULL) {
 #' Internal use only.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 ICAParameters <- new_class(
   name = "ICAParameters",
   parent = DecompositionParameters,
@@ -148,8 +149,9 @@ ICAParameters <- new_class(
 #' @param maxit Integer: Maximum number of iterations.
 #' @param tol Numeric: Tolerance.
 #'
-#' @author EDG
 #' @return ICAParameters object.
+#'
+#' @author EDG
 #' @export
 setup_ICA <- function(
     k = 3L,
@@ -179,7 +181,7 @@ setup_ICA <- function(
 #' Internal use only.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 UMAPParameters <- new_class(
   name = "UMAPParameters",
   parent = DecompositionParameters,
@@ -226,6 +228,7 @@ UMAPParameters <- new_class(
 #' @param scale Logical: If TRUE, scale input data before doing UMAP.
 #'
 #' @return UMAPParameters object.
+#'
 #' @author EDG
 #' @export
 setup_UMAP <- function(
@@ -261,32 +264,31 @@ setup_UMAP <- function(
 #' DecompositionParameters subclass for t-Distributed Stochastic Neighbor Embedding.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 tSNEParameters <- new_class(
   name = "tSNEParameters",
   parent = DecompositionParameters,
-  constructor = function(
-      k = NULL,
-      initial_dims = NULL,
-      perplexity = NULL,
-      theta = NULL,
-      check_duplicates = NULL,
-      pca = NULL,
-      partial_pca = NULL,
-      max_iter = NULL,
-      verbose = NULL,
-      is_distance = NULL,
-      Y_init = NULL,
-      pca_center = NULL,
-      pca_scale = NULL,
-      normalize = NULL,
-      stop_lying_iter = NULL,
-      mom_switch_iter = NULL,
-      momentum = NULL,
-      final_momentum = NULL,
-      eta = NULL,
-      exaggeration_factor = NULL,
-      num_threads = NULL) {
+  constructor = function(k = NULL,
+                         initial_dims = NULL,
+                         perplexity = NULL,
+                         theta = NULL,
+                         check_duplicates = NULL,
+                         pca = NULL,
+                         partial_pca = NULL,
+                         max_iter = NULL,
+                         verbose = NULL,
+                         is_distance = NULL,
+                         Y_init = NULL,
+                         pca_center = NULL,
+                         pca_scale = NULL,
+                         normalize = NULL,
+                         stop_lying_iter = NULL,
+                         mom_switch_iter = NULL,
+                         momentum = NULL,
+                         final_momentum = NULL,
+                         eta = NULL,
+                         exaggeration_factor = NULL,
+                         num_threads = NULL) {
     k <- clean_posint(k)
     initial_dims <- clean_posint(initial_dims)
     check_logical(check_duplicates)
@@ -336,10 +338,10 @@ tSNEParameters <- new_class(
 
 # setup_tSNE ----
 #' Setup tSNE parameters.
-#' 
+#'
 #' @details
 #' Get more information on the parameters by running `?Rtsne::Rtsne`.
-#' 
+#'
 #' @param initial_dims Integer: Initial dimensions.
 #' @param perplexity Integer: Perplexity.
 #' @param theta Float: Theta.
@@ -360,8 +362,9 @@ tSNEParameters <- new_class(
 #' @param eta Float: Eta.
 #' @param exaggeration_factor Float: Exaggeration factor.
 #' @param num_threads Integer: Number of threads.
-#' 
+#'
 #' @return tSNEParameters object.
+#'
 #' @author EDG
 #' @export
 setup_tSNE <- function(

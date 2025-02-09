@@ -15,6 +15,7 @@
 #' @field transformed: transformedransformed data, i.e. either a projection or an embedding of the input data.
 #'
 #' @author EDG
+#' @noRd
 Decomposition <- new_class(
   name = "Decomposition",
   properties = list(

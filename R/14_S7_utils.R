@@ -1,6 +1,10 @@
-# S7
+# S7_utils
+# ::rtemis::
+# 2025 EDG rtemis.org
 
-# na_feature_pct, na_case_pct are NULL if they are not calculated.
+# CheckData ----
+#' @author EDG
+#' @noRd
 CheckData <- new_class(
   name = "CheckData",
   properties = list(
@@ -23,24 +27,23 @@ CheckData <- new_class(
     na_case_pct = class_double | NULL
   ),
   constructor = function(
-    object_class,
-    name,
-    n_rows,
-    n_cols,
-    n_numeric,
-    n_integer,
-    n_character,
-    n_factor,
-    n_ordered,
-    n_date,
-    n_constant,
-    n_duplicates,
-    n_cols_anyna,
-    n_na,
-    classes_na = NULL,
-    na_feature_pct = NULL,
-    na_case_pct = NULL
-  ) {
+      object_class,
+      name,
+      n_rows,
+      n_cols,
+      n_numeric,
+      n_integer,
+      n_character,
+      n_factor,
+      n_ordered,
+      n_date,
+      n_constant,
+      n_duplicates,
+      n_cols_anyna,
+      n_na,
+      classes_na = NULL,
+      na_feature_pct = NULL,
+      na_case_pct = NULL) {
     n_rows <- clean_int(n_rows)
     n_cols <- clean_int(n_cols)
     n_numeric <- clean_int(n_numeric)
@@ -73,7 +76,6 @@ CheckData <- new_class(
       na_feature_pct = na_feature_pct,
       na_case_pct = na_case_pct
     )
-    
   }
 ) # /rtemis::CheckData
 
@@ -95,7 +97,7 @@ method(`$`, CheckData) <- function(x, name) {
 #' @param ... Not used.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 print.CheckData <- function(x,
                             type = c("plaintext", "html"),
                             name = NULL,
