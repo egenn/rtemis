@@ -16,8 +16,9 @@ Default = \code{rtPalette}}
 Allows you to get \code{n} colors of a defined palette, useful for passing to other functions, like ggplot
 }
 \examples{
+\dontrun{
 rtemis_palette(3)
-
+}
 }
 \author{
 E.D. Gennatas
