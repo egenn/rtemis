@@ -9,7 +9,8 @@
 #' @param parameters List: Algorithm-specific parameters.
 #' @param verbosity Integer: Verbosity level.
 #' 
-#' @return Clustering object
+#' @return Clustering object.
+#' 
 #' @author EDG
 #' @export
 
@@ -42,7 +43,7 @@ method(cluster, class_numeric | class_data.frame) <- function(x,
   }
   clust <- do_call(
     cluster_fn,
-    list(x = x, parameters = parameters)
+    list(x = x, parameters = parameters, verbosity = verbosity)
   )
 
   # Clusters ----
