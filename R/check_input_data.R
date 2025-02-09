@@ -127,7 +127,12 @@ check_supervised_data <- function(x,
 #' \dontrun{
 #' check_unsupervised_data(features_data)
 #' }
-check_unsupervised_data <- function(x, allow_missing = FALSE) {
+check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
+
+  if (verbosity > 0L) {
+    msg2start("Checking unsupervised data...")
+  }
+  
   if (NCOL(x) < 2) {
     stop("Data must contain at least 2 columns.")
   }
@@ -137,4 +142,6 @@ check_unsupervised_data <- function(x, allow_missing = FALSE) {
   if (!allow_missing && anyNA(x)) {
     stop("Data should not contain missing values.")
   }
+
+  if (verbosity > 0L) msg2done()
 } # /rtemis::check_unsupervised_data
