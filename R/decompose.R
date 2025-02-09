@@ -8,6 +8,8 @@
 #' @param algorithm Character: Decomposition algorithm.
 #' @param parameters DecompositionParameters: Algorithm-specific parameters.
 #' @param verbosity Integer: Verbosity level.
+#' 
+#' @return Decomposition object.
 #'
 #' @author EDG
 #' @export

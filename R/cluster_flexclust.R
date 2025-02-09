@@ -6,7 +6,7 @@
 #'
 #' @keywords internal
 #' @noRd
-cluster_KMeans <- function(x, parameters) {
+cluster_KMeans <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, KMeansParameters)
 
@@ -14,7 +14,7 @@ cluster_KMeans <- function(x, parameters) {
   check_dependencies("flexclust")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = FALSE)
+  check_unsupervised_data(x = x, allow_missing = FALSE, verbosity = verbosity)
 
   # Cluster ----
   clust <- flexclust::cclust(
@@ -32,7 +32,7 @@ cluster_KMeans <- function(x, parameters) {
 #' 
 #' @keywords internal
 #' @noRd
-cluster_HardCL <- function(x, parameters) {
+cluster_HardCL <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, HardCLParameters)
 
@@ -40,7 +40,7 @@ cluster_HardCL <- function(x, parameters) {
   check_dependencies("flexclust")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = FALSE)
+  check_unsupervised_data(x = x, allow_missing = FALSE, verbosity = verbosity)
 
   # Cluster ----
   clust <- flexclust::cclust(
@@ -58,7 +58,7 @@ cluster_HardCL <- function(x, parameters) {
 #' 
 #' @keywords internal
 #' @noRd
-cluster_NeuralGas <- function(x, parameters) {
+cluster_NeuralGas <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, NeuralGasParameters)
 
@@ -66,7 +66,7 @@ cluster_NeuralGas <- function(x, parameters) {
   check_dependencies("flexclust")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = FALSE)
+  check_unsupervised_data(x = x, allow_missing = FALSE, verbosity = verbosity)
 
   # Cluster ----
   clust <- flexclust::cclust(

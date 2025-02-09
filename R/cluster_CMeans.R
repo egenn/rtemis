@@ -14,7 +14,7 @@ cluster_CMeans <- function(x, parameters, verbosity = 1L) {
   check_dependencies("e1071")
 
   # Data ----
-  check_unsupervised_data(x = x, allow_missing = FALSE)
+  check_unsupervised_data(x = x, allow_missing = FALSE, verbosity = verbosity)
 
   # Cluster ----
   clust <- e1071::cmeans(
