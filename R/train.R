@@ -6,6 +6,8 @@ train <- new_generic("train", "x")
 
 #' @name train
 #' 
+#' @aliases train
+#' 
 #' @title
 #' Tune, Train, and Test an \pkg{rtemis} Learner
 #'
