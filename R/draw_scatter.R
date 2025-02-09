@@ -406,7 +406,7 @@ draw_scatter <- function(x, y = NULL,
     algorithm <- get_alg_name(fit)
     fitted <- list()
     fitted_text <- character()
-    hyperparameters <- if (check_is_S7(fit_params, Hyperparameters)) {
+    hyperparameters <- if (S7_inherits(fit_params, Hyperparameters)) {
       fit_params
     } else {
       do_call(get_alg_setup(fit), fit_params)
