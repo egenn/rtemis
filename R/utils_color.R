@@ -151,12 +151,14 @@ color_separate <- function(x, start_with = 1) {
 #' @param what Character: "color" returns a hexadecimal color,
 #' "decimal" returns a decimal between 0 and 1
 #'
+#' @author EDG
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' col2grayscale("red")
 #' col2grayscale("red", "dec")
-#'
+#' }
 col2grayscale <- function(x,
                           what = c("color", "decimal")) {
   what <- match.arg(what)
@@ -212,9 +214,11 @@ palettize <- function(x,
 #'
 #' @param x Color, vector
 #'
-#' @author EDG
 #' @returns Inverted colors using hexadecimal notation #RRGGBBAA
+#' 
+#' @author EDG
 #' @export
+#' 
 #' @examples
 #' \dontrun{
 #' cols <- c("red", "green", "blue")
@@ -250,6 +254,7 @@ color_invertRGB <- function(x) {
 #'
 #' @author EDG
 #' @export
+#' 
 #' @examples
 #' \dontrun{
 #' color_mean(c("red", "blue")) |> previewcolor()
@@ -313,9 +318,12 @@ color_fade <- function(x, to = "#000000", pct = .5) {
 #'
 #' @author EDG
 #' @export
+#'
 #' @examples
+#' \dontrun{
 #' color <- c("red", "green", "blue")
 #' color.p <- desaturate(color)
+#' }
 desaturate <- function(color, s = .3) {
   # Infer color names, if available
   if (is.character(color)) {
@@ -349,11 +357,14 @@ desaturate <- function(color, s = .3) {
 #'
 #' @author EDG
 #' @export
+#' 
 #' @examples
+#' \dontrun{
 #' col2hex(c("gray50", "skyblue"))
+#' }
 col2hex <- function(color) {
   .rgb <- col2rgb(color)
-  sapply(seq(color), function(i) {
+  sapply(seq_along(color), function(i) {
     paste0("#", paste0(sprintf(
       "%02s",
       c(
@@ -401,7 +412,9 @@ color_adjust <- function(color,
 #'
 #' @author EDG
 #' @export
+#'
 #' @examples
+#' \dontrun{
 #' color <- list(
 #'   blue = c("#82afd3", "#000f3a"),
 #'   gray = c("gray10", "gray85")
@@ -419,6 +432,7 @@ color_adjust <- function(color,
 #'   purple = c("#23001f", "#c480c1")
 #' )
 #' previewcolor(desaturate(color_mix(color, 5), .3))
+#' }
 color_mix <- function(color, n = 4) {
   if (class(color)[1] != "list") stop("Please provide list of color pairs")
 
@@ -455,12 +469,16 @@ color_mix <- function(color, n = 4) {
 #' @param pdf.width Numeric: Width of PDF in inches.
 #' @param pdf.height Numeric: Height of PDF in inches.
 #'
-#' @return Nothing, prints plot
+#' @return Nothing, prints plot.
+#' 
+#' @author EDG
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' colors <- colorgradient.x(seq(-5, 5))
 #' previewcolor(colors)
+#' }
 previewcolor <- function(x,
                          main = NULL,
                          bg = "#333333",
@@ -568,8 +586,10 @@ rhombus <- function(xmid = 1, ymid = 1, width = 1, height = 1, col = "#80FFFF") 
 #' @param mid.col Middle color
 #' @param hi.col High color
 #' @param space Character: "rgb" or "Lab".
+#' 
 #' @author EDG
 #' @export
+#' 
 #' @examples
 #' \dontrun{
 #' x <- seq(-10, 10, length.out = 51)
