@@ -78,3 +78,9 @@ cluster_NeuralGas <- function(x, parameters) {
   check_inherits(clust, "kcca")
   clust
 } # /rtemis::cluster_NeuralGas
+
+
+clustpredict_KMeans <- clustpredict_HardCL <- clustpredict_NeuralGas <- function(clust, newdata = NULL) {
+  check_inherits(clust, "kcca")
+  flexclust::clusters(clust, newdata = newdata)
+} # /rtemis::clustpredict_{KMeans,HardCL,NeuralGas}
