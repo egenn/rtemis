@@ -71,14 +71,14 @@ train_GLM <- function(
   } else if (type == "Classification") {
     binomial()
   }
-  mod <- glm(
+  model <- glm(
     formula = formula,
     family = family,
     data = x,
     weights = weights
   )
-  check_inherits(mod, "glm")
-  mod
+  check_inherits(model, "glm")
+  model
 } # /rtemis::train_GLM
 
 #' Predict from GLM model

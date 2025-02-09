@@ -25,12 +25,95 @@ resc2 <- resample(datc2)
 datc2_train <- datc2[resc2$Fold_1, ]
 datc2_test <- datc2[-resc2$Fold_1, ]
 
+### Synthetic binary data where positive class is 10% of the data ----
+set.seed(2025)
+n <- 500
+datc2 <- data.frame(
+  x1 = rnorm(n),
+  x2 = rnorm(n),
+  x3 = rnorm(n),
+  g = factor(sample(c("A", "B"), n, replace = TRUE, prob = c(.1, .9)))
+)
+# Binary outcome dependent on x2 and g, with levels "neg" and "pos", where "pos" is 10% of the data
+datc2$y <- factor(ifelse(datc2$x2 > 0 & datc2$g == "A", "pos", "neg"))
+resc2 <- resample(datc2)
+datc2_train <- datc2[resc2$Fold_1, ]
+datc2_test <- datc2[-resc2$Fold_1, ]
+
 ### 3-class ----
 resc3 <- resample(iris)
 datc3_train <- iris[resc3$Fold_1, ]
 datc3_test <- iris[-resc3$Fold_1, ]
 
 # Regression ----
+
+## GLM Regression ----
+mod_r_glm <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "glm"
+)
+test_that("train() GLM Regression succeeds", {
+  expect_s7_class(mod_r_glm, Regression)
+})
+test_that("train() GLM standard errors are available", {
+  expect_type(mod_r_glm@se_training, "double")
+  expect_type(mod_r_glm@se_testing, "double")
+})
+
+## GAM Regression ----
+hyperparameters <- setup_GAM()
+hyperparameters
+mod_r_gam <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "gam"
+)
+test_that("train() GAM Regression with spline + parametric terms succeeds.", {
+  expect_s7_class(mod_r_gam, Regression)
+})
+
+test_that("train() GAM Regression with only spline terms succeeds.", {
+  mod_r_gam <- train(
+    x = datr_train[, -6],
+    dat_testing = datr_test[, -6],
+    algorithm = "gam"
+  )
+  expect_s7_class(mod_r_gam, Regression)
+})
+
+test_that("train() GAM Regression with only parametric terms succeeds.", {
+  mod_r_gam <- train(
+    x = datr_train[, 6:7],
+    dat_testing = datr_test[, 6:7],
+    algorithm = "gam"
+  )
+  expect_s7_class(mod_r_gam, Regression)
+})
+
+## GAM Regression + grid search ----
+tmod_r_gam <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "gam",
+  hyperparameters = setup_GAM(k = c(3, 5, 7))
+)
+test_that("train() GAM Regression with grid_search() succeeds", {
+  expect_s7_class(tmod_r_gam, Regression)
+})
+
+## predict GAM ----
+predicted <- predict(tmod_r_gam, datr_test)
+test_that("predict() GAM Regression succeeds", {
+  expect_identical(tmod_r_gam@predicted_testing, predicted)
+})
+
+## CV GAM Regression ----
+cvmod_r_gam <- train(
+  x = datr,
+  algorithm = "gam",
+  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
 
 ## train_CART() ----
 test_that("train_CART() succeeds", {
@@ -39,13 +122,12 @@ test_that("train_CART() succeeds", {
 })
 
 ## CART Regression ----
-# model$method # "anova"
+mod_r_cart <- train(
+  datr_train,
+  dat_testing = datr_test,
+  algorithm = "cart"
+)
 test_that("train() Regression succeeds", {
-  mod_r_cart <- train(
-    datr_train,
-    dat_testing = datr_test,
-    algorithm = "cart"
-  )
   expect_s7_class(mod_r_cart, Regression)
 })
 
@@ -57,7 +139,7 @@ hyperparameters <- setup_CART(
   minbucket = c(1L, 4L)
 )
 
-# Test that tuned == 0----
+## Test that tuned == 0----
 test_that("tuned is set correctly", {
   expect_identical(hyperparameters@tuned, 0L)
 })
@@ -71,7 +153,7 @@ test_that("train() Regression with grid_search() succeeds", {
   expect_s7_class(mod_r_cart_tuned, Regression)
 })
 
-# Test that tuned == 1----
+## Test that tuned == 1----
 test_that("tuned is set correctly", {
   expect_identical(mod_r_cart_tuned@hyperparameters@tuned, 1L)
 })
@@ -119,15 +201,6 @@ hyperparameters <- setup_GLMNET(alpha = c(0, 0.5, 1))
 hyperparameters
 get_params_need_tuning(hyperparameters)
 
-## train_GLMNET ----
-mod_r_glmnet <- train_GLMNET(
-  x = datr_train,
-  hyperparameters = setup_GLMNET(lambda = 0.05)
-)
-test_that("train_GLMNET() succeeds", {
-  expect_s3_class(mod_r_glmnet, "glmnet")
-})
-
 ## GLMNET Regression ----
 mod_r_glmnet <- train(
   x = datr_train,
@@ -171,6 +244,29 @@ cvmod_r_glmnet <- train(
 )
 test_that("train() CV-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
   expect_s7_class(cvmod_r_glmnet, RegressionCV)
+})
+
+## LightCART Regression ----
+mod_r_lightcart <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "lightcart"
+)
+test_that("train() LightCART Regression succeeds", {
+  expect_s7_class(mod_r_lightcart, Regression)
+})
+
+mod_r_lightcartlin <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "lightcart",
+  hyperparameters = setup_LightCART(
+    linear_tree = TRUE
+  )
+)
+test_that("train() LightCART Regression with linear_tree succeeds", {
+  expect_s7_class(mod_r_lightcartlin, Regression)
+  expect_identical(mod_r_lightcartlin@hyperparameters$linear_tree, mod_r_lightcartlin@model$params$linear_tree)
 })
 
 ## LightRF Regression ----
@@ -251,19 +347,71 @@ mod_r_lightrlft <- train(
   algorithm = "lightrulefit",
   hyperparameters = setup_LightRuleFit()
 )
+test_that("train() LightRuleFit Regression succeeds", {
+  expect_s7_class(mod_r_lightrlft, Regression)
+})
+
+mod_r_lightrlft_l1l2 <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "lightrulefit",
+  hyperparameters = setup_LightRuleFit(lambda_l1 = 10, lambda_l2 = 10)
+)
+
+test_that("train() LightRuleFit Regression with l1, l2 params passed", {
+  expect_identical(mod_r_lightrlft_l1l2@model@model_lightgbm@model$params$lambda_l1, 10)
+  expect_identical(mod_r_lightrlft_l1l2@model@model_lightgbm@model$params$lambda_l2, 10)
+})
+
+mod_r_lightrlft_reg <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "lightrulefit",
+  hyperparameters = setup_LightRuleFit(num_leaves = 2^2, lambda_l1 = 100)
+)
 
 # Binary Classification ----
+
+## GLM Classification ----
+mod_c_glm <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "glm"
+)
+
+## GAM Classification ----
+mod_c_gam <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "gam"
+)
+test_that("train() GAM Classification succeeds", {
+  expect_s7_class(mod_c_gam, Classification)
+})
 
 ## CART Classification ----
 # model <- train_CART(dat_training = datc2_train, dat_testing = datc2_test)
 # model$method #"class"
+mod_c_cart <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "cart"
+)
 test_that("train() CART Classification succeeds", {
-  mod_c_cart <- train(
-    x = datc2_train,
-    dat_testing = datc2_test,
-    algorithm = "cart"
-  )
   expect_s7_class(mod_c_cart, Classification)
+})
+
+## CART Classification + IFW ----
+mod_c_cart_ifw <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "cart",
+  hyperparameters = setup_CART(
+    ifw = TRUE
+  )
+)
+test_that("train() CART Classification with IFW succeeds", {
+  expect_s7_class(mod_c_cart_ifw, Classification)
 })
 
 ## CART Classification + grid search ----
@@ -329,5 +477,3 @@ mod_c_lightrlft <- train(
 test_that("train() LightRuleFit Classification succeeds", {
   expect_s7_class(mod_c_lightrlft, Classification)
 })
-
-# Multiclass Classification ----

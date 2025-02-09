@@ -54,6 +54,11 @@ test_that("setup_GLMNET() succeeds", {
   expect_s7_class(setup_GLMNET(), GLMNETHyperparameters)
 })
 
+# setup_LightCART ----
+test_that("setup_LightCART() succeeds", {
+  expect_s7_class(setup_LightCART(), LightCARTHyperparameters)
+})
+
 # LightRFHyperparameters ----
 test_that("LightRFHyperparameters succeeds", {
   expect_s7_class(LightRFHyperparameters(), LightRFHyperparameters)
