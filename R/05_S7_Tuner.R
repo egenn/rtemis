@@ -48,7 +48,7 @@ TunerParameters <- new_class(
 #'
 #' @author EDG
 #' @noRd
-method(print, TunerParameters) <- function(x, pad = 0L) {
+method(print, TunerParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@type, "TunerParameters"))
   printls(props(x)$parameters, pad = pad + 2L)
   invisible(x)
@@ -272,6 +272,6 @@ print.GridSearch <- function(x, ...) {
   printls(x@best_hyperparameters)
   invisible(x)
 } # /print.GridSearch
-method(print, GridSearch) <- function(x) {
+method(print, GridSearch) <- function(x, ...) {
   print.GridSearch(x)
 }

@@ -33,7 +33,7 @@ print.Theme <- function(x, ...) {
   printls(props(x)$parameters)
   invisible(x)
 }
-method(print, Theme) <- function(x) {
+method(print, Theme) <- function(x, ...) {
   print.Theme(x)
 } # /rtemis::print.Theme
 

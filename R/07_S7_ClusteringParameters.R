@@ -47,7 +47,7 @@ method(`.DollarNames`, ClusteringParameters) <- function(x, pattern = "") {
 #'
 #' @author EDG
 #' @noRd
-method(print, ClusteringParameters) <- function(x, pad = 0L) {
+method(print, ClusteringParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@algorithm, "ClusteringParameters"), pad = pad)
   printls(props(x)$parameters, pad = pad)
   invisible(x)

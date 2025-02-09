@@ -159,8 +159,9 @@ print.Supervised <- function(x, ...) {
     cat("\n")
     print(x@metrics_testing)
   }
+  invisible(x)
 } # /print.Supervised
-method(print, Supervised) <- function(x) {
+method(print, Supervised) <- function(x, ...) {
   print.Supervised(x)
 }
 
@@ -668,7 +669,7 @@ SupervisedCV <- new_class(
 ) # /SupervisedCV
 
 # Print SupervisedCV ----
-method(print, SupervisedCV) <- function(x) {
+method(print, SupervisedCV) <- function(x, ...) {
   cat(gray(".:"))
   objcat(paste("Crossvalidated", x@type, "Model"))
   cat("  ",
@@ -685,6 +686,7 @@ method(print, SupervisedCV) <- function(x) {
   print(x@metrics_training)
   cat("\n")
   print(x@metrics_testing)
+  invisible(x)
 } # /SupervisedCV
 
 # Predict SupervisedCV ----
@@ -963,11 +965,12 @@ LightRuleFit <- new_class(
 ) # /LightRuleFit
 
 # Print LightRuleFit ----
-method(print, LightRuleFit) <- function(x) {
+method(print, LightRuleFit) <- function(x, ...) {
   objcat("rtemis LightRuleFit Model")
   cat("Trained using ", hilite(x@model_lightgbm@algorithm), " and ",
     hilite(x@model_glmnet@algorithm), ".\n",
     sep = ""
   )
   cat("Selected", hilite(length(x@rules_selected)), "rules.\n")
+  invisible(x)
 } # /rtemis::print.LightRuleFit

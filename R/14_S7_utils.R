@@ -298,6 +298,6 @@ print.CheckData <- function(x,
   }
   invisible(x)
 } # print.CheckData
-method(print, CheckData) <- function(x) {
+method(print, CheckData) <- function(x, ...) {
   print.CheckData(x)
 } # /rtemis::print.CheckData

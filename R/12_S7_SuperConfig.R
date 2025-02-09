@@ -46,7 +46,7 @@ print.SuperConfig <- function(x, ...) {
 
 } # /rtemis::print.SuperConfig
 
-method(print, SuperConfig) <- function(x) {
+method(print, SuperConfig) <- function(x, ...) {
   objcat("SuperConfig")
   printls(props(x))
   invisible(x)

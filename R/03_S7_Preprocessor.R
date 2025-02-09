@@ -332,7 +332,7 @@ Preprocessor <- new_class(
 ) # /Preprocessor
 
 # Print Preprocessor ----
-method(print, Preprocessor) <- function(x, pad = 0L) {
+method(print, Preprocessor) <- function(x, pad = 0L, ...) {
   objcat("Preprocessor", pad = pad)
   printls(props(x), pad = pad + 2L)
   invisible(x)

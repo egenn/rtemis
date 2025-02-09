@@ -110,7 +110,7 @@ print.Hyperparameters <- function(x, ...) {
   }
   invisible(x)
 }
-method(print, Hyperparameters) <- function(x) {
+method(print, Hyperparameters) <- function(x, ...) {
   print.Hyperparameters(x)
 } # rtemis::print.Hyperparameters
 

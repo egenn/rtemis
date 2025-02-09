@@ -49,7 +49,7 @@ method(`[[`, Clustering) <- function(x, index) {
 }
 
 # Print Clustering ----
-method(print, Clustering) <- function(x) {
+method(print, Clustering) <- function(x, ...) {
   cat(gray(".:"))
   objcat(paste(x$algorithm, "Clustering"))
   cat("\n")

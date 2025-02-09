@@ -70,7 +70,7 @@ RegressionMetrics <- new_class(
 ) # /rtemis::RegressionMetrics
 
 # Print RegressionMetrics ----
-method(print, RegressionMetrics) <- function(x) {
+method(print, RegressionMetrics) <- function(x, ...) {
   if (!is.null(x@sample)) {
     objcat(paste(" ", x@sample, "Regression Metrics\n"))
   } else {
@@ -107,7 +107,7 @@ ClassificationMetrics <- new_class(
 ) # /rtemis::ClassificationMetrics
 
 # Print ClassificationMetrics ----
-method(print, ClassificationMetrics) <- function(x, decimal_places = 3) {
+method(print, ClassificationMetrics) <- function(x, decimal_places = 3, ...) {
   if (!is.null(x@sample)) {
     objcat(paste(" ", x@sample, "Classification Metrics\n"))
   } else {
@@ -182,7 +182,7 @@ print.MetricsCV <- function(x, decimal_places = 3L, ...) {
   printls(out, print_class = FALSE)
   invisible(x)
 }
-method(print, MetricsCV) <- function(x, decimal_places = 3) {
+method(print, MetricsCV) <- function(x, decimal_places = 3, ...) {
   print.MetricsCV(x, decimal_places)
 } # /rtemis::print.MetricsCV
 

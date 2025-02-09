@@ -49,7 +49,7 @@ method(`$`, ResamplerParameters) <- function(x, name) {
 #'
 #' @author EDG
 #' @noRd
-method(print, ResamplerParameters) <- function(x, pad = 0L) {
+method(print, ResamplerParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@type, "ResamplerParameters"), pad = pad)
   printls(props(x)[-1], pad = pad + 2L)
   invisible(x)
@@ -354,7 +354,7 @@ print.Resampler <- function(x, ...) {
   printls(propsl)
   invisible(x)
 }
-method(print, Resampler) <- function(x) {
+method(print, Resampler) <- function(x, ...) {
   print.Resampler(x)
 } # rtemis::print.Resampler
 

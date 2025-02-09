@@ -47,7 +47,7 @@ method(`.DollarNames`, DecompositionParameters) <- function(x, pattern = "") {
 #'
 #' @author EDG
 #' @noRd
-method(print, DecompositionParameters) <- function(x, pad = 0L) {
+method(print, DecompositionParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@algorithm, "DecompositionParameters"), pad = pad)
   cat("\n")
   printls(props(x)$parameters, pad = pad)

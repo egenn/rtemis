@@ -46,7 +46,7 @@ method(`[[`, Decomposition) <- function(x, index) {
 }
 
 # Print Decomposition ----
-method(print, Decomposition) <- function(x, pad = 0L) {
+method(print, Decomposition) <- function(x, pad = 0L, ...) {
   cat(gray(".:"))
   objcat(paste(x@algorithm, "Decomposition"), pad = pad)
   cat("\n")
