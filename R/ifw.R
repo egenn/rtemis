@@ -9,16 +9,14 @@
 #' @keywords internal
 #' @noRd
 #' @author EDG
-#' 
+#'
 #' @examples
-#' /dontrun{
+#' \dontrun{
 #' y <- factor(sample(c("A", "B"), size = 1000, replace = 1000, prob = c(.1, .9)))
 #' ifw(y)
 #' ifw(y, type = "case_weights")
 #' }
-
 ifw <- function(y, type = c("case_weights", "class_weights"), verbosity = 1L) {
-  
   stopifnot(is.factor(y))
   type <- match.arg(type)
   if (verbosity > 0L) {
@@ -37,5 +35,4 @@ ifw <- function(y, type = c("case_weights", "class_weights"), verbosity = 1L) {
     stopifnot(length(out) == length(y))
   }
   out
-
 } # /rtemis::ifw

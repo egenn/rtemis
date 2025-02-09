@@ -8,7 +8,7 @@
 #'
 #' A simple `plotly` wrapper to plot horizontal barplots, sorted by value,
 #' which can be used to visualize variable importance, model coefficients, etc.
-#' 
+#'
 #' @param x Numeric vector: Input.
 #' @param names Vector, string: Names of features.
 #' @param main Character: Main title.
@@ -37,17 +37,18 @@
 #' @param ... Additional arguments passed to theme.
 #'
 #' @return A `plotly` object.
-#' 
+#'
 #' @author EDG
+#' @export
+#'
 #' @examples
+#' \dontrun{
 #' # made-up data
 #' x <- rnorm(10)
 #' names(x) <- paste0("Feature_", seq(x))
 #' draw_varimp(x)
 #' draw_varimp(x, orientation = "v")
-
-#' @export
-
+#' }
 draw_varimp <- function(x,
                         names = NULL,
                         main = NULL,

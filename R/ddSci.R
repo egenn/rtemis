@@ -21,12 +21,14 @@
 #' @return Formatted number
 #' @author EDG
 #' @examples
+#' \dontrun{
 #' x <- .34876549
 #' ddSci(x)
 #' # "0.35"
 #' x <- .00000000457823
 #' ddSci(x)
 #' # "4.6e-09"
+#' }
 #' @export
 
 ddSci <- function(x,

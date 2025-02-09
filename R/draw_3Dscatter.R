@@ -64,7 +64,7 @@
 #' @param ... Additional arguments passed to `plotly::plot_ly`.
 #'
 #' @return A `plotly` object.
-#' 
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -141,7 +141,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   .mode <- mode
   .names <- group_names
 
-  # order.on.x ----
+  # order_on_x ----
   if (is.null(order_on_x)) {
     order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
   }
@@ -211,17 +211,17 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     z <- rep(z, length(x))
     .names <- names(x)
   }
-  n.groups <- length(x)
+  n_groups <- length(x)
 
-  # legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
-  legend <- if (is.null(legend) && n.groups == 1) FALSE else TRUE
+  # legend <- if (is.null(legend) & n_groups == 1 & is.null(fit)) FALSE else TRUE
+  legend <- if (is.null(legend) && n_groups == 1) FALSE else TRUE
 
-  if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
+  if (length(.mode) < n_groups) .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
 
-  # if (is.null(legend)) legend <- n.groups > 1
+  # if (is.null(legend)) legend <- n_groups > 1
   if (is.null(.names)) {
-    if (n.groups > 1) {
-      .names <- paste("Group", seq_len(n.groups))
+    if (n_groups > 1) {
+      .names <- paste("Group", seq_len(n_groups))
     } else {
       .names <- if (!is.null(fit)) fit else NULL
       .names <- NULL
@@ -237,25 +237,25 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   }
 
   # s.e. fit ----
-  se.fit <- FALSE
-  # if (se.fit) {
+  se_fit <- FALSE
+  # if (se_fit) {
   #   if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
   #     warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
-  #     se.fit <- FALSE
+  #     se_fit <- FALSE
   #   }
   # }
 
   # Colors ----
   if (is.character(palette)) palette <- rtpalette(palette)
-  if (is.null(col)) col <- palette[seq_len(n.groups)]
-  if (length(col) < n.groups) col <- rep(col, n.groups / length(col))
+  if (is.null(col)) col <- palette[seq_len(n_groups)]
+  if (length(col) < n_groups) col <- rep(col, n_groups / length(col))
 
   # Convert inputs to RGB
-  spike.col <- plotly::toRGB(spike_col)
+  spike_col <- plotly::toRGB(spike_col)
 
   # Theme ----
-  axes.visible <- FALSE
-  axes.mirrored <- FALSE
+  axes_visible <- FALSE
+  axes_mirrored <- FALSE
   extraargs <- list(...)
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), extraargs)
@@ -274,9 +274,9 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   main_col <- plotly::toRGB(theme$main_col)
   if (!theme$axes_visible) tick_col <- labs_col <- "transparent"
 
-  # marker.col, se.col ===
+  # marker_col, se_col ===
   if (is.null(marker_col)) {
-    marker_col <- if (!is.null(fit) && n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
+    marker_col <- if (!is.null(fit) && n_groups == 1) as.list(rep(theme$fg, n_groups)) else col
   }
 
   if (!is.null(fit)) {
@@ -291,43 +291,43 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     width <- height <- min(dev.size("px")) - 10
   }
 
-  # fitted & se.fit ----
+  # fitted & se_fit ----
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
-  if (se.fit) se <- list() else se <- NULL
+  if (se_fit) se <- list() else se <- NULL
   if (rsq) .rsq <- list() else .rsq <- NULL
   # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
     learner <- select_learn(fit, fn = FALSE)
     fitted <- list()
-    fitted.text <- character()
-    for (i in seq_len(n.groups)) {
+    fitted_text <- character()
+    for (i in seq_len(n_groups)) {
       feat1 <- data.frame(x[[i]], y[[i]])
       y1 <- z[[i]]
-      learner.args <- c(
+      learner_args <- c(
         list(x = feat1, y = y1, verbosity = verbosity),
         fit_params,
         list(...)
       )
       if (fit == "NLS") {
-        learner.args <- c(
-          learner.args,
+        learner_args <- c(
+          learner_args,
           list(formula = formula, save.func = TRUE)
         )
       }
-      mod <- do.call(learner, learner.args)
+      mod <- do.call(learner, learner_args)
       fitted[[i]] <- fitted(mod)
-      if (se.fit) se[[i]] <- se(mod)
-      fitted.text[i] <- switch(fit,
+      if (se_fit) se[[i]] <- se(mod)
+      fitted_text[i] <- switch(fit,
         NLS = mod$extra$model,
         NLA = mod$mod$formula,
         fit
       )
       if (rsq) {
-        fitted.text[i] <- paste0(
-          fitted.text[i],
-          if (n.groups == 1) " (" else " ",
+        fitted_text[i] <- paste0(
+          fitted_text[i],
+          if (n_groups == 1) " (" else " ",
           "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
-          if (n.groups == 1) ")"
+          if (n_groups == 1) ")"
         )
       }
     }
@@ -338,7 +338,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     width = width,
     height = height
   )
-  for (i in seq_len(n.groups)) {
+  for (i in seq_len(n_groups)) {
     # '- { Scatter } ----
     marker <- if (grepl("markers", .mode[i])) {
       list(
@@ -355,17 +355,17 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
       type = "scatter3d",
       mode = .mode[i],
       # fillcolor = plotly::toRGB(col[[i]], alpha),
-      # name = if (n.groups > 1) .names[i] else "Raw",
+      # name = if (n_groups > 1) .names[i] else "Raw",
       name = .names[i],
       # text = .text[[i]],
       # hoverinfo = "text",
       # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
       marker = marker,
       line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
-      legendgroup = if (n.groups > 1) .names[i] else "Raw",
+      legendgroup = if (n_groups > 1) .names[i] else "Raw",
       showlegend = legend
     )
-    # if (se.fit) {
+    # if (se_fit) {
     #   # '- { SE band } ----
     #   plt <- plotly::add_trace(plt,
     #                            x = x[[i]],
@@ -382,7 +382,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     #                            type = "scatter",
     #                            mode = "lines",
     #                            fill = "tonexty",
-    #                            fillcolor = plotly::toRGB(se.col[[i]], alpha = se.alpha),
+    #                            fillcolor = plotly::toRGB(se_col[[i]], alpha = se.alpha),
     #                            line = list(color = "transparent"),
     #                            # name = shade.name,
     #                            legendgroup = .names[i],
@@ -399,9 +399,9 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         z = fitted[[i]],
         type = "mesh3d",
         opacity = fit_alpha,
-        name = fitted.text[i],
+        name = fitted_text[i],
         # legendgroup = .names[i],
-        # showlegend = if (legend & n.groups == 1) TRUE else FALSE,
+        # showlegend = if (legend & n_groups == 1) TRUE else FALSE,
         inherit = FALSE,
         showscale = FALSE,
         intensity = 1,
@@ -409,7 +409,6 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
       )
     }
   }
-
   # Layout ----
   # '- layout ----
   f <- list(

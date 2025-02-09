@@ -255,7 +255,7 @@ draw_scatter <- function(x, y = NULL,
         ),
         cluster_params
       )
-    )$clusters.train)
+    )$clusters_train)
     group <- paste("Cluster", group)
   }
 
@@ -366,12 +366,12 @@ draw_scatter <- function(x, y = NULL,
   }
 
   bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot.bg)
-  grid_col <- plotly::toRGB(theme$grid.col, theme$grid.alpha)
-  tick_col <- plotly::toRGB(theme$tick.col)
-  labs_col <- plotly::toRGB(theme$labs.col)
-  main_col <- plotly::toRGB(theme$main.col)
-  if (!theme$axes.visible) tick_col <- labs_col <- "transparent"
+  plot_bg <- plotly::toRGB(theme$plot_bg)
+  grid_col <- plotly::toRGB(theme$grid_col, theme$grid_alpha)
+  tick_col <- plotly::toRGB(theme$tick_col)
+  labs_col <- plotly::toRGB(theme$labs_col)
+  main_col <- plotly::toRGB(theme$main_col)
+  if (!theme$axes_visible) tick_col <- labs_col <- "transparent"
 
   # marker_col, se_col ===
   if (is.null(marker_col)) {
@@ -397,12 +397,11 @@ draw_scatter <- function(x, y = NULL,
   # if (axes_square) {
   # width <- height <- min(dev.size("px"))
   # }
-
   # fitted & se_fit ----
   # If plotting se bands, need to include (fitted +/- se_times * se) in the axis limits
   if (se_fit) se <- list() else se <- NULL
   if (rsq) .rsq <- list() else .rsq <- NULL
-  # if (rsq.pval) rsqp <- list() else rsqp <- NULL
+  # if (rsq_pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
     algorithm <- get_alg_name(fit)
     fitted <- list()
@@ -446,7 +445,7 @@ draw_scatter <- function(x, y = NULL,
           if (n_groups == 1) ")"
         )
       }
-      # if (rsq.pval) {
+      # if (rsq_pval) {
       #   if (fit  %in% c("LM", "GLM")) {
       #     rsqp[[i]] <- paste0(ddSci(mod@metrics_training$Rsq), " (",
       #                          ddSci(summary(mod$mod)$coefficients[2, 4]), ")")
@@ -487,10 +486,10 @@ draw_scatter <- function(x, y = NULL,
         )))
         ylim <- range(ylim_lo, ylim_hi, y)
       }
-      # if (is.list(error.y)) {
-      #   error.y.hi <- lapply(seq(y), function(i) yl[[i]] + error.y[[i]])
-      #   error.y.lo <- lapply(seq(y), function(i) yl[[i]] - error.y[[i]])
-      #   ylim <- range(error.y.lo, error.y.hi, ylim)
+      # if (is.list(error_y)) {
+      #   error_y_hi <- lapply(seq(y), function(i) yl[[i]] + error_y[[i]])
+      #   error_y_lo <- lapply(seq(y), function(i) yl[[i]] - error_y[[i]])
+      #   ylim <- range(error_y_lo, error_y_hi, ylim)
       # }
     }
 
@@ -635,7 +634,7 @@ draw_scatter <- function(x, y = NULL,
         fill = "tonexty",
         fillcolor = plotly::toRGB(se_col[[i]], alpha = se_alpha),
         line = list(color = "transparent"),
-        # name = shade.name,
+        # name = shade_name,
         legendgroup = .names[i],
         showlegend = FALSE,
         hoverinfo = "none",
@@ -663,14 +662,14 @@ draw_scatter <- function(x, y = NULL,
 
   # Layout ----
   f <- list(
-    family = theme$font.family,
+    family = theme$font_family,
     size = font_size,
     color = labs_col
   )
   tickfont <- list(
-    family = theme$font.family,
+    family = theme$font_family,
     size = font_size,
-    color = theme$tick.labels.col
+    color = theme$tick_labels_col
   )
   .legend <- list(
     x = legend_xy[1],
@@ -678,7 +677,7 @@ draw_scatter <- function(x, y = NULL,
     y = legend_xy[2],
     yanchor = legend_yanchor,
     font = list(
-      family = theme$font.family,
+      family = theme$font_family,
       size = font_size,
       color = legend_col
     ),
@@ -689,7 +688,7 @@ draw_scatter <- function(x, y = NULL,
     tracegroupgap = legend_group_gap
   )
 
-  zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
+  zerocol <- adjustcolor(theme$zerolines_col, theme$zerolines_alpha)
   plt <- plotly::layout(plt,
     yaxis = list(
       title = ylab,
@@ -700,16 +699,16 @@ draw_scatter <- function(x, y = NULL,
       spikemode = spikemode,
       spikesnap = spikesnap,
       spikethickness = spikethickness,
-      # mirror = axes.mirrored,
+      # mirror = axes_mirrored,
       titlefont = f,
       showgrid = theme$grid,
       gridcolor = grid_col,
-      gridwidth = theme$grid.lwd,
+      gridwidth = theme$grid_lwd,
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = theme$zerolines,
       zerolinecolor = zerocol,
-      zerolinewidth = theme$zerolines.lwd,
+      zerolinewidth = theme$zerolines_lwd,
       range = ylim,
       automargin = automargin_y
     ),
@@ -722,28 +721,28 @@ draw_scatter <- function(x, y = NULL,
       spikemode = spikemode,
       spikesnap = spikesnap,
       spikethickness = spikethickness,
-      # mirror = axes.mirrored,
+      # mirror = axes_mirrored,
       titlefont = f,
       showgrid = theme$grid,
       gridcolor = grid_col,
-      gridwidth = theme$grid.lwd,
+      gridwidth = theme$grid_lwd,
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = theme$zerolines,
       zerolinecolor = zerocol,
-      zerolinewidth = theme$zerolines.lwd,
+      zerolinewidth = theme$zerolines_lwd,
       range = xlim,
       automargin = automargin_x
     ),
     title = list(
       text = main,
       font = list(
-        family = theme$font.family,
+        family = theme$font_family,
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main.adj,
+      x = theme$main_adj,
       yref = "paper",
       y = main_y,
       yanchor = main_yanchor
@@ -803,7 +802,7 @@ draw_scatter <- function(x, y = NULL,
       text = subtitle,
       showarrow = FALSE,
       font = list(
-        family = theme$font.family,
+        family = theme$font_family,
         size = font_size,
         color = main_col
       )
