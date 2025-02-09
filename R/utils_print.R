@@ -413,11 +413,14 @@ twocol2html <- function(x,
 #' @param newline Logical: If TRUE, end with new line character.
 #'
 #' @return vector of NROW, NCOL invisibly
+#' 
 #' @author EDG
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' catsize(iris)
+#' }
 catsize <- function(x, name = NULL, verbosity = 1L, newline = TRUE) {
   if (inherits(x, c("matrix", "data.frame"))) {
     .nrow <- NROW(x)
@@ -453,7 +456,7 @@ catsize <- function(x, name = NULL, verbosity = 1L, newline = TRUE) {
 #' Print single line of object info
 #'
 #' @param x object to print
-#' @param ... Not used
+#' @param ... Not used.
 #'
 #' @author EDG
 #' @keywords internal
