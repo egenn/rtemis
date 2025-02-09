@@ -590,6 +590,7 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 #'
 #' @return For vector input, a one-hot-encoded matrix, for data.frame frame
 #' input, an expanded data.frame where all factors are one-hot encoded
+#' 
 #' @author EDG
 #' @export
 #' @examples
@@ -663,7 +664,7 @@ one_hot.data.frame <- function(x,
   if (verbosity > 0L) .names <- colnames(x)
   for (i in factor_index) {
     if (verbosity > 0L) msg20("One hot encoding ", .names[i], "...")
-    .levles <- if (!is.null(factor_levels)) {
+    .levels <- if (!is.null(factor_levels)) {
       factor_levels[[i]]
     } else {
       levels(x[[i]])
@@ -714,10 +715,12 @@ one_hot.data.table <- function(x,
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' ir <- data.table::as.data.table(iris)
 #' # dt_set_one_hot operates in-place; therefore no assignment is used:
 #' dt_set_one_hot(ir)
 #' ir
+#' }
 dt_set_one_hot <- function(x,
                            xname = NULL,
                            verbosity = 1L) {
