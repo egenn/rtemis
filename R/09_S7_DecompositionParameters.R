@@ -144,7 +144,7 @@ ICAParameters <- new_class(
 #' @param k Integer: Number of components.
 #' @param type Character: Type of ICA: "parallel" or "deflation".
 #' @param fun Character: ICA function: "logcosh", "exp".
-#' @param alpha Numeric [1, 2]: Used in approximation to neg-entropy with `fun = "logcosh"`.
+#' @param alpha Numeric \[1, 2\]: Used in approximation to neg-entropy with `fun = "logcosh"`.
 #' @param row.norm Logical: If TRUE, normalize rows of `x` before ICA.
 #' @param maxit Integer: Maximum number of iterations.
 #' @param tol Numeric: Tolerance.
