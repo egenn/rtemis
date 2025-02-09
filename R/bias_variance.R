@@ -5,14 +5,13 @@
 #' Bias-Variance Decomposition
 #'
 #' @param x data.frame or similar where last column is the outcome.
-#' @param mod Character: rtemis learner
-#' @param res1_train_p Numeric: Proportion of cases to use for training
-#' @param params List of `mod` parameters
-#' @param resampler_parameters Output of [setup_resample]
-#' @param seed Integer: Seed for initial train/test split
+#' @param mod Character: rtemis learner.
+#' @param res1_train_p Numeric: Proportion of cases to use for training.
+#' @param params List of `mod` parameters.
+#' @param resampler_parameters Output of [setup_Resampler].
+#' @param seed Integer: Seed for initial train/test split.
 #' @param verbosity Integer: Verbosity level.
-#' @param res_verbosity Logical: passed to the learning function
-#' @param ... Additional arguments passed to `resLearn`
+#' @param res_verbosity Logical: passed to the learning function.
 #'
 #' @author EDG
 #' @export
