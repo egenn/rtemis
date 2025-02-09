@@ -6,7 +6,7 @@
 #'
 #' @keywords internal
 #' @noRd
-cluster_CMeans <- function(x, parameters) {
+cluster_CMeans <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, CMeansParameters)
 
