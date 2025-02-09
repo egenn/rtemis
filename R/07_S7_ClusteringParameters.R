@@ -172,3 +172,77 @@ setup_NeuralGas <- function(k = 3L, dist = c("euclidean", "manhattan")) {
   dist <- match.arg(dist)
   NeuralGasParameters(k, dist)
 } # /rtemis::setup_NeuralGas
+
+
+# CMeansParameters ----
+#' @title CMeansParameters
+#' 
+#' @description
+#' ClusteringParameters subclass for CMeans Clustering.
+#' 
+#' @author EDG
+#' @noRd
+CMeansParameters <- new_class(
+  name = "CMeansParameters",
+  parent = ClusteringParameters,
+  constructor = function(k, max_iter, dist, method, m, rate_par, weights, control) {
+    k <- clean_posint(k)
+    max_iter <- clean_posint(max_iter)
+    check_character(dist)
+    check_character(method)
+    check_floatpos(m)
+    check_float01inc(rate_par)
+    check_inherits(weights, "numeric")
+    check_inherits(control, "list")
+    new_object(
+      ClusteringParameters(
+        algorithm = "CMeans",
+        parameters = list(
+          k = k,
+          max_iter = max_iter,
+          dist = dist,
+          method = method,
+          m = m,
+          rate_par = rate_par,
+          weights = weights,
+          control = control
+        )
+      )
+    )
+  }
+) # /CMeansParameters
+
+#' Setup CMeansParameters
+#'
+#' @param k Integer: Number of clusters.
+#' @param max_iter Integer: Maximum number of iterations.
+#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'.
+#' @param method Character: "cmeans" - fuzzy c-means clustering; "ufcl": on-line update.
+#' @param m Float (>1): Degree of fuzzification.
+#' @param rate_par Float (0, 1): Learning rate for the online variant.
+#' @param weights Float (>0): Case weights.
+#' @param control List: Control parameters for clustering algorithm.
+#'
+#' @return CMeansParameters object.
+#'
+#' @author EDG
+#' @export
+setup_CMeans <- function(
+    k = 2L,
+    max_iter = 100L,
+    dist = c("euclidean", "manhattan"),
+    method = c("cmeans", "ufcl"),
+    m = 2.0,
+    rate_par = NULL,
+    weights = 1.0,
+    control = list()) {
+  k <- clean_posint(k)
+  max_iter <- clean_posint(max_iter)
+  dist <- match.arg(dist)
+  method <- match.arg(method)
+  check_floatpos(m)
+  stopifnot(m > 1)
+  check_float01inc(rate_par)
+  check_inherits(weights, "numeric")
+  CMeansParameters(k, max_iter, dist, method, m, rate_par, weights, control)
+} # /rtemis::setup_CMeans
