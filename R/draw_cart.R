@@ -8,35 +8,29 @@
 
 #' Plot `rpart` decision trees
 #'
-#' Plot `rpart` decision trees using `data.tree::plot.Node`
+#' Plot `rpart` decision trees using `data.tree::plot.Node`.
 #'
 #' If you want to show split conditions as edge labels (`edge.labels = TRUE`),
-#' it is recommened to set `rankdir = "LR"` and `node.cond = FALSE`.
+#' it is recommended to set `rankdir = "LR"` and `node.cond = FALSE`.
 #' Edge labels in graphviz are shown to the right of
 #' the edge when `rankdir = "TB"` and above when `rankdir = "LR"`.
 #'
 #' @param object Either `rpart` or `Supervised` object.
+#' @param col_positive Color for positive class nodes.
+#' @param col_negative Color for negative class nodes.
 #' @param col_lo Low color for estimated outcome.
 #' @param col_mid Middle color for estimated outcome.
 #' @param col_hi High color for estimated outcome.
+#' @param node_col Color for nodes.
 #' @param node_shape Shape of node.
 #' @param node_labels Logical: If TRUE, print the node labels.
-#' @param node_cond Logical: If TRUE, print the splitting condition inside each
-#' node.
-#' @param node_prob Logical: If TRUE, print the probability estimate for the
-#' first class of the outcome inside each node.
-#' @param node_estimate Logical: If TRUE, print the estimated outcome level
-#' inside each node.
-#' @param node_n Logical: If TRUE, print the number of cases (from training
-#' data) that matched this condition.
+#' @param node_cond Logical: If TRUE, print the splitting condition inside each node.
+#' @param node_prob Logical: If TRUE, print the probability estimate for the first class of the outcome inside each node.
+#' @param node_estimate Logical: If TRUE, print the estimated outcome level inside each node.
+#' @param node_n Logical: If TRUE, print the number of cases (from training data) that matched this condition.
 #' @param edge_col Color for edges.
 #' @param edge_width Width of edges.
-#' @param edge_labels Logical: If TRUE, print the splitting condition on the
-#' edge.
-#' @param edge_col Color for edges.
-#' @param edge_width Width of edges.
-#' @param edge_labels Logical: If TRUE, print the splitting condition on the
-#' edge.
+#' @param edge_labels Logical: If TRUE, print the splitting condition on the edge.
 #' @param arrowhead Character: Arrowhead shape.
 #' @param layout Character: Passed to `data.tree::SetGraphStyle`.
 #' @param drop_leaves Logical: If TRUE, position leaves at the bottom of the plot.
@@ -46,8 +40,7 @@
 #' @param bg_color Background color.
 #' @param overlap Character: Passed to `data.tree::SetGraphStyle`.
 #' @param prune Logical: If TRUE, prune tree using `rpart::prune.rpart`.
-#' @param rpart_cp Numeric: Complexity parameter for pruning. If NULL, no
-#' pruning is performed.
+#' @param rpart_cp Numeric: Complexity parameter for pruning. If NULL, no pruning is performed.
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
