@@ -2,25 +2,25 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-train <- new_generic("train", "x")
-
 #' @name train
-#' 
 #' @aliases train
 #' 
 #' @title
-#' Tune, Train, and Test an \pkg{rtemis} Learner
-#'
+#' Preprocess, Tune, Train, and Supervised Learning Models
+#' 
 #' @description
 #' `train` is a high-level function to preprocess, tune, train, and test an
 #' \pkg{rtemis} model using nested crossvalidation.
 #' 
-#' @usage 
+#' @usage
+#' ## S7 generic
+#' train(x, ...)
 #' ## S7 method for signature 'data.frame'
-#' train(x, dat_validation = NULL, dat_testing = NULL, 
+#' train(x, dat_validation = NULL, dat_testing = NULL,
 #'       algorithm = NULL, preprocessor_parameters = NULL, hyperparameters = NULL,
 #'       tuner_parameters = setup_GridSearch(), crossvalidation_parameters = NULL,
-#'       weights = NULL, question = NULL, outdir = NULL, verbosity = 1L)
+#'       weights = NULL, question = NULL, outdir = NULL, verbosity = 1L, ...)
+#' 
 #'
 #' @details
 #' Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the
@@ -44,7 +44,6 @@ train <- new_generic("train", "x")
 #' @param question Optional character string defining the question that the model is trying to
 #' answer.
 #' @param outdir Character, optional: String defining the output directory.
-#' @param config Character, optional: Path to configuration file.
 #' @param verbosity Integer: Verbosity level.
 #' @param ... Additional arguments to pass to the hyperparameters setup function. Only used if
 #' `hyperparameters` is not defined. Avoid relying on this, instead use the appropriate `setup_*`
@@ -52,9 +51,10 @@ train <- new_generic("train", "x")
 #'
 #' @return Object of class `Regression(Supervised)`, `RegressionCV(SupervisedCV)`,
 #' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`.
-#' 
+#'
 #' @author EDG
 #' @export
+train <- new_generic("train", "x")
 method(train, class_data.frame) <- function(x,
                                             dat_validation = NULL,
                                             dat_testing = NULL,
