@@ -46,6 +46,9 @@ train <- new_generic("train", "x")
 #' @param outdir Character, optional: String defining the output directory.
 #' @param config Character, optional: Path to configuration file.
 #' @param verbosity Integer: Verbosity level.
+#' @param ... Additional arguments to pass to the hyperparameters setup function. Only used if
+#' `hyperparameters` is not defined. Avoid relying on this, instead use the appropriate `setup_*`
+#' function with the `hyperparameters` argument.
 #'
 #' @return Object of class `Regression(Supervised)`, `RegressionCV(SupervisedCV)`,
 #' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`.
@@ -63,17 +66,25 @@ method(train, class_data.frame) <- function(x,
                                             weights = NULL,
                                             question = NULL,
                                             outdir = NULL,
-                                            verbosity = 1L) {
+                                            verbosity = 1L, ...) {
   # Dependencies ----
   check_dependencies(c("future.apply", "progressr"))
 
   # Checks ----
+  # Pass ... to hyperparameters setup_* fn
+  hpr_args <- list(...)
+  if (!is.null(hyperparameters) && length(hpr_args) > 0) {
+    stop("You can either define `hyperparameters` or pass them as additional arguments.")
+  }
   if (!is.null(preprocessor_parameters)) {
     check_is_S7(preprocessor_parameters, PreprocessorParameters)
   }
   if (is.null(hyperparameters)) {
-    hyperparameters <- get_default_hyperparameters(algorithm)
+    # hyperparameters <- get_default_hyperparameters(algorithm)
+    setup_fn <- get_alg_setup(algorithm)
+    hyperparameters <- do_call(setup_fn, hpr_args)
   }
+  check_is_S7(hyperparameters, Hyperparameters)
   if (!is.null(tuner_parameters)) {
     check_is_S7(tuner_parameters, TunerParameters)
   }
@@ -86,7 +97,7 @@ method(train, class_data.frame) <- function(x,
   }
   
   ## Algorithm ----
-  if (!is.null(algorithm) && !is.null(hyperparameters) && tolower(algorithm) != tolower(hyperparameters@algorithm)) {
+  if (!is.null(algorithm) && tolower(algorithm) != tolower(hyperparameters@algorithm)) {
     stop(
       "You defined algorithm to be '", algorithm, "', but defined hyperparameters for ",
       hyperparameters@algorithm, "."
