@@ -4,32 +4,34 @@
 
 #' Plot confusion matrix
 #'
-#' @inheritParams draw_x
-#' @param x Confusion matrix where rows are the reference and columns are the estimated classes or
-#' rtemis `class_error` object produced by [mod_error]
-#' @param true_col Color for true positives & true negatives
-#' @param false_col Color for false positives & false negatives
-#' @param binclasspos Integer: Index of factor level to treat as the positive class
-#' @param font_size Integer: font size
-#' @param main Character: plot title
-#' @param main_y Numeric: y position of the title
-#' @param main_yanchor Character: y anchor of the title
+#' @param x `ClassificationMetrics` object produced by [classification_metrics] or confusion matrix 
+#' where rows are the reference and columns are the estimated classes. For binary classification,
+#' the first row and column are the positive class.
+#' @param true_col Color for true positives & true negatives.
+#' @param false_col Color for false positives & false negatives.
+#' @param binclasspos Integer: Index of factor level to treat as the positive class.
+#' @param font_size Integer: font size.
+#' @param main Character: plot title.
+#' @param main_y Numeric: y position of the title.
+#' @param main_yanchor Character: y anchor of the title.
 #' @param theme List or Character: Either the output of a `theme_*()` function or the name of  a
 #' theme. Use `themes()` to get available theme names. Theme functions are of the form
 #' `theme_<name>`.
 #' @param margin List: Plot margins
 #'
+#' @return A plotly object
+#' 
 #' @author EDG
 #' @export
-#' @return A plotly object
 #'
 #' @examples
 #' \dontrun{
-#' true <- factor(c("a", "a", "a", "a", "b", "b", "b", "b", "b", "b", "b", "b"))
-#' predicted <- factor(c("a", "a", "b", "a", "b", "b", "a", "a", "b", "b", "a", "a"))
-#' predicted_prob <- c(0.7, 0.55, 0.45, 0.62, 0.41, 0.32, 0.59, .63, .32, .21, .52, .58)
-#' error <- mod_error(true, predicted, predicted_prob)
-#' draw_conf(error)
+#' # Assume positive class is "b"
+#' true_labels <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
+#' predicted_labels <- factor(c("a", "b", "a", "b", "b", "a", "b", "b", "b", "a"))
+#' predicted_prob <- c(0.3, 0.55, 0.45, 0.75, 0.57, 0.3, 0.8, 0.63, 0.62, 0.39)
+#' metrics <- classification_metrics(true_labels, predicted_labels, predicted_prob)
+#' draw_conf(metrics)
 #' }
 draw_conf <- function(
     x,
@@ -37,7 +39,6 @@ draw_conf <- function(
     ylab = "Reference",
     true_col = "#72CDF4",
     false_col = "#FEB2E0",
-    binclasspos = 2L,
     font_size = 18,
     main = NULL,
     main_y = 1,
@@ -50,26 +51,30 @@ draw_conf <- function(
     file_height = 500,
     file_scale = 1, ...) {
   # Input ----
-  if (inherits(x, "class_error")) {
-    x <- x$ConfusionMatrix
+  if (S7_inherits(x, ClassificationMetrics)) {
+    x <- x@metrics$Confusion_Matrix
   }
 
-  # Metrics ----
-  nclasses <- ncol(x)
-  total <- sum(x)
-  class_totals <- rowSums(x)
-  condition_negative <- total - class_totals
-  predicted_totals <- colSums(x)
-  hits <- diag(x)
-  misses <- class_totals - hits
-  class_sensitivity <- hits / class_totals
-  true_negative <- total - predicted_totals - (class_totals - hits)
-  class_specificity <- true_negative / condition_negative
-  class_balancedAccuracy <- .5 * (class_sensitivity + class_specificity)
-  # PPV = true positive / predicted condition positive
-  class_ppv <- hits / predicted_totals
-  # NPV  = true negative / predicted condition negative
-  class_npv <- true_negative / (total - predicted_totals)
+  if (is.null(dim(x)) || ncol(x) != nrow(x)) {
+    stop("The confusion matrix must be a square matrix.")
+  }
+
+   # Metrics ----
+   nclasses <- ncol(x)
+   total <- sum(x)
+   class_totals <- rowSums(x)
+   condition_negative <- total - class_totals
+   predicted_totals <- colSums(x)
+   hits <- diag(x)
+   misses <- class_totals - hits
+   class_sensitivity <- hits / class_totals
+   true_negative <- total - predicted_totals - (class_totals - hits)
+   class_specificity <- true_negative / condition_negative
+   class_balancedAccuracy <- .5 * (class_sensitivity + class_specificity)
+   # PPV = true positive / predicted condition positive
+   class_ppv <- hits / predicted_totals
+   # NPV  = true negative / predicted condition negative
+   class_npv <- true_negative / (total - predicted_totals)
 
   # Theme ----
   extraargs <- list(...)
@@ -109,7 +114,10 @@ draw_conf <- function(
   for (i in seq_len(nclasses)) {
     for (j in seq_len(nclasses)) {
       plt <- make_plotly_conf_tile(
-        plt, x, i, j, pos_color, neg_color, font_size, theme
+        p = plt, x = x,
+        i = i, j = j, 
+        pos_color = pos_color, neg_color = neg_color, 
+        font_size = font_size, theme = theme
       )
     }
   }
@@ -174,7 +182,7 @@ draw_conf <- function(
     showarrow = FALSE
   )
 
-  # x-axis label
+  # x-axis label "Predicted"
   plt <- plotly::add_annotations(
     plt,
     x = nclasses / 2,
@@ -184,7 +192,7 @@ draw_conf <- function(
     showarrow = FALSE
   )
 
-  # y-axis label
+  # y-axis label "Reference"
   plt <- plotly::add_annotations(
     plt,
     x = ifelse(nclasses == 2, -.3, -0.5),
@@ -216,7 +224,7 @@ draw_conf <- function(
       y = c(.5, 1.5),
       text = paste0(
         c("Sensitivity\n", "Specificity\n"),
-        c(ddSci(class_sensitivity[binclasspos], 3), ddSci(class_specificity[binclasspos], 3))
+        c(ddSci(class_sensitivity[1], 3), ddSci(class_specificity[1], 3))
       ),
       font = f,
       showarrow = FALSE,
@@ -242,7 +250,7 @@ draw_conf <- function(
       y = rep(nclasses + 0.15, 2),
       text = paste0(
         c("PPV\n", "NPV\n"),
-        c(ddSci(class_ppv[binclasspos], 3), ddSci(class_npv[binclasspos], 3))
+        c(ddSci(class_ppv[1], 3), ddSci(class_npv[1], 3))
       ),
       font = f,
       showarrow = FALSE
@@ -410,7 +418,7 @@ draw_conf <- function(
 
   # Text: Balanced accuracy
   ba_pad <- ifelse(nclasses == 2, 0.15, 0.2)
-  ba <- ifelse(nclasses == 2, class_balancedAccuracy[binclasspos], mean(class_balancedAccuracy))
+  ba <- ifelse(nclasses == 2, class_balancedAccuracy[1], mean(class_balancedAccuracy))
   plt <- plotly::add_annotations(
     plt,
     x = nclasses + ba_pad,
@@ -437,7 +445,7 @@ draw_conf <- function(
   }
 
   return(plt)
-} # rtemis::draw_conf
+} # /rtemis::draw_conf
 
 make_plotly_conf_tile <- function(
     p, x, i, j, pos_color, neg_color,
@@ -476,4 +484,4 @@ make_plotly_conf_tile <- function(
   )
 
   return(p)
-} # make_plotly_conf_tile
+} # /rtemis::make_plotly_conf_tile
