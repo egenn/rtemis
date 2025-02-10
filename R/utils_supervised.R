@@ -66,7 +66,7 @@ check_supervised_inputs <- function(x, y = NULL) {
 
 #' Move outcome to last column
 #'
-#' @param data data.frame or similar.
+#' @param dat data.frame or similar.
 #' @param outcome_column Character: Name of outcome column.
 #'
 #' @return object of same class as `data`
