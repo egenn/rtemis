@@ -34,6 +34,8 @@ rt_green <- "49;1"
 #' @param ... Character objects to format
 #'
 #' @rdname strng
+#' @keywords internal
+#' @noRd
 bold <- function(...) {
   paste0("\033[1m", paste(...), "\033[22m")
 }
@@ -287,6 +289,13 @@ leftpad <- function(x, target_length, pad_char = " ") {
 
 #' Force plain text when using `message()`
 #'
+#' @param x Character: Text to be output to console.
+#' 
+#' @return Character: Text with ANSI escape codes removed.
+#' 
+#' @author EDG
+#' @keywords internal
+#' @noRd
 plain <- function(x) {
   paste0("\033[0m", x)
 }
