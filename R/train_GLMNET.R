@@ -99,7 +99,7 @@ train_GLMNET <- function(
       intercept = hyperparameters$intercept, # can't be NULL
       penalty.factor = hyperparameters$penalty.factor
     )
-    check_inherits(mod, "cv.glmnet")
+    check_inherits(model, "cv.glmnet")
   } else {
     model <- glmnet::glmnet(
       x = as.matrix(
