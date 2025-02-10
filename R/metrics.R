@@ -63,16 +63,16 @@ rsq <- function(x, y) {
 
 #' Log Loss for a binary classifier
 #'
-#' @param true Factor: True labels. First level is the positive case
-#' @param predicted_prob Float, vector: predicted probabilities
+#' @param true_int Integer vector, {0, 1}: True labels (1 is the positive class).
+#' @param predicted_prob Float, vector: predicted probabilities.
+#' @param eps Float: Small value to prevent log(0).
 #'
 #' @author EDG
 #' @keywords internal
-logloss <- function(true, predicted_prob) {
-  true_bin <- 2 - as.numeric(true)
-  eps <- 1e-16
+#' @noRd
+logloss <- function(true_int, predicted_prob, eps = 1e-16) {
   predicted_prob <- pmax(pmin(predicted_prob, 1 - eps), eps)
-  -mean(true_bin * log(predicted_prob) + (1 - true_bin) * log(1 - predicted_prob))
+  -mean(true_int * log(predicted_prob) + (1 - true_int) * log(1 - predicted_prob))
 } # rtemis::logloss
 
 
@@ -245,38 +245,49 @@ f1 <- function(precision, recall) {
 #' auc(preds, labels, method = "pROC")
 #' auc(preds, labels, method = "auc_pairs")
 #' }
-auc <- function(preds, labels,
-                method = c("pROC", "ROCR", "auc_pairs"),
+auc <- function(true_int, predicted_prob,
+                method = "Rfast",
                 verbosity = 0L) {
-  method <- match.arg(method)
-  if (length(unique(labels)) == 1) {
+  
+  # Checks ----
+  check_dependencies("ROCR")
+  check_inherits(true_int, "integer")
+  check_float01inc(predicted_prob)
+  # method <- match.arg(method)
+  if (length(unique(true_int)) == 1) {
     return(NaN)
   }
 
+  auc. <- Rfast::auc(group = true_int, preds = predicted_prob)
 
-  if (method == "pROC") {
-    check_dependencies("pROC")
-    .auc <- try(as.numeric(pROC::roc(
-      labels, preds,
-      levels = rev(levels(labels)),
-      direction = "<"
-    )$auc))
-  } else if (method == "ROCR") {
-    check_dependencies("ROCR")
-    .pred <- try(ROCR::prediction(preds, labels,
-      label.ordering = rev(levels(labels))
-    ))
-    .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
-  } else if (method == "auc_pairs") {
-    .auc <- auc_pairs(preds, labels, verbosity = verbosity - 1L)
+  .pred <- try(ROCR::prediction(predicted_prob, true_int,
+    label.ordering = rev(levels(true_int))
+  ))
+  auc. <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
+
+  # if (method == "pROC") {
+  #   check_dependencies("pROC")
+  #   .auc <- try(pROC::roc(
+  #     true_int, predicted_prob,
+  #     levels = rev(levels(true_int)),
+  #     direction = "<"
+  #   )$auc)
+  # } else if (method == "ROCR") {
+  #   check_dependencies("ROCR")
+  #   .pred <- try(ROCR::prediction(predicted_prob, true_int,
+  #     label.ordering = rev(levels(true_int))
+  #   ))
+  #   .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
+  # } else if (method == "auc_pairs") {
+  #   .auc <- auc_pairs(predicted_prob, true_int, verbosity = verbosity - 1L)
+  # }
+
+  if (inherits(auc., "try-error")) {
+    auc. <- NaN
   }
 
-  if (inherits(.auc, "try-error")) {
-    .auc <- NaN
-  }
-
-  if (verbosity > 0L) msg2("AUC =", .auc)
-  .auc
+  if (verbosity > 0L) msg2("AUC =", auc.)
+  auc.
 } # rtemis::auc
 
 
@@ -328,30 +339,45 @@ auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
 #'
 #' \deqn{BS = \frac{1}{N} \sum_{i=1}^{N} (y_i - p_i)^2}{BS = 1/N * sum_{i=1}^{N} (y_i - p_i)^2}
 #'
-#' @param true Numeric vector, {0, 1}: True labels
+#' @param true_int Integer vector, {0, 1}: True labels
 #' @param predicted_prob Numeric vector, \[0, 1\]: predicted probabilities
 #'
 #' @author EDG
 #' @keywords internal
-brier_score <- function(true, predicted_prob) {
-  mean((true - predicted_prob)^2)
+#' @noRd
+brier_score <- function(true_int, predicted_prob) {
+  true_int <- clean_int(true_int)
+  check_float01inc(predicted_prob)
+  mean((true_int - predicted_prob)^2)
 } # /rtemis::brier_score
 
+#' Convert labels to integers
+#' 
+#' Convert factor labels to integers where the positive class is 1 and the negative class is 0.
+#' 
+#' @param x Factor: True labels.
+#' @param binclasspos Integer: Factor level position of the positive class in binary classification.
+#' 
+#' @return Integer vector: 0, 1 where 1 is the positive class as defined by binclasspos.
+#' 
+#' @author EDG
+#' @keywords internal
+#' @noRd
 labels2int <- function(x, binclasspos = 2L) {
   stopifnot(is.factor(x))
-  # Convert factor to 0, 1 where 1 is the positive class
-  # defined by binclasspos
+  # Convert factor to 0, 1 where 1 is the positive class as defined by binclasspos
   if (binclasspos == 1L) {
-    xi <- 2 - as.numeric(x)
+    xi <- 2L - as.integer(x)
   } else {
-    xi <- as.numeric(x) - 1
+    xi <- as.integer(x) - 1L
   }
-  return(xi)
+  xi
 } # rtemis::labels2int
 
 # classification_metrics ----
 #' Classification Metrics
 #'
+#' @details
 #' Note that auc_method = "pROC" is the only one that will output an AUC even if
 #' one or more predicted probabilities are NA.
 #'
@@ -361,64 +387,67 @@ labels2int <- function(x, binclasspos = 2L) {
 #' @param binclasspos Integer: Factor level position of the positive class in binary classification.
 #' @param calc_auc Logical: If TRUE, calculate AUC. May be slow in very large datasets.
 #' @param calc_brier Logical: If TRUE, calculate Brier Score.
-#' @param auc_method Character: "pROC", "ROCR", "auc_pairs": Method to use, passed to
-#' [auc].
-#' @param verbosity Integer: If > 0, print messages to console.
+#' @param auc_method Character: "Rfast", "pROC", "ROCR": Passed to [auc].
+#' @param verbosity Integer: Verbosity level.
 #'
+#' @return ClassificationMetrics object.
+#' 
 #' @author EDG
-#' @return S3 object of type "class_error"
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' true <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
-#' predicted <- factor(c("a", "b", "a", "b", "b", "a", "b", "b", "b", "a"))
-#' predicted_prob <- c(0.7, 0.45, 0.55, 0.25, 0.43, 0.7, 0.2, .37, .38, .61)
+#' # Assume positive class is "b"
+#' true_labels <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
+#' predicted_labels <- factor(c("a", "b", "a", "b", "b", "a", "b", "b", "b", "a"))
+#' predicted_prob <- c(0.3, 0.55, 0.45, 0.75, 0.57, 0.3, 0.8, 0.63, 0.62, 0.39)
 #'
-#' class_error(true, predicted, predicted_prob, auc_method = "pROC")
-#' class_error(true, predicted, predicted_prob, auc_method = "ROCR")
-#' class_error(true, predicted, predicted_prob, auc_method = "auc_pairs")
+#' classification_metrics(true_labels, predicted_labels, predicted_prob)
+#' classification_metrics(true_labels, predicted_labels, 1 - predicted_prob, binclasspos = 1L)
 #' }
-classification_metrics <- function(true,
-                                   predicted,
+classification_metrics <- function(true_labels,
+                                   predicted_labels,
                                    predicted_prob = NULL,
                                    binclasspos = 2L,
                                    calc_auc = TRUE,
                                    calc_brier = TRUE,
-                                   auc_method = c("pROC", "ROCR", "auc_pairs"),
+                                   auc_method = "Rfast",
                                    sample = character(),
                                    verbosity = 0L) {
-  # Input ----
+  # Checks ----
   # Binary class probabilities only for now
-  if (length(predicted_prob) > length(true)) predicted_prob <- NULL
+  if (length(predicted_prob) > length(true_labels)) predicted_prob <- NULL
+  n_classes <- length(levels(true_labels))
 
-  # Metrics ----
-  if (!all(levels(true) == levels(predicted))) {
+  # Check same levels in
+  if (!all(levels(true_labels) == levels(predicted_labels))) {
     stop(
-      "True and predicted must have the same levels.",
-      "\nlevels(true): ", paste(levels(true), collapse = ", "),
-      "\nlevels(predicted): ", paste(levels(predicted), collapse = ", ")
+      "True and predicted labels must have the same levels, in the same order.",
+      "\n     levels(true_labels): ", paste(levels(true_labels), collapse = ", "),
+      "\nlevels(predicted_labels): ", paste(levels(predicted_labels), collapse = ", ")
     )
   }
+
   # Positive class ----
   # For confusion table, make positive class the first factor level
-  if (binclasspos == 2L) {
-    true <- factor(true, levels = rev(levels(true)))
-    predicted <- factor(predicted, levels = rev(levels(predicted)))
+  if (n_classes == 2 && binclasspos == 2L) {
+    true_labels <- factor(true_labels, levels = rev(levels(true_labels)))
+    predicted_labels <- factor(predicted_labels, levels = rev(levels(predicted_labels)))
   }
-  true_levels <- levels(true)
-  n_classes <- length(true_levels)
-  Positive_Class <- if (n_classes == 2) true_levels[binclasspos] else NA
+  true_levels <- levels(true_labels)
+  
+  # Levels already set so that the first level is the positive class
+  Positive_Class <- if (n_classes == 2) true_levels[1] else NA
   if (verbosity > 0) {
     if (n_classes == 2) {
-      msg2("There are two outcome classes:", hilite(paste(true_levels, collapse = ", ")))
+      msg2("There are two outcome classes:", hilite(paste(rev(true_levels), collapse = ", ")))
       msg2("        The positive class is:", hilite(Positive_Class))
     } else {
-      msg2("There are", n_classes, "classes:", true_levels)
+      msg2("There are", n_classes, "classes:", hilite(paste(rev(true_levels), collapse = ", ")))
     }
   }
-  tbl <- table(true, predicted)
-
+  tbl <- table(true_labels, predicted_labels)
+  # attr(tbl, "dimnames") <- list(Reference = true_levels, Predicted = true_levels)
   names(attributes(tbl)$dimnames) <- c("Reference", "Predicted")
 
   Class <- list()
@@ -453,20 +482,19 @@ classification_metrics <- function(true,
   }
   Overall$Accuracy <- sum(Class$Hits) / Total
 
-  # Prob-based ----
-  if (!is.null(predicted_prob) && n_classes == 2) {
+  # Probability-based metrics ----
+  if (!is.null(predicted_prob) && n_classes == 2L) {
+    # Positive class has been set to first level
+    true_int <- 2L - as.integer(true_labels)
     if (calc_auc) {
-      Overall$AUC <- auc(preds = predicted_prob, labels = true, method = auc_method)
+      Overall$AUC <- auc(
+        true_int = true_int, predicted_prob = predicted_prob, method = auc_method
+      )
     }
     if (calc_brier) {
-      true_bin <- if (binclasspos == 2L) {
-        2 - as.numeric(true)
-      } else {
-        as.numeric(true) - 1
-      }
-      Overall$`Brier Score` <- brier_score(true_bin, predicted_prob)
+      Overall$`Brier Score` <- brier_score(true_int, predicted_prob)
     }
-    Overall$`Log loss` <- logloss(true, predicted_prob)
+    # Overall$`Log loss` <- logloss(true_int, predicted_prob)
   }
 
   # Outro ----
