@@ -15,12 +15,10 @@
 #' Edge labels in graphviz are shown to the right of
 #' the edge when `rankdir = "TB"` and above when `rankdir = "LR"`.
 #'
-#' @inheritParams draw_addtree
-#' @param object Either `rpart` object or `rtMod` object trained with
-#' [s_CART]
-#' @param col_lo Low color for estimated outcome
-#' @param col_mid Middle color for estimated outcome
-#' @param col_hi High color for estimated outcome
+#' @param object Either `rpart` or `Supervised` object.
+#' @param col_lo Low color for estimated outcome.
+#' @param col_mid Middle color for estimated outcome.
+#' @param col_hi High color for estimated outcome.
 #' @param node_shape Shape of node.
 #' @param node_labels Logical: If TRUE, print the node labels.
 #' @param node_cond Logical: If TRUE, print the splitting condition inside each
@@ -30,27 +28,30 @@
 #' @param node_estimate Logical: If TRUE, print the estimated outcome level
 #' inside each node.
 #' @param node_n Logical: If TRUE, print the number of cases (from training
-#' data) that matched this condition
+#' data) that matched this condition.
+#' @param edge_col Color for edges.
+#' @param edge_width Width of edges.
+#' @param edge_labels Logical: If TRUE, print the splitting condition on the
+#' edge.
 #' @param edge_col Color for edges.
 #' @param edge_width Width of edges.
 #' @param edge_labels Logical: If TRUE, print the splitting condition on the
 #' edge.
 #' @param arrowhead Character: Arrowhead shape.
-#' @param layout Character: Passed to `data.tree::SetGraphStyle`
+#' @param layout Character: Passed to `data.tree::SetGraphStyle`.
 #' @param drop_leaves Logical: If TRUE, position leaves at the bottom of the plot.
-#' @param rankdir Character: Passed to `data.tree::SetGraphStyle`
-#' @param splines Character: Passed to `data.tree::SetGraphStyle`
-#' @param fontname Character: Passed to `data.tree::SetGraphStyle`
+#' @param rankdir Character: Passed to `data.tree::SetGraphStyle`.
+#' @param splines Character: Passed to `data.tree::SetGraphStyle`.
+#' @param fontname Character: Passed to `data.tree::SetGraphStyle`.
 #' @param bg_color Background color.
-#' @param overlap Character: Passed to `data.tree::SetGraphStyle`
-#' @param prune Logical: If TRUE, prune tree using `rpart::prune.rpart`
+#' @param overlap Character: Passed to `data.tree::SetGraphStyle`.
+#' @param prune Logical: If TRUE, prune tree using `rpart::prune.rpart`.
 #' @param rpart_cp Numeric: Complexity parameter for pruning. If NULL, no
 #' pruning is performed.
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
 #' @export
-
 draw_cart <- function(object,
                       col_positive = "#F48024DD",
                       col_negative = "#18A3ACDD",
