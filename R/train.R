@@ -23,7 +23,7 @@ train <- new_generic("train", "x")
 #'       weights = NULL, question = NULL, outdir = NULL, verbosity = 1L)
 #'
 #' @details
-#' For binary classification, the outcome should be a factor where the 2nd level corresponds to the
+#' Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the
 #' positive class.
 #'
 #' - Note on resampling: You should never use an outer resampling method with
@@ -212,7 +212,7 @@ method(train, class_data.frame) <- function(x,
 
     # IFW ----
     # Must follow preprocessing since N cases may change
-    if (hyperparameters$ifw) {
+    if (type == "Classification" && hyperparameters$ifw) {
       if (!is.null(weights)) {
         stop("Custom weights are defined, but IFW is set to TRUE.")
       } else {
@@ -325,7 +325,7 @@ method(train, class_data.frame) <- function(x,
       se_validation = se_validation,
       se_testing = se_testing,
       xnames = names(x)[-ncols],
-      varimp = do_call(varimp_fn, list(mod)),
+      varimp = do_call(varimp_fn, list(model)),
       question = question
     )
   } else {
