@@ -95,14 +95,14 @@ train_GAM <- function(
       mgcv::multinom()
     }
   }
-  mod <- mgcv::gam(
+  model <- mgcv::gam(
     formula = formula,
     family = family,
     data = x,
     weights = weights
   )
-  check_inherits(mod, "gam")
-  mod
+  check_inherits(model, "gam")
+  model
 } # /rtemis::train_GAM
 
 #' Predict from GAM model
@@ -113,7 +113,12 @@ train_GAM <- function(
 #' @keywords internal
 #' @noRd
 predict_GAM <- function(model, newdata, type) {
-  predict(object = model, newdata = newdata, type = "response")
+  out <- predict(object = model, newdata = newdata, type = "response")
+  if (model$family$family == "binomial") {
+    # mgvc::predict.gam returns an array of 1 dimension that causes errors during type-checking.
+    out <- as.numeric(out)
+  }
+  out
 } # /rtemis::predict_GAM
 
 #' Get coefficients from GAM model

@@ -2,6 +2,9 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+# References
+# LightGBM parameters: https://lightgbm.readthedocs.io/en/latest/Parameters.html
+
 #' Random Forest using LightGBM
 #'
 #' @inheritParams train_GLMNET
@@ -35,6 +38,23 @@ train_LightRF <- function(
     allow_missing = TRUE,
     verbosity = verbosity
   )
+  type <- supervised_type(x)
+  if (type == "Classification") {
+    nclasses <- length(levels(x[[ncol(x)]]))
+  } else {
+    nclasses <- NA
+  }
+  if (is.null(hyperparameters$objective)) {
+    hyperparameters@hyperparameters$objective <- if (type == "Regression") {
+      "regression"
+    } else {
+      if (nclasses == 2) {
+        "binary"
+      } else {
+        "multiclass"
+      }
+    }
+  }
   factor_index <- names(x)[which(sapply(x[, -ncol(x)], is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
@@ -55,7 +75,6 @@ train_LightRF <- function(
   } else {
     factor_index <- NULL
   }
-  type <- supervised_type(x)
   x <- lightgbm::lgb.Dataset(
     data = as.matrix(x[, -ncol(x)]),
     categorical_feature = factor_index,
@@ -80,7 +99,7 @@ train_LightRF <- function(
   }
 
   # Train ----
-  mod <- lightgbm::lgb.train(
+  model <- lightgbm::lgb.train(
     params = hyperparameters@hyperparameters, # ?need get_lgb.train_params
     data = x,
     nrounds = hyperparameters$nrounds,
@@ -92,8 +111,8 @@ train_LightRF <- function(
     early_stopping_rounds = hyperparameters$early_stopping_rounds,
     verbose = verbosity - 2L
   )
-  check_inherits(mod, "lgb.Booster")
-  mod
+  check_inherits(model, "lgb.Booster")
+  model
 } # /rtemis::train_LightRF
 
 #' Predict from LightRF LightGBM model

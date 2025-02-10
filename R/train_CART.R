@@ -48,7 +48,7 @@ train_CART <- function(
   # weights can't be NULL.
   # !If formula is character, the input to weights must be the unquoted column name in the data.frame
   # that contains weights, e.g. by doing cbind(x, weights = weights)
-  mod <- rpart::rpart(
+  model <- rpart::rpart(
     as.formula(make_formula(x)),
     data = x,
     weights = weights,
@@ -67,12 +67,10 @@ train_CART <- function(
 
   # Cost-Complexity Pruning ----
   if (!is.null(hyperparameters$prune.cp)) {
-    mod <- rpart::prune(mod, cp = hyperparameters$prune.cp)
+    model <- rpart::prune(model, cp = hyperparameters$prune.cp)
   }
-
-  check_inherits(mod, "rpart")
-
-  mod
+  check_inherits(model, "rpart")
+  model
 } # /rtemis::train_CART
 
 #' Predict from rpart model

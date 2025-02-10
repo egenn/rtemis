@@ -85,7 +85,7 @@ train_GLMNET <- function(
   # Train ----
   # if lambda is NULL, use cv.glmnet to find optimal lambda
   if (is.null(hyperparameters$lambda)) {
-    mod <- glmnet::cv.glmnet(
+    model <- glmnet::cv.glmnet(
       x = as.matrix(
         model.matrix(~., x[, -ncol(x)])[, -1]
       ),
@@ -101,7 +101,7 @@ train_GLMNET <- function(
     )
     check_inherits(mod, "cv.glmnet")
   } else {
-    mod <- glmnet::glmnet(
+    model <- glmnet::glmnet(
       x = as.matrix(
         model.matrix(~., x[, -ncol(x)])[, -1]
       ),
@@ -116,9 +116,9 @@ train_GLMNET <- function(
       intercept = hyperparameters$intercept, # can't be NULL
       penalty.factor = hyperparameters$penalty.factor
     )
-    check_inherits(mod, "glmnet")
+    check_inherits(model, "glmnet")
   }
-  mod
+  model
 } # /rtemis::train_GLMNET
 
 #' Predict from GLMNET model

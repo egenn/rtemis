@@ -34,6 +34,23 @@ train_LightCART <- function(
     allow_missing = TRUE,
     verbosity = verbosity
   )
+  type <- supervised_type(x)
+  if (type == "Classification") {
+    nclasses <- length(levels(x[[ncol(x)]]))
+  } else {
+    nclasses <- NA
+  }
+  if (is.null(hyperparameters$objective)) {
+    hyperparameters@hyperparameters$objective <- if (type == "Regression") {
+      "regression"
+    } else {
+      if (nclasses == 2) {
+        "binary"
+      } else {
+        "multiclass"
+      }
+    }
+  }
   factor_index <- names(x)[which(sapply(x[, -ncol(x)], is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
@@ -48,7 +65,7 @@ train_LightCART <- function(
   } else {
     factor_index <- NULL
   }
-  type <- supervised_type(x)
+
   x <- lightgbm::lgb.Dataset(
     data = as.matrix(x[, -ncol(x)]),
     categorical_feature = factor_index,
@@ -61,7 +78,7 @@ train_LightCART <- function(
   )
 
   # Train ----
-  mod <- lightgbm::lgb.train(
+  model <- lightgbm::lgb.train(
     params = hyperparameters@hyperparameters,
     data = x,
     nrounds = 1L,
@@ -69,8 +86,8 @@ train_LightCART <- function(
     early_stopping_rounds = NULL,
     verbose = verbosity - 2L
   )
-  check_inherits(mod, "lgb.Booster")
-  mod
+  check_inherits(model, "lgb.Booster")
+  model
 } # /rtemis::train_LightCART
 
 #' Predict from LightCART LightGBM model

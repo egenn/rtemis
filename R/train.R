@@ -151,7 +151,7 @@ method(train, class_data.frame) <- function(x,
     }
     crossvalidation_resampler <- resample(x, parameters = crossvalidation_parameters, verbosity = verbosity)
     pcv <- progressr::progressor(crossvalidation_resampler@parameters@n)
-    mods <- future.apply::future_lapply(
+    models <- future.apply::future_lapply(
       seq_len(crossvalidation_resampler@parameters@n),
       function(i) {
         pcv(message = sprintf("Crossvalidation %i/%i", i, crossvalidation_resampler@parameters@n))
@@ -243,16 +243,16 @@ method(train, class_data.frame) <- function(x,
     if (algorithm %in% early_stopping_algs) {
       args$dat_validation <- dat_validation
     }
-    mod <- do_call(get_train_fn(algorithm), args)
+    model <- do_call(get_train_fn(algorithm), args)
     # each train_* function checks output is the correct model class.
 
     # Predicted Values ----
     predict_fn <- get_predict_fn(algorithm)
     varimp_fn <- get_varimp_fn(algorithm)
     predicted_prob_training <- predicted_prob_validation <- predicted_prob_testing <- NULL
-    predicted_training <- do.call(
+    predicted_training <- do_call(
       predict_fn,
-      list(mod, newdata = x[, -ncols, drop = FALSE], type = type)
+      list(model, newdata = x[, -ncols, drop = FALSE], type = type)
     )
     if (type == "Classification") {
       predicted_prob_training <- predicted_training
@@ -263,8 +263,8 @@ method(train, class_data.frame) <- function(x,
     }
     predicted_validation <- predicted_testing <- NULL
     if (!is.null(dat_validation)) {
-      predicted_validation <- do.call(
-        predict_fn, list(mod,
+      predicted_validation <- do_call(
+        predict_fn, list(model,
           newdata = dat_validation[, -ncols, drop = FALSE],
           type = type
         )
@@ -278,8 +278,8 @@ method(train, class_data.frame) <- function(x,
       }
     }
     if (!is.null(dat_testing)) {
-      predicted_testing <- do.call(
-        predict_fn, list(mod,
+      predicted_testing <- do_call(
+        predict_fn, list(model,
           newdata = dat_testing[, -ncols, drop = FALSE],
           type = type
         )
@@ -297,18 +297,18 @@ method(train, class_data.frame) <- function(x,
     se_training <- se_validation <- se_testing <- NULL
     if (type == "Regression" && algorithm %in% se_compat_algorithms) {
       se_fn <- get_se_fn(algorithm)
-      se_training <- do_call(se_fn, list(mod, newdata = x[, -ncols, drop = FALSE]))
+      se_training <- do_call(se_fn, list(model, newdata = x[, -ncols, drop = FALSE]))
       if (!is.null(dat_validation)) {
-        se_validation <- do_call(se_fn, list(mod, newdata = dat_validation[, -ncols, drop = FALSE]))
+        se_validation <- do_call(se_fn, list(model, newdata = dat_validation[, -ncols, drop = FALSE]))
       }
       if (!is.null(dat_testing)) {
-        se_testing <- do_call(se_fn, list(mod, newdata = dat_testing[, -ncols, drop = FALSE]))
+        se_testing <- do_call(se_fn, list(model, newdata = dat_testing[, -ncols, drop = FALSE]))
       }
     }
     # Make Supervised/CV ----
     mod <- make_Supervised(
       algorithm = algorithm,
-      model = mod,
+      model = model,
       preprocessor = preprocessor,
       hyperparameters = hyperparameters,
       tuner = tuner,
@@ -329,20 +329,20 @@ method(train, class_data.frame) <- function(x,
       question = question
     )
   } else {
-    y_training <- lapply(mods, function(mod) mod@y_training)
-    y_testing <- lapply(mods, function(mod) mod@y_testing)
-    predicted_training <- lapply(mods, function(mod) mod@predicted_training)
-    predicted_testing <- lapply(mods, function(mod) mod@predicted_testing)
+    y_training <- lapply(models, function(mod) mod@y_training)
+    y_testing <- lapply(models, function(mod) mod@y_testing)
+    predicted_training <- lapply(models, function(mod) mod@predicted_training)
+    predicted_testing <- lapply(models, function(mod) mod@predicted_testing)
     if (type == "Classification") {
-      predicted_prob_training <- lapply(mods, function(mod) mod@predicted_prob_training)
-      predicted_prob_testing <- lapply(mods, function(mod) mod@predicted_prob_testing)
+      predicted_prob_training <- lapply(models, function(mod) mod@predicted_prob_training)
+      predicted_prob_testing <- lapply(models, function(mod) mod@predicted_prob_testing)
     } else {
       predicted_prob_training <- predicted_prob_testing <- NULL
     }
     mod <- make_SupervisedCV(
       algorithm = algorithm,
       type = type,
-      models = mods,
+      models = models,
       preprocessor = preprocessor,
       hyperparameters = hyperparameters,
       tuner_parameters = tuner_parameters,
@@ -354,7 +354,7 @@ method(train, class_data.frame) <- function(x,
       predicted_prob_training = predicted_prob_training,
       predicted_prob_testing = predicted_prob_testing,
       xnames = names(x)[-ncols],
-      varimp = lapply(mods, \(mod) mod@varimp),
+      varimp = lapply(models, \(mod) mod@varimp),
       question = question
     )
   }
