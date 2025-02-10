@@ -18,7 +18,7 @@
 #' @param tuner_parameters List: Tuner parameters.
 #' @param weights Vector: Class weights.
 #' @param verbosity Integer: Verbosity level.
-#' 
+#'
 #' @return GridSearch object.
 #'
 #' @author EDG
@@ -65,7 +65,7 @@ tune_GridSearch <- function(x,
     if (verbosity > 0L) {
       msg20(hilite2(
         "Tuning crossvalidation (inner resampling) future plan set to ",
-        tuner_parameters$future_plan,  "with ", singorplu(n_workers, "worker"), "."
+        tuner_parameters$future_plan, "with ", singorplu(n_workers, "worker"), "."
       ))
     }
   }
@@ -166,8 +166,13 @@ tune_GridSearch <- function(x,
       out1$hyperparameters@hyperparameters$lambda.1se <- mod1@model$lambda.1se
     }
     if (algorithm == "LightGBM") {
-      out1$hyperparameters@hyperparameters$best_iter <- mod1@model$best_iter
-      out1$hyperparameters@hyperparameters$best_score <- mod1@model$best_score
+      # Check best_iter is meaningful, otherwise issue message and set to 100L
+      best_iter <- mod1@model$best_iter
+      if (is.null(best_iter) || best_iter == -1 || best_iter == 0) {
+        info(bold(italic("best_iter returned from lightgbm:", best_iter, " - setting to 100L")))
+        best_iter <- 100L
+      }
+      out1$hyperparameters@hyperparameters$best_iter <- best_iter
     }
     # if (algorithm %in% c("LINAD", "LINOA")) {
     #   out1$est.n.leaves <- mod1$mod$n.leaves
