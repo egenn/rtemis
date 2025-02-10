@@ -5,17 +5,14 @@
 #' Resample data
 #'
 #' Create resamples of your data, e.g. for model building or validation.
-#' "Bootstrap" gives the standard bootstrap, i.e. random sampling with replacement, using
-#' [bootstrap], "StratSub" creates stratified subsamples using [StratSub],
-#' while "StratBoot" uses [StratBoot] which runs [StratSub] and then
-#' randomly duplicates some of the training cases to reach original length of input
-#' (default) or length defined by `target_length`.
+#' "KFold" creates stratified folds, , "StratSub" creates stratified subsamples,
+#' "Bootstrap" gives the standard bootstrap, i.e. random sampling with replacement,
+#' while "StratBoot" uses StratSub and then randomly duplicates some of the training cases to 
+#' reach original length of input (default) or length defined by `target_length`.
 #'
-#' `resample` is used by multiple \pkg{rtemis} learners, `gridSearchLearn`, and
-#' [train_cv]. Note that option 'KFold', which uses [kfold] results in resamples
-#' of slightly different length for y of small length, so avoid all operations which rely
-#' on equal-length vectors. For example, you can't place resamples in a data.frame, but
-#' must use a list instead.
+#' Note that option 'KFold' may result in resamples of slightly different length. Avoid all 
+#' operations which rely on equal-length vectors. For example, you can't place resamples in a 
+#' data.frame, but must use a list instead.
 #'
 #' @param x Vector or data.frame: Usually the outcome; `NROW(y)` defines sample size
 #' @param parameters Resampler object created by [setup_Resampler].

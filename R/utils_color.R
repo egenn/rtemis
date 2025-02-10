@@ -656,7 +656,7 @@ colorgradient.x <- function(x,
 #' @param cb.add Logical: If TRUE, colorbar will be added to existing plot
 #' @param cb.add.mar Vector: Margins for colorbar (See `par("mar")`)
 #' @param cb.axis.pos Float: Position of axis (See `axis("pos")`)
-#' @param cb.axis.las Integer {0,1,2,3}: Style of axis labels. 0: Always parallel to the axis,
+#' @param cb.axis.las Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
 #' 1: Horizontal, 2: Perpendicular, 3: Vertical.
 #' @param cb.axis.hadj Float: Adjustment parallel to the reading direction (See `par("adj")`)
 #' @param cb.cex FLoat: Character expansion factor for colorbar (See `par("cex")`)

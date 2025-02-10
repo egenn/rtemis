@@ -7,8 +7,20 @@
 #'
 #' @description
 #' Prepare data for analysis and visualization
+#' 
+#' @usage
+#' ## S7 generic
+#' preprocess(x, parameters, ...)
+#' ## S7 method for signature 'data.frame, PreprocessorParameters'
+#' preprocess(x, parameters, dat_validation = NULL, dat_testing = NULL, verbosity = 1L)
+#' ## S7 method for signature 'data.frame, Preprocessor'
+#' preprocess(x, parameters, ...)
 #'
 #' @details
+#' Methods are provided for preprocessing training set data, which accepts a PreprocessorParameters 
+#' object, and for preprocessing validation and testing set data, which accept a Preprocessor 
+#' object.
+#' 
 #' Order of operations:
 #'
 #'   * keep complete cases only
@@ -558,7 +570,8 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
 } # /rtemis::preprocess(PreprocessorParameters, ...)
 
 # preprocess(x, Preprocessor, ...) ----
-method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, parameters, verbosity = 1L) { # -> Preprocessor
+method(preprocess, list(class_data.frame, Preprocessor)) <- function(
+    x, parameters, verbosity = 1L) { # -> Preprocessor
   params <- parameters@parameters
   # Overwrite scale_centers, scale_coefficients, one_hot_levels, and remove_features
   params@scale_centers <- parameters@values$scale_centers
@@ -575,7 +588,7 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 # 2019 EDG rtemis.org
 
 #' @name one_hot
-#' 
+#'
 #' @title
 #' One hot encoding
 #'
@@ -598,7 +611,7 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 #'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' iris_oh <- one_hot(iris)
@@ -607,11 +620,12 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(x, paramete
 #' vf_one_hot <- one_hot(vf)
 #' }
 #' @rdname one_hot
-#' @export
+#' @keywords internal
+#' @noRd
 one_hot <- new_generic("one_hot", "x")
 method(one_hot, class_any) <- function(x,
-                            xname = NULL,
-                            verbosity = 1L) {
+                                       xname = NULL,
+                                       verbosity = 1L) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   # ensures if factor without all levels present, gets all columns created
   if (!is.factor(x)) x <- factor(x)
@@ -645,17 +659,19 @@ one_hotcm <- function(x,
 # microbenchmark::microbenchmark(loop = one_hot.default(x), dt = one_hotcm(x))
 
 # one_hot.data.frame ----
-#' @name one_hot
+#' @rdname one_hot
 #'
+#' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' one_hot(iris) |> head()
 #' }
 # one_hot.data.frame
 method(one_hot, class_data.frame) <- function(x,
-                               xname = NULL,
-                               factor_levels = NULL,
-                               verbosity = 1L) {
+                                              xname = NULL,
+                                              factor_levels = NULL,
+                                              verbosity = 1L) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   ncases <- NROW(x)
   factor_index <- which(sapply(x, is.factor))
@@ -683,8 +699,10 @@ method(one_hot, class_data.frame) <- function(x,
 } # rtemis::one_hot.data.frame
 
 # one_hot.data.table ----
-#' @name one_hot
+#' @rdname one_hot
 #'
+#' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' ir <- data.table::as.data.table(iris)
@@ -692,8 +710,8 @@ method(one_hot, class_data.frame) <- function(x,
 #' ir_oh
 #' }
 method(one_hot, class_data.table) <- function(x,
-                               xname = NULL,
-                               verbosity = 1L) {
+                                              xname = NULL,
+                                              verbosity = 1L) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   x <- copy(x)
   ncases <- NROW(x)
@@ -715,7 +733,11 @@ method(one_hot, class_data.table) <- function(x,
 } # rtemis::one_hot.data.table
 
 
-#' @rdname one_hot
+#' Convert data.table's factor to one-hot encoding in-place
+#' 
+#' @param x data.table.
+#' @param xname Character, optional: Dataset name.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @export
 #' @examples
@@ -746,3 +768,102 @@ dt_set_one_hot <- function(x,
   if (verbosity > 0L) msg2("Done")
   invisible(x)
 } # rtemis::dt_set_one_hot
+
+
+# one_hot2factor
+# ::rtemis::
+# 2021 EDG rtemis.org
+
+#' Convert one-hot encoded matrix to factor
+#'
+#' @details If input has a single column, it will be converted to factor and
+#' returned
+#'
+#' @param x one-hot encoded matrix or data.frame
+#' @param labels Character vector of level names.
+#'
+#' @author EDG
+#' @export
+#' @examples
+#' \dontrun{
+#' x <- data.frame(matrix(F, 10, 3))
+#' colnames(x) <- c("Dx1", "Dx2", "Dx3")
+#' x$Dx1[1:3] <- x$Dx2[4:6] <- x$Dx3[7:10] <- T
+#' one_hot2factor(x)
+#' }
+#'
+one_hot2factor <- function(x, labels = colnames(x)) {
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  if (any(na.exclude(rowSums(x)) > 1)) stop("Input must be one-hot encoded.")
+  out <- factor(rep(NA, NROW(x)), levels = labels)
+  for (i in seq_along(labels)) {
+    out[x[, i] == 1] <- labels[i]
+  }
+  out
+} # rtemis::one_hot2factor
+
+
+#' Binary matrix times character vector
+#'
+#' @param x A binary matrix or data.frame
+#' @param labels Character vector length equal to `ncol(x)`
+#'
+#' @returns a character vector
+#' @export
+# input: mat/df/dt of binary columns
+# output: character vector of concatenated values
+# repeated vals removed
+binmat2vec <- function(x, labels = colnames(x)) {
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  dt <- as.data.table(x)
+  # dt[, which (.SD == 1), by = 1:NROW(dt)]
+  fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+  out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+  out[out == ""] <- NA
+  out
+} # rtemis::binmat2vec
+
+
+#' Binary matrix times character vector
+#'
+#' @param x A binary matrix or data.frame
+#' @param labels Character vector length equal to `ncol(x)`
+#'
+#' @author EDG
+#' @returns a character vector
+#' @export
+
+`%BC%` <- function(x, labels) {
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  dt <- as.data.table(x)
+  fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+  out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+  out[out == ""] <- NA
+  out
+}
+
+
+binmat2lvec <- function(x,
+                        labels = colnames(x),
+                        return.list = FALSE) {
+  if (NCOL(x) == 1) {
+    return(factor(x))
+  }
+  dt <- as.data.table(x)
+  if (return.list) {
+    fn <- \(r) list(labels[which(r == 1)])
+    out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))][[2]]
+    out[sapply(out, length) == 0] <- NA
+  } else {
+    fn <- \(r) paste(unique(labels[which(r == 1)]), collapse = ",")
+    out <- dt[, list(fn(.SD)), by = seq_len(NROW(dt))]
+    out[out == ""] <- NA
+  }
+  out
+} # rtemis::binmat2lvec

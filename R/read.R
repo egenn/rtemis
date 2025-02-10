@@ -32,11 +32,11 @@
 #' @param clean_colnames Logical: If TRUE, clean columns names using
 #' [clean_colnames]
 #' @param delim.reader Character: package to use for reading delimited data
-#' @param xlsx.sheet Integer or character: Name or number of XLSX sheet to read
+#' @param xlsx_sheet Integer or character: Name or number of XLSX sheet to read
 #' @param sep Single character: field separator. If `delim.reader = "fread"`
 #' and `sep = NULL`, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
-#' @param na.strings Character vector: Strings to be interpreted as NA values.
+#' @param na_strings Character vector: Strings to be interpreted as NA values.
 #' For `delim.reader = "duckdb"`, this must be a single string.
 # For `delim.reader = "polars"`, this must be a single string, otherwise, if an
 # unnamed character vector, it maps each string to each column. If named, the names
@@ -65,7 +65,7 @@ read <- function(filename,
                  character2factor = FALSE,
                  clean_colnames = TRUE,
                  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
-                 xlsx.sheet = 1,
+                 xlsx_sheet = 1,
                  sep = NULL,
                  quote = "\"",
                  na_strings = c(""),
@@ -117,7 +117,7 @@ read <- function(filename,
         hilite(basename(path)), " using openxlsx::read.xlsx()..."
       )
     }
-    .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
+    .dat <- openxlsx::read.xlsx(filename, xlsx_sheet, ...)
     if (output == "data.table") setDT(.dat)
   } else if (ext == "dta") {
     check_dependencies("haven")
@@ -173,7 +173,7 @@ read <- function(filename,
       check_dependencies("DBI", "duckdb")
       if (is.null(sep)) sep <- ","
       if (length(na_strings) > 1) {
-        msg2("Note: 'na_strings' must be a single string for duckdb; setting to '", na.strings[1], "'")
+        msg2("Note: 'na_strings' must be a single string for duckdb; setting to '", na_strings[1], "'")
         na_strings <- na_strings[1]
       }
       con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
@@ -213,7 +213,7 @@ read <- function(filename,
       #     has_header = TRUE,
       #     ignore_errors = polars_ignore_errors,
       #     quote_char = quote,
-      #     # null_values = na.strings
+      #     # null_values = na_strings
       #     infer_schema_length = polars_infer_schema_length,
       #     encoding = polars_encoding,
       #     parse_dates = polars_parse_dates, ...
