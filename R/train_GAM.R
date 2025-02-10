@@ -113,7 +113,7 @@ train_GAM <- function(
 #' @keywords internal
 #' @noRd
 predict_GAM <- function(model, newdata, type) {
-  predict(object = model, newdata = newdata)
+  predict(object = model, newdata = newdata, type = "response")
 } # /rtemis::predict_GAM
 
 #' Get coefficients from GAM model
