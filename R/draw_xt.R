@@ -23,7 +23,7 @@
 #' If not provided, will select up to the first two x-y traces.
 #' @param which_xy2 Integer vector: Indices of `x2` and `y2` to plot.
 #' If not provided, will select up to the first two x2-y2 traces.
-#' @param shade_bin Integer vector {0, 1}: Time points in `x` to shade on the plot. For example,
+#' @param shade_bin Integer vector \{0, 1\}: Time points in `x` to shade on the plot. For example,
 #' if there are 10 time points in `x`, and you want to shade time points 3 to 7,
 #' `shade_bin = c(0, 0, 1, 1, 1, 1, 1, 0, 0, 0)`. Only set `shade_bin` or `shade_interval`, not
 #' both.

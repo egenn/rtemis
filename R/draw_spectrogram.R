@@ -10,40 +10,42 @@
 #' To set custom colors, use a minimum of `lo` and `hi`, optionnaly also
 #' `lomid`, `mid`, `midhi` colors and set `colorscale = NULL`.
 #'
-#' @inheritParams colorgrad
-#' @param x Numeric: Time
-#' @param y Numeric: Frequency
-#' @param z Numeric: Power
-#' @param xlab Character: x-axis label
-#' @param ylab Character: y-axis label
-#' @param zlab Character: z-axis label
-#' @param hover_xlab Character: x-axis label for hover
-#' @param hover_ylab Character: y-axis label for hover
-#' @param hover_zlab Character: z-axis label for hover
-#' @param zmin Numeric: Minimum value for color scale
-#' @param zmax Numeric: Maximum value for color scale
-#' @param zauto Logical: If TRUE, automatically set zmin and zmax
-#' @param hoverlabel_align Character: Alignment of hover labels
+#' @param x Numeric: Time.
+#' @param y Numeric: Frequency.
+#' @param z Numeric: Power.
+#' @param colorgrad_n Integer: Number of colors in the gradient.
+#' @param xlab Character: x-axis label.
+#' @param ylab Character: y-axis label.
+#' @param zlab Character: z-axis label.
+#' @param hover_xlab Character: x-axis label for hover.
+#' @param hover_ylab Character: y-axis label for hover.
+#' @param hover_zlab Character: z-axis label for hover.
+#' @param zmin Numeric: Minimum value for color scale.
+#' @param zmax Numeric: Maximum value for color scale.
+#' @param zauto Logical: If TRUE, automatically set zmin and zmax.
+#' @param hoverlabel_align Character: Alignment of hover labels.
 #' @param colorscale Character: Color scale.
-#' @param colorbar_y Numeric: Y position of colorbar
-#' @param colorbar_yanchor Character: Y anchor of colorbar
-#' @param colorbar_xpad Numeric: X padding of colorbar
-#' @param colorbar_ypad Numeric: Y padding of colorbar
-#' @param colorbar_len Numeric: Length of colorbar
-#' @param colorbar_title_side Character: Side of colorbar title
-#' @param showgrid Logical: If TRUE, show grid
+#' @param colorbar_y Numeric: Y position of colorbar.
+#' @param colorbar_yanchor Character: Y anchor of colorbar.
+#' @param colorbar_xpad Numeric: X padding of colorbar.
+#' @param colorbar_ypad Numeric: Y padding of colorbar.
+#' @param colorbar_len Numeric: Length of colorbar.
+#' @param colorbar_title_side Character: Side of colorbar title.
+#' @param showgrid Logical: If TRUE, show grid.
 #' @param grid_gap Integer: Space between cells.
-#' @param limits Numeric, length 2: Determine color range. Default = NULL, which automatically centers values around 0
-#' @param key_title Character: Title of the key
-#' @param showticklabels Logical: If TRUE, show tick labels
-#' @param font_size Numeric: Font size
-#' @param padding Numeric: Padding between cells
-#' @param displayModeBar Logical: If TRUE, display the plotly mode bar
-#' @param modeBar_file_format Character: File format for image exports from the mode bar
-#' @param file_width Numeric: Width of exported image
-#' @param file_height Numeric: Height of exported image
-#' @param file_scale Numeric: Scale of exported image
-#' @param ... Additional arguments to be passed to `heatmaply::heatmaply`
+#' @param limits Numeric, length 2: Determine color range. Default = NULL, which automatically 
+#' centers values around 0.
+#' @param main Character: Main title.
+#' @param key_title Character: Title of the key.
+#' @param showticklabels Logical: If TRUE, show tick labels.
+#' @param font_size Numeric: Font size.
+#' @param padding Numeric: Padding between cells.
+#' @param displayModeBar Logical: If TRUE, display the plotly mode bar.
+#' @param modeBar_file_format Character: File format for image exports from the mode bar.
+#' @param file_width Numeric: Width of exported image.
+#' @param file_height Numeric: Height of exported image.
+#' @param file_scale Numeric: Scale of exported image.
+#' @param ... Additional arguments to be passed to `heatmaply::heatmaply`.
 #'
 #' @return A `plotly` object.
 #' 

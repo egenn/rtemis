@@ -739,6 +739,9 @@ method(one_hot, class_data.table) <- function(x,
 #' @param xname Character, optional: Dataset name.
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @returns The input, invisibly, after it has been modified in-place.
+#' 
+#' @author EDG
 #' @export
 #' @examples
 #' \dontrun{
@@ -770,17 +773,15 @@ dt_set_one_hot <- function(x,
 } # rtemis::dt_set_one_hot
 
 
-# one_hot2factor
-# ::rtemis::
-# 2021 EDG rtemis.org
-
 #' Convert one-hot encoded matrix to factor
 #'
 #' @details If input has a single column, it will be converted to factor and
 #' returned
 #'
-#' @param x one-hot encoded matrix or data.frame
+#' @param x one-hot encoded matrix or data.frame.
 #' @param labels Character vector of level names.
+#' 
+#' @returns A factor.
 #'
 #' @author EDG
 #' @export
@@ -811,6 +812,8 @@ one_hot2factor <- function(x, labels = colnames(x)) {
 #' @param labels Character vector length equal to `ncol(x)`
 #'
 #' @returns a character vector
+#' 
+#' @author EDG
 #' @export
 # input: mat/df/dt of binary columns
 # output: character vector of concatenated values
@@ -833,10 +836,10 @@ binmat2vec <- function(x, labels = colnames(x)) {
 #' @param x A binary matrix or data.frame
 #' @param labels Character vector length equal to `ncol(x)`
 #'
-#' @author EDG
 #' @returns a character vector
+#' 
+#' @author EDG
 #' @export
-
 `%BC%` <- function(x, labels) {
   if (NCOL(x) == 1) {
     return(factor(x))

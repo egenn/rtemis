@@ -369,7 +369,7 @@ labels2int <- function(x, binclasspos = 2L) {
   xi
 } # rtemis::labels2int
 
-# classification_metrics ----
+# classification_metrics() ----
 #' Classification Metrics
 #'
 #' @details
@@ -515,7 +515,7 @@ classification_metrics <- function(true_labels,
 } # /rtemis::classification_metrics
 
 
-# regression_metrics ----
+# regression_metrics() ----
 #' Regression Metrics
 #'
 #' @param true Numeric vector: True values.
@@ -526,7 +526,10 @@ classification_metrics <- function(true_labels,
 #' @return RegressionMetrics object
 #' @author EDG
 #' @export
-regression_metrics <- function(true, predicted, na.rm = TRUE, sample = character()) {
+regression_metrics <- function(true,
+                               predicted,
+                               na.rm = TRUE,
+                               sample = character()) {
   RegressionMetrics(
     MAE = mae(true, predicted, na.rm = na.rm),
     MSE = mse(true, predicted, na.rm = na.rm),
