@@ -214,11 +214,11 @@ palettize <- function(x,
 #'
 #' @param x Color, vector
 #'
-#' @returns Inverted colors using hexadecimal notation #RRGGBBAA
-#' 
+#' @return Inverted colors using hexadecimal notation #RRGGBBAA
+#'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' cols <- c("red", "green", "blue")
@@ -254,7 +254,7 @@ color_invertRGB <- function(x) {
 #'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' color_mean(c("red", "blue")) |> previewcolor()
@@ -294,7 +294,7 @@ color_mean <- function(x,
 #' @param pct Numeric (0, 1) fraction of the distance in RGBA space between
 #' `x` and `to` to move. e.g. .5 gets the mean RGBA value of the two
 #'
-#' @returns Color in hex notation
+#' @return Color in hex notation
 #' @author EDG
 #' @export
 
@@ -357,7 +357,7 @@ desaturate <- function(color, s = .3) {
 #'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' col2hex(c("gray50", "skyblue"))
@@ -470,7 +470,7 @@ color_mix <- function(color, n = 4) {
 #' @param pdf.height Numeric: Height of PDF in inches.
 #'
 #' @return Nothing, prints plot.
-#' 
+#'
 #' @author EDG
 #' @export
 #'
@@ -586,10 +586,10 @@ rhombus <- function(xmid = 1, ymid = 1, width = 1, height = 1, col = "#80FFFF") 
 #' @param mid.col Middle color
 #' @param hi.col High color
 #' @param space Character: "rgb" or "Lab".
-#' 
+#'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' x <- seq(-10, 10, length.out = 51)

@@ -11,8 +11,10 @@
 #' @param fn Function to check against, any `is.*` function, e.g. `is.character`
 #'
 #' @return Logical
+#' 
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' is_check("papaya", is.character) # TRUE
@@ -35,9 +37,10 @@ is_check <- function(x, fn) {
 #' @inheritParams is_check
 #'
 #' @return NULL (invisibly)
+#' 
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 is_test <- function(x, fn) {
   if (!is.null(x) && !fn(x)) {
     input <- deparse(substitute(x))
@@ -77,9 +80,10 @@ test_inherits <- function(x, cl) {
 #' @inheritParams check_inherits
 #'
 #' @return NULL (invisibly)
+#' 
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 check_inherits <- function(x, cl) {
   xname <- bold(underline(deparse(substitute(x))))
   if (!is.null(x) && !inherits(x, cl)) {
@@ -96,8 +100,10 @@ check_inherits <- function(x, cl) {
 #' @param allow_null Logical: if TRUE, allows NULL objects
 #'
 #' @return Object
+#' 
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' strict("papaya", "character") # "papaya"
@@ -220,9 +226,11 @@ check_floatpos <- function(x) {
 #'
 #' @param x Vector to check
 #'
-#' @return nothing
+#' @return Nothing, otherwise error.
+#' 
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_float01exc(0.5)
@@ -240,11 +248,13 @@ check_float01exc <- function(x) {
 
 #' Check float between 0 and 1, inclusive
 #'
-#' @param x Float vector
+#' @param x Float vector.
 #'
-#' @return Logical
+#' @return Nothing, otherwise error.
+#' 
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_float01inc(0.5)
@@ -271,11 +281,13 @@ check_floatpos1 <- function(x) {
 
 #' Check positive integer
 #'
-#' @param x Integer vector
+#' @param x Integer vector.
 #'
-#' @return x, otherwise error
+#' @return x, otherwise error.
+#' 
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' clean_posint(5)
@@ -316,6 +328,7 @@ check_float0pos <- function(x) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 get_n_workers_for_learner <- function(algorithm, plan, n_workers, verbosity = 1L) {
   # If learner uses parallelization and plan is run on single machine,
   # set n_workers to 1 to avoid overparallelization.
@@ -367,6 +380,7 @@ common_warnings <- list(
 #'  found in the error message, the suggestion is appended to the error message.
 #'
 #' @return Result of function call.
+#' 
 #' @author EDG
 #' @keywords internal
 #' @noRd

@@ -6,7 +6,7 @@
 
 #' Get LightGBM Booster Trees
 #'
-#' @returns A list of trees
+#' @return A list of trees
 #' @keywords internal
 #' @noRd
 get_lgb_tree <- function(x,
