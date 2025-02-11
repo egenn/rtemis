@@ -4,23 +4,29 @@
 
 #' Plot confusion matrix
 #'
-#' @param x `ClassificationMetrics` object produced by [classification_metrics] or confusion matrix 
+#' @param x `ClassificationMetrics` object produced by [classification_metrics] or confusion matrix
 #' where rows are the reference and columns are the estimated classes. For binary classification,
 #' the first row and column are the positive class.
+#' @param xlab Character: x-axis label. Default is "Predicted".
+#' @param ylab Character: y-axis label. Default is "Reference".
 #' @param true_col Color for true positives & true negatives.
 #' @param false_col Color for false positives & false negatives.
-#' @param binclasspos Integer: Index of factor level to treat as the positive class.
 #' @param font_size Integer: font size.
 #' @param main Character: plot title.
 #' @param main_y Numeric: y position of the title.
 #' @param main_yanchor Character: y anchor of the title.
-#' @param theme List or Character: Either the output of a `theme_*()` function or the name of  a
+#' @param theme List or Character: Either the output of a `theme_*()` function or the name of a
 #' theme. Use `themes()` to get available theme names. Theme functions are of the form
 #' `theme_<name>`.
-#' @param margin List: Plot margins
+#' @param margin List: Plot margins.
+#' @param filename Character: file name to save the plot. Default is NULL.
+#' @param file_width Numeric: width of the file. Default is 500.
+#' @param file_height Numeric: height of the file. Default is 500.
+#' @param file_scale Numeric: scale of the file. Default is 1.
+#' @param ... Additional arguments passed to theme functions.
 #'
-#' @return A plotly object
-#' 
+#' @return A plotly object.
+#'
 #' @author EDG
 #' @export
 #'
@@ -59,22 +65,22 @@ draw_conf <- function(
     stop("The confusion matrix must be a square matrix.")
   }
 
-   # Metrics ----
-   nclasses <- ncol(x)
-   total <- sum(x)
-   class_totals <- rowSums(x)
-   condition_negative <- total - class_totals
-   predicted_totals <- colSums(x)
-   hits <- diag(x)
-   misses <- class_totals - hits
-   class_sensitivity <- hits / class_totals
-   true_negative <- total - predicted_totals - (class_totals - hits)
-   class_specificity <- true_negative / condition_negative
-   class_balancedAccuracy <- .5 * (class_sensitivity + class_specificity)
-   # PPV = true positive / predicted condition positive
-   class_ppv <- hits / predicted_totals
-   # NPV  = true negative / predicted condition negative
-   class_npv <- true_negative / (total - predicted_totals)
+  # Metrics ----
+  nclasses <- ncol(x)
+  total <- sum(x)
+  class_totals <- rowSums(x)
+  condition_negative <- total - class_totals
+  predicted_totals <- colSums(x)
+  hits <- diag(x)
+  misses <- class_totals - hits
+  class_sensitivity <- hits / class_totals
+  true_negative <- total - predicted_totals - (class_totals - hits)
+  class_specificity <- true_negative / condition_negative
+  class_balancedAccuracy <- .5 * (class_sensitivity + class_specificity)
+  # PPV = true positive / predicted condition positive
+  class_ppv <- hits / predicted_totals
+  # NPV  = true negative / predicted condition negative
+  class_npv <- true_negative / (total - predicted_totals)
 
   # Theme ----
   extraargs <- list(...)
@@ -115,8 +121,8 @@ draw_conf <- function(
     for (j in seq_len(nclasses)) {
       plt <- make_plotly_conf_tile(
         p = plt, x = x,
-        i = i, j = j, 
-        pos_color = pos_color, neg_color = neg_color, 
+        i = i, j = j,
+        pos_color = pos_color, neg_color = neg_color,
         font_size = font_size, theme = theme
       )
     }
