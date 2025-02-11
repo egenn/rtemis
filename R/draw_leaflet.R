@@ -90,21 +90,19 @@ draw_leaflet <- function(fips,
 
   # State vs. County data ----
   if (max(nchar(fips)) < 3) {
-    geo <- geojsonio::geojson_read(
+    geo <- readRDS(
       system.file(
-        "extdata", "us-states.json",
-        package = "rtemis"
-      ),
-      what = "sp"
+        "extdata", "us-states.rds",
+        package = "rtemismlv"
+      )
     )
     fips <- if (is.character(fips)) fips else sprintf("%02d", fips)
   } else {
-    geo <- geojsonio::geojson_read(
+    geo <- readRDS(
       system.file(
-        "extdata", "us-counties.json",
-        package = "rtemis"
-      ),
-      what = "sp"
+        "extdata", "us-counties.rds",
+        package = "rtemismlv"
+      )
     )
     fips <- if (is.character(fips)) fips else sprintf("%05d", fips)
   }
