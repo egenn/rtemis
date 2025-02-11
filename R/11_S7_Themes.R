@@ -30,7 +30,7 @@ Theme <- new_class(
 #' @noRd
 print.Theme <- function(x, ...) {
   objcat(paste(x@name, "Theme"))
-  printls(props(x)$parameters)
+  printls(props(x)[["parameters"]])
   invisible(x)
 }
 method(print, Theme) <- function(x, ...) {

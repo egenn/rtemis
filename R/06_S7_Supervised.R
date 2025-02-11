@@ -126,6 +126,22 @@ method(se, Supervised) <- function(x, ...) {
   x@se_training
 } # /se.Supervised
 
+# Make Supervised props `$`- accessible ----
+method(`$`, Supervised) <- function(x, name) {
+  prop(x, name)
+}
+
+# `$`-autocomplete Supervised props ----
+method(`.DollarNames`, Supervised) <- function(x, pattern = "") {
+  all_names <- names(props(x))
+  grep(pattern, all_names, value = TRUE)
+}
+
+# Make Supervised props `[[`- accessible ----
+method(`[[`, Supervised) <- function(x, name) {
+  prop(x, name)
+}
+
 # Print Supervised ----
 #' Print Supervised
 #'
@@ -186,72 +202,30 @@ method(describe, Supervised) <- function(x) {
 
   # Tuning ----
   if (length(x@tuner) > 0) {
-    res <- x@tuner$resampler_parameters
-    n_resamples <- res$n_resamples
-    resampler <- res$resampler
-    resamples <- switch(resampler,
-      strat.sub = " stratified subsamples",
-      bootstrap = " bootstraps",
-      strat.boot = " stratified bootstraps",
-      kfold = "-fold crossvalidation",
-      "custom resamples"
-    )
-    cat(" Hyperparameter tuning was performed using ",
-      n_resamples, resamples, ".\n",
-      sep = ""
-    )
-    desc <- paste0(
-      desc,
-      " Hyperparameter tuning was performed using ",
-      n_resamples, resamples, "."
-    )
-    params <- x@tuner$params$search
-    search.index <- which(lapply(params, length) > 1)
-    fixed.index <- which(lapply(params, length) == 1)
-    fixed <- searched <- list()
-    for (i in seq_along(search.index)) {
-      searched[[i]] <- params[[search.index[i]]]
-    }
-    names(searched) <- names(params)[search.index]
-    for (i in seq(fixed.index)) {
-      fixed[[i]] <- params[[fixed.index[i]]]
-    }
-    names(fixed) <- names(params)[fixed.index]
-    metric <- x@tuner$metric
-
-    if (length(fixed) > 0) {
-      cat("The following parameters were fixed:\n")
-      printls(fixed)
-    }
-    if (length(searched) > 0) {
-      cat("Grid search was performed on:\n")
-      printls(searched)
-    }
-    cat(metric, "was", ifelse(x@tuner$maximize, "maximized", "minimized"), "with:\n")
-    printls(x@tuner$best_tune)
+    describe(x@tuner)
   }
 
   # Metrics ----
   if (type == "Classification") {
     cat(
       "Balanced accuracy was",
-      ddSci(x@metrics_training$Overall$Balanced_Accuracy),
+      ddSci(x@metrics_training[["Overall"]][["Balanced_Accuracy"]]),
       "on the training set"
     )
     desc <- paste(
       desc, "Balanced accuracy was",
-      ddSci(x@metrics_training$Overall$Balanced_Accuracy),
+      ddSci(x@metrics_training[["Overall"]][["Balanced_Accuracy"]]),
       "in the training set"
     )
-    if (!is.null(x@metrics_testing$Overall$Balanced_Accuracy)) {
+    if (!is.null(x@metrics_testing[["Overall"]][["Balanced_Accuracy"]])) {
       cat(
         " and",
-        ddSci(x@metrics_testing$Overall$Balanced_Accuracy),
+        ddSci(x@metrics_testing[["Overall"]][["Balanced_Accuracy"]]),
         "in the testing set."
       )
       desc <- paste(
         desc, "and",
-        ddSci(x@metrics_testing$Overall$Balanced_Accuracy),
+        ddSci(x@metrics_testing[["Overall"]][["Balanced_Accuracy"]]),
         "in the testing set."
       )
     } else {
@@ -261,22 +235,22 @@ method(describe, Supervised) <- function(x) {
   } else if (type == "Regression") {
     cat(
       "R-squared was",
-      ddSci(x@metrics_training$Rsq),
+      ddSci(x@metrics_training[["Rsq"]]),
       "in the training set"
     )
     desc <- paste(
       desc, "R-squared was",
-      ddSci(x@metrics_training$Rsq),
+      ddSci(x@metrics_training[["Rsq"]]),
       "on the training set"
     )
-    if (!is.null(x@metrics_testing$Balanced_Accuracy)) {
+    if (!is.null(x@metrics_testing[["Balanced_Accuracy"]])) {
       cat(
         " and",
-        ddSci(x@metrics_testing$Rsq), "in the testing."
+        ddSci(x@metrics_testing[["Rsq"]]), "in the testing."
       )
       desc <- paste(
         desc, "and",
-        ddSci(x@metrics_testing$Rsq),
+        ddSci(x@metrics_testing[["Rsq"]]),
         "on the testing set."
       )
     } else {
@@ -324,15 +298,15 @@ Classification <- new_class(
                          predicted_prob_testing = NULL,
                          binclasspos = NULL) {
     metrics_training <- classification_metrics(
-      true = y_training,
-      predicted = predicted_training,
+      true_labels = y_training,
+      predicted_labels = predicted_training,
       predicted_prob = predicted_prob_training,
       sample = "Training"
     )
     metrics_validation <- if (!is.null(y_validation)) {
       classification_metrics(
-        true = y_validation,
-        predicted = predicted_validation,
+        true_labels = y_validation,
+        predicted_labels = predicted_validation,
         predicted_prob = predicted_prob_validation,
         sample = "Validation"
       )
@@ -341,8 +315,8 @@ Classification <- new_class(
     }
     metrics_testing <- if (!is.null(y_testing)) {
       classification_metrics(
-        true = y_testing,
-        predicted = predicted_testing,
+        true_labels = y_testing,
+        predicted_labels = predicted_testing,
         predicted_prob = predicted_prob_testing,
         sample = "Testing"
       )
@@ -750,10 +724,6 @@ ClassificationCV <- new_class(
                          varimp = NULL,
                          question = NULL,
                          extra = NULL) {
-    # metrics_training_l <- lapply(models, function(mod) mod@metrics_training)
-    # metrics_training_l <- lapply(models, function(mod) mod@metrics_testing)
-    # metrics_training_mean <- colMeans(do.call(rbind, lapply(metrics_training_l, function(x) x$Overall)))
-    # metrics_testing_mean <- colMeans(do.call(rbind, lapply(metrics_training_l, function(x) x$Overall)))
     metrics_training <- ClassificationMetricsCV(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)

@@ -26,15 +26,15 @@ method(`$`, Metrics) <- function(x, name) {
   x@metrics[[name]]
 }
 
-# Make Metrics@metrics `[[`-accessible
-method(`[[`, Metrics) <- function(x, name) {
-  x@metrics[[name]]
-}
-
 # `$`-autocomplete Metrics@metrics
 method(`.DollarNames`, Metrics) <- function(x, pattern = "") {
   all_names <- names(x@metrics)
   grep(pattern, all_names, value = TRUE)
+}
+
+# Make Metrics@metrics `[[`-accessible
+method(`[[`, Metrics) <- function(x, name) {
+  x@metrics[[name]]
 }
 
 # RegressionMetrics ----
@@ -87,6 +87,7 @@ method(print, RegressionMetrics) <- function(x, ...) {
 #' Metrics subclass for classification models.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 ClassificationMetrics <- new_class(
   name = "ClassificationMetrics",
@@ -113,9 +114,9 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3, ...) {
   } else {
     objcat("  Classification Metrics\n")
   }
-  tblpad <- 17 - max(nchar(colnames(x@metrics$Confusion_Matrix)), 9)
-  printtable(x$Confusion_Matrix, pad = tblpad)
-  printdf(x@metrics$Overall,
+  tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9)
+  printtable(x[["Confusion_Matrix"]], pad = tblpad)
+  printdf(x@metrics[["Overall"]],
     transpose = TRUE,
     ddSci_dp = decimal_places,
     justify = "left",
@@ -124,8 +125,8 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3, ...) {
     spacing = 2,
     row_col = reset
   )
-  if (is.na(x@metrics$Positive_Class)) {
-    printdf(x@metrics$Class,
+  if (is.na(x@metrics[["Positive_Class"]])) {
+    printdf(x@metrics[["Class"]],
       transpose = TRUE,
       ddSci_dp = decimal_places,
       justify = "left",
@@ -133,7 +134,7 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3, ...) {
       row_col = reset
     )
   } else {
-    cat("   Positive Class ", hilite(x@metrics$Positive_Class), "\n")
+    cat("   Positive Class ", hilite(x@metrics[["Positive_Class"]]), "\n")
   }
   invisible(x)
 } # /rtemis::print.ClassificationMetrics
@@ -218,10 +219,10 @@ ClassificationMetricsCV <- new_class(
         sample = sample,
         cv_metrics = cv_metrics,
         mean_metrics = vec2df(
-          colMeans(do.call(rbind, lapply(cv_metrics, function(x) x@metrics$Overall)))
+          colMeans(do.call(rbind, lapply(cv_metrics, function(x) x@metrics[["Overall"]])))
         ),
         sd_metrics = vec2df(
-          sapply(do.call(rbind, lapply(cv_metrics, function(x) x@metrics$Overall)), sd)
+          sapply(do.call(rbind, lapply(cv_metrics, function(x) x@metrics[["Overall"]])), sd)
         )
       )
     )

@@ -29,12 +29,7 @@ Clustering <- new_class(
 
 # Make Clustering props `$`-accessible
 method(`$`, Clustering) <- function(x, name) {
-  prop_names <- names(props(x))
-  if (name %in% prop_names) {
-    prop(x, name)
-  } else {
-    stop(paste("No property named", name, "in Clustering object"))
-  }
+  prop(x, name)
 }
 
 # `$`-autocomplete Clustering props
@@ -43,10 +38,15 @@ method(`.DollarNames`, Clustering) <- function(x, pattern = "") {
   grep(pattern, prop_names, value = TRUE)
 }
 
-# Make Clustering@clusters `[[`-accessible
+# Make Clustering props `[[`-accessible
 method(`[[`, Clustering) <- function(x, index) {
-  props(x, "clusters")[[index]]
+  props(x, index)
 }
+
+# !! Make Clustering@clusters `[[`-accessible
+# method(`[[`, Clustering) <- function(x, index) {
+#   props(x, "clusters")[[index]]
+# }
 
 # Print Clustering ----
 method(print, Clustering) <- function(x, ...) {

@@ -84,6 +84,17 @@ method(`$`, CheckData) <- function(x, name) {
   prop(x, name)
 } # /rtemis::`$`.CheckData
 
+# `$`-autocomplete CheckData properties
+method(`.DollarNames`, CheckData) <- function(x, pattern = "") {
+  all_names <- names(x)
+  grep(pattern, all_names, value = TRUE)
+} # /rtemis::`.DollarNames`.CheckData
+
+# Make CheckData properties `[[`-accessible
+method(`[[`, CheckData) <- function(x, name) {
+  prop(x, name)
+} # /rtemis::`[[`.CheckData
+
 # Print CheckData ----
 #' Print `CheckData` object
 #'
@@ -109,32 +120,32 @@ print.CheckData <- function(x,
                             ),
                             ...) {
   if (is.null(name)) {
-    name <- x$name
+    name <- x[["name"]]
     if (is.null(name)) name <- deparse(substitute(x))
   }
   type <- match.arg(type)
 
-  n_rows <- x$n_rows
-  n_cols <- x$n_cols
-  n_numeric <- x$n_numeric
-  n_integer <- x$n_integer
-  n_character <- x$n_character
-  n_factor <- x$n_factor
-  n_ordered <- x$n_ordered
-  n_date <- x$n_date
-  n_constant <- x$n_constant
-  n_duplicates <- x$n_duplicates
-  n_cols_anyna <- x$n_cols_anyna
-  n_na <- x$n_na
-  na_feature_pct <- x$na_feature_pct
-  na_case_pct <- x$na_case_pct
+  n_rows <- x[["n_rows"]]
+  n_cols <- x[["n_cols"]]
+  n_numeric <- x[["n_numeric"]]
+  n_integer <- x[["n_integer"]]
+  n_character <- x[["n_character"]]
+  n_factor <- x[["n_factor"]]
+  n_ordered <- x[["n_ordered"]]
+  n_date <- x[["n_date"]]
+  n_constant <- x[["n_constant"]]
+  n_duplicates <- x[["n_duplicates"]]
+  n_cols_anyna <- x[["n_cols_anyna"]]
+  n_na <- x[["n_na"]]
+  na_feature_pct <- x[["na_feature_pct"]]
+  na_case_pct <- x[["na_case_pct"]]
 
   if (type == "plaintext") {
     # plaintext out ----
     out <- paste0(
       "  ", hilite(name),
       paste(
-        ": A", x$object_class, "with",
+        ": A", x[["object_class"]], "with",
         hilite(n_rows), ngettext(n_rows, "row", "rows"),
         "and", hilite(n_cols),
         ngettext(n_cols, "column.", "columns.")
@@ -204,7 +215,7 @@ print.CheckData <- function(x,
       sep = "\n"
     )
     nas <- if (n_cols_anyna > 0) {
-      classes_na <- x$classes_na
+      classes_na <- x[["classes_na"]]
       .col <- if (n_cols_anyna > 0) orange else I
       paste(
         bold(.col(n_cols_anyna)),
@@ -293,7 +304,7 @@ print.CheckData <- function(x,
     # HTML ----
     htmltools::html_print(
       tohtml(x),
-      background = css$background.color
+      background = css[["background.color"]]
     )
   }
   invisible(x)
@@ -327,10 +338,10 @@ BiasVariance <- new_class(
 method(print, BiasVariance) <- function(x, ...) {
   objcat("BiasVariance")
   cat("Mean squared bias: ")
-  cat(hilite(ddSci(x$mean_bias_squared)))
-  cat(" (", ddSci(x$sd_bias_squared), ")\n", sep = "")
+  cat(hilite(ddSci(x[["mean_bias_squared"]])))
+  cat(" (", ddSci(x[["sd_bias_squared"]]), ")\n", sep = "")
   cat("    Mean variance: ")
-  cat(hilite(ddSci(x$mean_variance)))
-  cat(" (", ddSci(x$sd_variance), ")\n", sep = "")
+  cat(hilite(ddSci(x[["mean_variance"]])))
+  cat(" (", ddSci(x[["sd_variance"]]), ")\n", sep = "")
   cat("\n")
 } # /rtemis::print.BiasVariance

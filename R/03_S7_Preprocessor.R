@@ -329,3 +329,19 @@ method(print, Preprocessor) <- function(x, pad = 0L, ...) {
   printls(props(x), pad = pad + 2L)
   invisible(x)
 } # /rtemis::print.Preprocessor
+
+# Make props `$`-accessible ----
+method(`$`, Preprocessor) <- function(x, name) {
+  props(x)[[name]]
+}
+
+# DollarSign tab-complete property names ----
+method(`.DollarNames`, Preprocessor) <- function(x, pattern = "") {
+  all_names <- names(props(x))
+  grep(pattern, all_names, value = TRUE)
+}
+
+# Make proprs `[[`-accessible ----
+method(`[[`, Preprocessor) <- function(x, name) {
+  props(x)[[name]]
+}

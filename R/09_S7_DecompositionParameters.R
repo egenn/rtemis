@@ -26,15 +26,15 @@ method(`$`, DecompositionParameters) <- function(x, name) {
   x@parameters[[name]]
 }
 
-# Make DecompositionParameters@parameters `[[`-accessible
-method(`[[`, DecompositionParameters) <- function(x, name) {
-  x@parameters[[name]]
-}
-
 # `$`-autocomplete DecompositionParameters@parameters ----
 method(`.DollarNames`, DecompositionParameters) <- function(x, pattern = "") {
   all_names <- names(x@parameters)
   grep(pattern, all_names, value = TRUE)
+}
+
+# Make DecompositionParameters@parameters `[[`-accessible
+method(`[[`, DecompositionParameters) <- function(x, name) {
+  x@parameters[[name]]
 }
 
 # Print DecompositionParameters ----

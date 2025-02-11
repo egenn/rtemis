@@ -50,14 +50,14 @@ TunerParameters <- new_class(
 #' @noRd
 method(print, TunerParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@type, "TunerParameters"))
-  printls(props(x)$parameters, pad = pad + 2L)
+  printls(x@parameters, pad = pad + 2L)
   invisible(x)
 }
 
 # Describe Tuner ----
 method(desc, TunerParameters) <- function(x) {
   if (x@type == "GridSearch") {
-    paste(x@parameters$search_type, "grid search")
+    paste(x@parameters[["search_type"]], "grid search")
   }
 } # /rtemis::describe.Tuner
 
@@ -66,15 +66,15 @@ method(`$`, TunerParameters) <- function(x, name) {
   x@parameters[[name]]
 }
 
-# Make TunerParameters@parameters `[[`-accessible
-method(`[[`, TunerParameters) <- function(x, name) {
-  x@parameters[[name]]
-}
-
 # `$`-autocomplete TunerParameters@parameters ----
 method(`.DollarNames`, TunerParameters) <- function(x, pattern = "") {
   all_names <- names(x@parameters)
   grep(pattern, all_names, value = TRUE)
+}
+
+# Make TunerParameters@parameters `[[`-accessible
+method(`[[`, TunerParameters) <- function(x, name) {
+  x@parameters[[name]]
 }
 
 # GridSearchParams ----
@@ -94,15 +94,15 @@ GridSearchParams <- new_class(
                          metrics_aggregate_fn = NULL,
                          metric = NULL,
                          maximize = NULL,
-                         future_plan = NULL,
+                         parallel_type = NULL,
                          n_workers = NULL) {
     check_is_S7(resampler_parameters, ResamplerParameters)
     check_inherits(search_type, "character")
     check_float01exc(randomize_p)
-    check_inherits(metrics_aggregate_fn, "function")
+    check_character(metrics_aggregate_fn)
     check_inherits(metric, "character")
     check_inherits(maximize, "logical")
-    check_inherits(future_plan, "character")
+    check_inherits(parallel_type, "character")
     n_workers <- clean_posint(n_workers)
     # Only assign randomize_p if search_type is "randomized"
     params <- list(
@@ -111,7 +111,7 @@ GridSearchParams <- new_class(
       metrics_aggregate_fn = metrics_aggregate_fn,
       metric = metric,
       maximize = maximize,
-      future_plan = future_plan,
+      parallel_type = parallel_type,
       n_workers = n_workers
     )
     if (search_type == "randomized") {
@@ -138,10 +138,10 @@ GridSearchParams <- new_class(
 #' `randomize_p` * `N of total combinations`
 #' @param randomize_p Float (0, 1): For `search_type == "randomized"`,
 #' randomly test this proportion of combinations.
-#' @param metrics_aggregate_fn Function: Use this when aggregating error metrics.
+#' @param metrics_aggregate_fn Character: Name of function to use to aggregate error metrics.
 #' @param metric Character: Metric to minimize or maximize.
 #' @param maximize Logical: If TRUE, maximize `metric`, otherwise minimize it.
-#' @param future_plan Character: Future backend to use, see [future::plan].
+#' @param parallel_type Character: Parallel backend to use.
 #' @param n_workers Integer: Number of workers to use.
 #'
 #' @return A `GridSearchParams` object.
@@ -152,10 +152,10 @@ setup_GridSearch <- function(
     resampler_parameters = setup_Resampler(n_resamples = 5L, type = "KFold"),
     search_type = "exhaustive",
     randomize_p = NULL,
-    metrics_aggregate_fn = mean,
+    metrics_aggregate_fn = "mean",
     metric = NULL,
     maximize = NULL,
-    future_plan = "multicore",
+    parallel_type = "mirai",
     n_workers = rtemis_cores) {
   # Arguments ----
   check_is_S7(resampler_parameters, ResamplerParameters)
@@ -164,10 +164,11 @@ setup_GridSearch <- function(
   if (search_type == "exhaustive" && !is.null(randomize_p)) {
     stop("search_type is 'exhaustive': do not set randomize_p.")
   }
-  check_inherits(metrics_aggregate_fn, "function")
+  # check_inherits(metrics_aggregate_fn, "function")
+  check_character(metrics_aggregate_fn)
   check_inherits(metric, "character")
   check_inherits(maximize, "logical")
-  check_inherits(future_plan, "character")
+  check_inherits(parallel_type, "character")
   n_workers <- clean_int(n_workers)
   GridSearchParams(
     resampler_parameters = resampler_parameters,
@@ -176,7 +177,7 @@ setup_GridSearch <- function(
     metrics_aggregate_fn = metrics_aggregate_fn,
     metric = metric,
     maximize = maximize,
-    future_plan = future_plan,
+    parallel_type = parallel_type,
     n_workers = n_workers
   )
 } # /setup_GridSearch
@@ -206,7 +207,7 @@ Tuner <- new_class(
 # Describe Tuner ----
 method(desc, Tuner) <- function(x) {
   if (x@type == "GridSearch") {
-    paste(x@tuner_parameters$search_type, "grid search")
+    paste(x@tuner_parameters[["search_type"]], "grid search")
   }
 } # /rtemis::describe.Tuner
 
@@ -246,33 +247,29 @@ GridSearch <- new_class(
 #' @param ... Not used.
 #'
 #' @author EDG
-print.GridSearch <- function(x, ...) {
-  objcat(paste(x@type, "Tuner"))
-  type <- if (x@tuner_parameters$search_type == "exhaustive") {
+#' @keywords internal
+#' @noRd
+method(print, GridSearch) <- function(x, header = TRUE, ...) {
+  if (header) objcat(paste(x@type, "Tuner"))
+  type <- if (x@tuner_parameters[["search_type"]] == "exhaustive") {
     "An exhaustive grid search"
   } else {
-    paste0("A randomized grid search (p = ", x@tuner_parameters$randomize_p, ")")
+    paste0("A randomized grid search (p = ", x@tuner_parameters[["randomize_p"]], ")")
   }
-  resamples <- if (x@tuner_parameters$resampler_parameters@type == "KFold") {
-    "independent folds"
-  } else if (x@tuner_parameters$resampler_parameters@type == "StratSub") {
-    "stratified subsamples"
-  } else if (x@tuner_parameters$resampler_parameters@type == "Bootstraps") {
-    "bootstraps"
-  } else if (x@tuner_parameters$resampler_parameters@type == "StratBoot") {
-    "stratified bootstraps"
-  }
-  cat(type, " was performed using ", x@tuner_parameters$resampler_parameters$n, " ",
-    resamples, ".\n",
+  cat(type, " of ", NROW(x@tuning_results[["param_grid"]]), " parameter combinations ",
+    "was performed using ", desc(x@tuner_parameters[["resampler_parameters"]]), ".\n",
     sep = ""
   )
   cat(
-    x@tuner_parameters$metric, "was", ifelse(x@tuner_parameters$maximize, "maximized", "minimized"),
+    x@tuner_parameters[["metric"]], "was",
+    ifelse(x@tuner_parameters[["maximize"]], "maximized", "minimized"),
     "with the following parameters:\n"
   )
   printls(x@best_hyperparameters)
   invisible(x)
 } # /print.GridSearch
-method(print, GridSearch) <- function(x, ...) {
-  print.GridSearch(x)
-}
+
+# describe.GridSearch ----
+method(describe, GridSearch) <- function(x) {
+  print(x, header = FALSE)
+} # /describe.GridSearch

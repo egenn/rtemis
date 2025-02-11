@@ -40,6 +40,11 @@ method(`$`, ResamplerParameters) <- function(x, name) {
   prop(x, name)
 }
 
+# Make S7 properties `[[`-accessible
+method(`[[`, ResamplerParameters) <- function(x, name) {
+  prop(x, name)
+}
+
 #' Print ResamplerParameters
 #'
 #' @description
@@ -350,7 +355,7 @@ print.Resampler <- function(x, ...) {
   objcat(paste(x@type, "Resampler"))
   propsl <- props(x)
   # type is already printed by objcat
-  propsl$type <- NULL
+  propsl[["type"]] <- NULL
   printls(propsl)
   invisible(x)
 }
@@ -368,19 +373,15 @@ method(`$`, Resampler) <- function(x, name) {
   x@resamples[[name]]
 }
 
-# Access Resampler$resamples resamples using `[[` ----
-method(`[[`, Resampler) <- function(x, name) {
-  x@resamples[[name]]
-}
-
 # DollarSign tab-complete Resampler@resamples names ----
-.DollarNames.Resampler <- function(x, pattern = "") {
-  # Get resamples' names
+method(`.DollarNames`, Resampler) <- function(x, pattern = "") {
   all_names <- names(x@resamples)
   grep(pattern, all_names, value = TRUE)
 }
-method(`.DollarNames`, Resampler) <- function(x, pattern = "") {
-  .DollarNames.Resampler(x, pattern)
+
+# Access Resampler$resamples resamples using `[[` ----
+method(`[[`, Resampler) <- function(x, index) {
+  x@resamples[[index]]
 }
 
 # desc Resampler ----

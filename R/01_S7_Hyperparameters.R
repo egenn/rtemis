@@ -58,13 +58,13 @@ Hyperparameters <- new_class(
     }
     # GLMNET
     if (algorithm == "GLMNET") {
-      if (is.null(hyperparameters$lambda)) {
+      if (is.null(hyperparameters[["lambda"]])) {
         tuned <- 0L
       }
     }
     # LightGBM
     if (algorithm == "LightGBM") {
-      if (is.null(hyperparameters$nrounds)) {
+      if (is.null(hyperparameters[["nrounds"]])) {
         tuned <- 0L
       }
     }
@@ -186,18 +186,15 @@ method(`$`, Hyperparameters) <- function(x, name) {
   x@hyperparameters[[name]]
 }
 
-# Make Hyperparameters@hyperparameters@name `[[`-accessible
-method(`[[`, Hyperparameters) <- function(x, name) {
-  x@hyperparameters[[name]]
-}
-
 # `$`-autocomplete Hyperparameters@hyperparameters ----
-.DollarNames.Hyperparameters <- function(x, pattern = "") {
+method(`.DollarNames`, Hyperparameters) <- function(x, pattern = "") {
   all_names <- names(x@hyperparameters)
   grep(pattern, all_names, value = TRUE)
 }
-method(`.DollarNames`, Hyperparameters) <- function(x, pattern = "") {
-  .DollarNames.Hyperparameters(x, pattern)
+
+# Make Hyperparameters@hyperparameters@name `[[`-accessible
+method(`[[`, Hyperparameters) <- function(x, name) {
+  x@hyperparameters[[name]]
 }
 
 #' needs_tuning ----
@@ -544,7 +541,7 @@ stopifnot(all(c(GLMNET_tunable, GLMNET_fixed) %in% names(formals(setup_GLMNET)))
 method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
   # Get tunable hyperparameters with more than one value
   out <- x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
-  if (is.null(x$lambda)) {
+  if (is.null(x[["lambda"]])) {
     out <- c(out, list(lambda = NULL))
   }
   out
@@ -857,8 +854,8 @@ method(update, LightGBMHyperparameters) <- function(object, hyperparameters, tun
     object@tuned <- tuned
   }
   # Update nrounds (e.g. in LightRuleFit)
-  if (is.null(object@hyperparameters$nrounds) && !is.null(object@hyperparameters$force_nrounds)) {
-    object@hyperparameters$nrounds <- object@hyperparameters$force_nrounds
+  if (is.null(object@hyperparameters[["nrounds"]]) && !is.null(object@hyperparameters[["force_nrounds"]])) {
+    object@hyperparameters[["nrounds"]] <- object@hyperparameters[["force_nrounds"]]
   }
   object
 } # /update.Hyperparameters
@@ -951,7 +948,7 @@ stopifnot(all(c(LightGBM_tunable, LightGBM_fixed) %in% names(formals(setup_Light
 method(get_params_need_tuning, LightGBMHyperparameters) <- function(x) {
   # Get tunable hyperparameters with more than one value
   out <- x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
-  if (is.null(x$nrounds)) {
+  if (is.null(x[["nrounds"]])) {
     out <- c(out, list(nrounds = NULL))
   }
   out
