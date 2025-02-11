@@ -126,11 +126,11 @@ GridSearchParams <- new_class(
   }
 ) # /GridSearchParams
 
+# setup_GridSearch() ----
 #' Setup Grid Search Parameters
 #'
 #' Create a `GridSearchParams` object that can be passed to [train].
 #'
-#' @param hyperparameters Named list of tunable and fixed hyperparameters.
 #' @param resampler_parameters `ResamplerParameters` set by [setup_Resampler].
 #' @param search_type Character: "exhaustive" or "randomized". Type of
 #' grid search to use. Exhaustive search will try all combinations of
@@ -142,6 +142,7 @@ GridSearchParams <- new_class(
 #' @param metric Character: Metric to minimize or maximize.
 #' @param maximize Logical: If TRUE, maximize `metric`, otherwise minimize it.
 #' @param future_plan Character: Future backend to use, see [future::plan].
+#' @param n_workers Integer: Number of workers to use.
 #'
 #' @return A `GridSearchParams` object.
 #'

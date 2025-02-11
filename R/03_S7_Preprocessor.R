@@ -94,6 +94,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
   print.PreprocessorParameters(x, ...)
 }
 
+# setup_Preprocessor() ----
 #' Setup `PreprocessorParameters`
 #'
 #' @param complete_cases Logical: If TRUE, only retain complete cases (no missing data).
@@ -104,15 +105,14 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param missingness Logical: If TRUE, generate new boolean columns for each
 #' feature with missing values, indicating which cases were missing data.
 #' @param impute Logical: If TRUE, impute missing cases. See `impute_discrete` and
-#' `impute_numeric` for how
+#' `impute_numeric`.
 #' @param impute_type Character: Package to use for imputation.
 #' @param impute_missRanger_params Named list with elements "pmm.k" and
 #' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
 #' greater than 0 results in predictive mean matching. Default `pmm.k = 3`
 #' `maxiter = 10` `num.trees = 500`. Reduce `num.trees` for
 #' faster imputation especially in large datasets. Set `pmm.k = 0` to
-#' disable predictive mean matching
-#' @param impute_rfImpute_params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
+#' disable predictive mean matching.
 #' @param impute_discrete Character: Name of function that returns single value: How to impute
 #' discrete variables for `impute_type = "meanMode"`.
 #' @param impute_numeric Character: Name of function that returns single value: How to impute
@@ -147,12 +147,12 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param character2factor Logical: If TRUE, convert all character variables to
 #' factors.
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
-#' level `factorNA2missing.level`. In many cases this is the preferred way
+#' level `factorNA2missing_level`. In many cases this is the preferred way
 #' to handle missing data in categorical variables. Note that since this step
 #' is performed before imputation, you can use this option to handle missing
 #' data in categorical variables and impute numeric variables in the same
 #' `preprocess` call.
-#' @param factorNA2missing.level Character: Name of level if
+#' @param factorNA2missing_level Character: Name of level if
 #' `factorNA2missing = TRUE`.
 #' @param factor2integer Logical: If TRUE, convert all factors to integers.
 #' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0.
