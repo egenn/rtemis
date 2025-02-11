@@ -44,7 +44,7 @@ method(`.DollarNames`, ClusteringParameters) <- function(x, pattern = "") {
 #' @param x ClusteringParameters object.
 #' @param pad Integer: Left side padding.
 #' 
-#' @returns ClusteringParameters object, invisibly.
+#' @return ClusteringParameters object, invisibly.
 #'
 #' @author EDG
 #' @keywords internal

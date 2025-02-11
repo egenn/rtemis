@@ -223,7 +223,7 @@ method(get_params, list(Hyperparameters, class_character)) <- function(x, param_
 
 # GLMHyperparameters ----
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 GLMHyperparameters <- new_class(
@@ -376,7 +376,7 @@ CARTHyperparameters <- new_class(
 #' @param cost Numeric (>=0): One for each feature.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
-#' @returns CARTHyperparameters object.
+#' @return CARTHyperparameters object.
 #'
 #' @author EDG
 #' @export

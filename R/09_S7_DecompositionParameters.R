@@ -43,7 +43,7 @@ method(`.DollarNames`, DecompositionParameters) <- function(x, pattern = "") {
 #' @param x DecompositionParameters object.
 #' @param pad Integer: Left side padding.
 #'
-#' @returns DecompositionParameters object, invisibly.
+#' @return DecompositionParameters object, invisibly.
 #'
 #' @author EDG
 #' @noRd

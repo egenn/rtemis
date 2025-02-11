@@ -106,46 +106,46 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param impute Logical: If TRUE, impute missing cases. See `impute_discrete` and
 #' `impute_numeric` for how
 #' @param impute_type Character: Package to use for imputation.
-#' @param impute.missRanger.params Named list with elements "pmm.k" and
+#' @param impute_missRanger_params Named list with elements "pmm.k" and
 #' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
 #' greater than 0 results in predictive mean matching. Default `pmm.k = 3`
 #' `maxiter = 10` `num.trees = 500`. Reduce `num.trees` for
 #' faster imputation especially in large datasets. Set `pmm.k = 0` to
 #' disable predictive mean matching
-# @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
+#' @param impute_rfImpute_params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
 #' @param impute_discrete Character: Name of function that returns single value: How to impute
-#' discrete variables for `impute.type = "meanMode"`.
+#' discrete variables for `impute_type = "meanMode"`.
 #' @param impute_numeric Character: Name of function that returns single value: How to impute
-#' continuous variables for `impute.type = "meanMode"`.
+#' continuous variables for `impute_type = "meanMode"`.
 #' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
-#' `bit64::integer64` columns
+#' `bit64::integer64` columns.
 #' @param integer2numeric Logical: If TRUE, convert all integers to numeric
-#' (will only work if `integer2factor = FALSE`) This includes
-#' `bit64::integer64` columns
+#' (will only work if `integer2factor = FALSE`). This includes
+#' `bit64::integer64` columns.
 #' @param logical2factor Logical: If TRUE, convert all logical variables to
-#' factors
+#' factors.
 #' @param logical2numeric Logical: If TRUE, convert all logical variables to
-#' numeric
+#' numeric.
 #' @param numeric2factor Logical: If TRUE, convert all numeric variables to
-#' factors
+#' factors.
 #' @param numeric2factor_levels Character vector: Optional - will be passed to
-#' `levels` arg of `factor()` if `numeric2factor = TRUE` (For advanced/
+#' `levels` arg of `factor()` if `numeric2factor = TRUE`. For advanced/
 #' specific use cases; need to know unique values of numeric vector(s) and given all
-#' numeric vars have same unique values)
+#' numeric vars have same unique values.
 #' @param numeric_cut_n Integer: If > 0, convert all numeric variables to factors by
-#' binning using `base::cut` with `breaks` equal to this number
-#' @param numeric_cut_labels Logical: The `labels` argument of [base::cut]
+#' binning using `base::cut` with `breaks` equal to this number.
+#' @param numeric_cut_labels Logical: The `labels` argument of [base::cut].
 #' @param numeric_quant_n Integer: If > 0, convert all numeric variables to factors by
-#' binning using `base::cut` with `breaks` equal to this number of quantiles
-#' produced using `stats::quantile`
+#' binning using `base::cut` with `breaks` equal to this number of quantiles.
+#' produced using `stats::quantile`.
 #' @param numeric_quant_NAonly Logical: If TRUE, only bin numeric variables with
-#' missing values
+#' missing values.
 #' @param len2factor Integer (>=2): Convert all variables with less
 #' than or equal to this number of unique values to factors.
 #' For example, if binary variables are encoded with 1, 2, you could use
 #' `len2factor = 2` to convert them to factors.
 #' @param character2factor Logical: If TRUE, convert all character variables to
-#' factors
+#' factors.
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
 #' level `factorNA2missing.level`. In many cases this is the preferred way
 #' to handle missing data in categorical variables. Note that since this step
@@ -154,16 +154,16 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' `preprocess` call.
 #' @param factorNA2missing.level Character: Name of level if
 #' `factorNA2missing = TRUE`.
-#' @param factor2integer Logical: If TRUE, convert all factors to integers
-#' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0
-#' @param scale Logical: If TRUE, scale columns of `x`
+#' @param factor2integer Logical: If TRUE, convert all factors to integers.
+#' @param factor2integer_startat0 Logical: If TRUE, start integer coding at 0.
+#' @param scale Logical: If TRUE, scale columns of `x`.
 #' @param center Logical: If TRUE, center columns of `x`. Note that by
-#' default it is the same as `scale`
+#' default it is the same as `scale`.
 #' @param scale_centers Named vector: Centering values for each feature.
 #' @param scale_coefficients Named vector: Scaling values for each feature.
 #' @param remove_constants Logical: If TRUE, remove constant columns.
-#' @param remove_constants.skipMissing Logical: If TRUE, skip missing values, before
-#' checking if feature is constant
+#' @param remove_constants_skip_missing Logical: If TRUE, skip missing values, before
+#' checking if feature is constant.
 #' @param remove_features Character vector: Features to remove.
 #' @param remove_duplicates Logical: If TRUE, remove duplicate cases.
 #' @param one_hot Logical: If TRUE, convert all factors using one-hot encoding.

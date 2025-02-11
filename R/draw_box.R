@@ -75,9 +75,9 @@
 #' @param annotate_col Color for annotations
 #' @param labelify Logical: If TRUE, [labelify] x names
 #' @param legend_orientation "v" or "h" for vertical, horizontal
-#' @param legend.xanchor Character: Legend's x anchor: "left", "center",
+#' @param legend_xanchor Character: Legend's x anchor: "left", "center",
 #' "right", "auto"
-#' @param legend.yanchor Character: Legend's y anchor: "top", "middle",
+#' @param legend_yanchor Character: Legend's y anchor: "top", "middle",
 #' "bottom", "auto"
 #' @param automargin_x Logical: If TRUE, automatically set x-axis amrgins
 #' @param automargin_y Logical: If TRUE, automatically set y-axis amrgins

@@ -7,13 +7,14 @@
 #'
 #' Draw interactive spectrograms using `plotly`
 #'
-#' To set custom colors, use a minimum of `lo` and `hi`, optionnaly also
+#' To set custom colors, use a minimum of `lo` and `hi`, optionally also
 #' `lomid`, `mid`, `midhi` colors and set `colorscale = NULL`.
 #'
 #' @param x Numeric: Time.
 #' @param y Numeric: Frequency.
 #' @param z Numeric: Power.
 #' @param colorgrad_n Integer: Number of colors in the gradient.
+#' @param colors Character: Custom colors for the gradient.
 #' @param xlab Character: x-axis label.
 #' @param ylab Character: y-axis label.
 #' @param zlab Character: z-axis label.
@@ -32,23 +33,30 @@
 #' @param colorbar_len Numeric: Length of colorbar.
 #' @param colorbar_title_side Character: Side of colorbar title.
 #' @param showgrid Logical: If TRUE, show grid.
+#' @param space Character: Color space for gradient.
+#' @param lo Character: Low color for gradient.
+#' @param lomid Character: Low-mid color for gradient.
+#' @param mid Character: Mid color for gradient.
+#' @param midhi Character: Mid-high color for gradient.
+#' @param hi Character: High color for gradient.
 #' @param grid_gap Integer: Space between cells.
-#' @param limits Numeric, length 2: Determine color range. Default = NULL, which automatically 
-#' centers values around 0.
+#' @param limits Numeric, length 2: Determine color range. Default = NULL, which automatically centers values around 0.
 #' @param main Character: Main title.
 #' @param key_title Character: Title of the key.
 #' @param showticklabels Logical: If TRUE, show tick labels.
+#' @param theme List: Theme settings.
 #' @param font_size Numeric: Font size.
 #' @param padding Numeric: Padding between cells.
 #' @param displayModeBar Logical: If TRUE, display the plotly mode bar.
 #' @param modeBar_file_format Character: File format for image exports from the mode bar.
+#' @param filename Character: Filename to save the plot. Default is NULL.
 #' @param file_width Numeric: Width of exported image.
 #' @param file_height Numeric: Height of exported image.
 #' @param file_scale Numeric: Scale of exported image.
 #' @param ... Additional arguments to be passed to `heatmaply::heatmaply`.
 #'
 #' @return A `plotly` object.
-#' 
+#'
 #' @author EDG
 #' @export
 

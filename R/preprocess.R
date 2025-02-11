@@ -7,7 +7,7 @@
 #'
 #' @description
 #' Prepare data for analysis and visualization
-#' 
+#'
 #' @usage
 #' ## S7 generic
 #' preprocess(x, parameters, ...)
@@ -17,10 +17,10 @@
 #' preprocess(x, parameters, ...)
 #'
 #' @details
-#' Methods are provided for preprocessing training set data, which accepts a PreprocessorParameters 
-#' object, and for preprocessing validation and testing set data, which accept a Preprocessor 
+#' Methods are provided for preprocessing training set data, which accepts a PreprocessorParameters
+#' object, and for preprocessing validation and testing set data, which accept a Preprocessor
 #' object.
-#' 
+#'
 #' Order of operations:
 #'
 #'   * keep complete cases only
@@ -51,7 +51,7 @@
 #' @param ... Not used.
 #'
 #' @return Preprocessor object.
-#' 
+#'
 #' @author EDG
 #' @rdname preprocess
 #' @export
@@ -734,13 +734,13 @@ method(one_hot, class_data.table) <- function(x,
 
 
 #' Convert data.table's factor to one-hot encoding in-place
-#' 
+#'
 #' @param x data.table.
 #' @param xname Character, optional: Dataset name.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @returns The input, invisibly, after it has been modified in-place.
-#' 
+#' @return The input, invisibly, after it has been modified in-place.
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -780,8 +780,8 @@ dt_set_one_hot <- function(x,
 #'
 #' @param x one-hot encoded matrix or data.frame.
 #' @param labels Character vector of level names.
-#' 
-#' @returns A factor.
+#'
+#' @return A factor.
 #'
 #' @author EDG
 #' @export
@@ -811,8 +811,8 @@ one_hot2factor <- function(x, labels = colnames(x)) {
 #' @param x A binary matrix or data.frame
 #' @param labels Character vector length equal to `ncol(x)`
 #'
-#' @returns a character vector
-#' 
+#' @return a character vector
+#'
 #' @author EDG
 #' @export
 # input: mat/df/dt of binary columns
@@ -836,8 +836,8 @@ binmat2vec <- function(x, labels = colnames(x)) {
 #' @param x A binary matrix or data.frame
 #' @param labels Character vector length equal to `ncol(x)`
 #'
-#' @returns a character vector
-#' 
+#' @return a character vector
+#'
 #' @author EDG
 #' @export
 `%BC%` <- function(x, labels) {

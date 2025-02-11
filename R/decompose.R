@@ -6,7 +6,7 @@
 #' @aliases decompose
 #' 
 #' @title
-#' Decompose Data
+#' Perform Decompo Data
 #' 
 #' @description
 #' Perform linear or non-linear decomposition of numeric data.
