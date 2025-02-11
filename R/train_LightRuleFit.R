@@ -52,6 +52,7 @@ train_LightRuleFit <- function(
     setup_LightGBM(),
     get_params(hyperparameters, LightRuleFit_lightgbm_params)
   )
+  lgbm_parameters@hyperparameters$ifw <- hyperparameters$ifw_lightgbm
   mod_lgbm <- train(
     x = x,
     dat_validation = dat_validation,
