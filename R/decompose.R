@@ -2,12 +2,26 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' Decompose matrix
-#'
+#' @name decompose
+#' @aliases decompose
+#' 
+#' @title
+#' Decompose Data
+#' 
+#' @description
+#' Perform linear or non-linear decomposition of numeric data.
+#' 
+#' @usage
+#' ## S7 generic
+#' decompose(x, ...)
+#' ## S7 method for signature 'data.frame'
+#' decompose(x, algorithm = "ICA", parameters = NULL, verbosity = 1L, ...)
+#' 
 #' @param x Matrix or data frame: Input data.
 #' @param algorithm Character: Decomposition algorithm.
 #' @param parameters DecompositionParameters: Algorithm-specific parameters.
 #' @param verbosity Integer: Verbosity level.
+#' @param ... Not used.
 #' 
 #' @return Decomposition object.
 #'
@@ -15,9 +29,9 @@
 #' @export
 decompose <- new_generic("decompose", "x")
 method(decompose, class_numeric | class_data.frame) <- function(x,
-                                                                algorithm = "PCA",
+                                                                algorithm = "ICA",
                                                                 parameters = NULL,
-                                                                verbosity = 1L) {
+                                                                verbosity = 1L, ...) {
   # Checks ----
   if (is.null(parameters)) {
     parameters <- get_default_decomparams(algorithm)

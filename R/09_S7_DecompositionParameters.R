@@ -219,12 +219,12 @@ UMAPParameters <- new_class(
 #'  function 'as_cholmod_sparse' not provided by package 'Matrix'"
 #'
 #' @param k Integer: Number of components.
-#' @param n.neighbors Integer: Number of keighbors.
+#' @param n_neighbors Integer: Number of keighbors.
 #' @param init Character: Initialization type. See `uwot::umap "init"`.
 #' @param metric Character: Distance metric to use: "euclidean", "cosine",
 #' "manhattan", "hamming", "categorical".
 #' @param n_epochs Integer: Number of epochs.
-#' @param learning.rate Float: Learning rate.
+#' @param learning_rate Float: Learning rate.
 #' @param scale Logical: If TRUE, scale input data before doing UMAP.
 #'
 #' @return UMAPParameters object.
@@ -342,6 +342,7 @@ tSNEParameters <- new_class(
 #' @details
 #' Get more information on the parameters by running `?Rtsne::Rtsne`.
 #'
+#' @param k Integer: Number of components.
 #' @param initial_dims Integer: Initial dimensions.
 #' @param perplexity Integer: Perplexity.
 #' @param theta Float: Theta.

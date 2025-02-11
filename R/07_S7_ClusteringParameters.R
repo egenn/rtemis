@@ -12,6 +12,7 @@
 #' @field parameters List: Algorithm-specific parameters.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 ClusteringParameters <- new_class(
   name = "ClusteringParameters",
@@ -46,6 +47,7 @@ method(`.DollarNames`, ClusteringParameters) <- function(x, pattern = "") {
 #' @returns ClusteringParameters object, invisibly.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 method(print, ClusteringParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@algorithm, "ClusteringParameters"), pad = pad)
@@ -60,6 +62,7 @@ method(print, ClusteringParameters) <- function(x, pad = 0L, ...) {
 #' ClusteringParameters subclass for K-means Clustering.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 KMeansParameters <- new_class(
   name = "KMeansParameters",
@@ -82,6 +85,7 @@ KMeansParameters <- new_class(
 #' Setup KMmeansParameters
 #'
 #' @param k Number of clusters.
+#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'.
 #'
 #' @return KMeansParameters object.
 #'
@@ -100,6 +104,7 @@ setup_KMeans <- function(k = 3L, dist = c("euclidean", "manhattan")) {
 #' ClusteringParameters subclass for HardCL Clustering.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 HardCLParameters <- new_class(
   name = "HardCLParameters",
@@ -122,6 +127,7 @@ HardCLParameters <- new_class(
 #' Setup HardCLParameters
 #'
 #' @param k Number of clusters.
+#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'.
 #'
 #' @return HardCLParameters object.
 #'
@@ -140,6 +146,7 @@ setup_HardCL <- function(k = 3L, dist = c("euclidean", "manhattan")) {
 #' ClusteringParameters subclass for Neural Gas Clustering.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 NeuralGasParameters <- new_class(
   name = "NeuralGasParameters",
@@ -162,6 +169,7 @@ NeuralGasParameters <- new_class(
 #' Setup NeuralGasParameters
 #'
 #' @param k Number of clusters.
+#' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'.
 #' 
 #' @return NeuralGasParameters object.
 #' 
@@ -181,6 +189,7 @@ setup_NeuralGas <- function(k = 3L, dist = c("euclidean", "manhattan")) {
 #' ClusteringParameters subclass for CMeans Clustering.
 #' 
 #' @author EDG
+#' @keywords internal
 #' @noRd
 CMeansParameters <- new_class(
   name = "CMeansParameters",

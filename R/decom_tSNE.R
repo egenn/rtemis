@@ -4,6 +4,8 @@
 
 #' tSNE Decomposition
 #' 
+#' @keywords internal
+#' @noRd
 decom_tSNE <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, tSNEParameters)

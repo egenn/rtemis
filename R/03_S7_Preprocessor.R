@@ -105,21 +105,13 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' feature with missing values, indicating which cases were missing data.
 #' @param impute Logical: If TRUE, impute missing cases. See `impute_discrete` and
 #' `impute_numeric` for how
-#' @param impute.type Character: How to impute data: "missRanger" and
-#' "missForest" use the packages of the same name to impute by iterative random
-#' forest regression. "rfImpute" uses `randomForest::rfImpute` (see its
-#' documentation), "meanMode" will use mean and mode by default or any custom
-#' function defined in `impute_discrete` and `impute_numeric`.
-#' "missRanger" is parallelized and much faster than "missForest".
-#' "missForest" is included for compatibility with older pipelines.
+#' @param impute_type Character: Package to use for imputation.
 #' @param impute.missRanger.params Named list with elements "pmm.k" and
 #' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
 #' greater than 0 results in predictive mean matching. Default `pmm.k = 3`
 #' `maxiter = 10` `num.trees = 500`. Reduce `num.trees` for
 #' faster imputation especially in large datasets. Set `pmm.k = 0` to
 #' disable predictive mean matching
-#  @param impute.missForest.params Named list with elements "maxiter", "ntree", and "parallelize",  which are passed
-#' to `missForest::missForest`
 # @param impute.rfImpute.params Names list with elements "niter", "ntree" for \code{randomForest::rfImpute}
 #' @param impute_discrete Character: Name of function that returns single value: How to impute
 #' discrete variables for `impute.type = "meanMode"`.

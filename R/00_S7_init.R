@@ -2,6 +2,9 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+# References
+# S7 generics: https://rconsortium.github.io/S7/articles/generics-methods.html
+
 # Generics ----
 # Standard error of the fit.
 se <- new_generic("se", "x")

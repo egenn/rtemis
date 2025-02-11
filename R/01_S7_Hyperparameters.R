@@ -3,8 +3,12 @@
 # 2025 EDG rtemis.org
 
 # References ----
+# S7
 # https://github.com/RConsortium/S7
 # https://rconsortium.github.io/S7/
+# LightGBM
+# https://lightgbm.readthedocs.io/en/latest/Parameters.html
+
 
 # `tuned` values ----
 # -9: Set by Tuner: Actively being tuned (Values fixed by Tuner).
@@ -157,6 +161,8 @@ method(update, Hyperparameters) <- function(object, hyperparameters, tuned = NUL
 #' @param x Hyperparameters object.
 #'
 #' @author EDG
+#' @keywords internal
+#' @noRd
 freeze <- new_generic("freeze", "x")
 method(freeze, Hyperparameters) <- function(x) {
   x@tuned <- -1
@@ -168,6 +174,8 @@ method(freeze, Hyperparameters) <- function(x) {
 #' @param x Hyperparameters object.
 #'
 #' @author EDG
+#' @keywords internal
+#' @noRd
 lock <- new_generic("lock", "x")
 method(lock, Hyperparameters) <- function(x) {
   x@tuned <- 1
@@ -194,6 +202,7 @@ method(`.DollarNames`, Hyperparameters) <- function(x, pattern = "") {
 
 #' needs_tuning ----
 #'
+#' @keywords internal
 #' @noRd
 needs_tuning <- new_generic("needs_tuning", "x")
 method(needs_tuning, Hyperparameters) <- function(x) {
@@ -214,6 +223,8 @@ method(get_params, list(Hyperparameters, class_character)) <- function(x, param_
 
 # GLMHyperparameters ----
 #' @author EDG
+#' 
+#' @keywords internal
 #' @noRd
 GLMHyperparameters <- new_class(
   name = "GLMHyperparameters",
@@ -236,11 +247,10 @@ GLMHyperparameters <- new_class(
 #'
 #' Setup hyperparameters for GLM training.
 #'
-#' There are no hyperparameters to set for GLM.
+#' @param ifw (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @author EDG
-#' @keywords internal
-#' @noRd
+#' @export
 setup_GLM <- function(ifw = FALSE) {
   GLMHyperparameters(ifw = ifw)
 }
@@ -250,6 +260,7 @@ GAM_tunable <- c("k", "ifw")
 GAM_fixed <- character()
 
 #' @author EDG
+#' @keywords internal
 #' @noRd
 GAMHyperparameters <- new_class(
   name = "GAMHyperparameters",
@@ -299,6 +310,7 @@ CART_fixed <- c(
 #' Hyperparameters subclass for CART.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 CARTHyperparameters <- new_class(
   name = "CARTHyperparameters",
@@ -431,6 +443,7 @@ GLMNET_fixed <- c(
 #' Hyperparameters subclass for GLMNET.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 GLMNETHyperparameters <- new_class(
   name = "GLMNETHyperparameters",
@@ -542,7 +555,7 @@ LightCART_tunable <- c(
   "num_leaves", "max_depth", "lambda_l1", "lambda_l2", "max_cat_threshold",
   "min_data_per_group", "linear_tree", "ifw"
 )
-LightCART_fixed <- character()
+LightCART_fixed <- c("objective")
 
 #' @title LightCARTHyperparameters
 #'
@@ -550,6 +563,7 @@ LightCART_fixed <- character()
 #' Hyperparameters subclass for LightCART
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 LightCARTHyperparameters <- new_class(
   name = "LightCARTHyperparameters",
@@ -561,6 +575,7 @@ LightCARTHyperparameters <- new_class(
                          max_cat_threshold = NULL,
                          min_data_per_group = NULL,
                          linear_tree = NULL,
+                         objective = NULL,
                          ifw = FALSE) {
     new_object(
       Hyperparameters(
@@ -573,6 +588,7 @@ LightCARTHyperparameters <- new_class(
           max_cat_threshold = max_cat_threshold,
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
+          objective = objective,
           ifw = ifw
         ),
         tunable_hyperparameters = LightCART_tunable,
@@ -595,6 +611,7 @@ LightCARTHyperparameters <- new_class(
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree (Tunable) Logical: If TRUE, use linear trees.
+#' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @return LightCARTHyperparameters object.
@@ -608,7 +625,9 @@ setup_LightCART <- function(
     lambda_l2 = 0,
     max_cat_threshold = 32L,
     min_data_per_group = 100L,
-    linear_tree = FALSE) {
+    linear_tree = FALSE,
+    objective = NULL,
+    ifw = FALSE) {
   num_leaves <- clean_posint(num_leaves)
   max_depth <- clean_int(max_depth)
   check_float01inc(lambda_l1)
@@ -623,7 +642,9 @@ setup_LightCART <- function(
     lambda_l2 = lambda_l2,
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group,
-    linear_tree = linear_tree
+    linear_tree = linear_tree,
+    objective = objective,
+    ifw = ifw
   )
 } # /rtemis::setup_LightCART
 
@@ -633,7 +654,7 @@ LightRF_tunable <- c(
   "nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample",
   "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "ifw"
 )
-LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner")
+LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner", "objective")
 
 #' @title LightRFHyperparameters
 #'
@@ -641,6 +662,7 @@ LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner")
 #' Hyperparameters subclass for LightRF
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 LightRFHyperparameters <- new_class(
   name = "LightRFHyperparameters",
@@ -659,7 +681,8 @@ LightRFHyperparameters <- new_class(
                          # fixed LightGBM params for RF
                          subsample_freq = 1L,
                          early_stopping_rounds = -1L,
-                         tree_learner = "data_parallel") {
+                         tree_learner = "data_parallel",
+                         objective = NULL) {
     new_object(
       Hyperparameters(
         algorithm = "LightRF",
@@ -677,7 +700,8 @@ LightRFHyperparameters <- new_class(
           ifw = ifw,
           subsample_freq = subsample_freq,
           early_stopping_rounds = early_stopping_rounds,
-          tree_learner = tree_learner
+          tree_learner = tree_learner,
+          objective = objective
         ),
         tunable_hyperparameters = LightRF_tunable,
         fixed_hyperparameters = LightRF_fixed
@@ -705,6 +729,7 @@ LightRFHyperparameters <- new_class(
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree Logical: If TRUE, use linear trees.
+#' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @author EDG
@@ -720,6 +745,7 @@ setup_LightRF <- function(
     max_cat_threshold = 32L,
     min_data_per_group = 32L,
     linear_tree = FALSE,
+    objective = NULL,
     ifw = FALSE) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
@@ -742,7 +768,8 @@ setup_LightRF <- function(
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
-    ifw = ifw
+    ifw = ifw,
+    objective = objective
   )
 } # /rtemis::setupLightRF
 
@@ -756,7 +783,7 @@ LightGBM_tunable <- c(
   "num_leaves", "max_depth", "learning_rate", "feature_fraction", "subsample", "subsample_freq",
   "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "linear_tree", "ifw"
 )
-LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds")
+LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds", "objective")
 
 #' @title LightGBMHyperparameters
 #'
@@ -764,6 +791,7 @@ LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds")
 #' Hyperparameters subclass for LightGBM
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 LightGBMHyperparameters <- new_class(
   name = "LightGBMHyperparameters",
@@ -783,7 +811,8 @@ LightGBMHyperparameters <- new_class(
                          max_cat_threshold = NULL,
                          min_data_per_group = NULL,
                          linear_tree = NULL,
-                         ifw = NULL) {
+                         ifw = NULL,
+                         objective = NULL) {
     nrounds <- if (!is.null(force_nrounds)) {
       force_nrounds
     } else {
@@ -807,7 +836,8 @@ LightGBMHyperparameters <- new_class(
           max_cat_threshold = max_cat_threshold,
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
-          ifw = ifw
+          ifw = ifw,
+          objective = objective
         ),
         tunable_hyperparameters = LightGBM_tunable,
         fixed_hyperparameters = LightGBM_fixed
@@ -856,6 +886,7 @@ method(update, LightGBMHyperparameters) <- function(object, hyperparameters, tun
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree Logical: If TRUE, use linear trees.
+#' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @author EDG
@@ -878,6 +909,7 @@ setup_LightGBM <- function(
     max_cat_threshold = 32L,
     min_data_per_group = 32L,
     linear_tree = FALSE,
+    objective = NULL,
     ifw = FALSE) {
   max_nrounds <- clean_posint(max_nrounds)
   force_nrounds <- clean_posint(force_nrounds)
@@ -908,7 +940,8 @@ setup_LightGBM <- function(
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
-    ifw = ifw
+    ifw = ifw,
+    objective = objective
   )
 } # /rtemis::setupLightGBM
 
@@ -930,10 +963,10 @@ LightRuleFit_tunable <- c(
   "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
   "lambda_l1", "lambda_l2", "alpha", "ifw_lightgbm", "ifw_glmnet"
 )
-LightRuleFit_fixed <- c("lambda")
+LightRuleFit_fixed <- c("lambda", "objective")
 LightRuleFit_lightgbm_params <- c(
   "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
-  "lambda_l1", "lambda_l2"
+  "lambda_l1", "lambda_l2", "objective"
 )
 LightRuleFit_glmnet_params <- c("alpha", "lambda")
 
@@ -943,6 +976,7 @@ LightRuleFit_glmnet_params <- c("alpha", "lambda")
 #' Hyperparameters subclass for LightRuleFit.
 #'
 #' @author EDG
+#' @keywords internal
 #' @noRd
 LightRuleFitHyperparameters <- new_class(
   name = "LightRuleFitHyperparameters",
@@ -955,6 +989,7 @@ LightRuleFitHyperparameters <- new_class(
                          subsample_freq = NULL,
                          lambda_l1 = NULL,
                          lambda_l2 = NULL,
+                         objective = NULL,
                          ifw_lightgbm = NULL,
                          # GLMNET
                          alpha = NULL,
@@ -974,6 +1009,7 @@ LightRuleFitHyperparameters <- new_class(
           subsample_freq = subsample_freq,
           lambda_l1 = lambda_l1,
           lambda_l2 = lambda_l2,
+          objective = objective,
           ifw_lightgbm = ifw_lightgbm,
           # GLMNET
           alpha = alpha,
@@ -1003,8 +1039,10 @@ LightRuleFitHyperparameters <- new_class(
 #' @param subsample_freq (Tunable) Positive integer: Frequency of subsample.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#' @param objective Character: Objective function.
 #' @param ifw_lightgbm (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in the LightGBM
 #' step.
+#' @param objective Character: Objective function.
 #' @param alpha (Tunable) Numeric: Alpha for GLMNET.
 #' @param lambda Numeric: Lambda for GLMNET.
 #' @param ifw_glmnet (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in the GLMNET step.
@@ -1024,6 +1062,7 @@ setup_LightRuleFit <- function(
     subsample_freq = 1L,
     lambda_l1 = 0,
     lambda_l2 = 0,
+    objective = NULL,
     ifw_lightgbm = FALSE,
     alpha = 1,
     lambda = NULL,

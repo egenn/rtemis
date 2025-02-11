@@ -4,6 +4,8 @@
 
 #' ICA Decomposition
 #'
+#' @keywords internal
+#' @noRd
 decom_ICA <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, ICAParameters)

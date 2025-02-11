@@ -4,6 +4,8 @@
 
 #' UMAP Decomposition
 #'
+#' @keywords internal
+#' @noRd
 decom_UMAP <- function(x, parameters, verbosity = 1L) {
   # Checks ----
   check_is_S7(parameters, UMAPParameters)
