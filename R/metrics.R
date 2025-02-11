@@ -247,7 +247,7 @@ f1 <- function(precision, recall) {
 #' auc(preds, labels, method = "auc_pairs")
 #' }
 auc <- function(true_int, predicted_prob,
-                method = "Rfast",
+                method = "lightAUC",
                 verbosity = 0L) {
   # Checks ----
   method <- match.arg(method)
@@ -257,10 +257,9 @@ auc <- function(true_int, predicted_prob,
   if (length(unique(true_int)) == 1) {
     return(NaN)
   }
-
-  if (method == "Rfast") {
-    check_dependencies("Rfast")
-    auc. <- Rfast::auc(group = true_int, preds = predicted_prob)
+  if (method == "lightAUC") {
+    check_dependencies("lightAUC")
+    auc. <- lightAUC::lightAUC(probs = predicted_prob, actuals = true_int)
   } else if (method == "ROCR") {
     check_dependencies("ROCR")
     .pred <- try(ROCR::prediction(predicted_prob, true_int,
@@ -274,7 +273,7 @@ auc <- function(true_int, predicted_prob,
   #     true_int, predicted_prob,
   #     levels = rev(levels(true_int)),
   #     direction = "<"
-  #   )$auc)
+  #   )[["auc"]])
   # }
 
   if (inherits(auc., "try-error")) {
@@ -328,9 +327,9 @@ auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
 
 
 
-#' Brier Score
+#' Brier_Score
 #'
-#' Calculate the Brier Score for classification:
+#' Calculate the Brier_Score for classification:
 #'
 #' \deqn{BS = \frac{1}{N} \sum_{i=1}^{N} (y_i - p_i)^2}{BS = 1/N * sum_{i=1}^{N} (y_i - p_i)^2}
 #'
@@ -381,8 +380,8 @@ labels2int <- function(x, binclasspos = 2L) {
 #' @param predicted_prob Numeric vector: predicted probabilities.
 #' @param binclasspos Integer: Factor level position of the positive class in binary classification.
 #' @param calc_auc Logical: If TRUE, calculate AUC. May be slow in very large datasets.
-#' @param calc_brier Logical: If TRUE, calculate Brier Score.
-#' @param auc_method Character: "Rfast", "pROC", "ROCR".
+#' @param calc_brier Logical: If TRUE, calculate Brier_Score.
+#' @param auc_method Character: "lightAUC", "pROC", "ROCR".
 #' @param sample Character: Sample name.
 #' @param verbosity Integer: Verbosity level.
 #'
@@ -407,7 +406,7 @@ classification_metrics <- function(true_labels,
                                    binclasspos = 2L,
                                    calc_auc = TRUE,
                                    calc_brier = TRUE,
-                                   auc_method = "Rfast",
+                                   auc_method = "lightAUC",
                                    sample = character(),
                                    verbosity = 0L) {
   # Checks ----
@@ -444,65 +443,65 @@ classification_metrics <- function(true_labels,
   }
   tbl <- table(true_labels, predicted_labels)
   # attr(tbl, "dimnames") <- list(Reference = true_levels, Predicted = true_levels)
-  names(attributes(tbl)$dimnames) <- c("Reference", "Predicted")
+  names(attributes(tbl)[["dimnames"]]) <- c("Reference", "Predicted")
 
   Class <- list()
   Overall <- list()
-  Class$Totals <- rowSums(tbl)
-  Class$Predicted_totals <- colSums(tbl)
+  Class[["Totals"]] <- rowSums(tbl)
+  Class[["Predicted_totals"]] <- colSums(tbl)
   Total <- sum(tbl)
-  Class$Hits <- diag(tbl)
-  # Class$Misses <- Class$Totals - Class$Hits
-  Class$Sensitivity <- Class$Hits / Class$Totals
-  Class$Condition.negative <- Total - Class$Totals
-  Class$True_negative <- Total - Class$Predicted_totals - (Class$Totals - Class$Hits)
-  Class$Specificity <- Class$True_negative / Class$Condition.negative
-  Class$Balanced_Accuracy <- .5 * (Class$Sensitivity + Class$Specificity)
+  Class[["Hits"]] <- diag(tbl)
+  # Class[["Misses"]] <- Class[["Totals"]] - Class[["Hits"]]
+  Class[["Sensitivity"]] <- Class[["Hits"]] / Class[["Totals"]]
+  Class[["Condition_negative"]] <- Total - Class[["Totals"]]
+  Class[["True_negative"]] <- Total - Class[["Predicted_totals"]] - (Class[["Totals"]] - Class[["Hits"]])
+  Class[["Specificity"]] <- Class[["True_negative"]] / Class[["Condition_negative"]]
+  Class[["Balanced_Accuracy"]] <- .5 * (Class[["Sensitivity"]] + Class[["Specificity"]])
   # PPV = true positive / predicted condition positive
-  Class$PPV <- Class$Hits / Class$Predicted_totals
+  Class[["PPV"]] <- Class[["Hits"]] / Class[["Predicted_totals"]]
   # NPV  = true negative / predicted condition negative
-  Class$NPV <- Class$True_negative / (Total - Class$Predicted_totals)
-  Class$F1 <- 2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)
+  Class[["NPV"]] <- Class[["True_negative"]] / (Total - Class[["Predicted_totals"]])
+  Class[["F1"]] <- 2 * (Class[["PPV"]] * Class[["Sensitivity"]]) / (Class[["PPV"]] + Class[["Sensitivity"]])
 
   # Binary vs Multiclass ----
   if (n_classes == 2) {
-    Overall$Sensitivity <- Class$Sensitivity[1]
-    Overall$Specificity <- Class$Specificity[1]
-    Overall$Balanced_Accuracy <- Class$Balanced_Accuracy[1]
-    Overall$PPV <- Class$PPV[1]
-    Overall$NPV <- Class$NPV[1]
-    Overall$F1 <- Class$F1[1]
+    Overall[["Sensitivity"]] <- Class[["Sensitivity"]][1]
+    Overall[["Specificity"]] <- Class[["Specificity"]][1]
+    Overall[["Balanced_Accuracy"]] <- Class[["Balanced_Accuracy"]][1]
+    Overall[["PPV"]] <- Class[["PPV"]][1]
+    Overall[["NPV"]] <- Class[["NPV"]][1]
+    Overall[["F1"]] <- Class[["F1"]][1]
   } else {
-    Overall$Balanced_Accuracy <- mean(Class$`Sensitivity`)
-    Overall$`F1 Mean` <- mean(Class$`F1`)
+    Overall[["Balanced_Accuracy"]] <- mean(Class[["Sensitivity"]])
+    Overall[["F1 Mean"]] <- mean(Class[["F1"]])
   }
-  Overall$Accuracy <- sum(Class$Hits) / Total
+  Overall[["Accuracy"]] <- sum(Class[["Hits"]]) / Total
 
   # Probability-based metrics ----
   if (!is.null(predicted_prob) && n_classes == 2L) {
     # Positive class has been set to first level
     true_int <- 2L - as.integer(true_labels)
     if (calc_auc) {
-      Overall$AUC <- auc(
+      Overall[["AUC"]] <- auc(
         true_int = true_int, predicted_prob = predicted_prob, method = auc_method
       )
     }
     if (calc_brier) {
-      Overall$`Brier Score` <- brier_score(true_int, predicted_prob)
+      Overall[["Brier_Score"]] <- brier_score(true_int, predicted_prob)
     }
-    # Overall$`Log loss` <- logloss(true_int, predicted_prob)
+    # Overall[["Log loss"]] <- logloss(true_int, predicted_prob)
   }
 
   # Outro ----
   Overall <- as.data.frame(do.call(cbind, Overall))
   rownames(Overall) <- "Overall"
   Class <- (data.frame(
-    Sensitivity = Class$Sensitivity,
-    Specificity = Class$Specificity,
-    Balanced_Accuracy = Class$Balanced_Accuracy,
-    PPV = Class$PPV,
-    NPV = Class$NPV,
-    F1 = Class$F1
+    Sensitivity = Class[["Sensitivity"]],
+    Specificity = Class[["Specificity"]],
+    Balanced_Accuracy = Class[["Balanced_Accuracy"]],
+    PPV = Class[["PPV"]],
+    NPV = Class[["NPV"]],
+    F1 = Class[["F1"]]
   ))
 
   ClassificationMetrics(

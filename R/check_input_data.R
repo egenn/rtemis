@@ -13,10 +13,11 @@
 #' @param allow_missing Logical: If TRUE, allow missing values in the data. Default is TRUE.
 #' @param verbosity Integer: Verbosity level. Default is 1.
 #'
+#' @return None. Stops execution if checks fail.
+#' 
 #' @author EDG
 #' @keywords internal
 #' @noRd
-#' @return None. Stops execution if checks fail.
 #' @examples
 #' \dontrun{
 #' check_supervised_data(training_data, validation_data, testing_data)
@@ -119,10 +120,11 @@ check_supervised_data <- function(x,
 #' @param x Data frame: Features for unsupervised learning.
 #' @param allow_missing Logical: If TRUE, allow missing values in the data. Default is FALSE.
 #'
+#' @return Nothing. Stops execution if checks fail.
+#' 
 #' @author EDG
 #' @keywords internal
 #' @noRd
-#' @return None. Stops execution if checks fail.
 #' @examples
 #' \dontrun{
 #' check_unsupervised_data(features_data)

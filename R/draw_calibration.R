@@ -24,7 +24,8 @@
 #' @param filename Character: Path to save output.
 #' @param ... Additional arguments passed to [draw_scatter]
 #'
-#' @return NULL
+#' @return A plotly object.
+#' 
 #' @author EDG
 #' @export
 #' @examples
@@ -120,7 +121,7 @@ draw_calibration <- function(true_labels, predicted_prob,
   if (show_brier) {
     .brier_score <- sapply(seq_along(predicted_prob), \(i) {
       brier_score(
-        true = labels2int(true_labels[[i]], binclasspos),
+        true_int = labels2int(true_labels[[i]], binclasspos),
         predicted_prob = predicted_prob[[i]]
       )
     })
@@ -174,7 +175,7 @@ draw_calibration <- function(true_labels, predicted_prob,
   # Add marginal.x ----
   # Using estimated probabilities
   # if (marginal.x) {
-  #   if (is.null(marginal.col)) marginal.col <- plotly::toRGB(theme$fg, alpha = .5)
+  #   if (is.null(marginal.col)) marginal.col <- plotly::toRGB(theme[["fg"]], alpha = .5)
   #   for (i in seq_along(mean_bin_prob)) {
   #     plt <- plotly::add_trace(
   #       plt,

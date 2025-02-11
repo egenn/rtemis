@@ -26,24 +26,24 @@ datc2_train <- datc2[resc2$Fold_1, ]
 datc2_test <- datc2[-resc2$Fold_1, ]
 
 ### Synthetic binary data where positive class is 10% of the data ----
-set.seed(2025)
-n <- 500
-datc2 <- data.frame(
-  x1 = rnorm(n),
-  x2 = rnorm(n),
-  x3 = rnorm(n),
-  g = factor(sample(c("A", "B"), n, replace = TRUE, prob = c(.1, .9)))
-)
-# Binary outcome dependent on x2 and g, with levels "neg" and "pos", where "pos" is 10% of the data
-datc2$y <- factor(ifelse(datc2$x2 > 0 & datc2$g == "A", "pos", "neg"))
-resc2 <- resample(datc2)
-datc2_train <- datc2[resc2$Fold_1, ]
-datc2_test <- datc2[-resc2$Fold_1, ]
+# set.seed(2025)
+# n <- 500
+# datc2 <- data.frame(
+#   x1 = rnorm(n),
+#   x2 = rnorm(n),
+#   x3 = rnorm(n),
+#   g = factor(sample(c("A", "B"), n, replace = TRUE, prob = c(.1, .9)))
+# )
+# # Binary outcome dependent on x2 and g, with levels "neg" and "pos", where "pos" is 10% of the data
+# datc2$y <- factor(ifelse(datc2$x2 > 0 & datc2$g == "A", "pos", "neg"))
+# resc2 <- resample(datc2)
+# datc2_train <- datc2[resc2$Fold_1, ]
+# datc2_test <- datc2[-resc2$Fold_1, ]
 
 ### 3-class ----
-resc3 <- resample(iris)
-datc3_train <- iris[resc3$Fold_1, ]
-datc3_test <- iris[-resc3$Fold_1, ]
+# resc3 <- resample(iris)
+# datc3_train <- iris[resc3$Fold_1, ]
+# datc3_test <- iris[-resc3$Fold_1, ]
 
 # Regression ----
 
@@ -73,12 +73,12 @@ test_that("train() GAM Regression with spline + parametric terms succeeds.", {
   expect_s7_class(mod_r_gam, Regression)
 })
 
+mod_r_gam <- train(
+  x = datr_train[, -6],
+  dat_testing = datr_test[, -6],
+  algorithm = "gam"
+)
 test_that("train() GAM Regression with only spline terms succeeds.", {
-  mod_r_gam <- train(
-    x = datr_train[, -6],
-    dat_testing = datr_test[, -6],
-    algorithm = "gam"
-  )
   expect_s7_class(mod_r_gam, Regression)
 })
 
@@ -92,11 +92,14 @@ test_that("train() GAM Regression with only parametric terms succeeds.", {
 })
 
 ## GAM Regression + grid search ----
+mirai::daemons(9)
 tmod_r_gam <- train(
   x = datr_train,
   dat_testing = datr_test,
   algorithm = "gam",
-  hyperparameters = setup_GAM(k = c(3, 5, 7))
+  hyperparameters = setup_GAM(k = c(3, 5, 7)),
+  tuner_parameters = setup_GridSearch(parallel_type = "future.mirai::mirai_multisession"),
+  parallel_type = "future"
 )
 test_that("train() GAM Regression with grid_search() succeeds", {
   expect_s7_class(tmod_r_gam, Regression)
@@ -114,6 +117,18 @@ cvmod_r_gam <- train(
   algorithm = "gam",
   crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
+
+## Test ... args to train ---
+# mod_r_gam_aa <- train(
+#   x = datr_train,
+#   dat_testing = datr_test,
+#   algorithm = "gam",
+#   k = 7L
+# )
+# test_that("train() GAM Regression with ... args succeeds", {
+#   expect_s7_class(mod_r_gam_aa, Regression)
+#   expect_identical(mod_r_gam_aa@hyperparameters$k, 7L)
+# })
 
 ## train_CART() ----
 test_that("train_CART() succeeds", {
@@ -144,18 +159,18 @@ test_that("tuned is set correctly", {
   expect_identical(hyperparameters@tuned, 0L)
 })
 
-mod_r_cart_tuned <- train(
+tmod_r_cart <- train(
   datr_train,
   dat_testing = datr_test,
   hyperparameters = hyperparameters
 )
 test_that("train() Regression with grid_search() succeeds", {
-  expect_s7_class(mod_r_cart_tuned, Regression)
+  expect_s7_class(tmod_r_cart, Regression)
 })
 
 ## Test that tuned == 1----
 test_that("tuned is set correctly", {
-  expect_identical(mod_r_cart_tuned@hyperparameters@tuned, 1L)
+  expect_identical(tmod_r_cart@hyperparameters@tuned, 1L)
 })
 
 ## CV CART Regression ----
@@ -168,7 +183,7 @@ cvmod_r_cart <- train(
   hyperparameters = setup_CART(),
   crossvalidation_parameters = setup_Resampler()
 )
-test_that("train() Regression with crossvalidation succeeds", { 
+test_that("train() Regression with crossvalidation succeeds", {
   expect_s7_class(cvmod_r_cart, RegressionCV)
 })
 
@@ -275,7 +290,7 @@ mod_r_lightrf <- train(
   dat_testing = datr_test,
   algorithm = "lightrf"
 )
-test_that("train() LightRF Regression succeeds", { 
+test_that("train() LightRF Regression succeeds", {
   expect_s7_class(mod_r_lightrf, Regression)
 })
 
@@ -438,23 +453,33 @@ test_that("train() GLMNET Classification with fixed lambda succeeds", {
   expect_s7_class(mod_c_glmnet, Classification)
 })
 
+## LightCART Classification ----
+mod_c_lightcart <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "lightcart"
+)
+test_that("train() LightCART Classification succeeds", {
+  expect_s7_class(mod_c_lightcart, Classification)
+})
+
 ## LightRF Classification ----
+mod_c_lightrf <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "lightrf"
+)
 test_that("train() LightRF Classification succeeds", {
-  mod_c_lightrf <- train(
-    x = datc2_train,
-    dat_testing = datc2_test,
-    algorithm = "lightrf"
-  )
   expect_s7_class(mod_c_lightrf, Classification)
 })
 
 ## LightRF CV Classification ----
+mod_c_lightrf_cv <- train(
+  x = datc2,
+  algorithm = "lightrf",
+  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
 test_that("train() LightRF Classification with crossvalidation succeeds", {
-  mod_c_lightrf_cv <- train(
-    x = datc2,
-    algorithm = "lightrf",
-    crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
-  )
   expect_s7_class(mod_c_lightrf_cv, ClassificationCV)
 })
 

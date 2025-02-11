@@ -14,11 +14,11 @@ decom_PCA <- function(x, parameters, verbosity = 1L) {
   # Decompose ----
   decom <- prcomp(
     x = x,
-    center = parameters$center,
-    scale. = parameters$scale,
-    tol = parameters$tol,
-    rank. = parameters$k
+    center = parameters[["center"]],
+    scale. = parameters[["scale"]],
+    tol = parameters[["tol"]],
+    rank. = parameters[["k"]]
   )
   check_inherits(decom, "prcomp")
-  list(decom = decom, transformed = decom$x)
-} # /rtemis::decom_ICA
+  list(decom = decom, transformed = decom[["x"]])
+} # /rtemis::decom_PCA

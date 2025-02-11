@@ -2,36 +2,23 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' @name cluster
-#' @aliases cluster
-#' 
-#' @title
-#' Cluster rows of a dataset
-#' 
-#' @description
-#' Perform clustering on a dataset.
-#' 
-#' @usage 
-#' ## S7 generic
-#' cluster(x, ...)
-#' ## S7 method for signature 'data.frame'
-#' cluster(x, algorithm = "KMeans", parameters = NULL, verbosity = 1L, ...)
-#' 
+#' Perform Clustering
+#'
+#' Perform clustering on the rows (usually cases) of a dataset.
+#'
 #' @param x Matrix or data.frame: Data to cluster. Rows are cases to be clustered.
 #' @param algorithm Character: Clustering algorithm.
 #' @param parameters List: Algorithm-specific parameters.
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Not used.
-#' 
+#'
 #' @return Clustering object.
-#' 
+#'
 #' @author EDG
 #' @export
-cluster <- new_generic("cluster", "x")
-method(cluster, class_numeric | class_data.frame) <- function(x,
-                                                              algorithm = "KMeans",
-                                                              parameters = NULL,
-                                                              verbosity = 1L, ...) {
+cluster <- function(x,
+                    algorithm = "KMeans",
+                    parameters = NULL,
+                    verbosity = 1L) {
   # Checks ----
   if (is.null(parameters)) {
     parameters <- get_default_clusterparams(algorithm)
@@ -52,11 +39,15 @@ method(cluster, class_numeric | class_data.frame) <- function(x,
   algorithm <- get_clust_name(algorithm)
   cluster_fn <- get_clust_fn(algorithm)
   if (verbosity > 0L) {
-    msg20("Clustering with ", algorithm, "...\n")
+    msg20("Clustering with ", algorithm, "...")
   }
-  clust <- do_call(
+  # clust <- do_call(
+  #   cluster_fn,
+  #   list(x = x, parameters = parameters, verbosity = verbosity)
+  # )
+  clust <- rlang::exec(
     cluster_fn,
-    list(x = x, parameters = parameters, verbosity = verbosity)
+    x = x, parameters = parameters, verbosity = verbosity
   )
 
   # Clusters ----
@@ -66,12 +57,13 @@ method(cluster, class_numeric | class_data.frame) <- function(x,
     list(clust = clust)
   )
 
+
   # Outro ----
   outro(start_time, verbosity = verbosity)
   Clustering(
     algorithm = algorithm,
     clust = clust,
-    k = parameters$k,
+    k = parameters[["k"]],
     clusters = clusters,
     parameters = parameters
   )

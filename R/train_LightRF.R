@@ -17,7 +17,6 @@ train_LightRF <- function(
     dat_validation = NULL,
     weights = NULL,
     hyperparameters = setup_LightRF(),
-    tuner_parameters = setup_tuner(),
     verbosity = 1L) {
   # Dependencies ----
   check_dependencies("lightgbm")
@@ -44,8 +43,8 @@ train_LightRF <- function(
   } else {
     nclasses <- NA
   }
-  if (is.null(hyperparameters$objective)) {
-    hyperparameters@hyperparameters$objective <- if (type == "Regression") {
+  if (is.null(hyperparameters[["objective"]])) {
+    hyperparameters@hyperparameters[["objective"]] <- if (type == "Regression") {
       "regression"
     } else {
       if (nclasses == 2) {
@@ -69,8 +68,8 @@ train_LightRF <- function(
     if (is.null(dat_validation)) {
       x <- prp@preprocessed
     } else {
-      x <- prp@preprocessed$training
-      dat_validation <- prp@preprocessed$validation
+      x <- prp@preprocessed[["training"]]
+      dat_validation <- prp@preprocessed[["validation"]]
     }
   } else {
     factor_index <- NULL
@@ -102,13 +101,13 @@ train_LightRF <- function(
   model <- lightgbm::lgb.train(
     params = hyperparameters@hyperparameters, # ?need get_lgb.train_params
     data = x,
-    nrounds = hyperparameters$nrounds,
+    nrounds = hyperparameters[["nrounds"]],
     valids = if (!is.null(dat_validation)) {
       list(training = x, validation = dat_validation)
     } else {
       list(training = x)
     },
-    early_stopping_rounds = hyperparameters$early_stopping_rounds,
+    early_stopping_rounds = hyperparameters[["early_stopping_rounds"]],
     verbose = verbosity - 2L
   )
   check_inherits(model, "lgb.Booster")
@@ -150,7 +149,7 @@ predict_LightRF <- function(model, newdata, type) {
 varimp_LightRF <- function(model) {
   check_inherits(model, "lgb.Booster")
   vi <- lightgbm::lgb.importance(model, percentage = TRUE)
-  out <- data.frame(t(vi$Gain))
+  out <- data.frame(t(vi[["Gain"]]))
   names(out) <- vi[["Feature"]]
   out
 } # /rtemis::varimp_LightRF

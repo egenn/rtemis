@@ -11,7 +11,6 @@
 #' @param x data.frame or similar: Training set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters `GLMNETHyperparameters` object: make using [setup_GLMNET].
-#' @param tuner `Tuner` object: make using [setup_tuner].
 #' @param verbosity Integer: If > 0, print messages.
 #'
 #' @author EDG
@@ -22,7 +21,6 @@ train_GLMNET <- function(
     x,
     weights = NULL,
     hyperparameters = setup_GLMNET(),
-    tuner_parameters = setup_tuner(),
     verbosity = 1L) {
   # Dependencies ----
   check_dependencies("glmnet")
@@ -37,20 +35,20 @@ train_GLMNET <- function(
   }
   # Check data-specific hyperparameter values
   # penalty.factor must be of length = N features.
-  if (is.null(hyperparameters$penalty.factor)) {
-    hyperparameters@hyperparameters$penalty.factor <- rep(1, NCOL(x) - 1)
+  if (is.null(hyperparameters[["penalty.factor"]])) {
+    hyperparameters@hyperparameters[["penalty.factor"]] <- rep(1, NCOL(x) - 1)
     if (verbosity > 1) {
-      info("Updated hyperparameters$penalty.factor to all 1s.")
+      info('Updated hyperparameters[["penalty.factor"]] to all 1s.')
     }
   } else {
-    if (length(hyperparameters$penalty.factor) != NCOL(x) - 1) {
+    if (length(hyperparameters[["penalty.factor"]]) != NCOL(x) - 1) {
       stop("Length of penalty.factor must be equal to the number of predictors.")
     }
   }
 
   # Convert "null" lambda to NULL
-  if (hyperparameters$lambda == "null") {
-    hyperparameters@hyperparameters$lambda <- NULL
+  if (hyperparameters[["lambda"]] == "null") {
+    hyperparameters@hyperparameters[["lambda"]] <- NULL
   }
 
   # Data ----
@@ -70,7 +68,7 @@ train_GLMNET <- function(
   } else {
     NA_integer_
   }
-  family <- if (is.null(hyperparameters$family)) {
+  family <- if (is.null(hyperparameters[["family"]])) {
     if (type == "Regression") {
       "gaussian"
     } else if (type == "Classification") {
@@ -84,7 +82,7 @@ train_GLMNET <- function(
 
   # Train ----
   # if lambda is NULL, use cv.glmnet to find optimal lambda
-  if (is.null(hyperparameters$lambda)) {
+  if (is.null(hyperparameters[["lambda"]])) {
     model <- glmnet::cv.glmnet(
       x = as.matrix(
         model.matrix(~., x[, -ncol(x)])[, -1]
@@ -92,12 +90,12 @@ train_GLMNET <- function(
       y = x[, ncol(x)],
       family = family,
       weights = weights,
-      offset = hyperparameters$offset,
-      alpha = hyperparameters$alpha,
-      nlambda = hyperparameters$nlambda,
-      standardize = hyperparameters$standardize,
-      intercept = hyperparameters$intercept, # can't be NULL
-      penalty.factor = hyperparameters$penalty.factor
+      offset = hyperparameters[["offset"]],
+      alpha = hyperparameters[["alpha"]],
+      nlambda = hyperparameters[["nlambda"]],
+      standardize = hyperparameters[["standardize"]],
+      intercept = hyperparameters[["intercept"]], # can't be NULL
+      penalty.factor = hyperparameters[["penalty.factor"]]
     )
     check_inherits(model, "cv.glmnet")
   } else {
@@ -108,13 +106,13 @@ train_GLMNET <- function(
       y = x[, ncol(x)],
       family = family,
       weights = weights,
-      offset = hyperparameters$offset,
-      alpha = hyperparameters$alpha,
-      nlambda = hyperparameters$nlambda,
-      lambda = hyperparameters$lambda,
-      standardize = hyperparameters$standardize,
-      intercept = hyperparameters$intercept, # can't be NULL
-      penalty.factor = hyperparameters$penalty.factor
+      offset = hyperparameters[["offset"]],
+      alpha = hyperparameters[["alpha"]],
+      nlambda = hyperparameters[["nlambda"]],
+      lambda = hyperparameters[["lambda"]],
+      standardize = hyperparameters[["standardize"]],
+      intercept = hyperparameters[["intercept"]], # can't be NULL
+      penalty.factor = hyperparameters[["penalty.factor"]]
     )
     check_inherits(model, "glmnet")
   }

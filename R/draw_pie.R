@@ -120,12 +120,12 @@ draw_pie <- function(x,
     }
   }
 
-  bg <- plotly::toRGB(theme$bg)
-  # plot_bg <- plotly::toRGB(theme$plot_bg)
-  # grid_col <- plotly::toRGB(theme$grid_col)
-  # tick_col <- plotly::toRGB(theme$tick_labels_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
+  bg <- plotly::toRGB(theme[["bg"]])
+  # plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  # grid_col <- plotly::toRGB(theme[["grid_col"]])
+  # tick_col <- plotly::toRGB(theme[["tick_labels_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
 
   if (is.null(legend_col)) legend_col <- labs_col
   sep_col <- if (is.null(sep_col)) bg else plotly::toRGB(sep_col)
@@ -146,12 +146,12 @@ draw_pie <- function(x,
 
   ## layout ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   .legend <- list(font = list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = legend_col
   ))
@@ -173,7 +173,7 @@ draw_pie <- function(x,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       )
@@ -186,7 +186,7 @@ draw_pie <- function(x,
   )
 
   # Padding
-  plt$sizingPolicy$padding <- padding
+  plt[["sizingPolicy"]][["padding"]] <- padding
   # Config
   plt <- plotly::config(plt,
     displaylogo = FALSE,

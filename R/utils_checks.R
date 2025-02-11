@@ -11,7 +11,7 @@
 #' @param fn Function to check against, any `is.*` function, e.g. `is.character`
 #'
 #' @return Logical
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -37,7 +37,7 @@ is_check <- function(x, fn) {
 #' @inheritParams is_check
 #'
 #' @return NULL (invisibly)
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -80,7 +80,7 @@ test_inherits <- function(x, cl) {
 #' @inheritParams check_inherits
 #'
 #' @return NULL (invisibly)
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -100,7 +100,7 @@ check_inherits <- function(x, cl) {
 #' @param allow_null Logical: if TRUE, allows NULL objects
 #'
 #' @return Object
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -111,13 +111,14 @@ check_inherits <- function(x, cl) {
 #' strict(iris, "list") # Error
 #' }
 strict <- function(object, class, allow_null = TRUE) {
+  name. <- deparse(substitute(object))
   if (allow_null && is.null(object)) {
     return(NULL)
   }
   if (inherits(object, class)) {
     return(object)
   } else {
-    stop(bold(input), " must be ", bold(cl))
+    stop(name., " must be ", bold(class))
   }
 } # /rtemis::strict
 
@@ -136,7 +137,7 @@ strict <- function(object, class, allow_null = TRUE) {
 #'
 #' @keywords internal
 #' @noRd
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' clean_int(6L)
@@ -227,7 +228,7 @@ check_floatpos <- function(x) {
 #' @param x Vector to check
 #'
 #' @return Nothing, otherwise error.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -251,7 +252,7 @@ check_float01exc <- function(x) {
 #' @param x Float vector.
 #'
 #' @return Nothing, otherwise error.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -284,7 +285,7 @@ check_floatpos1 <- function(x) {
 #' @param x Integer vector.
 #'
 #' @return x, otherwise error.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -329,48 +330,58 @@ check_float0pos <- function(x) {
 #' @author EDG
 #' @keywords internal
 #' @noRd
-get_n_workers_for_learner <- function(algorithm, plan, n_workers, verbosity = 1L) {
+get_n_workers_for_learner <- function(algorithm, parallel_type, n_workers = NULL, verbosity = 1L) {
+
+  # If n_workers is not set, set it to available cores.
   # If learner uses parallelization and plan is run on single machine,
   # set n_workers to 1 to avoid overparallelization.
-  single_machine_plans <- c("multisession", "multicore", "callr", "mirai_multisession")
+  single_machine_types <- c(
+    "future::multicore", "future::callr", "future::multisession",
+    "future.mirai::mirai_multisession", "mirai"
+  )
   parallelized_learners <- c("LightCART", "LightGBM", "LightRF", "LightRuleFit", "Ranger")
-  if (plan %in% single_machine_plans && algorithm %in% parallelized_learners) {
+  if (parallel_type %in% single_machine_types && algorithm %in% parallelized_learners) {
     if (verbosity > 0L && !is.null(n_workers) && n_workers > 1) {
       msg2(hilite2(
-        "Running a parallelized learner and n_workers is greater than 1, but plan ", plan,
+        "Running a parallelized learner and n_workers is greater than 1, but plan ", parallel_type,
         " is run on single machine. Setting n_workers to 1."
       ))
     }
-    n_workers <- 1L
+    return(1L)
   }
-  if (is.null(n_workers) && !algorithm %in% parallelized_learners) {
-    n_workers <- future::availableCores()
+  available_workers <- future::availableCores()
+  if (!is.null(n_workers) && n_workers <= available_workers) {
+    return(n_workers)
+  } else {
+    if (verbosity > 0L && !is.null(n_workers) && n_workers > available_workers) {
+      msg2(hilite2("Requested n_workers is greater than available cores."))
+    }
   }
-  n_workers
+  max(future::availableCores() - 1L, 1L)
 } # /rtemis::get_n_workers_for_learner
 
 
 common_errors <- list(
-  "object '(.*)' not found" = 
+  "object '(.*)' not found" =
     "Check that the object exists and is spelled correctly.",
-  "object of type 'closure' is not subsettable" = 
+  "object of type 'closure' is not subsettable" =
     "Check that the object is a list or data.frame."
 )
 common_warnings <- list(
   "NAs introduced by coercion" = "Check that the input is of the correct type.",
-  # "glm.fit: algorithm did not converge" = 
+  # "glm.fit: algorithm did not converge" =
   # "Same reasons as for 'glm.fit: fitted probabilities numerically 0 or 1 occurred'.",
-  "glm.fit: fitted probabilities numerically 0 or 1 occurred" = 
-  paste(
-    "Reasons for this warning include:",
-    "1) Perfect Separation of classes.",
-    "2) Highly Imbalanced data.",
-    "3) Extreme values in predictors.",
-    "4) Too many predictors for the number of observations.",
-    "5) Multicollinearity.",
-    "\nSuggestion:\n  Try using GLMNET or other regularization methods.",
-    sep = "\n  "
-  )
+  "glm.fit: fitted probabilities numerically 0 or 1 occurred" =
+    paste(
+      "Reasons for this warning include:",
+      "1) Perfect Separation of classes.",
+      "2) Highly Imbalanced data.",
+      "3) Extreme values in predictors.",
+      "4) Too many predictors for the number of observations.",
+      "5) Multicollinearity.",
+      "\nSuggestion:\n  Try using GLMNET or other regularization methods.",
+      sep = "\n  "
+    )
 )
 #' Do call with tryCatch and suggestion
 #'
@@ -380,7 +391,7 @@ common_warnings <- list(
 #'  found in the error message, the suggestion is appended to the error message.
 #'
 #' @return Result of function call.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -413,7 +424,7 @@ do_call <- function(
       ) # /withCallingHandlers
     },
     error = function(e) {
-      fnerr <- e$message
+      fnerr <- e[["message"]]
       errmsg <- paste0(fn_name, " failed with error:\n\n", fnerr, "\n\n")
       # for (pattern in names(err_pat_sug)) {
       #   suggestion <- err_pat_sug[[pattern]]
@@ -424,7 +435,8 @@ do_call <- function(
       idi <- which(sapply(names(err_pat_sug), function(i) grepl(i, fnerr)))
       if (length(idi) > 0) {
         suggestions <- sapply(idi, function(i) err_pat_sug[[i]])
-        errmsg <- paste0(red(errmsg),
+        errmsg <- paste0(
+          red(errmsg),
           orange(
             paste0(
               "Suggestion:\n  ",
@@ -443,9 +455,9 @@ do_call <- function(
 #' @param x Object
 #'
 #' @return Character: Abbreviated class
-#' 
+#'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 abbreviate_class <- function(x, n = 4L) {
@@ -469,7 +481,7 @@ abbreviate_class <- function(x, n = 4L) {
 #' "Dependencies check passed".
 #'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 check_dependencies <- function(..., verbosity = 0L) {

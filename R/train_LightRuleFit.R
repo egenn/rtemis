@@ -14,7 +14,6 @@ train_LightRuleFit <- function(
     dat_validation = NULL,
     weights,
     hyperparameters,
-    tuner_parameters,
     verbosity) {
   # Dependencies ----
   check_dependencies("lightgbm", "glmnet")
@@ -40,7 +39,7 @@ train_LightRuleFit <- function(
 
   # IFW for LightGBM ----
   # You can choose to use IFW for both steps with `ifw = TRUE` OR control each steps individually using `ifw_lightgbm` and `ifw_glmnet`.
-  lightgbm_weights <- if (hyperparameters$ifw_lightgbm) {
+  lightgbm_weights <- if (hyperparameters[["ifw_lightgbm"]]) {
     ifw(x[[ncol(x)]], verbosity = verbosity)
   } else {
     weights
@@ -52,13 +51,13 @@ train_LightRuleFit <- function(
     setup_LightGBM(),
     get_params(hyperparameters, LightRuleFit_lightgbm_params)
   )
-  lgbm_parameters@hyperparameters$ifw <- hyperparameters$ifw_lightgbm
+  lgbm_parameters@hyperparameters[["ifw"]] <- hyperparameters[["ifw_lightgbm"]]
   mod_lgbm <- train(
     x = x,
     dat_validation = dat_validation,
     weights = weights,
     hyperparameters = lgbm_parameters,
-    tuner_parameters = tuner_parameters,
+    # tuner_parameters = tuner_parameters, # ? add tuner_parameters to LightRuleFitHyperparameters
     crossvalidation_parameters = NULL,
     verbosity = verbosity
   )
@@ -75,7 +74,7 @@ train_LightRuleFit <- function(
   cases_by_rules <- match_cases_by_rules(x, lgbm_rules, verbosity = verbosity)
 
   # IFW for LASSO ----
-  glmnet_weights <- if (hyperparameters$ifw_glmnet) {
+  glmnet_weights <- if (hyperparameters[["ifw_glmnet"]]) {
     ifw(x[[ncol(x)]], verbosity = verbosity)
   } else {
     weights
@@ -83,8 +82,8 @@ train_LightRuleFit <- function(
 
   # LASSO: Select Rules ----
   lasso_hyperparameters <- setup_GLMNET(
-    alpha = hyperparameters$alpha,
-    lambda = hyperparameters$lambda
+    alpha = hyperparameters[["alpha"]],
+    lambda = hyperparameters[["lambda"]]
   )
   dat_rules <- data.frame(cases_by_rules, y = x[[ncol(x)]])
   colnames(dat_rules)[ncol(dat_rules)] <- colnames(x)[ncol(x)]
@@ -100,7 +99,7 @@ train_LightRuleFit <- function(
   intercept_coef <- rules_coefs[1, , drop = FALSE]
   colnames(intercept_coef) <- "Coefficient"
   rules_coefs <- data.frame(Rule = lgbm_rules, Coefficient = rules_coefs[-1, 1])
-  nonzero_index <- which(abs(rules_coefs$Coefficient) > 0)
+  nonzero_index <- which(abs(rules_coefs[["Coefficient"]]) > 0)
   rules_selected <- lgbm_rules[nonzero_index]
   cases_by_rules_selected <- cases_by_rules[, nonzero_index]
   Ncases_by_rules <- matrixStats::colSums2(cases_by_rules_selected)
@@ -128,7 +127,7 @@ train_LightRuleFit <- function(
     Rule_ID = seq(rules_selected_formatted),
     Rule = rules_selected_formatted,
     N_Cases = Ncases_by_rules,
-    Coefficient = rules_coefs$Coefficient[nonzero_index]
+    Coefficient = rules_coefs[["Coefficient"]][nonzero_index]
   )
   if (type == "Classification" && nclasses == 2) {
     # appease R CMD check

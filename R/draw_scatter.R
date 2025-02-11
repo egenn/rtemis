@@ -191,11 +191,11 @@ draw_scatter <- function(x, y = NULL,
                          diagonal_alpha = .66,
                          fit_params = list(),
                          vline = NULL,
-                         vline_col = theme$fg,
+                         vline_col = theme[["fg"]],
                          vline_width = 1,
                          vline_dash = "dot",
                          hline = NULL,
-                         hline_col = theme$fg,
+                         hline_col = theme[["fg"]],
                          hline_width = 1,
                          hline_dash = "dot",
                          hovertext = NULL,
@@ -255,7 +255,7 @@ draw_scatter <- function(x, y = NULL,
         ),
         cluster_params
       )
-    )$clusters_train)
+    )@clusters)
     group <- paste("Cluster", group)
   }
 
@@ -360,23 +360,23 @@ draw_scatter <- function(x, y = NULL,
   }
   if (diagonal) {
     if (is.null(diagonal_col)) {
-      diagonal_col <- theme$fg
+      diagonal_col <- theme[["fg"]]
     }
     diagonal_col <- adjustcolor(diagonal_col, diagonal_alpha)
   }
 
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col, theme$grid_alpha)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
-  if (!theme$axes_visible) tick_col <- labs_col <- "transparent"
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
 
   # marker_col, se_col ===
   if (is.null(marker_col)) {
     marker_col <- if (!is.null(fit) && n_groups == 1) {
-      as.list(rep(theme$fg, n_groups))
+      as.list(rep(theme[["fg"]], n_groups))
     } else {
       col
     }
@@ -391,7 +391,7 @@ draw_scatter <- function(x, y = NULL,
   }
 
   if (is.null(legend_col)) legend_col <- labs_col
-  if (is.null(spikecolor)) spikecolor <- theme$fg
+  if (is.null(spikecolor)) spikecolor <- theme[["fg"]]
 
   # Size ----
   # if (axes_square) {
@@ -429,11 +429,12 @@ draw_scatter <- function(x, y = NULL,
       fitted[[i]] <- fitted(mod)
       if (se_fit) se[[i]] <- se(mod)
       if (include_fit_name) {
-        fitted_text[i] <- switch(fit,
-          NLS = mod$extra$model,
-          NLA = mod$mod$formula,
-          fit
-        )
+        # fitted_text[i] <- switch(fit,
+        #   NLS = mod$extra$model,
+        #   NLA = mod$mod$formula,
+        #   fit
+        # )
+        fitted_text[i] <- fit
       } else {
         fitted_text[i] <- ""
       }
@@ -441,7 +442,7 @@ draw_scatter <- function(x, y = NULL,
         fitted_text[i] <- paste0(
           fitted_text[i],
           if (n_groups == 1) " (" else " ",
-          "R<sup>2</sup> = ", ddSci(mod@metrics_training$Rsq),
+          "R<sup>2</sup> = ", ddSci(mod@metrics_training[["Rsq"]]),
           if (n_groups == 1) ")"
         )
       }
@@ -662,14 +663,14 @@ draw_scatter <- function(x, y = NULL,
 
   # Layout ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
   .legend <- list(
     x = legend_xy[1],
@@ -677,7 +678,7 @@ draw_scatter <- function(x, y = NULL,
     y = legend_xy[2],
     yanchor = legend_yanchor,
     font = list(
-      family = theme$font_family,
+      family = theme[["font_family"]],
       size = font_size,
       color = legend_col
     ),
@@ -688,7 +689,7 @@ draw_scatter <- function(x, y = NULL,
     tracegroupgap = legend_group_gap
   )
 
-  zerocol <- adjustcolor(theme$zerolines_col, theme$zerolines_alpha)
+  zerocol <- adjustcolor(theme[["zerolines_col"]], theme[["zerolines_alpha"]])
   plt <- plotly::layout(plt,
     yaxis = list(
       title = ylab,
@@ -701,14 +702,14 @@ draw_scatter <- function(x, y = NULL,
       spikethickness = spikethickness,
       # mirror = axes_mirrored,
       titlefont = f,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
-      zeroline = theme$zerolines,
+      zeroline = theme[["zerolines"]],
       zerolinecolor = zerocol,
-      zerolinewidth = theme$zerolines_lwd,
+      zerolinewidth = theme[["zerolines_lwd"]],
       range = ylim,
       automargin = automargin_y
     ),
@@ -723,26 +724,26 @@ draw_scatter <- function(x, y = NULL,
       spikethickness = spikethickness,
       # mirror = axes_mirrored,
       titlefont = f,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
-      zeroline = theme$zerolines,
+      zeroline = theme[["zerolines"]],
       zerolinecolor = zerocol,
-      zerolinewidth = theme$zerolines_lwd,
+      zerolinewidth = theme[["zerolines_lwd"]],
       range = xlim,
       automargin = automargin_x
     ),
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj,
+      x = theme[["main_adj"]],
       yref = "paper",
       y = main_y,
       yanchor = main_yanchor
@@ -802,7 +803,7 @@ draw_scatter <- function(x, y = NULL,
       text = subtitle,
       showarrow = FALSE,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       )

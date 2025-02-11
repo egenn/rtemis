@@ -19,15 +19,15 @@ cluster_CMeans <- function(x, parameters, verbosity = 1L) {
   # Cluster ----
   clust <- e1071::cmeans(
     x = x,
-    centers = parameters$k,
-    iter.max = parameters$max_iter,
+    centers = parameters[["k"]],
+    iter.max = parameters[["max_iter"]],
     verbose = verbosity > 0L,
-    dist = parameters$dist,
-    method = parameters$method,
-    m = parameters$m,
-    rate.par = parameters$rate_par,
-    weights = parameters$weights,
-    control = parameters$control
+    dist = parameters[["dist"]],
+    method = parameters[["method"]],
+    m = parameters[["m"]],
+    rate.par = parameters[["rate_par"]],
+    weights = parameters[["weights"]],
+    control = parameters[["control"]]
   )
   check_inherits(clust, "fclust")
   clust
@@ -35,5 +35,5 @@ cluster_CMeans <- function(x, parameters, verbosity = 1L) {
 
 clustpredict_CMeans <- function(clust) {
   check_inherits(clust, "fclust")
-  clust$cluster
+  clust[["cluster"]]
 } # /rtemis::clustpredict_CMeans

@@ -13,7 +13,6 @@
 #' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters `GAMHyperparameters` object: make using [setup_GAM].
-#' @param tuner `Tuner` object: make using [setup_tuner].
 #' @param verbosity Integer: If > 0, print messages.
 #'
 #' @author EDG
@@ -26,7 +25,6 @@ train_GAM <- function(
     dat_testing = NULL,
     weights = NULL,
     hyperparameters = NULL,
-    tuner_parameters = NULL,
     verbosity = 1L) {
   # Dependencies ----
   check_dependencies("mgcv")
@@ -61,7 +59,7 @@ train_GAM <- function(
   index_numeric <- which(sapply(x[, -ncol(x), drop = FALSE], is.numeric))
   spline_features <- if (length(index_numeric) > 0) {
     paste0(
-      "s(", colnames(x)[index_numeric], ", k = ", hyperparameters$k, ")",
+      "s(", colnames(x)[index_numeric], ", k = ", hyperparameters[["k"]], ")",
       collapse = " + "
     )
   } else {
@@ -114,7 +112,7 @@ train_GAM <- function(
 #' @noRd
 predict_GAM <- function(model, newdata, type) {
   out <- predict(object = model, newdata = newdata, type = "response")
-  if (model$family$family == "binomial") {
+  if (model[["family"]][["family"]] == "binomial") {
     # mgvc::predict.gam returns an array of 1 dimension that causes errors during type-checking.
     out <- as.numeric(out)
   }
@@ -133,11 +131,11 @@ varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
     # Get parametric and smooth term p-values
     summary_ <- summary(model)
     # Exclude intercept
-    -log10(c(summary_$s.table[, "p-value"], summary_$p.table[, ncol(summary_$p.table)][-1]))
+    -log10(c(summary_[["s.table"]][, "p-value"], summary_[["p.table"]][, ncol(summary_[["p.table"]])][-1]))
   } else if (type == "coefficients") {
     coef(model)
   } else if (type == "edf") {
-    summary(model)$s.table[, "edf"]
+    summary(model)[["s.table"]][, "edf"]
   }
 } # /rtemis::varimp_GAM
 
@@ -148,5 +146,5 @@ varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
 #' @keywords internal
 #' @noRd
 se_GAM <- function(model, newdata) {
-  predict(model, newdata = newdata, se.fit = TRUE)$se.fit
+  predict(model, newdata = newdata, se.fit = TRUE)[["se.fit"]]
 }

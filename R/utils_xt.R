@@ -102,9 +102,9 @@ xtdescribe <- function(
   pattern_summary <- data.frame(
     `Freq.` = as.numeric(id_time_freq_pattern_sorted)[seq_len(n_patterns)]
   )
-  pattern_summary$Percent <- round((pattern_summary$`Freq.` / n_ids) * 100, digits = 2)
-  pattern_summary$`Cum.` <- cumsum(pattern_summary$Percent)
-  pattern_summary$Pattern <- names(id_time_freq_pattern_sorted)[seq_len(n_patterns)]
+  pattern_summary[["Percent"]] <- round((pattern_summary[["Freq."]] / n_ids) * 100, digits = 2)
+  pattern_summary[["Cum."]] <- cumsum(pattern_summary[["Percent"]])
+  pattern_summary[["Pattern"]] <- names(id_time_freq_pattern_sorted)[seq_len(n_patterns)]
   # Add Freq, Percent, Cumulative Percent of rest
   pattern_summary <- rbind(
     pattern_summary,

@@ -125,8 +125,8 @@
 #' # A.1 Box plot of 4 variables
 #' draw_box(iris[, 1:4])
 #' # A.2 Grouped Box plot
-#' draw_box(iris[, 1:4], group = iris$Species)
-#' draw_box(iris[, 1:4], group = iris$Species, annotate_n = TRUE)
+#' draw_box(iris[, 1:4], group = iris[["Species"]])
+#' draw_box(iris[, 1:4], group = iris[["Species"]], annotate_n = TRUE)
 #' # B. Boxplot binned by time periods
 #' # Synthetic data with an instantenous shift in distributions
 #' set.seed(2021)
@@ -173,7 +173,7 @@ draw_box <- function(x,
                      annotate_mean = FALSE, # forr A.2.b.
                      annotate_meansd = FALSE,
                      annotate_meansd_y = 1,
-                     annotate_col = theme$labs_col,
+                     annotate_col = theme[["labs_col"]],
                      xnames = NULL,
                      group_lines = FALSE,
                      group_lines_dash = "dot",
@@ -209,8 +209,8 @@ draw_box <- function(x,
                      htest_annotate = TRUE,
                      htest_annotate_x = 0,
                      htest_annotate_y = -.065,
-                     htest_star_col = theme$labs_col,
-                     htest_bracket_col = theme$labs_col,
+                     htest_star_col = theme[["labs_col"]],
+                     htest_bracket_col = theme[["labs_col"]],
                      starbracket_pad = c(.04, .05, .09),
                      use_plotly_group = FALSE,
                      width = NULL,
@@ -308,15 +308,14 @@ draw_box <- function(x,
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-
-  if (theme$main_font == 2) main <- paste0("<b>", main, "</b>")
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
-  # axes_col <- plotly::toRGB(theme$axes_col)
+  if (theme[["main_font"]] == 2) main <- paste0("<b>", main, "</b>")
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  # axes_col <- plotly::toRGB(theme[["axes_col"]])
 
   # Derived
   if (is.null(legend_col)) legend_col <- labs_col
@@ -357,9 +356,9 @@ draw_box <- function(x,
           quartilemethod = quartilemethod,
           boxpoints = boxpoints
         ))
-        if (!is.null(hovertext)) .args$text <- hovertext[[1]]
+        if (!is.null(hovertext)) .args[["text"]] <- hovertext[[1]]
       }
-      if (type == "violin") .args$box <- list(visible = violin_box)
+      if (type == "violin") .args[["box"]] <- list(visible = violin_box)
       plt <- do.call(plotly::plot_ly, .args)
       if (n.groups > 1) {
         for (i in seq_len(n.groups)[-1]) {
@@ -394,7 +393,7 @@ draw_box <- function(x,
             x = 0, y = annotate_n_y,
             text = "N =",
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = annotate_col
             ),
@@ -408,7 +407,7 @@ draw_box <- function(x,
             y = 1,
             text = as.character(Nperbox),
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = annotate_col
             ),
@@ -438,7 +437,7 @@ draw_box <- function(x,
           #   x = 0, y = annotate_meansd_y,
           #   text = "Mean (SD)",
           #   font = list(
-          #     family = theme$font.family,
+          #     family = theme[["font_family"]],
           #     size = font.size,
           #     color = annotate.col
           #   ),
@@ -453,7 +452,7 @@ draw_box <- function(x,
             # text = as.character(Nperbox),
             text = paste0(Meanperbox, " (", SDperbox, ")"),
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = annotate_col
             ),
@@ -466,12 +465,12 @@ draw_box <- function(x,
         if (htest_compare == 0) {
           pvals <- sapply(x[-1], \(v) {
             suppressWarnings(
-              do.call(htest, list(x = x[[1]], y = v))$p.value
+              do.call(htest, list(x = x[[1]], y = v))[["p.value"]]
             )
           })
         }
         y_sb <- starbracket_y(unlist(x), pad = starbracket_pad)
-        if (is.null(htest_y)) htest_y <- y_sb$star
+        if (is.null(htest_y)) htest_y <- y_sb[["star"]]
         plt <- plt |> plotly::add_annotations(
           xref = if (horizontal) "paper" else "x",
           # yref = if (horizontal) "x" else "paper",
@@ -483,7 +482,7 @@ draw_box <- function(x,
           # text = unname(ifelse(pvals < htest.thresh, "*", "")),
           text = pval_stars(pvals),
           font = list(
-            family = theme$font_family,
+            family = theme[["font_family"]],
             size = font_size,
             color = annotate_col
           ),
@@ -519,7 +518,7 @@ draw_box <- function(x,
               htest_star_col, '"> *** </span>', "< .001"
             ),
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = annotate_col
             ),
@@ -556,10 +555,10 @@ draw_box <- function(x,
           ))
           if (!is.null(hovertext)) {
             dtlong <- merge(dtlong, cbind(dt[, list(ID)], hovertext))
-            .args$text <- dtlong$hovertext
+            .args[["text"]] <- dtlong[["hovertext"]]
           }
         }
-        if (type == "violin") .args$box <- list(visible = violin_box)
+        if (type == "violin") .args[["box"]] <- list(visible = violin_box)
         cataxis <- list(
           tickvals = 0:(NCOL(dt) - 2),
           ticktext = .xnames
@@ -642,7 +641,7 @@ draw_box <- function(x,
         # '- Group lines ----
         if (nvars > 1 && group_lines) {
           if (is.null(group_lines_col)) {
-            group_lines_col <- theme$fg
+            group_lines_col <- theme[["fg"]]
           }
           group_lines_col <- adjustcolor(
             group_lines_col,
@@ -686,7 +685,7 @@ draw_box <- function(x,
               x = 0, y = annotate_n_y,
               text = "N =",
               font = list(
-                family = theme$font_family,
+                family = theme[["font_family"]],
                 size = font_size,
                 color = annotate_col
               ),
@@ -699,7 +698,7 @@ draw_box <- function(x,
               y = 1,
               text = as.character(Nperbox),
               font = list(
-                family = theme$font_family,
+                family = theme[["font_family"]],
                 size = font_size,
                 color = annotate_col
               ),
@@ -733,9 +732,9 @@ draw_box <- function(x,
             #   x = 0, y = annotate_meansd_y,
             #   text = "N =",
             #   font = list(
-            #     family = theme$font.family,
-            #     size = font.size,
-            #     color = annotate.col
+            #     family = theme[["font_family"]],
+            #     size = font_size,
+            #     color = annotate_col
             #   ),
             #   showarrow = FALSE
             # ) |>
@@ -746,7 +745,7 @@ draw_box <- function(x,
               y = 1,
               text = paste0(Meanperbox, " (", SDperbox, ")"),
               font = list(
-                family = theme$font_family,
+                family = theme[["font_family"]],
                 size = font_size,
                 color = annotate_col
               ),
@@ -772,7 +771,7 @@ draw_box <- function(x,
               y = 1,
               text = Meanperbox,
               font = list(
-                family = theme$font_family,
+                family = theme[["font_family"]],
                 size = font_size,
                 color = annotate_col
               ),
@@ -792,7 +791,7 @@ draw_box <- function(x,
                     do.call(htest, list(
                       x = dts[[1]][[cid]],
                       y = dts[[gid]][[cid]]
-                    ))$p.value
+                    ))[["p.value"]]
                   )
                 })
               })
@@ -805,7 +804,7 @@ draw_box <- function(x,
                     do.call(htest, list(
                       x = dts[[gid - 1]][[cid]],
                       y = dts[[gid]][[cid]]
-                    ))$p.value
+                    ))[["p.value"]]
                   )
                 })
               }) |> unlist()
@@ -815,7 +814,7 @@ draw_box <- function(x,
           # center stars above boxes
           axshift <- if (htest_compare == 2) 1.5 else 1
           y_sb <- starbracket_y(unlist(x), pad = starbracket_pad)
-          if (is.null(htest_y)) htest_y <- y_sb$star
+          if (is.null(htest_y)) htest_y <- y_sb[["star"]]
           plt <- plt |> plotly::add_annotations(
             xref = if (horizontal) "paper" else "x",
             # yref = if (horizontal) "x" else "paper",
@@ -827,7 +826,7 @@ draw_box <- function(x,
             # text = unname(ifelse(pvals < htest.thresh, "*", "")),
             text = pval_stars(pvals),
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = htest_star_col
             ),
@@ -863,7 +862,7 @@ draw_box <- function(x,
                 htest_star_col, '"> *** </span>', "< .001"
               ),
               font = list(
-                family = theme$font_family,
+                family = theme[["font_family"]],
                 size = font_size,
                 color = annotate_col
               ),
@@ -878,7 +877,7 @@ draw_box <- function(x,
                 # y_bracket <- bracket_y(unlist(x))
                 plt <- plt |> plotly::add_trace(
                   x = c(rep(xval[i - 1], 2), rep(xval[i], 2)),
-                  y = y_sb$bracket,
+                  y = y_sb[["bracket"]],
                   type = "scatter", mode = "lines",
                   inherit = FALSE,
                   line = list(color = htest_bracket_col, width = 1),
@@ -943,7 +942,7 @@ draw_box <- function(x,
       )
     }
 
-    if (!is.null(hovertext)) .args$text <- dtlong$hovertext
+    if (!is.null(hovertext)) .args[["text"]] <- dtlong[["hovertext"]]
 
     if (type == "box") {
       .args <- c(.args, list(
@@ -951,7 +950,7 @@ draw_box <- function(x,
         boxpoints = boxpoints
       ))
     }
-    if (type == "violin") .args$box <- list(visible = violin_box)
+    if (type == "violin") .args[["box"]] <- list(visible = violin_box)
 
     .args <- c(list(width = width, height = height), .args)
     plt <- do.call(plotly::plot_ly, .args)
@@ -970,7 +969,7 @@ draw_box <- function(x,
           x = 0, y = annotate_n_y,
           text = "N =",
           font = list(
-            family = theme$font_family,
+            family = theme[["font_family"]],
             size = font_size,
             color = annotate_col
           ),
@@ -983,7 +982,7 @@ draw_box <- function(x,
           y = 1,
           text = paste(Nperbox),
           font = list(
-            family = theme$font_family,
+            family = theme[["font_family"]],
             size = font_size,
             color = annotate_col
           ),
@@ -994,14 +993,14 @@ draw_box <- function(x,
 
   # Layout ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
   .legend <- list(
     x = legend_xy[1],
@@ -1010,7 +1009,7 @@ draw_box <- function(x,
     yanchor = legend_yanchor,
     bgcolor = "#ffffff00",
     font = list(
-      family = theme$font_family,
+      family = theme[["font_family"]],
       size = font_size,
       color = legend_col
     ),
@@ -1023,9 +1022,9 @@ draw_box <- function(x,
       title = list(text = yaxis_title, standoff = ylab_standoff),
       type = if (horizontal) xaxis_type else NULL,
       titlefont = f,
-      showgrid = if (horizontal) FALSE else theme$grid,
+      showgrid = if (horizontal) FALSE else theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = if (horizontal) NA else tick_col,
       tickfont = tickfont,
       zeroline = FALSE,
@@ -1036,9 +1035,9 @@ draw_box <- function(x,
       title = if (horizontal) ylab else xlab,
       type = if (horizontal) NULL else xaxis_type,
       titlefont = f,
-      showgrid = if (horizontal) theme$grid else FALSE,
+      showgrid = if (horizontal) theme[["grid"]] else FALSE,
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = if (horizontal) tick_col else NA,
       tickfont = tickfont,
       automargin = automargin_x,
@@ -1047,12 +1046,12 @@ draw_box <- function(x,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj
+      x = theme[["main_adj"]]
     ),
     paper_bgcolor = bg,
     plot_bgcolor = plot_bg,

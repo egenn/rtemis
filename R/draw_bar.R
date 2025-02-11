@@ -105,7 +105,7 @@ draw_bar <- function(x,
                      feature_names = NULL,
                      font_size = 16,
                      annotate = FALSE,
-                     annotate_col = theme$labs_col,
+                     annotate_col = theme[["labs_col"]],
                      legend = NULL,
                      legend_col = NULL,
                      legend_xy = c(1, 1),
@@ -192,13 +192,13 @@ draw_bar <- function(x,
     }
   }
 
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
-  axes_col <- plotly::toRGB(theme$axes_col)
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  axes_col <- plotly::toRGB(theme[["axes_col"]])
 
   # Derived
   if (is.null(legend_col)) legend_col <- labs_col
@@ -245,7 +245,7 @@ draw_bar <- function(x,
             y = seq_len(nrow(dat)) - 1,
             text = paste(dat[, i]),
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = annotate_col
             ),
@@ -260,7 +260,7 @@ draw_bar <- function(x,
             y = rowSums(dat[, seq_len(i - 1), drop = FALSE]) + dat[, i] / 2,
             text = paste(signif(dat[, i], 2)),
             font = list(
-              family = theme$font_family,
+              family = theme[["font_family"]],
               size = font_size,
               color = annotate_col
             ),
@@ -273,14 +273,14 @@ draw_bar <- function(x,
 
   # Layout ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
   legend_ <- list(
     x = legend_xy[1],
@@ -289,7 +289,7 @@ draw_bar <- function(x,
     yanchor = legend_yanchor,
     bgcolor = "#ffffff00",
     font = list(
-      family = theme$font_family,
+      family = theme[["font_family"]],
       size = font_size,
       color = legend_col
     ),
@@ -303,9 +303,9 @@ draw_bar <- function(x,
       # mirror = axes_mirrored,
       range = ylim,
       titlefont = f,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = FALSE,
@@ -318,7 +318,7 @@ draw_bar <- function(x,
       titlefont = f,
       showgrid = FALSE,
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
       automargin = automargin_x
@@ -327,12 +327,12 @@ draw_bar <- function(x,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj
+      x = theme[["main_adj"]]
     ),
     paper_bgcolor = bg,
     plot_bgcolor = plot_bg,
@@ -343,7 +343,7 @@ draw_bar <- function(x,
 
   # hline ----
   if (!is.null(hline)) {
-    if (is.null(hline_col)) hline_col <- theme$fg
+    if (is.null(hline_col)) hline_col <- theme[["fg"]]
     hline_col <- recycle(hline_col, hline)
     hline_width <- recycle(hline_width, hline)
     hline_dash <- recycle(hline_dash, hline)
@@ -372,7 +372,7 @@ draw_bar <- function(x,
         y = hline,
         text = hline_annotate,
         font = list(
-          family = theme$font_family,
+          family = theme[["font_family"]],
           size = font_size,
           color = annotate_col
         ),
@@ -382,7 +382,7 @@ draw_bar <- function(x,
   }
 
   # Padding
-  plt$sizingPolicy$padding <- padding
+  plt[["sizingPolicy"]][["padding"]] <- padding
 
   # Config
   plt <- plotly::config(plt,

@@ -181,21 +181,18 @@ draw_xt <- function(
   }
   .yname <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   .y2name <- labelify(gsub(".*\\$", "", deparse(substitute(y2))))
-  # if (is.null(y2name) && !is.null(y2)) {
-  #   y2name <- labelify(gsub(".*\\$", "", deparse(substitute(y2))))
-  # }
-
+  
   # Data ----
   if (inherits(x, "xt")) {
-    y <- x$y
-    x2 <- x$x2
-    y2 <- x$y2
-    xunits <- x$xunits
-    yunits <- x$yunits
-    y2units <- x$y2units
-    shade_bin <- x$Shade
-    zt <- x$zt
-    x <- x$x
+    y <- x[["y"]]
+    x2 <- x[["x2"]]
+    y2 <- x[["y2"]]
+    xunits <- x[["xunits"]]
+    yunits <- x[["yunits"]]
+    y2units <- x[["y2units"]]
+    shade_bin <- x[["Shade"]]
+    zt <- x[["zt"]]
+    x <- x[["x"]]
     if (!is.null(names(x)) && length(x) == 1) {
       .xname <- names(x)
     } else {
@@ -327,15 +324,15 @@ draw_xt <- function(
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col, theme$grid_alpha)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  legend_col <- labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
-  if (!theme$axes_visible) tick_col <- labs_col <- "transparent"
-  if (is.null(spike_col)) spike_col <- theme$fg
-  zero_col <- adjustcolor(theme$zerolines_col, theme$zerolines_alpha)
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  legend_col <- labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
+  if (is.null(spike_col)) spike_col <- theme[["fg"]]
+  zero_col <- adjustcolor(theme[["zerolines_col"]], theme[["zerolines_alpha"]])
 
   # Colors ----
   # if (is.null(line1.fill.col)) line1.fill.col <- plotly::toRGB(line1.col, alpha = 0.4)
@@ -358,14 +355,14 @@ draw_xt <- function(
 
   # Fonts ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   tick_font <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = tickfont_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
 
   # Calculate shade_interval from shade_bin ----
@@ -432,7 +429,7 @@ draw_xt <- function(
   # Shade intervals ----
   if (!is.null(shade_interval)) {
     if (is.null(shade_x)) shade_x <- x[[1]]
-    if (is.null(shade_col)) shade_col <- plotly::toRGB(theme$fg, 0.15)
+    if (is.null(shade_col)) shade_col <- plotly::toRGB(theme[["fg"]], 0.15)
     ymax <- max(unlist(y), unlist(y2))
     # Draw shaded rectangles
     for (i in seq_along(shade_interval)) {
@@ -530,18 +527,18 @@ draw_xt <- function(
       spikedash = spike_dash,
       spikecolor = spike_col,
       spikethickness = x_spike_thickness,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickmode = x_tickmode,
       tickvals = x_tickvals,
       ticktext = x_ticktext,
       tickangle = x_tickangle,
       tickcolor = tick_col,
       tickfont = tick_font,
-      zeroline = theme$zerolines,
+      zeroline = theme[["zerolines"]],
       zerolinecolor = zero_col,
-      zerolinewidth = theme$zerolines_lwd
+      zerolinewidth = theme[["zerolines_lwd"]]
     ), # /layout > xaxis
     yaxis = list(
       title = list(
@@ -550,25 +547,25 @@ draw_xt <- function(
         font = f
       ),
       nticks = y_nticks,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tick_font,
-      zeroline = theme$zerolines,
+      zeroline = theme[["zerolines"]],
       zerolinecolor = zero_col,
-      zerolinewidth = theme$zerolines_lwd,
+      zerolinewidth = theme[["zerolines_lwd"]],
       standoff = y_standoff
     ), # /layout > yaxis
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj,
+      x = theme[["main_adj"]],
       yref = "paper",
       y = main_y,
       yanchor = main_yanchor
@@ -579,7 +576,7 @@ draw_xt <- function(
       xanchor = legend_xanchor,
       yanchor = legend_yanchor,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = legend_col
       ),

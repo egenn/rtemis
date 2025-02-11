@@ -200,7 +200,7 @@ decom_algorithms <- data.frame(rbind(
   c("PCA", "Principal Component Analysis"),
   # c("SPCA", "Sparse Principal Component Analysis"),
   # c("SVD", "Singular Value Decomposition"),
-  c("TSNE", "t-distributed Stochastic Neighbor Embedding"),
+  c("tSNE", "t-distributed Stochastic Neighbor Embedding"),
   c("UMAP", "Uniform Manifold Approximation and Projection")
 ))
 

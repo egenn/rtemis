@@ -149,7 +149,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   # CLUSTER ----
   if (!is.null(cluster)) {
     group <- suppressWarnings(do.call(
-      select_clust(cluster),
+      get_clust_fn(cluster),
       c(
         list(
           x = data.frame(x, y),
@@ -157,7 +157,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         ),
         cluster_params
       )
-    )$clusters.train)
+    )@clusters)
     group <- paste("Cluster", group)
   }
 
@@ -266,17 +266,17 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     }
   }
 
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col, theme$grid_alpha)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
-  if (!theme$axes_visible) tick_col <- labs_col <- "transparent"
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
 
-  # marker_col, se_col ===
+  # marker_col, se_col ----
   if (is.null(marker_col)) {
-    marker_col <- if (!is.null(fit) && n_groups == 1) as.list(rep(theme$fg, n_groups)) else col
+    marker_col <- if (!is.null(fit) && n_groups == 1) as.list(rep(theme[["fg"]], n_groups)) else col
   }
 
   if (!is.null(fit)) {
@@ -297,7 +297,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   if (rsq) .rsq <- list() else .rsq <- NULL
   # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
-    learner <- select_learn(fit, fn = FALSE)
+    learner <- get_train_fn(fit)
     fitted <- list()
     fitted_text <- character()
     for (i in seq_len(n_groups)) {
@@ -308,25 +308,26 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         fit_params,
         list(...)
       )
-      if (fit == "NLS") {
-        learner_args <- c(
-          learner_args,
-          list(formula = formula, save.func = TRUE)
-        )
-      }
+      # if (fit == "NLS") {
+      #   learner_args <- c(
+      #     learner_args,
+      #     list(formula = formula, save.func = TRUE)
+      #   )
+      # }
       mod <- do.call(learner, learner_args)
       fitted[[i]] <- fitted(mod)
       if (se_fit) se[[i]] <- se(mod)
-      fitted_text[i] <- switch(fit,
-        NLS = mod$extra$model,
-        NLA = mod$mod$formula,
-        fit
-      )
+      # fitted_text[i] <- switch(fit,
+      #   NLS = mod$extra$model,
+      #   NLA = mod$mod$formula,
+      #   fit
+      # )
+      fitted_text[i] <- fit
       if (rsq) {
         fitted_text[i] <- paste0(
           fitted_text[i],
           if (n_groups == 1) " (" else " ",
-          "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+          "R<sup>2</sup> = ", ddSci(mod@metrics_training[["Rsq"]]),
           if (n_groups == 1) ")"
         )
       }
@@ -412,14 +413,14 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   # Layout ----
   # '- layout ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = tick_font_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
   .legend <- list(
     x = legend_xy[1],
@@ -427,7 +428,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     y = legend_xy[2],
     yanchor = legend_yanchor,
     font = list(
-      family = theme$font_family,
+      family = theme[["font_family"]],
       size = font_size,
       color = legend_col
     ),
@@ -445,9 +446,9 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         showline = axes_visible,
         mirror = axes_mirrored,
         titlefont = f,
-        showgrid = theme$grid,
+        showgrid = theme[["grid"]],
         gridcolor = grid_col,
-        gridwidth = theme$grid_lwd,
+        gridwidth = theme[["grid_lwd"]],
         tickcolor = tick_col,
         tickfont = tickfont,
         zeroline = FALSE,
@@ -458,9 +459,9 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         showline = axes_visible,
         mirror = axes_mirrored,
         titlefont = f,
-        showgrid = theme$grid,
+        showgrid = theme[["grid"]],
         gridcolor = grid_col,
-        gridwidth = theme$grid_lwd,
+        gridwidth = theme[["grid_lwd"]],
         tickcolor = tick_col,
         tickfont = tickfont,
         zeroline = FALSE,
@@ -471,9 +472,9 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         showline = axes_visible,
         mirror = axes_mirrored,
         titlefont = f,
-        showgrid = theme$grid,
+        showgrid = theme[["grid"]],
         gridcolor = grid_col,
-        gridwidth = theme$grid_lwd,
+        gridwidth = theme[["grid_lwd"]],
         tickcolor = tick_col,
         tickfont = tickfont,
         zeroline = FALSE,
@@ -483,7 +484,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       )
@@ -497,7 +498,7 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   )
 
   # Padding
-  plt$sizingPolicy$padding <- padding
+  plt[["sizingPolicy"]][["padding"]] <- padding
   # Config
   plt <- plotly::config(plt,
     displaylogo = FALSE,

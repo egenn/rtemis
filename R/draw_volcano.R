@@ -113,7 +113,7 @@ draw_volcano <- function(x, pvals,
                          hline_annotate = NULL,
                          hline_annotation_x = 1,
                          annotate = TRUE,
-                         annotate_col = theme$labs_col,
+                         annotate_col = theme[["labs_col"]],
                          theme = rtemis_theme,
                          font_size = 16,
                          palette = NULL,
@@ -152,7 +152,7 @@ draw_volcano <- function(x, pvals,
   if (is.null(xlab)) xlab <- labelify(xname)
 
   if (is.null(ylab)) {
-    ylab <- paste(print_fn(p_transform), "p-value")
+    ylab <- paste(ddSci(p_transform), "p-value")
   }
 
   # Default to lo - ns - hi groups
@@ -234,7 +234,7 @@ draw_volcano <- function(x, pvals,
       showarrow = FALSE,
       font = list(
         color = palette[[1]],
-        family = theme$font.family,
+        family = theme[["font_family"]],
         size = font_size
       )
     )
@@ -250,7 +250,7 @@ draw_volcano <- function(x, pvals,
       showarrow = FALSE,
       font = list(
         color = palette[[3]],
-        family = theme$font.family,
+        family = theme[["font_family"]],
         size = font_size
       )
     )
@@ -285,7 +285,7 @@ draw_volcano <- function(x, pvals,
         y = lo_pval,
         text = lo_name,
         arrowhead = 4,
-        arrowcolor = adjustcolor(theme$fg, .33),
+        arrowcolor = adjustcolor(theme[["fg"]], .33),
         arrowsize = .5,
         arrowwidth = 1,
         ax = ax_lo,
@@ -293,8 +293,8 @@ draw_volcano <- function(x, pvals,
         xanchor = "left",
         font = list(
           size = 16,
-          family = theme$font.family,
-          color = adjustcolor(theme$fg, annotate_alpha)
+          family = theme[["font_family"]],
+          color = adjustcolor(theme[["fg"]], annotate_alpha)
         )
       )
     }
@@ -316,7 +316,7 @@ draw_volcano <- function(x, pvals,
         y = hi_pval,
         text = hi_name,
         arrowhead = 4,
-        arrowcolor = adjustcolor(theme$fg, .33),
+        arrowcolor = adjustcolor(theme[["fg"]], .33),
         arrowsize = .5,
         arrowwidth = 1,
         ax = ax_hi,
@@ -324,8 +324,8 @@ draw_volcano <- function(x, pvals,
         xanchor = "right",
         font = list(
           size = 16,
-          family = theme$font.family,
-          color = adjustcolor(theme$fg, annotate_alpha)
+          family = theme[["font_family"]],
+          color = adjustcolor(theme[["fg"]], annotate_alpha)
         )
       )
     }
@@ -333,7 +333,7 @@ draw_volcano <- function(x, pvals,
 
   # hline ----
   if (!is.null(hline)) {
-    if (is.null(hline_col)) hline_col <- theme$fg
+    if (is.null(hline_col)) hline_col <- theme[["fg"]]
     hline_col <- recycle(hline_col, hline)
     hline_width <- recycle(hline_width, hline)
     hline_dash <- recycle(hline_dash, hline)
@@ -362,7 +362,7 @@ draw_volcano <- function(x, pvals,
         y = hline,
         text = hline_annotate,
         font = list(
-          family = theme$font.family,
+          family = theme[["font_family"]],
           size = font_size,
           color = annotate_col
         ),

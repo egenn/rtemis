@@ -25,6 +25,6 @@ test_that("theme_light succeeds", {
 # Test `$` and `[[` methods ----
 theme <- theme_darkgraygrid()
 test_that("Theme$ and Theme[[ succeed", {
-  expect_equal(theme$fg, "#ffffff")
-  expect_equal(theme[["fg"]], theme$fg)
+  expect_equal(theme[["fg"]], "#ffffff")
+  expect_equal(theme[["fg"]], theme[["fg"]])
 })

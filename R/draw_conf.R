@@ -58,7 +58,7 @@ draw_conf <- function(
     file_scale = 1, ...) {
   # Input ----
   if (S7_inherits(x, ClassificationMetrics)) {
-    x <- x@metrics$Confusion_Matrix
+    x <- x@metrics[["Confusion_Matrix"]]
   }
 
   if (is.null(dim(x)) || ncol(x) != nrow(x)) {
@@ -92,22 +92,22 @@ draw_conf <- function(
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col, theme$grid_alpha)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  legend_col <- labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  legend_col <- labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
 
   # Colors ----
-  pos_color <- colorRamp(colors = c(theme$bg, true_col))
-  neg_color <- colorRamp(colors = c(theme$bg, false_col))
+  pos_color <- colorRamp(colors = c(theme[["bg"]], true_col))
+  neg_color <- colorRamp(colors = c(theme[["bg"]], false_col))
 
   # Fonts ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
-    color = theme$labs_col
+    color = theme[["labs_col"]]
   )
 
   # Plot ----
@@ -148,12 +148,12 @@ draw_conf <- function(
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj,
+      x = theme[["main_adj"]],
       yref = "paper",
       y = main_y,
       yanchor = main_yanchor
@@ -219,7 +219,7 @@ draw_conf <- function(
       y = c(0, 0, nclasses, nclasses),
       line = list(color = "transparent"),
       fill = "toself",
-      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      fillcolor = plotly::toRGB(theme[["fg"]], alpha = .075),
       showlegend = FALSE
     )
 
@@ -245,7 +245,7 @@ draw_conf <- function(
       y = c(nclasses, nclasses, nclasses + .3, nclasses + .3, nclasses),
       line = list(color = "transparent"),
       fill = "toself",
-      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      fillcolor = plotly::toRGB(theme[["fg"]], alpha = .075),
       showlegend = FALSE
     )
 
@@ -282,7 +282,7 @@ draw_conf <- function(
       y = c(nclasses, nclasses, nclasses + 0.2, nclasses + 0.2, nclasses),
       line = list(color = "transparent"),
       fill = "toself",
-      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      fillcolor = plotly::toRGB(theme[["fg"]], alpha = .075),
       showlegend = FALSE
     )
 
@@ -318,7 +318,7 @@ draw_conf <- function(
       y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
       line = list(color = "transparent"),
       fill = "toself",
-      fillcolor = plotly::toRGB(theme$fg, alpha = .05),
+      fillcolor = plotly::toRGB(theme[["fg"]], alpha = .05),
       showlegend = FALSE
     )
 
@@ -354,7 +354,7 @@ draw_conf <- function(
       y = c(0, 0, nclasses, nclasses),
       line = list(color = "transparent"),
       fill = "toself",
-      fillcolor = plotly::toRGB(theme$fg, alpha = .075),
+      fillcolor = plotly::toRGB(theme[["fg"]], alpha = .075),
       showlegend = FALSE
     )
 
@@ -391,7 +391,7 @@ draw_conf <- function(
       y = c(0, 0, nclasses, nclasses),
       line = list(color = "transparent"),
       fill = "toself",
-      fillcolor = plotly::toRGB(theme$fg, alpha = .05),
+      fillcolor = plotly::toRGB(theme[["fg"]], alpha = .05),
       showlegend = FALSE
     )
 
@@ -418,7 +418,7 @@ draw_conf <- function(
     y = c(nclasses, nclasses, nclasses + ba_pad, nclasses + ba_pad),
     line = list(color = "transparent"),
     fill = "toself",
-    fillcolor = plotly::toRGB(theme$fg, alpha = .025),
+    fillcolor = plotly::toRGB(theme[["fg"]], alpha = .025),
     showlegend = FALSE
   )
 
@@ -482,8 +482,8 @@ make_plotly_conf_tile <- function(
     text = paste0("<b>", x[i, j], "</b>"),
     textposition = "middle center",
     textfont = list(
-      family = theme$font_family,
-      color = ifelse(val > 0.5, theme$bg, theme$fg),
+      family = theme[["font_family"]],
+      color = ifelse(val > 0.5, theme[["bg"]], theme[["fg"]]),
       size = font_size
     ),
     showlegend = FALSE

@@ -17,25 +17,25 @@ test_that("regression_metrics() succeeds", {
 reg_metrics2 <- regression_metrics(true, predicted2, sample = "Testing")
 
 # Classification Data ----
-true <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
-predicted <- factor(c("a", "b", "a", "b", "b", "a", "b", "b", "b", "a"))
-predicted_prob <- 1 - c(0.7, 0.45, 0.55, 0.25, 0.43, 0.7, 0.2, .37, .38, .61)
-predicted2 <- factor(c("b", "a", "a", "b", "b", "b", "a", "a", "b", "a"))
-predicted_prob2 <- 1 - c(0.3, 0.55, 0.45, 0.75, 0.57, 0.3, 0.8, .63, .62, .39)
+true_labels <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
+predicted_labels <- factor(c("a", "b", "a", "b", "b", "a", "b", "b", "b", "a"))
+predicted_prob <- c(0.3, 0.6, 0.45, 0.75, 0.57, 0.3, 0.8, 0.63, 0.62, 0.39)
+predicted_prob2 <- c(0.2, 0.52, 0.28, 0.85, 0.64, 0.45, 0.9, 0.78, 0.78, 0.47)
 
 # ClassificationMetrics ----
-class_metrics <- classification_metrics(true, predicted, sample = "Training")
-class_metrics
-class_metrics <- classification_metrics(true, predicted, predicted_prob, sample = "Training")
-class_metrics
-test_that("classification_metrics() succeeds", {
-  expect_s7_class(
-    classification_metrics(true, predicted, predicted_prob, sample = "Training"),
-    ClassificationMetrics
-  )
-})
-class_metrics2 <- classification_metrics(true, predicted2, predicted_prob2, sample = "Testing")
+class_metrics1 <- classification_metrics(true_labels, predicted_labels, predicted_prob, sample = "Training")
+class_metrics2 <- classification_metrics(true_labels, predicted_labels, predicted_prob2, sample = "Testing")
 
+test_that("classification_metrics() succeeds", {
+  expect_s7_class(class_metrics1, ClassificationMetrics)
+  expect_s7_class(class_metrics2, ClassificationMetrics)
+})
+
+# Test that class_metrics2 has higher AUC and lower Brier score than class_metrics1
+test_that("classification_metrics() returns correct metrics", {
+  expect_true(class_metrics2@metrics[["Overall"]][["AUC"]] > class_metrics1@metrics[["Overall"]][["AUC"]])
+  expect_true(class_metrics2@metrics[["Overall"]][["Brier_Score"]] < class_metrics1@metrics[["Overall"]][["Brier_Score"]])
+})
 
 # RegressionMetricsCV ----
 cv_metrics <- list(mod1 = reg_metrics, mod2 = reg_metrics2)
@@ -44,11 +44,18 @@ rmcv <- RegressionMetricsCV(
   cv_metrics = cv_metrics
 )
 rmcv
+test_that("RegressionMetricsCV() succeeds", {
+  expect_s7_class(rmcv, RegressionMetricsCV)
+})
 
 # ClassificationMetricsCV ----
-cv_metrics <- list(mod1 = class_metrics, mod2 = class_metrics2)
+cv_metrics <- list(mod1 = class_metrics1, mod2 = class_metrics2)
 cmcv <- ClassificationMetricsCV(
   sample = "Testing",
   cv_metrics = cv_metrics
 )
 cmcv
+
+test_that("ClassificationMetricsCV() succeeds", {
+  expect_s7_class(cmcv, ClassificationMetricsCV)
+})

@@ -156,7 +156,7 @@ glm2table <- function(x,
   )
 
   # Convert p-vals equal to 0 to machine double eps
-  eps <- .Machine$double.eps
+  eps <- .Machine[["double.eps"]]
   pvals_idi <- getnames(out, ends_with = "p_value")
   # appease R CMD check:, use with = FALSE, not ..i
   for (i in pvals_idi) {
@@ -227,13 +227,13 @@ gam2table <- function(mods,
 #' @keywords internal
 #' @noRd
 get_gam_pvals <- function(m, warn = TRUE) {
-  eps <- .Machine$double.eps
+  eps <- .Machine[["double.eps"]]
   ms <- summary(m)
   pvals <- cbind(
     # s terms
-    as.data.frame(t(ms$s.table[, 4])),
+    as.data.frame(t(ms[["s.table"]][, 4])),
     # p terms
-    as.data.frame(t(ms$p.table[, 4]))[-1]
+    as.data.frame(t(ms[["p.table"]][, 4]))[-1]
   )
   lteps <- pvals < eps
   if (length(lteps) > 0) {
@@ -271,7 +271,7 @@ class_imbalance <- function(x) {
   N <- length(x)
   freq <- as.data.frame(table(x))
 
-  K * sum(sapply(seq(K), function(i) (freq$Freq[i] / N - 1 / K)^2))
+  K * sum(sapply(seq(K), function(i) (freq[["Freq"]][i] / N - 1 / K)^2))
 } # rtemis::class_imbalance
 
 
@@ -289,7 +289,7 @@ class_imbalance <- function(x) {
 #' @export
 
 predict.nullmod <- function(object, newdata = NULL, ...) {
-  if (!is.null(object$fitted)) object$fitted else 0
+  if (!is.null(object[["fitted"]])) object[["fitted"]] else 0
 } # rtemis::predict.nullmod
 
 

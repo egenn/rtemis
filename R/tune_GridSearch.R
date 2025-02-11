@@ -29,7 +29,8 @@ tune_GridSearch <- function(x,
                             tuner_parameters,
                             weights = NULL,
                             save_mods = FALSE,
-                            verbosity = 1L) {
+                            verbosity = 1L,
+                            parallel_type = "none") {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
@@ -39,8 +40,7 @@ tune_GridSearch <- function(x,
 
   # Intro ----
   start_time <- intro(
-    message = "Running grid search...",
-    call_depth = 2,
+    message = paste0("Running grid search (parallelization: ", parallel_type, ")"),
     newline_pre = TRUE,
     verbosity = verbosity,
     caller = "tune_GridSearch"
@@ -49,27 +49,30 @@ tune_GridSearch <- function(x,
   # Arguments ----
   algorithm <- hyperparameters@algorithm
 
-  # future plan ----
-  n_workers <- get_n_workers_for_learner(
-    algorithm = hyperparameters@algorithm,
-    plan = tuner_parameters$future_plan,
-    n_workers = tuner_parameters$n_workers,
-    verbosity = verbosity - 1L
-  )
-  if (!is.null(tuner_parameters$future_plan)) {
-    # => Only allow parallelization on same machine, if learner is NOT parallelized itself.
-    og_plan <- plan()
-    on.exit(plan(og_plan), add = TRUE)
-    # => Only pass n_workers if arg workers is supported by plan
-    future::plan(tuner_parameters$future_plan, workers = tuner_parameters$n_workers)
-    if (verbosity > 0L) {
-      msg20(hilite2(
-        "Tuning crossvalidation (inner resampling) future plan set to ",
-        tuner_parameters$future_plan, "with ", singorplu(n_workers, "worker"), "."
-      ))
-    }
-  }
-  # rtemis_init(n_cores, context = "Inner resampling")
+  # parallel ----
+  # if (parallel_type == "future") {
+  #   if (!is.null(tuner_parameters[["parallel_type"]])) {
+  #     # => Only allow parallelization on same machine, if learner is NOT parallelized itself.
+  #     og_plan <- plan()
+  #     on.exit(plan(og_plan), add = TRUE)
+  #     # => Only pass n_workers if arg workers is supported by plan
+  #     # substitute = FALSE is required when using `[[`- indexing (as opposed to `$`)
+  #     future::plan(
+  #       strategy = tuner_parameters[["parallel_type"]],
+  #       workers = tuner_parameters[["n_workers"]],
+  #       substitute = FALSE
+  #     )
+  #     if (verbosity > 0L) {
+  #       msg20(hilite2(
+  #         "Tuning crossvalidation (inner resampling) future plan set to ",
+  #         tuner_parameters[["parallel_type"]], "with ", singorplu(n_workers, "worker"), "."
+  #       ))
+  #     }
+  #   }
+  #   # rtemis_init(n_cores, context = "Inner resampling")
+  # } else if (parallel_type == "mirai") {
+  #   mirai::daemons(n = n_workers)
+  # }
 
   # Arguments ----
   # if (verbosity > 1) {
@@ -82,8 +85,8 @@ tune_GridSearch <- function(x,
   # Make Grid ----
   grid_params <- get_params_need_tuning(hyperparameters)
   n_params <- length(grid_params)
-  n_resamples <- tuner_parameters$resampler_parameters$n
-  search_type <- tuner_parameters$search_type
+  n_resamples <- tuner_parameters[["resampler_parameters"]][["n"]]
+  search_type <- tuner_parameters[["search_type"]]
   # expand_grid convert NULL to "null" for expansion to work.
   param_grid <- expand_grid(grid_params, stringsAsFactors = FALSE)
   # param_grid <- expand.grid(grid_params, stringsAsFactors = FALSE)
@@ -97,20 +100,22 @@ tune_GridSearch <- function(x,
   if (search_type == "randomized") {
     index_per_resample <- sample(
       n_param_combinations,
-      round(tuner_parameters$randomize_p * n_param_combinations)
+      round(tuner_parameters[["randomize_p"]] * n_param_combinations)
     )
     res_param_grid <- res_param_grid[rep(index_per_resample, n_resamples), ]
   }
 
   # Resamples ----
   res <- resample(
-    x,
-    parameters = tuner_parameters$resampler_parameters,
+    x = x,
+    parameters = tuner_parameters[["resampler_parameters"]],
     verbosity = verbosity
   )
 
   # learner1 ----
-  ptn <- progressr::progressor(steps = NROW(res_param_grid))
+  if (parallel_type != "mirai") {
+    ptn <- progressr::progressor(steps = NROW(res_param_grid))
+  }
   learner1 <- function(index,
                        x,
                        res,
@@ -162,17 +167,17 @@ tune_GridSearch <- function(x,
     # Algorithm-specific params ----
     # => add to hyperparameters
     if (algorithm == "GLMNET") {
-      out1$hyperparameters@hyperparameters$lambda.min <- mod1@model$lambda.min
-      out1$hyperparameters@hyperparameters$lambda.1se <- mod1@model$lambda.1se
+      out1[["hyperparameters"]]@hyperparameters[["lambda.min"]] <- mod1@model[["lambda.min"]]
+      out1[["hyperparameters"]]@hyperparameters[["lambda.1se"]] <- mod1@model[["lambda.1se"]]
     }
     if (algorithm == "LightGBM") {
       # Check best_iter is meaningful, otherwise issue message and set to 100L
-      best_iter <- mod1@model$best_iter
+      best_iter <- mod1@model[["best_iter"]]
       if (is.null(best_iter) || best_iter == -1 || best_iter == 0) {
         info(bold(italic("best_iter returned from lightgbm:", best_iter, " - setting to 100L")))
         best_iter <- 100L
       }
-      out1$hyperparameters@hyperparameters$best_iter <- best_iter
+      out1[["hyperparameters"]]@hyperparameters[["best_iter"]] <- best_iter
     }
     # if (algorithm %in% c("LINAD", "LINOA")) {
     #   out1$est.n.leaves <- mod1$mod$n.leaves
@@ -180,8 +185,10 @@ tune_GridSearch <- function(x,
     # if (algorithm == "LIHADBoost") {
     #   out1$sel.n.steps <- mod1$mod$selected.n.steps
     # }
-    if (save_mods) out1$mod1 <- mod1
-    ptn(sprintf("Tuning resample %i/%i", index, n_res_x_comb))
+    if (save_mods) out1[["mod1"]] <- mod1
+    if (parallel_type != "mirai") {
+      ptn(sprintf("Tuning resample %i/%i", index, n_res_x_comb))
+    }
     out1
   } # /learner1
 
@@ -196,31 +203,62 @@ tune_GridSearch <- function(x,
     msg20(
       hilite(n_param_combinations), " parameter combinations x ",
       hilite(n_resamples), " resamples: ",
-      hilite(n_res_x_comb), " models total running on ",
-      singorplu(n_workers, "worker"),
+      hilite(n_res_x_comb), " models total",
+      # hilite(n_res_x_comb), " models total running on ",
+      # singorplu(n_workers, "worker"),
       " (", Sys.getenv("R_PLATFORM"), ")."
     )
   }
 
-  grid_run <- future.apply::future_lapply(
-    X = seq_len(n_res_x_comb),
-    FUN = learner1,
-    x = x,
-    res = res,
-    hyperparameters = hyperparameters,
-    res_param_grid = res_param_grid,
-    weights = weights,
-    verbosity = verbosity,
-    save_mods = save_mods,
-    n_res_x_comb = n_res_x_comb,
-    future.seed = TRUE,
-    future.globals = FALSE # See: https://github.com/futureverse/globals/issues/93
-  )
+  if (parallel_type == "none") {
+    grid_run <- lapply(
+      X = seq_len(n_res_x_comb),
+      FUN = learner1,
+      x = x,
+      res = res,
+      hyperparameters = hyperparameters,
+      res_param_grid = res_param_grid,
+      weights = weights,
+      verbosity = verbosity,
+      save_mods = save_mods,
+      n_res_x_comb = n_res_x_comb
+    )
+  } else  if (parallel_type == "future") {
+    grid_run <- future.apply::future_lapply(
+      X = seq_len(n_res_x_comb),
+      FUN = learner1,
+      x = x,
+      res = res,
+      hyperparameters = hyperparameters,
+      res_param_grid = res_param_grid,
+      weights = weights,
+      verbosity = verbosity,
+      save_mods = save_mods,
+      n_res_x_comb = n_res_x_comb,
+      future.seed = TRUE,
+      future.globals = FALSE # See: https://github.com/futureverse/globals/issues/93
+    )
+  } else if (parallel_type == "mirai") {
+    grid_run <- mirai::mirai_map(
+      .x = seq_len(n_res_x_comb),
+      .f = learner1,
+      .args = list(
+        x = x,
+        res = res,
+        hyperparameters = hyperparameters,
+        res_param_grid = res_param_grid,
+        weights = weights,
+        verbosity = verbosity,
+        save_mods = save_mods,
+        n_res_x_comb = n_res_x_comb
+      )
+    )
+  }
 
   # Metric ----
   type <- supervised_type(x)
-  metric <- tuner_parameters@parameters$metric
-  maximize <- tuner_parameters@parameters$maximize
+  metric <- tuner_parameters@parameters[["metric"]]
+  maximize <- tuner_parameters@parameters[["maximize"]]
   if (is.null(metric)) {
     if (type == "Classification") {
       metric <- "Balanced_Accuracy"
@@ -229,45 +267,52 @@ tune_GridSearch <- function(x,
     } else {
       metric <- "Concordance"
     }
-    tuner_parameters@parameters$metric <- metric
+    tuner_parameters@parameters[["metric"]] <- metric
   }
   if (is.null(maximize)) {
     maximize <- metric %in% c("Accuracy", "Balanced_Accuracy", "Concordance", "Rsq", "r")
-    tuner_parameters@parameters$maximize <- maximize
+    tuner_parameters@parameters[["maximize"]] <- maximize
   }
   select_fn <- if (maximize) which.max else which.min
   verb <- if (maximize) "maximize" else "minimize"
 
   # Aggregate ----
   # Average test errors
+  # if using mirai, wait for all to finish
+  if (parallel_type == "mirai") {
+    # Appease R CMD check
+    .progress_cli <- NULL
+    grid_run <- grid_run[.progress_cli]
+    # grid_run <- mirai::collect_mirai(grid_run)
+  }
   if (type %in% c("Regression", "Survival")) {
     metrics_training_all <- as.data.frame(t(sapply(
       grid_run,
-      function(r) unlist(r$metrics_training@metrics)
+      function(r) unlist(r[["metrics_training"]]@metrics)
     )))
     metrics_validation_all <- as.data.frame(t(sapply(
       grid_run,
-      function(r) unlist(r$metrics_validation@metrics)
+      function(r) unlist(r[["metrics_validation"]]@metrics)
     )))
   } else if (type == "Classification") {
     metrics_training_all <- as.data.frame(t(sapply(
       grid_run,
-      function(r) unlist(r$metrics_training@metrics$Overall)
+      function(r) unlist(r[["metrics_training"]]@metrics[["Overall"]])
     )))
     metrics_validation_all <- as.data.frame(t(sapply(
       grid_run,
-      function(r) unlist(r$metrics_validation@metrics$Overall)
+      function(r) unlist(r[["metrics_validation"]]@metrics[["Overall"]])
     )))
   }
-  metrics_validation_all$param_combo_id <- rep(seq_len(n_param_combinations), each = n_resamples)
-  metrics_training_all$param_combo_id <- rep(seq_len(n_param_combinations), each = n_resamples)
+  metrics_validation_all[["param_combo_id"]] <- rep(seq_len(n_param_combinations), each = n_resamples)
+  metrics_training_all[["param_combo_id"]] <- rep(seq_len(n_param_combinations), each = n_resamples)
   metrics_training_by_combo_id <- aggregate(
     . ~ param_combo_id,
-    data = metrics_training_all, FUN = tuner_parameters$metrics_aggregate_fn
+    data = metrics_training_all, FUN = tuner_parameters[["metrics_aggregate_fn"]]
   )
   metrics_validation_by_combo_id <- aggregate(
     . ~ param_combo_id,
-    data = metrics_validation_all, FUN = tuner_parameters$metrics_aggregate_fn
+    data = metrics_validation_all, FUN = tuner_parameters[["metrics_aggregate_fn"]]
   )
 
   tune_results <- list(
@@ -281,44 +326,44 @@ tune_GridSearch <- function(x,
   # automatically, we therefore need to extract it and average it
   ## GLMNET ----
   if (algorithm == "GLMNET") {
-    if (is.null(grid_params$lambda)) {
+    if (is.null(grid_params[["lambda"]])) {
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
       # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which.cv.lambda]]
       if (verbosity > 1) {
         info("Extracting best lambda from GLMNET models...")
       }
       lambda_cv2 <- data.frame(
-        lambda = sapply(grid_run, \(x) x$hyperparameters[[x$hyperparameters$which.cv.lambda]])
+        lambda = sapply(grid_run, \(x) x[["hyperparameters"]][[x[["hyperparameters"]][["which.cv.lambda"]]]])
       )
-      lambda_cv2$param_combo_id <- rep(1:n_param_combinations, each = n_resamples)
+      lambda_cv2[["param_combo_id"]] <- rep(1:n_param_combinations, each = n_resamples)
       lambda_by_param_combo_id <- aggregate(
         lambda ~ param_combo_id, lambda_cv2,
-        tuner_parameters$metrics_aggregate_fn
+        tuner_parameters[["metrics_aggregate_fn"]]
       )
       # Replace NULL lambda in tune_results$param_grid with average value of CV-squared lambda
-      stopifnot(tune_results$param_grid$lambda == "null")
-      param_grid$lambda <- tune_results$param_grid$lambda <- lambda_by_param_combo_id$lambda
+      stopifnot(tune_results[["param_grid"]][["lambda"]] == "null")
+      param_grid[["lambda"]] <- tune_results[["param_grid"]][["lambda"]] <- lambda_by_param_combo_id[["lambda"]]
     }
   } # /GLMNET
 
   ## LightGBM ----
   if (algorithm == "LightGBM") {
-    if (is.null(grid_params$nrounds)) {
+    if (is.null(grid_params[["nrounds"]])) {
       if (verbosity > 1) {
         info("Extracting best N of iterations from LightGBM models...")
       }
       nrounds_cv <- data.frame(
-        nrounds = sapply(grid_run, \(x) x$hyperparameters$best_iter)
+        nrounds = sapply(grid_run, \(x) x[["hyperparameters"]][["best_iter"]])
       )
-      nrounds_cv$param_combo_id <- rep(seq_len(n_param_combinations), each = n_resamples)
+      nrounds_cv[["param_combo_id"]] <- rep(seq_len(n_param_combinations), each = n_resamples)
       nrounds_by_param_combo_id <- aggregate(
         nrounds ~ param_combo_id, nrounds_cv,
-        tuner_parameters$metrics_aggregate_fn
+        tuner_parameters[["metrics_aggregate_fn"]]
       )
       # Replace NULL nrounds in tune_results$param_grid with average value of CV nrounds
-      stopifnot(tune_results$param_grid$nrounds == "null")
-      param_grid$nrounds <- tune_results$param_grid$nrounds <-
-        as.integer(round(nrounds_by_param_combo_id$nrounds))
+      stopifnot(tune_results[["param_grid"]][["nrounds"]] == "null")
+      param_grid[["nrounds"]] <- tune_results[["param_grid"]][["nrounds"]] <-
+        as.integer(round(nrounds_by_param_combo_id[["nrounds"]]))
     }
   } # /LightGBM
 
@@ -413,7 +458,7 @@ tune_GridSearch <- function(x,
   # so that in case of tie, lowest value is chosen -
   # if that makes sense, e.g. n.leaves, etc.
   best_param_combo_id <- as.integer(
-    tune_results$metrics_validation[select_fn(tune_results$metrics_validation[[metric]]), 1]
+    tune_results[["metrics_validation"]][select_fn(tune_results[["metrics_validation"]][[metric]]), 1]
   )
   best_param_combo <- as.list(param_grid[best_param_combo_id, -1, drop = FALSE])
   if (verbosity > 0L) {
@@ -439,4 +484,4 @@ tune_GridSearch <- function(x,
     ),
     best_hyperparameters = best_param_combo
   )
-} # rtemis::grid_search
+} # /rtemis::tune_GridSearch

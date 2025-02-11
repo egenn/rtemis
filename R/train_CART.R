@@ -22,7 +22,6 @@ train_CART <- function(
     x,
     weights = NULL,
     hyperparameters = setup_CART(),
-    tuner_parameters = setup_tuner(),
     verbosity = 1L) {
   # Dependencies ----
   check_dependencies("rpart")
@@ -53,21 +52,21 @@ train_CART <- function(
     data = x,
     weights = weights,
     control = rpart::rpart.control(
-      minsplit = hyperparameters$minsplit,
-      minbucket = hyperparameters$minbucket,
-      cp = hyperparameters$cp,
-      maxcompete = hyperparameters$maxcompete,
-      maxsurrogate = hyperparameters$maxsurrogate,
-      usesurrogate = hyperparameters$usesurrogate,
-      surrogatestyle = hyperparameters$surrogatestyle,
-      maxdepth = hyperparameters$maxdepth,
-      xval = hyperparameters$xval
+      minsplit = hyperparameters[["minsplit"]],
+      minbucket = hyperparameters[["minbucket"]],
+      cp = hyperparameters[["cp"]],
+      maxcompete = hyperparameters[["maxcompete"]],
+      maxsurrogate = hyperparameters[["maxsurrogate"]],
+      usesurrogate = hyperparameters[["usesurrogate"]],
+      surrogatestyle = hyperparameters[["surrogatestyle"]],
+      maxdepth = hyperparameters[["maxdepth"]],
+      xval = hyperparameters[["xval"]]
     )
   )
 
   # Cost-Complexity Pruning ----
-  if (!is.null(hyperparameters$prune.cp)) {
-    model <- rpart::prune(model, cp = hyperparameters$prune.cp)
+  if (!is.null(hyperparameters[["prune.cp"]])) {
+    model <- rpart::prune(model, cp = hyperparameters[["prune.cp"]])
   }
   check_inherits(model, "rpart")
   model

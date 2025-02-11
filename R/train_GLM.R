@@ -13,7 +13,6 @@
 #' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters No hyperparameters available for `glm`.
-#' @param tuner_parameters NULL.
 #' @param verbosity Integer: If > 0, print messages.
 #'
 #' @author EDG
@@ -26,7 +25,6 @@ train_GLM <- function(
     dat_testing = NULL,
     weights = NULL,
     hyperparameters = NULL,
-    tuner_parameters = NULL,
     verbosity = 1L) {
   # Checks ----
   check_is_S7(hyperparameters, GLMHyperparameters)
@@ -106,5 +104,5 @@ varimp_GLM <- function(model) {
 #' @param model GLM model.
 #' @param newdata data.frame or similar: Data to predict on.
 se_GLM <- function(model, newdata) {
-  predict(model, newdata = newdata, se.fit = TRUE)$se.fit
+  predict(model, newdata = newdata, se.fit = TRUE)[["se.fit"]]
 }

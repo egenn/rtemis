@@ -1,4 +1,4 @@
-# draw_graphd3
+# draw_graphD3
 # ::rtemis::
 # EDG rtemis.org
 
@@ -18,10 +18,10 @@
 #' @param ... Additional arguments to pass to `networkD3`.
 #'
 #' @return A networkD3 graph object.
-#' 
+#'
 #' @author EDG
 #' @export
-draw_graphd3 <- function(net,
+draw_graphD3 <- function(net,
                          groups = NULL,
                          color_scale = NULL,
                          edge_col = NULL,
@@ -43,18 +43,18 @@ draw_graphd3 <- function(net,
 
   netd3 <- networkD3::igraph_to_networkD3(net)
   if (is.null(groups)) {
-    netd3$nodes$group <- "A"
+    netd3[["nodes"]][["group"]] <- "A"
   } else {
-    netd3$nodes$group <- groups
+    netd3[["nodes"]][["group"]] <- groups
   }
 
   # Colors ----
-  if (is.null(node_col) && length(unique(netd3$nodes$group)) == 1) {
-    node_col <- theme$fg
+  if (is.null(node_col) && length(unique(netd3[["nodes"]][["group"]])) == 1) {
+    node_col <- theme[["fg"]]
   }
 
   if (is.null(color_scale)) {
-    if (length(unique(netd3$nodes$group)) == 1) {
+    if (length(unique(netd3[["nodes"]][["group"]])) == 1) {
       color_scale <- paste0(
         'd3.scaleOrdinal().domain(["A"]).range(["',
         adjustcolor(node_col, node_alpha), '"]);'
@@ -78,7 +78,7 @@ draw_graphd3 <- function(net,
     if (is.null(groups)) {
       edge_col <- adjustcolor("#18A3AC", edge_alpha)
     } else {
-      edge_col <- adjustcolor(theme$fg, edge_alpha)
+      edge_col <- adjustcolor(theme[["fg"]], edge_alpha)
     }
   } else {
     edge_col <- adjustcolor(edge_col, edge_alpha)
@@ -86,8 +86,8 @@ draw_graphd3 <- function(net,
 
   # Plot ----
   fn <- networkD3::forceNetwork(
-    Links = netd3$links,
-    Nodes = netd3$nodes,
+    Links = netd3[["links"]],
+    Nodes = netd3[["nodes"]],
     Source = "source",
     Target = "target",
     NodeID = "name",
@@ -106,4 +106,4 @@ draw_graphd3 <- function(net,
   )
 
   fn
-} # rtemis::draw_graphd3
+} # rtemis::draw_graphD3

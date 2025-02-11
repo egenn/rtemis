@@ -190,25 +190,25 @@ max0 <- function(x) max(x, 0, na.rm = TRUE)
 tohtml <- function(x,
                    name = NULL,
                    css = list(
-                     font.family = "Helvetica",
+                     font_family = "Helvetica",
                      color = "#fff",
-                     background.color = "#242424"
+                     background_color = "#242424"
                    )) {
-  n_rows <- x$n_rows
-  n_cols <- x$n_cols
-  n_numeric <- x$n_numeric
-  n_integer <- x$n_integer
-  n_character <- x$n_character
-  n_factor <- x$n_factor
-  n_ordered <- x$n_ordered
-  n_date <- x$n_date
-  n_constant <- x$n_constant
-  n_duplicates <- x$n_duplicates
-  n_cols_anyna <- x$n_cols_anyna
-  n_na <- x$n_na
-  classes_na <- x$classes_na
-  na_feature_pct <- x$na_feature_pct
-  na_case_pct <- x$na_case_pct
+  n_rows <- x[["n_rows"]]
+  n_cols <- x[["n_cols"]]
+  n_numeric <- x[["n_numeric"]]
+  n_integer <- x[["n_integer"]]
+  n_character <- x[["n_character"]]
+  n_factor <- x[["n_factor"]]
+  n_ordered <- x[["n_ordered"]]
+  n_date <- x[["n_date"]]
+  n_constant <- x[["n_constant"]]
+  n_duplicates <- x[["n_duplicates"]]
+  n_cols_anyna <- x[["n_cols_anyna"]]
+  n_na <- x[["n_na"]]
+  classes_na <- x[["classes_na"]]
+  na_feature_pct <- x[["na_feature_pct"]]
+  na_case_pct <- x[["na_case_pct"]]
 
   ## Data Types ----
   numeric <- HTML(paste(
@@ -263,9 +263,9 @@ tohtml <- function(x,
       .col(n_na), "'NA'",
       ngettext(n_na, "value", "values"),
       "total",
-      tags$ul(
+      tags[["ul"]](
         lapply(seq_along(classes_na), \(i) {
-          tags$li(HTML(paste(
+          tags[["li"]](HTML(paste(
             .col(classes_na[i]),
             tolower(names(classes_na)[i])
             # ngettext(classes_na[i], "feature", "features")
@@ -280,7 +280,7 @@ tohtml <- function(x,
   ## Recs ----
   rec_char <- NULL
   rec_constant <- if (n_constant > 0) {
-    tags$li(HTML(paste(html_orange(
+    tags[["li"]](HTML(paste(html_orange(
       "Remove the constant",
       ngettext(n_constant, "feature", "features")
     ))))
@@ -289,7 +289,7 @@ tohtml <- function(x,
   }
 
   rec_dups <- if (n_duplicates > 0) {
-    tags$li(HTML(paste(html_orange(
+    tags[["li"]](HTML(paste(html_orange(
       "Consider removing the duplicate",
       ngettext(n_duplicates, "case", "cases")
     ))))
@@ -298,7 +298,7 @@ tohtml <- function(x,
   }
 
   # rec_na <- if (n_cols_anyna > 0) {
-  #     tags$li(HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
+  #     tags[["li"]](HTML(paste(html_orange("Consider imputing missing values or use complete cases only"))))
   # } else {
   #     NULL
   # }
@@ -306,11 +306,11 @@ tohtml <- function(x,
   rec_na <- if (n_cols_anyna > 0) {
     list(
       if (isTRUE(classes_na["factor"] > 0)) {
-        tags$li(HTML(paste(html_orange(
+        tags[["li"]](HTML(paste(html_orange(
           "Consider assigning factor 'NA' values to new 'missing' level"
         ))))
       },
-      tags$li(HTML(paste(html_orange(
+      tags[["li"]](HTML(paste(html_orange(
         "Consider imputing missing values or using algorithms that can handle missing values"
       ))))
     )
@@ -319,7 +319,7 @@ tohtml <- function(x,
   }
 
   recs <- if (sum(n_constant, n_duplicates, n_cols_anyna) == 0) {
-    tags$li(html_success("Everything looks good"))
+    tags[["li"]](html_success("Everything looks good"))
   } else {
     list(
       rec_constant,
@@ -332,7 +332,7 @@ tohtml <- function(x,
     p(
       div(
         html_highlight(name),
-        ": A", x$class, "with",
+        ": A", x[["class"]], "with",
         html_highlight(n_rows),
         ngettext(n_rows, "row", "rows"),
         "and", html_highlight(n_cols),
@@ -342,33 +342,33 @@ tohtml <- function(x,
     ),
     p(
       span(strong("Data types"), class = "sidelined"),
-      tags$ul(
-        tags$li(numeric),
-        tags$li(integer),
-        tags$li(categorical),
-        tags$li(characters),
-        tags$li(dates)
+      tags[["ul"]](
+        tags[["li"]](numeric),
+        tags[["li"]](integer),
+        tags[["li"]](categorical),
+        tags[["li"]](characters),
+        tags[["li"]](dates)
       )
     ), # p Data Types
     p(
       span(strong("Issues"), class = "sidelined"),
-      tags$ul(
-        tags$li(constants),
-        tags$li(duplicates),
-        tags$li(nas)
+      tags[["ul"]](
+        tags[["li"]](constants),
+        tags[["li"]](duplicates),
+        tags[["li"]](nas)
       )
     ), # p Issues
     p(
       span(strong("Recommendations"), class = "sidelined"),
-      tags$ul(
+      tags[["ul"]](
         recs
       )
     ), # p Recommendations
     class = "checkData",
     style = paste0(
-      "font-family:", css$font.family,
-      "; color:", css$color,
-      "; background-color:", css$background.color, ";"
+      "font-family:", css[["font_family"]],
+      "; color:", css[["color"]],
+      "; background-color:", css[["background_color"]], ";"
     )
   )
 }

@@ -132,17 +132,17 @@ draw_spectrogram <- function(x, y, z,
     }
   }
 
-  bg <- plotly::toRGB(theme$bg)
-  fg <- plotly::toRGB(theme$fg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col)
-  # tick_col <- plotly::toRGB(theme$tick_col)
-  tick_labels_col <- plotly::toRGB(theme$tick_labels_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
+  bg <- plotly::toRGB(theme[["bg"]])
+  fg <- plotly::toRGB(theme[["fg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]])
+  # tick_col <- plotly::toRGB(theme[["tick_col"]])
+  tick_labels_col <- plotly::toRGB(theme[["tick_labels_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
 
   # Colors ----
-  if (is.null(mid)) mid <- theme$bg
+  if (is.null(mid)) mid <- theme[["bg"]]
   colors <- colorgrad(
     n = colorgrad_n,
     colors = colors,
@@ -175,17 +175,17 @@ draw_spectrogram <- function(x, y, z,
   # Layout ----
   # '- layout ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = tick_labels_col
   )
   .legend <- list(font = list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = bg
   ))
@@ -201,7 +201,7 @@ draw_spectrogram <- function(x, y, z,
       tickcolor = bg,
       showline = FALSE,
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickfont = tickfont
     ),
     xaxis = list(
@@ -214,18 +214,18 @@ draw_spectrogram <- function(x, y, z,
       tickcolor = bg,
       showline = FALSE,
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickfont = tickfont
     ),
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj
+      x = theme[["main_adj"]]
     ),
     paper_bgcolor = bg,
     plot_bgcolor = bg,
@@ -240,11 +240,11 @@ draw_spectrogram <- function(x, y, z,
   ## x axis tick label colors
   # plt[["x"]][["layoutAttrs"]][[2]][["xaxis"]][["tickfont"]][["color"]] <- "rgba(255, 0, 0, 1)"
   ## edge lines must be invisible
-  plt$x$layout$yaxis$linecolor <- plt$x$layout$xaxis2$linecolor <- theme$bg
+  plt[["x"]][["layout"]][["yaxis"]][["linecolor"]] <- plt[["x"]][["layout"]][["xaxis2"]][["linecolor"]] <- theme[["bg"]]
 
   # Manual layout ----
   # Set padding
-  plt$sizingPolicy$padding <- padding
+  plt[["sizingPolicy"]][["padding"]] <- padding
 
   # Colorbar ----
   # https://plotly.com/r/reference/#scatter-marker-colorbar

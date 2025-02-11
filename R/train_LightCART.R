@@ -14,7 +14,6 @@ train_LightCART <- function(
     x,
     weights = NULL,
     hyperparameters = setup_LightCART(),
-    tuner_parameters = setup_tuner(),
     verbosity = 1L) {
   # Dependencies ----
   check_dependencies("lightgbm")
@@ -40,8 +39,8 @@ train_LightCART <- function(
   } else {
     nclasses <- NA
   }
-  if (is.null(hyperparameters$objective)) {
-    hyperparameters@hyperparameters$objective <- if (type == "Regression") {
+  if (is.null(hyperparameters[["objective"]])) {
+    hyperparameters@hyperparameters[["objective"]] <- if (type == "Regression") {
       "regression"
     } else {
       if (nclasses == 2) {
@@ -125,7 +124,7 @@ predict_LightCART <- function(model, newdata, type) {
 varimp_LightCART <- function(model) {
   check_inherits(model, "lgb.Booster")
   vi <- lightgbm::lgb.importance(model, percentage = TRUE)
-  out <- data.frame(t(vi$Gain))
+  out <- data.frame(t(vi[["Gain"]]))
   names(out) <- vi[["Feature"]]
   out
 } # /rtemis::varimp_LightCART

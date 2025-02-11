@@ -3,19 +3,21 @@
 # 2017- EDG rtemis.org
 
 #' @title
-#' Data preprocessing
+#' Preprocess Data
 #'
 #' @description
-#' Prepare data for analysis and visualization
+#' Preprocess data for analysis and visualization.
 #'
 #' @usage
 #' ## S7 generic
 #' preprocess(x, parameters, ...)
-#' ## S7 method for signature 'data.frame, PreprocessorParameters'
-#' preprocess(x, parameters, dat_validation = NULL, dat_testing = NULL, verbosity = 1L)
-#' ## S7 method for signature 'data.frame, Preprocessor'
-#' preprocess(x, parameters, ...)
-#'
+#' 
+#' @param x data.frame or similar: Data to be preprocessed.
+#' @param parameters PreprocessorParameters or Preprocessor: PreprocessorParameters when 
+#' preprocessing training set data. Setup using [setup_Preprocessor].
+#' Preprocessor when preprocessing validation and testing set data. 
+#' @param ... Used to pass `dat_validation` and `dat_testing` to the method for Preprocessor.
+#' 
 #' @details
 #' Methods are provided for preprocessing training set data, which accepts a PreprocessorParameters
 #' object, and for preprocessing validation and testing set data, which accept a Preprocessor
@@ -42,13 +44,6 @@
 #'   * impute
 #'   * scale and/or center
 #'   * one-hot encoding
-#'
-#' @param x data.frame or similar: Data to be preprocessed.
-#' @param parameters PreprocessorParameters: Preprocessing parameters. Setup using [setup_Preprocessor].
-#' @param dat_validation data.frame or similar: Optional validation set.
-#' @param dat_testing data.frame or similar: Optional testing set.
-#' @param verbosity Integer: Verbosity level.
-#' @param ... Not used.
 #'
 #' @return Preprocessor object.
 #'

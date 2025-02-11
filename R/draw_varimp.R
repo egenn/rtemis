@@ -92,25 +92,25 @@ draw_varimp <- function(x,
   }
   if (is.character(palette)) palette <- rtpalette(palette)
 
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
 
   ## Axis font ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
 
   ## Tick font ----
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
 
   # Data ----
@@ -156,7 +156,7 @@ draw_varimp <- function(x,
   # Colors ----
   # fg to teal gradient
   # if (is.null(col)) {
-  #   if (is.null(palette)) palette <- c(theme$fg, "#18A3AC")
+  #   if (is.null(palette)) palette <- c(theme[["fg"]], "#18A3AC")
   #   col <- colorgrad_x(x, palette)
   # }
   if (is.null(col)) {
@@ -217,9 +217,9 @@ draw_varimp <- function(x,
       ),
       # showline = axes_visible,
       # mirror = axes_mirrored,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = FALSE
@@ -233,7 +233,7 @@ draw_varimp <- function(x,
       # mirror = axes_mirrored,
       showgrid = FALSE,
       # gridcolor = grid_col,
-      # gridwidth = theme$grid_lwd,
+      # gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = FALSE
@@ -241,19 +241,19 @@ draw_varimp <- function(x,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj
+      x = theme[["main_adj"]]
     ),
     paper_bgcolor = bg,
     plot_bgcolor = plot_bg
   )
 
   # Remove padding
-  plt$sizingPolicy$padding <- 0
+  plt[["sizingPolicy"]][["padding"]] <- 0
 
   # Write to file ----
   if (!is.null(filename)) {

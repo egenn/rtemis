@@ -244,13 +244,13 @@ draw_protein <- function(x,
   # Data ----
   if (inherits(x, "a3")) {
     dat <- x
-    x <- dat$Sequence
-    site <- iflengthy(dat$Annotations$Site)
-    region <- iflengthy(dat$Annotations$Region)
-    ptm <- iflengthy(dat$Annotations$PTM)
-    clv <- iflengthy(dat$Annotations$Cleavage_site)
-    variant <- iflengthy(dat$Annotations$Variant)
-    disease_variants <- iflengthy(dat$Annotations$Site$Disease_associated_variant)
+    x <- dat[["Sequence"]]
+    site <- iflengthy(dat[["Annotations"]][["Site"]])
+    region <- iflengthy(dat[["Annotations"]][["Region"]])
+    ptm <- iflengthy(dat[["Annotations"]][["PTM"]])
+    clv <- iflengthy(dat[["Annotations"]][["Cleavage_site"]])
+    variant <- iflengthy(dat[["Annotations"]][["Variant"]])
+    disease_variants <- iflengthy(dat[["Annotations"]][["Site"]][["Disease_associated_variant"]])
   }
   if (length(x) == 1) {
     if (grepl(".json$", x)) {
@@ -259,13 +259,13 @@ draw_protein <- function(x,
         simplifyVector = TRUE,
         simplifyMatrix = FALSE
       )
-      x <- dat$Sequence
-      disease_variants <- dat$Annotations$Site[["Disease_associated_variant"]]
-      # dat$Annotations$Site[["Disease_associated_variant"]] <- NULL
-      site <- dat$Annotations$Site
-      region <- dat$Annotations$Region
-      ptm <- dat$Annotations$PTM
-      clv <- dat$Annotations$Cleavage_site
+      x <- dat[["Sequence"]]
+      disease_variants <- dat[["Annotations"]][["Site"]][["Disease_associated_variant"]]
+      # dat[["Annotations"]][["Site"]][["Disease_associated_variant"]] <- NULL
+      site <- dat[["Annotations"]][["Site"]]
+      region <- dat[["Annotations"]][["Region"]]
+      ptm <- dat[["Annotations"]][["PTM"]]
+      clv <- dat[["Annotations"]][["Cleavage_site"]]
     } else {
       dat <- uniprot_get(x, verbosity = verbosity)
       x <- dat[["Sequence"]]
@@ -337,17 +337,17 @@ draw_protein <- function(x,
       theme[[names(extraargs)[i]]] <- extraargs[[i]]
     }
   }
-  if (is.null(label_col)) label_col <- theme$fg
+  if (is.null(label_col)) label_col <- theme[["fg"]]
   label_col <- recycle(label_col, x)
-  if (is.null(marker_col)) marker_col <- color_fade(theme$fg, theme$bg, .9)
+  if (is.null(marker_col)) marker_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
   marker_col <- plotly::toRGB(marker_col, alpha = marker_alpha)
-  if (is.null(line_col)) line_col <- color_fade(theme$fg, theme$bg, .9)
+  if (is.null(line_col)) line_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
   line_col <- plotly::toRGB(line_col, alpha = marker_alpha)
 
-  main_col <- plotly::toRGB(theme$main_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
   if (is.null(legend_col)) legend_col <- labs_col
-  grid_col <- plotly::toRGB(theme$grid_col, theme$grid_alpha)
+  grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])
 
   # Palette ----
   if (is.character(region_palette)) region_palette <- rtpalette(region_palette)
@@ -366,13 +366,13 @@ draw_protein <- function(x,
     } else {
       if (input == "1") {
         xnames <- factor(x,
-          levels = aa$Abbreviation1,
-          labels = aa$Name
+          levels = aa[["Abbreviation1"]],
+          labels = aa[["Name"]]
         ) |> as.character()
       } else {
         xnames <- factor(x,
-          levels = toupper(aa$Abbreviation3),
-          labels = aa$Name
+          levels = toupper(aa[["Abbreviation3"]]),
+          labels = aa[["Name"]]
         ) |> as.character()
       }
     }
@@ -494,7 +494,7 @@ draw_protein <- function(x,
               marker = list(
                 color = plotly::toRGB(
                   # marker_col,
-                  theme$bg,
+                  theme[["bg"]],
                   alpha = marker_alpha
                 ),
                 size = region_marker_size - region_outline_pad,
@@ -503,7 +503,7 @@ draw_protein <- function(x,
               line = list(
                 color = plotly::toRGB(
                   # line_col,
-                  theme$bg,
+                  theme[["bg"]],
                   alpha = line_alpha
                 ),
                 shape = region_line_shape,
@@ -586,8 +586,8 @@ draw_protein <- function(x,
 
         for (j in seq_along(region[[i]])) {
           plt <- plt |> plotly::add_polygons(
-            x = region_poly_xy[[j]]$px,
-            y = region_poly_xy[[j]]$py,
+            x = region_poly_xy[[j]][["px"]],
+            y = region_poly_xy[[j]][["py"]],
             line = list(
               color = region_palette[[i]],
               width = region_line_width,
@@ -652,7 +652,7 @@ draw_protein <- function(x,
     ptm.symbol <- recycle(ptm.symbol, ptm)
     ptm.names <- names(ptm)
     for (i in seq_along(ptm)) {
-      polyoffset <- npad(i, n = length(ptm), pad = ptm.pad)
+      polyoffset <- npad(i, n = length(ptm), pad = ptm_pad)
       plt <- plt |> plotly::add_trace(
         x = xs[ptm[[i]]] + polyoffset[1],
         y = ys[ptm[[i]]] + polyoffset[2],
@@ -660,11 +660,11 @@ draw_protein <- function(x,
         mode = "markers",
         marker = list(
           color = plotly::toRGB(ptm.col[[i]]),
-          size = ptm.marker.size,
+          size = ptm_marker_size,
           symbol = ptm.symbol[i]
         ),
         name = ptm.names[i],
-        showlegend = showlegend.ptm
+        showlegend = showlegend_ptm
       )
     }
   }
@@ -702,7 +702,7 @@ draw_protein <- function(x,
   if (show_labels) {
     # Variants
     if (!is.null(variant)) {
-      variant_idi <- sapply(variant, \(v) v$Position)
+      variant_idi <- sapply(variant, \(v) v[["Position"]])
       label_col[variant_idi] <- variant_col
     }
     # Disease variants
@@ -720,7 +720,7 @@ draw_protein <- function(x,
         y = ys[idx],
         text = x[idx],
         font = list(
-          family = theme$font_family,
+          family = theme[["font_family"]],
           size = font_size,
           color = label_group_col[[i]]
         ),
@@ -749,8 +749,8 @@ draw_protein <- function(x,
       arrowcolor = "#ffffff00",
       font = list(
         size = position_font_size,
-        family = theme$font_family,
-        color = plotly::toRGB(theme$fg, alpha = annotate_position_alpha)
+        family = theme[["font_family"]],
+        color = plotly::toRGB(theme[["fg"]], alpha = annotate_position_alpha)
       )
     )
   }
@@ -762,7 +762,7 @@ draw_protein <- function(x,
     y = legend_xy[2],
     yanchor = legend_yanchor,
     font = list(
-      family = theme$font_family,
+      family = theme[["font_family"]],
       size = font_size,
       color = legend_col
     ),
@@ -778,7 +778,7 @@ draw_protein <- function(x,
       autorange = xaxis_autorange,
       showgrid = showgrid_x,
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       zeroline = FALSE,
       showticklabels = FALSE,
       automargin = automargin_x
@@ -787,7 +787,7 @@ draw_protein <- function(x,
       autorange = yaxis_autorange,
       showgrid = showgrid_y,
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       zeroline = FALSE,
       showticklabels = FALSE,
       automargin = automargin_y,
@@ -797,7 +797,7 @@ draw_protein <- function(x,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
@@ -808,8 +808,8 @@ draw_protein <- function(x,
       x = main_xy[1],
       y = main_xy[2]
     ),
-    paper_bgcolor = theme$bg,
-    plot_bgcolor = theme$plot_bg,
+    paper_bgcolor = theme[["bg"]],
+    plot_bgcolor = theme[["plot_bg"]],
     margin = margin,
     legend = .legend,
     hoverlabel = list(

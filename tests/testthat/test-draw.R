@@ -2,6 +2,12 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+# draw_dist ----
+test_that("draw_dist creates a plotly object", {
+  p <- draw_dist(iris[["Sepal.Length"]])
+  expect_s3_class(p, "plotly")
+})
+
 # draw_scatter ----
 test_that("draw_scatter creates a plotly object", {
   p <- draw_scatter(iris$Sepal.Length, iris$Petal.Length)

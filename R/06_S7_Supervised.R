@@ -196,7 +196,7 @@ method(plot_varimp, Supervised) <- function(x,
 # Describe Supervised ----
 method(describe, Supervised) <- function(x) {
   type <- x@type
-  algorithm <- select_learn(x@algorithm, desc = TRUE)
+  algorithm <- get_alg_name(x@algorithm, desc = TRUE)
   cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
   desc <- paste0(algorithm, " was used for ", tolower(type), ".")
 

@@ -2,31 +2,32 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' @name train
-#' @aliases train
-#' 
-#' @title
-#' Preprocess, Tune, Train, and Supervised Learning Models
-#' 
-#' @description
-#' `train` is a high-level function to preprocess, tune, train, and test an
-#' \pkg{rtemis} model using nested crossvalidation.
-#' 
-#' @usage
-#' ## S7 generic
-#' train(x, ...)
-#' ## S7 method for signature 'data.frame'
-#' train(x, dat_validation = NULL, dat_testing = NULL,
-#'       algorithm = NULL, preprocessor_parameters = NULL, hyperparameters = NULL,
-#'       tuner_parameters = setup_GridSearch(), crossvalidation_parameters = NULL,
-#'       weights = NULL, question = NULL, outdir = NULL, verbosity = 1L, ...)
-#' 
+# Can't use nice user-facing S7 methods because of R CMD check.
+# train_ <- new_generic("train", "x")
+# method(train_, class_data.frame) <- function(x,
+#                                              dat_validation = NULL,
+#                                              dat_testing = NULL,
+#                                              algorithm = NULL,
+#                                              preprocessor_parameters = NULL, # PreprocessorParameters
+#                                              hyperparameters = NULL, # Hyperparameters
+#                                              tuner_parameters = setup_GridSearch(), # TunerParameters
+#                                              crossvalidation_parameters = NULL, # ResamplerParameters
+#                                              weights = NULL,
+#                                              question = NULL,
+#                                              outdir = NULL,
+#                                              verbosity = 1L, ...) {
+
+
+#' Train Supervised Learning Models
+#'
+#' Preprocess, tune, train, and test supervised learning models with a single function 
+#' using nested crossvalidation.
 #'
 #' @details
 #' Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the
 #' positive class.
 #'
-#' - Note on resampling: You should never use an outer resampling method with
+#' Note on resampling: You should never use an outer resampling method with
 #' replacement if you will also be using an inner resampling (for tuning).
 #' The duplicated cases from the outer resampling may appear both in the
 #' training and testing sets of the inner resamples, leading to underestimated
@@ -44,8 +45,9 @@
 #' @param question Optional character string defining the question that the model is trying to
 #' answer.
 #' @param outdir Character, optional: String defining the output directory.
+#' @param parallel_type Character: "none", "future", or "mirai".
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Additional arguments to pass to the hyperparameters setup function. Only used if
+# @param ... Additional arguments to pass to the hyperparameters setup function. Only used if
 #' `hyperparameters` is not defined. Avoid relying on this, instead use the appropriate `setup_*`
 #' function with the `hyperparameters` argument.
 #'
@@ -54,48 +56,52 @@
 #'
 #' @author EDG
 #' @export
-train <- new_generic("train", "x")
-method(train, class_data.frame) <- function(x,
-                                            dat_validation = NULL,
-                                            dat_testing = NULL,
-                                            algorithm = NULL,
-                                            preprocessor_parameters = NULL, # PreprocessorParameters
-                                            hyperparameters = NULL, # Hyperparameters
-                                            tuner_parameters = setup_GridSearch(), # TunerParameters
-                                            crossvalidation_parameters = NULL, # ResamplerParameters
-                                            weights = NULL,
-                                            question = NULL,
-                                            outdir = NULL,
-                                            verbosity = 1L, ...) {
+train <- function(x,
+                  dat_validation = NULL,
+                  dat_testing = NULL,
+                  algorithm = NULL,
+                  preprocessor_parameters = NULL, # PreprocessorParameters
+                  hyperparameters = NULL, # Hyperparameters
+                  tuner_parameters = setup_GridSearch(), # TunerParameters
+                  crossvalidation_parameters = NULL, # ResamplerParameters
+                  weights = NULL,
+                  question = NULL,
+                  outdir = NULL,
+                  parallel_type = "none",
+                  verbosity = 1L) {
+
   # Dependencies ----
   check_dependencies(c("future.apply", "progressr"))
 
   # Checks ----
   # Pass ... to hyperparameters setup_* fn
-  hpr_args <- list(...)
-  if (!is.null(hyperparameters) && length(hpr_args) > 0) {
-    stop("You can either define `hyperparameters` or pass them as additional arguments.")
-  }
+  # hpr_args <- list(...)
+  # if (!is.null(hyperparameters) && length(hpr_args) > 0) {
+  #   stop("You can either define `hyperparameters` or pass them as additional arguments.")
+  # }
   if (!is.null(preprocessor_parameters)) {
     check_is_S7(preprocessor_parameters, PreprocessorParameters)
   }
   if (is.null(hyperparameters)) {
-    # hyperparameters <- get_default_hyperparameters(algorithm)
-    setup_fn <- get_alg_setup(algorithm)
-    hyperparameters <- do_call(setup_fn, hpr_args)
+    # without extra args
+    hyperparameters <- get_default_hyperparameters(algorithm)
+    # with extra args
+    # setup_fn <- get_alg_setup(algorithm)
+    # hyperparameters <- do_call(setup_fn, hpr_args)
   }
   check_is_S7(hyperparameters, Hyperparameters)
   if (!is.null(tuner_parameters)) {
     check_is_S7(tuner_parameters, TunerParameters)
   }
-  # Arguments ----
+
+  ## Arguments ----
   if (!is.null(crossvalidation_parameters)) {
     check_is_S7(crossvalidation_parameters, ResamplerParameters)
-    if (!is.null(crossvalidation_parameters$id_strat)) {
-      stopifnot(length(crossvalidation_parameters$id_strat) == NROW(x))
+    if (!is.null(crossvalidation_parameters[["id_strat"]])) {
+      stopifnot(length(crossvalidation_parameters[["id_strat"]]) == NROW(x))
     }
   }
-  
+
   ## Algorithm ----
   if (!is.null(algorithm) && tolower(algorithm) != tolower(hyperparameters@algorithm)) {
     stop(
@@ -131,6 +137,24 @@ method(train, class_data.frame) <- function(x,
     NULL
   }
   start_time <- intro(verbosity = verbosity, log_file = log_file)
+
+  # Parallel ----
+  if (parallel_type == "future") {
+    # User sets future::plan()
+  } else if (parallel_type == "mirai") {
+    mirai::daemons(0)
+    n_workers <- get_n_workers_for_learner(
+      algorithm = algorithm,
+      parallel_type = "mirai",
+      verbosity = verbosity
+    )
+    mirai::daemons(max(future::availableCores() - 1L, 1L))
+  } else if (parallel_type == "none") {
+    # future::plan("sequential")
+    # mirai::daemons(0)
+  } else {
+    stop("Unknown parallel_type: ", parallel_type)
+  }
 
   # Init ----
   tuner <- NULL
@@ -191,10 +215,11 @@ method(train, class_data.frame) <- function(x,
     # Tune ----
     if (needs_tuning(hyperparameters)) {
       tuner <- tune(
-        x,
+        x = x,
         hyperparameters = hyperparameters,
         tuner_parameters = tuner_parameters,
         weights = weights,
+        parallel_type = parallel_type,
         verbosity = verbosity
       )
       # Update hyperparameters
@@ -213,17 +238,17 @@ method(train, class_data.frame) <- function(x,
       x <- if (is.null(dat_validation) && is.null(dat_testing)) {
         preprocessor@preprocessed
       } else {
-        preprocessor@preprocessed$training
+        preprocessor@preprocessed[["training"]]
       }
-      if (!is.null(dat_validation)) dat_validation <- preprocessor@preprocessed$validation
-      if (!is.null(dat_testing))  dat_testing <- preprocessor@preprocessed$testing
+      if (!is.null(dat_validation)) dat_validation <- preprocessor@preprocessed[["validation"]]
+      if (!is.null(dat_testing)) dat_testing <- preprocessor@preprocessed[["testing"]]
     } else {
       preprocessor <- NULL
     } # /Preprocess
 
     # IFW ----
     # Must follow preprocessing since N cases may change
-    if (type == "Classification" && hyperparameters$ifw) {
+    if (type == "Classification" && hyperparameters[["ifw"]]) {
       if (!is.null(weights)) {
         stop("Custom weights are defined, but IFW is set to TRUE.")
       } else {
@@ -246,13 +271,12 @@ method(train, class_data.frame) <- function(x,
       x = x,
       weights = weights,
       hyperparameters = hyperparameters,
-      tuner_parameters = tuner_parameters,
       verbosity = verbosity
     )
     # Validation data is only passed to learners using early stopping.
     # Otherwise, tuning functions collect validation metrics.
     if (algorithm %in% early_stopping_algs) {
-      args$dat_validation <- dat_validation
+      args[["dat_validation"]] <- dat_validation
     }
     model <- do_call(get_train_fn(algorithm), args)
     # each train_* function checks output is the correct model class.
@@ -380,4 +404,4 @@ method(train, class_data.frame) <- function(x,
     sink_off = ifelse(is.null(log_file), FALSE, TRUE)
   )
   mod
-} # /rtemis::train
+} # /rtemis::train_

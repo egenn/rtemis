@@ -95,7 +95,7 @@ draw_graphjs <- function(net,
       getFromNamespace(paste0("layout_with_", layout), "igraph"),
       c(list(net, dim = 3), layout_params)
     )
-    if (layout == "sugiyama") coords <- coords$layout
+    if (layout == "sugiyama") coords <- coords[["layout"]]
   }
 
   # Cluster ----
@@ -108,15 +108,15 @@ draw_graphjs <- function(net,
 
   if (is.null(vertex_col)) {
     vertex_col <- if (!is.null(groups)) {
-      palette <- recycle(palette, length(unique(groups$membership)))
-      palette[groups$membership]
+      palette <- recycle(palette, length(unique(groups[["membership"]])))
+      palette[groups[["membership"]]]
     } else {
-      theme$fg
+      theme[["fg"]]
     }
   }
 
   if (is.null(vertex_label_col)) {
-    vertex_label_col <- theme$fg
+    vertex_label_col <- theme[["fg"]]
   }
   vertex_label_col <- adjustcolor(vertex_label_col, vertex_label_alpha)
 
@@ -136,12 +136,12 @@ draw_graphjs <- function(net,
     edge.alpha = edge_alpha,
     edge.width = edge_width,
     main = main,
-    bg = theme$bg,
+    bg = theme[["bg"]],
     vertex.label.color = vertex_label_col,
     vertex.frame.color = vertex_frame_col,
     edge.curved = edge_curved,
-    vertex.label.family = theme$font_family,
-    font.main = theme$font_family,
+    vertex.label.family = theme[["font_family"]],
+    font.main = theme[["font_family"]],
     stroke = NULL,
     verbosity = verbosity, ...
   )

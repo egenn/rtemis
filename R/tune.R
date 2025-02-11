@@ -32,16 +32,33 @@ tune <- function(
     hyperparameters,
     tuner_parameters,
     weights = NULL,
-    verbosity = 1L) {
+    verbosity = 1L,
+    parallel_type = "none") {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
   tuner_fn <- get_tuner_fn(tuner_parameters@type)
-  do_call(tuner_fn, list(
-    x = x,
-    hyperparameters = hyperparameters,
-    tuner_parameters = tuner_parameters,
-    weights = weights,
-    verbosity = verbosity
-  ))
+  # do_call(
+  #   fn = tuner_fn, 
+  #   args = list(
+  #     x = x,
+  #     hyperparameters = hyperparameters,
+  #     tuner_parameters = tuner_parameters,
+  #     weights = weights,
+  #     verbosity = verbosity,
+  #     parallel_type = parallel_type
+  #   )
+  # )
+  if (tuner_parameters@type == "GridSearch") {
+    tune_GridSearch(
+      x = x,
+      hyperparameters = hyperparameters,
+      tuner_parameters = tuner_parameters,
+      weights = weights,
+      verbosity = verbosity,
+      parallel_type = parallel_type
+    )
+  } else {
+    stop("Unsupported tuner type: ", tuner_parameters@type)
+  }
 } # /rtemis::tune

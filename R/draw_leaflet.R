@@ -59,9 +59,9 @@ draw_leaflet <- function(fips,
                          weight = .5,
                          color = "black",
                          alpha = 1,
-                         bg_tile_provider = leaflet::providers$Stamen.TonerBackground,
+                         bg_tile_provider = leaflet::providers[["Stamen.TonerBackground"]],
                          bg_tile_alpha = .67,
-                         fg_tile_provider = leaflet::providers$Stamen.TonerLabels,
+                         fg_tile_provider = leaflet::providers[["Stamen.TonerLabels"]],
                          legend_position = c(
                            "topright", "bottomright",
                            "bottomleft", "topleft"
@@ -108,7 +108,7 @@ draw_leaflet <- function(fips,
   }
 
   # Match input county-level data
-  index <- match(geo$id, fips)
+  index <- match(geo[["id"]], fips)
   geo[["val"]] <- values[index]
 
   # Colorscale ----
@@ -186,7 +186,7 @@ draw_leaflet <- function(fips,
     leaflet::addLegend(
       position = legend_position,
       pal = pal,
-      values = geo$val,
+      values = geo[["val"]],
       opacity = legend_alpha,
       title = legend_title
     ) |>
@@ -194,7 +194,7 @@ draw_leaflet <- function(fips,
     leaflet::setView(lng = init_lng, lat = init_lat, zoom = init_zoom)
 
 
-  insert <- htmltools::tags$style(
+  insert <- htmltools::tags[["style"]](
     type = "text/css",
     "div.info.legend.leaflet-control br {clear: both;}"
   )

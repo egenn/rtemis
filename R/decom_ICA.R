@@ -15,16 +15,16 @@ decom_ICA <- function(x, parameters, verbosity = 1L) {
   # Decompose ----
   decom <- fastICA::fastICA(
     X = as.matrix(x),
-    n.comp = parameters$k,
-    alg.typ = parameters$type,
-    fun = parameters$fun,
-    alpha = parameters$alpha,
+    n.comp = parameters[["k"]],
+    alg.typ = parameters[["type"]],
+    fun = parameters[["fun"]],
+    alpha = parameters[["alpha"]],
     method = "C",
-    row.norm = parameters$row_norm,
-    maxit = parameters$maxit,
-    tol = parameters$tol,
+    row.norm = parameters[["row_norm"]],
+    maxit = parameters[["maxit"]],
+    tol = parameters[["tol"]],
     verbose = verbosity > 0L
   )
   check_inherits(decom, "list")
-  list(decom = decom, transformed = decom$S)
+  list(decom = decom, transformed = decom[["S"]])
 } # /rtemis::decom_ICA

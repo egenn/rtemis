@@ -1,4 +1,4 @@
-# test-Decompositiong.R
+# test-Decomposition.R
 # ::rtemis::
 # 2025 EDG rtemis.org
 
@@ -41,3 +41,17 @@ iris_umap <- decompose(x, algorithm = "umap", parameters = setup_UMAP(n_neighbor
 # t-SNE ----
 parameters <- setup_tSNE()
 parameters
+test_that("setup_tSNE() succeeds", {
+  expect_s7_class(parameters, tSNEParameters)
+})
+# Test that t-SNE fails with duplicates
+test_that("decompose() t-SNE fails with duplicates", {
+  expect_error(decompose(x, algorithm = "tsne", parameters = parameters))
+})
+
+# Test that t-SNE works after removing duplicates
+xp <- preprocess(x, setup_Preprocessor(remove_duplicates = TRUE))
+iris_tsne <- decompose(xp@preprocessed, algorithm = "tsne", parameters = parameters)
+test_that("decompose() t-SNE succeeds after removing duplicates", {
+  expect_s7_class(iris_tsne, Decomposition)
+})

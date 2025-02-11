@@ -18,8 +18,8 @@ get_lgb_tree <- function(x,
         num_iteration = n_iter
       ),
       simplifyVector = FALSE
-    )$tree_info,
-    \(y) y$tree_structure
+    )[["tree_info"]],
+    \(y) y[["tree_structure"]]
   )
   names(out) <- paste0("Tree_", seq_along(out))
   out
@@ -61,7 +61,7 @@ preorderlgb <- function(tree,
     if (verbosity > 0L) {
       cat("Reached a leaf; rule is ", rule, "\n")
     }
-    tree$leafs <- c(tree$leafs, rule)
+    tree[["leafs"]] <- c(tree[["leafs"]], rule)
     return(rule)
   }
   rule_left <- paste0(
@@ -118,7 +118,7 @@ lgbtree2rules <- function(x,
                           factor_levels,
                           right_cat_type = "in") {
   tree <- new.env()
-  tree$leafs <- character()
+  tree[["leafs"]] <- character()
   preorderlgb(
     tree,
     x,
@@ -127,7 +127,7 @@ lgbtree2rules <- function(x,
     factor_levels = factor_levels
   )
   # remove root node "TRUE & "
-  substr(tree$leafs, 8, 99999)
+  substr(tree[["leafs"]], 8, 99999)
 } # rtemis::lgbtree2rules
 
 

@@ -19,8 +19,8 @@ cluster_KMeans <- function(x, parameters, verbosity = 1L) {
   # Cluster ----
   clust <- flexclust::cclust(
     x = x,
-    k = parameters$k,
-    dist = parameters$dist,
+    k = parameters[["k"]],
+    dist = parameters[["dist"]],
     method = "kmeans"
   )
   check_inherits(clust, "kcca")
@@ -45,8 +45,8 @@ cluster_HardCL <- function(x, parameters, verbosity = 1L) {
   # Cluster ----
   clust <- flexclust::cclust(
     x = x,
-    k = parameters$k,
-    dist = parameters$dist,
+    k = parameters[["k"]],
+    dist = parameters[["dist"]],
     method = "hardcl"
   )
   check_inherits(clust, "kcca")
@@ -71,8 +71,8 @@ cluster_NeuralGas <- function(x, parameters, verbosity = 1L) {
   # Cluster ----
   clust <- flexclust::cclust(
     x = x,
-    k = parameters$k,
-    dist = parameters$dist,
+    k = parameters[["k"]],
+    dist = parameters[["dist"]],
     method = "neuralgas"
   )
   check_inherits(clust, "kcca")

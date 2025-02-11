@@ -953,7 +953,7 @@ colorvec <- function(cols) {
     stringsAsFactors = FALSE
   )
 
-  cols <- sapply(1:ncols, function(i) coldf[coldf$abbr == cols[i], 2])
+  cols <- sapply(1:ncols, function(i) coldf[coldf[["abbr"]] == cols[i], 2])
 
   lo <- lomid <- mid <- midhi <- hi <- NULL
   collist <- list(
