@@ -53,7 +53,11 @@ draw_table <- function(x,
 
   # Input ----
   x <- as.data.frame(x)
-  if (.ddSci) x <- dplyr::mutate_if(x, is.numeric, ddSci)
+  if (.ddSci) {
+    # x <- dplyr::mutate_if(x, is.numeric, ddSci)
+    # Lose the dep:
+    x <- data.frame(lapply(x, function(x) if (is.numeric(x)) ddSci(x) else x))
+  }
 
   # Colnames ----
   if (!is.null(colnames(x))) colnames(x) <- paste0("<b>", colnames(x), "</b>")
