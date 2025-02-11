@@ -1,4 +1,4 @@
-# draw_x.R
+# draw_dist.R
 # ::rtemis::
 # 2019- EDG rtemis.org
 
@@ -73,68 +73,68 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' draw_x(iris)
-#' draw_x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
+#' draw_dist(iris)
+#' draw_dist(split(iris[["Sepal.Length"]], iris[["Species"]]), xlab = "Sepal Length")
 #' }
 #'
-draw_x <- function(x,
-                   type = c("density", "histogram"),
-                   mode = c("overlap", "ridge"),
-                   group = NULL,
-                   main = NULL,
-                   xlab = NULL,
-                   ylab = NULL,
-                   col = NULL,
-                   alpha = .75,
-                   plot_bg = NULL,
-                   theme = rtemis_theme,
-                   palette = rtemis_palette,
-                   axes_square = FALSE,
-                   group_names = NULL,
-                   font_size = 16,
-                   font_alpha = .8,
-                   legend = NULL,
-                   legend_xy = c(0, 1),
-                   legend_col = NULL,
-                   legend_bg = "#FFFFFF00",
-                   legend_border_col = "#FFFFFF00",
-                   bargap = .05,
-                   vline = NULL,
-                   vline_col = theme$fg,
-                   vline_width = 1,
-                   vline_dash = "dot",
-                   text = NULL,
-                   text_x = 1,
-                   text_xref = "paper",
-                   text_xanchor = "left",
-                   text_y = 1,
-                   text_yref = "paper",
-                   text_yanchor = "top",
-                   text_col = theme$fg,
-                   margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                   automargin_x = TRUE,
-                   automargin_y = TRUE,
-                   zerolines = FALSE,
-                   density_kernel = "gaussian",
-                   density_bw = "SJ",
-                   histnorm = c(
-                     "", "density", "percent",
-                     "probability", "probability density"
-                   ),
-                   histfunc = c("count", "sum", "avg", "min", "max"),
-                   hist_n_bins = 20,
-                   barmode = "overlay", # TODO: alternatives
-                   ridge_sharex = TRUE,
-                   ridge_y_labs = FALSE,
-                   ridge_order_on_mean = TRUE,
-                   displayModeBar = TRUE,
-                   modeBar_file_format = "svg",
-                   width = NULL,
-                   height = NULL,
-                   filename = NULL,
-                   file_width = 500,
-                   file_height = 500,
-                   file_scale = 1, ...) {
+draw_dist <- function(x,
+                      type = c("density", "histogram"),
+                      mode = c("overlap", "ridge"),
+                      group = NULL,
+                      main = NULL,
+                      xlab = NULL,
+                      ylab = NULL,
+                      col = NULL,
+                      alpha = .75,
+                      plot_bg = NULL,
+                      theme = rtemis_theme,
+                      palette = rtemis_palette,
+                      axes_square = FALSE,
+                      group_names = NULL,
+                      font_size = 16,
+                      font_alpha = .8,
+                      legend = NULL,
+                      legend_xy = c(0, 1),
+                      legend_col = NULL,
+                      legend_bg = "#FFFFFF00",
+                      legend_border_col = "#FFFFFF00",
+                      bargap = .05,
+                      vline = NULL,
+                      vline_col = theme[["fg"]],
+                      vline_width = 1,
+                      vline_dash = "dot",
+                      text = NULL,
+                      text_x = 1,
+                      text_xref = "paper",
+                      text_xanchor = "left",
+                      text_y = 1,
+                      text_yref = "paper",
+                      text_yanchor = "top",
+                      text_col = theme[["fg"]],
+                      margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+                      automargin_x = TRUE,
+                      automargin_y = TRUE,
+                      zerolines = FALSE,
+                      density_kernel = "gaussian",
+                      density_bw = "SJ",
+                      histnorm = c(
+                        "", "density", "percent",
+                        "probability", "probability density"
+                      ),
+                      histfunc = c("count", "sum", "avg", "min", "max"),
+                      hist_n_bins = 20,
+                      barmode = "overlay", # TODO: alternatives
+                      ridge_sharex = TRUE,
+                      ridge_y_labs = FALSE,
+                      ridge_order_on_mean = TRUE,
+                      displayModeBar = TRUE,
+                      modeBar_file_format = "svg",
+                      width = NULL,
+                      height = NULL,
+                      filename = NULL,
+                      file_width = 500,
+                      file_height = 500,
+                      file_scale = 1, ...) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -198,27 +198,27 @@ draw_x <- function(x,
     }
   }
 
-  bg <- plotly::toRGB(theme$bg)
-  plot_bg <- plotly::toRGB(theme$plot_bg)
-  grid_col <- plotly::toRGB(theme$grid_col)
-  tick_col <- plotly::toRGB(theme$tick_col)
-  labs_col <- plotly::toRGB(theme$labs_col)
-  main_col <- plotly::toRGB(theme$main_col)
-  if (!theme$axes_visible) tick_col <- labs_col <- "transparent"
+  bg <- plotly::toRGB(theme[["bg"]])
+  plot_bg <- plotly::toRGB(theme[["plot_bg"]])
+  grid_col <- plotly::toRGB(theme[["grid_col"]])
+  tick_col <- plotly::toRGB(theme[["tick_col"]])
+  labs_col <- plotly::toRGB(theme[["labs_col"]])
+  main_col <- plotly::toRGB(theme[["main_col"]])
+  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
 
 
   # '- Axis font ----
   f <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
     color = labs_col
   )
 
   # '- Tick font ----
   tickfont <- list(
-    family = theme$font_family,
+    family = theme[["font_family"]],
     size = font_size,
-    color = theme$tick_labels_col
+    color = theme[["tick_labels_col"]]
   )
 
   # Derived
@@ -234,9 +234,9 @@ draw_x <- function(x,
     axis <- list(
       showline = FALSE,
       # mirror = axes_mirrored,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = zerolines
@@ -272,8 +272,8 @@ draw_x <- function(x,
       )
       for (i in seq_len(n_groups)) {
         plt <- plotly::add_trace(plt,
-          x = xl_density[[i]]$x,
-          y = xl_density[[i]]$y,
+          x = xl_density[[i]][["x"]],
+          y = xl_density[[i]][["y"]],
           type = "scatter",
           mode = "none",
           fill = "tozeroy",
@@ -288,8 +288,8 @@ draw_x <- function(x,
       # '- Density ridge ----
       plt <- lapply(ridge_groups, function(i) {
         plotly::plot_ly(
-          x = xl_density[[i]]$x,
-          y = xl_density[[i]]$y,
+          x = xl_density[[i]][["x"]],
+          y = xl_density[[i]][["y"]],
           type = "scatter",
           mode = "none",
           fill = "tozeroy",
@@ -391,13 +391,13 @@ draw_x <- function(x,
   }
 
   # Layout ----
-  zerocol <- adjustcolor(theme$zerolines_col, theme$zerolines_alpha)
+  zerocol <- adjustcolor(theme[["zerolines_col"]], theme[["zerolines_alpha"]])
   # '- layout ----
   .legend <- list(
     x = legend_xy[1],
     y = legend_xy[2],
     font = list(
-      family = theme$font_family,
+      family = theme[["font_family"]],
       size = font_size,
       color = legend_col
     ),
@@ -413,9 +413,9 @@ draw_x <- function(x,
       ),
       showline = FALSE,
       # mirror = axes_mirrored,
-      showgrid = theme$grid,
+      showgrid = theme[["grid"]],
       gridcolor = grid_col,
-      gridwidth = theme$grid_lwd,
+      gridwidth = theme[["grid_lwd"]],
       tickcolor = tick_col,
       tickfont = tickfont,
       zeroline = FALSE,
@@ -424,12 +424,12 @@ draw_x <- function(x,
     title = list(
       text = main,
       font = list(
-        family = theme$font_family,
+        family = theme[["font_family"]],
         size = font_size,
         color = main_col
       ),
       xref = "paper",
-      x = theme$main_adj
+      x = theme[["main_adj"]]
     ),
     paper_bgcolor = bg,
     plot_bgcolor = plot_bg,
@@ -447,14 +447,14 @@ draw_x <- function(x,
         ),
         showline = FALSE,
         # mirror = axes_mirrored,
-        showgrid = theme$grid,
+        showgrid = theme[["grid"]],
         gridcolor = grid_col,
-        gridwidth = theme$grid_lwd,
+        gridwidth = theme[["grid_lwd"]],
         tickcolor = tick_col,
         tickfont = tickfont,
         zeroline = zerolines,
         zerolinecolor = zerocol,
-        zerolinewidth = theme$zerolines_lwd,
+        zerolinewidth = theme[["zerolines_lwd"]],
         automargin = automargin_y
       )
     )
@@ -482,7 +482,7 @@ draw_x <- function(x,
         yanchor = text_yanchor,
         font = list(
           color = text_col,
-          family = theme$font_family,
+          family = theme[["font_family"]],
           size = font_size
         ),
         showarrow = FALSE
@@ -513,4 +513,4 @@ draw_x <- function(x,
   }
 
   plt
-} # /rtemis::draw_x
+} # /rtemis::draw_dist
