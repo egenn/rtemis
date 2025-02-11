@@ -8,6 +8,7 @@
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 get_tuner_fn <- function(type = "GridSearch") {
   type <- match_arg(type, c("GridSearch"))
   switch(type,
@@ -20,11 +21,12 @@ get_tuner_fn <- function(type = "GridSearch") {
 #' @param x data.frame or similar: Training set data.
 #' @param hyperparameters `Hyperparameters` object: make using each learner's `setup_*` function.
 #' @param tuner_parameters `TunerParameters` object: created with [setup_GridSearch].
+#' @param weights Numeric vector: Optional case weights.
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 tune <- function(
     x,
     hyperparameters,

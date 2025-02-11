@@ -48,8 +48,10 @@
 #' @param dat_validation data.frame or similar: Optional validation set.
 #' @param dat_testing data.frame or similar: Optional testing set.
 #' @param verbosity Integer: Verbosity level.
+#' @param ... Not used.
 #'
 #' @return Preprocessor object.
+#' 
 #' @author EDG
 #' @rdname preprocess
 #' @export
@@ -610,7 +612,8 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(
 #' input, an expanded data.frame where all factors are one-hot encoded
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -619,9 +622,6 @@ method(preprocess, list(class_data.frame, Preprocessor)) <- function(
 #' vf <- factor(rep("alpha", 20), levels = c("alpha", "beta"))
 #' vf_one_hot <- one_hot(vf)
 #' }
-#' @rdname one_hot
-#' @keywords internal
-#' @noRd
 one_hot <- new_generic("one_hot", "x")
 method(one_hot, class_any) <- function(x,
                                        xname = NULL,

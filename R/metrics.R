@@ -133,7 +133,7 @@ bacc <- function(true, predicted,
                  harmonize = FALSE,
                  verbosity = 1L) {
   .5 * (sensitivity(true, predicted, harmonize = harmonize, verbosity = verbosity) +
-          specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
+    specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
 }
 
 #' Precision (aka PPV)
@@ -235,7 +235,8 @@ f1 <- function(precision, recall) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
-#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -248,9 +249,8 @@ f1 <- function(precision, recall) {
 auc <- function(true_int, predicted_prob,
                 method = "Rfast",
                 verbosity = 0L) {
-  
   # Checks ----
-  check_dependencies("ROCR")
+  method <- match.arg(method)
   check_inherits(true_int, "integer")
   check_float01inc(predicted_prob)
   # method <- match.arg(method)
@@ -258,28 +258,23 @@ auc <- function(true_int, predicted_prob,
     return(NaN)
   }
 
-  auc. <- Rfast::auc(group = true_int, preds = predicted_prob)
-
-  .pred <- try(ROCR::prediction(predicted_prob, true_int,
-    label.ordering = rev(levels(true_int))
-  ))
-  auc. <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
-
-  # if (method == "pROC") {
+  if (method == "Rfast") {
+    check_dependencies("Rfast")
+    auc. <- Rfast::auc(group = true_int, preds = predicted_prob)
+  } else if (method == "ROCR") {
+    check_dependencies("ROCR")
+    .pred <- try(ROCR::prediction(predicted_prob, true_int,
+      label.ordering = rev(levels(true_int))
+    ))
+    auc. <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
+  } # else if (method == "pROC") {
+  # check_dependencies("pROC")
   #   check_dependencies("pROC")
   #   .auc <- try(pROC::roc(
   #     true_int, predicted_prob,
   #     levels = rev(levels(true_int)),
   #     direction = "<"
   #   )$auc)
-  # } else if (method == "ROCR") {
-  #   check_dependencies("ROCR")
-  #   .pred <- try(ROCR::prediction(predicted_prob, true_int,
-  #     label.ordering = rev(levels(true_int))
-  #   ))
-  #   .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
-  # } else if (method == "auc_pairs") {
-  #   .auc <- auc_pairs(predicted_prob, true_int, verbosity = verbosity - 1L)
   # }
 
   if (inherits(auc., "try-error")) {
@@ -352,14 +347,14 @@ brier_score <- function(true_int, predicted_prob) {
 } # /rtemis::brier_score
 
 #' Convert labels to integers
-#' 
+#'
 #' Convert factor labels to integers where the positive class is 1 and the negative class is 0.
-#' 
+#'
 #' @param x Factor: True labels.
 #' @param binclasspos Integer: Factor level position of the positive class in binary classification.
-#' 
+#'
 #' @return Integer vector: 0, 1 where 1 is the positive class as defined by binclasspos.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -381,17 +376,18 @@ labels2int <- function(x, binclasspos = 2L) {
 #' Note that auc_method = "pROC" is the only one that will output an AUC even if
 #' one or more predicted probabilities are NA.
 #'
-#' @param true Factor: True labels.
-#' @param predicted Factor: predicted values.
+#' @param true_labels Factor: True labels.
+#' @param predicted_labels Factor: predicted values.
 #' @param predicted_prob Numeric vector: predicted probabilities.
 #' @param binclasspos Integer: Factor level position of the positive class in binary classification.
 #' @param calc_auc Logical: If TRUE, calculate AUC. May be slow in very large datasets.
 #' @param calc_brier Logical: If TRUE, calculate Brier Score.
-#' @param auc_method Character: "Rfast", "pROC", "ROCR": Passed to [auc].
+#' @param auc_method Character: "Rfast", "pROC", "ROCR".
+#' @param sample Character: Sample name.
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @return ClassificationMetrics object.
-#' 
+#'
 #' @author EDG
 #' @export
 #'
@@ -435,7 +431,7 @@ classification_metrics <- function(true_labels,
     predicted_labels <- factor(predicted_labels, levels = rev(levels(predicted_labels)))
   }
   true_levels <- levels(true_labels)
-  
+
   # Levels already set so that the first level is the positive class
   Positive_Class <- if (n_classes == 2) true_levels[1] else NA
   if (verbosity > 0) {
@@ -522,9 +518,10 @@ classification_metrics <- function(true_labels,
 # regression_metrics ----
 #' Regression Metrics
 #'
-#' @param true Numeric vector: True values
-#' @param predicted Numeric vector: Predicted values
-#' @param na.rm Logical: If TRUE, remove NA values before computation
+#' @param true Numeric vector: True values.
+#' @param predicted Numeric vector: Predicted values.
+#' @param na.rm Logical: If TRUE, remove NA values before computation.
+#' @param sample Character: Sample name (e.g. "training", "testing").
 #'
 #' @return RegressionMetrics object
 #' @author EDG

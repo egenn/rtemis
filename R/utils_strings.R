@@ -33,38 +33,38 @@ rt_green <- "49;1"
 #'
 #' @param ... Character objects to format
 #'
-#' @rdname strng
+
 #' @keywords internal
 #' @noRd
 bold <- function(...) {
   paste0("\033[1m", paste(...), "\033[22m")
 }
 
-#' @rdname strng
+
 italic <- function(...) {
   paste0("\033[3m", paste(...), "\033[23m")
 }
 
-#' @rdname strng
+
 underline <- function(...) {
   paste0("\033[4m", paste(...), "\033[24m")
 }
 
-#' @rdname strng
+
 # blue for light and dark background: "69;1"
 # green: "49;1"
 hilite <- function(..., col = hilite_col) {
   paste0("\033[38;5;", col, "m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
+
 # blue for light and dark background: "69;1"
 # green: "49;1"
 hilite1 <- function(..., col = hilite1_col, bold = TRUE) {
   paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;", col, "m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
+
 hilite2 <- function(..., col = hilite2_col, bold = FALSE, italic = FALSE, sep = "") {
   paste0(
     ifelse(bold, "\033[1m", ""), 
@@ -74,21 +74,22 @@ hilite2 <- function(..., col = hilite2_col, bold = FALSE, italic = FALSE, sep = 
   )
 }
 
-#' @rdname strng
+
 #' @param x Numeric: Input
+#' 
+#' @keywords internal
+#' @noRd
 hilitebig <- function(x) {
   hilite(format(x, scientific = FALSE, big.mark = ","))
 }
 
-#' @rdname strng
-#' @param bold Logical: If TRUE, use bold font
+
 red <- function(..., bold = FALSE) {
   paste0("\033[", ifelse(bold, "1;", ""), "91m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
+
 # og green: "92m"
-#
 green <- function(..., bold = FALSE) {
   paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;", rt_green, "m", paste(...), "\033[0m")
 }
@@ -97,28 +98,27 @@ blue <- function(..., bold = FALSE) {
   paste0("\033[", ifelse(bold, "1;", ""), "34m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
+
 orange <- function(..., bold = FALSE) {
   paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;208m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
+
 cyan <- function(..., bold = FALSE) {
   paste0(ifelse(bold, "\033[1m", ""), "\033[36m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
+
 magenta <- function(..., bold = FALSE) {
   paste0(ifelse(bold, "\033[1m", ""), "\033[35m", paste(...), "\033[0m")
 }
 
-#' @rdname strng
-#' @param sep Character: Separator
+
 gray <- function(..., bold = FALSE, sep = " ") {
   paste0(ifelse(bold, "\033[1m", ""), "\033[90m", paste(..., sep = sep), "\033[0m")
 }
 
-#' @rdname strng
+
 reset <- function(...) {
   paste0("\033[0m", paste(...))
 }
@@ -193,7 +193,6 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #'
 #' @author EDG
 #' @export
-
 labelify <- function(x,
                      underscoresToSpaces = TRUE,
                      dotsToSpaces = TRUE,
