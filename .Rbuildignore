@@ -3,3 +3,4 @@
 ^.*\.code-workspace$
 ^.*\.tar.gz$
 ^.*\.Rcheck$
+.github

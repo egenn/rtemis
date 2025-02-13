@@ -61,6 +61,14 @@ test_that("train() GLM standard errors are available", {
   expect_type(mod_r_glm@se_testing, "double")
 })
 
+## Throw error by using GLM with missing data ----
+datr_train_na <- datr_train
+datr_train_na[10:2, 1] <- NA
+test_that("train() GLM Regression with missing data throws error", {
+  expect_error(
+    train(x = datr_train_na, dat_testing = datr_test, algorithm = "glm")
+  )
+})
 ## GAM Regression ----
 hyperparameters <- setup_GAM()
 hyperparameters

@@ -258,7 +258,7 @@ train <- function(x,
 
     # Train ALG ----
     if (verbosity > 0L) {
-      if (hyperparameters@tuned == 1L) {
+      if (is_tuned(hyperparameters)) {
         msg2("Training", hilite(algorithm, type), "with tuned hyperparameters...")
       } else {
         msg20("Training ", hilite(algorithm, type), "...")
@@ -278,6 +278,7 @@ train <- function(x,
     if (algorithm %in% early_stopping_algs) {
       args[["dat_validation"]] <- dat_validation
     }
+
     model <- do_call(get_train_fn(algorithm), args)
     # each train_* function checks output is the correct model class.
 

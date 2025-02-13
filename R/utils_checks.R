@@ -45,7 +45,7 @@ is_test <- function(x, fn) {
   if (!is.null(x) && !fn(x)) {
     input <- deparse(substitute(x))
     type <- substr(deparse(substitute(fn)), 4, 99)
-    stop(bold(input), " is not ", bold(type))
+    cli::cli_abort(bold(input), " is not ", bold(type))
   }
   invisible(NULL)
 } # /rtemis::is_test
@@ -88,7 +88,7 @@ check_inherits <- function(x, cl) {
   xname <- bold(underline(deparse(substitute(x))))
   if (!is.null(x) && !inherits(x, cl)) {
     input <- deparse(substitute(x))
-    stop(hilite(xname), " must be of class ", bold(cl), ".", call. = FALSE)
+    cli::cli_abort(hilite(xname), " must be of class ", bold(cl), ".", call. = FALSE)
   }
 } # /rtemis::check_inherits
 
@@ -118,7 +118,7 @@ strict <- function(object, class, allow_null = TRUE) {
   if (inherits(object, class)) {
     return(object)
   } else {
-    stop(name., " must be ", bold(class))
+    cli::cli_abort(name., " must be ", bold(class))
   }
 } # /rtemis::strict
 
@@ -154,12 +154,12 @@ clean_int <- function(x) {
     if (all(x %% 1 == 0)) {
       return(as.integer(x))
     } else {
-      stop(xname, " must be integer.")
+      cli::cli_abort(xname, " must be integer.")
     }
   } else if (is.null(x)) {
     return(NULL)
   }
-  stop(xname, " must be integer.")
+  cli::cli_abort(xname, " must be integer.")
 } # /rtemis::clean_int
 
 
@@ -196,30 +196,30 @@ match_arg <- function(x, choices) {
 check_logical <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (!is.logical(x)) {
-    stop(xname, " must be logical.", call. = FALSE)
+    cli::cli_abort(xname, " must be logical.", call. = FALSE)
   }
 } # /rtemis::check_logical
 
 check_character <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (!is.character(x)) {
-    stop(xname, " must be character.", call. = FALSE)
+    cli::cli_abort(xname, " must be character.", call. = FALSE)
   }
 } # /rtemis::check_character
 
 check_floatpos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x <= 0)) {
-    stop(xname, " must be greater than 0.", call. = FALSE)
+    cli::cli_abort(xname, " must be greater than 0.", call. = FALSE)
   }
 } # /rtemis::check_floatpos
 
@@ -239,10 +239,10 @@ check_floatpos <- function(x) {
 check_float01exc <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x < 0 | x > 1)) {
-    stop(xname, " must be between 0 and 1, exclusive.", call. = FALSE)
+    cli::cli_abort(xname, " must be between 0 and 1, exclusive.", call. = FALSE)
   }
 } # /rtemis::check_float01
 
@@ -263,20 +263,20 @@ check_float01exc <- function(x) {
 check_float01inc <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x < 0 | x > 1)) {
-    stop(xname, " must be between 0 and 1, inclusive.", call. = FALSE)
+    cli::cli_abort(xname, " must be between 0 and 1, inclusive.", call. = FALSE)
   }
 } # /rtemis::check_float01
 
 check_floatpos1 <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x <= 0) || any(x > 1)) {
-    stop(xname, " must be greater than 0 and less or equal to 1.", call. = FALSE)
+    cli::cli_abort(xname, " must be greater than 0 and less or equal to 1.", call. = FALSE)
   }
 } # /rtemis::check_floatpos1
 
@@ -299,10 +299,10 @@ clean_posint <- function(x) {
     return(NULL)
   }
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.")
+    cli::cli_abort(xname, " must not contain NAs.")
   }
   if (any(x <= 0)) {
-    stop(xname, " must contain only positive integers.")
+    cli::cli_abort(xname, " must contain only positive integers.")
   }
   clean_int(x)
 } # /rtemis::clean_posint
@@ -310,10 +310,12 @@ clean_posint <- function(x) {
 check_float0pos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    # cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.")
   }
   if (!is.null(x) && any(x < 0)) {
-    stop(xname, " must be zero or greater.", call. = FALSE)
+    # cli::cli_abort(xname, " must be zero or greater.", call. = FALSE)
+    cli::cli_abort(xname, " must be zero or greater.")
   }
 } # /rtemis::check_float0positive
 
@@ -361,95 +363,6 @@ get_n_workers_for_learner <- function(algorithm, parallel_type, n_workers = NULL
 } # /rtemis::get_n_workers_for_learner
 
 
-common_errors <- list(
-  "object '(.*)' not found" =
-    "Check that the object exists and is spelled correctly.",
-  "object of type 'closure' is not subsettable" =
-    "Check that the object is a list or data.frame."
-)
-common_warnings <- list(
-  "NAs introduced by coercion" = "Check that the input is of the correct type.",
-  # "glm.fit: algorithm did not converge" =
-  # "Same reasons as for 'glm.fit: fitted probabilities numerically 0 or 1 occurred'.",
-  "glm.fit: fitted probabilities numerically 0 or 1 occurred" =
-    paste(
-      "Reasons for this warning include:",
-      "1) Perfect Separation of classes.",
-      "2) Highly Imbalanced data.",
-      "3) Extreme values in predictors.",
-      "4) Too many predictors for the number of observations.",
-      "5) Multicollinearity.",
-      "\nSuggestion:\n  Try using GLMNET or other regularization methods.",
-      sep = "\n  "
-    )
-)
-#' Do call with tryCatch and suggestion
-#'
-#' @param fn Function to call.
-#' @param args List of arguments to pass to function.
-#' @param pattern_suggestion Named list of the form pattern = "suggestion". If the pattern is
-#'  found in the error message, the suggestion is appended to the error message.
-#'
-#' @return Result of function call.
-#'
-#' @author EDG
-#' @keywords internal
-#' @noRd
-do_call <- function(
-    fn,
-    args,
-    error_pattern_suggestion = NULL,
-    warning_pattern_suggestion = NULL,
-    call. = FALSE) {
-  err_pat_sug <- c(common_errors, error_pattern_suggestion)
-  warn_pat_sug <- c(common_warnings, warning_pattern_suggestion)
-  fn_name <- deparse(substitute(fn))
-  tryCatch(
-    {
-      withCallingHandlers(
-        {
-          do.call(fn, args)
-        },
-        warning = function(w) {
-          fnwarn <- conditionMessage(w)
-          message("Warning caught: ", fnwarn)
-          idi <- which(sapply(names(warn_pat_sug), function(i) grepl(i, fnwarn)))
-          if (length(idi) > 0) {
-            for (i in idi) {
-              cat(orange(warn_pat_sug[[i]], "\n"))
-            }
-          }
-          invokeRestart("muffleWarning")
-        } # /warning
-      ) # /withCallingHandlers
-    },
-    error = function(e) {
-      fnerr <- e[["message"]]
-      errmsg <- paste0(fn_name, " failed with error:\n\n", fnerr, "\n\n")
-      # for (pattern in names(err_pat_sug)) {
-      #   suggestion <- err_pat_sug[[pattern]]
-      #   if (grepl(pattern, fnerr)) {
-      #     errmsg <- paste0(errmsg, bold(underline("Suggestion:"), italic(suggestion)))
-      #   }
-      # }
-      idi <- which(sapply(names(err_pat_sug), function(i) grepl(i, fnerr)))
-      if (length(idi) > 0) {
-        suggestions <- sapply(idi, function(i) err_pat_sug[[i]])
-        errmsg <- paste0(
-          red(errmsg),
-          orange(
-            paste0(
-              "Suggestion:\n  ",
-              paste0(suggestions, collapse = "\n  ")
-            )
-          )
-        )
-      }
-      stop(errmsg, call. = call.)
-    } # /error
-  ) # /tryCatch
-} # /rtemis::do_call
-
 #' Abbreviate object class name
 #'
 #' @param x Object
@@ -488,7 +401,7 @@ check_dependencies <- function(..., verbosity = 0L) {
   ns <- as.list(c(...))
   err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))
   if (any(err)) {
-    stop(
+    cli::cli_abort(
       "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
       pastels(ns[err], bullet = "    -")
     )

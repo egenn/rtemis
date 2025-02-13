@@ -118,7 +118,13 @@ method(print, Hyperparameters) <- function(x, ...) {
   print.Hyperparameters(x)
 } # rtemis::print.Hyperparameters
 
-# Get tuned status ----
+# is_tuned() ----
+is_tuned <- new_generic("is_tuned", "x")
+method(is_tuned, Hyperparameters) <- function(x) {
+  x@tuned == 1L
+} # /is_tuned.Hyperparameters
+
+# get_tuned_status() ----
 get_tuned_status <- new_generic("get_tuned_status", "x")
 method(get_tuned_status, Hyperparameters) <- function(x) {
   if (length(x@tunable_hyperparameters) > 0) {

@@ -112,7 +112,7 @@ rtemis_version <- packageVersion("rtemismlv")
 #' with the *second* level of the factor being the 'positive' class.
 #'
 #' @name rtemismlv-package
-#' @import graphics grDevices methods stats utils S7 data.table future htmltools
+#' @import graphics grDevices methods stats utils S7 data.table htmltools cli
 "_PACKAGE"
 
 NULL

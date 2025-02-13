@@ -41,9 +41,9 @@ decompose <- function(x,
   if (verbosity > 0L) {
     msg20("Decomposing with ", algorithm, "...")
   }
-  decom <- do.call(
-    decom_fn,
-    list(x = x, parameters = parameters)
+  decom <- do_call(
+    fn = decom_fn,
+    args = list(x = x, parameters = parameters)
   )
 
   # Outro ----
