@@ -88,3 +88,8 @@ test_that("setup_LightRuleFit() succeeds", {
 test_that("setup_Isotonic() succeeds", {
   expect_s7_class(setup_Isotonic(), IsotonicHyperparameters)
 })
+
+# setup_RadialSVM ----
+test_that("setup_RadialSVM() succeeds", {
+  expect_s7_class(setup_RadialSVM(), RadialSVMHyperparameters)
+})
