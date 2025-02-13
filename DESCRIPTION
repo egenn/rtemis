@@ -19,7 +19,8 @@ Imports:
     S7,
     data.table,
     future,
-    htmltools
+    htmltools,
+    cli
 Suggests:
     arrow,
     bit64,
@@ -68,7 +69,6 @@ Suggests:
     PRROC,
     pvclust,
     reactable,
-    rlang,
     ROCR,
     rpart,
     Rtsne,

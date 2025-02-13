@@ -45,7 +45,7 @@ is_test <- function(x, fn) {
   if (!is.null(x) && !fn(x)) {
     input <- deparse(substitute(x))
     type <- substr(deparse(substitute(fn)), 4, 99)
-    stop(bold(input), " is not ", bold(type))
+    cli::cli_abort(bold(input), " is not ", bold(type))
   }
   invisible(NULL)
 } # /rtemis::is_test
@@ -88,7 +88,7 @@ check_inherits <- function(x, cl) {
   xname <- bold(underline(deparse(substitute(x))))
   if (!is.null(x) && !inherits(x, cl)) {
     input <- deparse(substitute(x))
-    stop(hilite(xname), " must be of class ", bold(cl), ".", call. = FALSE)
+    cli::cli_abort(hilite(xname), " must be of class ", bold(cl), ".", call. = FALSE)
   }
 } # /rtemis::check_inherits
 
@@ -118,7 +118,7 @@ strict <- function(object, class, allow_null = TRUE) {
   if (inherits(object, class)) {
     return(object)
   } else {
-    stop(name., " must be ", bold(class))
+    cli::cli_abort(name., " must be ", bold(class))
   }
 } # /rtemis::strict
 
@@ -154,12 +154,12 @@ clean_int <- function(x) {
     if (all(x %% 1 == 0)) {
       return(as.integer(x))
     } else {
-      stop(xname, " must be integer.")
+      cli::cli_abort(xname, " must be integer.")
     }
   } else if (is.null(x)) {
     return(NULL)
   }
-  stop(xname, " must be integer.")
+  cli::cli_abort(xname, " must be integer.")
 } # /rtemis::clean_int
 
 
@@ -196,30 +196,30 @@ match_arg <- function(x, choices) {
 check_logical <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (!is.logical(x)) {
-    stop(xname, " must be logical.", call. = FALSE)
+    cli::cli_abort(xname, " must be logical.", call. = FALSE)
   }
 } # /rtemis::check_logical
 
 check_character <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (!is.character(x)) {
-    stop(xname, " must be character.", call. = FALSE)
+    cli::cli_abort(xname, " must be character.", call. = FALSE)
   }
 } # /rtemis::check_character
 
 check_floatpos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x <= 0)) {
-    stop(xname, " must be greater than 0.", call. = FALSE)
+    cli::cli_abort(xname, " must be greater than 0.", call. = FALSE)
   }
 } # /rtemis::check_floatpos
 
@@ -239,10 +239,10 @@ check_floatpos <- function(x) {
 check_float01exc <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x < 0 | x > 1)) {
-    stop(xname, " must be between 0 and 1, exclusive.", call. = FALSE)
+    cli::cli_abort(xname, " must be between 0 and 1, exclusive.", call. = FALSE)
   }
 } # /rtemis::check_float01
 
@@ -263,20 +263,20 @@ check_float01exc <- function(x) {
 check_float01inc <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x < 0 | x > 1)) {
-    stop(xname, " must be between 0 and 1, inclusive.", call. = FALSE)
+    cli::cli_abort(xname, " must be between 0 and 1, inclusive.", call. = FALSE)
   }
 } # /rtemis::check_float01
 
 check_floatpos1 <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
   }
   if (any(x <= 0) || any(x > 1)) {
-    stop(xname, " must be greater than 0 and less or equal to 1.", call. = FALSE)
+    cli::cli_abort(xname, " must be greater than 0 and less or equal to 1.", call. = FALSE)
   }
 } # /rtemis::check_floatpos1
 
@@ -310,11 +310,11 @@ clean_posint <- function(x) {
 check_float0pos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    # stop(xname, " must not contain NAs.", call. = FALSE)
+    # cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
     cli::cli_abort(xname, " must not contain NAs.")
   }
   if (!is.null(x) && any(x < 0)) {
-    # stop(xname, " must be zero or greater.", call. = FALSE)
+    # cli::cli_abort(xname, " must be zero or greater.", call. = FALSE)
     cli::cli_abort(xname, " must be zero or greater.")
   }
 } # /rtemis::check_float0positive
@@ -401,7 +401,7 @@ check_dependencies <- function(..., verbosity = 0L) {
   ns <- as.list(c(...))
   err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))
   if (any(err)) {
-    stop(
+    cli::cli_abort(
       "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
       pastels(ns[err], bullet = "    -")
     )

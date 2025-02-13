@@ -27,7 +27,7 @@ check_supervised_data <- function(x,
                                   dat_testing = NULL,
                                   allow_missing = TRUE,
                                   verbosity = 1L) {
-  # if (upsample && downsample) stop("Only one of upsample and downsample can be TRUE")
+  # if (upsample && downsample) cli::cli_abort("Only one of upsample and downsample can be TRUE")
 
   if (verbosity > 0L) {
     msg2start("Checking data is ready for training...")
@@ -46,47 +46,37 @@ check_supervised_data <- function(x,
   ncols <- NCOL(x)
   # Since one column must be outcome, need min of 2 columns
   if (ncols < 2) {
-    stop("Data must contain at least 1 feature and 1 outcome column.")
+    cli::cli_abort("Data must contain at least 1 feature and 1 outcome column.")
   }
   if (!is.null(dat_validation)) {
     if (NCOL(dat_validation) != ncols) {
-      stop("Validation set must contain same number of columns as training set.")
+      cli::cli_abort("\nValidation set must contain same number of columns as training set.")
     }
   }
   if (!is.null(dat_testing)) {
     if (NCOL(dat_testing) != ncols) {
-      stop("Testing set must contain same number of columns as training set.")
+      cli::cli_abort("Testing set must contain same number of columns as training set.")
     }
   }
 
   # Missing values ----
   if (!allow_missing && anyNA(x)) {
-    stop("Data should not contain missing values.")
+    cli::cli_abort("Data should not contain missing values.")
   }
-
-  # preprocess ----
-  # if (!is.null(.preprocess)) {
-  #   .preprocess$x <- x
-  #   x <- do.call(preprocess, .preprocess)
-  #   if (!is.null(x.test)) {
-  #     .preprocess$x <- x.test
-  #     x.test <- do.call(preprocess, .preprocess)
-  #   }
-  # }
 
   # Outcome class ----
   outcome_class <- class(x[[ncols]])
   if (!outcome_class %in% c("integer", "numeric", "factor")) {
-    stop("Outcome must be integer, numeric, or factor.")
+    cli::cli_abort("Outcome must be integer, numeric, or factor.")
   }
   if (!is.null(dat_validation)) {
     if (class(dat_validation[[ncols]]) != outcome_class) {
-      stop("Training and validation outcome must be of same class.")
+      cli::cli_abort("Training and validation outcome must be of same class.")
     }
   }
   if (!is.null(dat_testing)) {
     if (class(dat_testing[[ncols]]) != outcome_class) {
-      stop("Training and testing outcome must be of same class.")
+      cli::cli_abort("Training and testing outcome must be of same class.")
     }
   }
 
@@ -99,7 +89,7 @@ check_supervised_data <- function(x,
     if (!all(sapply(seq_along(training_levels), function(i) {
       identical(training_levels[[i]], validation_levels[[i]])
     }))) {
-      stop("Training and validation set factor levels do not match.")
+      cli::cli_abort("Training and validation set factor levels do not match.")
     }
   }
   if (!is.null(dat_testing)) {
@@ -107,7 +97,7 @@ check_supervised_data <- function(x,
     if (!all(sapply(seq_along(training_levels), function(i) {
       identical(training_levels[[i]], testing_levels[[i]])
     }))) {
-      stop("Training and testing set factor levels do not match.")
+      cli::cli_abort("Training and testing set factor levels do not match.")
     }
   }
 
@@ -136,13 +126,13 @@ check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
   }
   
   if (NCOL(x) < 2) {
-    stop("Data must contain at least 2 columns.")
+    cli::cli_abort("Data must contain at least 2 columns.")
   }
   if (any(sapply(x, function(x) !is.numeric(x)))) {
-    stop("All columns must be numeric.")
+    cli::cli_abort("All columns must be numeric.")
   }
   if (!allow_missing && anyNA(x)) {
-    stop("Data should not contain missing values.")
+    cli::cli_abort("Data should not contain missing values.")
   }
 
   if (verbosity > 0L) msg2done()

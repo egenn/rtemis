@@ -37,26 +37,19 @@ cluster <- function(x,
 
   # Cluster ----
   algorithm <- get_clust_name(algorithm)
-  cluster_fn <- get_clust_fn(algorithm)
   if (verbosity > 0L) {
     msg20("Clustering with ", algorithm, "...")
   }
-  # clust <- do_call(
-  #   cluster_fn,
-  #   list(x = x, parameters = parameters, verbosity = verbosity)
-  # )
-  clust <- rlang::exec(
-    cluster_fn,
-    x = x, parameters = parameters, verbosity = verbosity
+  clust <- do_call(
+    fn = get_clust_fn(algorithm),
+    args = list(x = x, parameters = parameters, verbosity = verbosity)
   )
 
   # Clusters ----
-  clustpredict_fn <- get_clustpredict_fn(algorithm)
   clusters <- do_call(
-    clustpredict_fn,
-    list(clust = clust)
+    fn = get_clustpredict_fn(algorithm),
+    args = list(clust = clust)
   )
-
 
   # Outro ----
   outro(start_time, verbosity = verbosity)

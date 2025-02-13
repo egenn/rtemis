@@ -26,8 +26,7 @@ hilite_col <- DarkCyan
 hilite1_col <- SteelBlue1 # objcat default
 hilite2_col <- "177" # Violet # info
 hilite3_col <- Magenta3 # warning
-
-rt_green <- "49;1"
+rt_green <- DarkCyan # yay
 
 #' String formatting utilities
 #'
