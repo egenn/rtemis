@@ -12,7 +12,7 @@ setup_GridSearch(
   metric = NULL,
   maximize = NULL,
   parallel_type = "mirai",
-  n_workers = rtemis_cores
+  n_workers = rtemis_workers
 )
 }
 \arguments{

@@ -23,17 +23,17 @@ rtemis_version <- packageVersion("rtemismlv")
   # S7
   S7::methods_register()
   # Defaults ----
-  rtemis_plan <- plan_init()
+  rtemis_plan <- getOption("future.plan", "multicore")
   assign("rtemis_plan", rtemis_plan, envir = parent.env(environment()))
-  rtemis_cores <- cores_init()
-  assign("rtemis_cores", rtemis_cores, envir = parent.env(environment()))
-  rtemis_theme <- theme_init()
+  rtemis_workers <- getOption("rtemis_workers", .availableCores)
+  assign("rtemis_workers", rtemis_workers, envir = parent.env(environment()))
+  rtemis_theme <- getOption("rtemis_theme", "darkgraygrid")
   assign("rtemis_theme", rtemis_theme, envir = parent.env(environment()))
-  rtemis_font <- font_init()
+  rtemis_font <- getOption("rtemis_font", "Helvetica")
   assign("rtemis_font", rtemis_font, envir = parent.env(environment()))
-  rtemis_palette <- palette_init()
+  rtemis_palette <- getOption("rtemis_palette", "rtCol3")
   assign("rtemis_palette", rtemis_palette, envir = parent.env(environment()))
-  rtemis_date <- rtemis_date_init() == "TRUE"
+  rtemis_date <- getOption("rtemis_date", TRUE)
   assign("rtemis_date", rtemis_date, envir = parent.env(environment()))
 }
 
@@ -48,7 +48,7 @@ rtemis_version <- packageVersion("rtemismlv")
       "\n  \u2502    ", italic(gray("Font: ")), rtemis_font,
       "\n  \u2502 ", italic(gray("Palette: ")), rtemis_palette,
       "\n  \u2502    ", italic(gray("Plan: ")), rtemis_plan,
-      # "\n  \u2514   ", italic(gray("Cores: ")), rtemis_cores, "/", .availableCores, " available",
+      # "\n  \u2514   ", italic(gray("Cores: ")), rtemis_workers, "/", .availableCores, " available",
       "\n  \u2514   ", italic(gray("Cores: ")), future::availableCores(), " cores available.",
       bold("\n  Resources"),
       "\n  \u2502    ", italic(gray("Docs:")), " https://rtemis.org/rtemis",
