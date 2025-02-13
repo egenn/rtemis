@@ -299,10 +299,10 @@ clean_posint <- function(x) {
     return(NULL)
   }
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.")
+    cli::cli_abort(xname, " must not contain NAs.")
   }
   if (any(x <= 0)) {
-    stop(xname, " must contain only positive integers.")
+    cli::cli_abort(xname, " must contain only positive integers.")
   }
   clean_int(x)
 } # /rtemis::clean_posint
@@ -310,10 +310,12 @@ clean_posint <- function(x) {
 check_float0pos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    stop(xname, " must not contain NAs.", call. = FALSE)
+    # stop(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(xname, " must not contain NAs.")
   }
   if (!is.null(x) && any(x < 0)) {
-    stop(xname, " must be zero or greater.", call. = FALSE)
+    # stop(xname, " must be zero or greater.", call. = FALSE)
+    cli::cli_abort(xname, " must be zero or greater.")
   }
 } # /rtemis::check_float0positive
 
@@ -360,95 +362,6 @@ get_n_workers_for_learner <- function(algorithm, parallel_type, n_workers = NULL
   max(future::availableCores() - 1L, 1L)
 } # /rtemis::get_n_workers_for_learner
 
-
-common_errors <- list(
-  "object '(.*)' not found" =
-    "Check that the object exists and is spelled correctly.",
-  "object of type 'closure' is not subsettable" =
-    "Check that the object is a list or data.frame."
-)
-common_warnings <- list(
-  "NAs introduced by coercion" = "Check that the input is of the correct type.",
-  # "glm.fit: algorithm did not converge" =
-  # "Same reasons as for 'glm.fit: fitted probabilities numerically 0 or 1 occurred'.",
-  "glm.fit: fitted probabilities numerically 0 or 1 occurred" =
-    paste(
-      "Reasons for this warning include:",
-      "1) Perfect Separation of classes.",
-      "2) Highly Imbalanced data.",
-      "3) Extreme values in predictors.",
-      "4) Too many predictors for the number of observations.",
-      "5) Multicollinearity.",
-      "\nSuggestion:\n  Try using GLMNET or other regularization methods.",
-      sep = "\n  "
-    )
-)
-#' Do call with tryCatch and suggestion
-#'
-#' @param fn Function to call.
-#' @param args List of arguments to pass to function.
-#' @param pattern_suggestion Named list of the form pattern = "suggestion". If the pattern is
-#'  found in the error message, the suggestion is appended to the error message.
-#'
-#' @return Result of function call.
-#'
-#' @author EDG
-#' @keywords internal
-#' @noRd
-do_call <- function(
-    fn,
-    args,
-    error_pattern_suggestion = NULL,
-    warning_pattern_suggestion = NULL,
-    call. = FALSE) {
-  err_pat_sug <- c(common_errors, error_pattern_suggestion)
-  warn_pat_sug <- c(common_warnings, warning_pattern_suggestion)
-  fn_name <- deparse(substitute(fn))
-  tryCatch(
-    {
-      withCallingHandlers(
-        {
-          do.call(fn, args)
-        },
-        warning = function(w) {
-          fnwarn <- conditionMessage(w)
-          message("Warning caught: ", fnwarn)
-          idi <- which(sapply(names(warn_pat_sug), function(i) grepl(i, fnwarn)))
-          if (length(idi) > 0) {
-            for (i in idi) {
-              cat(orange(warn_pat_sug[[i]], "\n"))
-            }
-          }
-          invokeRestart("muffleWarning")
-        } # /warning
-      ) # /withCallingHandlers
-    },
-    error = function(e) {
-      fnerr <- e[["message"]]
-      errmsg <- paste0(fn_name, " failed with error:\n\n", fnerr, "\n\n")
-      # for (pattern in names(err_pat_sug)) {
-      #   suggestion <- err_pat_sug[[pattern]]
-      #   if (grepl(pattern, fnerr)) {
-      #     errmsg <- paste0(errmsg, bold(underline("Suggestion:"), italic(suggestion)))
-      #   }
-      # }
-      idi <- which(sapply(names(err_pat_sug), function(i) grepl(i, fnerr)))
-      if (length(idi) > 0) {
-        suggestions <- sapply(idi, function(i) err_pat_sug[[i]])
-        errmsg <- paste0(
-          red(errmsg),
-          orange(
-            paste0(
-              "Suggestion:\n  ",
-              paste0(suggestions, collapse = "\n  ")
-            )
-          )
-        )
-      }
-      stop(errmsg, call. = call.)
-    } # /error
-  ) # /tryCatch
-} # /rtemis::do_call
 
 #' Abbreviate object class name
 #'
