@@ -3,16 +3,15 @@
 # 2025 EDG rtemis.org
 
 #' Train a GLM model
-#'
-#' Train a GLM model.
-#'
+#' 
+#' @details
 #' GLM does not work in the presence of missing values.
 #'
 #' @param x data.frame or similar: Training set.
 #' @param dat_validation data.frame or similar: Validation set.
 #' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
-#' @param hyperparameters No hyperparameters available for `glm`.
+#' @param hyperparameters GLMHyperparameters object: make using [setup_GLM].
 #' @param verbosity Integer: If > 0, print messages.
 #'
 #' @author EDG
@@ -38,9 +37,6 @@ train_GLM <- function(
     verbosity = verbosity
   )
 
-  # ?Any params that may be NULL by setup_ but aren't allowed to be NULL by training fn
-
-  # ? Can weights be NULL
   if (is.null(weights)) {
     weights <- rep(1, NROW(x))
   }

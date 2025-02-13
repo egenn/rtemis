@@ -46,7 +46,7 @@ supervised_algorithms <- data.frame(rbind(
   # c("H2ODL", "H2O Deep Learning", TRUE, TRUE, FALSE),
   # c("H2OGBM", "H2O Gradient Boosting Machine", TRUE, TRUE, FALSE),
   # c("H2ORF", "H2O Random Forest", TRUE, TRUE, FALSE),
-  c("Isotonic", "Isotonic Regression", FALSE, TRUE, FALSE),
+  c("Isotonic", "Isotonic Regression", TRUE, TRUE, FALSE),
   # c("LIHADBoost", "Boosting of Additive Trees", FALSE, TRUE, FALSE),
   # c("LIHAD", "Linear Hard Additive Tree", FALSE, TRUE, FALSE),
   # c("KernelKNN", "Kernel k-Nearest Neighbor", TRUE, TRUE, FALSE),

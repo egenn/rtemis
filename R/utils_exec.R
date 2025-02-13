@@ -2,28 +2,6 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-common_errors <- list(
-  "object '(.*)' not found" =
-    "Check that the object exists and is spelled correctly.",
-  "object of type 'closure' is not subsettable" =
-    "Check that the object is a list or data.frame."
-)
-common_warnings <- list(
-  "NAs introduced by coercion" = "Check that the input is of the correct type.",
-  # "glm.fit: algorithm did not converge" =
-  # "Same reasons as for 'glm.fit: fitted probabilities numerically 0 or 1 occurred'.",
-  "glm.fit: fitted probabilities numerically 0 or 1 occurred" =
-    paste(
-      "Reasons for this warning include:",
-      "1) Perfect Separation of classes.",
-      "2) Highly Imbalanced data.",
-      "3) Extreme values in predictors.",
-      "4) Too many predictors for the number of observations.",
-      "5) Multicollinearity.",
-      "\nSuggestion:\n  Try using GLMNET or tree-based algorithms",
-      sep = "\n  "
-    )
-)
 #' Do call with tryCatch and suggestion
 #'
 #' @param fn Function to call.
@@ -43,6 +21,29 @@ do_call <- function(
     error_pattern_suggestion = NULL,
     warning_pattern_suggestion = NULL) {
   call <- parent.frame(n = 1L)
+  common_errors <- list(
+    "object '(.*)' not found" =
+      "Check that the object exists and is spelled correctly.",
+    "object of type 'closure' is not subsettable" =
+      "Check that the object is a list or data.frame."
+  )
+  common_warnings <- list(
+    "NAs introduced by coercion" = "Check that the input is of the correct type.",
+    # "glm.fit: algorithm did not converge" =
+    # "Same reasons as for 'glm.fit: fitted probabilities numerically 0 or 1 occurred'.",
+    "glm.fit: fitted probabilities numerically 0 or 1 occurred" =
+      paste(
+        "Reasons for this warning include:",
+        "1) Perfect Separation of classes.",
+        "2) Highly Imbalanced data.",
+        "3) Extreme values in predictors.",
+        "4) Too many predictors for the number of observations.",
+        "5) Multicollinearity.",
+        bold("\nSuggestion:"),
+        "\n  Try using GLMNET or tree-based algorithms",
+        sep = "\n  "
+      )
+  )
   err_pat_sug <- c(common_errors, error_pattern_suggestion)
   warn_pat_sug <- c(common_warnings, warning_pattern_suggestion)
   tryCatch(
@@ -74,7 +75,7 @@ do_call <- function(
           red(errmsg),
           orange(
             paste0(
-              "Suggestion:\n  ",
+              bold("\nSuggestion:\n  "),
               paste0(suggestions, collapse = "\n  ")
             )
           )

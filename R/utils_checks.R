@@ -263,20 +263,20 @@ check_float01exc <- function(x) {
 check_float01inc <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(paste(xname, "must not contain NAs."))
   }
   if (any(x < 0 | x > 1)) {
-    cli::cli_abort(xname, " must be between 0 and 1, inclusive.", call. = FALSE)
+    cli::cli_abort(paste(xname, " must be between 0 and 1, inclusive."))
   }
 } # /rtemis::check_float01
 
 check_floatpos1 <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
+    cli::cli_abort(paste(xname, "must not contain NAs."))
   }
   if (any(x <= 0) || any(x > 1)) {
-    cli::cli_abort(xname, " must be greater than 0 and less or equal to 1.", call. = FALSE)
+    cli::cli_abort(paste(xname, "must be greater than 0 and less or equal to 1."))
   }
 } # /rtemis::check_floatpos1
 
@@ -299,10 +299,10 @@ clean_posint <- function(x) {
     return(NULL)
   }
   if (anyNA(x)) {
-    cli::cli_abort(xname, " must not contain NAs.")
+    cli::cli_abort(paste(xname, "must not contain NAs."))
   }
   if (any(x <= 0)) {
-    cli::cli_abort(xname, " must contain only positive integers.")
+    cli::cli_abort(paste(xname, "must contain only positive integers."))
   }
   clean_int(x)
 } # /rtemis::clean_posint
@@ -310,12 +310,14 @@ clean_posint <- function(x) {
 check_float0pos <- function(x) {
   xname <- bold(underline(deparse(substitute(x))))
   if (anyNA(x)) {
-    # cli::cli_abort(xname, " must not contain NAs.", call. = FALSE)
-    cli::cli_abort(xname, " must not contain NAs.")
+    cli::cli_abort(paste(xname, "must not contain NAs."))
+  }
+  if (!is.null(x) && any(x < 0)) {
+    cli::cli_abort(paste(xname, "must be zero or greater."))
   }
   if (!is.null(x) && any(x < 0)) {
     # cli::cli_abort(xname, " must be zero or greater.", call. = FALSE)
-    cli::cli_abort(xname, " must be zero or greater.")
+    cli::cli_abort(paste(xname, "must be zero or greater."))
   }
 } # /rtemis::check_float0positive
 

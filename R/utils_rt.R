@@ -287,70 +287,17 @@ check_type <- function(type, allowed.types, algorithm) {
 rtemis_init <- function(n_cores = 1,
                         context = NULL,
                         verbosity = 1L) {
-  # Future plan ====
-  # if (!is.null(context)) context <- paste0(context, ":")
-  # if (n_cores > 1) {
-  #     rtemis_plan <- getOption(
-  #         "future.plan",
-  #         ifelse(.Platform$OS.type == "unix", "multicore", "multisession")
-  #     )
-  #     future::plan(rtemis_plan)
-  #     # rtenv$plan_set <- 1
-  #     if (verbosity > 0L) {
-  #         msg2(context, "Future plan set to", bold(rtemis_plan),
-  #             color = magenta,
-  #             "with", bold(n_cores), "workers"
-  #         )
-  #     }
-  # } else {
-  #     future::plan("sequential")
-  #     if (verbosity > 0L) {
-  #         msg2(context, "Future plan set to",
-  #             bold("sequential"),
-  #             color = magenta
-  #         )
-  #     }
-  # }
-
   # Progress handlers
   if (is.null(rtenv[["handlers_set"]])) {
     # progressr::handlers(global = TRUE)
-    rtHandler <- getOption("rt.handler", "progress")
-    progressr::handlers(rtHandler)
+    rtemis_progress <- getOption("rtemis_progress", "cli")
+    progressr::handlers(rtemis_progress)
     rtenv[["handlers_set"]] <- 1
     if (verbosity > 0L) {
       msg2("Progress handler set to",
-        bold(rtHandler),
+        bold(rtemis_progress),
         color = magenta
       )
     }
   }
 } # rtemis::rtemis_init
-
-plan_init <- function() {
-  getOption(
-    "future.plan",
-    ifelse(.Platform[["OS.type"]] == "unix", "multicore", "multisession")
-  )
-}
-cores_init <- function() {
-  getOption("rtemis_cores", .availableCores)
-}
-palette_init <- function() {
-  getOption("rtemis_palette", "rtCol3")
-}
-theme_init <- function() {
-  getOption("rtemis_theme", "darkgraygrid")
-}
-font_init <- function() {
-  getOption("rtemis_font", "Helvetica")
-}
-# rtGridSearchLearnInit <- function() {
-#     getOption("rt.gridSearchLearn", "future")
-# }
-# rtWarnInit <- function() {
-#     getOption("rt.warn", 1)
-# }
-rtemis_date_init <- function() {
-  getOption("rt.date", TRUE)
-}

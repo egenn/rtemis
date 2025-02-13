@@ -16,7 +16,7 @@ train(
   weights = NULL,
   question = NULL,
   outdir = NULL,
-  parallel_type = "none",
+  parallel_type = "future",
   verbosity = 1L
 )
 }

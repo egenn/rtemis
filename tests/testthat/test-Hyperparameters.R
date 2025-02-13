@@ -83,3 +83,8 @@ lrft_hpr
 test_that("setup_LightRuleFit() succeeds", {
   expect_s7_class(setup_LightRuleFit(), LightRuleFitHyperparameters)
 })
+
+# setup_Isotonic ----
+test_that("setup_Isotonic() succeeds", {
+  expect_s7_class(setup_Isotonic(), IsotonicHyperparameters)
+})

@@ -67,7 +67,7 @@ train <- function(x,
                   weights = NULL,
                   question = NULL,
                   outdir = NULL,
-                  parallel_type = "none",
+                  parallel_type = "future",
                   verbosity = 1L) {
 
   # Dependencies ----
@@ -140,7 +140,14 @@ train <- function(x,
 
   # Parallel ----
   if (parallel_type == "future") {
-    # User sets future::plan()
+    # If a plan is already set, don't change it.
+    if (inherits(future::plan(), "tweaked")) {
+      if (verbosity > 1L) {
+        msg2("Using existing future plan.")
+      }
+    } else {
+      future::plan(rtemis_plan, workers = rtemis_workers)
+    }
   } else if (parallel_type == "mirai") {
     mirai::daemons(0)
     n_workers <- get_n_workers_for_learner(

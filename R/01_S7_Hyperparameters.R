@@ -1109,3 +1109,51 @@ setup_LightRuleFit <- function(
     ifw = ifw
   )
 } # /rtemis::setup_LightRuleFit
+
+
+# IsotonicHyperparameters ----
+Isotonic_tunable <- character()
+Isotonic_fixed <- character()
+
+#' @title IsotonicHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for Isotonic Regression.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+IsotonicHyperparameters <- new_class(
+  name = "IsotonicHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(ifw = NULL) {
+    new_object(
+      Hyperparameters(
+        algorithm = "Isotonic",
+        hyperparameters = list(
+          ifw = ifw
+        ),
+        tunable_hyperparameters = "ifw",
+        fixed_hyperparameters = Isotonic_fixed
+      )
+    )
+  }
+) # /rtemis::IsotonicHyperparameters
+
+# setup_Isotonic ----
+#' Setup Isotonic Hyperparameters
+#'
+#' Setup hyperparameters for Isotonic Regression.
+#'
+#' There are not hyperparameters for this algorithm at this moment.
+#' 
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return IsotonicHyperparameters object.
+#'
+#' @author EDG
+#' @export
+
+setup_Isotonic <- function(ifw = FALSE) {
+  IsotonicHyperparameters(ifw = ifw)
+} # /rtemis::setup_Isotonic

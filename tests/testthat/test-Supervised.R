@@ -100,14 +100,11 @@ test_that("train() GAM Regression with only parametric terms succeeds.", {
 })
 
 ## GAM Regression + grid search ----
-mirai::daemons(9)
 tmod_r_gam <- train(
   x = datr_train,
   dat_testing = datr_test,
   algorithm = "gam",
   hyperparameters = setup_GAM(k = c(3, 5, 7)),
-  tuner_parameters = setup_GridSearch(parallel_type = "future.mirai::mirai_multisession"),
-  parallel_type = "future"
 )
 test_that("train() GAM Regression with grid_search() succeeds", {
   expect_s7_class(tmod_r_gam, Regression)
@@ -509,4 +506,24 @@ mod_c_lightrlft <- train(
 )
 test_that("train() LightRuleFit Classification succeeds", {
   expect_s7_class(mod_c_lightrlft, Classification)
+})
+
+# Isotonic Regression ----
+x <- rnorm(50)
+y <- x^5 + rnorm(50)
+dat <- data.frame(x, y)
+mod_iso <- train(dat, algorithm = "Isotonic")
+test_that("train() Isotonic Regression succeeds", {
+  expect_s7_class(mod_iso, Regression)
+})
+
+# Isotonic Classification ----
+set.seed(2025)
+x <- rnorm(200)
+y <- factor(ifelse(x > mean(x), "b", "a"))
+x <- x + rnorm(200)/3
+dat <- data.frame(x, y)
+cmod_iso <- train(dat, algorithm = "Isotonic")
+test_that("train() Isotonic Classification succeeds", {
+  expect_s7_class(cmod_iso, Classification)
 })

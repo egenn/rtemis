@@ -156,7 +156,7 @@ setup_GridSearch <- function(
     metric = NULL,
     maximize = NULL,
     parallel_type = "mirai",
-    n_workers = rtemis_cores) {
+    n_workers = rtemis_workers) {
   # Arguments ----
   check_is_S7(resampler_parameters, ResamplerParameters)
   check_inherits(search_type, "character")

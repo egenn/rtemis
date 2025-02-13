@@ -49,39 +49,6 @@ tune_GridSearch <- function(x,
   # Arguments ----
   algorithm <- hyperparameters@algorithm
 
-  # parallel ----
-  # if (parallel_type == "future") {
-  #   if (!is.null(tuner_parameters[["parallel_type"]])) {
-  #     # => Only allow parallelization on same machine, if learner is NOT parallelized itself.
-  #     og_plan <- plan()
-  #     on.exit(plan(og_plan), add = TRUE)
-  #     # => Only pass n_workers if arg workers is supported by plan
-  #     # substitute = FALSE is required when using `[[`- indexing (as opposed to `$`)
-  #     future::plan(
-  #       strategy = tuner_parameters[["parallel_type"]],
-  #       workers = tuner_parameters[["n_workers"]],
-  #       substitute = FALSE
-  #     )
-  #     if (verbosity > 0L) {
-  #       msg20(hilite2(
-  #         "Tuning crossvalidation (inner resampling) future plan set to ",
-  #         tuner_parameters[["parallel_type"]], "with ", singorplu(n_workers, "worker"), "."
-  #       ))
-  #     }
-  #   }
-  #   # rtemis_init(n_cores, context = "Inner resampling")
-  # } else if (parallel_type == "mirai") {
-  #   mirai::daemons(n = n_workers)
-  # }
-
-  # Arguments ----
-  # if (verbosity > 1) {
-  #   msg2(hilite2(
-  #     "Tuning crossvalidation (inner resampling) future plan set to:"
-  #   ))
-  #   print(future::plan())
-  # }
-
   # Make Grid ----
   grid_params <- get_params_need_tuning(hyperparameters)
   n_params <- length(grid_params)
@@ -143,7 +110,7 @@ tune_GridSearch <- function(x,
       tuned = -9L # Hyperparameters are being tuned
     )
 
-    mod1 <- do.call(
+    mod1 <- do_call(
       "train",
       args = list(
         x = dat_train1,
@@ -195,10 +162,7 @@ tune_GridSearch <- function(x,
   # Train Grid ----
   if (verbosity > 0L) {
     msg2(
-      hilite(
-        "Tuning", hyperparameters@algorithm, "by",
-        search_type, "grid search."
-      )
+      hilite("Tuning", algorithm, "by", search_type, "grid search.")
     )
     msg20(
       hilite(n_param_combinations), " parameter combinations x ",
