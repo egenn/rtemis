@@ -13,7 +13,7 @@ precision(true, predicted, harmonize = FALSE, verbosity = 1L)
 
 \item{harmonize}{Logical: If TRUE, run \link{factor_harmonize} first}
 
-\item{verbosity}{Integer: If > 0, print messages to console.}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \description{
 The first factor level is considered the positive case.

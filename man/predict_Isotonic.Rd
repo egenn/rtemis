@@ -4,7 +4,7 @@
 \alias{predict_Isotonic}
 \title{Predict from Isotonic model}
 \usage{
-predict_Isotonic(model, newdata, type)
+predict_Isotonic(model, newdata, type, verbosity = 0L)
 }
 \arguments{
 \item{model}{Isotonic model.}

@@ -343,8 +343,7 @@ get_n_workers_for_learner <- function(algorithm, parallel_type, n_workers = NULL
     "future::multicore", "future::callr", "future::multisession",
     "future.mirai::mirai_multisession", "mirai"
   )
-  parallelized_learners <- c("LightCART", "LightGBM", "LightRF", "LightRuleFit", "Ranger")
-  if (parallel_type %in% single_machine_types && algorithm %in% parallelized_learners) {
+  if (parallel_type %in% single_machine_types && algorithm %in% live[["parallelized_learners"]]) {
     if (verbosity > 0L && !is.null(n_workers) && n_workers > 1) {
       msg2(hilite2(
         "Running a parallelized learner and n_workers is greater than 1, but plan ", parallel_type,
@@ -404,8 +403,10 @@ check_dependencies <- function(..., verbosity = 0L) {
   err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))
   if (any(err)) {
     cli::cli_abort(
-      "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
-      pastels(ns[err], bullet = "    -")
+      paste0(
+        "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
+        pastels(ns[err], bullet = "    -")
+      )
     )
   } else {
     if (verbosity > 0L) msg2("Dependency check passed", as.message = FALSE)

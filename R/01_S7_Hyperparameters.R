@@ -68,6 +68,25 @@ Hyperparameters <- new_class(
         tuned <- 0L
       }
     }
+    # SVM
+    # Check kernel-specific hyperparameters
+    if (algorithm == "SVM") {
+      # linear => cost
+      if (hyperparameters[["kernel"]] == "linear") {
+        if (length(hyperparameters[["cost"]]) > 1) {
+          tuned <- 0L
+        }
+      } else if (hyperparameters[["kernel"]] == "polynomial") {
+        if (length(hyperparameters[["degree"]]) > 1) {
+          tuned <- 0L
+        }
+      } else if (hyperparameters[["kernel"]] == "radial") {
+        if (length(hyperparameters[["sigma"]]) > 1) {
+          tuned <- 0L
+        }
+      }
+      
+    }
     new_object(
       S7_object(),
       algorithm = algorithm,
@@ -213,6 +232,10 @@ method(needs_tuning, Hyperparameters) <- function(x) {
 } # /needs_tuning.Hyperparameters
 
 # get_params_need_tuning ----
+#' Get hyperparameters that need tuning in an algorithm-specific way.
+#' 
+#' @keywords internal
+#' @noRd
 method(get_params_need_tuning, Hyperparameters) <- function(x) { # -> list
   # Get tunable hyperparameters with more than one value
   x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
@@ -1157,3 +1180,94 @@ IsotonicHyperparameters <- new_class(
 setup_Isotonic <- function(ifw = FALSE) {
   IsotonicHyperparameters(ifw = ifw)
 } # /rtemis::setup_Isotonic
+
+
+# SVMHyperparameters ----
+SVM_tunable <- c("cost", "degree", "gamma", "coef0", "ifw")
+SVM_fixed <- c("kernel")
+
+#' @title SVMHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for SVM.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+SVMHyperparameters <- new_class(
+  name = "SVMHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(hyperparameters = list(),
+                         tunable_hyperparameters = character(),
+                         fixed_hyperparameters = character()) {
+    new_object(
+      Hyperparameters(
+        algorithm = "SVM",
+        hyperparameters = hyperparameters,
+        tunable_hyperparameters = tunable_hyperparameters,
+        fixed_hyperparameters = fixed_hyperparameters
+      )
+    )
+  } # /constructor
+) # /rtemis::SVMHyperparameters
+
+
+# RadialSVMHyperparameters ----
+#' @title RadialSVMHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for SVM with radial kernel.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+RadialSVMHyperparameters <- new_class(
+  name = "RadialSVMHyperparameters",
+  parent = SVMHyperparameters,
+  constructor = function(cost = NULL,
+                         gamma = NULL,
+                         ifw = NULL) {
+    new_object(
+      SVMHyperparameters( 
+        hyperparameters = list(
+          kernel = "radial",
+          cost = cost,
+          gamma = gamma,
+          ifw = ifw
+        ),
+        tunable_hyperparameters = c("cost", "gamma", "ifw"),
+        fixed_hyperparameters = c("kernel")
+      )
+    )
+  } # /constructor
+) # /rtemis::RadialSVMHyperparameters
+
+#' Setup RadialSVM Hyperparameters
+#'
+#' Setup hyperparameters for RadialSVM training.
+#'
+#' Get more information from [e1071::svm].
+#'
+#' @param cost (Tunable) Numeric: Cost of constraints violation.
+#' @param gamma (Tunable) Numeric: Kernel coefficient.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return RadialSVMHyperparameters object.
+#'
+#' @author EDG
+#' @export
+setup_RadialSVM <- function(
+    cost = 1,
+    gamma = 0.01,
+    ifw = FALSE) {
+  check_inherits(cost, "numeric")
+  check_inherits(gamma, "numeric")
+  check_logical(ifw)
+  RadialSVMHyperparameters(
+    cost = cost,
+    gamma = gamma,
+    ifw = ifw
+  )
+} # /setup_RadialSVM
+
+setup_SVM <- setup_RadialSVM

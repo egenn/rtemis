@@ -4,7 +4,7 @@
 \alias{predict_LightCART}
 \title{Predict from LightCART LightGBM model}
 \usage{
-predict_LightCART(model, newdata, type)
+predict_LightCART(model, newdata, type, verbosity = 0L)
 }
 \arguments{
 \item{model}{lgb.Booster object trained using \code{train_LightCART}.}
