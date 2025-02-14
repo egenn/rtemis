@@ -438,7 +438,7 @@ mod_r_tabnet <- train(
   x = datr_train,
   dat_testing = datr_test,
   algorithm = "tabnet",
-  hyperparameters = setup_TabNet(epochs = 100L, learn_rate = .05)
+  hyperparameters = setup_TabNet(epochs = 10L, learn_rate = .1)
 )
 
 test_that("train() TabNet Regression succeeds", {
@@ -596,7 +596,7 @@ mod_c_tabnet <- train(
   dat_testing = datc2_test,
   algorithm = "tabnet",
   hyperparameters = setup_TabNet(
-    epochs = 100L, learn_rate = .05,
+    epochs = 10L, learn_rate = .1,
     num_workers = 10L
     )
 )
