@@ -1382,9 +1382,52 @@ TabNetHyperparameters <- new_class(
 #'
 #' Get more information from [tabnet::tabnet_config]
 #'
-#' @param 
-
-
+#' @param batch_size (Tunable) Positive integer: Batch size.
+#' @param penalty (Tunable) Numeric: Regularization penalty.
+#' @param clip_value Numeric: Clip value.
+#' @param loss Character: Loss function.
+#' @param epochs (Tunable) Positive integer: Number of epochs.
+#' @param drop_last Logical: If TRUE, drop last batch.
+#' @param decision_width (Tunable) Positive integer: Decision width.
+#' @param attention_width (Tunable) Positive integer: Attention width.
+#' @param num_steps (Tunable) Positive integer: Number of steps.
+#' @param feature_reusage (Tunable) Numeric: Feature reusage.
+#' @param mask_type Character: Mask type.
+#' @param virtual_batch_size (Tunable) Positive integer: Virtual batch size.
+#' @param valid_split Numeric: Validation split.
+#' @param learn_rate (Tunable) Numeric: Learning rate.
+#' @param optimizer Character or torch function: Optimizer.
+#' @param lr_scheduler Character or torch function: "step", "reduce_on_plateau".
+#' @param lr_decay Numeric: Learning rate decay.
+#' @param step_size Positive integer: Step size.
+#' @param checkpoint_epochs (Tunable) Positive integer: Checkpoint epochs.
+#' @param cat_emb_dim (Tunable) Positive integer: Categorical embedding dimension.
+#' @param num_independent (Tunable) Positive integer: Number of independent Gated Linear Units (GLU)
+#' at each step of the encoder.
+#' @param num_shared (Tunable) Positive integer: Number of shared Gated Linear Units (GLU) at each 
+#' step of the encoder.
+#' @param num_independent_decoder (Tunable) Positive integer: Number of independent GLU layers for
+#' pretraining.
+#' @param num_shared_decoder (Tunable) Positive integer: Number of shared GLU layers for 
+#' pretraining.
+#' @param momentum (Tunable) Numeric: Momentum.
+#' @param pretraining_ratio (Tunable) Numeric: Pretraining ratio.
+#' @param device Character: Device "cpu" or "cuda".
+#' @param importance_sample_size Positive integer: Importance sample size.
+#' @param early_stopping_monitor Character: Early stopping monitor. "valid_loss", "train_loss", 
+#' "auto".
+#' @param early_stopping_tolerance Numeric: Minimum relative improvement to reset the patience 
+#' counter.
+#' @param early_stopping_patience Positive integer: Number of epochs without improving before 
+#' stopping.
+#' @param num_workers Positive integer: Number of subprocesses for data loacding.
+#' @param skip_importance Logical: If TRUE, skip importance calculation.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return TabNetHyperparameters object.
+#' 
+#' @author EDG
+#' @export
 setup_TabNet <- function(
     batch_size = 1024^2,
     penalty = 0.001,
