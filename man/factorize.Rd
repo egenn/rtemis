@@ -72,7 +72,7 @@ polyserials, "Yuleb": Yulebonett, "Yuleq" and "YuleY": Yule coefficients}
 
 \item{do_hclust}{Logical: If TRUE, perform hierarchical cluster analysis.}
 
-\item{verbosity}{Integer: Verbosity level..}
+\item{verbosity}{Integer: Verbosity level.}
 
 \item{...}{Additional arguments to pass to \code{psych::fa}}
 }

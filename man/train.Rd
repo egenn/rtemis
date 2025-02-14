@@ -44,7 +44,7 @@ answer.}
 
 \item{outdir}{Character, optional: String defining the output directory.}
 
-\item{parallel_type}{Character: "none", "future", or "mirai".}
+\item{parallel_type}{Character: "none", or "future".}
 
 \item{verbosity}{Integer: Verbosity level.
 \code{hyperparameters} is not defined. Avoid relying on this, instead use the appropriate \verb{setup_*}

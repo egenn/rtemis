@@ -15,7 +15,7 @@
 #' "minres": minimum residual (OLS), "wls": weighted least squares (WLS);
 #' "gls": generalized weighted least squares (GLS); "pa": principal factor solution;
 #' "ml": maximum likelihood;
-#' "minchi": minimize the sample size weighted chi square when treating pairwise correlations with 
+#' "minchi": minimize the sample size weighted chi square when treating pairwise correlations with
 #' different number of subjects per pair; "minrank": minimum rank factor analysis.
 #' @param rotation Character: Rotation methods.
 #' No rotation: "none";
@@ -25,10 +25,10 @@
 #' "Thurstone": simple regression, "tenBerge": correlation-preserving, "Anderson", "Barlett".
 #' @param cor Character: Correlation method:
 #' "cor": Pearson correlation, "cov": Covariance, "tet": tetrachoric, "poly": polychoric,
-#' "mixed": mixed cor for a mixture of tetrachorics, polychorics, Pearsons, biserials, and 
+#' "mixed": mixed cor for a mixture of tetrachorics, polychorics, Pearsons, biserials, and
 #' polyserials, "Yuleb": Yulebonett, "Yuleq" and "YuleY": Yule coefficients
 #' @param fa_n_iter Integer: Number of iterations for factor analysis.
-#' @param omega_method Character: Factor analysis method for the bifactor analysis. Same options as 
+#' @param omega_method Character: Factor analysis method for the bifactor analysis. Same options as
 #' `method`
 #' @param omega_rotation Character: Rotation method for bifactor analysis:
 #' "oblimin", "simplimax", "promax", "cluster", "target".
@@ -39,9 +39,9 @@
 #' @param do_fa Logical: If TRUE, perform factor analysis.
 #' @param do_bifactor Logical: If TRUE, perform bifactor analysis.
 #' @param do_hclust Logical: If TRUE, perform hierarchical cluster analysis.
-#' @param verbosity Integer: Verbosity level..
+#' @param verbosity Integer: Verbosity level.
 #' @param ... Additional arguments to pass to `psych::fa`
-#' 
+#'
 #' @return List with the following elements:
 #' \describe{
 #'   \item{parallel_analysis}{Results from parallel analysis}

@@ -40,10 +40,9 @@ tune_GridSearch <- function(x,
 
   # Intro ----
   start_time <- intro(
-    message = paste0("Running grid search (parallelization: ", parallel_type, ")"),
     newline_pre = TRUE,
-    verbosity = verbosity,
-    caller = "tune_GridSearch"
+    caller = "tune_GridSearch",
+    verbosity = verbosity - 1L
   )
 
   # Arguments ----
@@ -428,7 +427,7 @@ tune_GridSearch <- function(x,
   if (verbosity > 0L) {
     cat("\n")
     msg2(hilite(paste0("Best parameters to ", paste(verb, metric), ":")))
-    printls(best_param_combo)
+    print_tune_finding(grid_params, best_param_combo)
   }
 
   # Outro ----
@@ -449,3 +448,22 @@ tune_GridSearch <- function(x,
     best_hyperparameters = best_param_combo
   )
 } # /rtemis::tune_GridSearch
+
+
+# Print tuning results ----
+# Print set of search values and best value in the form {1, 3, 5} => 3
+# for each hyperparameter that was tuned.
+print_tune_finding <- function(grid_params, best_param_combo) {
+  # Make list of search values and best value
+  tfl <- lapply(seq_along(grid_params), function(i) {
+    paste0(
+      "{",
+      paste(grid_params[[i]], collapse = ", "),
+      "}",
+      " => ",
+      bold(best_param_combo[[names(grid_params)[i]]])
+    )
+  })
+  names(tfl) <- names(grid_params)
+  printls(tfl, print_class = FALSE)
+} # /rtemis::print_tune_finding

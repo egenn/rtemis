@@ -120,7 +120,7 @@ train_LightRF <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
-predict_LightRF <- function(model, newdata, type) {
+predict_LightRF <- function(model, newdata, type, verbosity = 0L) {
   check_inherits(model, "lgb.Booster")
   check_inherits(newdata, "data.frame")
 
