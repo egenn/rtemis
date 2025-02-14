@@ -45,7 +45,7 @@
 #' @param question Optional character string defining the question that the model is trying to
 #' answer.
 #' @param outdir Character, optional: String defining the output directory.
-#' @param parallel_type Character: "none", "future", or "mirai".
+#' @param parallel_type Character: "none", or "future".
 #' @param verbosity Integer: Verbosity level.
 # @param ... Additional arguments to pass to the hyperparameters setup function. Only used if
 #' `hyperparameters` is not defined. Avoid relying on this, instead use the appropriate `setup_*`
@@ -138,30 +138,8 @@ train <- function(x,
   }
   start_time <- intro(verbosity = verbosity, log_file = log_file)
 
-  # Parallel ----
-  if (parallel_type == "future") {
-    # If a plan is already set, don't change it.
-    if (inherits(future::plan(), "tweaked")) {
-      if (verbosity > 1L) {
-        msg2("Using existing future plan.")
-      }
-    } else {
-      future::plan(rtemis_plan, workers = rtemis_workers)
-    }
-  } else if (parallel_type == "mirai") {
-    mirai::daemons(0)
-    n_workers <- get_n_workers_for_learner(
-      algorithm = algorithm,
-      parallel_type = "mirai",
-      verbosity = verbosity
-    )
-    mirai::daemons(max(future::availableCores() - 1L, 1L))
-  } else if (parallel_type == "none") {
-    # future::plan("sequential")
-    # mirai::daemons(0)
-  } else {
-    stop("Unknown parallel_type: ", parallel_type)
-  }
+  # Parallelization ----
+  # 3 potential points of parallelization from inner to outer: algorithm, tuning, CV.
 
   # Init ----
   tuner <- NULL
@@ -193,7 +171,7 @@ train <- function(x,
     }
     crossvalidation_resampler <- resample(x, parameters = crossvalidation_parameters, verbosity = verbosity)
     pcv <- progressr::progressor(crossvalidation_resampler@parameters@n)
-    models <- future.apply::future_lapply(
+    models <- lapply(
       seq_len(crossvalidation_resampler@parameters@n),
       function(i) {
         pcv(message = sprintf("Crossvalidation %i/%i", i, crossvalidation_resampler@parameters@n))
@@ -210,9 +188,7 @@ train <- function(x,
           outdir = outdir,
           verbosity = verbosity - 1L
         )
-      },
-      future.seed = TRUE,
-      future.label = paste0("CV_train_", algorithm, "_%d")
+      }
     )
     hyperparameters@crossvalidated <- 1L
     msg2("Crossvalidation done.")
@@ -221,6 +197,19 @@ train <- function(x,
   if (hyperparameters@crossvalidated == 0L) {
     # Tune ----
     if (needs_tuning(hyperparameters)) {
+      if (parallel_type == "future") {
+        if (algorithm %in% live[["parallelized_learners"]]) {
+          future::plan(strategy = "sequential")
+          if (verbosity > 0L) {
+            info(bold(algorithm), "is parallelized. Disabling all other parallelization.")
+          }
+        } else {
+          future::plan(strategy = rtemis_plan, workers = rtemis_workers)
+          if (verbosity > 0L) {
+            info("Tuning parallelization: plan set to", bold(rtemis_plan), "with", bold(rtemis_workers), "workers.")
+          }
+        }
+      }
       tuner <- tune(
         x = x,
         hyperparameters = hyperparameters,
