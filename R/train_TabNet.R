@@ -9,7 +9,6 @@
 #' TabNet does not work in the presence of missing values.
 #'
 #' @param x data.frame or similar: Training set.
-#' @param dat_validation data.frame or similar: Validation set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters `TabNetHyperparameters` object: make using [setup_TabNet].
 #' @param tuner_parameters `TunerParameters` object: make using [setup_GridSearch].
@@ -22,7 +21,6 @@
 
 train_TabNet <- function(
     x,
-    dat_validation = NULL,
     weights = NULL,
     hyperparameters = NULL,
     tuner_parameters = NULL,
@@ -42,7 +40,6 @@ train_TabNet <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
     allow_missing = FALSE,
     verbosity = verbosity
   )
