@@ -75,7 +75,7 @@ train_Isotonic <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
-predict_Isotonic <- function(model, newdata, type) {
+predict_Isotonic <- function(model, newdata, type, verbosity = 0L) {
   model(newdata[[1]])
 } # /rtemis::predict_Isotonic
 
