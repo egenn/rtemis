@@ -11,7 +11,7 @@ resample(x, parameters = setup_Resampler(), verbosity = 1L)
 
 \item{parameters}{Resampler object created by \link{setup_Resampler}.}
 
-\item{verbosity}{Logical: If TRUE, print messages to console.}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \description{
 Create resamples of your data, e.g. for model building or validation.

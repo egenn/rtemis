@@ -4,7 +4,7 @@
 \alias{predict_LightRF}
 \title{Predict from LightRF LightGBM model}
 \usage{
-predict_LightRF(model, newdata, type)
+predict_LightRF(model, newdata, type, verbosity = 0L)
 }
 \arguments{
 \item{model}{lgb.Booster object trained using \code{train_LightRF}.}

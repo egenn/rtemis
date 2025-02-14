@@ -13,7 +13,7 @@ bacc(true, predicted, harmonize = FALSE, verbosity = 1L)
 
 \item{harmonize}{Logical: passed to \link{sensitivity} and \link{specificity}, which use \link{factor_harmonize}.}
 
-\item{verbosity}{Integer: If > 0, print messages to console.}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \description{
 Balanced Accuracy of a binary classifier

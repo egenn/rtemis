@@ -11,7 +11,7 @@ factor_harmonize(reference, x, verbosity = 1L)
 
 \item{x}{Input factor.}
 
-\item{verbosity}{Integer: If > 0, print messages to console.}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 Factor: x with levels in the same order as reference.
