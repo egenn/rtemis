@@ -10,11 +10,12 @@
 # 2016- EDG rtemis.org
 
 # rtemis internal environment
-rtenv <- new.env()
+live <- new.env()
+live[["parallelized_learners"]] <- c("LightCART", "LightGBM", "LightRF", "LightRuleFit", "Ranger")
 
 # vars
 rtemis_version <- packageVersion("rtemismlv")
-.availableCores <- future::availableCores()
+.availableCores <- unname(future::availableCores())
 
 # References
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
