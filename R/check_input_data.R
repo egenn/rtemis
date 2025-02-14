@@ -8,13 +8,13 @@
 #' Check data ahead of supervised learning
 #'
 #' @param x Data frame: Training set features and outcome in the last column.
-#' @param dat_validation Data frame: Validation set features and outcome in the last column. Default is NULL.
-#' @param dat_testing Data frame: Testing set features and outcome in the last column. Default is NULL.
-#' @param allow_missing Logical: If TRUE, allow missing values in the data. Default is TRUE.
-#' @param verbosity Integer: Verbosity level. Default is 1.
+#' @param dat_validation Data frame: Validation set features and outcome in the last column.
+#' @param dat_testing Data frame: Testing set features and outcome in the last column.
+#' @param allow_missing Logical: If TRUE, allow missing values in the data.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @return None. Stops execution if checks fail.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -41,7 +41,7 @@ check_supervised_data <- function(x,
   if (!is.null(dat_testing)) {
     check_inherits(dat_testing, "data.frame")
   }
-  
+
   # Check dimensions ----
   ncols <- NCOL(x)
   # Since one column must be outcome, need min of 2 columns
@@ -111,7 +111,7 @@ check_supervised_data <- function(x,
 #' @param allow_missing Logical: If TRUE, allow missing values in the data. Default is FALSE.
 #'
 #' @return Nothing. Stops execution if checks fail.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -120,11 +120,10 @@ check_supervised_data <- function(x,
 #' check_unsupervised_data(features_data)
 #' }
 check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
-
   if (verbosity > 0L) {
     msg2start("Checking unsupervised data...")
   }
-  
+
   if (NCOL(x) < 2) {
     cli::cli_abort("Data must contain at least 2 columns.")
   }

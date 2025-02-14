@@ -7,16 +7,16 @@
 #' Create resamples of your data, e.g. for model building or validation.
 #' "KFold" creates stratified folds, , "StratSub" creates stratified subsamples,
 #' "Bootstrap" gives the standard bootstrap, i.e. random sampling with replacement,
-#' while "StratBoot" uses StratSub and then randomly duplicates some of the training cases to 
+#' while "StratBoot" uses StratSub and then randomly duplicates some of the training cases to
 #' reach original length of input (default) or length defined by `target_length`.
 #'
-#' Note that option 'KFold' may result in resamples of slightly different length. Avoid all 
-#' operations which rely on equal-length vectors. For example, you can't place resamples in a 
+#' Note that option 'KFold' may result in resamples of slightly different length. Avoid all
+#' operations which rely on equal-length vectors. For example, you can't place resamples in a
 #' data.frame, but must use a list instead.
 #'
 #' @param x Vector or data.frame: Usually the outcome; `NROW(y)` defines sample size
 #' @param parameters Resampler object created by [setup_Resampler].
-#' @param verbosity Logical: If TRUE, print messages to console.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
 #' @export
@@ -153,9 +153,9 @@ resample <- function(x,
 #' @param x Input vector.
 #' @param n_resamples Integer: Number of resamples to make.
 #' @param seed Integer: If provided, set seed for reproducibility.
-#' 
+#'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 bootstrap <- function(x, n_resamples = 10,
@@ -177,9 +177,9 @@ bootstrap <- function(x, n_resamples = 10,
 #' @inheritParams resample
 #' @param x Input Vector.
 #' @param k Integer: Number of folds.
-#' 
+#'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 kfold <- function(x, k = 10,
@@ -229,9 +229,9 @@ kfold <- function(x, k = 10,
 #'
 #' @inheritParams resample
 #' @param x Input vector
-#' 
+#'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 strat.sub <- function(x,
@@ -269,9 +269,9 @@ strat.sub <- function(x,
 #'
 #' @inheritParams resample
 #' @param x Input vector
-#' 
+#'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 strat.boot <- function(x, n_resamples = 10,
@@ -311,9 +311,9 @@ strat.boot <- function(x, n_resamples = 10,
 #' Leave-one-out Resampling
 #'
 #' @param x Input vector
-#' 
+#'
 #' @author EDG
-#' 
+#'
 #' @keywords internal
 #' @noRd
 loocv <- function(x) {

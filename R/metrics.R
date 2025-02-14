@@ -83,7 +83,7 @@ logloss <- function(true_int, predicted_prob, eps = 1e-16) {
 #' @param true True labels
 #' @param predicted predicted labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbosity Integer: If > 0, print messages to console.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
 sensitivity <- function(true, predicted,
@@ -103,7 +103,7 @@ sensitivity <- function(true, predicted,
 #' @param true True labels
 #' @param predicted predicted labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbosity Integer: If > 0, print messages to console.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
 
@@ -126,7 +126,7 @@ specificity <- function(true, predicted,
 #' @param true Factor: True labels.
 #' @param predicted Factor: Predicted labels.
 #' @param harmonize Logical: passed to [sensitivity] and [specificity], which use [factor_harmonize].
-#' @param verbosity Integer: If > 0, print messages to console.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
 bacc <- function(true, predicted,
@@ -143,7 +143,7 @@ bacc <- function(true, predicted,
 #' @param true Factor: True labels
 #' @param predicted Factor: predicted labels
 #' @param harmonize Logical: If TRUE, run [factor_harmonize] first
-#' @param verbosity Integer: If > 0, print messages to console.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
 
@@ -168,7 +168,7 @@ precision <- function(true, predicted,
 #'
 #' @param x Input factor.
 #' @param reference Reference factor.
-#' @param verbosity Integer: If > 0, print messages to console.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
 #' @return Factor: x with levels in the same order as reference.
