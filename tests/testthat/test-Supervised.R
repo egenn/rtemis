@@ -135,9 +135,40 @@ cvmod_r_gam <- train(
 #   expect_identical(mod_r_gam_aa@hyperparameters$k, 7L)
 # })
 
+## SVM Regression ----
+mod_r_svmr <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "svm",
+  hyperparameters = setup_RadialSVM()
+)
+
+## SVM Regression + tuning ----
+tmod_r_svmr <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "svm",
+  hyperparameters = setup_RadialSVM(cost = c(1, 10, 100))
+)
+
+## CV SVM Regression ----
+cvmod_r_svmr <- train(
+  x = datr,
+  algorithm = "svm",
+  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+
+## CV SVM Regression + tuning ----
+cvtmod_r_svmr <- train(
+  x = datr,
+  algorithm = "svm",
+  hyperparameters = setup_RadialSVM(cost = c(1, 10, 100)),
+  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+
 ## train_CART() ----
+mod_r_rpart <- train_CART(x = datr_train)
 test_that("train_CART() succeeds", {
-  mod_r_rpart <- train_CART(x = datr_train)
   expect_s3_class(mod_r_rpart, "rpart")
 })
 

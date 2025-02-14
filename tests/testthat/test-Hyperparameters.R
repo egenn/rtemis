@@ -90,6 +90,8 @@ test_that("setup_Isotonic() succeeds", {
 })
 
 # setup_RadialSVM ----
+rsvm_hpr <- setup_RadialSVM()
 test_that("setup_RadialSVM() succeeds", {
-  expect_s7_class(setup_RadialSVM(), RadialSVMHyperparameters)
+  expect_s7_class(rsvm_hpr, RadialSVMHyperparameters)
+  expect_s7_class(rsvm_hpr, SVMHyperparameters)
 })
