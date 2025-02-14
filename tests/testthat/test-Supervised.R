@@ -421,6 +421,18 @@ mod_r_lightrlft_reg <- train(
   hyperparameters = setup_LightRuleFit(num_leaves = 2^2, lambda_l1 = 100)
 )
 
+# TabNet Regression ----
+mod_r_tabnet <- train(
+  x = datr_train,
+  dat_testing = datr_test,
+  algorithm = "tabnet",
+  hyperparameters = setup_TabNet(epochs = 100L, learn_rate = .05)
+)
+
+test_that("train() TabNet Regression succeeds", {
+  expect_s7_class(mod_r_tabnet, Regression)
+})
+
 # Binary Classification ----
 
 ## GLM Classification ----
@@ -558,3 +570,14 @@ cmod_iso <- train(dat, algorithm = "Isotonic")
 test_that("train() Isotonic Classification succeeds", {
   expect_s7_class(cmod_iso, Classification)
 })
+
+# TabNet Classification ----
+mod_c_tabnet <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "tabnet",
+  hyperparameters = setup_TabNet(
+    epochs = 100L, learn_rate = .05,
+    num_workers = 10L
+    )
+)
