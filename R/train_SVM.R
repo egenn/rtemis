@@ -61,7 +61,11 @@ train_SVM <- function(
   }
 
   # One-hot encode ----
-  x <- preprocess(x, parameters = setup_Preprocessor(one_hot = TRUE))@preprocessed
+  y <- x[, ncol(x)]
+  x <- preprocess(
+    x[, -ncol(x), drop = FALSE],
+    parameters = setup_Preprocessor(one_hot = TRUE)
+  )@preprocessed
 
   # Can use class_weights or set class.weights = "inverse" in svm()
   # if (is.null(weights)) {
@@ -72,12 +76,13 @@ train_SVM <- function(
   class_weights <-
     if (type == "Classification" && n_classes == 2 && hyperparameters[["ifw"]]) "inverse" else NULL
   model <- e1071::svm(
-    x = x[, -ncol(x), drop = FALSE],
-    y = x[, ncol(x)],
+    x = x,
+    y = y, # factor or numeric
     kernel = hyperparameters[["kernel"]],
     cost = hyperparameters[["cost"]],
     gamma = hyperparameters[["gamma"]],
-    class.weights = class_weights
+    class.weights = class_weights,
+    probability = TRUE
   )
   check_inherits(model, "svm")
   model
@@ -93,10 +98,18 @@ predict_SVM <- function(model, newdata, type, verbosity = 0L) {
   newdata <- preprocess(
     newdata,
     parameters = setup_Preprocessor(one_hot = TRUE),
-    verbosity = verbosity
+    verbosity = verbosity - 1L
   )@preprocessed
   if (type == "Classification") {
-    predict(model, newdata, probability = TRUE)
+    predicted_prob <- attr(
+      predict(model, newdata = newdata, probability = TRUE),
+      "probabilities"
+    )
+    if (length(model$levels) == 2) {
+      predicted_prob[, 2]
+    } else {
+      predicted_prob
+    }
   } else {
     predict(model, newdata = newdata)
   }
