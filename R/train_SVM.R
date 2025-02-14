@@ -2,9 +2,6 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-# [ ] Rename SVM
-# [ ] Check if weights are supported, if not, are class weights?
-
 #' Train a SVM model
 #'
 #' Train a SVM model using `SVM`.
@@ -12,8 +9,6 @@
 #' SVM does not work in the presence of missing values.
 #'
 #' @param x data.frame or similar: Training set.
-#' @param dat_validation data.frame or similar: Validation set.
-#' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters `SVMHyperparameters` object: make using [setup_RadialSVM].
 #' @param tuner_parameters `TunerParameters` object: make using [setup_GridSearch].
@@ -26,8 +21,6 @@
 
 train_SVM <- function(
     x,
-    dat_validation = NULL,
-    dat_testing = NULL,
     weights = NULL,
     hyperparameters = NULL,
     tuner_parameters = NULL,
@@ -47,8 +40,6 @@ train_SVM <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
-    dat_testing = dat_testing,
     allow_missing = FALSE,
     verbosity = verbosity
   )
