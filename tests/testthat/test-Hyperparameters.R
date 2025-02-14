@@ -95,3 +95,8 @@ test_that("setup_RadialSVM() succeeds", {
   expect_s7_class(rsvm_hpr, RadialSVMHyperparameters)
   expect_s7_class(rsvm_hpr, SVMHyperparameters)
 })
+
+# setup_TabNet ----
+test_that("setup_TabNet() succeeds", {
+  expect_s7_class(setup_TabNet(), TabNetHyperparameters)
+})

@@ -433,6 +433,20 @@ mod_r_lightrlft_reg <- train(
   hyperparameters = setup_LightRuleFit(num_leaves = 2^2, lambda_l1 = 100)
 )
 
+# TabNet Regression ----
+# Test if lantern is installed
+if (torch::torch_is_installed()) {
+  mod_r_tabnet <- train(
+    x = datr_train,
+    dat_testing = datr_test,
+    algorithm = "tabnet",
+    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
+  )
+  test_that("train() TabNet Regression succeeds", {
+    expect_s7_class(mod_r_tabnet, Regression)
+  })
+}
+
 # Binary Classification ----
 
 ## GLM Classification ----
@@ -577,3 +591,19 @@ mod_c_svm <- train(
   dat_testing = datc2_test,
   algorithm = "svm"
 )
+test_that("train() SVM Classification succeeds", {
+  expect_s7_class(mod_c_svm, Classification)
+})
+
+# TabNet Classification ----
+if (torch::torch_is_installed()) {
+  mod_c_tabnet <- train(
+  x = datc2_train,
+  dat_testing = datc2_test,
+  algorithm = "tabnet",
+  hyperparameters = setup_TabNet(epochs = 5L, learn_rate = .01)
+  )
+  test_that("train() TabNet Classification succeeds", {
+    expect_s7_class(mod_c_tabnet, Classification)
+  })
+}
