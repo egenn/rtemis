@@ -288,11 +288,11 @@ rtemis_init <- function(n_cores = 1,
                         context = NULL,
                         verbosity = 1L) {
   # Progress handlers
-  if (is.null(rtenv[["handlers_set"]])) {
+  if (is.null(live[["handlers_set"]])) {
     # progressr::handlers(global = TRUE)
     rtemis_progress <- getOption("rtemis_progress", "cli")
     progressr::handlers(rtemis_progress)
-    rtenv[["handlers_set"]] <- 1
+    live[["handlers_set"]] <- 1
     if (verbosity > 0L) {
       msg2("Progress handler set to",
         bold(rtemis_progress),
