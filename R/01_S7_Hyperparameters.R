@@ -1278,12 +1278,12 @@ tabnet_tunable <- c(
   "attention_width", "num_steps", "feature_reusage", "mask_type", "virtual_batch_size",
   "valid_split", "learn_rate", "optimizer", "lr_scheduler", "lr_decay", "step_size",
   "checkpoint_epochs", "cat_emb_dim", "num_independent", "num_shared", "num_independent_decoder",
-  "num_shared_decoder", "momentum", "pretraining_ratio", "verbose", "device",
+  "num_shared_decoder", "momentum", "pretraining_ratio",
   "importance_sample_size", "early_stopping_monitor", "early_stopping_tolerance",
   "early_stopping_patience", "num_workers", "skip_importance", "early_stopping_patience", "ifw"
 )
 
-tabnet_fixed <- c("num_workers", "skip_importance")
+tabnet_fixed <- c("device", "num_workers", "skip_importance")
 
 #' @title TabNetHyperparameters
 #'
@@ -1322,7 +1322,6 @@ TabNetHyperparameters <- new_class(
                          num_shared_decoder = NULL,
                          momentum = NULL,
                          pretraining_ratio = NULL,
-                         verbose = NULL,
                          device = NULL,
                          importance_sample_size = NULL,
                          early_stopping_monitor = NULL,
@@ -1361,7 +1360,6 @@ TabNetHyperparameters <- new_class(
           num_shared_decoder = num_shared_decoder,
           momentum = momentum,
           pretraining_ratio = pretraining_ratio,
-          verbose = verbose,
           device = device,
           importance_sample_size = importance_sample_size,
           early_stopping_monitor = early_stopping_monitor,
@@ -1392,11 +1390,11 @@ setup_TabNet <- function(
     penalty = 0.001,
     clip_value = NULL,
     loss = "auto",
-    epochs = 5,
+    epochs = 50L,
     drop_last = FALSE,
     decision_width = NULL,
     attention_width = NULL,
-    num_steps = 3,
+    num_steps = 3L,
     feature_reusage = 1.3,
     mask_type = "sparsemax",
     virtual_batch_size = 256^2,
@@ -1406,22 +1404,22 @@ setup_TabNet <- function(
     lr_scheduler = NULL,
     lr_decay = 0.1,
     step_size = 30,
-    checkpoint_epochs = 10,
-    cat_emb_dim = 1,
-    num_independent = 2,
-    num_shared = 2,
-    num_independent_decoder = 1,
-    num_shared_decoder = 1,
+    checkpoint_epochs = 10L,
+    cat_emb_dim = 1L,
+    num_independent = 2L,
+    num_shared = 2L,
+    num_independent_decoder = 1L,
+    num_shared_decoder = 1L,
     momentum = 0.02,
     pretraining_ratio = 0.5,
-    verbose = FALSE,
     device = "auto",
     importance_sample_size = NULL,
     early_stopping_monitor = "auto",
     early_stopping_tolerance = 0,
-    early_stopping_patience = 0L,
+    early_stopping_patience = 0,
     num_workers = 0L,
-    skip_importance = FALSE) {
+    skip_importance = FALSE,
+    ifw = FALSE) {
   TabNetHyperparameters(
     batch_size = batch_size,
     penalty = penalty,
@@ -1449,13 +1447,22 @@ setup_TabNet <- function(
     num_shared_decoder = num_shared_decoder,
     momentum = momentum,
     pretraining_ratio = pretraining_ratio,
-    verbose = verbose,
     device = device,
     importance_sample_size = importance_sample_size,
     early_stopping_monitor = early_stopping_monitor,
     early_stopping_tolerance = early_stopping_tolerance,
     early_stopping_patience = early_stopping_patience,
     num_workers = num_workers,
-    skip_importance = skip_importance
+    skip_importance = skip_importance,
+    ifw = ifw
   )
 } # /setup_TabNet
+
+
+get_tabnet_config <- function(hyperparameters) {
+  check_is_S7(hyperparameters, TabNetHyperparameters)
+  hpr <- hyperparameters@hyperparameters
+  hpr[["ifw"]] <- NULL
+  hpr
+  do.call(tabnet::tabnet_config, hpr)
+} # /get_tabnet_config
