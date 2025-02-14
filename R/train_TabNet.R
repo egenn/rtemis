@@ -26,7 +26,7 @@ train_TabNet <- function(
     tuner_parameters = NULL,
     verbosity = 1L) {
   # Dependencies ----
-  check_dependencies("tabnet")
+  check_dependencies("torch", "tabnet")
 
   # Checks ----
   check_is_S7(hyperparameters, TabNetHyperparameters)

@@ -81,6 +81,7 @@ Suggests:
     threejs,
     testthat (>= 3.0.0),
     timeDate,
+    torch,
     usmap,
     uwot,
     visNetwork,
