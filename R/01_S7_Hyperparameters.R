@@ -1197,17 +1197,15 @@ SVM_fixed <- c("kernel")
 SVMHyperparameters <- new_class(
   name = "SVMHyperparameters",
   parent = Hyperparameters,
-  constructor = function(kernel = NULL,
-                         ifw = NULL) {
+  constructor = function(hyperparameters = list(),
+                         tunable_hyperparameters = character(),
+                         fixed_hyperparameters = character()) {
     new_object(
       Hyperparameters(
         algorithm = "SVM",
-        hyperparameters = list(
-          kernel = kernel,
-          ifw = ifw
-        ),
-        tunable_hyperparameters = c("ifw"),
-        fixed_hyperparameters = c("kernel")
+        hyperparameters = hyperparameters,
+        tunable_hyperparameters = tunable_hyperparameters,
+        fixed_hyperparameters = fixed_hyperparameters
       )
     )
   } # /constructor
@@ -1225,13 +1223,12 @@ SVMHyperparameters <- new_class(
 #' @noRd
 RadialSVMHyperparameters <- new_class(
   name = "RadialSVMHyperparameters",
-  parent = Hyperparameters,
+  parent = SVMHyperparameters,
   constructor = function(cost = NULL,
                          gamma = NULL,
                          ifw = NULL) {
     new_object(
-      Hyperparameters(
-        algorithm = "SVM",
+      SVMHyperparameters( 
         hyperparameters = list(
           kernel = "radial",
           cost = cost,
@@ -1261,7 +1258,7 @@ RadialSVMHyperparameters <- new_class(
 #' @export
 setup_RadialSVM <- function(
     cost = 1,
-    gamma = 0,
+    gamma = 0.01,
     ifw = FALSE) {
   check_inherits(cost, "numeric")
   check_inherits(gamma, "numeric")
@@ -1272,3 +1269,5 @@ setup_RadialSVM <- function(
     ifw = ifw
   )
 } # /setup_RadialSVM
+
+setup_SVM <- setup_RadialSVM
