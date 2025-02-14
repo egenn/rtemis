@@ -85,7 +85,8 @@ supervised_algorithms <- data.frame(rbind(
   # c("SDA", "Sparse Linear Discriminant Analysis", TRUE, FALSE, FALSE),
   # c("SGD", "Stochastic Gradient Descent", FALSE, TRUE, FALSE),
   # c("SPLS", "Sparse Partial Least Squares", FALSE, TRUE, FALSE),
-  c("SVM", "Support Vector Machine", TRUE, TRUE, FALSE)
+  c("SVM", "Support Vector Machine", TRUE, TRUE, FALSE),
+  c("TabNet", "Attentive Interpretable Tabular Learning", TRUE, TRUE, FALSE)
   # c("TFN", "TensorFlow Neural Network", TRUE, TRUE, FALSE),
   # c("TLS", "Total Least Squares", FALSE, TRUE, FALSE),
   # c("XGBoost", "XGBoost", TRUE, TRUE, FALSE),
