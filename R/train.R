@@ -2,22 +2,6 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-# Can't use nice user-facing S7 methods because of R CMD check.
-# train_ <- new_generic("train", "x")
-# method(train_, class_data.frame) <- function(x,
-#                                              dat_validation = NULL,
-#                                              dat_testing = NULL,
-#                                              algorithm = NULL,
-#                                              preprocessor_parameters = NULL, # PreprocessorParameters
-#                                              hyperparameters = NULL, # Hyperparameters
-#                                              tuner_parameters = setup_GridSearch(), # TunerParameters
-#                                              crossvalidation_parameters = NULL, # ResamplerParameters
-#                                              weights = NULL,
-#                                              question = NULL,
-#                                              outdir = NULL,
-#                                              verbosity = 1L, ...) {
-
-
 #' Train Supervised Learning Models
 #'
 #' Preprocess, tune, train, and test supervised learning models with a single function 
