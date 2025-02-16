@@ -46,7 +46,7 @@ train <- function(x,
                   algorithm = NULL,
                   preprocessor_parameters = NULL, # PreprocessorParameters
                   hyperparameters = NULL, # Hyperparameters
-                  tuner_parameters = setup_GridSearch(), # TunerParameters
+                  tuner_parameters = NULL, # TunerParameters
                   crossvalidation_parameters = NULL, # ResamplerParameters
                   weights = NULL,
                   question = NULL,
@@ -181,6 +181,9 @@ train <- function(x,
   if (hyperparameters@crossvalidated == 0L) {
     # Tune ----
     if (needs_tuning(hyperparameters)) {
+      if (is.null(tuner_parameters)) {
+        tuner_parameters <- setup_GridSearch()
+      }
       if (parallel_type == "future") {
         if (algorithm %in% live[["parallelized_learners"]]) {
           future::plan(strategy = "sequential")
@@ -244,9 +247,9 @@ train <- function(x,
         msg20("Training ", hilite(algorithm, type), "...")
       }
       cat("\n")
-    }
+    } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
-    # All traiining, validation, and testing metrics are calculated by Supervised or SupervisedCV.
+    # All training, validation, and testing metrics are calculated by Supervised or SupervisedCV.
     args <- list(
       x = x,
       weights = weights,
@@ -268,7 +271,7 @@ train <- function(x,
     predicted_prob_training <- predicted_prob_validation <- predicted_prob_testing <- NULL
     predicted_training <- do_call(
       predict_fn,
-      list(model, newdata = x[, -ncols, drop = FALSE], type = type)
+      list(model, newdata = features(x), type = type)
     )
     if (type == "Classification") {
       predicted_prob_training <- predicted_training
@@ -281,7 +284,7 @@ train <- function(x,
     if (!is.null(dat_validation)) {
       predicted_validation <- do_call(
         predict_fn, list(model,
-          newdata = dat_validation[, -ncols, drop = FALSE],
+          newdata = features(dat_validation),
           type = type
         )
       )
@@ -296,7 +299,7 @@ train <- function(x,
     if (!is.null(dat_testing)) {
       predicted_testing <- do_call(
         predict_fn, list(model,
-          newdata = dat_testing[, -ncols, drop = FALSE],
+          newdata = features(dat_testing),
           type = type
         )
       )
@@ -313,12 +316,12 @@ train <- function(x,
     se_training <- se_validation <- se_testing <- NULL
     if (type == "Regression" && algorithm %in% se_compat_algorithms) {
       se_fn <- get_se_fn(algorithm)
-      se_training <- do_call(se_fn, list(model, newdata = x[, -ncols, drop = FALSE]))
+      se_training <- do_call(se_fn, list(model, newdata = features(x)))
       if (!is.null(dat_validation)) {
-        se_validation <- do_call(se_fn, list(model, newdata = dat_validation[, -ncols, drop = FALSE]))
+        se_validation <- do_call(se_fn, list(model, newdata = features(dat_validation)))
       }
       if (!is.null(dat_testing)) {
-        se_testing <- do_call(se_fn, list(model, newdata = dat_testing[, -ncols, drop = FALSE]))
+        se_testing <- do_call(se_fn, list(model, newdata = features(dat_testing)))
       }
     }
     # Make Supervised/CV ----
