@@ -11,7 +11,7 @@ train(
   algorithm = NULL,
   preprocessor_parameters = NULL,
   hyperparameters = NULL,
-  tuner_parameters = setup_GridSearch(),
+  tuner_parameters = NULL,
   crossvalidation_parameters = NULL,
   weights = NULL,
   question = NULL,
