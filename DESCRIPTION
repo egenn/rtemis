@@ -1,5 +1,5 @@
 Package: rtemismlv
-Version: 0.99.8
+Version: 0.99.85
 Title: Machine Learning and Visualization
 Date: 2025-02-10
 Authors@R: person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
@@ -66,14 +66,11 @@ Suggests:
     progressr,
     psych,
     png,
-    plyr,
-    PRROC,
     pvclust,
     reactable,
     ROCR,
     rpart,
     Rtsne,
-    R.utils,
     seqinr,
     sgd,
     survival,
