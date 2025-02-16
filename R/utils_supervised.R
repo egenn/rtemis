@@ -261,9 +261,8 @@ get_gam_pvals <- function(m, warn = TRUE) {
 #' @export
 
 class_imbalance <- function(x) {
-  if (NCOL(x) > 1) {
-    x <- as.data.frame(x)
-    x <- x[, NCOL(x)]
+  x <- if (inherits(x, "data.frame")) {
+    x <- outcome(x)
   }
 
   if (!is.factor(x)) stop("Input must be a factor")
