@@ -5,6 +5,55 @@
 # Notes:
 # Some algorithms do not work with variable names containing dots (SparkML)
 
+check_factor_levels <- new_generic("check_factor_levels", c("x"))
+method(check_factor_levels, class_data.frame) <- function(x, y, z) {
+  if (!is.null(y) || !is.null(z)) {
+    index_factor <- which(sapply(x, is.factor))
+    x_levels <- lapply(x[, index_factor, drop = FALSE], levels)
+    if (!is.null(y)) {
+      y_levels <- lapply(y[, index_factor, drop = FALSE], levels)
+      if (!all(sapply(seq_along(x_levels), function(i) {
+        identical(x_levels[[i]], y_levels[[i]])
+      }))) {
+        cli::cli_abort("Training and validation set factor levels do not match.")
+      }
+    }
+    if (!is.null(z)) {
+      z_levels <- lapply(z[, index_factor, drop = FALSE], levels)
+      if (!all(sapply(seq_along(x_levels), function(i) {
+        identical(x_levels[[i]], z_levels[[i]])
+      }))) {
+        cli::cli_abort("Training and testing set factor levels do not match.")
+      }
+    }
+  }
+  invisible(NULL)
+} # /method(check_factor_levels, class_data.frame)
+
+method(check_factor_levels, class_data.table) <- function(x, y, z) {
+  if (!is.null(y) || !is.null(z)) {
+    index_factor <- which(sapply(x, is.factor))
+    x_levels <- lapply(x[, .SD, .SDcols = index_factor], levels)
+    if (!is.null(y)) {
+      y_levels <- lapply(y[, .SD, .SDcols = index_factor], levels)
+      if (!all(sapply(seq_along(x_levels), function(i) {
+        identical(x_levels[[i]], y_levels[[i]])
+      }))) {
+        cli::cli_abort("Training and validation set factor levels do not match.")
+      }
+    }
+    if (!is.null(z)) {
+      z_levels <- lapply(z[, .SD, .SDcols = index_factor], levels)
+      if (!all(sapply(seq_along(x_levels), function(i) {
+        identical(x_levels[[i]], z_levels[[i]])
+      }))) {
+        cli::cli_abort("Training and testing set factor levels do not match.")
+      }
+    }
+  }
+  invisible(NULL)
+} # /method(check_factor_levels, class_data.table)
+
 #' Check data ahead of supervised learning
 #'
 #' @param x Data frame: Training set features and outcome in the last column.
@@ -13,7 +62,7 @@
 #' @param allow_missing Logical: If TRUE, allow missing values in the data.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return None. Stops execution if checks fail.
+#' @return NULL, invisibly. Stops execution if checks fail.
 #'
 #' @author EDG
 #' @keywords internal
@@ -82,26 +131,10 @@ check_supervised_data <- function(x,
 
   # Factor levels ----
   # Check that factors across training, validation, and testing contain the same levels.
-  index_factor <- sapply(x, is.factor)
-  training_levels <- lapply(x[index_factor], levels)
-  if (!is.null(dat_validation)) {
-    validation_levels <- lapply(dat_validation[index_factor], levels)
-    if (!all(sapply(seq_along(training_levels), function(i) {
-      identical(training_levels[[i]], validation_levels[[i]])
-    }))) {
-      cli::cli_abort("Training and validation set factor levels do not match.")
-    }
-  }
-  if (!is.null(dat_testing)) {
-    testing_levels <- lapply(dat_testing[index_factor], levels)
-    if (!all(sapply(seq_along(training_levels), function(i) {
-      identical(training_levels[[i]], testing_levels[[i]])
-    }))) {
-      cli::cli_abort("Training and testing set factor levels do not match.")
-    }
-  }
+  check_factor_levels(x = x, y = dat_validation, z = dat_testing)
 
   if (verbosity > 0L) msg2done()
+  invisible(NULL)
 } # /rtemis::check_supervised_data
 
 
@@ -110,7 +143,7 @@ check_supervised_data <- function(x,
 #' @param x Data frame: Features for unsupervised learning.
 #' @param allow_missing Logical: If TRUE, allow missing values in the data. Default is FALSE.
 #'
-#' @return Nothing. Stops execution if checks fail.
+#' @return NULL, invisibly. Stops execution if checks fail.
 #'
 #' @author EDG
 #' @keywords internal
@@ -135,4 +168,5 @@ check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
   }
 
   if (verbosity > 0L) msg2done()
+  invisible(NULL)
 } # /rtemis::check_unsupervised_data
