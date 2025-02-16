@@ -39,7 +39,7 @@ train_LightRF <- function(
   )
   type <- supervised_type(x)
   if (type == "Classification") {
-    nclasses <- length(levels(x[[ncol(x)]]))
+    nclasses <- length(levels(outcome(x)))
   } else {
     nclasses <- NA
   }
@@ -54,7 +54,7 @@ train_LightRF <- function(
       }
     }
   }
-  factor_index <- names(x)[which(sapply(x[, -ncol(x)], is.factor))]
+  factor_index <- names(x)[which(sapply(features(x), is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
       x,
@@ -75,24 +75,24 @@ train_LightRF <- function(
     factor_index <- NULL
   }
   x <- lightgbm::lgb.Dataset(
-    data = as.matrix(x[, -ncol(x)]),
+    data = as.matrix(features(x)),
     categorical_feature = factor_index,
     label = if (type == "Classification") {
-      as.integer(x[[ncol(x)]]) - 1
+      as.integer(outcome(x)) - 1
     } else {
-      x[[ncol(x)]]
+      outcome(x)
     },
     weight = weights
   )
 
   if (!is.null(dat_validation)) {
     dat_validation <- lightgbm::lgb.Dataset(
-      data = as.matrix(dat_validation[, -ncol(dat_validation)]),
+      data = as.matrix(features(dat_validation)),
       categorical_feature = factor_index,
       label = if (type == "Classification") {
-        as.integer(dat_validation[[ncol(dat_validation)]]) - 1
+        as.integer(outcome(dat_validation)) - 1
       } else {
-        dat_validation[[ncol(dat_validation)]]
+        outcome(dat_validation)
       }
     )
   }

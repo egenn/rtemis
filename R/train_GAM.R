@@ -9,8 +9,6 @@
 #' GAM does not work in the presence of missing values.
 #'
 #' @param x data.frame or similar: Training set.
-#' @param dat_validation data.frame or similar: Validation set.
-#' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters `GAMHyperparameters` object: make using [setup_GAM].
 #' @param verbosity Integer: If > 0, print messages.
@@ -21,8 +19,6 @@
 
 train_GAM <- function(
     x,
-    dat_validation = NULL,
-    dat_testing = NULL,
     weights = NULL,
     hyperparameters = NULL,
     verbosity = 1L) {
@@ -41,8 +37,6 @@ train_GAM <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
-    dat_testing = dat_testing,
     allow_missing = FALSE,
     verbosity = verbosity
   )
@@ -56,7 +50,7 @@ train_GAM <- function(
 
   # Formula ----
   # use s(x, k = k) for all numeric predictors
-  index_numeric <- which(sapply(x[, -ncol(x), drop = FALSE], is.numeric))
+  index_numeric <- which(sapply(features(x), is.numeric))
   spline_features <- if (length(index_numeric) > 0) {
     paste0(
       "s(", colnames(x)[index_numeric], ", k = ", hyperparameters[["k"]], ")",
@@ -65,7 +59,7 @@ train_GAM <- function(
   } else {
     ""
   }
-  index_factor <- which(sapply(x[, -ncol(x), drop = FALSE], is.factor))
+  index_factor <- which(sapply(features(x), is.factor))
   categorical_features <- if (length(index_factor) > 0) {
     paste0(
       colnames(x)[index_factor],
@@ -74,12 +68,14 @@ train_GAM <- function(
   } else {
     ""
   }
-  outcome_name <- colnames(x)[ncol(x)]
   formula <- as.formula(
     gsub(
-      "^ \\+ | \\+ $",
+      " \\+ $",
       "",
-      paste(outcome_name, "~", paste(spline_features, categorical_features, sep = " + "))
+      paste(
+        outcome_name(x), "~",
+        gsub("^ \\+ ", "", paste(spline_features, categorical_features, sep = " + "))
+      )
     )
   )
 
@@ -93,6 +89,7 @@ train_GAM <- function(
       mgcv::multinom()
     }
   }
+
   model <- mgcv::gam(
     formula = formula,
     family = family,

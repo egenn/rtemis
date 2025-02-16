@@ -13,7 +13,7 @@
 #' @param hyperparameters `TabNetHyperparameters` object: make using [setup_TabNet].
 #' @param tuner_parameters `TunerParameters` object: make using [setup_GridSearch].
 #' @param verbosity Integer: Verbosity level.
-#' 
+#'
 #' @return Object of class `TabNet`.
 #'
 #' @author EDG
@@ -45,15 +45,15 @@ train_TabNet <- function(
   )
   type <- supervised_type(x)
   # n_classes <- if (type == "Classification") {
-  #   length(levels(x[, ncol(x)]))
+  #   length(levels(outcome(x)))
   # } else {
   #   NA
   # }
 
   # Scale data ----
-  y <- x[, ncol(x)]
+  y <- outcome(x)
   prp <- preprocess(
-    x[, -ncol(x), drop = FALSE],
+    features(x),
     parameters = setup_Preprocessor(scale = TRUE, center = TRUE)
   )
   x <- prp@preprocessed
@@ -61,7 +61,7 @@ train_TabNet <- function(
   # ?Any params that may be NULL by setup_ but aren't allowed to be NULL by training f
 
   # Train ----
-  # The predictor data should be standardized (e.g. centered or scaled). The model treats 
+  # The predictor data should be standardized (e.g. centered or scaled). The model treats
   # categorical predictors internally thus, you don't need to make any treatment.
   config <- get_tabnet_config(hyperparameters)
   config[["verbose"]] <- verbosity > 0L

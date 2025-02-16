@@ -2,6 +2,20 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+#' Prepare data for GLMNET
+#' 
+#' @param x data.frame or similar: Features.
+#' 
+#' @return Matrix with features.
+#' 
+#' @keywords internal
+#' @noRd
+preproc_GLMNET <- function(x) {
+  as.matrix(
+    model.matrix(~., x)[, -1]
+  )
+}
+
 #' Train a GLMNET model
 #'
 #' Train a GLMNET model using `glmnet`.
@@ -64,7 +78,7 @@ train_GLMNET <- function(
   }
   type <- supervised_type(x)
   n_classes <- if (type == "Classification") {
-    length(levels(x[, ncol(x)]))
+    length(levels(outcome(x)))
   } else {
     NA_integer_
   }
@@ -85,9 +99,9 @@ train_GLMNET <- function(
   if (is.null(hyperparameters[["lambda"]])) {
     model <- glmnet::cv.glmnet(
       x = as.matrix(
-        model.matrix(~., x[, -ncol(x)])[, -1]
+        model.matrix(~., exc(x, ncol(x)))[, -1]
       ),
-      y = x[, ncol(x)],
+      y = outcome(x),
       family = family,
       weights = weights,
       offset = hyperparameters[["offset"]],
@@ -101,9 +115,9 @@ train_GLMNET <- function(
   } else {
     model <- glmnet::glmnet(
       x = as.matrix(
-        model.matrix(~., x[, -ncol(x)])[, -1]
+        model.matrix(~., exc(x, ncol(x)))[, -1]
       ),
-      y = x[, ncol(x)],
+      y = outcome(x),
       family = family,
       weights = weights,
       offset = hyperparameters[["offset"]],
@@ -151,3 +165,20 @@ predict_GLMNET <- function(model, newdata, type) {
 varimp_GLMNET <- function(model) {
   coef(model)
 } # /rtemis::varimp_GLMNET
+
+#' Explain GLMNET model
+#' 
+#' Get SHAP values for a GLMNET model.
+#' 
+#' @param model glmnet model.
+#' @param newdata data.frame or similar: Data to explain.
+#' @param method Character: Package to use.
+#' 
+#' @keywords internal
+#' @noRd
+explain_GLMNET <- function(model, newdata, method = "shapr") {
+  newdata <- as.matrix(
+    model.matrix(~., newdata)[, -1, drop = FALSE]
+  )
+  
+} # /rtemis::explain_GLMNET

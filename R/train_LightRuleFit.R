@@ -12,7 +12,7 @@
 train_LightRuleFit <- function(
     x,
     dat_validation = NULL,
-    weights,
+    weights = NULL,
     hyperparameters,
     verbosity) {
   # Dependencies ----
@@ -55,7 +55,7 @@ train_LightRuleFit <- function(
   mod_lgbm <- train(
     x = x,
     dat_validation = dat_validation,
-    weights = weights,
+    weights = lightgbm_weights,
     hyperparameters = lgbm_parameters,
     # tuner_parameters = tuner_parameters, # ? add tuner_parameters to LightRuleFitHyperparameters
     crossvalidation_parameters = NULL,
