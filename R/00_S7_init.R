@@ -116,3 +116,86 @@ scalar_int_12 <- S7::new_property(
     }
   }
 ) # /scalar_int_12
+
+# data.frame data.table compatibility ----
+#' Select columns by character or numeric vector.
+#' 
+#' @param x data.frame or similar.
+#' 
+#' @return data.frame, tibble, or data.table.
+#' 
+#' @keywords internal
+#' @noRd
+.. <- identity
+inc <- new_generic("inc", "x")
+exc <- new_generic("exc", c("x", "idx"))
+method(inc, class_data.frame) <- function(x, idx) {
+  x[, idx, drop = FALSE]
+}
+# may cause R CMD check note, consider defining `..` or using the `with = FALSE` approach instead.
+method(inc, class_data.table) <- function(x, idx) {
+  x[, ..idx]
+}
+
+method(exc, list(class_data.frame, class_character)) <- function(x, idx) {
+  x[, -which(names(x) %in% idx), drop = FALSE]
+}
+method(exc, list(class_data.frame, class_integer)) <- function(x, idx) {
+  x[, -idx, drop = FALSE]
+}
+method(exc, list(class_data.frame, class_double)) <- function(x, idx) {
+  idx <- clean_int(idx)
+  x[, -idx, drop = FALSE]
+}
+method(exc, list(class_data.table, class_character | class_integer)) <- function(x, idx) {
+  x[, !..idx]
+}
+method(exc, list(class_data.table, class_double)) <- function(x, idx) {
+  idx <- clean_int(idx)
+  x[, !idx]
+}
+
+#' Get the name of the last column
+#'
+#' @param x data.frame or similar.
+#' 
+#' @return Name of the last column.
+#' 
+#' @keywords internal
+#' @noRd
+outcome_name <- new_generic("outcome_name", "x")
+method(outcome_name, class_data.frame) <- function(x) {
+  names(x)[NCOL(x)]
+}
+
+#' Get last column as a vector
+#' 
+#' @param x data.frame or similar.
+#' 
+#' @return Last column as a vector.
+#' 
+#' @keywords internal
+#' @noRd
+outcome <- new_generic("outcome", "x")
+method(outcome, class_data.frame) <- function(x) {
+  x[[NCOL(x)]]
+}
+
+features <- new_generic("features", "x")
+method(features, class_data.frame) <- function(x) {
+  stopifnot(NCOL(x) > 1)
+  x[, 1:(NCOL(x) - 1), drop = FALSE]
+}
+
+#' Get factor names
+#' 
+#' @param x data.frame or similar.
+#' 
+#' @return Character vector of factor names.
+#' 
+#' @keywords internal
+#' @noRd
+get_factor_names <- new_generic("get_factor_names", "x")
+method(get_factor_names, class_data.frame) <- function(x) {
+  names(x)[sapply(x, is.factor)]
+}

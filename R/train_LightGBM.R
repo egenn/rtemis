@@ -64,7 +64,7 @@ train_LightGBM <- function(
   }
 
   ## Preprocess ----
-  factor_index <- names(x)[which(sapply(x[, -ncol(x)], is.factor))]
+  factor_index <- names(x)[which(sapply(exc(x, ncol(x)), is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
       x,
@@ -86,7 +86,7 @@ train_LightGBM <- function(
   }
   
   x <- lightgbm::lgb.Dataset(
-    data = as.matrix(x[, -ncol(x)]),
+    data = as.matrix(exc(x, ncol(x))),
     categorical_feature = factor_index,
     label = if (type == "Classification") {
       as.integer(x[[ncol(x)]]) - 1
@@ -98,12 +98,12 @@ train_LightGBM <- function(
 
   if (!is.null(dat_validation)) {
     dat_validation <- lightgbm::lgb.Dataset(
-      data = as.matrix(dat_validation[, -ncol(dat_validation)]),
+      data = as.matrix(features(dat_validation)),
       categorical_feature = factor_index,
       label = if (type == "Classification") {
-        as.integer(dat_validation[[ncol(dat_validation)]]) - 1
+        as.integer(outcome(dat_validation)) - 1
       } else {
-        dat_validation[[ncol(dat_validation)]]
+        outcome(dat_validation)
       }
     )
   }
@@ -164,3 +164,16 @@ varimp_LightGBM <- function(model) {
   names(out) <- vi[["Feature"]]
   out
 } # /rtemis::varimp_LightGBM
+
+#' Explain LightGBM model predictions
+#'
+#' @param model lgb.Booster object trained using `train_LightGBM`.
+#' @param newdata data.frame or similar: Data to explain.
+#'
+#' @keywords internal
+#' @noRd
+explain_LightGBM <- function(model, newdata) {
+  check_inherits(model, "lgb.Booster")
+  check_inherits(newdata, "data.frame")
+  lightgbm::lgb.interprete(model, newdata)
+} # /rtemis::explain_LightGBM

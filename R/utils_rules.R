@@ -20,6 +20,10 @@ match_cases_by_rules <- function(x, rules, prefix = "Rule_", verbosity = 1L) {
   if (!is.data.table(x)) {
     # {data.table}
     x <- data.table::as.data.table(x)
+  } else {
+    # Either make copy, or set ID to NULL before exit
+    # x <- copy(x)
+    on.exit(x[, ID := NULL])
   }
   # appease R CMD check
   ID <- NULL

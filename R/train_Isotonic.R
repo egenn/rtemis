@@ -16,7 +16,7 @@
 #' @param weights Not used.
 #' @param hyperparameters IsotonicHyperparameters object: make using [setup_Isotonic].
 #' @param verbosity Integer: If > 0, print messages.
-#' 
+#'
 #' @return Object of class `stepfun`.
 #'
 #' @author EDG
@@ -51,7 +51,7 @@ train_Isotonic <- function(
 
   type <- supervised_type(x)
   if (type == "Classification") {
-    n_classes <- length(levels(x[, ncol(x)]))
+    n_classes <- length(levels(outcome(x)))
     if (n_classes > 2L) {
       stop("Isotonic does not support multiclass classification")
     }

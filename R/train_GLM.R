@@ -3,16 +3,20 @@
 # 2025 EDG rtemis.org
 
 #' Train a GLM model
-#' 
+#'
+#' Train a GLM model using `stats::glm`.
+#'
 #' @details
-#' GLM does not work in the presence of missing values.
+#' `stats::glm` does not work in the presence of missing values.
+#' This function uses the formula interface to `glm` to train a GLM model.
+#' No preprocessing is needed.
 #'
 #' @param x data.frame or similar: Training set.
-#' @param dat_validation data.frame or similar: Validation set.
-#' @param dat_testing data.frame or similar: Testing set.
 #' @param weights Numeric vector: Case weights.
 #' @param hyperparameters GLMHyperparameters object: make using [setup_GLM].
 #' @param verbosity Integer: If > 0, print messages.
+#'
+#' @return GLM model.
 #'
 #' @author EDG
 #' @keywords internal
@@ -20,8 +24,6 @@
 
 train_GLM <- function(
     x,
-    dat_validation = NULL,
-    dat_testing = NULL,
     weights = NULL,
     hyperparameters = NULL,
     verbosity = 1L) {
@@ -31,8 +33,6 @@ train_GLM <- function(
   # Data ----
   check_supervised_data(
     x = x,
-    dat_validation = dat_validation,
-    dat_testing = dat_testing,
     allow_missing = FALSE,
     verbosity = verbosity
   )
@@ -43,7 +43,7 @@ train_GLM <- function(
 
   type <- supervised_type(x)
   if (type == "Classification") {
-    n_classes <- length(levels(x[, ncol(x)]))
+    n_classes <- length(levels(outcome(x)))
     if (n_classes > 2L) {
       stop("GLM does not support multiclass classification")
     }
