@@ -143,7 +143,7 @@ predict_GLMNET <- function(model, newdata, type = NULL) {
   # Determine type
   # if model@classnames exists, type is Classification
   if (is.null(type)) {
-    type <- if (!is.null(model$classnames)) {
+    type <- if (!is.null(model[["classnames"]])) {
       "Classification"
     } else {
       "Regression"
