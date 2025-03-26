@@ -10,6 +10,10 @@ explain(model, x, dat_training = NULL, method = NULL)
 \item{model}{Supervised object.}
 
 \item{x}{data.frame or similar: Data to explain.}
+
+\item{dat_training}{data.frame or similar: Training data.}
+
+\item{method}{Character: Method to use.}
 }
 \description{
 Explain Supervised Learning Model

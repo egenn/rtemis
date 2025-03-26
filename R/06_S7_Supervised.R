@@ -281,6 +281,8 @@ get_explain_fn <- function(algorithm) {
 #' 
 #' @param model Supervised object.
 #' @param x data.frame or similar: Data to explain.
+#' @param dat_training data.frame or similar: Training data.
+#' @param method Character: Method to use.
 #' 
 #' @export
 explain <- function(model, x, dat_training = NULL, method = NULL) {
