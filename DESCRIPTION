@@ -60,6 +60,7 @@ Suggests:
     missRanger,
     networkD3,
     openxlsx,
+    partykit,
     pbapply,
     plotly,
     pROC,
