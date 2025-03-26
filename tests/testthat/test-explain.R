@@ -28,7 +28,7 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 ## GLMET Regression ----
 mod_r_glmnet <- train(
   x = datr_train,
-  dat_training = features(datr_test),
+  dat_testing = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(lambda = 0.01)
 )
@@ -65,5 +65,5 @@ ex_r_lightrf <- explain(
   x = features(datr_test[1, ])
 )
 test_that("explain() on LightRF succeeds", {
-  expect_s3_class(ex_r_lightrf, "list")
+  expect_true(is.list(ex_r_lightrf))
 })
