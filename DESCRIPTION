@@ -73,6 +73,7 @@ Suggests:
     Rtsne,
     seqinr,
     sgd,
+    shapr,
     survival,
     tabnet,
     threejs,
