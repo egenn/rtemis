@@ -4,7 +4,7 @@
 \alias{explain}
 \title{Explain Supervised}
 \usage{
-explain(model, x)
+explain(model, x, dat_training = NULL, method = NULL)
 }
 \arguments{
 \item{model}{Supervised object.}
