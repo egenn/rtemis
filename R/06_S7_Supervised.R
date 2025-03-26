@@ -279,6 +279,11 @@ get_explain_fn <- function(algorithm) {
 #' 
 #' Explain Supervised Learning Model
 #' 
+#' The explain API is under development.
+#' Different models require different inputs.
+#' Currently, different explain methods output different objects.
+#' This will likely be replaced in the future using a custom S7 class.
+#' 
 #' @param model Supervised object.
 #' @param x data.frame or similar: Data to explain.
 #' @param dat_training data.frame or similar: Training data.

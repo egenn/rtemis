@@ -18,3 +18,9 @@ explain(model, x, dat_training = NULL, method = NULL)
 \description{
 Explain Supervised Learning Model
 }
+\details{
+The explain API is under development.
+Different models require different inputs.
+Currently, different explain methods output different objects.
+This will likely be replaced in the future using a custom S7 class.
+}
