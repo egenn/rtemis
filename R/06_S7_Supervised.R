@@ -262,6 +262,46 @@ method(describe, Supervised) <- function(x) {
   invisible(desc)
 } # / describe
 
+
+# Get explain function ----
+#' Get explain function
+#' 
+#' @param algorithm Character: Algorithm name.
+#' 
+#' @keywords internal
+#' @noRd
+get_explain_fn <- function(algorithm) {
+  paste0("explain_", algorithm)
+}
+
+# Explain Supervised ----
+#' Explain Supervised
+#' 
+#' Explain Supervised Learning Model
+#' 
+#' The explain API is under development.
+#' Different models require different inputs.
+#' Currently, different explain methods output different objects.
+#' This will likely be replaced in the future using a custom S7 class.
+#' 
+#' @param model Supervised object.
+#' @param x data.frame or similar: Data to explain.
+#' @param dat_training data.frame or similar: Training data.
+#' @param method Character: Method to use.
+#' 
+#' @export
+explain <- function(model, x, dat_training = NULL, method = NULL) {
+  check_is_S7(model, Supervised)
+  check_inherits(x, "data.frame")
+  explain_fn <- get_explain_fn(model@algorithm)
+  # Test if a function by that name exists in the package
+  if (!exists(explain_fn, envir = asNamespace("rtemismlv"))) {
+    stop(paste0("Explain support for ", model@algorithm, " is not currently available."))
+  }
+  do_call(explain_fn, list(model = model, x = x, dat_training = dat_training, method = method))
+} # /explain
+  
+
 # Classification ----
 #' @title Classification
 #' @description
