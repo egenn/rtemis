@@ -168,7 +168,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param remove_duplicates Logical: If TRUE, remove duplicate cases.
 #' @param one_hot Logical: If TRUE, convert all factors using one-hot encoding.
 #' @param one_hot_levels List: Named list of the form "feature_name" = "levels". Used when applying
-#' one-hot encoding to validation or testing data using `Preprocessor`.
+#' one-hot encoding to validation or test data using `Preprocessor`.
 #' @param add_date_features Logical: If TRUE, extract date features from date columns.
 #' @param date_features Character vector: Features to extract from dates.
 #' @param add_holidays Logical: If TRUE, extract holidays from date columns.
@@ -283,14 +283,14 @@ data_dependent_props <- c(
 #'
 #' @description
 #' Class to hold output of preprocessing values after applying `PreprocessorParameters` to
-#' training dataset, so that the same preprocessing can be applied to validation and testing
+#' training dataset, so that the same preprocessing can be applied to validation and test
 #' datasets.
 #'
 #' @field parameters `PreprocessorParameters` object.
 #' @field preprocessed Data frame or list: Preprocessed data. If a single data.frame is passed to
 #' `preprocess`, this will be a data.frame. If additional data sets are passed to the
-#' `dat_validation` and/or `dat_testing` arguments, this will be a named list.
-#' @field values List: Data-dependent preprocessing values to be used for validation and testing set
+#' `dat_validation` and/or `dat_test` arguments, this will be a named list.
+#' @field values List: Data-dependent preprocessing values to be used for validation and test set
 #' preprocessing.
 #'
 #' @author EDG

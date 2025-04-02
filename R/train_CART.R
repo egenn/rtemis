@@ -9,7 +9,7 @@
 #' CART does not need any special preprocessing.
 #' It works with numeric and factor variables and handles missing values.
 #' The "train_*" functions train a single model.
-#' Use [train] for tuning and testing using nested cross-validation.
+#' Use [train] for tuning and test using nested cross-validation.
 #'
 #' @inheritParams train_GLMNET
 #' @param hyperparameters `CARTHyperparameters` object: make using [setup_CART].

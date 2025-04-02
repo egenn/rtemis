@@ -50,7 +50,7 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 ## GLM Regression ----
 mod_r_glm <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "glm"
 )
 test_that("train() GLM Regression succeeds", {
@@ -58,7 +58,7 @@ test_that("train() GLM Regression succeeds", {
 })
 test_that("train() GLM standard errors are available", {
   expect_type(mod_r_glm@se_training, "double")
-  expect_type(mod_r_glm@se_testing, "double")
+  expect_type(mod_r_glm@se_test, "double")
 })
 
 ## Throw error by using GLM with missing data ----
@@ -66,7 +66,7 @@ datr_train_na <- datr_train
 datr_train_na[10:2, 1] <- NA
 test_that("train() GLM Regression with missing data throws error", {
   expect_error(
-    train(x = datr_train_na, dat_testing = datr_test, algorithm = "glm")
+    train(x = datr_train_na, dat_test = datr_test, algorithm = "glm")
   )
 })
 
@@ -80,7 +80,7 @@ get_params_need_tuning(hyperparameters)
 ## GLMNET Regression ----
 mod_r_glmnet <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(lambda = 0.01)
 )
@@ -91,7 +91,7 @@ test_that("train() GLMNET Regression with fixed lambda succeeds", {
 ## GLMNET Regression + auto-lambda grid search ----
 mod_r_glmnet <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET()
 )
@@ -102,7 +102,7 @@ test_that("train() GLMNET Regression with auto-lambda grid search succeeds", {
 ## GLMNET Regression + auto-lambda + alpha grid search ----
 mod_r_glmnet <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0, 0.5, 1))
 )
@@ -113,7 +113,7 @@ test_that("train() GLMNET Regression with auto-lambda + alpha grid search succee
 ## CV GLMNET Regression + auto-lambda + alpha grid search ----
 cvmod_r_glmnet <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0, 0.5, 1)),
   crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
@@ -128,7 +128,7 @@ hyperparameters <- setup_GAM()
 hyperparameters
 mod_r_gam <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "gam"
 )
 test_that("train() GAM Regression with spline + parametric terms succeeds.", {
@@ -137,7 +137,7 @@ test_that("train() GAM Regression with spline + parametric terms succeeds.", {
 
 mod_r_gam <- train(
   x = datr_train[, -6],
-  dat_testing = datr_test[, -6],
+  dat_test = datr_test[, -6],
   algorithm = "gam"
 )
 test_that("train() GAM Regression with only spline terms succeeds.", {
@@ -146,7 +146,7 @@ test_that("train() GAM Regression with only spline terms succeeds.", {
 
 mod_r_gam <- train(
   x = datr_train[, 6:7],
-  dat_testing = datr_test[, 6:7],
+  dat_test = datr_test[, 6:7],
   algorithm = "gam"
 )
 test_that("train() GAM Regression with only parametric terms succeeds.", {
@@ -156,7 +156,7 @@ test_that("train() GAM Regression with only parametric terms succeeds.", {
 ## GAM Regression + grid search ----
 tmod_r_gam <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "gam",
   hyperparameters = setup_GAM(k = c(3, 5, 7)),
 )
@@ -167,7 +167,7 @@ test_that("train() GAM Regression with grid_search() succeeds", {
 ## predict GAM ----
 predicted <- predict(tmod_r_gam, datr_test)
 test_that("predict() GAM Regression succeeds", {
-  expect_identical(tmod_r_gam@predicted_testing, predicted)
+  expect_identical(tmod_r_gam@predicted_test, predicted)
 })
 
 ## CV GAM Regression ----
@@ -180,7 +180,7 @@ cvmod_r_gam <- train(
 ## Test ... args to train ---
 # mod_r_gam_aa <- train(
 #   x = datr_train,
-#   dat_testing = datr_test,
+#   dat_test = datr_test,
 #   algorithm = "gam",
 #   k = 7L
 # )
@@ -192,7 +192,7 @@ cvmod_r_gam <- train(
 ## SVM Regression ----
 mod_r_svmr <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "svm",
   hyperparameters = setup_RadialSVM()
 )
@@ -203,7 +203,7 @@ test_that("train() SVM Regression succeeds", {
 ## SVM Regression + tuning ----
 tmod_r_svmr <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10, 100))
 )
@@ -241,7 +241,7 @@ test_that("train_CART() succeeds", {
 ## CART Regression ----
 mod_r_cart <- train(
   datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "cart"
 )
 test_that("train() Regression succeeds", {
@@ -263,7 +263,7 @@ test_that("tuned is set correctly", {
 
 tmod_r_cart <- train(
   datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   hyperparameters = hyperparameters
 )
 test_that("train() Regression with grid_search() succeeds", {
@@ -312,7 +312,7 @@ test_that("train() Regression with crossvalidation succeeds", {
 ## LightCART Regression ----
 mod_r_lightcart <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightcart"
 )
 test_that("train() LightCART Regression succeeds", {
@@ -321,7 +321,7 @@ test_that("train() LightCART Regression succeeds", {
 
 mod_r_lightcartlin <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightcart",
   hyperparameters = setup_LightCART(
     linear_tree = TRUE
@@ -335,7 +335,7 @@ test_that("train() LightCART Regression with linear_tree succeeds", {
 ## LightRF Regression ----
 mod_r_lightrf <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightrf"
 )
 test_that("train() LightRF Regression succeeds", {
@@ -344,7 +344,7 @@ test_that("train() LightRF Regression succeeds", {
 
 mod_r_lightrf <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightrf",
   hyperparameters = setup_LightRF(
     lambda_l1 = .1,
@@ -358,7 +358,7 @@ test_that("train() LightRF Regression with l1, l2 succeeds", {
 ## LightRF Regression + grid search ----
 tmod_r_lightrf <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightrf",
   hyperparameters = setup_LightRF(
     lambda_l1 = c(0, .1)
@@ -372,7 +372,7 @@ test_that("train() LightRF Regression with l1 tuning succeeds", {
 ## LightGBM Regression ----
 mod_r_lightgbm <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightgbm",
   hyperparameters = setup_LightGBM(
     force_nrounds = 100L
@@ -385,7 +385,7 @@ test_that("train() LightGBM Regression succeeds", {
 ## LightGBM Regression + autotune nrounds ----
 tmod_r_lightgbm <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   hyperparameters = setup_LightGBM()
 )
 test_that("train() LightGBM Regression with autotune nrounds succeeds", {
@@ -395,7 +395,7 @@ test_that("train() LightGBM Regression with autotune nrounds succeeds", {
 ## CV LightGBM Regression + autotune nrounds grid search ----
 cvtmod_r_lightgbm <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightgbm",
   hyperparameters = setup_LightGBM(max_nrounds = 100L),
   crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
@@ -407,7 +407,7 @@ test_that("train() CV LightGBM Regression with autotune nrounds succeeds", {
 ## LightRuleFit Regression ----
 mod_r_lightrlft_l1l2 <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "lightrulefit",
   hyperparameters = setup_LightRuleFit(nrounds = 50L, lambda_l1 = 10, lambda_l2 = 10)
 )
@@ -420,7 +420,7 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 
 # mod_r_lightrlft_reg <- train(
 #   x = datr_train,
-#   dat_testing = datr_test,
+#   dat_test = datr_test,
 #   algorithm = "lightrulefit",
 #   hyperparameters = setup_LightRuleFit(num_leaves = 2^2, lambda_l1 = 100)
 # )
@@ -430,7 +430,7 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 if (torch::torch_is_installed()) {
   mod_r_tabnet <- train(
     x = datr_train,
-    dat_testing = datr_test,
+    dat_test = datr_test,
     algorithm = "tabnet",
     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
   )
@@ -444,14 +444,14 @@ if (torch::torch_is_installed()) {
 ## GLM Classification ----
 mod_c_glm <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "glm"
 )
 
 ## GAM Classification ----
 mod_c_gam <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "gam"
 )
 test_that("train() GAM Classification succeeds", {
@@ -459,11 +459,11 @@ test_that("train() GAM Classification succeeds", {
 })
 
 ## CART Classification ----
-# model <- train_CART(dat_training = datc2_train, dat_testing = datc2_test)
+# model <- train_CART(dat_training = datc2_train, dat_test = datc2_test)
 # model$method #"class"
 mod_c_cart <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "cart"
 )
 test_that("train() CART Classification succeeds", {
@@ -473,7 +473,7 @@ test_that("train() CART Classification succeeds", {
 ## CART Classification + IFW ----
 mod_c_cart_ifw <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "cart",
   hyperparameters = setup_CART(
     ifw = TRUE
@@ -486,7 +486,7 @@ test_that("train() CART Classification with IFW succeeds", {
 ## CART Classification + grid search ----
 mod_c_cart_tuned <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   hyperparameters = setup_CART(
     maxdepth = c(1L, 3L)
   )
@@ -498,7 +498,7 @@ test_that("train() Classification with grid_search() succeeds", {
 ## GLMNET Binary Classification ----
 mod_c_glmnet <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(lambda = 0.01)
 )
@@ -509,7 +509,7 @@ test_that("train() GLMNET Classification with fixed lambda succeeds", {
 ## LightCART Classification ----
 mod_c_lightcart <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "lightcart"
 )
 test_that("train() LightCART Classification succeeds", {
@@ -519,7 +519,7 @@ test_that("train() LightCART Classification succeeds", {
 ## LightRF Classification ----
 mod_c_lightrf <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "lightrf"
 )
 test_that("train() LightRF Classification succeeds", {
@@ -539,7 +539,7 @@ test_that("train() LightRF Classification with crossvalidation succeeds", {
 ## LightGBM Binary Classification ----
 mod_c_lightgbm <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "lightgbm"
 )
 test_that("train() LightGBM Classification succeeds", {
@@ -549,7 +549,7 @@ test_that("train() LightGBM Classification succeeds", {
 ## LightRuleFit Binary Classification ----
 mod_c_lightrlft <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "lightrulefit"
 )
 test_that("train() LightRuleFit Classification succeeds", {
@@ -569,7 +569,7 @@ test_that("train() Isotonic Regression succeeds", {
 set.seed(2025)
 x <- rnorm(200)
 y <- factor(ifelse(x > mean(x), "b", "a"))
-x <- x + rnorm(200)/3
+x <- x + rnorm(200) / 3
 dat <- data.frame(x, y)
 cmod_iso <- train(dat, algorithm = "Isotonic")
 test_that("train() Isotonic Classification succeeds", {
@@ -579,7 +579,7 @@ test_that("train() Isotonic Classification succeeds", {
 # SVM Classification ----
 mod_c_svm <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "svm"
 )
 test_that("train() SVM Classification succeeds", {
@@ -590,7 +590,7 @@ test_that("train() SVM Classification succeeds", {
 if (torch::torch_is_installed()) {
   mod_c_tabnet <- train(
     x = datc2_train,
-    dat_testing = datc2_test,
+    dat_test = datc2_test,
     algorithm = "tabnet",
     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
   )
@@ -598,3 +598,7 @@ if (torch::torch_is_installed()) {
     expect_s7_class(mod_c_tabnet, Classification)
   })
 }
+
+# Calibration ----
+# Calibrate mod_c_cart trained above
+mod_c_cart

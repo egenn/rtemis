@@ -4,12 +4,12 @@
 \alias{svd1}
 \title{\code{rtemis-internals} Project Variables to First Eigenvector}
 \usage{
-svd1(x, x_testing = NULL)
+svd1(x, x_test = NULL)
 }
 \arguments{
 \item{x}{Input matrix / data frame}
 
-\item{x_testing}{Optional test matrix / data frame}
+\item{x_test}{Optional test matrix / data frame}
 }
 \description{
 Convenience function for SVD k = 1

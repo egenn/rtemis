@@ -520,7 +520,7 @@ classification_metrics <- function(true_labels,
 #' @param true Numeric vector: True values.
 #' @param predicted Numeric vector: Predicted values.
 #' @param na.rm Logical: If TRUE, remove NA values before computation.
-#' @param sample Character: Sample name (e.g. "training", "testing").
+#' @param sample Character: Sample name (e.g. "training", "test").
 #'
 #' @return RegressionMetrics object
 #' @author EDG

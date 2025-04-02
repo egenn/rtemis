@@ -27,13 +27,13 @@ Supervised <- new_class(
     tuner = Tuner | NULL,
     y_training = class_any,
     y_validation = class_any,
-    y_testing = class_any,
+    y_test = class_any,
     predicted_training = class_any,
     predicted_validation = class_any,
-    predicted_testing = class_any,
+    predicted_test = class_any,
     metrics_training = Metrics,
     metrics_validation = Metrics | NULL,
-    metrics_testing = Metrics | NULL,
+    metrics_test = Metrics | NULL,
     xnames = class_character,
     varimp = class_any,
     question = class_character | NULL,
@@ -48,13 +48,13 @@ Supervised <- new_class(
                          tuner,
                          y_training,
                          y_validation,
-                         y_testing,
+                         y_test,
                          predicted_training,
                          predicted_validation,
-                         predicted_testing,
+                         predicted_test,
                          metrics_training,
                          metrics_validation,
-                         metrics_testing,
+                         metrics_test,
                          xnames,
                          varimp,
                          question,
@@ -69,13 +69,13 @@ Supervised <- new_class(
       tuner = tuner,
       y_training = y_training,
       y_validation = y_validation,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
       predicted_validation = predicted_validation,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       metrics_training = metrics_training,
       metrics_validation = metrics_validation,
-      metrics_testing = metrics_testing,
+      metrics_test = metrics_test,
       xnames = xnames,
       varimp = varimp,
       question = question,
@@ -171,9 +171,9 @@ print.Supervised <- function(x, ...) {
     cat("\n")
     print(x@metrics_validation)
   }
-  if (length(x@metrics_testing) > 0) {
+  if (length(x@metrics_test) > 0) {
     cat("\n")
-    print(x@metrics_testing)
+    print(x@metrics_test)
   }
   invisible(x)
 } # /print.Supervised
@@ -217,16 +217,16 @@ method(describe, Supervised) <- function(x) {
       ddSci(x@metrics_training[["Overall"]][["Balanced_Accuracy"]]),
       "in the training set"
     )
-    if (!is.null(x@metrics_testing[["Overall"]][["Balanced_Accuracy"]])) {
+    if (!is.null(x@metrics_test[["Overall"]][["Balanced_Accuracy"]])) {
       cat(
         " and",
-        ddSci(x@metrics_testing[["Overall"]][["Balanced_Accuracy"]]),
-        "in the testing set."
+        ddSci(x@metrics_test[["Overall"]][["Balanced_Accuracy"]]),
+        "in the test set."
       )
       desc <- paste(
         desc, "and",
-        ddSci(x@metrics_testing[["Overall"]][["Balanced_Accuracy"]]),
-        "in the testing set."
+        ddSci(x@metrics_test[["Overall"]][["Balanced_Accuracy"]]),
+        "in the test set."
       )
     } else {
       cat(".")
@@ -243,15 +243,15 @@ method(describe, Supervised) <- function(x) {
       ddSci(x@metrics_training[["Rsq"]]),
       "on the training set"
     )
-    if (!is.null(x@metrics_testing[["Balanced_Accuracy"]])) {
+    if (!is.null(x@metrics_test[["Balanced_Accuracy"]])) {
       cat(
         " and",
-        ddSci(x@metrics_testing[["Rsq"]]), "in the testing."
+        ddSci(x@metrics_test[["Rsq"]]), "in the test."
       )
       desc <- paste(
         desc, "and",
-        ddSci(x@metrics_testing[["Rsq"]]),
-        "on the testing set."
+        ddSci(x@metrics_test[["Rsq"]]),
+        "on the test set."
       )
     } else {
       cat(".")
@@ -275,7 +275,7 @@ Classification <- new_class(
   properties = list(
     predicted_prob_training = class_double | NULL,
     predicted_prob_validation = class_double | NULL,
-    predicted_prob_testing = class_double | NULL,
+    predicted_prob_test = class_double | NULL,
     binclasspos = class_integer
   ),
   constructor = function(algorithm = NULL,
@@ -285,17 +285,17 @@ Classification <- new_class(
                          tuner = NULL, # Tuner
                          y_training = NULL,
                          y_validation = NULL,
-                         y_testing = NULL,
+                         y_test = NULL,
                          predicted_training = NULL,
                          predicted_validation = NULL,
-                         predicted_testing = NULL,
+                         predicted_test = NULL,
                          xnames = NULL,
                          varimp = NULL,
                          question = NULL,
                          extra = NULL,
                          predicted_prob_training = NULL,
                          predicted_prob_validation = NULL,
-                         predicted_prob_testing = NULL,
+                         predicted_prob_test = NULL,
                          binclasspos = NULL) {
     metrics_training <- classification_metrics(
       true_labels = y_training,
@@ -313,12 +313,12 @@ Classification <- new_class(
     } else {
       NULL
     }
-    metrics_testing <- if (!is.null(y_testing)) {
+    metrics_test <- if (!is.null(y_test)) {
       classification_metrics(
-        true_labels = y_testing,
-        predicted_labels = predicted_testing,
-        predicted_prob = predicted_prob_testing,
-        sample = "Testing"
+        true_labels = y_test,
+        predicted_labels = predicted_test,
+        predicted_prob = predicted_prob_test,
+        sample = "Test"
       )
     } else {
       NULL
@@ -333,13 +333,13 @@ Classification <- new_class(
         tuner = tuner,
         y_training = y_training,
         y_validation = y_validation,
-        y_testing = y_testing,
+        y_test = y_test,
         predicted_training = predicted_training,
         predicted_validation = predicted_validation,
-        predicted_testing = predicted_testing,
+        predicted_test = predicted_test,
         metrics_training = metrics_training,
         metrics_validation = metrics_validation,
-        metrics_testing = metrics_testing,
+        metrics_test = metrics_test,
         xnames = xnames,
         varimp = varimp,
         question = question,
@@ -347,7 +347,7 @@ Classification <- new_class(
       ),
       predicted_prob_training = predicted_prob_training,
       predicted_prob_validation = predicted_prob_validation,
-      predicted_prob_testing = predicted_prob_testing,
+      predicted_prob_test = predicted_prob_test,
       binclasspos = binclasspos
     )
   }
@@ -368,7 +368,7 @@ Regression <- new_class(
   properties = list(
     se_training = class_double | NULL,
     se_validation = class_double | NULL,
-    se_testing = class_double | NULL
+    se_test = class_double | NULL
   ),
   constructor = function(algorithm = NULL,
                          model = NULL,
@@ -377,13 +377,13 @@ Regression <- new_class(
                          tuner = NULL, # Tuner
                          y_training = NULL,
                          y_validation = NULL,
-                         y_testing = NULL,
+                         y_test = NULL,
                          predicted_training = NULL,
                          predicted_validation = NULL,
-                         predicted_testing = NULL,
+                         predicted_test = NULL,
                          se_training = NULL,
                          se_validation = NULL,
-                         se_testing = NULL,
+                         se_test = NULL,
                          xnames = NULL,
                          varimp = NULL,
                          question = NULL,
@@ -401,10 +401,10 @@ Regression <- new_class(
     } else {
       NULL
     }
-    metrics_testing <- if (!is.null(y_testing)) {
+    metrics_test <- if (!is.null(y_test)) {
       regression_metrics(
-        y_testing, predicted_testing,
-        sample = "Testing"
+        y_test, predicted_test,
+        sample = "Test"
       )
     } else {
       NULL
@@ -419,13 +419,13 @@ Regression <- new_class(
         tuner = tuner,
         y_training = y_training,
         y_validation = y_validation,
-        y_testing = y_testing,
+        y_test = y_test,
         predicted_training = predicted_training,
         predicted_validation = predicted_validation,
-        predicted_testing = predicted_testing,
+        predicted_test = predicted_test,
         metrics_training = metrics_training,
         metrics_validation = metrics_validation,
-        metrics_testing = metrics_testing,
+        metrics_test = metrics_test,
         xnames = xnames,
         varimp = varimp,
         question = question,
@@ -433,7 +433,7 @@ Regression <- new_class(
       ),
       se_training = se_training,
       se_validation = se_validation,
-      se_testing = se_testing
+      se_test = se_test
     )
   }
 ) # /Regression
@@ -444,13 +444,13 @@ Regression <- new_class(
 #' @title Plot Regression
 #'
 #' @param x Regression object.
-#' @param what Character vector: What to plot. Can include "training", "validation", "testing", or
+#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
 #' "all", which will plot all available of the above.
 #'
 #' @author EDG
 method(plot, Regression) <- function(x, what = "all", fit = "gam", theme = "darkgraygrid", ...) {
   if (length(what) == 1 && what == "all") {
-    what <- c("training", "validation", "testing")
+    what <- c("training", "validation", "test")
   }
   true <- paste0("y_", what)
   true_l <- Filter(
@@ -481,16 +481,16 @@ make_Supervised <- function(
     tuner = NULL,
     y_training = NULL,
     y_validation = NULL,
-    y_testing = NULL,
+    y_test = NULL,
     predicted_training = NULL,
     predicted_validation = NULL,
-    predicted_testing = NULL,
+    predicted_test = NULL,
     predicted_prob_training = NULL,
     predicted_prob_validation = NULL,
-    predicted_prob_testing = NULL,
+    predicted_prob_test = NULL,
     se_training = NULL,
     se_validation = NULL,
-    se_testing = NULL,
+    se_test = NULL,
     xnames = character(),
     varimp = NULL,
     question = character(),
@@ -506,13 +506,13 @@ make_Supervised <- function(
       tuner = tuner,
       y_training = y_training,
       y_validation = y_validation,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
       predicted_validation = predicted_validation,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       predicted_prob_training = predicted_prob_training,
       predicted_prob_validation = predicted_prob_validation,
-      predicted_prob_testing = predicted_prob_testing,
+      predicted_prob_test = predicted_prob_test,
       xnames = xnames,
       varimp = varimp,
       question = question,
@@ -528,13 +528,13 @@ make_Supervised <- function(
       tuner = tuner,
       y_training = y_training,
       y_validation = y_validation,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
       predicted_validation = predicted_validation,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       se_training = se_training,
       se_validation = se_validation,
-      se_testing = se_testing,
+      se_test = se_test,
       xnames = xnames,
       varimp = varimp,
       question = question,
@@ -554,8 +554,8 @@ write_Supervised <- function(object,
   }
   if (!is.null(outdir)) {
     filename_train <- paste0(outdir, object@algorithm, "_Predicted_Training_vs_True.pdf")
-    if (!is.null(object@y_testing)) {
-      filename_test <- paste0(outdir, object@algorithm, "_Predicted_Testing_vs_True.pdf")
+    if (!is.null(object@y_test)) {
+      filename_test <- paste0(outdir, object@algorithm, "_predicted_test_vs_True.pdf")
     }
   } else {
     filename_train <- filename_test <- NULL
@@ -567,7 +567,7 @@ write_Supervised <- function(object,
 } # /write_Supervised
 
 # SupervisedCV ----
-# fields metrics_training/metrics_validation/metrics_testing
+# fields metrics_training/metrics_validation/metrics_test
 # could be active bindings that are collected from @models
 #' SupervisedCV
 #'
@@ -587,11 +587,11 @@ SupervisedCV <- new_class(
     tuner_parameters = TunerParameters | NULL,
     crossvalidation_resampler = Resampler,
     y_training = class_any,
-    y_testing = class_any,
+    y_test = class_any,
     predicted_training = class_any,
-    predicted_testing = class_any,
+    predicted_test = class_any,
     metrics_training = MetricsCV,
-    metrics_testing = MetricsCV,
+    metrics_test = MetricsCV,
     xnames = class_character,
     varimp = class_any,
     question = class_character | NULL,
@@ -606,13 +606,13 @@ SupervisedCV <- new_class(
                          tuner_parameters,
                          crossvalidation_resampler,
                          y_training,
-                         y_testing,
+                         y_test,
                          predicted_training,
-                         predicted_testing,
+                         predicted_test,
                          metrics_training,
-                         metrics_testing,
+                         metrics_test,
                          metrics_training_mean,
-                         metrics_testing_mean,
+                         metrics_test_mean,
                          xnames,
                          varimp,
                          question,
@@ -626,13 +626,13 @@ SupervisedCV <- new_class(
       tuner_parameters = tuner_parameters,
       crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       metrics_training = metrics_training,
-      metrics_testing = metrics_testing,
+      metrics_test = metrics_test,
       # metrics_training_mean = metrics_training_mean,
-      # metrics_testing_mean = metrics_testing_mean,
+      # metrics_test_mean = metrics_test_mean,
       xnames = xnames,
       varimp = varimp,
       question = question,
@@ -659,7 +659,7 @@ method(print, SupervisedCV) <- function(x, ...) {
   }
   print(x@metrics_training)
   cat("\n")
-  print(x@metrics_testing)
+  print(x@metrics_test)
   invisible(x)
 } # /SupervisedCV
 
@@ -705,7 +705,7 @@ ClassificationCV <- new_class(
   parent = SupervisedCV,
   properties = list(
     predicted_prob_training = class_any,
-    predicted_prob_testing = class_any
+    predicted_prob_test = class_any
   ),
   constructor = function(algorithm,
                          models,
@@ -715,11 +715,11 @@ ClassificationCV <- new_class(
                          crossvalidation_resampler,
                          y_training,
                          y_validation = NULL,
-                         y_testing = NULL,
+                         y_test = NULL,
                          predicted_training = NULL,
-                         predicted_testing = NULL,
+                         predicted_test = NULL,
                          predicted_prob_training = NULL,
-                         predicted_prob_testing = NULL,
+                         predicted_prob_test = NULL,
                          xnames = NULL,
                          varimp = NULL,
                          question = NULL,
@@ -728,9 +728,9 @@ ClassificationCV <- new_class(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)
     )
-    metrics_testing <- ClassificationMetricsCV(
-      sample = "Testing",
-      cv_metrics = lapply(models, function(mod) mod@metrics_testing)
+    metrics_test <- ClassificationMetricsCV(
+      sample = "Test",
+      cv_metrics = lapply(models, function(mod) mod@metrics_test)
     )
     new_object(
       SupervisedCV(
@@ -742,20 +742,20 @@ ClassificationCV <- new_class(
         tuner_parameters = tuner_parameters,
         crossvalidation_resampler = crossvalidation_resampler,
         y_training = y_training,
-        y_testing = y_testing,
+        y_test = y_test,
         predicted_training = predicted_training,
-        predicted_testing = predicted_testing,
+        predicted_test = predicted_test,
         metrics_training = metrics_training,
-        metrics_testing = metrics_testing,
+        metrics_test = metrics_test,
         # metrics_training_mean = metrics_training_mean,
-        # metrics_testing_mean = metrics_testing_mean,
+        # metrics_test_mean = metrics_test_mean,
         xnames = xnames,
         varimp = varimp,
         question = question,
         extra = extra
       ),
       predicted_prob_training = predicted_prob_training,
-      predicted_prob_testing = predicted_prob_testing
+      predicted_prob_test = predicted_prob_test
     )
   }
 ) # /ClassificationCV
@@ -774,7 +774,7 @@ RegressionCV <- new_class(
   properties = list(
     se_training = class_any,
     se_validation = class_any,
-    se_testing = class_any
+    se_test = class_any
   ),
   constructor = function(algorithm,
                          models,
@@ -784,24 +784,24 @@ RegressionCV <- new_class(
                          crossvalidation_resampler,
                          y_training,
                          y_validation = NULL,
-                         y_testing = NULL,
+                         y_test = NULL,
                          predicted_training = NULL,
-                         predicted_testing = NULL,
+                         predicted_test = NULL,
                          se_training = NULL,
-                         se_testing = NULL,
+                         se_test = NULL,
                          xnames = NULL,
                          varimp = NULL,
                          question = NULL,
                          extra = NULL) {
     metrics_training <- lapply(models, function(mod) mod@metrics_training@metrics)
-    metrics_testing <- lapply(models, function(mod) mod@metrics_testing@metrics)
+    metrics_test <- lapply(models, function(mod) mod@metrics_test@metrics)
     metrics_training <- RegressionMetricsCV(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)
     )
-    metrics_testing <- RegressionMetricsCV(
-      sample = "Testing",
-      cv_metrics = lapply(models, function(mod) mod@metrics_testing)
+    metrics_test <- RegressionMetricsCV(
+      sample = "Test",
+      cv_metrics = lapply(models, function(mod) mod@metrics_test)
     )
     new_object(
       SupervisedCV(
@@ -813,20 +813,20 @@ RegressionCV <- new_class(
         tuner_parameters = tuner_parameters,
         crossvalidation_resampler = crossvalidation_resampler,
         y_training = y_training,
-        y_testing = y_testing,
+        y_test = y_test,
         predicted_training = predicted_training,
-        predicted_testing = predicted_testing,
+        predicted_test = predicted_test,
         metrics_training = metrics_training,
-        metrics_testing = metrics_testing,
+        metrics_test = metrics_test,
         # metrics_training_mean = metrics_training_mean,
-        # metrics_testing_mean = metrics_testing_mean,
+        # metrics_test_mean = metrics_test_mean,
         xnames = xnames,
         varimp = varimp,
         question = question,
         extra = extra
       ),
       se_training = se_training,
-      se_testing = se_testing
+      se_test = se_test
     )
   }
 ) # /RegressionCV
@@ -854,13 +854,13 @@ make_SupervisedCV <- function(
     tuner_parameters,
     crossvalidation_resampler,
     y_training,
-    y_testing,
+    y_test,
     predicted_training,
-    predicted_testing,
+    predicted_test,
     predicted_prob_training,
-    predicted_prob_testing,
+    predicted_prob_test,
     se_training = NULL,
-    se_testing = NULL,
+    se_test = NULL,
     xnames = character(),
     varimp = NULL,
     question = character(),
@@ -875,11 +875,11 @@ make_SupervisedCV <- function(
       tuner_parameters = tuner_parameters,
       crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       predicted_prob_training = predicted_prob_training,
-      predicted_prob_testing = predicted_prob_testing,
+      predicted_prob_test = predicted_prob_test,
       xnames = xnames,
       varimp = varimp,
       question = question,
@@ -894,11 +894,11 @@ make_SupervisedCV <- function(
       tuner_parameters = tuner_parameters,
       crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       se_training = se_training,
-      se_testing = se_testing,
+      se_test = se_test,
       xnames = xnames,
       varimp = varimp,
       question = question,

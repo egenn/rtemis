@@ -6,7 +6,7 @@
 \arguments{
 \item{x}{Regression object.}
 
-\item{what}{Character vector: What to plot. Can include "training", "validation", "testing", or
+\item{what}{Character vector: What to plot. Can include "training", "validation", "test", or
 "all", which will plot all available of the above.}
 }
 \description{

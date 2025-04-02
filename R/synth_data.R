@@ -7,13 +7,13 @@
 #' @param nrow Integer: Number of rows.
 #' @param ncol Integer: Number of columns.
 #' @param noise_sd_factor Numeric: Add rnorm(nrow, sd = noise_sd_factor * sd(y)).
-#' @param resampler_parameters Output of [setup_Resampler] defining training/testing split. The first resulting resample
-#' will be used to create `dat_training` and `dat_testing` output; all resample output under `resamples`
+#' @param resampler_parameters Output of [setup_Resampler] defining training/test split. The first resulting resample
+#' will be used to create `dat_training` and `dat_test` output; all resample output under `resamples`
 #' @param seed Integer: Seed for random number generator.
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
-#' @return List with elements `dat, dat_training, dat_testing, resamples, w, seed`
+#' @return List with elements `dat, dat_training, dat_test, resamples, w, seed`
 #' @export
 
 synth_reg_data <- function(nrow = 500,
@@ -32,12 +32,12 @@ synth_reg_data <- function(nrow = 500,
 
   res <- resample(y, parameters = resampler_parameters)
   dat_training <- dat[res[[1]], ]
-  dat_testing <- dat[-res[[1]], ]
+  dat_test <- dat[-res[[1]], ]
 
   list(
     dat = dat,
     dat_training = dat_training,
-    dat_testing = dat_testing,
+    dat_test = dat_test,
     resamples = res,
     w = w,
     seed = seed

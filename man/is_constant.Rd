@@ -9,7 +9,7 @@ is_constant(x, skip_missing = FALSE)
 \arguments{
 \item{x}{Vector: Input}
 
-\item{skip_missing}{Logical: If TRUE, skip NA values before testing}
+\item{skip_missing}{Logical: If TRUE, skip NA values before test}
 }
 \description{
 Check if vector is constant
