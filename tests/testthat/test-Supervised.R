@@ -426,18 +426,19 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 # )
 
 # TabNet Regression ----
+# tabnet removed from CRAN 20250401 (https://cran.r-project.org/web/packages/tabnet/index.html)
 # Test if lantern is installed
-if (torch::torch_is_installed()) {
-  mod_r_tabnet <- train(
-    x = datr_train,
-    dat_test = datr_test,
-    algorithm = "tabnet",
-    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
-  )
-  test_that("train() TabNet Regression succeeds", {
-    expect_s7_class(mod_r_tabnet, Regression)
-  })
-}
+# if (torch::torch_is_installed()) {
+#   mod_r_tabnet <- train(
+#     x = datr_train,
+#     dat_test = datr_test,
+#     algorithm = "tabnet",
+#     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
+#   )
+#   test_that("train() TabNet Regression succeeds", {
+#     expect_s7_class(mod_r_tabnet, Regression)
+#   })
+# }
 
 # Binary Classification ----
 
@@ -587,17 +588,18 @@ test_that("train() SVM Classification succeeds", {
 })
 
 # TabNet Classification ----
-if (torch::torch_is_installed()) {
-  mod_c_tabnet <- train(
-    x = datc2_train,
-    dat_test = datc2_test,
-    algorithm = "tabnet",
-    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
-  )
-  test_that("train() TabNet Classification succeeds", {
-    expect_s7_class(mod_c_tabnet, Classification)
-  })
-}
+# 2025-04-01: removed from CRAN (https://cran.r-project.org/web/packages/tabnet/index.html)
+# if (torch::torch_is_installed()) {
+#   mod_c_tabnet <- train(
+#     x = datc2_train,
+#     dat_test = datc2_test,
+#     algorithm = "tabnet",
+#     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
+#   )
+#   test_that("train() TabNet Classification succeeds", {
+#     expect_s7_class(mod_c_tabnet, Classification)
+#   })
+# }
 
 # Calibration ----
 # Calibrate mod_c_cart trained above

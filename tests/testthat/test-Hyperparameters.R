@@ -97,6 +97,7 @@ test_that("setup_RadialSVM() succeeds", {
 })
 
 # setup_TabNet ----
-test_that("setup_TabNet() succeeds", {
-  expect_s7_class(setup_TabNet(), TabNetHyperparameters)
-})
+# tabnet removed from CRAN 20250401
+# test_that("setup_TabNet() succeeds", {
+#   expect_s7_class(setup_TabNet(), TabNetHyperparameters)
+# })
