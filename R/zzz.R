@@ -42,7 +42,6 @@ rtemis_version <- packageVersion("rtemismlv")
   if (interactive()) {
     packageStartupMessage(paste0(
       rtlogo,
-      # rtasciitxt(),
       "\n  .:", bold(pkgname), " v.", rtemis_version, " \U1F30A", " ", sessionInfo()[[2]],
       bold("\n  Defaults"),
       "\n  \u2502   ", italic(gray("Theme: ")), rtemis_theme,
