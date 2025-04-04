@@ -603,4 +603,24 @@ test_that("train() SVM Classification succeeds", {
 
 # Calibration ----
 # Calibrate mod_c_cart trained above
-mod_c_cart
+model <- mod_c_lightrf
+predicted_probabilities <- model$predicted_prob_training
+true_labels <- model$y_training
+mod_c_lightrf_cal <- calibrate(
+  mod_c_lightrf,
+  predicted_probabilities = mod_c_lightrf$predicted_prob_training,
+  true_labels = mod_c_lightrf$y_training
+)
+test_that("calibrate() succeeds on Classification", {
+  expect_s7_class(mod_c_lightrf_cal, CalibratedClassification)
+})
+
+# Predict CalibratedClassification ----
+newdata <- features(datc2_test)
+predicted_prob_test_cal <- predict(mod_c_lightrf_cal, newdata = newdata)
+test_that("predict() CalibratedClassification succeeds", {
+  expect_identical(
+    mod_c_lightrf_cal@predicted_prob_test_calibrated,
+    predicted_prob_test_cal
+  )
+})
