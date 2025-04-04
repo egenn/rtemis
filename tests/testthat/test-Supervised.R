@@ -624,3 +624,4 @@ test_that("predict() CalibratedClassification succeeds", {
     predicted_prob_test_cal
   )
 })
+ 

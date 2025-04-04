@@ -525,7 +525,7 @@ CalibratedClassification <- new_class(
 # Print CalibratedClassification ----
 method(print, CalibratedClassification) <- function(x, ...) {
   cat(gray(".:"))
-  objcat("Calibrated Classification Model")
+  objcat("Classification Model")
   cat("  ",
     hilite(x@algorithm),
     " (", get_alg_desc(x@algorithm), ")\n",
@@ -534,6 +534,7 @@ method(print, CalibratedClassification) <- function(x, ...) {
   if (!is.null(x@calibration_model)) {
     cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n", sep = "")
   }
+  # => raw => calibrated values for Overall
   print(x@metrics_training_calibrated)
   cat("\n")
   print(x@metrics_test_calibrated)
