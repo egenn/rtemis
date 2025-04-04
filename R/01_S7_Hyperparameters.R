@@ -1427,7 +1427,7 @@ TabNetHyperparameters <- new_class(
 #' @return TabNetHyperparameters object.
 #' 
 #' @author EDG
-#' @noRD
+#' @noRd
 # tabnet removed from CRAN 20250401
 setup_TabNet <- function(
     batch_size = 1024^2,

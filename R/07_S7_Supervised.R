@@ -2,9 +2,10 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-# References
+# Refs & Res
 # https://github.com/RConsortium/S7/
 # https://rconsortium.github.io/S7
+# https://utf8-icons.com/
 
 # => ?extra used
 
@@ -165,6 +166,9 @@ print.Supervised <- function(x, ...) {
   } else {
     cat("\n")
   }
+  # if (x@type == "Classification" && !is.null(x@calibration_model)) {
+  #   cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
+  # }
   # padcat("Training Metrics")
   print(x@metrics_training)
   if (length(x@metrics_validation) > 0) {
@@ -262,8 +266,59 @@ method(describe, Supervised) <- function(x) {
   invisible(desc)
 } # / describe
 
+
+# Calibration ----
+#' @title Calibration
+#'
+#' @description
+#' Calibration class.
+#'
+#' @author EDG
+#' @noRd
+Calibration <- new_class(
+  name = "Calibration",
+  properties = list(
+    model = Supervised,
+    brier_score_delta_training = class_numeric | NULL,
+    brier_score_delta_test = class_numeric | NULL
+  )
+) # /Calibration
+
+
+method(print, Calibration) <- function(x, ...) {
+  cat(gray(".:"))
+  objcat("Calibration Model")
+  cat("  ",
+    hilite(x@algorithm),
+    " (", get_alg_desc(x@algorithm), ")\n",
+    sep = ""
+  )
+}
+  
+
+CalibrationCV <- new_class(
+  name = "CalibrationCV",
+  properties = list(
+    models = class_list,
+    brier_score_delta_training = class_numeric | NULL,
+    brier_score_delta_test = class_numeric | NULL
+  )
+) # /CalibrationCV
+
+
+method(print, CalibrationCV) <- function(x, ...) {
+  cat(gray(".:"))
+  objcat("Cross-validated Calibration Model")
+  cat("  ",
+    hilite(x@algorithm),
+    " (", get_alg_desc(x@algorithm), ")\n",
+    sep = ""
+  )
+}
+
 # Classification ----
 #' @title Classification
+#' 
 #' @description
 #' Supervised subclass for classification models.
 #'
@@ -296,7 +351,7 @@ Classification <- new_class(
                          predicted_prob_training = NULL,
                          predicted_prob_validation = NULL,
                          predicted_prob_test = NULL,
-                         binclasspos = NULL) {
+                         binclasspos = 2L) {
     metrics_training <- classification_metrics(
       true_labels = y_training,
       predicted_labels = predicted_training,
@@ -351,7 +406,149 @@ Classification <- new_class(
       binclasspos = binclasspos
     )
   }
-) # /Clasiffication
+) # /Classification
+
+
+# CalibratedClassification ----
+#' @title CalibratedClassification
+#' 
+#' @description
+#' Classification subclass for calibrated classification models.
+#' The classification_model can be trained on any data, ideally different from any data used by 
+#' the classification model.
+#' 
+#' @author EDG
+#' @noRd
+CalibratedClassification <- new_class(
+  name = "CalibratedClassification",
+  parent = Classification,
+  properties = list(
+    calibration_model = Supervised,
+    predicted_training_calibrated = class_vector,
+    predicted_validation_calibrated = class_vector | NULL,
+    predicted_test_calibrated = class_vector | NULL,
+    predicted_prob_training_calibrated = class_double,
+    predicted_prob_validation_calibrated = class_double | NULL,
+    predicted_prob_test_calibrated = class_double | NULL,
+    metrics_training_calibrated = Metrics,
+    metrics_validation_calibrated = Metrics | NULL,
+    metrics_test_calibrated = Metrics | NULL
+  ),
+  constructor = function(classification_model,
+                         calibration_model = NULL) {
+
+    # Predict calibrated probabilities of classification model datasets
+    predicted_prob_training_calibrated <- predict(
+      calibration_model,
+      data.frame(predicted_probabilities = classification_model@predicted_prob_training),
+    )
+    predicted_prob_validation_calibrated <- if (!is.null(classification_model@predicted_prob_validation)) {
+      predict(
+        calibration_model,
+        data.frame(predicted_probabilities = classification_model@predicted_prob_validation)
+      )
+    } else {
+      NULL
+    }
+    predicted_prob_test_calibrated <- if (!is.null(classification_model@predicted_prob_test)) {
+      predict(
+        calibration_model,
+        data.frame(predicted_probabilities = classification_model@predicted_prob_test)
+      )
+    } else {
+      NULL
+    }
+    # Predict calibrated labels of classification model datasets
+    predicted_training_calibrated <- prob2categorical(
+      predicted_prob_training_calibrated,
+      levels = levels(classification_model@y_training)
+    )
+    predicted_validation_calibrated <- if (!is.null(classification_model@predicted_prob_validation)) {
+      prob2categorical(
+        predicted_prob_validation_calibrated,
+        levels = levels(classification_model@y_validation)
+      )
+    } else {
+      NULL
+    }
+    predicted_test_calibrated <- if (!is.null(classification_model@predicted_prob_test)) {
+      prob2categorical(
+        predicted_prob_test_calibrated,
+        levels = levels(classification_model@y_test)
+      )
+    } else {
+      NULL
+    }
+    metrics_training_calibrated <- classification_metrics(
+      true_labels = classification_model@y_training,
+      predicted_labels = predicted_training_calibrated,
+      predicted_prob = predicted_prob_training_calibrated,
+      sample = "Calibrated Training"
+    )
+    metrics_validation_calibrated <- if (!is.null(classification_model@y_validation)) {
+      classification_metrics(
+        true_labels = classification_model@y_validation,
+        predicted_labels = predicted_validation_calibrated,
+        predicted_prob = predicted_prob_validation_calibrated,
+        sample = "Calibrated Validation"
+      )
+    } else {
+      NULL
+    }
+    metrics_test_calibrated <- if (!is.null(classification_model@y_test)) {
+      classification_metrics(
+        true_labels = classification_model@y_test,
+        predicted_labels = predicted_test_calibrated,
+        predicted_prob = predicted_prob_test_calibrated,
+        sample = "Calibrated Test"
+      )
+    } else {
+      NULL
+    }
+    new_object(
+      classification_model,
+      calibration_model = calibration_model,
+      predicted_training_calibrated = predicted_training_calibrated,
+      predicted_validation_calibrated = predicted_validation_calibrated,
+      predicted_test_calibrated = predicted_test_calibrated,
+      predicted_prob_training_calibrated = predicted_prob_training_calibrated,
+      predicted_prob_validation_calibrated = predicted_prob_validation_calibrated,
+      predicted_prob_test_calibrated = predicted_prob_test_calibrated,
+      metrics_training_calibrated = metrics_training_calibrated,
+      metrics_validation_calibrated = metrics_validation_calibrated,
+      metrics_test_calibrated = metrics_test_calibrated
+    )
+  }
+) # rtemmis::CalibratedClassification
+
+
+# Print CalibratedClassification ----
+method(print, CalibratedClassification) <- function(x, ...) {
+  cat(gray(".:"))
+  objcat("Calibrated Classification Model")
+  cat("  ",
+    hilite(x@algorithm),
+    " (", get_alg_desc(x@algorithm), ")\n",
+    sep = ""
+  )
+  if (!is.null(x@calibration_model)) {
+    cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n", sep = "")
+  }
+  print(x@metrics_training_calibrated)
+  cat("\n")
+  print(x@metrics_test_calibrated)
+} # /print.CalibratedClassification
+
+
+# Predict CalibratedClassification ----
+method(predict, CalibratedClassification) <- function(object, newdata, ...) {
+  check_inherits(newdata, "data.frame")
+  predict_fn <- get_predict_fn(object@algorithm)
+  # Get the classification model's predicted probabilities
+  raw_prob <- do_call(predict_fn, list(model = object@model, newdata = newdata))
+  # Get the calibration model's predicted probabilities
+  cal_prob <- predict(object@calibration_model, newdata = data.frame(predicted_probabilities = raw_prob))
+} # rtemis::predict.CalibratedClassification
 
 se_compat_algorithms <- c("GLM", "GAM")
 
@@ -657,6 +854,9 @@ method(print, SupervisedCV) <- function(x, ...) {
   } else {
     cat("\n")
   }
+  # if (x@type == "Classification" && !is.null(x@calibration)) {
+  #   cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
+  # }
   print(x@metrics_training)
   cat("\n")
   print(x@metrics_test)
@@ -909,6 +1109,7 @@ make_SupervisedCV <- function(
 
 early_stopping_algs <- c("LightGBM", "LightRF", "LightRuleFit")
 
+
 # LightRuleFit ----
 #' @title LightRuleFit
 #'
@@ -944,3 +1145,4 @@ method(print, LightRuleFit) <- function(x, ...) {
   cat("Selected", hilite(length(x@rules_selected)), "rules.\n")
   invisible(x)
 } # /rtemis::print.LightRuleFit
+
