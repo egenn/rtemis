@@ -122,7 +122,7 @@ train <- function(x,
   start_time <- intro(verbosity = verbosity, log_file = log_file)
 
   # Parallelization ----
-  # 3 potential points of parallelization from inner to outer: algorithm, tuning, CV.
+  # 3 potential points of parallelization from innermost to outermost: algorithm, tuning, CV.
 
   # Init ----
   tuner <- NULL
@@ -131,7 +131,7 @@ train <- function(x,
   ncols <- ncol(x)
   type <- supervised_type(x)
   if (type == "Classification") {
-    classes <- levels(x[, ncols])
+    classes <- levels(outcome(x))
     n_classes <- length(classes)
   }
 
