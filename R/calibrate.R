@@ -21,7 +21,12 @@
 #' @author EDG
 #' @export
 
-calibrate <- new_generic("calibrate", ("x"))
+calibrate <- new_generic(
+  "calibrate", ("x"),
+  function(x, predicted_probabilities, true_labels, algorithm = "isotonic", hyperparameters = NULL) {
+    S7_dispatch()
+  }
+)
 
 method(calibrate, Classification) <- function(x,
                                               predicted_probabilities,

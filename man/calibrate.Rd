@@ -4,7 +4,13 @@
 \alias{calibrate}
 \title{Calibrate Binary Classification Models}
 \usage{
-calibrate(x, ...)
+calibrate(
+  x,
+  predicted_probabilities,
+  true_labels,
+  algorithm = "isotonic",
+  hyperparameters = NULL
+)
 }
 \arguments{
 \item{x}{Classification or ClassificationCV object: The model will be returned with the calibration model and
