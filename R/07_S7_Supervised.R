@@ -5,6 +5,7 @@
 # Refs & Res
 # https://github.com/RConsortium/S7/
 # https://rconsortium.github.io/S7
+# https://rconsortium.github.io/S7/articles/classes-objects.html?q=computed#computed-properties
 # https://utf8-icons.com/
 
 # => ?extra used
@@ -166,10 +167,22 @@ print.Supervised <- function(x, ...) {
   } else {
     cat("\n")
   }
-  # if (x@type == "Classification" && !is.null(x@calibration_model)) {
-  #   cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
-  # }
-  # padcat("Training Metrics")
+  if (prop_exists(x, "calibration_model")) {
+    cat(
+      "  ", green("\U27CB", bold = TRUE),
+      " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n",
+      sep = ""
+    )
+  }
+  if (prop_exists(x, "calibration_models")) {
+    cat(
+      "  ", green("\U27CB", bold = TRUE),
+      " Calibrated using ", get_alg_desc(x@calibration_models[[1]]@algorithm), 
+      " with ", 
+      ".\n\n",
+      sep = ""
+    )
+  }
   print(x@metrics_training)
   if (length(x@metrics_validation) > 0) {
     cat("\n")
@@ -284,7 +297,7 @@ Calibration <- new_class(
   )
 ) # /Calibration
 
-
+# Prin Calibration ----
 method(print, Calibration) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Calibration Model")
@@ -294,18 +307,22 @@ method(print, Calibration) <- function(x, ...) {
     sep = ""
   )
 }
-  
 
+# CalibrationCV ----
 CalibrationCV <- new_class(
   name = "CalibrationCV",
   properties = list(
     models = class_list,
-    brier_score_delta_training = class_numeric | NULL,
-    brier_score_delta_test = class_numeric | NULL
+    resampler_parameters = ResamplerParameters
+    # brier_score_delta_training = class_numeric | NULL,
+    # brier_score_delta_test = class_numeric | NULL
   )
+  # constructor = function(models, resampler_parameters) {
+
+  # }
 ) # /CalibrationCV
 
-
+# Print CalibrationCV ----
 method(print, CalibrationCV) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Cross-validated Calibration Model")
@@ -318,7 +335,7 @@ method(print, CalibrationCV) <- function(x, ...) {
 
 # Classification ----
 #' @title Classification
-#' 
+#'
 #' @description
 #' Supervised subclass for classification models.
 #'
@@ -411,12 +428,12 @@ Classification <- new_class(
 
 # CalibratedClassification ----
 #' @title CalibratedClassification
-#' 
+#'
 #' @description
 #' Classification subclass for calibrated classification models.
-#' The classification_model can be trained on any data, ideally different from any data used by 
+#' The classification_model can be trained on any data, ideally different from any data used by
 #' the classification model.
-#' 
+#'
 #' @author EDG
 #' @noRd
 CalibratedClassification <- new_class(
@@ -435,8 +452,7 @@ CalibratedClassification <- new_class(
     metrics_test_calibrated = Metrics | NULL
   ),
   constructor = function(classification_model,
-                         calibration_model = NULL) {
-
+                         calibration_model) {
     # Predict calibrated probabilities of classification model datasets
     predicted_prob_training_calibrated <- predict(
       calibration_model,
@@ -523,22 +539,24 @@ CalibratedClassification <- new_class(
 
 
 # Print CalibratedClassification ----
-method(print, CalibratedClassification) <- function(x, ...) {
-  cat(gray(".:"))
-  objcat("Classification Model")
-  cat("  ",
-    hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n",
-    sep = ""
-  )
-  if (!is.null(x@calibration_model)) {
-    cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n", sep = "")
-  }
-  # => raw => calibrated values for Overall
-  print(x@metrics_training_calibrated)
-  cat("\n")
-  print(x@metrics_test_calibrated)
-} # /print.CalibratedClassification
+# method(print, CalibratedClassification) <- function(x, ...) {
+#   cat(gray(".:"))
+#   objcat("Classification Model")
+#   cat("  ",
+#     hilite(x@algorithm),
+#     " (", get_alg_desc(x@algorithm), ")\n",
+#     sep = ""
+#   )
+#   cat(
+#     "  ", green("\U27CB", bold = TRUE),
+#     " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n",
+#     sep = ""
+#   )
+#   # => raw => calibrated values for Overall
+#   print(x@metrics_training_calibrated)
+#   cat("\n")
+#   print(x@metrics_test_calibrated)
+# } # /print.CalibratedClassification
 
 
 # Predict CalibratedClassification ----
@@ -849,7 +867,7 @@ method(print, SupervisedCV) <- function(x, ...) {
     " (", get_alg_desc(x@algorithm), ")\n",
     sep = ""
   )
-  cat("  ", orange("\U27F3", bold = TRUE), " Trained using ", desc(x@crossvalidation_resampler), ".\n", sep = "")
+  cat("  ", orange("\U27F3", bold = TRUE), " Tested using ", desc(x@crossvalidation_resampler), ".\n", sep = "")
   if (!is.null(x@tuner_parameters)) {
     cat("  ", magenta("\U2699", bold = TRUE), " Tuned using ", desc(x@tuner_parameters), ".\n\n", sep = "")
   } else {
@@ -960,6 +978,100 @@ ClassificationCV <- new_class(
     )
   }
 ) # /ClassificationCV
+
+
+# CalibratedClassificationCV ----
+#' @title CalibratedClassificationCV
+#'
+#' @description
+#' ClassificationCV subclass for calibrated classification models.
+#' The calibration models are trained on resamples of the `ClassificationCV`'s test data.
+#'
+#' @author EDG
+#' @noRd
+CalibratedClassificationCV <- new_class(
+  name = "CalibratedClassificationCV",
+  parent = ClassificationCV,
+  properties = list(
+    calibration_models = class_list, # => create CalibrationCV class
+    predicted_training_calibrated = new_property(
+      getter = function(self) {
+        lapply(calibration_models, function(mod) {
+          mod@predicted_training
+        })
+      }
+    ),
+    predicted_test_calibrated = new_property(
+      getter = function(self) {
+        lapply(calibration_models, function(mod) {
+          mod@predicted_test
+        })
+      }
+    ),
+    predicted_prob_training_calibrated = new_property(
+      getter = function(self) {
+        lapply(calibration_models, function(mod) {
+          mod@predicted_prob_training
+        })
+      }
+    ),
+    predicted_prob_test_calibrated = new_property(
+      getter = function(self) {
+        lapply(calibration_models, function(mod) {
+          mod@predicted_prob_test
+        })
+      }
+    ),
+    metrics_training_calibrated = new_property(
+      getter = function(self) {
+        lapply(calibration_models, function(mod) {
+          mod@metrics_training
+        })
+      }
+    ),
+    metrics_test_calibrated = new_property(
+      getter = function(self) {
+        lapply(calibration_models, function(mod) {
+          mod@metrics_test
+        })
+      }
+    )
+  ),
+  constructor = function(classificationcv_model,
+                         calibrations_models) {
+    new_object(
+      classificationcv_model,
+      calibration_models = calibrations_models
+    )
+  }
+) # /CalibratedClassificationCV
+
+
+# Print CalibratedClassificationCV ----
+method(print, CalibratedClassificationCV) <- function(x, ...) {
+  cat(gray(".:"))
+  objcat("Crossvalidated Classification Model")
+  cat("  ",
+    hilite(x@algorithm),
+    " (", get_alg_desc(x@algorithm), ")\n",
+    sep = ""
+  )
+  cat("  ", orange("\U27F3", bold = TRUE), " Tested using ", desc(x@crossvalidation_resampler), ".\n", sep = "")
+  if (!is.null(x@tuner_parameters)) {
+    cat("  ", magenta("\U2699", bold = TRUE), " Tuned using ", desc(x@tuner_parameters), ".\n", sep = "")
+  }
+  cat(
+    "  ", green("\U27CB", bold = TRUE),
+    " Calibrated using ", get_alg_desc(x@calibration_models[[1]]@algorithm), 
+    " with ", desc(x@calibration_models[[1]]@crossvalidation_resampler@parameters),
+    ".\n\n",
+    sep = ""
+  )
+  print(x@metrics_training)
+  cat("\n")
+  print(x@metrics_test)
+} # /print.CalibratedClassificationCV
+
 
 # RegressionCV ----
 #' @title RegressionCV
@@ -1146,4 +1258,3 @@ method(print, LightRuleFit) <- function(x, ...) {
   cat("Selected", hilite(length(x@rules_selected)), "rules.\n")
   invisible(x)
 } # /rtemis::print.LightRuleFit
-
