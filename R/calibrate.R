@@ -42,12 +42,13 @@ calibrate <- new_generic(
 #'
 #' @author EDG
 #' @export
-method(calibrate, Classification) <- function(x,
-                                              predicted_probabilities,
-                                              true_labels,
-                                              algorithm = "isotonic",
-                                              hyperparameters = NULL,
-                                              verbosity = 1L, ...) {
+
+calibrate.Classification <- function(x,
+                                     predicted_probabilities,
+                                     true_labels,
+                                     algorithm = "isotonic",
+                                     hyperparameters = NULL,
+                                     verbosity = 1L, ...) {
   # Check inputs
   check_is_S7(x, Classification)
   check_float01inc(predicted_probabilities)
@@ -97,19 +98,26 @@ method(calibrate, Classification) <- function(x,
 #' @author EDG
 #' @export
 
-method(calibrate, ClassificationCV) <- function(x,
-                                                algorithm = "isotonic",
-                                                hyperparameters = NULL,
-                                                resampler_parameters = setup_Resampler(
-                                                  n_resamples = 5L,
-                                                  type = "KFold"
-                                                ),
-                                                verbosity = 1L, ...) {
+method(calibrate, Classification) <- function(x,
+                                              algorithm = "isotonic",
+                                              hyperparameters = NULL,
+                                              verbosity = 1L, ...) {
+  calibrate.Classification(x, algorithm, hyperparameters, verbosity, ...)
+}
+
+calibrate.ClassificationCV <- function(x,
+                                       algorithm = "isotonic",
+                                       hyperparameters = NULL,
+                                       resampler_parameters = setup_Resampler(
+                                         n_resamples = 5L,
+                                         type = "KFold"
+                                       ),
+                                       verbosity = 1L, ...) {
   # Check inputs
   check_inherits(algorithm, "character")
   check_is_S7(resampler_parameters, ResamplerParameters)
   verbosity <- clean_int(verbosity)
-  
+
   # Check IFW is FALSE
   if (!is.null(hyperparameters) && hyperparameters[["ifw"]]) {
     stop("IFW must be FALSE for proper calibration.")
@@ -140,5 +148,12 @@ method(calibrate, ClassificationCV) <- function(x,
 
   # CalibratedClassificationCV
   CalibratedClassificationCV(x, calmods)
-
 } # /rtemis::calibrate.ClassificationCV
+
+
+method(calibrate, ClassificationCV) <- function(x,
+                                                algorithm = "isotonic",
+                                                hyperparameters = NULL, 
+                                                verbosity = 1L, ...) {
+  calibrate.ClassificationCV(x, algorithm, hyperparameters, verbosity, ...)
+}

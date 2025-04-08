@@ -3,6 +3,17 @@
 \name{calibrate.Classification}
 \alias{calibrate.Classification}
 \title{Calibrate Binary Classification Models}
+\usage{
+calibrate.Classification(
+  x,
+  predicted_probabilities,
+  true_labels,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+)
+}
 \arguments{
 \item{x}{Classification object: The model will be returned with the calibration model and
 calibration metrics added.}
