@@ -625,3 +625,8 @@ test_that("predict() CalibratedClassification succeeds", {
   )
 })
  
+# CalibrationCV ----
+mod_c_lightrf_cv_cal <- calibrate(mod_c_lightrf_cv)
+test_that("calibrate() succeeds on ClassificationCV", {
+  expect_s7_class(mod_c_lightrf_cv_cal, CalibratedClassificationCV)
+})
