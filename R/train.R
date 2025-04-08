@@ -173,6 +173,7 @@ train <- function(x,
         )
       }
     )
+    names(models) <- names(crossvalidation_resampler@resamples)
     hyperparameters@crossvalidated <- 1L
     msg2("Crossvalidation done.")
   } # /Crossvalidation
