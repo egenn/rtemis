@@ -1,7 +1,7 @@
 Package: rtemismlv
-Version: 0.99.86
+Version: 0.99.87
 Title: Machine Learning and Visualization
-Date: 2025-04-04
+Date: 2025-04-08
 Authors@R: person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
 Description: Advanced Machine Learning and Visualization for all.
 License: GPL (>= 3)
