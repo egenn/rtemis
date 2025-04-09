@@ -57,10 +57,10 @@ calibrate.Classification <- function(x,
   # Training data is whatever is passed by user
   dat <- data.table(predicted_probabilities, true_labels)
   # Test data is taken from mod, if available
-  if (!is.null(x$y_test) && !is.null(x$predicted_prob_test)) {
+  if (!is.null(x@y_test) && !is.null(x@predicted_prob_test)) {
     dat_test <- data.table(
-      predicted_probabilities = x$predicted_prob_test,
-      true_labels = x$y_test
+      predicted_probabilities = x@predicted_prob_test,
+      true_labels = x@y_test
     )
   } else {
     dat_test <- NULL
