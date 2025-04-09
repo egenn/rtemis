@@ -102,7 +102,10 @@ method(calibrate, Classification) <- function(x,
                                               algorithm = "isotonic",
                                               hyperparameters = NULL,
                                               verbosity = 1L, ...) {
-  calibrate.Classification(x, algorithm, hyperparameters, verbosity, ...)
+  calibrate.Classification(x,
+                           algorithm = algorithm,
+                           hyperparameters = hyperparameters,
+                           verbosity = verbosity, ...)
 }
 
 calibrate.ClassificationCV <- function(x,
@@ -155,5 +158,8 @@ method(calibrate, ClassificationCV) <- function(x,
                                                 algorithm = "isotonic",
                                                 hyperparameters = NULL, 
                                                 verbosity = 1L, ...) {
-  calibrate.ClassificationCV(x, algorithm, hyperparameters, verbosity, ...)
+  calibrate.ClassificationCV(x,
+                             algorithm = algorithm,
+                             hyperparameters = hyperparameters,
+                             verbosity = verbosity, ...)
 }
