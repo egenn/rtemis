@@ -187,6 +187,11 @@ method(features, class_data.frame) <- function(x) {
   x[, 1:(NCOL(x) - 1), drop = FALSE]
 }
 
+feature_names <- new_generic("feature_names", "x")
+method(feature_names, class_data.frame) <- function(x) {
+  names(x)[1:(NCOL(x) - 1)]
+}
+
 #' Get factor names
 #' 
 #' @param x data.frame or similar.

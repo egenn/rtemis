@@ -139,12 +139,21 @@ train_GLMNET <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
-predict_GLMNET <- function(model, newdata, type) {
+predict_GLMNET <- function(model, newdata, type = NULL) {
+  # Determine type
+  # if model@classnames exists, type is Classification
+  if (is.null(type)) {
+    type <- if (!is.null(model[["classnames"]])) {
+      "Classification"
+    } else {
+      "Regression"
+    }
+  }
   newdata <- as.matrix(
     model.matrix(~., newdata)[, -1, drop = FALSE]
   )
   if (type == "Regression") {
-    predict(model, newx = newdata, type = "response")
+    predict(model, newx = newdata, type = "response")[, 1]
   } else if (type == "Classification") {
     predicted_prob <- predict(model, newx = newdata, type = "response")
     if (NCOL(predicted_prob) == 1) {
@@ -170,15 +179,31 @@ varimp_GLMNET <- function(model) {
 #' 
 #' Get SHAP values for a GLMNET model.
 #' 
-#' @param model glmnet model.
-#' @param newdata data.frame or similar: Data to explain.
-#' @param method Character: Package to use.
+#' @param model Supervised model trained with [train].
+#' @param x data.frame or similar: Data to explain.
+#' @param dat_training data.frame or similar: Training data.
+#' @param method Character: Method to use.
 #' 
 #' @keywords internal
 #' @noRd
-explain_GLMNET <- function(model, newdata, method = "shapr") {
+explain_GLMNET <- function(model, x, dat_training, method = NULL) {
+  if (is.null(method)) {
+    method <- "shapr"
+  }
+  if (!method %in% c("shapr")) {
+    cli::cli_abort("Explain method for GLMNET must be 'shapr'")
+  }
   newdata <- as.matrix(
-    model.matrix(~., newdata)[, -1, drop = FALSE]
+    model.matrix(~., dat_training)[, -1, drop = FALSE]
   )
-  
+  if (method == "shapr") {
+    shapr::explain(
+      model = model@model,
+      x_explain = x,
+      x_train = dat_training,
+      predict_model = predict_GLMNET,
+      approach = "ctree",
+      phi0 = mean(model@predicted_training)
+    )
+  }
 } # /rtemis::explain_GLMNET

@@ -4,7 +4,7 @@
 \alias{predict_GLMNET}
 \title{Predict from GLMNET model}
 \usage{
-predict_GLMNET(model, newdata, type)
+predict_GLMNET(model, newdata, type = NULL)
 }
 \arguments{
 \item{model}{glmnet model.}

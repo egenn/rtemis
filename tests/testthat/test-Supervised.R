@@ -58,10 +58,17 @@ test_that("train() GLM Regression succeeds", {
 })
 test_that("train() GLM standard errors are available", {
   expect_type(mod_r_glm@se_training, "double")
-  expect_type(mod_r_glm@se_test, "double")
+  expect_type(mod_r_glm@se_testing, "double")
 })
 
-## Throw error by using GLM with missing data ----
+## GLM Regression predict ----
+predicted <- predict(mod_r_glm, features(datr_test))
+test_that("predict() GLM Regression succeeds", {
+  expect_identical(mod_r_glm@predicted_testing, predicted)
+  expect_null(dim(predicted))
+})
+
+## Throw error when missing data is passed to GLM ----
 datr_train_na <- datr_train
 datr_train_na[10:2, 1] <- NA
 test_that("train() GLM Regression with missing data throws error", {
@@ -86,6 +93,13 @@ mod_r_glmnet <- train(
 )
 test_that("train() GLMNET Regression with fixed lambda succeeds", {
   expect_s7_class(mod_r_glmnet, Regression)
+})
+
+## GLMNET Regression predict ----
+predicted <- predict(mod_r_glmnet, features(datr_test))
+test_that("predict() GLMNET Regression succeeds", {
+  expect_identical(mod_r_glmnet@predicted_testing, predicted)
+  expect_null(dim(predicted))
 })
 
 ## GLMNET Regression + auto-lambda grid search ----
@@ -121,7 +135,6 @@ cvmod_r_glmnet <- train(
 test_that("train() CV-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
   expect_s7_class(cvmod_r_glmnet, RegressionCV)
 })
-
 
 ## GAM Regression ----
 hyperparameters <- setup_GAM()
@@ -427,6 +440,7 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 
 # TabNet Regression ----
 # tabnet removed from CRAN 20250401 (https://cran.r-project.org/web/packages/tabnet/index.html)
+## TabNet Regression ----
 # Test if lantern is installed
 # if (torch::torch_is_installed()) {
 #   mod_r_tabnet <- train(
