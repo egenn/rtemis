@@ -90,7 +90,7 @@ predict_CART <- function(model, newdata, type) {
     }
     predicted_prob
   } else {
-    predict(model, newdata = newdata)
+    predict(model, newdata = newdata, type = "vector")
   }
 } # /rtemis::predict_CART
 
