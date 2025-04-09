@@ -58,13 +58,13 @@ test_that("train() GLM Regression succeeds", {
 })
 test_that("train() GLM standard errors are available", {
   expect_type(mod_r_glm@se_training, "double")
-  expect_type(mod_r_glm@se_testing, "double")
+  expect_type(mod_r_glm@se_test, "double")
 })
 
 ## GLM Regression predict ----
 predicted <- predict(mod_r_glm, features(datr_test))
 test_that("predict() GLM Regression succeeds", {
-  expect_identical(mod_r_glm@predicted_testing, predicted)
+  expect_identical(mod_r_glm@predicted_test, predicted)
   expect_null(dim(predicted))
 })
 
@@ -98,7 +98,7 @@ test_that("train() GLMNET Regression with fixed lambda succeeds", {
 ## GLMNET Regression predict ----
 predicted <- predict(mod_r_glmnet, features(datr_test))
 test_that("predict() GLMNET Regression succeeds", {
-  expect_identical(mod_r_glmnet@predicted_testing, predicted)
+  expect_identical(mod_r_glmnet@predicted_test, predicted)
   expect_null(dim(predicted))
 })
 
