@@ -99,7 +99,7 @@ Supervised <- new_class(
 method(predict, Supervised) <- function(object, newdata, ...) {
   check_inherits(newdata, "data.frame")
   predict_fn <- get_predict_fn(object@algorithm)
-  do_call(predict_fn, list(model = object@model, newdata = newdata))
+  do_call(predict_fn, list(model = object@model, newdata = newdata, type = object@type))
 } # /predict.Supervised
 
 # Fitted Supervised ----
@@ -933,23 +933,33 @@ method(print, SupervisedCV) <- function(x, ...) {
 #' the predictions of individual models, "all" returns the predictions of all models in a
 #' data.frame. "metrics" returns a list of data.frames with a) predictions from each model, b)
 #' the mean of the predictions, and c) the standard deviation of the predictions.
+#' @param ... Not used.
 #'
 #' @keywords internal
 #' @noRd
-method(predict, SupervisedCV) <- function(object, newdata, type = "avg", avg_fn = "mean", ...) {
+method(predict, SupervisedCV) <- function(object,
+                                          newdata,
+                                          type = c("avg", "all", "metrics"),
+                                          avg_fn = "mean", ...) {
   check_inherits(newdata, "data.frame")
+  type <- match.arg(type)
   predict_fn <- get_predict_fn(object@algorithm)
-  predicted <- lapply(object@models, function(mod) do_call(predict_fn, list(model = mod, newdata = newdata)))
+  
+  predicted <- sapply(
+    object@models,
+    function(mod) do_call(predict_fn, list(model = mod, newdata = newdata, type = object@type))
+  ) # -> data.frame n cases x n resamples
 
-  if (type == "metrics") {
-    predictions_df <- do.call(rbind, predicted)
-    mean_predictions <- apply(predictions_df, 2, mean)
-    sd_predictions <- apply(predictions_df, 2, sd)
-    return(list(predictions = predictions_df, mean = mean_predictions, sd = sd_predictions))
+  if (type == "all")  {
+    return(predicted)
+  } else if (type == "avg") {
+    return(apply(predicted, 1, avg_fn))
+  } else if (type == "metrics") {
+    mean_predictions <- apply(predicted, 2, mean)
+    sd_predictions <- apply(predicted, 2, sd)
+    return(list(predictions = predicted, mean = mean_predictions, sd = sd_predictions))
   }
-
-  predicted
-}
+} # rtemis::predict.SupervisedCV
 
 # ClassificationCV ----
 #' @title ClassificationCV
@@ -1112,6 +1122,19 @@ method(print, CalibratedClassificationCV) <- function(x, ...) {
   print(x@metrics_test)
 } # /print.CalibratedClassificationCV
 
+
+# Predict CalibratedClassificationCV ----
+# =>tocomplete
+method(predict, CalibratedClassificationCV) <- function(object, newdata, ...) {
+  check_inherits(newdata, "data.frame")
+  raw_prob <- predict(object, newdata = newdata)
+  # Get the classification model's predicted probabilities
+  raw_prob <- do_call(class_predict_fn, list(model = object@model, newdata = newdata))
+  # Get the calibration model's predicted probabilities
+  cal_prob <- lapply(object@calibration_models, function(mod) {
+    predict(mod, data.frame(predicted_probabilities = raw_prob))
+  })
+} # rtemis::predict.CalibratedClassificationCV
 
 # RegressionCV ----
 #' @title RegressionCV

@@ -615,6 +615,15 @@ test_that("train() SVM Classification succeeds", {
 #   })
 # }
 
+# Predict SupervisedCV ----
+
+## CV CART Regression ----
+predicted_mean <- predict(cvmod_r_cart, newdata = features(datr_test))
+test_that("predict() SupervisedCV succeeds", {
+  expect_true(length(predicted_mean) == nrow(datr_test))
+})
+
+
 # Calibration ----
 # Calibrate mod_c_cart trained above
 model <- mod_c_lightrf
