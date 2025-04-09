@@ -1503,10 +1503,10 @@ setup_TabNet <- function(
 } # /setup_TabNet
 
 
-get_tabnet_config <- function(hyperparameters) {
-  check_is_S7(hyperparameters, TabNetHyperparameters)
-  hpr <- hyperparameters@hyperparameters
-  hpr[["ifw"]] <- NULL
-  hpr
-  do.call(tabnet::tabnet_config, hpr)
-} # /get_tabnet_config
+# get_tabnet_config <- function(hyperparameters) {
+#   check_is_S7(hyperparameters, TabNetHyperparameters)
+#   hpr <- hyperparameters@hyperparameters
+#   hpr[["ifw"]] <- NULL
+#   hpr
+#   do.call(tabnet::tabnet_config, hpr)
+# } # /get_tabnet_config
