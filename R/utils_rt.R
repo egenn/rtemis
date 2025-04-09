@@ -108,14 +108,14 @@ data_summary <- function(x, y,
 
   if (testSet) {
     if (!is.null(x.test)) {
-      cat(" Testing features:", bold(NROW(x.test), "x", NCOL(x.test), "\n"))
+      cat("    Test features:", bold(NROW(x.test), "x", NCOL(x.test), "\n"))
     } else {
-      cat(" Testing features: Not available\n")
+      cat("    Test features: Not available\n")
     }
     if (!is.null(y.test)) {
-      cat("  Testing outcome:", bold(NROW(y.test), "x", NCOL(y.test), "\n"))
+      cat("    Test outcome:", bold(NROW(y.test), "x", NCOL(y.test), "\n"))
     } else {
-      cat("  Testing outcome: Not available\n")
+      cat("    Test outcome: Not available\n")
     }
   }
 } # rtemis::data_summary
@@ -124,7 +124,7 @@ data_summary <- function(x, y,
 #'
 #' @param x data.frame or similar: Training set data.
 #' @param dat_validation data.frame or similar: Validation set data.
-#' @param dat_testing data.frame or similar: Testing set data.
+#' @param dat_test data.frame or similar: Test set data.
 #'
 #' @author EDG
 #' @keywords internal
@@ -132,7 +132,7 @@ data_summary <- function(x, y,
 summarize_supervised_data <- function(
     x,
     dat_validation = NULL,
-    dat_testing = NULL) {
+    dat_test = NULL) {
   cat(bold("  Input data summary:\n"))
   cat(
     "  Training set:", hilite(NROW(x)), "cases x",
@@ -144,10 +144,10 @@ summarize_supervised_data <- function(
       hilite(NCOL(dat_validation) - 1), "features.\n"
     )
   }
-  if (!is.null(dat_testing)) {
+  if (!is.null(dat_test)) {
     cat(
-      "   Testing set:", hilite(NROW(dat_testing)), "cases x",
-      hilite(NCOL(dat_testing) - 1), "features.\n"
+      "   Test set:", hilite(NROW(dat_test)), "cases x",
+      hilite(NCOL(dat_test) - 1), "features.\n"
     )
   }
 } # rtemis::summarize_supervised_data
@@ -237,7 +237,7 @@ grid_summary <- function(...) {
 
 #' `rtemis-internals`: `metrics_summary`
 #'
-#' Print Training and Testing error
+#' Print Training and Test error
 #'
 #' @keywords internal
 #' @noRd
@@ -256,7 +256,7 @@ metrics_summary <- function(error, algorithm = NULL, pre = NULL) {
     if (grepl("train", id)) {
       pre <- "Training"
     } else if (grepl("test", id)) {
-      pre <- "Testing"
+      pre <- "Test"
     } else {
       pre <- "Error"
     }

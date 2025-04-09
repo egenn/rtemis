@@ -40,12 +40,12 @@ test_that("preprocess(x, Preprocessor) succeeds", {
 iris_Pre_too <- preprocess(
   iris_train,
   setup_Preprocessor(remove_duplicates = TRUE, scale = TRUE, center = TRUE),
-  dat_testing = iris_test
+  dat_test = iris_test
 )
 test_that("preprocess(x, PreprocessorParameters) succeeds", {
   expect_s7_class(iris_Pre_too, Preprocessor)
 })
 
-test_that("preprocess(x, PreprocessorParameters) and preprocess(x, Preprocessor) give same testing set", {
-  expect_equal(iris_Pre_too@preprocessed$testing, iris_test_Pre@preprocessed)
+test_that("preprocess(x, PreprocessorParameters) and preprocess(x, Preprocessor) give same test set", {
+  expect_equal(iris_Pre_too@preprocessed$test, iris_test_Pre@preprocessed)
 })

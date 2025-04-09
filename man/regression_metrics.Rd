@@ -13,7 +13,7 @@ regression_metrics(true, predicted, na.rm = TRUE, sample = character())
 
 \item{na.rm}{Logical: If TRUE, remove NA values before computation.}
 
-\item{sample}{Character: Sample name (e.g. "training", "testing").}
+\item{sample}{Character: Sample name (e.g. "training", "test").}
 }
 \value{
 RegressionMetrics object

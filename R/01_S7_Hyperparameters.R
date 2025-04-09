@@ -1427,7 +1427,8 @@ TabNetHyperparameters <- new_class(
 #' @return TabNetHyperparameters object.
 #' 
 #' @author EDG
-#' @export
+#' @noRd
+# tabnet removed from CRAN 20250401
 setup_TabNet <- function(
     batch_size = 1024^2,
     penalty = 0.001,
@@ -1502,10 +1503,10 @@ setup_TabNet <- function(
 } # /setup_TabNet
 
 
-get_tabnet_config <- function(hyperparameters) {
-  check_is_S7(hyperparameters, TabNetHyperparameters)
-  hpr <- hyperparameters@hyperparameters
-  hpr[["ifw"]] <- NULL
-  hpr
-  do.call(tabnet::tabnet_config, hpr)
-} # /get_tabnet_config
+# get_tabnet_config <- function(hyperparameters) {
+#   check_is_S7(hyperparameters, TabNetHyperparameters)
+#   hpr <- hyperparameters@hyperparameters
+#   hpr[["ifw"]] <- NULL
+#   hpr
+#   do.call(tabnet::tabnet_config, hpr)
+# } # /get_tabnet_config

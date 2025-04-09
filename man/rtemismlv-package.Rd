@@ -66,7 +66,7 @@ with the \emph{second} level of the factor being the 'positive' class.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://rtemis.org}
+  \item \url{https://www.rtemis.org}
   \item Report bugs at \url{https://github.com/rtemis-org/rtemis/issues}
 }
 

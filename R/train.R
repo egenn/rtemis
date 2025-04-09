@@ -4,7 +4,7 @@
 
 #' Train Supervised Learning Models
 #'
-#' Preprocess, tune, train, and test supervised learning models with a single function 
+#' Preprocess, tune, train, and test supervised learning models with a single function
 #' using nested crossvalidation.
 #'
 #' @details
@@ -14,12 +14,12 @@
 #' Note on resampling: You should never use an outer resampling method with
 #' replacement if you will also be using an inner resampling (for tuning).
 #' The duplicated cases from the outer resampling may appear both in the
-#' training and testing sets of the inner resamples, leading to underestimated
-#' testing error.
+#' training and test sets of the inner resamples, leading to underestimated
+#' test error.
 #'
 #' @param x data.frame or similar: Training set data.
 #' @param dat_validation data.frame or similar: Validation set data.
-#' @param dat_testing data.frame or similar: Testing set data.
+#' @param dat_test data.frame or similar: Test set data.
 #' @param algorithm Character: Algorithm to use. Can be left NULL, if `hyperparameters` is defined.
 #' @param preprocessor_parameters PreprocessorParameters object or NULL: Setup using [setup_Preprocessor].
 #' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
@@ -42,7 +42,7 @@
 #' @export
 train <- function(x,
                   dat_validation = NULL,
-                  dat_testing = NULL,
+                  dat_test = NULL,
                   algorithm = NULL,
                   preprocessor_parameters = NULL, # PreprocessorParameters
                   hyperparameters = NULL, # Hyperparameters
@@ -53,7 +53,6 @@ train <- function(x,
                   outdir = NULL,
                   parallel_type = "future",
                   verbosity = 1L) {
-
   # Dependencies ----
   check_dependencies(c("future.apply", "progressr"))
 
@@ -123,7 +122,7 @@ train <- function(x,
   start_time <- intro(verbosity = verbosity, log_file = log_file)
 
   # Parallelization ----
-  # 3 potential points of parallelization from inner to outer: algorithm, tuning, CV.
+  # 3 potential points of parallelization from innermost to outermost: algorithm, tuning, CV.
 
   # Init ----
   tuner <- NULL
@@ -132,7 +131,7 @@ train <- function(x,
   ncols <- ncol(x)
   type <- supervised_type(x)
   if (type == "Classification") {
-    classes <- levels(x[, ncols])
+    classes <- levels(outcome(x))
     n_classes <- length(classes)
   }
 
@@ -141,13 +140,13 @@ train <- function(x,
     summarize_supervised_data(
       x = x,
       dat_validation = dat_validation,
-      dat_testing = dat_testing
+      dat_test = dat_test
     )
   }
 
   # CV ----
   # if crossvallidation is set, this function calls itself
-  # on multiple outer resamples (training-testing sets), each of which may call itself
+  # on multiple outer resamples (training-test sets), each of which may call itself
   # on multiple inner resamples (training-validation set) for hyperparameter tuning.
   if (!is.null(crossvalidation_parameters)) {
     if (verbosity > 0L) {
@@ -161,7 +160,7 @@ train <- function(x,
         pcv(message = sprintf("Crossvalidation %i/%i", i, crossvalidation_resampler@parameters@n))
         train(
           x = x[crossvalidation_resampler[[i]], ],
-          dat_testing = x[-crossvalidation_resampler[[i]], ],
+          dat_test = x[-crossvalidation_resampler[[i]], ],
           algorithm = algorithm,
           preprocessor_parameters = preprocessor_parameters,
           hyperparameters = hyperparameters,
@@ -174,6 +173,7 @@ train <- function(x,
         )
       }
     )
+    names(models) <- names(crossvalidation_resampler@resamples)
     hyperparameters@crossvalidated <- 1L
     msg2("Crossvalidation done.")
   } # /Crossvalidation
@@ -216,15 +216,15 @@ train <- function(x,
         x = x,
         parameters = preprocessor_parameters,
         dat_validation = dat_validation,
-        dat_testing = dat_testing
+        dat_test = dat_test
       )
-      x <- if (is.null(dat_validation) && is.null(dat_testing)) {
+      x <- if (is.null(dat_validation) && is.null(dat_test)) {
         preprocessor@preprocessed
       } else {
         preprocessor@preprocessed[["training"]]
       }
       if (!is.null(dat_validation)) dat_validation <- preprocessor@preprocessed[["validation"]]
-      if (!is.null(dat_testing)) dat_testing <- preprocessor@preprocessed[["testing"]]
+      if (!is.null(dat_test)) dat_test <- preprocessor@preprocessed[["test"]]
     } else {
       preprocessor <- NULL
     } # /Preprocess
@@ -249,7 +249,7 @@ train <- function(x,
       cat("\n")
     } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
-    # All training, validation, and testing metrics are calculated by Supervised or SupervisedCV.
+    # All training, validation, and test metrics are calculated by Supervised or SupervisedCV.
     args <- list(
       x = x,
       weights = weights,
@@ -268,7 +268,7 @@ train <- function(x,
     # Predicted Values ----
     predict_fn <- get_predict_fn(algorithm)
     varimp_fn <- get_varimp_fn(algorithm)
-    predicted_prob_training <- predicted_prob_validation <- predicted_prob_testing <- NULL
+    predicted_prob_training <- predicted_prob_validation <- predicted_prob_test <- NULL
     predicted_training <- do_call(
       predict_fn,
       list(model, newdata = features(x), type = type)
@@ -280,7 +280,7 @@ train <- function(x,
         levels = classes
       )
     }
-    predicted_validation <- predicted_testing <- NULL
+    predicted_validation <- predicted_test <- NULL
     if (!is.null(dat_validation)) {
       predicted_validation <- do_call(
         predict_fn, list(model,
@@ -296,32 +296,32 @@ train <- function(x,
         )
       }
     }
-    if (!is.null(dat_testing)) {
-      predicted_testing <- do_call(
+    if (!is.null(dat_test)) {
+      predicted_test <- do_call(
         predict_fn, list(model,
-          newdata = features(dat_testing),
+          newdata = features(dat_test),
           type = type
         )
       )
       if (type == "Classification") {
-        predicted_prob_testing <- predicted_testing
-        predicted_testing <- prob2categorical(
-          predicted_prob_testing,
+        predicted_prob_test <- predicted_test
+        predicted_test <- prob2categorical(
+          predicted_prob_test,
           levels = classes
         )
       }
     }
 
     # Standard Errors ----
-    se_training <- se_validation <- se_testing <- NULL
+    se_training <- se_validation <- se_test <- NULL
     if (type == "Regression" && algorithm %in% se_compat_algorithms) {
       se_fn <- get_se_fn(algorithm)
       se_training <- do_call(se_fn, list(model, newdata = features(x)))
       if (!is.null(dat_validation)) {
         se_validation <- do_call(se_fn, list(model, newdata = features(dat_validation)))
       }
-      if (!is.null(dat_testing)) {
-        se_testing <- do_call(se_fn, list(model, newdata = features(dat_testing)))
+      if (!is.null(dat_test)) {
+        se_test <- do_call(se_fn, list(model, newdata = features(dat_test)))
       }
     }
     # Make Supervised/CV ----
@@ -333,30 +333,30 @@ train <- function(x,
       tuner = tuner,
       y_training = x[[ncols]],
       y_validation = if (!is.null(dat_validation)) dat_validation[[ncols]],
-      y_testing = if (!is.null(dat_testing)) dat_testing[[ncols]],
+      y_test = if (!is.null(dat_test)) dat_test[[ncols]],
       predicted_training = predicted_training,
       predicted_validation = predicted_validation,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       predicted_prob_training = predicted_prob_training,
       predicted_prob_validation = predicted_prob_validation,
-      predicted_prob_testing = predicted_prob_testing,
+      predicted_prob_test = predicted_prob_test,
       se_training = se_training,
       se_validation = se_validation,
-      se_testing = se_testing,
+      se_test = se_test,
       xnames = names(x)[-ncols],
       varimp = do_call(varimp_fn, list(model)),
       question = question
     )
   } else {
     y_training <- lapply(models, function(mod) mod@y_training)
-    y_testing <- lapply(models, function(mod) mod@y_testing)
+    y_test <- lapply(models, function(mod) mod@y_test)
     predicted_training <- lapply(models, function(mod) mod@predicted_training)
-    predicted_testing <- lapply(models, function(mod) mod@predicted_testing)
+    predicted_test <- lapply(models, function(mod) mod@predicted_test)
     if (type == "Classification") {
       predicted_prob_training <- lapply(models, function(mod) mod@predicted_prob_training)
-      predicted_prob_testing <- lapply(models, function(mod) mod@predicted_prob_testing)
+      predicted_prob_test <- lapply(models, function(mod) mod@predicted_prob_test)
     } else {
-      predicted_prob_training <- predicted_prob_testing <- NULL
+      predicted_prob_training <- predicted_prob_test <- NULL
     }
     mod <- make_SupervisedCV(
       algorithm = algorithm,
@@ -367,11 +367,11 @@ train <- function(x,
       tuner_parameters = tuner_parameters,
       crossvalidation_resampler = crossvalidation_resampler,
       y_training = y_training,
-      y_testing = y_testing,
+      y_test = y_test,
       predicted_training = predicted_training,
-      predicted_testing = predicted_testing,
+      predicted_test = predicted_test,
       predicted_prob_training = predicted_prob_training,
-      predicted_prob_testing = predicted_prob_testing,
+      predicted_prob_test = predicted_prob_test,
       xnames = names(x)[-ncols],
       varimp = lapply(models, \(mod) mod@varimp),
       question = question

@@ -350,7 +350,7 @@ brier_score <- function(true_int, predicted_prob) {
 #' Convert factor labels to integers where the positive class is 1 and the negative class is 0.
 #'
 #' @param x Factor: True labels.
-#' @param binclasspos Integer: Factor level position of the positive class in binary classification.
+#' @param binclasspos Integer: Position of the factor level which is the positive class (binary classification only).
 #'
 #' @return Integer vector: 0, 1 where 1 is the positive class as defined by binclasspos.
 #'
@@ -520,7 +520,7 @@ classification_metrics <- function(true_labels,
 #' @param true Numeric vector: True values.
 #' @param predicted Numeric vector: Predicted values.
 #' @param na.rm Logical: If TRUE, remove NA values before computation.
-#' @param sample Character: Sample name (e.g. "training", "testing").
+#' @param sample Character: Sample name (e.g. "training", "test").
 #'
 #' @return RegressionMetrics object
 #' @author EDG

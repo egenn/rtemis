@@ -11,16 +11,16 @@
 #' @usage
 #' ## S7 generic
 #' preprocess(x, parameters, ...)
-#' 
+#'
 #' @param x data.frame or similar: Data to be preprocessed.
-#' @param parameters PreprocessorParameters or Preprocessor: PreprocessorParameters when 
+#' @param parameters PreprocessorParameters or Preprocessor: PreprocessorParameters when
 #' preprocessing training set data. Setup using [setup_Preprocessor].
-#' Preprocessor when preprocessing validation and testing set data. 
-#' @param ... Used to pass `dat_validation` and `dat_testing` to the method for Preprocessor.
-#' 
+#' Preprocessor when preprocessing validation and test set data.
+#' @param ... Used to pass `dat_validation` and `dat_test` to the method for Preprocessor.
+#'
 #' @details
 #' Methods are provided for preprocessing training set data, which accepts a PreprocessorParameters
-#' object, and for preprocessing validation and testing set data, which accept a Preprocessor
+#' object, and for preprocessing validation and test set data, which accept a Preprocessor
 #' object.
 #'
 #' Order of operations:
@@ -53,7 +53,7 @@
 preprocess <- new_generic("preprocess", c("x", "parameters"))
 # preprocess(x, PreprocessorParameters, ...) ----
 method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
-    x, parameters, dat_validation = NULL, dat_testing = NULL, verbosity = 1L) { # -> Preprocessor
+    x, parameters, dat_validation = NULL, dat_test = NULL, verbosity = 1L) { # -> Preprocessor
   # Intro ----
   start_time <- intro(verbosity = verbosity - 1L)
   # parameters <- x
@@ -539,10 +539,10 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
     )
     preprocessed$validation <- prp_validation@preprocessed
   }
-  if (!is.null(dat_testing)) {
-    if (verbosity > 0L) msg2("Applying preprocessing to testing data...")
-    prp_testing <- preprocess(
-      x = dat_testing,
+  if (!is.null(dat_test)) {
+    if (verbosity > 0L) msg2("Applying preprocessing to test data...")
+    prp_test <- preprocess(
+      x = dat_test,
       parameters = Preprocessor(
         parameters = parameters,
         preprocessed = list(),
@@ -553,7 +553,7 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
       ),
       verbosity = verbosity
     )
-    preprocessed$testing <- prp_testing@preprocessed
+    preprocessed$test <- prp_test@preprocessed
   }
   outro(start_time, verbosity = verbosity - 1L)
   Preprocessor(

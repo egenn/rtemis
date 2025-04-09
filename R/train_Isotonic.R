@@ -12,7 +12,7 @@
 #'
 #' @param x data.frame or similar: Training set. Only a single predictor is allowed.
 #' @param dat_validation data.frame or similar: Validation set.
-#' @param dat_testing data.frame or similar: Testing set.
+#' @param dat_test data.frame or similar: Test set.
 #' @param weights Not used.
 #' @param hyperparameters IsotonicHyperparameters object: make using [setup_Isotonic].
 #' @param verbosity Integer: If > 0, print messages.
@@ -26,7 +26,7 @@
 train_Isotonic <- function(
     x,
     dat_validation = NULL,
-    dat_testing = NULL,
+    dat_test = NULL,
     weights = NULL,
     hyperparameters = NULL,
     verbosity = 1L) {
@@ -37,7 +37,7 @@ train_Isotonic <- function(
   check_supervised_data(
     x = x,
     dat_validation = dat_validation,
-    dat_testing = dat_testing,
+    dat_test = dat_test,
     allow_missing = FALSE,
     verbosity = verbosity
   )
