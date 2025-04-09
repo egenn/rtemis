@@ -28,7 +28,7 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 ## GLMET Regression ----
 mod_r_glmnet <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(lambda = 0.01)
 )
@@ -47,7 +47,7 @@ test_that("explain() on GLMNET succeeds", {
 ## GLMNET Classification ----
 mod_c_glmnet <- train(
   x = datc2_train,
-  dat_testing = datc2_test,
+  dat_test = datc2_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(lambda = 0.01)
 )
@@ -55,7 +55,7 @@ mod_c_glmnet <- train(
 ## LightRF Regression ----
 mod_r_lightrf <- train(
   x = datr_train,
-  dat_testing = datr_test,
+  dat_test = datr_test,
   algorithm = "LightRF",
   hyperparameters = setup_LightRF(nrounds = 10L)
 )
