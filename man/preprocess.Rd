@@ -12,9 +12,9 @@ preprocess(x, parameters, ...)
 
 \item{parameters}{PreprocessorParameters or Preprocessor: PreprocessorParameters when
 preprocessing training set data. Setup using \link{setup_Preprocessor}.
-Preprocessor when preprocessing validation and testing set data.}
+Preprocessor when preprocessing validation and test set data.}
 
-\item{...}{Used to pass \code{dat_validation} and \code{dat_testing} to the method for Preprocessor.}
+\item{...}{Used to pass \code{dat_validation} and \code{dat_test} to the method for Preprocessor.}
 }
 \value{
 Preprocessor object.
@@ -24,7 +24,7 @@ Preprocess data for analysis and visualization.
 }
 \details{
 Methods are provided for preprocessing training set data, which accepts a PreprocessorParameters
-object, and for preprocessing validation and testing set data, which accept a Preprocessor
+object, and for preprocessing validation and test set data, which accept a Preprocessor
 object.
 
 Order of operations:

@@ -14,7 +14,7 @@ reg_metrics
 test_that("regression_metrics() succeeds", {
   expect_s7_class(regression_metrics(true, predicted), RegressionMetrics)
 })
-reg_metrics2 <- regression_metrics(true, predicted2, sample = "Testing")
+reg_metrics2 <- regression_metrics(true, predicted2, sample = "Test")
 
 # Classification Data ----
 true_labels <- factor(c("a", "a", "a", "b", "b", "b", "b", "b", "b", "b"))
@@ -24,7 +24,7 @@ predicted_prob2 <- c(0.2, 0.52, 0.28, 0.85, 0.64, 0.45, 0.9, 0.78, 0.78, 0.47)
 
 # ClassificationMetrics ----
 class_metrics1 <- classification_metrics(true_labels, predicted_labels, predicted_prob, sample = "Training")
-class_metrics2 <- classification_metrics(true_labels, predicted_labels, predicted_prob2, sample = "Testing")
+class_metrics2 <- classification_metrics(true_labels, predicted_labels, predicted_prob2, sample = "Test")
 
 test_that("classification_metrics() succeeds", {
   expect_s7_class(class_metrics1, ClassificationMetrics)
@@ -40,7 +40,7 @@ test_that("classification_metrics() returns correct metrics", {
 # RegressionMetricsCV ----
 cv_metrics <- list(mod1 = reg_metrics, mod2 = reg_metrics2)
 rmcv <- RegressionMetricsCV(
-  sample = "Testing",
+  sample = "Test",
   cv_metrics = cv_metrics
 )
 rmcv
@@ -51,7 +51,7 @@ test_that("RegressionMetricsCV() succeeds", {
 # ClassificationMetricsCV ----
 cv_metrics <- list(mod1 = class_metrics1, mod2 = class_metrics2)
 cmcv <- ClassificationMetricsCV(
-  sample = "Testing",
+  sample = "Test",
   cv_metrics = cv_metrics
 )
 cmcv

@@ -253,7 +253,7 @@ CustomParams <- new_class(
 #' @param target_length Integer: Target length for stratified bootstraps.
 #' @param id_strat Integer: Vector of indices to stratify by. These may be, for example, case IDs
 #' if your dataset contains repeated measurements. By specifying this vector, you can ensure that
-#' each case can only be present in the training or testing set, but not both.
+#' each case can only be present in the training or test set, but not both.
 #' @param seed Integer: Random seed.
 #' @param verbosity Integer: Verbosity level.
 #' 

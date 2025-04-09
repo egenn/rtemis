@@ -198,7 +198,7 @@ any_constant <- function(x) {
 #' Check if vector is constant
 #'
 #' @param x Vector: Input
-#' @param skip_missing Logical: If TRUE, skip NA values before testing
+#' @param skip_missing Logical: If TRUE, skip NA values before test
 #'
 #' @author EDG
 #' @export

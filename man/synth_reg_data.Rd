@@ -20,15 +20,15 @@ synth_reg_data(
 
 \item{noise_sd_factor}{Numeric: Add rnorm(nrow, sd = noise_sd_factor * sd(y)).}
 
-\item{resampler_parameters}{Output of \link{setup_Resampler} defining training/testing split. The first resulting resample
-will be used to create \code{dat_training} and \code{dat_testing} output; all resample output under \code{resamples}}
+\item{resampler_parameters}{Output of \link{setup_Resampler} defining training/test split. The first resulting resample
+will be used to create \code{dat_training} and \code{dat_test} output; all resample output under \code{resamples}}
 
 \item{seed}{Integer: Seed for random number generator.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
 \value{
-List with elements \verb{dat, dat_training, dat_testing, resamples, w, seed}
+List with elements \verb{dat, dat_training, dat_test, resamples, w, seed}
 }
 \description{
 Synthesize Simple Regression Data

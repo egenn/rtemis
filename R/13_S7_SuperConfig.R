@@ -19,7 +19,7 @@ SuperConfig <- new_class(
   properties = list(
     dat_training = class_character,
     dat_validation = class_character,
-    dat_testing = class_character,
+    dat_test = class_character,
     algorithm = class_character,
     preprocessor = PreprocessorParameters | NULL,
     hyperparameters = Hyperparameters | NULL,

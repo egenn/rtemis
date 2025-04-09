@@ -23,7 +23,7 @@ method(check_factor_levels, class_data.frame) <- function(x, y, z) {
       if (!all(sapply(seq_along(x_levels), function(i) {
         identical(x_levels[[i]], z_levels[[i]])
       }))) {
-        cli::cli_abort("Training and testing set factor levels do not match.")
+        cli::cli_abort("Training and test set factor levels do not match.")
       }
     }
   }
@@ -47,7 +47,7 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
       if (!all(sapply(seq_along(x_levels), function(i) {
         identical(x_levels[[i]], z_levels[[i]])
       }))) {
-        cli::cli_abort("Training and testing set factor levels do not match.")
+        cli::cli_abort("Training and test set factor levels do not match.")
       }
     }
   }
@@ -58,7 +58,7 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
 #'
 #' @param x Data frame: Training set features and outcome in the last column.
 #' @param dat_validation Data frame: Validation set features and outcome in the last column.
-#' @param dat_testing Data frame: Testing set features and outcome in the last column.
+#' @param dat_test Data frame: Test set features and outcome in the last column.
 #' @param allow_missing Logical: If TRUE, allow missing values in the data.
 #' @param verbosity Integer: Verbosity level.
 #'
@@ -69,11 +69,11 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
 #' @noRd
 #' @examples
 #' \dontrun{
-#' check_supervised_data(training_data, validation_data, testing_data)
+#' check_supervised_data(training_data, validation_data, test_data)
 #' }
 check_supervised_data <- function(x,
                                   dat_validation = NULL,
-                                  dat_testing = NULL,
+                                  dat_test = NULL,
                                   allow_missing = TRUE,
                                   verbosity = 1L) {
   # if (upsample && downsample) cli::cli_abort("Only one of upsample and downsample can be TRUE")
@@ -87,8 +87,8 @@ check_supervised_data <- function(x,
   if (!is.null(dat_validation)) {
     check_inherits(dat_validation, "data.frame")
   }
-  if (!is.null(dat_testing)) {
-    check_inherits(dat_testing, "data.frame")
+  if (!is.null(dat_test)) {
+    check_inherits(dat_test, "data.frame")
   }
 
   # Check dimensions ----
@@ -102,9 +102,9 @@ check_supervised_data <- function(x,
       cli::cli_abort("\nValidation set must contain same number of columns as training set.")
     }
   }
-  if (!is.null(dat_testing)) {
-    if (NCOL(dat_testing) != ncols) {
-      cli::cli_abort("Testing set must contain same number of columns as training set.")
+  if (!is.null(dat_test)) {
+    if (NCOL(dat_test) != ncols) {
+      cli::cli_abort("Test set must contain same number of columns as training set.")
     }
   }
 
@@ -123,15 +123,15 @@ check_supervised_data <- function(x,
       cli::cli_abort("Training and validation outcome must be of same class.")
     }
   }
-  if (!is.null(dat_testing)) {
-    if (class(dat_testing[[ncols]]) != outcome_class) {
-      cli::cli_abort("Training and testing outcome must be of same class.")
+  if (!is.null(dat_test)) {
+    if (class(dat_test[[ncols]]) != outcome_class) {
+      cli::cli_abort("Training and test outcome must be of same class.")
     }
   }
 
   # Factor levels ----
-  # Check that factors across training, validation, and testing contain the same levels.
-  check_factor_levels(x = x, y = dat_validation, z = dat_testing)
+  # Check that factors across training, validation, and test contain the same levels.
+  check_factor_levels(x = x, y = dat_validation, z = dat_test)
 
   if (verbosity > 0L) msg2done()
   invisible(NULL)

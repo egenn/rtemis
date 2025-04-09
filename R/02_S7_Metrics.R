@@ -176,7 +176,7 @@ print.MetricsCV <- function(x, decimal_places = 3L, ...) {
   out <- lapply(seq_along(x@mean_metrics), function(i) {
     paste0(
       ddSci(x@mean_metrics[[i]], decimal_places),
-      " (", ddSci(x@sd_metrics[[i]], decimal_places), ")"
+      thin(paste0(" (", ddSci(x@sd_metrics[[i]], decimal_places), ")"))
     )
   })
   names(out) <- names(x@mean_metrics)

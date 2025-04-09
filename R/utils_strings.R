@@ -44,6 +44,9 @@ italic <- function(...) {
   paste0("\033[3m", paste(...), "\033[23m")
 }
 
+thin <- function(...) {
+  paste0("\033[2m", paste(...), "\033[22m")
+}
 
 underline <- function(...) {
   paste0("\033[4m", paste(...), "\033[24m")

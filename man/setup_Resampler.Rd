@@ -31,7 +31,7 @@ setup_Resampler(
 
 \item{id_strat}{Integer: Vector of indices to stratify by. These may be, for example, case IDs
 if your dataset contains repeated measurements. By specifying this vector, you can ensure that
-each case can only be present in the training or testing set, but not both.}
+each case can only be present in the training or test set, but not both.}
 
 \item{seed}{Integer: Random seed.}
 

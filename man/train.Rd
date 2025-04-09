@@ -7,7 +7,7 @@
 train(
   x,
   dat_validation = NULL,
-  dat_testing = NULL,
+  dat_test = NULL,
   algorithm = NULL,
   preprocessor_parameters = NULL,
   hyperparameters = NULL,
@@ -25,7 +25,7 @@ train(
 
 \item{dat_validation}{data.frame or similar: Validation set data.}
 
-\item{dat_testing}{data.frame or similar: Testing set data.}
+\item{dat_test}{data.frame or similar: Test set data.}
 
 \item{algorithm}{Character: Algorithm to use. Can be left NULL, if \code{hyperparameters} is defined.}
 
@@ -65,8 +65,8 @@ positive class.
 Note on resampling: You should never use an outer resampling method with
 replacement if you will also be using an inner resampling (for tuning).
 The duplicated cases from the outer resampling may appear both in the
-training and testing sets of the inner resamples, leading to underestimated
-testing error.
+training and test sets of the inner resamples, leading to underestimated
+test error.
 }
 \author{
 EDG

@@ -3,7 +3,7 @@
 # 2024- EDG rtemis.org
 
 supervised_type <- function(dat) {
-  if (is.factor(dat[, NCOL(dat)])) {
+  if (is.factor(outcome(dat))) {
     "Classification"
   } else {
     "Regression"

@@ -152,7 +152,7 @@ checking if feature is constant.}
 \item{one_hot}{Logical: If TRUE, convert all factors using one-hot encoding.}
 
 \item{one_hot_levels}{List: Named list of the form "feature_name" = "levels". Used when applying
-one-hot encoding to validation or testing data using \code{Preprocessor}.}
+one-hot encoding to validation or test data using \code{Preprocessor}.}
 
 \item{add_date_features}{Logical: If TRUE, extract date features from date columns.}
 
