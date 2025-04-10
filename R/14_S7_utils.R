@@ -22,7 +22,7 @@ CheckData <- new_class(
     n_duplicates = class_integer,
     n_cols_anyna = class_integer,
     n_na = class_integer,
-    classes_na = class_data.frame | NULL,
+    classes_na = class_any | NULL,
     na_feature_pct = class_double | NULL,
     na_case_pct = class_double | NULL
   ),
