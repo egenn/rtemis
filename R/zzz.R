@@ -14,7 +14,7 @@ live <- new.env()
 live[["parallelized_learners"]] <- c("LightCART", "LightGBM", "LightRF", "LightRuleFit", "Ranger")
 
 # vars
-rtemis_version <- packageVersion("rtemismlv")
+rtemis_version <- packageVersion("rtemis")
 .availableCores <- unname(future::availableCores())
 
 # References
@@ -111,7 +111,7 @@ rtemis_version <- packageVersion("rtemismlv")
 #' For all classification models, the outcome should be provided as a factor,
 #' with the *second* level of the factor being the 'positive' class.
 #'
-#' @name rtemismlv-package
+#' @name rtemis-package
 #' @import graphics grDevices methods stats utils S7 data.table htmltools cli
 "_PACKAGE"
 

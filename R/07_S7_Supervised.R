@@ -366,7 +366,7 @@ explain <- function(model, x, dat_training = NULL, method = NULL) {
   check_inherits(x, "data.frame")
   explain_fn <- get_explain_fn(model@algorithm)
   # Test if a function by that name exists in the package
-  if (!exists(explain_fn, envir = asNamespace("rtemismlv"))) {
+  if (!exists(explain_fn, envir = asNamespace("rtemis"))) {
     stop(paste0("Explain support for ", model@algorithm, " is not currently available."))
   }
   do_call(explain_fn, list(model = model, x = x, dat_training = dat_training, method = method))

@@ -93,7 +93,7 @@ draw_leaflet <- function(fips,
     geo <- readRDS(
       system.file(
         "extdata", "us-states.rds",
-        package = "rtemismlv"
+        package = "rtemis"
       )
     )
     fips <- if (is.character(fips)) fips else sprintf("%02d", fips)
@@ -101,7 +101,7 @@ draw_leaflet <- function(fips,
     geo <- readRDS(
       system.file(
         "extdata", "us-counties.rds",
-        package = "rtemismlv"
+        package = "rtemis"
       )
     )
     fips <- if (is.character(fips)) fips else sprintf("%05d", fips)
