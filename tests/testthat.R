@@ -1,4 +1,4 @@
-library(rtemismlv)
+library(rtemis)
 library(testthat)
 
-test_check("rtemismlv")
+test_check("rtemis")
