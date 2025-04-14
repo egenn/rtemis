@@ -1,8 +1,8 @@
 # draw_protein
 # ::rtemis::
-# 2022 EDG rtemis.org
+# 2022- EDG rtemis.org
 
-#' Plot the amino acid sequence with annotations
+#' Plot an amino acid sequence with annotations
 #'
 #' @param x Character vector: amino acid sequence (1-letter abbreviations) OR
 #' `a3` object OR Character: path to JSON file OR Character: UniProt accession number.
