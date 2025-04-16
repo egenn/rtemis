@@ -55,6 +55,8 @@ train <- function(x,
                   verbosity = 1L) {
   # Dependencies ----
   check_dependencies(c("future.apply", "progressr"))
+  type <- supervised_type(x)
+  ncols <- ncol(x)
 
   # Checks ----
   # Pass ... to hyperparameters setup_* fn
@@ -67,7 +69,7 @@ train <- function(x,
   }
   if (is.null(hyperparameters)) {
     # without extra args
-    hyperparameters <- get_default_hyperparameters(algorithm)
+    hyperparameters <- get_default_hyperparameters(algorithm, type = type, ncols = ncols)
     # with extra args
     # setup_fn <- get_alg_setup(algorithm)
     # hyperparameters <- do_call(setup_fn, hpr_args)
@@ -128,8 +130,6 @@ train <- function(x,
   tuner <- NULL
 
   # Data ----
-  ncols <- ncol(x)
-  type <- supervised_type(x)
   if (type == "Classification") {
     classes <- levels(outcome(x))
     n_classes <- length(classes)
@@ -168,7 +168,6 @@ train <- function(x,
           crossvalidation_parameters = NULL,
           weights = weights,
           question = question,
-          outdir = outdir,
           verbosity = verbosity - 1L
         )
       }
@@ -388,4 +387,4 @@ train <- function(x,
     sink_off = ifelse(is.null(log_file), FALSE, TRUE)
   )
   mod
-} # /rtemis::train_
+} # /rtemis::train
