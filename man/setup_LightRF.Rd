@@ -8,7 +8,7 @@ setup_LightRF(
   nrounds = 500L,
   num_leaves = 4096L,
   maxdepth = -1L,
-  feature_fraction = 1,
+  feature_fraction = 0.333,
   subsample = 0.623,
   lambda_l1 = 0,
   lambda_l2 = 0,
