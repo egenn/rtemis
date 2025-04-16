@@ -1380,7 +1380,7 @@ TabNetHyperparameters <- new_class(
 #'
 #' Setup hyperparameters for TabNet training.
 #'
-#' Get more information from [tabnet::tabnet_config]
+# Get more information from [tabnet::tabnet_config]
 #'
 #' @param batch_size (Tunable) Positive integer: Batch size.
 #' @param penalty (Tunable) Numeric: Regularization penalty.
