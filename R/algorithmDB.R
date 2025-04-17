@@ -122,7 +122,9 @@ get_train_fn <- function(algorithm) {
 get_default_hyperparameters <- function(algorithm, type, ncols) {
   alg_name <- get_alg_name(algorithm)
   if (alg_name == "LightRF") {
-    setup_LightRF(feature_fraction = if (type == "Classification") sqrt(ncols) else ncols/3)
+    setup_LightRF(
+      feature_fraction = if (type == "Classification") sqrt(ncols) / ncols else 0.33
+    )
   } else {
     do.call(paste0("setup_", get_alg_name(algorithm)), list())
   }
