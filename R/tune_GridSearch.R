@@ -164,7 +164,8 @@ tune_GridSearch <- function(x,
       hilite("Tuning", algorithm, "by", search_type, "grid search.")
     )
     msg20(
-      hilite(n_param_combinations), " parameter combinations x ",
+      hilite(n_param_combinations), 
+      ngettext(n_param_combinations, " parameter combination x ", " parameter combinations x "),
       hilite(n_resamples), " resamples: ",
       hilite(n_res_x_comb), " models total",
       # hilite(n_res_x_comb), " models total running on ",
