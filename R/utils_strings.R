@@ -39,7 +39,6 @@ bold <- function(...) {
   paste0("\033[1m", paste(...), "\033[22m")
 }
 
-
 italic <- function(...) {
   paste0("\033[3m", paste(...), "\033[23m")
 }
