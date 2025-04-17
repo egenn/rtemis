@@ -91,7 +91,7 @@ printls <- function(x,
           item_format(format(paste0(prefix, xnames[i]),
             width = lhs, justify = "right"
           )), ": ",
-          if (print_class) gray(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
+          if (print_class) thin(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
           ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"), "\n"
         ))
       } else if (S7_inherits(x[[i]])) {
