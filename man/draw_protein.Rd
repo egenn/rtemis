@@ -319,7 +319,7 @@ middle.}
 A plotly object
 }
 \description{
-Plot an amino acid sequence with annotations
+Plot an amino acid sequence with multiple site and/or region annotations.
 }
 \examples{
 \dontrun{
