@@ -763,7 +763,7 @@ setup_LightRF <- function(
     nrounds = 500L,
     num_leaves = 4096L,
     maxdepth = -1L,
-    feature_fraction = 1.0,
+    feature_fraction = 0.333,
     subsample = .623,
     lambda_l1 = 0,
     lambda_l2 = 0,
@@ -1380,7 +1380,7 @@ TabNetHyperparameters <- new_class(
 #'
 #' Setup hyperparameters for TabNet training.
 #'
-#' Get more information from [tabnet::tabnet_config]
+# Get more information from [tabnet::tabnet_config]
 #'
 #' @param batch_size (Tunable) Positive integer: Batch size.
 #' @param penalty (Tunable) Numeric: Regularization penalty.

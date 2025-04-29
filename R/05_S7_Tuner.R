@@ -256,8 +256,10 @@ method(print, GridSearch) <- function(x, header = TRUE, ...) {
   } else {
     paste0("A randomized grid search (p = ", x@tuner_parameters[["randomize_p"]], ")")
   }
-  cat(type, " of ", NROW(x@tuning_results[["param_grid"]]), " parameter combinations ",
-    "was performed using ", desc(x@tuner_parameters[["resampler_parameters"]]), ".\n",
+  n_param_combs <- NROW(x@tuning_results[["param_grid"]])
+  cat(type, " of ",
+    singorplu(n_param_combs, " parameter combination"),
+    " was performed using ", desc(x@tuner_parameters[["resampler_parameters"]]), ".\n",
     sep = ""
   )
   cat(

@@ -16,7 +16,7 @@ train_LightRuleFit <- function(
     hyperparameters,
     verbosity) {
   # Dependencies ----
-  check_dependencies("lightgbm", "glmnet")
+  check_dependencies("lightgbm", "glmnet", "matrixStats", "gsubfn")
 
   # Checks ----
   check_is_S7(hyperparameters, LightRuleFitHyperparameters)

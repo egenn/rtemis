@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_protein.R
 \name{draw_protein}
 \alias{draw_protein}
-\title{Plot the amino acid sequence with annotations}
+\title{Plot an amino acid sequence with annotations}
 \usage{
 draw_protein(
   x,
@@ -319,7 +319,7 @@ middle.}
 A plotly object
 }
 \description{
-Plot the amino acid sequence with annotations
+Plot an amino acid sequence with multiple site and/or region annotations.
 }
 \examples{
 \dontrun{
