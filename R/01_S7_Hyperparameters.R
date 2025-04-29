@@ -9,7 +9,6 @@
 # LightGBM
 # https://lightgbm.readthedocs.io/en/latest/Parameters.html
 
-
 # `tuned` values ----
 # -9: Set by Tuner: Actively being tuned (Values fixed by Tuner).
 # -2: Set by constructor: Not tunable (No tunable_hyperparameters).
@@ -45,7 +44,12 @@ Hyperparameters <- new_class(
     tuned = class_integer,
     crossvalidated = class_integer
   ),
-  constructor = function(algorithm, hyperparameters, tunable_hyperparameters, fixed_hyperparameters) {
+  constructor = function(
+    algorithm,
+    hyperparameters,
+    tunable_hyperparameters,
+    fixed_hyperparameters
+  ) {
     # Test if any tunable_hyperparameters have more than one value
     if (length(tunable_hyperparameters) > 0) {
       if (any(sapply(hyperparameters[tunable_hyperparameters], length) > 1)) {
@@ -123,7 +127,9 @@ print.Hyperparameters <- function(x, ...) {
       oxfordcomma(
         need_tuning,
         format_fn = underline
-      ), ngettext(length(need_tuning), " needs ", " need "), "tuning.\n"
+      ),
+      ngettext(length(need_tuning), " needs ", " need "),
+      "tuning.\n"
     ))
   } else if (x@tuned == -1L) {
     cat(hilite2("\n  No search values defined for tunable hyperparameters.\n"))
@@ -166,7 +172,12 @@ method(get_tuned_status, Hyperparameters) <- function(x) {
 #' @keywords internal
 #' @noRd
 # update <- new_generic("update", "x")
-method(update, Hyperparameters) <- function(object, hyperparameters, tuned = NULL, ...) {
+method(update, Hyperparameters) <- function(
+  object,
+  hyperparameters,
+  tuned = NULL,
+  ...
+) {
   for (hp in names(hyperparameters)) {
     object@hyperparameters[[hp]] <- hyperparameters[[hp]]
   }
@@ -235,13 +246,19 @@ method(needs_tuning, Hyperparameters) <- function(x) {
 #'
 #' @keywords internal
 #' @noRd
-method(get_params_need_tuning, Hyperparameters) <- function(x) { # -> list
+method(get_params_need_tuning, Hyperparameters) <- function(x) {
+  # -> list
   # Get tunable hyperparameters with more than one value
-  x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
+  x@hyperparameters[x@tunable_hyperparameters[
+    sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1
+  ]]
 } # /get_params_need_tuning.Hyperparameters
 
 # get_params.(Hyperparameters, character) ----
-method(get_params, list(Hyperparameters, class_character)) <- function(x, param_names) {
+method(get_params, list(Hyperparameters, class_character)) <- function(
+  x,
+  param_names
+) {
   sapply(param_names, function(p) x@hyperparameters[p], USE.NAMES = FALSE)
 }
 
@@ -325,8 +342,14 @@ setup_GAM <- function(k = 5L, ifw = FALSE) {
 # CARTHyperparameters ----
 CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp", "ifw")
 CART_fixed <- c(
-  "method", "model", "maxcompete", "maxsurrogate", "usesurrogate", "surrogatestyle",
-  "xval", "cost"
+  "method",
+  "model",
+  "maxcompete",
+  "maxsurrogate",
+  "usesurrogate",
+  "surrogatestyle",
+  "xval",
+  "cost"
 )
 
 #' @title CARTHyperparameters
@@ -340,20 +363,22 @@ CART_fixed <- c(
 CARTHyperparameters <- new_class(
   name = "CARTHyperparameters",
   parent = Hyperparameters,
-  constructor = function(cp = NULL,
-                         maxdepth = NULL,
-                         minsplit = NULL,
-                         minbucket = NULL,
-                         prune.cp = NULL,
-                         method = NULL,
-                         model = NULL,
-                         maxcompete = NULL,
-                         maxsurrogate = NULL,
-                         usesurrogate = NULL,
-                         surrogatestyle = NULL,
-                         xval = NULL,
-                         cost = NULL,
-                         ifw = NULL) {
+  constructor = function(
+    cp = NULL,
+    maxdepth = NULL,
+    minsplit = NULL,
+    minbucket = NULL,
+    prune.cp = NULL,
+    method = NULL,
+    model = NULL,
+    maxcompete = NULL,
+    maxsurrogate = NULL,
+    usesurrogate = NULL,
+    surrogatestyle = NULL,
+    xval = NULL,
+    cost = NULL,
+    ifw = NULL
+  ) {
     new_object(
       Hyperparameters(
         algorithm = "CART",
@@ -406,22 +431,23 @@ CARTHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_CART <- function(
-    # tunable
-    cp = 0.01,
-    maxdepth = 20L,
-    minsplit = 2L,
-    minbucket = 1L, # round(minsplit / 3),
-    prune.cp = NULL,
-    # fixed
-    method = "auto",
-    model = TRUE,
-    maxcompete = 4L,
-    maxsurrogate = 5L,
-    usesurrogate = 2L,
-    surrogatestyle = 0L,
-    xval = 0L,
-    cost = NULL,
-    ifw = FALSE) {
+  # tunable
+  cp = 0.01,
+  maxdepth = 20L,
+  minsplit = 2L,
+  minbucket = 1L, # round(minsplit / 3),
+  prune.cp = NULL,
+  # fixed
+  method = "auto",
+  model = TRUE,
+  maxcompete = 4L,
+  maxsurrogate = 5L,
+  usesurrogate = 2L,
+  surrogatestyle = 0L,
+  xval = 0L,
+  cost = NULL,
+  ifw = FALSE
+) {
   check_inherits(cp, "numeric")
   maxdepth <- clean_int(maxdepth)
   minsplit <- clean_int(minsplit)
@@ -459,7 +485,13 @@ stopifnot(all(c(CART_tunable, CART_fixed) %in% names(formals(setup_CART))))
 # GLMNETHyperparameters ----
 GLMNET_tunable <- c("alpha", "ifw")
 GLMNET_fixed <- c(
-  "family", "offset", "which.cv.lambda", "nlambda", "penalty.factor", "standardize", "intercept"
+  "family",
+  "offset",
+  "which.cv.lambda",
+  "nlambda",
+  "penalty.factor",
+  "standardize",
+  "intercept"
 )
 
 #' @title GLMNETHyperparameters
@@ -473,16 +505,18 @@ GLMNET_fixed <- c(
 GLMNETHyperparameters <- new_class(
   name = "GLMNETHyperparameters",
   parent = Hyperparameters,
-  constructor = function(alpha = NULL,
-                         family = NULL,
-                         offset = NULL,
-                         which.cv.lambda = NULL,
-                         nlambda = NULL,
-                         lambda = NULL,
-                         penalty.factor = NULL,
-                         standardize = NULL,
-                         intercept = TRUE,
-                         ifw = NULL) {
+  constructor = function(
+    alpha = NULL,
+    family = NULL,
+    offset = NULL,
+    which.cv.lambda = NULL,
+    nlambda = NULL,
+    lambda = NULL,
+    penalty.factor = NULL,
+    standardize = NULL,
+    intercept = TRUE,
+    ifw = NULL
+  ) {
     check_float01inc(alpha)
     check_inherits(which.cv.lambda, "character")
     nlambda <- clean_posint(nlambda)
@@ -531,18 +565,19 @@ GLMNETHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_GLMNET <- function(
-    # tunable
-    alpha = 1,
-    # fixed
-    family = NULL,
-    offset = NULL,
-    which.cv.lambda = "lambda.1se",
-    nlambda = 100L,
-    lambda = NULL,
-    penalty.factor = NULL,
-    standardize = TRUE,
-    intercept = TRUE,
-    ifw = FALSE) {
+  # tunable
+  alpha = 1,
+  # fixed
+  family = NULL,
+  offset = NULL,
+  which.cv.lambda = "lambda.1se",
+  nlambda = 100L,
+  lambda = NULL,
+  penalty.factor = NULL,
+  standardize = TRUE,
+  intercept = TRUE,
+  ifw = FALSE
+) {
   check_float01inc(alpha)
   check_inherits(which.cv.lambda, "character")
   nlambda <- clean_posint(nlambda)
@@ -564,11 +599,15 @@ setup_GLMNET <- function(
 } # /setup_GLMNET
 
 # Test that all GLMNET hyperparameters are set by setup_GLMNET
-stopifnot(all(c(GLMNET_tunable, GLMNET_fixed) %in% names(formals(setup_GLMNET))))
+stopifnot(all(
+  c(GLMNET_tunable, GLMNET_fixed) %in% names(formals(setup_GLMNET))
+))
 
 method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
   # Get tunable hyperparameters with more than one value
-  out <- x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
+  out <- x@hyperparameters[x@tunable_hyperparameters[
+    sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1
+  ]]
   if (is.null(x[["lambda"]])) {
     out <- c(out, list(lambda = NULL))
   }
@@ -577,8 +616,14 @@ method(get_params_need_tuning, GLMNETHyperparameters) <- function(x) {
 
 # LightCARTHyperparameters ----
 LightCART_tunable <- c(
-  "num_leaves", "max_depth", "lambda_l1", "lambda_l2", "max_cat_threshold",
-  "min_data_per_group", "linear_tree", "ifw"
+  "num_leaves",
+  "max_depth",
+  "lambda_l1",
+  "lambda_l2",
+  "max_cat_threshold",
+  "min_data_per_group",
+  "linear_tree",
+  "ifw"
 )
 LightCART_fixed <- c("objective")
 
@@ -593,15 +638,17 @@ LightCART_fixed <- c("objective")
 LightCARTHyperparameters <- new_class(
   name = "LightCARTHyperparameters",
   parent = Hyperparameters,
-  constructor = function(num_leaves = NULL,
-                         max_depth = NULL,
-                         lambda_l1 = NULL,
-                         lambda_l2 = NULL,
-                         max_cat_threshold = NULL,
-                         min_data_per_group = NULL,
-                         linear_tree = NULL,
-                         objective = NULL,
-                         ifw = FALSE) {
+  constructor = function(
+    num_leaves = NULL,
+    max_depth = NULL,
+    lambda_l1 = NULL,
+    lambda_l2 = NULL,
+    max_cat_threshold = NULL,
+    min_data_per_group = NULL,
+    linear_tree = NULL,
+    objective = NULL,
+    ifw = FALSE
+  ) {
     new_object(
       Hyperparameters(
         algorithm = "LightCART",
@@ -644,15 +691,16 @@ LightCARTHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_LightCART <- function(
-    num_leaves = 32L,
-    max_depth = -1L,
-    lambda_l1 = 0,
-    lambda_l2 = 0,
-    max_cat_threshold = 32L,
-    min_data_per_group = 100L,
-    linear_tree = FALSE,
-    objective = NULL,
-    ifw = FALSE) {
+  num_leaves = 32L,
+  max_depth = -1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  max_cat_threshold = 32L,
+  min_data_per_group = 100L,
+  linear_tree = FALSE,
+  objective = NULL,
+  ifw = FALSE
+) {
   num_leaves <- clean_posint(num_leaves)
   max_depth <- clean_int(max_depth)
   check_float01inc(lambda_l1)
@@ -676,10 +724,23 @@ setup_LightCART <- function(
 
 # LightRFHyperparameters ----
 LightRF_tunable <- c(
-  "nrounds", "num_leaves", "maxdepth", "feature_fraction", "subsample",
-  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "ifw"
+  "nrounds",
+  "num_leaves",
+  "maxdepth",
+  "feature_fraction",
+  "subsample",
+  "lambda_l1",
+  "lambda_l2",
+  "max_cat_threshold",
+  "min_data_per_group",
+  "ifw"
 )
-LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner", "objective")
+LightRF_fixed <- c(
+  "subsample_freq",
+  "early_stopping_rounds",
+  "tree_learner",
+  "objective"
+)
 
 #' @title LightRFHyperparameters
 #'
@@ -692,22 +753,24 @@ LightRF_fixed <- c("subsample_freq", "early_stopping_rounds", "tree_learner", "o
 LightRFHyperparameters <- new_class(
   name = "LightRFHyperparameters",
   parent = Hyperparameters,
-  constructor = function(nrounds = NULL,
-                         num_leaves = NULL,
-                         maxdepth = NULL,
-                         feature_fraction = NULL,
-                         subsample = NULL,
-                         lambda_l1 = NULL,
-                         lambda_l2 = NULL,
-                         max_cat_threshold = NULL,
-                         min_data_per_group = NULL,
-                         linear_tree = NULL,
-                         ifw = NULL,
-                         # fixed LightGBM params for RF
-                         subsample_freq = 1L,
-                         early_stopping_rounds = -1L,
-                         tree_learner = "data_parallel",
-                         objective = NULL) {
+  constructor = function(
+    nrounds = NULL,
+    num_leaves = NULL,
+    maxdepth = NULL,
+    feature_fraction = NULL,
+    subsample = NULL,
+    lambda_l1 = NULL,
+    lambda_l2 = NULL,
+    max_cat_threshold = NULL,
+    min_data_per_group = NULL,
+    linear_tree = NULL,
+    ifw = NULL,
+    # fixed LightGBM params for RF
+    subsample_freq = 1L,
+    early_stopping_rounds = -1L,
+    tree_learner = "data_parallel",
+    objective = NULL
+  ) {
     new_object(
       Hyperparameters(
         algorithm = "LightRF",
@@ -760,18 +823,19 @@ LightRFHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_LightRF <- function(
-    nrounds = 500L,
-    num_leaves = 4096L,
-    maxdepth = -1L,
-    feature_fraction = 0.333,
-    subsample = .623,
-    lambda_l1 = 0,
-    lambda_l2 = 0,
-    max_cat_threshold = 32L,
-    min_data_per_group = 32L,
-    linear_tree = FALSE,
-    objective = NULL,
-    ifw = FALSE) {
+  nrounds = 500L,
+  num_leaves = 4096L,
+  maxdepth = -1L,
+  feature_fraction = 0.333,
+  subsample = .623,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  max_cat_threshold = 32L,
+  min_data_per_group = 32L,
+  linear_tree = FALSE,
+  objective = NULL,
+  ifw = FALSE
+) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
   maxdepth <- clean_int(maxdepth)
@@ -805,10 +869,25 @@ stopifnot(all(LightRF_tunable %in% names(formals(setup_LightRF))))
 
 # LightGBMHyperparameters ----
 LightGBM_tunable <- c(
-  "num_leaves", "max_depth", "learning_rate", "feature_fraction", "subsample", "subsample_freq",
-  "lambda_l1", "lambda_l2", "max_cat_threshold", "min_data_per_group", "linear_tree", "ifw"
+  "num_leaves",
+  "max_depth",
+  "learning_rate",
+  "feature_fraction",
+  "subsample",
+  "subsample_freq",
+  "lambda_l1",
+  "lambda_l2",
+  "max_cat_threshold",
+  "min_data_per_group",
+  "linear_tree",
+  "ifw"
 )
-LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds", "objective")
+LightGBM_fixed <- c(
+  "max_nrounds",
+  "force_nrounds",
+  "early_stopping_rounds",
+  "objective"
+)
 
 #' @title LightGBMHyperparameters
 #'
@@ -821,23 +900,25 @@ LightGBM_fixed <- c("max_nrounds", "force_nrounds", "early_stopping_rounds", "ob
 LightGBMHyperparameters <- new_class(
   name = "LightGBMHyperparameters",
   parent = Hyperparameters,
-  constructor = function(max_nrounds = NULL,
-                         force_nrounds = NULL,
-                         early_stopping_rounds = NULL,
-                         # tunable
-                         num_leaves = NULL,
-                         max_depth = NULL,
-                         learning_rate = NULL,
-                         feature_fraction = NULL,
-                         subsample = NULL,
-                         subsample_freq = NULL,
-                         lambda_l1 = NULL,
-                         lambda_l2 = NULL,
-                         max_cat_threshold = NULL,
-                         min_data_per_group = NULL,
-                         linear_tree = NULL,
-                         ifw = NULL,
-                         objective = NULL) {
+  constructor = function(
+    max_nrounds = NULL,
+    force_nrounds = NULL,
+    early_stopping_rounds = NULL,
+    # tunable
+    num_leaves = NULL,
+    max_depth = NULL,
+    learning_rate = NULL,
+    feature_fraction = NULL,
+    subsample = NULL,
+    subsample_freq = NULL,
+    lambda_l1 = NULL,
+    lambda_l2 = NULL,
+    max_cat_threshold = NULL,
+    min_data_per_group = NULL,
+    linear_tree = NULL,
+    ifw = NULL,
+    objective = NULL
+  ) {
     nrounds <- if (!is.null(force_nrounds)) {
       force_nrounds
     } else {
@@ -871,7 +952,12 @@ LightGBMHyperparameters <- new_class(
   }
 ) # /rtemis::LightGBMHyperparameters
 
-method(update, LightGBMHyperparameters) <- function(object, hyperparameters, tuned = NULL, ...) {
+method(update, LightGBMHyperparameters) <- function(
+  object,
+  hyperparameters,
+  tuned = NULL,
+  ...
+) {
   for (hp in names(hyperparameters)) {
     object@hyperparameters[[hp]] <- hyperparameters[[hp]]
   }
@@ -882,8 +968,13 @@ method(update, LightGBMHyperparameters) <- function(object, hyperparameters, tun
     object@tuned <- tuned
   }
   # Update nrounds (e.g. in LightRuleFit)
-  if (is.null(object@hyperparameters[["nrounds"]]) && !is.null(object@hyperparameters[["force_nrounds"]])) {
-    object@hyperparameters[["nrounds"]] <- object@hyperparameters[["force_nrounds"]]
+  if (
+    is.null(object@hyperparameters[["nrounds"]]) &&
+      !is.null(object@hyperparameters[["force_nrounds"]])
+  ) {
+    object@hyperparameters[["nrounds"]] <- object@hyperparameters[[
+      "force_nrounds"
+    ]]
   }
   object
 } # /update.Hyperparameters
@@ -917,25 +1008,26 @@ method(update, LightGBMHyperparameters) <- function(object, hyperparameters, tun
 #' @author EDG
 #' @export
 setup_LightGBM <- function(
-    # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
-    # using early_stopping_rounds.
-    max_nrounds = 1000L,
-    force_nrounds = NULL,
-    early_stopping_rounds = 10L,
-    # tunable
-    num_leaves = 4096L,
-    max_depth = -1L,
-    learning_rate = 0.01,
-    feature_fraction = 1.0,
-    subsample = .623,
-    subsample_freq = 1L,
-    lambda_l1 = 0,
-    lambda_l2 = 0,
-    max_cat_threshold = 32L,
-    min_data_per_group = 32L,
-    linear_tree = FALSE,
-    objective = NULL,
-    ifw = FALSE) {
+  # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
+  # using early_stopping_rounds.
+  max_nrounds = 1000L,
+  force_nrounds = NULL,
+  early_stopping_rounds = 10L,
+  # tunable
+  num_leaves = 8L,
+  max_depth = -1L,
+  learning_rate = 0.01,
+  feature_fraction = 1.0,
+  subsample = .623,
+  subsample_freq = 1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  max_cat_threshold = 32L,
+  min_data_per_group = 32L,
+  linear_tree = FALSE,
+  objective = NULL,
+  ifw = FALSE
+) {
   max_nrounds <- clean_posint(max_nrounds)
   force_nrounds <- clean_posint(force_nrounds)
   early_stopping_rounds <- clean_posint(early_stopping_rounds)
@@ -971,11 +1063,15 @@ setup_LightGBM <- function(
 } # /rtemis::setupLightGBM
 
 # Test that all LightGBM hyperparameters are set by setup_LightGBM
-stopifnot(all(c(LightGBM_tunable, LightGBM_fixed) %in% names(formals(setup_LightGBM))))
+stopifnot(all(
+  c(LightGBM_tunable, LightGBM_fixed) %in% names(formals(setup_LightGBM))
+))
 
 method(get_params_need_tuning, LightGBMHyperparameters) <- function(x) {
   # Get tunable hyperparameters with more than one value
-  out <- x@hyperparameters[x@tunable_hyperparameters[sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1]]
+  out <- x@hyperparameters[x@tunable_hyperparameters[
+    sapply(x@hyperparameters[x@tunable_hyperparameters], length) > 1
+  ]]
   if (is.null(x[["nrounds"]])) {
     out <- c(out, list(nrounds = NULL))
   }
@@ -985,13 +1081,29 @@ method(get_params_need_tuning, LightGBMHyperparameters) <- function(x) {
 
 # LightRuleFitHyperparameters ----
 LightRuleFit_tunable <- c(
-  "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
-  "lambda_l1", "lambda_l2", "alpha", "ifw_lightgbm", "ifw_glmnet"
+  "nrounds",
+  "num_leaves",
+  "max_depth",
+  "learning_rate",
+  "subsample",
+  "subsample_freq",
+  "lambda_l1",
+  "lambda_l2",
+  "alpha",
+  "ifw_lightgbm",
+  "ifw_glmnet"
 )
 LightRuleFit_fixed <- c("lambda", "objective")
 LightRuleFit_lightgbm_params <- c(
-  "nrounds", "num_leaves", "max_depth", "learning_rate", "subsample", "subsample_freq",
-  "lambda_l1", "lambda_l2", "objective"
+  "nrounds",
+  "num_leaves",
+  "max_depth",
+  "learning_rate",
+  "subsample",
+  "subsample_freq",
+  "lambda_l1",
+  "lambda_l2",
+  "objective"
 )
 LightRuleFit_glmnet_params <- c("alpha", "lambda")
 
@@ -1006,22 +1118,24 @@ LightRuleFit_glmnet_params <- c("alpha", "lambda")
 LightRuleFitHyperparameters <- new_class(
   name = "LightRuleFitHyperparameters",
   parent = Hyperparameters,
-  constructor = function(nrounds = NULL,
-                         num_leaves = NULL,
-                         max_depth = NULL,
-                         learning_rate = NULL,
-                         subsample = NULL,
-                         subsample_freq = NULL,
-                         lambda_l1 = NULL,
-                         lambda_l2 = NULL,
-                         objective = NULL,
-                         ifw_lightgbm = NULL,
-                         # GLMNET
-                         alpha = NULL,
-                         lambda = NULL,
-                         ifw_glmnet = NULL,
-                         # IFW
-                         ifw = NULL) {
+  constructor = function(
+    nrounds = NULL,
+    num_leaves = NULL,
+    max_depth = NULL,
+    learning_rate = NULL,
+    subsample = NULL,
+    subsample_freq = NULL,
+    lambda_l1 = NULL,
+    lambda_l2 = NULL,
+    objective = NULL,
+    ifw_lightgbm = NULL,
+    # GLMNET
+    alpha = NULL,
+    lambda = NULL,
+    ifw_glmnet = NULL,
+    # IFW
+    ifw = NULL
+  ) {
     new_object(
       Hyperparameters(
         algorithm = "LightRuleFit",
@@ -1079,20 +1193,21 @@ LightRuleFitHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_LightRuleFit <- function(
-    nrounds = 200L,
-    num_leaves = 32L,
-    max_depth = 4L,
-    learning_rate = 0.1,
-    subsample = 0.666,
-    subsample_freq = 1L,
-    lambda_l1 = 0,
-    lambda_l2 = 0,
-    objective = NULL,
-    ifw_lightgbm = FALSE,
-    alpha = 1,
-    lambda = NULL,
-    ifw_glmnet = FALSE,
-    ifw = FALSE) {
+  nrounds = 200L,
+  num_leaves = 32L,
+  max_depth = 4L,
+  learning_rate = 0.1,
+  subsample = 0.666,
+  subsample_freq = 1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  objective = NULL,
+  ifw_lightgbm = FALSE,
+  alpha = 1,
+  lambda = NULL,
+  ifw_glmnet = FALSE,
+  ifw = FALSE
+) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
   max_depth <- clean_int(max_depth)
@@ -1196,9 +1311,11 @@ SVM_fixed <- c("kernel")
 SVMHyperparameters <- new_class(
   name = "SVMHyperparameters",
   parent = Hyperparameters,
-  constructor = function(hyperparameters = list(),
-                         tunable_hyperparameters = character(),
-                         fixed_hyperparameters = character()) {
+  constructor = function(
+    hyperparameters = list(),
+    tunable_hyperparameters = character(),
+    fixed_hyperparameters = character()
+  ) {
     new_object(
       Hyperparameters(
         algorithm = "SVM",
@@ -1223,9 +1340,7 @@ SVMHyperparameters <- new_class(
 RadialSVMHyperparameters <- new_class(
   name = "RadialSVMHyperparameters",
   parent = SVMHyperparameters,
-  constructor = function(cost = NULL,
-                         gamma = NULL,
-                         ifw = NULL) {
+  constructor = function(cost = NULL, gamma = NULL, ifw = NULL) {
     new_object(
       SVMHyperparameters(
         hyperparameters = list(
@@ -1256,9 +1371,10 @@ RadialSVMHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_RadialSVM <- function(
-    cost = 1,
-    gamma = 0.01,
-    ifw = FALSE) {
+  cost = 1,
+  gamma = 0.01,
+  ifw = FALSE
+) {
   check_inherits(cost, "numeric")
   check_inherits(gamma, "numeric")
   check_logical(ifw)
@@ -1274,13 +1390,40 @@ setup_SVM <- setup_RadialSVM
 
 # TabNetHyperparameters ----
 tabnet_tunable <- c(
-  "batch_size", "penalty", "clip_value", "loss", "epochs", "drop_last", "decision_width",
-  "attention_width", "num_steps", "feature_reusage", "mask_type", "virtual_batch_size",
-  "valid_split", "learn_rate", "optimizer", "lr_scheduler", "lr_decay", "step_size",
-  "checkpoint_epochs", "cat_emb_dim", "num_independent", "num_shared", "num_independent_decoder",
-  "num_shared_decoder", "momentum", "pretraining_ratio",
-  "importance_sample_size", "early_stopping_monitor", "early_stopping_tolerance",
-  "early_stopping_patience", "num_workers", "skip_importance", "early_stopping_patience", "ifw"
+  "batch_size",
+  "penalty",
+  "clip_value",
+  "loss",
+  "epochs",
+  "drop_last",
+  "decision_width",
+  "attention_width",
+  "num_steps",
+  "feature_reusage",
+  "mask_type",
+  "virtual_batch_size",
+  "valid_split",
+  "learn_rate",
+  "optimizer",
+  "lr_scheduler",
+  "lr_decay",
+  "step_size",
+  "checkpoint_epochs",
+  "cat_emb_dim",
+  "num_independent",
+  "num_shared",
+  "num_independent_decoder",
+  "num_shared_decoder",
+  "momentum",
+  "pretraining_ratio",
+  "importance_sample_size",
+  "early_stopping_monitor",
+  "early_stopping_tolerance",
+  "early_stopping_patience",
+  "num_workers",
+  "skip_importance",
+  "early_stopping_patience",
+  "ifw"
 )
 
 tabnet_fixed <- c("device", "num_workers", "skip_importance")
@@ -1296,40 +1439,42 @@ tabnet_fixed <- c("device", "num_workers", "skip_importance")
 TabNetHyperparameters <- new_class(
   name = "TabNetHyperparameters",
   parent = Hyperparameters,
-  constructor = function(batch_size = NULL,
-                         penalty = NULL,
-                         clip_value = NULL,
-                         loss = NULL,
-                         epochs = NULL,
-                         drop_last = NULL,
-                         decision_width = NULL,
-                         attention_width = NULL,
-                         num_steps = NULL,
-                         feature_reusage = NULL,
-                         mask_type = NULL,
-                         virtual_batch_size = NULL,
-                         valid_split = NULL,
-                         learn_rate = NULL,
-                         optimizer = NULL,
-                         lr_scheduler = NULL,
-                         lr_decay = NULL,
-                         step_size = NULL,
-                         checkpoint_epochs = NULL,
-                         cat_emb_dim = NULL,
-                         num_independent = NULL,
-                         num_shared = NULL,
-                         num_independent_decoder = NULL,
-                         num_shared_decoder = NULL,
-                         momentum = NULL,
-                         pretraining_ratio = NULL,
-                         device = NULL,
-                         importance_sample_size = NULL,
-                         early_stopping_monitor = NULL,
-                         early_stopping_tolerance = NULL,
-                         early_stopping_patience = NULL,
-                         num_workers = NULL,
-                         skip_importance = NULL,
-                         ifw = NULL) {
+  constructor = function(
+    batch_size = NULL,
+    penalty = NULL,
+    clip_value = NULL,
+    loss = NULL,
+    epochs = NULL,
+    drop_last = NULL,
+    decision_width = NULL,
+    attention_width = NULL,
+    num_steps = NULL,
+    feature_reusage = NULL,
+    mask_type = NULL,
+    virtual_batch_size = NULL,
+    valid_split = NULL,
+    learn_rate = NULL,
+    optimizer = NULL,
+    lr_scheduler = NULL,
+    lr_decay = NULL,
+    step_size = NULL,
+    checkpoint_epochs = NULL,
+    cat_emb_dim = NULL,
+    num_independent = NULL,
+    num_shared = NULL,
+    num_independent_decoder = NULL,
+    num_shared_decoder = NULL,
+    momentum = NULL,
+    pretraining_ratio = NULL,
+    device = NULL,
+    importance_sample_size = NULL,
+    early_stopping_monitor = NULL,
+    early_stopping_tolerance = NULL,
+    early_stopping_patience = NULL,
+    num_workers = NULL,
+    skip_importance = NULL,
+    ifw = NULL
+  ) {
     new_object(
       Hyperparameters(
         algorithm = "TabNet",
@@ -1404,66 +1549,67 @@ TabNetHyperparameters <- new_class(
 #' @param cat_emb_dim (Tunable) Positive integer: Categorical embedding dimension.
 #' @param num_independent (Tunable) Positive integer: Number of independent Gated Linear Units (GLU)
 #' at each step of the encoder.
-#' @param num_shared (Tunable) Positive integer: Number of shared Gated Linear Units (GLU) at each 
+#' @param num_shared (Tunable) Positive integer: Number of shared Gated Linear Units (GLU) at each
 #' step of the encoder.
 #' @param num_independent_decoder (Tunable) Positive integer: Number of independent GLU layers for
 #' pretraining.
-#' @param num_shared_decoder (Tunable) Positive integer: Number of shared GLU layers for 
+#' @param num_shared_decoder (Tunable) Positive integer: Number of shared GLU layers for
 #' pretraining.
 #' @param momentum (Tunable) Numeric: Momentum.
 #' @param pretraining_ratio (Tunable) Numeric: Pretraining ratio.
 #' @param device Character: Device "cpu" or "cuda".
 #' @param importance_sample_size Positive integer: Importance sample size.
-#' @param early_stopping_monitor Character: Early stopping monitor. "valid_loss", "train_loss", 
+#' @param early_stopping_monitor Character: Early stopping monitor. "valid_loss", "train_loss",
 #' "auto".
-#' @param early_stopping_tolerance Numeric: Minimum relative improvement to reset the patience 
+#' @param early_stopping_tolerance Numeric: Minimum relative improvement to reset the patience
 #' counter.
-#' @param early_stopping_patience Positive integer: Number of epochs without improving before 
+#' @param early_stopping_patience Positive integer: Number of epochs without improving before
 #' stopping.
 #' @param num_workers Positive integer: Number of subprocesses for data loacding.
 #' @param skip_importance Logical: If TRUE, skip importance calculation.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
 #' @return TabNetHyperparameters object.
-#' 
+#'
 #' @author EDG
 #' @noRd
 # tabnet removed from CRAN 20250401
 setup_TabNet <- function(
-    batch_size = 1024^2,
-    penalty = 0.001,
-    clip_value = NULL,
-    loss = "auto",
-    epochs = 50L,
-    drop_last = FALSE,
-    decision_width = NULL,
-    attention_width = NULL,
-    num_steps = 3L,
-    feature_reusage = 1.3,
-    mask_type = "sparsemax",
-    virtual_batch_size = 256^2,
-    valid_split = 0,
-    learn_rate = 0.02,
-    optimizer = "adam",
-    lr_scheduler = NULL,
-    lr_decay = 0.1,
-    step_size = 30,
-    checkpoint_epochs = 10L,
-    cat_emb_dim = 1L,
-    num_independent = 2L,
-    num_shared = 2L,
-    num_independent_decoder = 1L,
-    num_shared_decoder = 1L,
-    momentum = 0.02,
-    pretraining_ratio = 0.5,
-    device = "auto",
-    importance_sample_size = NULL,
-    early_stopping_monitor = "auto",
-    early_stopping_tolerance = 0,
-    early_stopping_patience = 0,
-    num_workers = 0L,
-    skip_importance = FALSE,
-    ifw = FALSE) {
+  batch_size = 1024^2,
+  penalty = 0.001,
+  clip_value = NULL,
+  loss = "auto",
+  epochs = 50L,
+  drop_last = FALSE,
+  decision_width = NULL,
+  attention_width = NULL,
+  num_steps = 3L,
+  feature_reusage = 1.3,
+  mask_type = "sparsemax",
+  virtual_batch_size = 256^2,
+  valid_split = 0,
+  learn_rate = 0.02,
+  optimizer = "adam",
+  lr_scheduler = NULL,
+  lr_decay = 0.1,
+  step_size = 30,
+  checkpoint_epochs = 10L,
+  cat_emb_dim = 1L,
+  num_independent = 2L,
+  num_shared = 2L,
+  num_independent_decoder = 1L,
+  num_shared_decoder = 1L,
+  momentum = 0.02,
+  pretraining_ratio = 0.5,
+  device = "auto",
+  importance_sample_size = NULL,
+  early_stopping_monitor = "auto",
+  early_stopping_tolerance = 0,
+  early_stopping_patience = 0,
+  num_workers = 0L,
+  skip_importance = FALSE,
+  ifw = FALSE
+) {
   TabNetHyperparameters(
     batch_size = batch_size,
     penalty = penalty,
@@ -1501,7 +1647,6 @@ setup_TabNet <- function(
     ifw = ifw
   )
 } # /setup_TabNet
-
 
 # get_tabnet_config <- function(hyperparameters) {
 #   check_is_S7(hyperparameters, TabNetHyperparameters)
