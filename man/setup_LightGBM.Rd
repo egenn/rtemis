@@ -8,7 +8,7 @@ setup_LightGBM(
   max_nrounds = 1000L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
-  num_leaves = 4096L,
+  num_leaves = 8L,
   max_depth = -1L,
   learning_rate = 0.01,
   feature_fraction = 1,
