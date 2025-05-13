@@ -4,8 +4,7 @@
 \alias{calibrate.ClassificationCV}
 \title{Calibrate Cross-validated Binary Classification Models}
 \arguments{
-\item{x}{ClassificationCV object: The model will be returned with the calibration model and
-calibration metrics added.}
+\item{x}{ClassificationCV object.}
 
 \item{algorithm}{Character: Algorithm to use to train calibration model.}
 

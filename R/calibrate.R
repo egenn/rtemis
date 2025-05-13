@@ -12,8 +12,15 @@
 # )
 
 calibrate <- new_generic(
-  "calibrate", ("x"),
-  function(x, algorithm = "isotonic", hyperparameters = NULL, verbosity = 1L, ...) {
+  "calibrate",
+  ("x"),
+  function(
+    x,
+    algorithm = "isotonic",
+    hyperparameters = NULL,
+    verbosity = 1L,
+    ...
+  ) {
     S7_dispatch()
   }
 )
@@ -31,8 +38,7 @@ calibrate <- new_generic(
 #' Important: The calibration model's training data should be different from the classification
 #' model's training data.
 #'
-#' @param x Classification object: The model will be returned with the calibration model and
-#' calibration metrics added.
+#' @param x Classification object.
 #' @param predicted_probabilities Numeric vector: Predicted probabilities.
 #' @param true_labels Factor: True class labels.
 #' @param algorithm Character: Algorithm to use to train calibration model.
@@ -43,12 +49,15 @@ calibrate <- new_generic(
 #' @author EDG
 #' @export
 
-calibrate.Classification <- function(x,
-                                     predicted_probabilities,
-                                     true_labels,
-                                     algorithm = "isotonic",
-                                     hyperparameters = NULL,
-                                     verbosity = 1L, ...) {
+calibrate.Classification <- function(
+  x,
+  predicted_probabilities,
+  true_labels,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+) {
   # Check inputs
   check_is_S7(x, Classification)
   check_float01inc(predicted_probabilities)
@@ -87,8 +96,7 @@ calibrate.Classification <- function(x,
 #' model so that they better reflect the true probabilities (i.e. empirical risk) of the positive
 #' class.
 #'
-#' @param x ClassificationCV object: The model will be returned with the calibration model and
-#' calibration metrics added.
+#' @param x ClassificationCV object.
 #' @param algorithm Character: Algorithm to use to train calibration model.
 #' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
 #' @param resampler_parameters ResamplerParameters
@@ -98,24 +106,33 @@ calibrate.Classification <- function(x,
 #' @author EDG
 #' @export
 
-method(calibrate, Classification) <- function(x,
-                                              algorithm = "isotonic",
-                                              hyperparameters = NULL,
-                                              verbosity = 1L, ...) {
-  calibrate.Classification(x,
-                           algorithm = algorithm,
-                           hyperparameters = hyperparameters,
-                           verbosity = verbosity, ...)
+method(calibrate, Classification) <- function(
+  x,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+) {
+  calibrate.Classification(
+    x,
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    verbosity = verbosity,
+    ...
+  )
 }
 
-calibrate.ClassificationCV <- function(x,
-                                       algorithm = "isotonic",
-                                       hyperparameters = NULL,
-                                       resampler_parameters = setup_Resampler(
-                                         n_resamples = 5L,
-                                         type = "KFold"
-                                       ),
-                                       verbosity = 1L, ...) {
+calibrate.ClassificationCV <- function(
+  x,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  resampler_parameters = setup_Resampler(
+    n_resamples = 5L,
+    type = "KFold"
+  ),
+  verbosity = 1L,
+  ...
+) {
   # Check inputs
   check_inherits(algorithm, "character")
   check_is_S7(resampler_parameters, ResamplerParameters)
@@ -154,12 +171,18 @@ calibrate.ClassificationCV <- function(x,
 } # /rtemis::calibrate.ClassificationCV
 
 
-method(calibrate, ClassificationCV) <- function(x,
-                                                algorithm = "isotonic",
-                                                hyperparameters = NULL, 
-                                                verbosity = 1L, ...) {
-  calibrate.ClassificationCV(x,
-                             algorithm = algorithm,
-                             hyperparameters = hyperparameters,
-                             verbosity = verbosity, ...)
+method(calibrate, ClassificationCV) <- function(
+  x,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+) {
+  calibrate.ClassificationCV(
+    x,
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    verbosity = verbosity,
+    ...
+  )
 }
