@@ -76,6 +76,7 @@ Suggests:
     sgd,
     shapr,
     survival,
+    tabnet,
     threejs,
     testthat (>= 3.0.0),
     timeDate,
