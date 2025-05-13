@@ -338,7 +338,10 @@ mod_r_lightcartlin <- train(
 )
 test_that("train() LightCART Regression with linear_tree succeeds", {
   expect_s7_class(mod_r_lightcartlin, Regression)
-  expect_identical(mod_r_lightcartlin@hyperparameters$linear_tree, mod_r_lightcartlin@model$params$linear_tree)
+  expect_identical(
+    mod_r_lightcartlin@hyperparameters$linear_tree,
+    mod_r_lightcartlin@model$params$linear_tree
+  )
 })
 
 ## LightRF Regression ----
@@ -418,13 +421,23 @@ mod_r_lightrlft_l1l2 <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "lightrulefit",
-  hyperparameters = setup_LightRuleFit(nrounds = 50L, lambda_l1 = 10, lambda_l2 = 10)
+  hyperparameters = setup_LightRuleFit(
+    nrounds = 50L,
+    lambda_l1 = 10,
+    lambda_l2 = 10
+  )
 )
 
 test_that("train() LightRuleFit Regression with l1, l2 params passed", {
   expect_s7_class(mod_r_lightrlft_l1l2, Regression)
-  expect_identical(mod_r_lightrlft_l1l2@model@model_lightgbm@model$params$lambda_l1, 10)
-  expect_identical(mod_r_lightrlft_l1l2@model@model_lightgbm@model$params$lambda_l2, 10)
+  expect_identical(
+    mod_r_lightrlft_l1l2@model@model_lightgbm@model$params$lambda_l1,
+    10
+  )
+  expect_identical(
+    mod_r_lightrlft_l1l2@model@model_lightgbm@model$params$lambda_l2,
+    10
+  )
 })
 
 # mod_r_lightrlft_reg <- train(
@@ -438,17 +451,17 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 # tabnet removed from CRAN 20250401 (https://cran.r-project.org/web/packages/tabnet/index.html)
 ## TabNet Regression ----
 # Test if lantern is installed
-# if (torch::torch_is_installed()) {
-#   mod_r_tabnet <- train(
-#     x = datr_train,
-#     dat_test = datr_test,
-#     algorithm = "tabnet",
-#     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
-#   )
-#   test_that("train() TabNet Regression succeeds", {
-#     expect_s7_class(mod_r_tabnet, Regression)
-#   })
-# }
+if (torch::torch_is_installed()) {
+  mod_r_tabnet <- train(
+    x = datr_train,
+    dat_test = datr_test,
+    algorithm = "tabnet",
+    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
+  )
+  test_that("train() TabNet Regression succeeds", {
+    expect_s7_class(mod_r_tabnet, Regression)
+  })
+}
 
 # Binary Classification ----
 
@@ -599,17 +612,17 @@ test_that("train() SVM Classification succeeds", {
 
 # TabNet Classification ----
 # 2025-04-01: removed from CRAN (https://cran.r-project.org/web/packages/tabnet/index.html)
-# if (torch::torch_is_installed()) {
-#   mod_c_tabnet <- train(
-#     x = datc2_train,
-#     dat_test = datc2_test,
-#     algorithm = "tabnet",
-#     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
-#   )
-#   test_that("train() TabNet Classification succeeds", {
-#     expect_s7_class(mod_c_tabnet, Classification)
-#   })
-# }
+if (torch::torch_is_installed()) {
+  mod_c_tabnet <- train(
+    x = datc2_train,
+    dat_test = datc2_test,
+    algorithm = "tabnet",
+    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
+  )
+  test_that("train() TabNet Classification succeeds", {
+    expect_s7_class(mod_c_tabnet, Classification)
+  })
+}
 
 # Predict SupervisedCV ----
 
@@ -643,7 +656,7 @@ test_that("predict() CalibratedClassification succeeds", {
     predicted_prob_test_cal
   )
 })
- 
+
 # CalibrationCV ----
 mod_c_lightrf_cv_cal <- calibrate(mod_c_lightrf_cv)
 test_that("calibrate() succeeds on ClassificationCV", {
