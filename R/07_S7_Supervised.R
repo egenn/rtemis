@@ -42,25 +42,27 @@ Supervised <- new_class(
     extra = class_any,
     session_info = class_any
   ),
-  constructor = function(algorithm,
-                         model,
-                         type,
-                         preprocessor,
-                         hyperparameters,
-                         tuner,
-                         y_training,
-                         y_validation,
-                         y_test,
-                         predicted_training,
-                         predicted_validation,
-                         predicted_test,
-                         metrics_training,
-                         metrics_validation,
-                         metrics_test,
-                         xnames,
-                         varimp,
-                         question,
-                         extra) {
+  constructor = function(
+    algorithm,
+    model,
+    type,
+    preprocessor,
+    hyperparameters,
+    tuner,
+    y_training,
+    y_validation,
+    y_test,
+    predicted_training,
+    predicted_validation,
+    predicted_test,
+    metrics_training,
+    metrics_validation,
+    metrics_test,
+    xnames,
+    varimp,
+    question,
+    extra
+  ) {
     new_object(
       S7_object(),
       algorithm = algorithm,
@@ -99,7 +101,10 @@ Supervised <- new_class(
 method(predict, Supervised) <- function(object, newdata, ...) {
   check_inherits(newdata, "data.frame")
   predict_fn <- get_predict_fn(object@algorithm)
-  do_call(predict_fn, list(model = object@model, newdata = newdata, type = object@type))
+  do_call(
+    predict_fn,
+    list(model = object@model, newdata = newdata, type = object@type)
+  )
 } # /predict.Supervised
 
 # Fitted Supervised ----
@@ -157,28 +162,43 @@ method(`[[`, Supervised) <- function(x, name) {
 print.Supervised <- function(x, ...) {
   cat(gray(".:"))
   objcat(paste(x@type, "Model"))
-  cat("  ",
+  cat(
+    "  ",
     hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n",
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n",
     sep = ""
   )
   if (!is.null(x@tuner)) {
-    cat("  ", magenta("\U2699", bold = TRUE), " Tuned using ", desc(x@tuner), ".\n\n", sep = "")
+    cat(
+      "  ",
+      magenta("\U2699", bold = TRUE),
+      " Tuned using ",
+      desc(x@tuner),
+      ".\n\n",
+      sep = ""
+    )
   } else {
     cat("\n")
   }
   if (prop_exists(x, "calibration_model")) {
     cat(
-      "  ", green("\U27CB", bold = TRUE),
-      " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n",
+      "  ",
+      green("\U27CB", bold = TRUE),
+      " Calibrated using ",
+      get_alg_desc(x@calibration_model@algorithm),
+      ".\n\n",
       sep = ""
     )
   }
   if (prop_exists(x, "calibration_models")) {
     cat(
-      "  ", green("\U27CB", bold = TRUE),
-      " Calibrated using ", get_alg_desc(x@calibration_models[[1]]@algorithm), 
-      " with ", 
+      "  ",
+      green("\U27CB", bold = TRUE),
+      " Calibrated using ",
+      get_alg_desc(x@calibration_models[[1]]@algorithm),
+      " with ",
       ".\n\n",
       sep = ""
     )
@@ -200,9 +220,12 @@ method(print, Supervised) <- function(x, ...) {
 
 # Plot Variable Importance ----
 plot_varimp <- new_generic("plot_varimp", "x")
-method(plot_varimp, Supervised) <- function(x,
-                                            theme = rtemis_theme,
-                                            filename = NULL, ...) {
+method(plot_varimp, Supervised) <- function(
+  x,
+  theme = rtemis_theme,
+  filename = NULL,
+  ...
+) {
   if (is.null(x@varimp)) {
     msg2(hilite2("No variable importance available."))
     return(invisible(NULL))
@@ -230,7 +253,8 @@ method(describe, Supervised) <- function(x) {
       "on the training set"
     )
     desc <- paste(
-      desc, "Balanced accuracy was",
+      desc,
+      "Balanced accuracy was",
       ddSci(x@metrics_training[["Overall"]][["Balanced_Accuracy"]]),
       "in the training set"
     )
@@ -241,7 +265,8 @@ method(describe, Supervised) <- function(x) {
         "in the test set."
       )
       desc <- paste(
-        desc, "and",
+        desc,
+        "and",
         ddSci(x@metrics_test[["Overall"]][["Balanced_Accuracy"]]),
         "in the test set."
       )
@@ -256,17 +281,20 @@ method(describe, Supervised) <- function(x) {
       "in the training set"
     )
     desc <- paste(
-      desc, "R-squared was",
+      desc,
+      "R-squared was",
       ddSci(x@metrics_training[["Rsq"]]),
       "on the training set"
     )
     if (!is.null(x@metrics_test[["Balanced_Accuracy"]])) {
       cat(
         " and",
-        ddSci(x@metrics_test[["Rsq"]]), "in the test."
+        ddSci(x@metrics_test[["Rsq"]]),
+        "in the test."
       )
       desc <- paste(
-        desc, "and",
+        desc,
+        "and",
         ddSci(x@metrics_test[["Rsq"]]),
         "on the test set."
       )
@@ -301,9 +329,12 @@ Calibration <- new_class(
 method(print, Calibration) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Calibration Model")
-  cat("  ",
+  cat(
+    "  ",
     hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n",
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n",
     sep = ""
   )
 }
@@ -326,9 +357,12 @@ CalibrationCV <- new_class(
 method(print, CalibrationCV) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Cross-validated Calibration Model")
-  cat("  ",
+  cat(
+    "  ",
     hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n",
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n",
     sep = ""
   )
 }
@@ -336,9 +370,9 @@ method(print, CalibrationCV) <- function(x, ...) {
 
 # Get explain function ----
 #' Get explain function
-#' 
+#'
 #' @param algorithm Character: Algorithm name.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 get_explain_fn <- function(algorithm) {
@@ -347,19 +381,19 @@ get_explain_fn <- function(algorithm) {
 
 # Explain Supervised ----
 #' Explain Supervised
-#' 
+#'
 #' Explain Supervised Learning Model
-#' 
+#'
 #' The explain API is under development.
 #' Different models require different inputs.
 #' Currently, different explain methods output different objects.
 #' This will likely be replaced in the future using a custom S7 class.
-#' 
+#'
 #' @param model Supervised object.
 #' @param x data.frame or similar: Data to explain.
 #' @param dat_training data.frame or similar: Training data.
 #' @param method Character: Method to use.
-#' 
+#'
 #' @export
 explain <- function(model, x, dat_training = NULL, method = NULL) {
   check_is_S7(model, Supervised)
@@ -367,11 +401,18 @@ explain <- function(model, x, dat_training = NULL, method = NULL) {
   explain_fn <- get_explain_fn(model@algorithm)
   # Test if a function by that name exists in the package
   if (!exists(explain_fn, envir = asNamespace("rtemis"))) {
-    stop(paste0("Explain support for ", model@algorithm, " is not currently available."))
+    stop(paste0(
+      "Explain support for ",
+      model@algorithm,
+      " is not currently available."
+    ))
   }
-  do_call(explain_fn, list(model = model, x = x, dat_training = dat_training, method = method))
+  do_call(
+    explain_fn,
+    list(model = model, x = x, dat_training = dat_training, method = method)
+  )
 } # /explain
-  
+
 
 # Classification ----
 #' @title Classification
@@ -390,25 +431,27 @@ Classification <- new_class(
     predicted_prob_test = class_double | NULL,
     binclasspos = class_integer
   ),
-  constructor = function(algorithm = NULL,
-                         model = NULL,
-                         preprocessor = NULL, # Preprocessor
-                         hyperparameters = NULL, # Hyperparameters
-                         tuner = NULL, # Tuner
-                         y_training = NULL,
-                         y_validation = NULL,
-                         y_test = NULL,
-                         predicted_training = NULL,
-                         predicted_validation = NULL,
-                         predicted_test = NULL,
-                         xnames = NULL,
-                         varimp = NULL,
-                         question = NULL,
-                         extra = NULL,
-                         predicted_prob_training = NULL,
-                         predicted_prob_validation = NULL,
-                         predicted_prob_test = NULL,
-                         binclasspos = 2L) {
+  constructor = function(
+    algorithm = NULL,
+    model = NULL,
+    preprocessor = NULL, # Preprocessor
+    hyperparameters = NULL, # Hyperparameters
+    tuner = NULL, # Tuner
+    y_training = NULL,
+    y_validation = NULL,
+    y_test = NULL,
+    predicted_training = NULL,
+    predicted_validation = NULL,
+    predicted_test = NULL,
+    xnames = NULL,
+    varimp = NULL,
+    question = NULL,
+    extra = NULL,
+    predicted_prob_training = NULL,
+    predicted_prob_validation = NULL,
+    predicted_prob_test = NULL,
+    binclasspos = 2L
+  ) {
     metrics_training <- classification_metrics(
       true_labels = y_training,
       predicted_labels = predicted_training,
@@ -491,25 +534,34 @@ CalibratedClassification <- new_class(
     metrics_validation_calibrated = Metrics | NULL,
     metrics_test_calibrated = Metrics | NULL
   ),
-  constructor = function(classification_model,
-                         calibration_model) {
+  constructor = function(classification_model, calibration_model) {
     # Predict calibrated probabilities of classification model datasets
     predicted_prob_training_calibrated <- predict(
       calibration_model,
-      data.frame(predicted_probabilities = classification_model@predicted_prob_training),
+      data.frame(
+        predicted_probabilities = classification_model@predicted_prob_training
+      ),
     )
-    predicted_prob_validation_calibrated <- if (!is.null(classification_model@predicted_prob_validation)) {
+    predicted_prob_validation_calibrated <- if (
+      !is.null(classification_model@predicted_prob_validation)
+    ) {
       predict(
         calibration_model,
-        data.frame(predicted_probabilities = classification_model@predicted_prob_validation)
+        data.frame(
+          predicted_probabilities = classification_model@predicted_prob_validation
+        )
       )
     } else {
       NULL
     }
-    predicted_prob_test_calibrated <- if (!is.null(classification_model@predicted_prob_test)) {
+    predicted_prob_test_calibrated <- if (
+      !is.null(classification_model@predicted_prob_test)
+    ) {
       predict(
         calibration_model,
-        data.frame(predicted_probabilities = classification_model@predicted_prob_test)
+        data.frame(
+          predicted_probabilities = classification_model@predicted_prob_test
+        )
       )
     } else {
       NULL
@@ -519,7 +571,9 @@ CalibratedClassification <- new_class(
       predicted_prob_training_calibrated,
       levels = levels(classification_model@y_training)
     )
-    predicted_validation_calibrated <- if (!is.null(classification_model@predicted_prob_validation)) {
+    predicted_validation_calibrated <- if (
+      !is.null(classification_model@predicted_prob_validation)
+    ) {
       prob2categorical(
         predicted_prob_validation_calibrated,
         levels = levels(classification_model@y_validation)
@@ -527,7 +581,9 @@ CalibratedClassification <- new_class(
     } else {
       NULL
     }
-    predicted_test_calibrated <- if (!is.null(classification_model@predicted_prob_test)) {
+    predicted_test_calibrated <- if (
+      !is.null(classification_model@predicted_prob_test)
+    ) {
       prob2categorical(
         predicted_prob_test_calibrated,
         levels = levels(classification_model@y_test)
@@ -541,7 +597,9 @@ CalibratedClassification <- new_class(
       predicted_prob = predicted_prob_training_calibrated,
       sample = "Calibrated Training"
     )
-    metrics_validation_calibrated <- if (!is.null(classification_model@y_validation)) {
+    metrics_validation_calibrated <- if (
+      !is.null(classification_model@y_validation)
+    ) {
       classification_metrics(
         true_labels = classification_model@y_validation,
         predicted_labels = predicted_validation_calibrated,
@@ -598,7 +656,6 @@ CalibratedClassification <- new_class(
 #   print(x@metrics_test_calibrated)
 # } # /print.CalibratedClassification
 
-
 # Predict CalibratedClassification ----
 method(predict, CalibratedClassification) <- function(object, newdata, ...) {
   check_inherits(newdata, "data.frame")
@@ -606,7 +663,10 @@ method(predict, CalibratedClassification) <- function(object, newdata, ...) {
   # Get the classification model's predicted probabilities
   raw_prob <- do_call(predict_fn, list(model = object@model, newdata = newdata))
   # Get the calibration model's predicted probabilities
-  cal_prob <- predict(object@calibration_model, newdata = data.frame(predicted_probabilities = raw_prob))
+  cal_prob <- predict(
+    object@calibration_model,
+    newdata = data.frame(predicted_probabilities = raw_prob)
+  )
 } # rtemis::predict.CalibratedClassification
 
 se_compat_algorithms <- c("GLM", "GAM")
@@ -626,32 +686,36 @@ Regression <- new_class(
     se_validation = class_double | NULL,
     se_test = class_double | NULL
   ),
-  constructor = function(algorithm = NULL,
-                         model = NULL,
-                         preprocessor = NULL, # Preprocessor
-                         hyperparameters = NULL, # Hyperparameters
-                         tuner = NULL, # Tuner
-                         y_training = NULL,
-                         y_validation = NULL,
-                         y_test = NULL,
-                         predicted_training = NULL,
-                         predicted_validation = NULL,
-                         predicted_test = NULL,
-                         se_training = NULL,
-                         se_validation = NULL,
-                         se_test = NULL,
-                         xnames = NULL,
-                         varimp = NULL,
-                         question = NULL,
-                         extra = NULL) {
+  constructor = function(
+    algorithm = NULL,
+    model = NULL,
+    preprocessor = NULL, # Preprocessor
+    hyperparameters = NULL, # Hyperparameters
+    tuner = NULL, # Tuner
+    y_training = NULL,
+    y_validation = NULL,
+    y_test = NULL,
+    predicted_training = NULL,
+    predicted_validation = NULL,
+    predicted_test = NULL,
+    se_training = NULL,
+    se_validation = NULL,
+    se_test = NULL,
+    xnames = NULL,
+    varimp = NULL,
+    question = NULL,
+    extra = NULL
+  ) {
     # Metrics ----
     metrics_training <- regression_metrics(
-      y_training, predicted_training,
+      y_training,
+      predicted_training,
       sample = "Training"
     )
     metrics_validation <- if (!is.null(y_validation)) {
       regression_metrics(
-        y_validation, predicted_validation,
+        y_validation,
+        predicted_validation,
         sample = "Validation"
       )
     } else {
@@ -659,7 +723,8 @@ Regression <- new_class(
     }
     metrics_test <- if (!is.null(y_test)) {
       regression_metrics(
-        y_test, predicted_test,
+        y_test,
+        predicted_test,
         sample = "Test"
       )
     } else {
@@ -704,7 +769,13 @@ Regression <- new_class(
 #' "all", which will plot all available of the above.
 #'
 #' @author EDG
-method(plot, Regression) <- function(x, what = "all", fit = "gam", theme = "darkgraygrid", ...) {
+method(plot, Regression) <- function(
+  x,
+  what = "all",
+  fit = "gam",
+  theme = "darkgraygrid",
+  ...
+) {
   if (length(what) == 1 && what == "all") {
     what <- c("training", "validation", "test")
   }
@@ -730,28 +801,29 @@ method(plot, Regression) <- function(x, what = "all", fit = "gam", theme = "dark
 
 # make_Supervised() ----
 make_Supervised <- function(
-    algorithm = NULL,
-    model = NULL,
-    preprocessor = NULL,
-    hyperparameters = NULL,
-    tuner = NULL,
-    y_training = NULL,
-    y_validation = NULL,
-    y_test = NULL,
-    predicted_training = NULL,
-    predicted_validation = NULL,
-    predicted_test = NULL,
-    predicted_prob_training = NULL,
-    predicted_prob_validation = NULL,
-    predicted_prob_test = NULL,
-    se_training = NULL,
-    se_validation = NULL,
-    se_test = NULL,
-    xnames = character(),
-    varimp = NULL,
-    question = character(),
-    extra = NULL,
-    binclasspos = 2L) {
+  algorithm = NULL,
+  model = NULL,
+  preprocessor = NULL,
+  hyperparameters = NULL,
+  tuner = NULL,
+  y_training = NULL,
+  y_validation = NULL,
+  y_test = NULL,
+  predicted_training = NULL,
+  predicted_validation = NULL,
+  predicted_test = NULL,
+  predicted_prob_training = NULL,
+  predicted_prob_validation = NULL,
+  predicted_prob_test = NULL,
+  se_training = NULL,
+  se_validation = NULL,
+  se_test = NULL,
+  xnames = character(),
+  varimp = NULL,
+  question = character(),
+  extra = NULL,
+  binclasspos = 2L
+) {
   # Supervised ----
   if (is.factor(y_training)) {
     Classification(
@@ -800,18 +872,28 @@ make_Supervised <- function(
 } # /make_Supervised
 
 # Write Supervised ----
-write_Supervised <- function(object,
-                             outdir = NULL,
-                             save_mod = FALSE,
-                             theme = rtemis_theme,
-                             verbosity = 1L) {
+write_Supervised <- function(
+  object,
+  outdir = NULL,
+  save_mod = FALSE,
+  theme = rtemis_theme,
+  verbosity = 1L
+) {
   if (verbosity > 0L) {
     print(object)
   }
   if (!is.null(outdir)) {
-    filename_train <- paste0(outdir, object@algorithm, "_Predicted_Training_vs_True.pdf")
+    filename_train <- paste0(
+      outdir,
+      object@algorithm,
+      "_Predicted_Training_vs_True.pdf"
+    )
     if (!is.null(object@y_test)) {
-      filename_test <- paste0(outdir, object@algorithm, "_predicted_test_vs_True.pdf")
+      filename_test <- paste0(
+        outdir,
+        object@algorithm,
+        "_predicted_test_vs_True.pdf"
+      )
     }
   } else {
     filename_train <- filename_test <- NULL
@@ -854,25 +936,27 @@ SupervisedCV <- new_class(
     extra = class_any,
     session_info = class_any
   ),
-  constructor = function(algorithm,
-                         models,
-                         type,
-                         preprocessor,
-                         hyperparameters,
-                         tuner_parameters,
-                         crossvalidation_resampler,
-                         y_training,
-                         y_test,
-                         predicted_training,
-                         predicted_test,
-                         metrics_training,
-                         metrics_test,
-                         metrics_training_mean,
-                         metrics_test_mean,
-                         xnames,
-                         varimp,
-                         question,
-                         extra) {
+  constructor = function(
+    algorithm,
+    models,
+    type,
+    preprocessor,
+    hyperparameters,
+    tuner_parameters,
+    crossvalidation_resampler,
+    y_training,
+    y_test,
+    predicted_training,
+    predicted_test,
+    metrics_training,
+    metrics_test,
+    metrics_training_mean,
+    metrics_test_mean,
+    xnames,
+    varimp,
+    question,
+    extra
+  ) {
     new_object(
       S7::S7_object(),
       algorithm = algorithm,
@@ -902,14 +986,31 @@ SupervisedCV <- new_class(
 method(print, SupervisedCV) <- function(x, ...) {
   cat(gray(".:"))
   objcat(paste("Crossvalidated", x@type, "Model"))
-  cat("  ",
+  cat(
+    "  ",
     hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n",
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n",
     sep = ""
   )
-  cat("  ", orange("\U27F3", bold = TRUE), " Tested using ", desc(x@crossvalidation_resampler), ".\n", sep = "")
+  cat(
+    "  ",
+    orange("\U27F3", bold = TRUE),
+    " Tested using ",
+    desc(x@crossvalidation_resampler),
+    ".\n",
+    sep = ""
+  )
   if (!is.null(x@tuner_parameters)) {
-    cat("  ", magenta("\U2699", bold = TRUE), " Tuned using ", desc(x@tuner_parameters), ".\n\n", sep = "")
+    cat(
+      "  ",
+      magenta("\U2699", bold = TRUE),
+      " Tuned using ",
+      desc(x@tuner_parameters),
+      ".\n\n",
+      sep = ""
+    )
   } else {
     cat("\n")
   }
@@ -937,27 +1038,38 @@ method(print, SupervisedCV) <- function(x, ...) {
 #'
 #' @keywords internal
 #' @noRd
-method(predict, SupervisedCV) <- function(object,
-                                          newdata,
-                                          type = c("avg", "all", "metrics"),
-                                          avg_fn = "mean", ...) {
+method(predict, SupervisedCV) <- function(
+  object,
+  newdata,
+  type = c("avg", "all", "metrics"),
+  avg_fn = "mean",
+  ...
+) {
   check_inherits(newdata, "data.frame")
   type <- match.arg(type)
   predict_fn <- get_predict_fn(object@algorithm)
-  
+
   predicted <- sapply(
     object@models,
-    function(mod) do_call(predict_fn, list(model = mod, newdata = newdata, type = object@type))
+    function(mod)
+      do_call(
+        predict_fn,
+        list(model = mod, newdata = newdata, type = object@type)
+      )
   ) # -> data.frame n cases x n resamples
 
-  if (type == "all")  {
+  if (type == "all") {
     return(predicted)
   } else if (type == "avg") {
     return(apply(predicted, 1, avg_fn))
   } else if (type == "metrics") {
     mean_predictions <- apply(predicted, 2, mean)
     sd_predictions <- apply(predicted, 2, sd)
-    return(list(predictions = predicted, mean = mean_predictions, sd = sd_predictions))
+    return(list(
+      predictions = predicted,
+      mean = mean_predictions,
+      sd = sd_predictions
+    ))
   }
 } # rtemis::predict.SupervisedCV
 
@@ -976,23 +1088,25 @@ ClassificationCV <- new_class(
     predicted_prob_training = class_any,
     predicted_prob_test = class_any
   ),
-  constructor = function(algorithm,
-                         models,
-                         preprocessor,
-                         hyperparameters,
-                         tuner_parameters,
-                         crossvalidation_resampler,
-                         y_training,
-                         y_validation = NULL,
-                         y_test = NULL,
-                         predicted_training = NULL,
-                         predicted_test = NULL,
-                         predicted_prob_training = NULL,
-                         predicted_prob_test = NULL,
-                         xnames = NULL,
-                         varimp = NULL,
-                         question = NULL,
-                         extra = NULL) {
+  constructor = function(
+    algorithm,
+    models,
+    preprocessor,
+    hyperparameters,
+    tuner_parameters,
+    crossvalidation_resampler,
+    y_training,
+    y_validation = NULL,
+    y_test = NULL,
+    predicted_training = NULL,
+    predicted_test = NULL,
+    predicted_prob_training = NULL,
+    predicted_prob_test = NULL,
+    xnames = NULL,
+    varimp = NULL,
+    question = NULL,
+    extra = NULL
+  ) {
     metrics_training <- ClassificationMetricsCV(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)
@@ -1039,6 +1153,7 @@ ClassificationCV <- new_class(
 #'
 #' @author EDG
 #' @noRd
+# We use getter functions to avoid duplicating data
 CalibratedClassificationCV <- new_class(
   name = "CalibratedClassificationCV",
   parent = ClassificationCV,
@@ -1046,49 +1161,48 @@ CalibratedClassificationCV <- new_class(
     calibration_models = class_list, # => create CalibrationCV class
     predicted_training_calibrated = new_property(
       getter = function(self) {
-        lapply(calibration_models, function(mod) {
+        lapply(self@calibration_models, function(mod) {
           mod@predicted_training
         })
       }
     ),
     predicted_test_calibrated = new_property(
       getter = function(self) {
-        lapply(calibration_models, function(mod) {
+        lapply(self@calibration_models, function(mod) {
           mod@predicted_test
         })
       }
     ),
     predicted_prob_training_calibrated = new_property(
       getter = function(self) {
-        lapply(calibration_models, function(mod) {
+        lapply(self@calibration_models, function(mod) {
           mod@predicted_prob_training
         })
       }
     ),
     predicted_prob_test_calibrated = new_property(
       getter = function(self) {
-        lapply(calibration_models, function(mod) {
+        lapply(self@calibration_models, function(mod) {
           mod@predicted_prob_test
         })
       }
     ),
     metrics_training_calibrated = new_property(
       getter = function(self) {
-        lapply(calibration_models, function(mod) {
+        lapply(self@calibration_models, function(mod) {
           mod@metrics_training
         })
       }
     ),
     metrics_test_calibrated = new_property(
       getter = function(self) {
-        lapply(calibration_models, function(mod) {
+        lapply(self@calibration_models, function(mod) {
           mod@metrics_test
         })
       }
     )
   ),
-  constructor = function(classificationcv_model,
-                         calibrations_models) {
+  constructor = function(classificationcv_model, calibrations_models) {
     new_object(
       classificationcv_model,
       calibration_models = calibrations_models
@@ -1101,19 +1215,39 @@ CalibratedClassificationCV <- new_class(
 method(print, CalibratedClassificationCV) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Crossvalidated Classification Model")
-  cat("  ",
+  cat(
+    "  ",
     hilite(x@algorithm),
-    " (", get_alg_desc(x@algorithm), ")\n",
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n",
     sep = ""
   )
-  cat("  ", orange("\U27F3", bold = TRUE), " Tested using ", desc(x@crossvalidation_resampler), ".\n", sep = "")
+  cat(
+    "  ",
+    orange("\U27F3", bold = TRUE),
+    " Tested using ",
+    desc(x@crossvalidation_resampler),
+    ".\n",
+    sep = ""
+  )
   if (!is.null(x@tuner_parameters)) {
-    cat("  ", magenta("\U2699", bold = TRUE), " Tuned using ", desc(x@tuner_parameters), ".\n", sep = "")
+    cat(
+      "  ",
+      magenta("\U2699", bold = TRUE),
+      " Tuned using ",
+      desc(x@tuner_parameters),
+      ".\n",
+      sep = ""
+    )
   }
   cat(
-    "  ", green("\U27CB", bold = TRUE),
-    " Calibrated using ", get_alg_desc(x@calibration_models[[1]]@algorithm), 
-    " with ", desc(x@calibration_models[[1]]@crossvalidation_resampler@parameters),
+    "  ",
+    green("\U27CB", bold = TRUE),
+    " Calibrated using ",
+    get_alg_desc(x@calibration_models[[1]]@algorithm),
+    " with ",
+    desc(x@calibration_models[[1]]@crossvalidation_resampler@parameters),
     ".\n\n",
     sep = ""
   )
@@ -1129,7 +1263,10 @@ method(predict, CalibratedClassificationCV) <- function(object, newdata, ...) {
   check_inherits(newdata, "data.frame")
   raw_prob <- predict(object, newdata = newdata)
   # Get the classification model's predicted probabilities
-  raw_prob <- do_call(class_predict_fn, list(model = object@model, newdata = newdata))
+  raw_prob <- do_call(
+    class_predict_fn,
+    list(model = object@model, newdata = newdata)
+  )
   # Get the calibration model's predicted probabilities
   cal_prob <- lapply(object@calibration_models, function(mod) {
     predict(mod, data.frame(predicted_probabilities = raw_prob))
@@ -1152,24 +1289,29 @@ RegressionCV <- new_class(
     se_validation = class_any,
     se_test = class_any
   ),
-  constructor = function(algorithm,
-                         models,
-                         preprocessor,
-                         hyperparameters,
-                         tuner_parameters,
-                         crossvalidation_resampler,
-                         y_training,
-                         y_validation = NULL,
-                         y_test = NULL,
-                         predicted_training = NULL,
-                         predicted_test = NULL,
-                         se_training = NULL,
-                         se_test = NULL,
-                         xnames = NULL,
-                         varimp = NULL,
-                         question = NULL,
-                         extra = NULL) {
-    metrics_training <- lapply(models, function(mod) mod@metrics_training@metrics)
+  constructor = function(
+    algorithm,
+    models,
+    preprocessor,
+    hyperparameters,
+    tuner_parameters,
+    crossvalidation_resampler,
+    y_training,
+    y_validation = NULL,
+    y_test = NULL,
+    predicted_training = NULL,
+    predicted_test = NULL,
+    se_training = NULL,
+    se_test = NULL,
+    xnames = NULL,
+    varimp = NULL,
+    question = NULL,
+    extra = NULL
+  ) {
+    metrics_training <- lapply(
+      models,
+      function(mod) mod@metrics_training@metrics
+    )
     metrics_test <- lapply(models, function(mod) mod@metrics_test@metrics)
     metrics_training <- RegressionMetricsCV(
       sample = "Training",
@@ -1222,25 +1364,26 @@ RegressionCV <- new_class(
 # => predict method for {Regression,Classification}CV with average_fn = "mean"
 
 make_SupervisedCV <- function(
-    algorithm,
-    type,
-    models,
-    preprocessor,
-    hyperparameters,
-    tuner_parameters,
-    crossvalidation_resampler,
-    y_training,
-    y_test,
-    predicted_training,
-    predicted_test,
-    predicted_prob_training,
-    predicted_prob_test,
-    se_training = NULL,
-    se_test = NULL,
-    xnames = character(),
-    varimp = NULL,
-    question = character(),
-    extra = NULL) {
+  algorithm,
+  type,
+  models,
+  preprocessor,
+  hyperparameters,
+  tuner_parameters,
+  crossvalidation_resampler,
+  y_training,
+  y_test,
+  predicted_training,
+  predicted_test,
+  predicted_prob_training,
+  predicted_prob_test,
+  se_training = NULL,
+  se_test = NULL,
+  xnames = character(),
+  varimp = NULL,
+  question = character(),
+  extra = NULL
+) {
   # Supervised ----
   if (type == "Classification") {
     ClassificationCV(
@@ -1314,8 +1457,12 @@ LightRuleFit <- new_class(
 # Print LightRuleFit ----
 method(print, LightRuleFit) <- function(x, ...) {
   objcat("rtemis LightRuleFit Model")
-  cat("Trained using ", hilite(x@model_lightgbm@algorithm), " and ",
-    hilite(x@model_glmnet@algorithm), ".\n",
+  cat(
+    "Trained using ",
+    hilite(x@model_lightgbm@algorithm),
+    " and ",
+    hilite(x@model_glmnet@algorithm),
+    ".\n",
     sep = ""
   )
   cat("Selected", hilite(length(x@rules_selected)), "rules.\n")

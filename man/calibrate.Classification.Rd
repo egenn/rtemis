@@ -15,8 +15,7 @@ calibrate.Classification(
 )
 }
 \arguments{
-\item{x}{Classification object: The model will be returned with the calibration model and
-calibration metrics added.}
+\item{x}{Classification object.}
 
 \item{predicted_probabilities}{Numeric vector: Predicted probabilities.}
 
