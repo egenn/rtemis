@@ -16,7 +16,7 @@ uniprot_get(
 \item{baseURL}{Character: UniProt rest API base URL.
 Default = "https://rest.uniprot.org/uniprotkb"}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 List with three elements: Identifier, Annotation, and Sequence.

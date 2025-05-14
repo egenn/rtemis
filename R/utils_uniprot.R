@@ -7,7 +7,7 @@
 #' @param accession Character: UniProt Accession number - e.g. "Q9UMX9"
 #' @param baseURL Character: UniProt rest API base URL.
 #' Default = "https://rest.uniprot.org/uniprotkb"
-#' @param verbose Logical: If TRUE, print messages to console
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @return List with three elements: Identifier, Annotation, and Sequence.
 #'

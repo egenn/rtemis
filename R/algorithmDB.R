@@ -93,10 +93,18 @@ supervised_algorithms <- data.frame(rbind(
   # c("XGBLIN", "XGBoost with Linear Models", FALSE, TRUE, FALSE),
   # c("XRF", "XGBoost Random Forest", TRUE, TRUE, FALSE)
 ))
-colnames(supervised_algorithms) <- c("Name", "Description", "Class", "Reg", "Surv")
+colnames(supervised_algorithms) <- c(
+  "Name",
+  "Description",
+  "Class",
+  "Reg",
+  "Surv"
+)
 
 get_alg_name <- function(algorithm) {
-  algname <- supervised_algorithms[, 1][tolower(algorithm) == tolower(supervised_algorithms[, 1])]
+  algname <- supervised_algorithms[, 1][
+    tolower(algorithm) == tolower(supervised_algorithms[, 1])
+  ]
   if (length(algname) == 0) {
     stop(algorithm, ": Incorrect algorithm specified")
   }
@@ -108,7 +116,9 @@ get_alg_setup <- function(algorithm) {
 }
 
 get_alg_desc <- function(algorithm) {
-  algdesc <- supervised_algorithms[, 2][tolower(algorithm) == tolower(supervised_algorithms[, 1])]
+  algdesc <- supervised_algorithms[, 2][
+    tolower(algorithm) == tolower(supervised_algorithms[, 1])
+  ]
   if (length(algdesc) == 0) {
     stop(algorithm, ": Incorrect algorithm specified")
   }
@@ -123,7 +133,8 @@ get_default_hyperparameters <- function(algorithm, type, ncols) {
   alg_name <- get_alg_name(algorithm)
   if (alg_name == "LightRF") {
     setup_LightRF(
-      feature_fraction = if (type == "Classification") sqrt(ncols) / ncols else 0.33
+      feature_fraction = if (type == "Classification") sqrt(ncols) / ncols else
+        0.33
     )
   } else {
     do.call(paste0("setup_", get_alg_name(algorithm)), list())
@@ -163,7 +174,9 @@ clust_algorithms <- data.frame(rbind(
 ))
 
 get_clust_name <- function(algorithm) {
-  clustname <- clust_algorithms[, 1][tolower(algorithm) == tolower(clust_algorithms[, 1])]
+  clustname <- clust_algorithms[, 1][
+    tolower(algorithm) == tolower(clust_algorithms[, 1])
+  ]
   if (length(clustname) == 0) {
     stop(algorithm, ": Incorrect clustering algorithm specified")
   }
@@ -171,7 +184,9 @@ get_clust_name <- function(algorithm) {
 } # /rtemis::get_clust_name
 
 get_clust_desc <- function(algorithm) {
-  clustdesc <- clust_algorithms[, 2][tolower(algorithm) == tolower(clust_algorithms[, 1])]
+  clustdesc <- clust_algorithms[, 2][
+    tolower(algorithm) == tolower(clust_algorithms[, 1])
+  ]
   if (length(clustdesc) == 0) {
     stop(algorithm, ": Incorrect clustering algorithm specified")
   }
@@ -213,7 +228,9 @@ decom_algorithms <- data.frame(rbind(
 ))
 
 get_decom_name <- function(algorithm) {
-  decomname <- decom_algorithms[, 1][tolower(algorithm) == tolower(decom_algorithms[, 1])]
+  decomname <- decom_algorithms[, 1][
+    tolower(algorithm) == tolower(decom_algorithms[, 1])
+  ]
   if (length(decomname) == 0) {
     stop(algorithm, ": Incorrect decomposition algorithm specified")
   }
@@ -221,7 +238,9 @@ get_decom_name <- function(algorithm) {
 } # /rtemis::get_decom_name
 
 get_decom_desc <- function(algorithm) {
-  decomdesc <- decom_algorithms[, 2][tolower(algorithm) == tolower(decom_algorithms[, 1])]
+  decomdesc <- decom_algorithms[, 2][
+    tolower(algorithm) == tolower(decom_algorithms[, 1])
+  ]
   if (length(decomdesc) == 0) {
     stop(algorithm, ": Incorrect decomposition algorithm specified")
   }
@@ -253,18 +272,30 @@ get_decom_predict_fn <- function(algorithm) {
 #' @aliases available_algorithms
 #' @export
 available_supervised <- function() {
-  algs <- structure(supervised_algorithms[, 2], names = supervised_algorithms[, 1], class = "list")
+  algs <- structure(
+    supervised_algorithms[, 2],
+    names = supervised_algorithms[, 1],
+    class = "list"
+  )
   printls(algs, print_class = FALSE)
 }
 
 #' @rdname available_algorithms
 available_clustering <- function() {
-  algs <- structure(clust_algorithms[, 2], names = clust_algorithms[, 1], class = "list")
+  algs <- structure(
+    clust_algorithms[, 2],
+    names = clust_algorithms[, 1],
+    class = "list"
+  )
   printls(algs, print_class = FALSE)
 }
 
 #' @rdname available_algorithms
 available_decomposition <- function() {
-  algs <- structure(decom_algorithms[, 2], names = decom_algorithms[, 1], class = "list")
+  algs <- structure(
+    decom_algorithms[, 2],
+    names = decom_algorithms[, 1],
+    class = "list"
+  )
   printls(algs, print_class = FALSE)
 }
