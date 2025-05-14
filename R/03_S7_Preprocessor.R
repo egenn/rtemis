@@ -229,6 +229,8 @@ setup_Preprocessor <- function(
   add_holidays = FALSE,
   exclude = NULL
 ) {
+  # Match args
+  impute_type <- match.arg(impute_type)
   # Checks performed in the `PreprocessorParameters` constructor
   PreprocessorParameters(
     complete_cases = complete_cases,
