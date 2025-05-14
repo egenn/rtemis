@@ -11,7 +11,13 @@
 
 # rtemis internal environment
 live <- new.env()
-live[["parallelized_learners"]] <- c("LightCART", "LightGBM", "LightRF", "LightRuleFit", "Ranger")
+live[["parallelized_learners"]] <- c(
+  "LightCART",
+  "LightGBM",
+  "LightRF",
+  "LightRuleFit",
+  "Ranger"
+)
 
 # vars
 rtemis_version <- packageVersion("rtemis")
@@ -42,29 +48,62 @@ rtemis_version <- packageVersion("rtemis")
   if (interactive()) {
     packageStartupMessage(paste0(
       rtlogo,
-      "\n  .:", bold(pkgname), " v.", rtemis_version, " \U1F30A", " ", sessionInfo()[[2]],
+      "\n  .:",
+      bold(pkgname),
+      " v.",
+      rtemis_version,
+      " \U1F30A",
+      " ",
+      sessionInfo()[[2]],
       bold("\n  Defaults"),
-      "\n  \u2502   ", italic(gray("Theme: ")), rtemis_theme,
-      "\n  \u2502    ", italic(gray("Font: ")), rtemis_font,
-      "\n  \u2502 ", italic(gray("Palette: ")), rtemis_palette,
-      "\n  \u2502    ", italic(gray("Plan: ")), rtemis_plan,
+      "\n  \u2502   ",
+      italic(gray("Theme: ")),
+      rtemis_theme,
+      "\n  \u2502    ",
+      italic(gray("Font: ")),
+      rtemis_font,
+      "\n  \u2502 ",
+      italic(gray("Palette: ")),
+      rtemis_palette,
+      "\n  \u2502    ",
+      italic(gray("Plan: ")),
+      rtemis_plan,
       # "\n  \u2514   ", italic(gray("Cores: ")), rtemis_workers, "/", .availableCores, " available",
-      "\n  \u2514   ", italic(gray("Cores: ")), future::availableCores(), " cores available.",
+      "\n  \u2514   ",
+      italic(gray("Cores: ")),
+      future::availableCores(),
+      " cores available.",
       bold("\n  Resources"),
-      "\n  \u2502    ", italic(gray("Docs:")), " https://rtemis.org/rtemis",
-      "\n  \u2502 ", italic(gray("Learn R:")), " https://rtemis.org/pdsr",
-      "\n  \u2502  ", italic(gray("Themes:")), " https://rtemis.org/themes",
-      "\n  \u2514    ", italic(gray("Cite:")), ' > citation("rtemis")',
+      "\n  \u2502    ",
+      italic(gray("Docs:")),
+      " https://rtemis.org/rtemis",
+      "\n  \u2502 ",
+      italic(gray("Learn R:")),
+      " https://rtemis.org/pdsr",
+      "\n  \u2502  ",
+      italic(gray("Themes:")),
+      " https://rtemis.org/themes",
+      "\n  \u2514    ",
+      italic(gray("Cite:")),
+      ' > citation("rtemis")',
       bold("\n  Setup"),
-      "\n  \u2514 ", italic(gray("Enable progress reporting:")),
+      "\n  \u2514 ",
+      italic(gray("Enable progress reporting:")),
       " > progressr::handlers(global = TRUE)",
       '\n                               > progressr::handlers("cli")',
-      "\n\n  ", red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
+      "\n\n  ",
+      red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
     ))
   } else {
     packageStartupMessage(
       paste0(
-        "  .:", pkgname, " ", rtemis_version, " \U1F30A", " ", sessionInfo()[[2]]
+        "  .:",
+        pkgname,
+        " ",
+        rtemis_version,
+        " \U1F30A",
+        " ",
+        sessionInfo()[[2]]
       )
     )
   }

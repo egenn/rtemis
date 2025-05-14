@@ -7,7 +7,10 @@ x <- iris[, -5]
 
 # KMeansParameters ----
 test_that("KMeansParameters() succeeds", {
-  expect_s7_class(KMeansParameters(k = 3L, dist = "euclidean"), KMeansParameters)
+  expect_s7_class(
+    KMeansParameters(k = 3L, dist = "euclidean"),
+    KMeansParameters
+  )
 })
 
 # setup_KMeans ----

@@ -23,8 +23,18 @@ predicted_prob <- c(0.3, 0.6, 0.45, 0.75, 0.57, 0.3, 0.8, 0.63, 0.62, 0.39)
 predicted_prob2 <- c(0.2, 0.52, 0.28, 0.85, 0.64, 0.45, 0.9, 0.78, 0.78, 0.47)
 
 # ClassificationMetrics ----
-class_metrics1 <- classification_metrics(true_labels, predicted_labels, predicted_prob, sample = "Training")
-class_metrics2 <- classification_metrics(true_labels, predicted_labels, predicted_prob2, sample = "Test")
+class_metrics1 <- classification_metrics(
+  true_labels,
+  predicted_labels,
+  predicted_prob,
+  sample = "Training"
+)
+class_metrics2 <- classification_metrics(
+  true_labels,
+  predicted_labels,
+  predicted_prob2,
+  sample = "Test"
+)
 
 test_that("classification_metrics() succeeds", {
   expect_s7_class(class_metrics1, ClassificationMetrics)
@@ -33,8 +43,14 @@ test_that("classification_metrics() succeeds", {
 
 # Test that class_metrics2 has higher AUC and lower Brier score than class_metrics1
 test_that("classification_metrics() returns correct metrics", {
-  expect_true(class_metrics2@metrics[["Overall"]][["AUC"]] > class_metrics1@metrics[["Overall"]][["AUC"]])
-  expect_true(class_metrics2@metrics[["Overall"]][["Brier_Score"]] < class_metrics1@metrics[["Overall"]][["Brier_Score"]])
+  expect_true(
+    class_metrics2@metrics[["Overall"]][["AUC"]] >
+      class_metrics1@metrics[["Overall"]][["AUC"]]
+  )
+  expect_true(
+    class_metrics2@metrics[["Overall"]][["Brier_Score"]] <
+      class_metrics1@metrics[["Overall"]][["Brier_Score"]]
+  )
 })
 
 # RegressionMetricsCV ----

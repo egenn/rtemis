@@ -44,31 +44,34 @@
 #' \dontrun{
 #' draw_pie(VADeaths[, 1, drop = F])
 #' }
-draw_pie <- function(x,
-                     main = NULL,
-                     xlab = NULL,
-                     ylab = NULL,
-                     col = NULL,
-                     alpha = .8,
-                     bg = NULL,
-                     plot_bg = NULL,
-                     theme = getOption("rtemis_theme", "black"),
-                     palette = rtemis_palette,
-                     category_names = NULL,
-                     textinfo = "label+percent",
-                     font_size = 16,
-                     labs_col = NULL,
-                     legend = TRUE,
-                     legend_col = NULL,
-                     sep_col = NULL,
-                     margin = list(b = 50, l = 50, t = 50, r = 20),
-                     padding = 0,
-                     displayModeBar = TRUE,
-                     modeBar_file_format = "svg",
-                     filename = NULL,
-                     file_width = 500,
-                     file_height = 500,
-                     file_scale = 1, ...) {
+draw_pie <- function(
+  x,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = .8,
+  bg = NULL,
+  plot_bg = NULL,
+  theme = getOption("rtemis_theme", "black"),
+  palette = rtemis_palette,
+  category_names = NULL,
+  textinfo = "label+percent",
+  font_size = 16,
+  labs_col = NULL,
+  legend = TRUE,
+  legend_col = NULL,
+  sep_col = NULL,
+  margin = list(b = 50, l = 50, t = 50, r = 20),
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -150,12 +153,15 @@ draw_pie <- function(x,
     size = font_size,
     color = labs_col
   )
-  .legend <- list(font = list(
-    family = theme[["font_family"]],
-    size = font_size,
-    color = legend_col
-  ))
-  plt <- plotly::layout(plt,
+  .legend <- list(
+    font = list(
+      family = theme[["font_family"]],
+      size = font_size,
+      color = legend_col
+    )
+  )
+  plt <- plotly::layout(
+    plt,
     yaxis = list(
       title = ylab,
       showline = FALSE,
@@ -188,7 +194,8 @@ draw_pie <- function(x,
   # Padding
   plt[["sizingPolicy"]][["padding"]] <- padding
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

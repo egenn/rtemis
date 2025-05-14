@@ -27,23 +27,24 @@ CheckData <- new_class(
     na_case_pct = class_double | NULL
   ),
   constructor = function(
-      object_class,
-      name,
-      n_rows,
-      n_cols,
-      n_numeric,
-      n_integer,
-      n_character,
-      n_factor,
-      n_ordered,
-      n_date,
-      n_constant,
-      n_duplicates,
-      n_cols_anyna,
-      n_na,
-      classes_na = NULL,
-      na_feature_pct = NULL,
-      na_case_pct = NULL) {
+    object_class,
+    name,
+    n_rows,
+    n_cols,
+    n_numeric,
+    n_integer,
+    n_character,
+    n_factor,
+    n_ordered,
+    n_date,
+    n_constant,
+    n_duplicates,
+    n_cols_anyna,
+    n_na,
+    classes_na = NULL,
+    na_feature_pct = NULL,
+    na_case_pct = NULL
+  ) {
     n_rows <- clean_int(n_rows)
     n_cols <- clean_int(n_cols)
     n_numeric <- clean_int(n_numeric)
@@ -109,16 +110,18 @@ method(`[[`, CheckData) <- function(x, name) {
 #'
 #' @author EDG
 #' @noRd
-print.CheckData <- function(x,
-                            type = c("plaintext", "html"),
-                            name = NULL,
-                            check_integers = FALSE,
-                            css = list(
-                              font.family = "Helvetica",
-                              color = "#fff",
-                              background.color = "#242424"
-                            ),
-                            ...) {
+print.CheckData <- function(
+  x,
+  type = c("plaintext", "html"),
+  name = NULL,
+  check_integers = FALSE,
+  css = list(
+    font.family = "Helvetica",
+    color = "#fff",
+    background.color = "#242424"
+  ),
+  ...
+) {
   if (is.null(name)) {
     name <- x[["name"]]
     if (is.null(name)) name <- deparse(substitute(x))
@@ -143,23 +146,33 @@ print.CheckData <- function(x,
   if (type == "plaintext") {
     # plaintext out ----
     out <- paste0(
-      "  ", hilite(name),
+      "  ",
+      hilite(name),
       paste(
-        ": A", x[["object_class"]], "with",
-        hilite(n_rows), ngettext(n_rows, "row", "rows"),
-        "and", hilite(n_cols),
+        ": A",
+        x[["object_class"]],
+        "with",
+        hilite(n_rows),
+        ngettext(n_rows, "row", "rows"),
+        "and",
+        hilite(n_cols),
         ngettext(n_cols, "column.", "columns.")
       )
     )
     ## Data Types ----
-    out <- paste(out,
+    out <- paste(
+      out,
       bold("\n  Data types"),
       paste(
-        "  *", bold(n_numeric), "numeric",
+        "  *",
+        bold(n_numeric),
+        "numeric",
         ngettext(n_numeric, "feature", "features")
       ),
       paste(
-        "  *", bold(n_integer), "integer",
+        "  *",
+        bold(n_integer),
+        "integer",
         ngettext(n_integer, "feature", "features")
       ),
       sep = "\n"
@@ -167,49 +180,65 @@ print.CheckData <- function(x,
     isOrdered <- if (n_factor == 1) {
       paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
     } else if (n_factor > 1) {
-      paste(", of which", bold(n_ordered), ngettext(n_ordered, "is", "are"), "ordered")
+      paste(
+        ", of which",
+        bold(n_ordered),
+        ngettext(n_ordered, "is", "are"),
+        "ordered"
+      )
     } else {
       ""
     }
-    out <- paste(out,
+    out <- paste(
+      out,
       paste0(
-        "  * ", bold(n_factor),
+        "  * ",
+        bold(n_factor),
         ngettext(n_factor, " factor", " factors"),
         isOrdered
       ),
       sep = "\n"
     )
-    out <- paste(out,
+    out <- paste(
+      out,
       paste(
-        "  *", bold(n_character), "character",
+        "  *",
+        bold(n_character),
+        "character",
         ngettext(n_character, "feature", "features")
       ),
       sep = "\n"
     )
-    out <- paste(out,
+    out <- paste(
+      out,
       paste(
-        "  *", bold(n_date), "date",
+        "  *",
+        bold(n_date),
+        "date",
         ngettext(n_date, "feature", "features")
       ),
       sep = "\n"
     )
     ## Issues ----
-    out <- paste(out,
-      bold("\n  Issues"),
-      sep = "\n"
-    )
+    out <- paste(out, bold("\n  Issues"), sep = "\n")
     fmt <- ifelse(n_constant > 0, red, I)
-    out <- paste(out,
+    out <- paste(
+      out,
       paste(
-        "  *", bold(fmt(n_constant)), "constant",
+        "  *",
+        bold(fmt(n_constant)),
+        "constant",
         ngettext(n_constant, "feature", "features")
       ),
       sep = "\n"
     )
     fmt <- ifelse(n_duplicates > 0, orange, I)
-    out <- paste(out,
+    out <- paste(
+      out,
       paste(
-        "  *", bold(fmt(n_duplicates)), "duplicate",
+        "  *",
+        bold(fmt(n_duplicates)),
+        "duplicate",
         ngettext(n_duplicates, "case", "cases")
       ),
       sep = "\n"
@@ -221,7 +250,8 @@ print.CheckData <- function(x,
         bold(.col(n_cols_anyna)),
         ngettext(n_cols_anyna, "feature includes", "features include"),
         "'NA' values;",
-        bold(.col(n_na)), "'NA'",
+        bold(.col(n_na)),
+        "'NA'",
         ngettext(n_na, "value", "values"),
         "total\n    *",
         paste0(
@@ -240,19 +270,20 @@ print.CheckData <- function(x,
     out <- paste0(out, "\n  * ", nas)
 
     ## Recommendations ----
-    out <- paste(out,
-      bold("\n  Recommendations"),
-      sep = "\n"
-    )
+    out <- paste(out, bold("\n  Recommendations"), sep = "\n")
     if (sum(n_character, n_constant, n_duplicates, n_cols_anyna) > 0) {
       if (n_character > 0) {
-        out <- paste(out,
-          bold(orange("  * Consider converting character features to factors or excluding them")),
+        out <- paste(
+          out,
+          bold(orange(
+            "  * Consider converting character features to factors or excluding them"
+          )),
           sep = "\n"
         )
       }
       if (n_constant > 0) {
-        out <- paste(out,
+        out <- paste(
+          out,
           bold(red(paste(
             "  * Remove the constant",
             ngettext(n_constant, "feature", "features")
@@ -262,7 +293,8 @@ print.CheckData <- function(x,
       }
 
       if (n_duplicates > 0) {
-        out <- paste(out,
+        out <- paste(
+          out,
           bold(orange(paste(
             "  * Consider removing the duplicate",
             ngettext(n_duplicates, "case", "cases")
@@ -272,7 +304,8 @@ print.CheckData <- function(x,
       }
 
       if (n_cols_anyna > 0) {
-        out <- paste(out,
+        out <- paste(
+          out,
           bold(orange(paste(
             "  * Consider imputing missing values or use complete cases only"
           ))),
@@ -280,21 +313,24 @@ print.CheckData <- function(x,
         )
       }
       if (check_integers && n_integer > 0) {
-        out <- paste(out,
+        out <- paste(
+          out,
           paste0(
             "  * Check the",
             ifelse(n_integer > 1, paste("", n_integer, ""), " "),
             "integer",
             ngettext(n_integer, " feature", " features"),
             " and consider if",
-            ngettext(n_integer, " it", " they"), " should be converted to ",
+            ngettext(n_integer, " it", " they"),
+            " should be converted to ",
             ngettext(n_integer, "factor", "factors")
           ),
           sep = "\n"
         )
       }
     } else {
-      out <- paste(out,
+      out <- paste(
+        out,
         green("  * Everything looks good", bold = TRUE),
         sep = "\n"
       )

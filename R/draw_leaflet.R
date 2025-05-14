@@ -32,7 +32,7 @@
 #' @param stroke Logical: If TRUE, draw polygon borders.
 #'
 #' @return A leaflet map object.
-#' 
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -43,35 +43,39 @@
 #' draw_leaflet(fips, population, names)
 #' }
 # NA in legend issue: https://github.com/rstudio/leaflet/issues/615
-draw_leaflet <- function(fips,
-                         values,
-                         names = NULL,
-                         fillOpacity = 1,
-                         palette = NULL,
-                         color_mapping = c("Numeric", "Bin"),
-                         col_lo = "#0290EE",
-                         col_hi = "#FE4AA3",
-                         col_na = "#303030",
-                         col_highlight = "#FE8A4F",
-                         col_interpolate = c("linear", "spline"),
-                         col_bins = 21, # for color_mapping Bin
-                         domain = NULL,
-                         weight = .5,
-                         color = "black",
-                         alpha = 1,
-                         bg_tile_provider = leaflet::providers[["Stamen.TonerBackground"]],
-                         bg_tile_alpha = .67,
-                         fg_tile_provider = leaflet::providers[["Stamen.TonerLabels"]],
-                         legend_position = c(
-                           "topright", "bottomright",
-                           "bottomleft", "topleft"
-                         ),
-                         legend_alpha = .8,
-                         legend_title = NULL,
-                         init_lng = -98.54180833333334,
-                         init_lat = 39.207413888888894,
-                         init_zoom = 3,
-                         stroke = TRUE) {
+draw_leaflet <- function(
+  fips,
+  values,
+  names = NULL,
+  fillOpacity = 1,
+  palette = NULL,
+  color_mapping = c("Numeric", "Bin"),
+  col_lo = "#0290EE",
+  col_hi = "#FE4AA3",
+  col_na = "#303030",
+  col_highlight = "#FE8A4F",
+  col_interpolate = c("linear", "spline"),
+  col_bins = 21, # for color_mapping Bin
+  domain = NULL,
+  weight = .5,
+  color = "black",
+  alpha = 1,
+  bg_tile_provider = leaflet::providers[["Stamen.TonerBackground"]],
+  bg_tile_alpha = .67,
+  fg_tile_provider = leaflet::providers[["Stamen.TonerLabels"]],
+  legend_position = c(
+    "topright",
+    "bottomright",
+    "bottomleft",
+    "topleft"
+  ),
+  legend_alpha = .8,
+  legend_title = NULL,
+  init_lng = -98.54180833333334,
+  init_lat = 39.207413888888894,
+  init_zoom = 3,
+  stroke = TRUE
+) {
   # Dependencies ----
   check_dependencies("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf")
 
@@ -92,7 +96,8 @@ draw_leaflet <- function(fips,
   if (max(nchar(fips)) < 3) {
     geo <- readRDS(
       system.file(
-        "extdata", "us-states.rds",
+        "extdata",
+        "us-states.rds",
         package = "rtemis"
       )
     )
@@ -100,7 +105,8 @@ draw_leaflet <- function(fips,
   } else {
     geo <- readRDS(
       system.file(
-        "extdata", "us-counties.rds",
+        "extdata",
+        "us-counties.rds",
         package = "rtemis"
       )
     )
@@ -138,7 +144,8 @@ draw_leaflet <- function(fips,
       } else {
         sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
       }
-    }) |> lapply(htmltools::HTML)
+    }) |>
+      lapply(htmltools::HTML)
   } else {
     labels <- lapply(seq_len(NROW(geo)), function(i) {
       if (is.na(.labs[i])) {
@@ -146,7 +153,8 @@ draw_leaflet <- function(fips,
       } else {
         sprintf("%g", .labs[i])
       }
-    }) |> lapply(htmltools::HTML)
+    }) |>
+      lapply(htmltools::HTML)
   }
   geo[["labels"]] <- labels[index]
 
@@ -192,7 +200,6 @@ draw_leaflet <- function(fips,
     ) |>
     leaflet::addLayersControl(overlayGroups = c(legend_title)) |>
     leaflet::setView(lng = init_lng, lat = init_lat, zoom = init_zoom)
-
 
   insert <- htmltools::tags[["style"]](
     type = "text/css",

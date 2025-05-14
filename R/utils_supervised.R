@@ -126,10 +126,7 @@ make_formula <- function(x, output = "character") {
 #' @keywords internal
 #' @noRd
 
-glm2table <- function(x,
-                      xnames = NULL,
-                      include_anova_pvals = NA,
-                      warn = TRUE) {
+glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
   if (is.null(xnames)) {
     xnames <- if (!is.null(names(x))) {
       names(x)
@@ -201,8 +198,7 @@ glm2table <- function(x,
 #' @noRd
 #' @author EDG
 
-gam2table <- function(mods,
-                      modnames = NULL) {
+gam2table <- function(mods, modnames = NULL) {
   if (is.null(modnames)) {
     modnames <- if (!is.null(names(mods))) {
       names(mods)

@@ -55,4 +55,4 @@ method(print, Clustering) <- function(x, ...) {
   cat("\n")
   printls(props(x)[-1])
   invisible(x)
-} 
+}

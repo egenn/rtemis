@@ -24,12 +24,13 @@
 #' @noRd
 
 train_Isotonic <- function(
-    x,
-    dat_validation = NULL,
-    dat_test = NULL,
-    weights = NULL,
-    hyperparameters = NULL,
-    verbosity = 1L) {
+  x,
+  dat_validation = NULL,
+  dat_test = NULL,
+  weights = NULL,
+  hyperparameters = NULL,
+  verbosity = 1L
+) {
   # Checks ----
   check_is_S7(hyperparameters, IsotonicHyperparameters)
 

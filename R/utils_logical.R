@@ -5,7 +5,7 @@
 #' Inverse of `%in%`
 #'
 #' data.table %notin% not currently on CRAN version
-#' 
+#'
 #' @param x vector
 #' @param set vector
 #'

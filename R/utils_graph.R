@@ -2,10 +2,7 @@
 # ::rtemis::
 # 2022 EDG rtemis.org
 
-igraph_layout <- function(net, 
-                          layout = "mds",
-                          dims = 2) {
-  
+igraph_layout <- function(net, layout = "mds", dims = 2) {
   if (layout == "bipartite") {
     igraph::layout_as_bipartite(net)
   } else if (layout == "star") {
@@ -27,24 +24,26 @@ igraph_layout <- function(net,
   } else if (layout == "grid") {
     igraph::layout_on_grid(net, dim = dims)
   } else if (layout %in% c("drl", "fr", "kk", "mds")) {
-    do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
-            c(list(net), dim = dims))
+    do.call(
+      getFromNamespace(paste0("layout_with_", layout), "igraph"),
+      c(list(net), dim = dims)
+    )
   } else if (layout == "sugiyama") {
     out <- igraph::layout_with_sugiyama(net)$layout
     if (dims == 3) out <- cbind(out, 0)
     out
   } else {
-    out <- do.call(getFromNamespace(paste0("layout_with_", layout), "igraph"),
-            c(list(net)))
+    out <- do.call(
+      getFromNamespace(paste0("layout_with_", layout), "igraph"),
+      c(list(net))
+    )
     if (dims == 3) out <- cbind(out, 0)
     out
   }
-  
 } # rtemis::igraph_layout
 
 
 # dims: drl, fr, kk, mds
-  
 
 # graph_node_metrics.R
 # ::rtemis::
@@ -70,8 +69,7 @@ igraph_layout <- function(net,
 #'
 #' graph_node_metrics(x)
 #' }
-graph_node_metrics <- function(x,
-                               verbosity = 1L) {
+graph_node_metrics <- function(x, verbosity = 1L) {
   if (!inherits(x, "igraph")) stop("Input must be igraph object")
 
   .nodes <- as.character(igraph::V(x))
@@ -122,9 +120,9 @@ graph_node_metrics <- function(x,
 #' @param A Square matrix
 #' @param filename Character: Path for csv file. Defaults to "conmat2edgelist.csv"
 #' @param verbosity Integer: Verbosity level.
-#' 
+#'
 #' @return Data frame with columns: NodeA, NodeB, Weight
-#' 
+#'
 #' @author EDG
 #' @export
 
@@ -146,9 +144,14 @@ lotri2edgeList <- function(A, filename = NULL, verbosity = 1L) {
     c <- c + 1
   }
   out <- data.frame(NodeA = l[["c"]], NodeB = l[["r"]], Weight = l[["w"]])
-  gephiout <- data.frame(Source = l[["c"]], Target = l[["r"]], Weight = l[["w"]])
+  gephiout <- data.frame(
+    Source = l[["c"]],
+    Target = l[["r"]],
+    Weight = l[["w"]]
+  )
   if (!is.null(filename)) {
-    write.table(gephiout,
+    write.table(
+      gephiout,
       file = filename,
       row.names = FALSE,
       col.names = TRUE,

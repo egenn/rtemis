@@ -54,4 +54,3 @@ exc(xdt, idx)
 test_that("exc(data.table) works", {
   expect_equal(xdt[, !..idx, with = FALSE], exc(xdt, idx))
 })
-

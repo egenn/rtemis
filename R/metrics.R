@@ -72,7 +72,9 @@ rsq <- function(x, y) {
 #' @noRd
 logloss <- function(true_int, predicted_prob, eps = 1e-16) {
   predicted_prob <- pmax(pmin(predicted_prob, 1 - eps), eps)
-  -mean(true_int * log(predicted_prob) + (1 - true_int) * log(1 - predicted_prob))
+  -mean(
+    true_int * log(predicted_prob) + (1 - true_int) * log(1 - predicted_prob)
+  )
 } # rtemis::logloss
 
 
@@ -86,10 +88,9 @@ logloss <- function(true_int, predicted_prob, eps = 1e-16) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
-sensitivity <- function(true, predicted,
-                        harmonize = FALSE,
-                        verbosity = 1L) {
-  if (harmonize) predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
+sensitivity <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
+  if (harmonize)
+    predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
   pos_index <- true == levels(true)[1]
   condition_pos <- sum(pos_index)
   true_pos <- sum(true[pos_index] == predicted[pos_index])
@@ -107,10 +108,9 @@ sensitivity <- function(true, predicted,
 #'
 #' @keywords internal
 
-specificity <- function(true, predicted,
-                        harmonize = FALSE,
-                        verbosity = 1L) {
-  if (harmonize) predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
+specificity <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
+  if (harmonize)
+    predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
   neg_index <- true == levels(true)[2]
   condition_neg <- sum(neg_index)
   true_neg <- sum(true[neg_index] == predicted[neg_index])
@@ -129,11 +129,20 @@ specificity <- function(true, predicted,
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
-bacc <- function(true, predicted,
-                 harmonize = FALSE,
-                 verbosity = 1L) {
-  .5 * (sensitivity(true, predicted, harmonize = harmonize, verbosity = verbosity) +
-    specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
+bacc <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
+  .5 *
+    (sensitivity(
+      true,
+      predicted,
+      harmonize = harmonize,
+      verbosity = verbosity
+    ) +
+      specificity(
+        true,
+        predicted,
+        harmonize = harmonize,
+        verbosity = verbosity
+      ))
 }
 
 #' Precision (aka PPV)
@@ -147,9 +156,7 @@ bacc <- function(true, predicted,
 #'
 #' @keywords internal
 
-precision <- function(true, predicted,
-                      harmonize = FALSE,
-                      verbosity = 1L) {
+precision <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
   if (harmonize) {
     predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
   }
@@ -174,8 +181,7 @@ precision <- function(true, predicted,
 #' @return Factor: x with levels in the same order as reference.
 #' @keywords internal
 
-factor_harmonize <- function(reference, x,
-                             verbosity = 1L) {
+factor_harmonize <- function(reference, x, verbosity = 1L) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
@@ -246,9 +252,7 @@ f1 <- function(precision, recall) {
 #' auc(preds, labels, method = "pROC")
 #' auc(preds, labels, method = "auc_pairs")
 #' }
-auc <- function(true_int, predicted_prob,
-                method = "lightAUC",
-                verbosity = 0L) {
+auc <- function(true_int, predicted_prob, method = "lightAUC", verbosity = 0L) {
   # Checks ----
   method <- match.arg(method)
   check_inherits(true_int, "integer")
@@ -262,7 +266,9 @@ auc <- function(true_int, predicted_prob,
     auc. <- lightAUC::lightAUC(probs = predicted_prob, actuals = true_int)
   } else if (method == "ROCR") {
     check_dependencies("ROCR")
-    .pred <- try(ROCR::prediction(predicted_prob, true_int,
+    .pred <- try(ROCR::prediction(
+      predicted_prob,
+      true_int,
       label.ordering = rev(levels(true_int))
     ))
     auc. <- try(ROCR::performance(.pred, "auc")@y.values[[1]])
@@ -316,7 +322,9 @@ auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
     )
     .auc <- mean((outer.diff > 0) + .5 * (outer.diff == 0))
   } else {
-    stop("Multiclass AUC does not have a unique definition and is not yet implemented")
+    stop(
+      "Multiclass AUC does not have a unique definition and is not yet implemented"
+    )
   }
   if (verbosity > 0L) {
     msg2("Positive class:", true.levels[1])
@@ -324,7 +332,6 @@ auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
   }
   invisible(.auc)
 } # rtemis::auc_pairs
-
 
 
 #' Brier_Score
@@ -400,15 +407,17 @@ labels2int <- function(x, binclasspos = 2L) {
 #' classification_metrics(true_labels, predicted_labels, predicted_prob)
 #' classification_metrics(true_labels, predicted_labels, 1 - predicted_prob, binclasspos = 1L)
 #' }
-classification_metrics <- function(true_labels,
-                                   predicted_labels,
-                                   predicted_prob = NULL,
-                                   binclasspos = 2L,
-                                   calc_auc = TRUE,
-                                   calc_brier = TRUE,
-                                   auc_method = "lightAUC",
-                                   sample = character(),
-                                   verbosity = 0L) {
+classification_metrics <- function(
+  true_labels,
+  predicted_labels,
+  predicted_prob = NULL,
+  binclasspos = 2L,
+  calc_auc = TRUE,
+  calc_brier = TRUE,
+  auc_method = "lightAUC",
+  sample = character(),
+  verbosity = 0L
+) {
   # Checks ----
   # Binary class probabilities only for now
   if (length(predicted_prob) > length(true_labels)) predicted_prob <- NULL
@@ -418,8 +427,10 @@ classification_metrics <- function(true_labels,
   if (!all(levels(true_labels) == levels(predicted_labels))) {
     stop(
       "True and predicted labels must have the same levels, in the same order.",
-      "\n     levels(true_labels): ", paste(levels(true_labels), collapse = ", "),
-      "\nlevels(predicted_labels): ", paste(levels(predicted_labels), collapse = ", ")
+      "\n     levels(true_labels): ",
+      paste(levels(true_labels), collapse = ", "),
+      "\nlevels(predicted_labels): ",
+      paste(levels(predicted_labels), collapse = ", ")
     )
   }
 
@@ -427,7 +438,10 @@ classification_metrics <- function(true_labels,
   # For confusion table, make positive class the first factor level
   if (n_classes == 2 && binclasspos == 2L) {
     true_labels <- factor(true_labels, levels = rev(levels(true_labels)))
-    predicted_labels <- factor(predicted_labels, levels = rev(levels(predicted_labels)))
+    predicted_labels <- factor(
+      predicted_labels,
+      levels = rev(levels(predicted_labels))
+    )
   }
   true_levels <- levels(true_labels)
 
@@ -435,10 +449,18 @@ classification_metrics <- function(true_labels,
   Positive_Class <- if (n_classes == 2) true_levels[1] else NA
   if (verbosity > 0) {
     if (n_classes == 2) {
-      msg2("There are two outcome classes:", hilite(paste(rev(true_levels), collapse = ", ")))
+      msg2(
+        "There are two outcome classes:",
+        hilite(paste(rev(true_levels), collapse = ", "))
+      )
       msg2("        The positive class is:", hilite(Positive_Class))
     } else {
-      msg2("There are", n_classes, "classes:", hilite(paste(rev(true_levels), collapse = ", ")))
+      msg2(
+        "There are",
+        n_classes,
+        "classes:",
+        hilite(paste(rev(true_levels), collapse = ", "))
+      )
     }
   }
   tbl <- table(true_labels, predicted_labels)
@@ -454,14 +476,21 @@ classification_metrics <- function(true_labels,
   # Class[["Misses"]] <- Class[["Totals"]] - Class[["Hits"]]
   Class[["Sensitivity"]] <- Class[["Hits"]] / Class[["Totals"]]
   Class[["Condition_negative"]] <- Total - Class[["Totals"]]
-  Class[["True_negative"]] <- Total - Class[["Predicted_totals"]] - (Class[["Totals"]] - Class[["Hits"]])
-  Class[["Specificity"]] <- Class[["True_negative"]] / Class[["Condition_negative"]]
-  Class[["Balanced_Accuracy"]] <- .5 * (Class[["Sensitivity"]] + Class[["Specificity"]])
+  Class[["True_negative"]] <- Total -
+    Class[["Predicted_totals"]] -
+    (Class[["Totals"]] - Class[["Hits"]])
+  Class[["Specificity"]] <- Class[["True_negative"]] /
+    Class[["Condition_negative"]]
+  Class[["Balanced_Accuracy"]] <- .5 *
+    (Class[["Sensitivity"]] + Class[["Specificity"]])
   # PPV = true positive / predicted condition positive
   Class[["PPV"]] <- Class[["Hits"]] / Class[["Predicted_totals"]]
   # NPV  = true negative / predicted condition negative
-  Class[["NPV"]] <- Class[["True_negative"]] / (Total - Class[["Predicted_totals"]])
-  Class[["F1"]] <- 2 * (Class[["PPV"]] * Class[["Sensitivity"]]) / (Class[["PPV"]] + Class[["Sensitivity"]])
+  Class[["NPV"]] <- Class[["True_negative"]] /
+    (Total - Class[["Predicted_totals"]])
+  Class[["F1"]] <- 2 *
+    (Class[["PPV"]] * Class[["Sensitivity"]]) /
+    (Class[["PPV"]] + Class[["Sensitivity"]])
 
   # Binary vs Multiclass ----
   if (n_classes == 2) {
@@ -483,7 +512,9 @@ classification_metrics <- function(true_labels,
     true_int <- 2L - as.integer(true_labels)
     if (calc_auc) {
       Overall[["AUC"]] <- auc(
-        true_int = true_int, predicted_prob = predicted_prob, method = auc_method
+        true_int = true_int,
+        predicted_prob = predicted_prob,
+        method = auc_method
       )
     }
     if (calc_brier) {
@@ -525,10 +556,12 @@ classification_metrics <- function(true_labels,
 #' @return RegressionMetrics object
 #' @author EDG
 #' @export
-regression_metrics <- function(true,
-                               predicted,
-                               na.rm = TRUE,
-                               sample = character()) {
+regression_metrics <- function(
+  true,
+  predicted,
+  na.rm = TRUE,
+  sample = character()
+) {
   RegressionMetrics(
     MAE = mae(true, predicted, na.rm = na.rm),
     MSE = mse(true, predicted, na.rm = na.rm),

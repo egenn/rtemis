@@ -40,22 +40,24 @@
 #' draw_conf(metrics)
 #' }
 draw_conf <- function(
-    x,
-    xlab = "Predicted",
-    ylab = "Reference",
-    true_col = "#72CDF4",
-    false_col = "#FEB2E0",
-    font_size = 18,
-    main = NULL,
-    main_y = 1,
-    main_yanchor = "bottom",
-    theme = rtemis_theme,
-    margin = list(l = 20, r = 5, b = 5, t = 20),
-    # write to file
-    filename = NULL,
-    file_width = 500,
-    file_height = 500,
-    file_scale = 1, ...) {
+  x,
+  xlab = "Predicted",
+  ylab = "Reference",
+  true_col = "#72CDF4",
+  false_col = "#FEB2E0",
+  font_size = 18,
+  main = NULL,
+  main_y = 1,
+  main_yanchor = "bottom",
+  theme = rtemis_theme,
+  margin = list(l = 20, r = 5, b = 5, t = 20),
+  # write to file
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Input ----
   if (S7_inherits(x, ClassificationMetrics)) {
     x <- x@metrics[["Confusion_Matrix"]]
@@ -120,10 +122,14 @@ draw_conf <- function(
   for (i in seq_len(nclasses)) {
     for (j in seq_len(nclasses)) {
       plt <- make_plotly_conf_tile(
-        p = plt, x = x,
-        i = i, j = j,
-        pos_color = pos_color, neg_color = neg_color,
-        font_size = font_size, theme = theme
+        p = plt,
+        x = x,
+        i = i,
+        j = j,
+        pos_color = pos_color,
+        neg_color = neg_color,
+        font_size = font_size,
+        theme = theme
       )
     }
   }
@@ -315,7 +321,13 @@ draw_conf <- function(
     plt <- plotly::add_trace(
       plt,
       x = c(0, nclasses, nclasses, 0, 0),
-      y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
+      y = c(
+        nclasses + 0.2,
+        nclasses + 0.2,
+        nclasses + 0.4,
+        nclasses + 0.4,
+        nclasses + 0.2
+      ),
       line = list(color = "transparent"),
       fill = "toself",
       fillcolor = plotly::toRGB(theme[["fg"]], alpha = .05),
@@ -424,7 +436,11 @@ draw_conf <- function(
 
   # Text: Balanced accuracy
   ba_pad <- ifelse(nclasses == 2, 0.15, 0.2)
-  ba <- ifelse(nclasses == 2, class_balancedAccuracy[1], mean(class_balancedAccuracy))
+  ba <- ifelse(
+    nclasses == 2,
+    class_balancedAccuracy[1],
+    mean(class_balancedAccuracy)
+  )
   plt <- plotly::add_annotations(
     plt,
     x = nclasses + ba_pad,
@@ -454,9 +470,17 @@ draw_conf <- function(
 } # /rtemis::draw_conf
 
 make_plotly_conf_tile <- function(
-    p, x, i, j, pos_color, neg_color,
-    font_size, theme,
-    xref = "x", yref = "y") {
+  p,
+  x,
+  i,
+  j,
+  pos_color,
+  neg_color,
+  font_size,
+  theme,
+  xref = "x",
+  yref = "y"
+) {
   val <- x[i, j] / sum(x[i, ])
   col <- if (i == j) {
     pos_color(val)

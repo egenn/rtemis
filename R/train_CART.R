@@ -19,10 +19,11 @@
 #' @noRd
 
 train_CART <- function(
-    x,
-    weights = NULL,
-    hyperparameters = setup_CART(),
-    verbosity = 1L) {
+  x,
+  weights = NULL,
+  hyperparameters = setup_CART(),
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("rpart")
 

@@ -26,16 +26,18 @@
 #' @author EDG
 #' @export
 
-rule_dist <- function(x,
-                      rules1,
-                      rules2 = NULL,
-                      print_plot = TRUE,
-                      plot_type = c("static", "interactive"),
-                      # heat_lo = "black",
-                      heat_lo = "black",
-                      heat_mid = NA,
-                      heat_hi = "#F48024",
-                      verbosity = 1L) {
+rule_dist <- function(
+  x,
+  rules1,
+  rules2 = NULL,
+  print_plot = TRUE,
+  plot_type = c("static", "interactive"),
+  # heat_lo = "black",
+  heat_lo = "black",
+  heat_mid = NA,
+  heat_hi = "#F48024",
+  verbosity = 1L
+) {
   #  Match cases by rules
   cxr1 <- match_cases_by_rules(x, rules1, verbosity)
 
@@ -45,7 +47,10 @@ rule_dist <- function(x,
   if (is.null(rules2)) {
     rxr.hamming <- apply(cxr1, 2, function(i) matrixStats::colSums2(i != cxr1))
   } else {
-    rxr.hamming <- sapply(seq_along(rules1), function(i) matrixStats::colSums2(cxr1[, i] != cxr2))
+    rxr.hamming <- sapply(
+      seq_along(rules1),
+      function(i) matrixStats::colSums2(cxr1[, i] != cxr2)
+    )
   }
 
   # Rule total distance
@@ -64,10 +69,14 @@ rule_dist <- function(x,
 
   # Plot ----
   if (print_plot) {
-    draw_heatmap(rxr.hamming,
-      Rowv = TRUE, Colv = TRUE,
+    draw_heatmap(
+      rxr.hamming,
+      Rowv = TRUE,
+      Colv = TRUE,
       limits = c(0, nrow(x)),
-      lo = heat_lo, mid = heat_mid, hi = heat_hi
+      lo = heat_lo,
+      mid = heat_mid,
+      hi = heat_hi
     )
     # plot_type <- match.arg(plot_type)
     # if (plot_type == "static") {

@@ -13,12 +13,14 @@
 #' @keywords internal
 #' @noRd
 
-intro <- function(message = NULL,
-                  log_file = NULL,
-                  call_depth = 1,
-                  caller = NULL,
-                  newline_pre = FALSE,
-                  verbosity = 1L) {
+intro <- function(
+  message = NULL,
+  log_file = NULL,
+  call_depth = 1,
+  caller = NULL,
+  newline_pre = FALSE,
+  verbosity = 1L
+) {
   if (!is.null(log_file)) {
     log_file <- normalizePath(log_file, mustWork = FALSE)
     outdir <- dirname(log_file)
@@ -33,13 +35,16 @@ intro <- function(message = NULL,
     if (newline_pre) cat("\n")
     if (is.null(message)) {
       # Read first line from inst/resources/intro.utf8
-      msg20("\U1F47D", "Hello.",
+      msg20(
+        "\U1F47D",
+        "Hello.",
         call_depth = call_depth,
         caller_id = 2,
         caller = caller
       )
     } else {
-      msg2(message,
+      msg2(
+        message,
         call_depth = call_depth,
         sep = "",
         caller_id = 2,
@@ -61,21 +66,30 @@ intro <- function(message = NULL,
 #'
 #' @keywords internal
 #' @noRd
-outro <- function(start_time,
-                  message = NULL,
-                  #   as.message = FALSE,
-                  sink_off = FALSE,
-                  #   color = gray,
-                  newline_pre = FALSE,
-                  verbosity = 1L) {
+outro <- function(
+  start_time,
+  message = NULL,
+  #   as.message = FALSE,
+  sink_off = FALSE,
+  #   color = gray,
+  newline_pre = FALSE,
+  verbosity = 1L
+) {
   elapsed <- as.numeric(proc.time() - start_time)
   if (verbosity > 0L || sink_off) {
     if (newline_pre) cat("\n")
     msg20(
       gray(paste0(
-        "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
-        "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
-        "; System: ", ddSci(elapsed[2]), ")."
+        "Completed in ",
+        ddSci(elapsed[3] / 60),
+        " minutes (",
+        "Real: ",
+        ddSci(elapsed[3]),
+        "; User: ",
+        ddSci(elapsed[1]),
+        "; System: ",
+        ddSci(elapsed[2]),
+        ")."
       )),
       # as.message = as.message,
       caller_id = 2
@@ -95,9 +109,14 @@ outro <- function(start_time,
 #'
 #' @keywords internal
 #' @noRd
-data_summary <- function(x, y,
-                         x.test = NULL, y.test = NULL,
-                         type = NULL, testSet = TRUE) {
+data_summary <- function(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  type = NULL,
+  testSet = TRUE
+) {
   if (!is.null(type)) {
     padcat(paste(type, "Input Summary"), pad = 0)
   } else {
@@ -130,24 +149,34 @@ data_summary <- function(x, y,
 #' @keywords internal
 #' @noRd
 summarize_supervised_data <- function(
-    x,
-    dat_validation = NULL,
-    dat_test = NULL) {
+  x,
+  dat_validation = NULL,
+  dat_test = NULL
+) {
   cat(bold("  Input data summary:\n"))
   cat(
-    "  Training set:", hilite(NROW(x)), "cases x",
-    hilite(NCOL(x) - 1), "features.\n"
+    "  Training set:",
+    hilite(NROW(x)),
+    "cases x",
+    hilite(NCOL(x) - 1),
+    "features.\n"
   )
   if (!is.null(dat_validation)) {
     cat(
-      "Validation set:", hilite(NROW(dat_validation)), "cases x",
-      hilite(NCOL(dat_validation) - 1), "features.\n"
+      "Validation set:",
+      hilite(NROW(dat_validation)),
+      "cases x",
+      hilite(NCOL(dat_validation) - 1),
+      "features.\n"
     )
   }
   if (!is.null(dat_test)) {
     cat(
-      "   Test set:", hilite(NROW(dat_test)), "cases x",
-      hilite(NCOL(dat_test) - 1), "features.\n"
+      "   Test set:",
+      hilite(NROW(dat_test)),
+      "cases x",
+      hilite(NCOL(dat_test) - 1),
+      "features.\n"
     )
   }
 } # rtemis::summarize_supervised_data
@@ -161,8 +190,11 @@ summarize_supervised_data <- function(
 #' @noRd
 summarize_unsupervised_data <- function(x) {
   cat(
-    "  Input:", hilite(NROW(x)), "cases x",
-    hilite(NCOL(x)), "features.\n"
+    "  Input:",
+    hilite(NROW(x)),
+    "cases x",
+    hilite(NCOL(x)),
+    "features.\n"
   )
 } # rtemis::summarize_unsupervised_data
 
@@ -185,11 +217,13 @@ summarize_unsupervised_data <- function(x) {
 #' @keywords internal
 #' @noRd
 
-parameter_summary <- function(...,
-                              title = "Parameters",
-                              pad = 0,
-                              newline_pre = FALSE,
-                              newline = FALSE) {
+parameter_summary <- function(
+  ...,
+  title = "Parameters",
+  pad = 0,
+  newline_pre = FALSE,
+  newline = FALSE
+) {
   if (newline_pre) cat("\n")
   if (length(list(...)) > 0) {
     x <- list(...)
@@ -199,7 +233,8 @@ parameter_summary <- function(...,
       if (is.list(x[[i]]) && length(x[[i]]) > 0) {
         if (is.null(names(x[[i]]))) {
           names(x[[i]]) <- paste0(
-            xnames[i], ".",
+            xnames[i],
+            ".",
             seq_len(length(x[[i]]))
           )
         }
@@ -274,7 +309,11 @@ metrics_summary <- function(error, algorithm = NULL, pre = NULL) {
 check_type <- function(type, allowed.types, algorithm) {
   if (!type %in% allowed.types) {
     rtStop(
-      "You were attempting to perform", type, "but", algorithm, "only supports:\n",
+      "You were attempting to perform",
+      type,
+      "but",
+      algorithm,
+      "only supports:\n",
       paste(allowed.types, collapse = ", ")
     )
   }
@@ -284,9 +323,7 @@ check_type <- function(type, allowed.types, algorithm) {
 #'
 #' @keywords internal
 
-rtemis_init <- function(n_cores = 1,
-                        context = NULL,
-                        verbosity = 1L) {
+rtemis_init <- function(n_cores = 1, context = NULL, verbosity = 1L) {
   # Progress handlers
   if (is.null(live[["handlers_set"]])) {
     # progressr::handlers(global = TRUE)
@@ -294,10 +331,7 @@ rtemis_init <- function(n_cores = 1,
     progressr::handlers(rtemis_progress)
     live[["handlers_set"]] <- 1
     if (verbosity > 0L) {
-      msg2("Progress handler set to",
-        bold(rtemis_progress),
-        color = magenta
-      )
+      msg2("Progress handler set to", bold(rtemis_progress), color = magenta)
     }
   }
 } # rtemis::rtemis_init

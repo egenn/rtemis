@@ -43,7 +43,7 @@ method(`[[`, ClusteringParameters) <- function(x, index) {
 #'
 #' @param x ClusteringParameters object.
 #' @param pad Integer: Left side padding.
-#' 
+#'
 #' @return ClusteringParameters object, invisibly.
 #'
 #' @author EDG
@@ -170,9 +170,9 @@ NeuralGasParameters <- new_class(
 #'
 #' @param k Number of clusters.
 #' @param dist Character: Distance measure to use: 'euclidean' or 'manhattan'.
-#' 
+#'
 #' @return NeuralGasParameters object.
-#' 
+#'
 #' @author EDG
 #' @export
 setup_NeuralGas <- function(k = 3L, dist = c("euclidean", "manhattan")) {
@@ -184,17 +184,26 @@ setup_NeuralGas <- function(k = 3L, dist = c("euclidean", "manhattan")) {
 
 # CMeansParameters ----
 #' @title CMeansParameters
-#' 
+#'
 #' @description
 #' ClusteringParameters subclass for CMeans Clustering.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
 CMeansParameters <- new_class(
   name = "CMeansParameters",
   parent = ClusteringParameters,
-  constructor = function(k, max_iter, dist, method, m, rate_par, weights, control) {
+  constructor = function(
+    k,
+    max_iter,
+    dist,
+    method,
+    m,
+    rate_par,
+    weights,
+    control
+  ) {
     k <- clean_posint(k)
     max_iter <- clean_posint(max_iter)
     check_character(dist)
@@ -237,14 +246,15 @@ CMeansParameters <- new_class(
 #' @author EDG
 #' @export
 setup_CMeans <- function(
-    k = 2L,
-    max_iter = 100L,
-    dist = c("euclidean", "manhattan"),
-    method = c("cmeans", "ufcl"),
-    m = 2.0,
-    rate_par = NULL,
-    weights = 1.0,
-    control = list()) {
+  k = 2L,
+  max_iter = 100L,
+  dist = c("euclidean", "manhattan"),
+  method = c("cmeans", "ufcl"),
+  m = 2.0,
+  rate_par = NULL,
+  weights = 1.0,
+  control = list()
+) {
   k <- clean_posint(k)
   max_iter <- clean_posint(max_iter)
   dist <- match.arg(dist)

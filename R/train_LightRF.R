@@ -13,11 +13,12 @@
 #' @keywords internal
 #' @noRd
 train_LightRF <- function(
-    x,
-    dat_validation = NULL,
-    weights = NULL,
-    hyperparameters = setup_LightRF(),
-    verbosity = 1L) {
+  x,
+  dat_validation = NULL,
+  weights = NULL,
+  hyperparameters = setup_LightRF(),
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("lightgbm")
 
@@ -44,7 +45,9 @@ train_LightRF <- function(
     nclasses <- NA
   }
   if (is.null(hyperparameters[["objective"]])) {
-    hyperparameters@hyperparameters[["objective"]] <- if (type == "Regression") {
+    hyperparameters@hyperparameters[["objective"]] <- if (
+      type == "Regression"
+    ) {
       "regression"
     } else {
       if (nclasses == 2) {
@@ -168,9 +171,11 @@ varimp_LightRF <- function(model) {
 #' @keywords internal
 #' @noRd
 explain_LightRF <- function(
-    model,
-    x,
-    verbosity = 0L, ...) {
+  model,
+  x,
+  verbosity = 0L,
+  ...
+) {
   explain_LightGBM(
     model = model,
     x = x,

@@ -40,19 +40,21 @@
 #'
 #' @author EDG
 #' @export
-train <- function(x,
-                  dat_validation = NULL,
-                  dat_test = NULL,
-                  algorithm = NULL,
-                  preprocessor_parameters = NULL, # PreprocessorParameters
-                  hyperparameters = NULL, # Hyperparameters
-                  tuner_parameters = NULL, # TunerParameters
-                  crossvalidation_parameters = NULL, # ResamplerParameters
-                  weights = NULL,
-                  question = NULL,
-                  outdir = NULL,
-                  parallel_type = "future",
-                  verbosity = 1L) {
+train <- function(
+  x,
+  dat_validation = NULL,
+  dat_test = NULL,
+  algorithm = NULL,
+  preprocessor_parameters = NULL, # PreprocessorParameters
+  hyperparameters = NULL, # Hyperparameters
+  tuner_parameters = NULL, # TunerParameters
+  crossvalidation_parameters = NULL, # ResamplerParameters
+  weights = NULL,
+  question = NULL,
+  outdir = NULL,
+  parallel_type = "future",
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies(c("future.apply", "progressr"))
   type <- supervised_type(x)
@@ -69,7 +71,11 @@ train <- function(x,
   }
   if (is.null(hyperparameters)) {
     # without extra args
-    hyperparameters <- get_default_hyperparameters(algorithm, type = type, ncols = ncols)
+    hyperparameters <- get_default_hyperparameters(
+      algorithm,
+      type = type,
+      ncols = ncols
+    )
     # with extra args
     # setup_fn <- get_alg_setup(algorithm)
     # hyperparameters <- do_call(setup_fn, hpr_args)
@@ -88,10 +94,16 @@ train <- function(x,
   }
 
   ## Algorithm ----
-  if (!is.null(algorithm) && tolower(algorithm) != tolower(hyperparameters@algorithm)) {
+  if (
+    !is.null(algorithm) &&
+      tolower(algorithm) != tolower(hyperparameters@algorithm)
+  ) {
     stop(
-      "You defined algorithm to be '", algorithm, "', but defined hyperparameters for ",
-      hyperparameters@algorithm, "."
+      "You defined algorithm to be '",
+      algorithm,
+      "', but defined hyperparameters for ",
+      hyperparameters@algorithm,
+      "."
     )
   }
   if (is.null(algorithm)) {
@@ -114,9 +126,11 @@ train <- function(x,
 
   log_file <- if (!is.null(outdir)) {
     paste0(
-      outdir, "/",
+      outdir,
+      "/",
       "train_",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -152,12 +166,22 @@ train <- function(x,
     if (verbosity > 0L) {
       msg2("Training", hilite(algorithm, type), "by cross-validation...")
     }
-    crossvalidation_resampler <- resample(x, parameters = crossvalidation_parameters, verbosity = verbosity)
+    crossvalidation_resampler <- resample(
+      x,
+      parameters = crossvalidation_parameters,
+      verbosity = verbosity
+    )
     pcv <- progressr::progressor(crossvalidation_resampler@parameters@n)
     models <- lapply(
       seq_len(crossvalidation_resampler@parameters@n),
       function(i) {
-        pcv(message = sprintf("Crossvalidation %i/%i", i, crossvalidation_resampler@parameters@n))
+        pcv(
+          message = sprintf(
+            "Crossvalidation %i/%i",
+            i,
+            crossvalidation_resampler@parameters@n
+          )
+        )
         train(
           x = x[crossvalidation_resampler[[i]], ],
           dat_test = x[-crossvalidation_resampler[[i]], ],
@@ -187,12 +211,21 @@ train <- function(x,
         if (algorithm %in% live[["parallelized_learners"]]) {
           future::plan(strategy = "sequential")
           if (verbosity > 0L) {
-            info(bold(algorithm), "is parallelized. Disabling all other parallelization.")
+            info(
+              bold(algorithm),
+              "is parallelized. Disabling all other parallelization."
+            )
           }
         } else {
           future::plan(strategy = rtemis_plan, workers = rtemis_workers)
           if (verbosity > 0L) {
-            info("Tuning parallelization: plan set to", bold(rtemis_plan), "with", bold(rtemis_workers), "workers.")
+            info(
+              "Tuning parallelization: plan set to",
+              bold(rtemis_plan),
+              "with",
+              bold(rtemis_workers),
+              "workers."
+            )
           }
         }
       }
@@ -205,7 +238,11 @@ train <- function(x,
         verbosity = verbosity
       )
       # Update hyperparameters
-      hyperparameters <- update(hyperparameters, tuner@best_hyperparameters, tuned = 1L)
+      hyperparameters <- update(
+        hyperparameters,
+        tuner@best_hyperparameters,
+        tuned = 1L
+      )
     } # /Tune
     if (verbosity > 0L) cat("\n")
 
@@ -222,7 +259,8 @@ train <- function(x,
       } else {
         preprocessor@preprocessed[["training"]]
       }
-      if (!is.null(dat_validation)) dat_validation <- preprocessor@preprocessed[["validation"]]
+      if (!is.null(dat_validation))
+        dat_validation <- preprocessor@preprocessed[["validation"]]
       if (!is.null(dat_test)) dat_test <- preprocessor@preprocessed[["test"]]
     } else {
       preprocessor <- NULL
@@ -241,7 +279,11 @@ train <- function(x,
     # Train ALG ----
     if (verbosity > 0L) {
       if (is_tuned(hyperparameters)) {
-        msg2("Training", hilite(algorithm, type), "with tuned hyperparameters...")
+        msg2(
+          "Training",
+          hilite(algorithm, type),
+          "with tuned hyperparameters..."
+        )
       } else {
         msg20("Training ", hilite(algorithm, type), "...")
       }
@@ -282,10 +324,8 @@ train <- function(x,
     predicted_validation <- predicted_test <- NULL
     if (!is.null(dat_validation)) {
       predicted_validation <- do_call(
-        predict_fn, list(model,
-          newdata = features(dat_validation),
-          type = type
-        )
+        predict_fn,
+        list(model, newdata = features(dat_validation), type = type)
       )
       if (type == "Classification") {
         predicted_prob_validation <- predicted_validation
@@ -297,10 +337,8 @@ train <- function(x,
     }
     if (!is.null(dat_test)) {
       predicted_test <- do_call(
-        predict_fn, list(model,
-          newdata = features(dat_test),
-          type = type
-        )
+        predict_fn,
+        list(model, newdata = features(dat_test), type = type)
       )
       if (type == "Classification") {
         predicted_prob_test <- predicted_test
@@ -317,7 +355,10 @@ train <- function(x,
       se_fn <- get_se_fn(algorithm)
       se_training <- do_call(se_fn, list(model, newdata = features(x)))
       if (!is.null(dat_validation)) {
-        se_validation <- do_call(se_fn, list(model, newdata = features(dat_validation)))
+        se_validation <- do_call(
+          se_fn,
+          list(model, newdata = features(dat_validation))
+        )
       }
       if (!is.null(dat_test)) {
         se_test <- do_call(se_fn, list(model, newdata = features(dat_test)))
@@ -352,8 +393,14 @@ train <- function(x,
     predicted_training <- lapply(models, function(mod) mod@predicted_training)
     predicted_test <- lapply(models, function(mod) mod@predicted_test)
     if (type == "Classification") {
-      predicted_prob_training <- lapply(models, function(mod) mod@predicted_prob_training)
-      predicted_prob_test <- lapply(models, function(mod) mod@predicted_prob_test)
+      predicted_prob_training <- lapply(
+        models,
+        function(mod) mod@predicted_prob_training
+      )
+      predicted_prob_test <- lapply(
+        models,
+        function(mod) mod@predicted_prob_test
+      )
     } else {
       predicted_prob_training <- predicted_prob_test <- NULL
     }
@@ -382,7 +429,8 @@ train <- function(x,
     print(mod)
     cat("\n")
   }
-  outro(start_time,
+  outro(
+    start_time,
     verbosity = verbosity,
     sink_off = ifelse(is.null(log_file), FALSE, TRUE)
   )

@@ -30,11 +30,13 @@
 #' check_data(x)
 #' }
 #'
-check_data <- function(x,
-                       name = NULL,
-                       get_duplicates = TRUE,
-                       get_na_case_pct = FALSE,
-                       get_na_feature_pct = FALSE) {
+check_data <- function(
+  x,
+  name = NULL,
+  get_duplicates = TRUE,
+  get_na_case_pct = FALSE,
+  get_na_feature_pct = FALSE
+) {
   if (is.null(name)) {
     name <- deparse(substitute(x))
   }
@@ -187,13 +189,15 @@ max0 <- function(x) max(x, 0, na.rm = TRUE)
 #'
 #' @author EDG
 #' @export
-tohtml <- function(x,
-                   name = NULL,
-                   css = list(
-                     font_family = "Helvetica",
-                     color = "#fff",
-                     background_color = "#242424"
-                   )) {
+tohtml <- function(
+  x,
+  name = NULL,
+  css = list(
+    font_family = "Helvetica",
+    color = "#fff",
+    background_color = "#242424"
+  )
+) {
   n_rows <- x[["n_rows"]]
   n_cols <- x[["n_cols"]]
   n_numeric <- x[["n_numeric"]]
@@ -212,11 +216,13 @@ tohtml <- function(x,
 
   ## Data Types ----
   numeric <- HTML(paste(
-    strong(n_numeric), "numeric",
+    strong(n_numeric),
+    "numeric",
     ngettext(n_numeric, "feature", "features")
   ))
   integer <- HTML(paste(
-    strong(n_integer), "integer",
+    strong(n_integer),
+    "integer",
     ngettext(n_integer, "feature", "features")
   ))
   categorical <- HTML(paste0(
@@ -226,31 +232,37 @@ tohtml <- function(x,
       paste(", which", ngettext(n_ordered, "is", "is not"), "ordered")
     } else if (n_factor > 1) {
       paste(
-        ", of which", strong(n_ordered),
-        ngettext(n_ordered, "is", "are"), "ordered"
+        ", of which",
+        strong(n_ordered),
+        ngettext(n_ordered, "is", "are"),
+        "ordered"
       )
     }
   ))
   # .col <- if (n_character > 0) html_orange else strong
   .col <- strong
   characters <- HTML(paste(
-    .col(n_character), "character",
+    .col(n_character),
+    "character",
     ngettext(n_character, "feature", "features")
   ))
   dates <- HTML(paste(
-    strong(n_date), "date",
+    strong(n_date),
+    "date",
     ngettext(n_date, "feature", "features")
   ))
 
   ## Issues ----
   .col <- if (n_constant > 0) html_red else strong
   constants <- HTML(paste(
-    .col(n_constant), "constant",
+    .col(n_constant),
+    "constant",
     ngettext(n_constant, "feature", "features")
   ))
   .col <- if (n_duplicates > 0) html_orange else strong
   duplicates <- HTML(paste(
-    .col(n_duplicates), "duplicate",
+    .col(n_duplicates),
+    "duplicate",
     ngettext(n_duplicates, "case", "cases")
   ))
 
@@ -260,7 +272,8 @@ tohtml <- function(x,
       .col(n_cols_anyna),
       ngettext(n_cols_anyna, "feature includes", "features include"),
       "'NA' values; ",
-      .col(n_na), "'NA'",
+      .col(n_na),
+      "'NA'",
       ngettext(n_na, "value", "values"),
       "total",
       tags[["ul"]](
@@ -332,10 +345,13 @@ tohtml <- function(x,
     p(
       div(
         html_highlight(name),
-        ": A", x[["class"]], "with",
+        ": A",
+        x[["class"]],
+        "with",
         html_highlight(n_rows),
         ngettext(n_rows, "row", "rows"),
-        "and", html_highlight(n_cols),
+        "and",
+        html_highlight(n_cols),
         ngettext(n_cols, "feature", "features"),
         class = "checkdata-header"
       )
@@ -366,9 +382,13 @@ tohtml <- function(x,
     ), # p Recommendations
     class = "checkData",
     style = paste0(
-      "font-family:", css[["font_family"]],
-      "; color:", css[["color"]],
-      "; background-color:", css[["background_color"]], ";"
+      "font-family:",
+      css[["font_family"]],
+      "; color:",
+      css[["color"]],
+      "; background-color:",
+      css[["background_color"]],
+      ";"
     )
   )
 }

@@ -21,18 +21,20 @@
 #'
 #' @author EDG
 #' @export
-draw_graphD3 <- function(net,
-                         groups = NULL,
-                         color_scale = NULL,
-                         edge_col = NULL,
-                         node_col = NULL,
-                         node_alpha = .5,
-                         edge_alpha = .33,
-                         zoom = TRUE,
-                         legend = FALSE,
-                         palette = rtemis_palette,
-                         theme = rtemis_theme,
-                         ...) {
+draw_graphD3 <- function(
+  net,
+  groups = NULL,
+  color_scale = NULL,
+  edge_col = NULL,
+  node_col = NULL,
+  node_alpha = .5,
+  edge_alpha = .33,
+  zoom = TRUE,
+  legend = FALSE,
+  palette = rtemis_palette,
+  theme = rtemis_theme,
+  ...
+) {
   # Dependencies ----
   check_dependencies("networkD3")
 
@@ -57,10 +59,12 @@ draw_graphD3 <- function(net,
     if (length(unique(netd3[["nodes"]][["group"]])) == 1) {
       color_scale <- paste0(
         'd3.scaleOrdinal().domain(["A"]).range(["',
-        adjustcolor(node_col, node_alpha), '"]);'
+        adjustcolor(node_col, node_alpha),
+        '"]);'
       )
     } else {
-      if (is.character(palette)) palette <- adjustcolor(unlist(rtpalette(palette)), node_alpha)
+      if (is.character(palette))
+        palette <- adjustcolor(unlist(rtpalette(palette)), node_alpha)
       ngroups <- length(unique(groups))
       .groups <- paste0(sort(unique(groups)), collapse = '", "')
       if (ngroups > length(palette)) {
@@ -68,8 +72,11 @@ draw_graphD3 <- function(net,
       }
       .colors <- paste0(palette[seq(ngroups)], collapse = '", "')
       color_scale <- paste0(
-        'd3.scaleOrdinal().domain(["', .groups,
-        '"]).range(["', .colors, '"]);'
+        'd3.scaleOrdinal().domain(["',
+        .groups,
+        '"]).range(["',
+        .colors,
+        '"]);'
       )
     }
   }

@@ -15,11 +15,12 @@
 #' @noRd
 
 train_LightGBM <- function(
-    x,
-    dat_validation = NULL,
-    weights = NULL,
-    hyperparameters = setup_LightGBM(),
-    verbosity = 1L) {
+  x,
+  dat_validation = NULL,
+  weights = NULL,
+  hyperparameters = setup_LightGBM(),
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("lightgbm")
 
@@ -34,7 +35,9 @@ train_LightGBM <- function(
 
   # Convert "null" nrounds to max_nrounds
   if (hyperparameters[["nrounds"]] == "null") {
-    hyperparameters@hyperparameters[["nrounds"]] <- hyperparameters[["max_nrounds"]]
+    hyperparameters@hyperparameters[["nrounds"]] <- hyperparameters[[
+      "max_nrounds"
+    ]]
   }
 
   # Data ----
@@ -52,7 +55,9 @@ train_LightGBM <- function(
     nclasses <- NA
   }
   if (is.null(hyperparameters[["objective"]])) {
-    hyperparameters@hyperparameters[["objective"]] <- if (type == "Regression") {
+    hyperparameters@hyperparameters[["objective"]] <- if (
+      type == "Regression"
+    ) {
       "regression"
     } else {
       if (nclasses == 2) {
@@ -84,7 +89,7 @@ train_LightGBM <- function(
   } else {
     factor_index <- NULL
   }
-  
+
   x <- lightgbm::lgb.Dataset(
     data = as.matrix(exc(x, ncol(x))),
     categorical_feature = factor_index,

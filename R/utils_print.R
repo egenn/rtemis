@@ -19,27 +19,26 @@
 #' @keywords internal
 #' @noRd
 
-printls <- function(x,
-                    prefix = "",
-                    pad = 2,
-                    item_format = bold,
-                    maxlength = 4L,
-                    center_title = TRUE,
-                    title = NULL,
-                    title_newline = FALSE,
-                    newline_pre = FALSE,
-                    format_fn_rhs = ddSci,
-                    print_class = TRUE,
-                    abbrev_class_n = 3L,
-                    print_S4 = FALSE) {
+printls <- function(
+  x,
+  prefix = "",
+  pad = 2,
+  item_format = bold,
+  maxlength = 4L,
+  center_title = TRUE,
+  title = NULL,
+  title_newline = FALSE,
+  newline_pre = FALSE,
+  format_fn_rhs = ddSci,
+  print_class = TRUE,
+  abbrev_class_n = 3L,
+  print_S4 = FALSE
+) {
   # Arguments ----
   if (newline_pre) cat("\n")
   if (is.null(x)) {
     if (!is.null(title)) {
-      padcat(title,
-        pad = pad, newline = title_newline,
-        newline_pre = FALSE
-      )
+      padcat(title, pad = pad, newline = title_newline, newline_pre = FALSE)
     }
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
   } else if (length(x) == 0) {
@@ -51,7 +50,8 @@ printls <- function(x,
     # Remove closures that will cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
-      for (i in is_fn) x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
+      for (i in is_fn)
+        x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
     }
     # Remove NULLs
     null_index <- sapply(x, is.null)
@@ -64,8 +64,10 @@ printls <- function(x,
       } else {
         0
       }
-      padcat(title,
-        pad = title.pad, newline = title_newline,
+      padcat(
+        title,
+        pad = title.pad,
+        newline = title_newline,
         newline_pre = FALSE
       )
     }
@@ -73,40 +75,64 @@ printls <- function(x,
       if (is.list(x[[i]])) {
         if (length(x[[i]]) == 0) {
           cat(paste0(
-            item_format(format(paste0(prefix, xnames[i]),
-              width = lhs, justify = "right"
-            )), ": ",
-            format_fn_rhs("(empty list)"), "\n"
+            item_format(format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            )),
+            ": ",
+            format_fn_rhs("(empty list)"),
+            "\n"
           ))
         } else {
-          cat(paste0(
-            item_format(format(paste0(prefix, xnames[i]),
-              width = lhs, justify = "right"
-            )), ": "
-          ), "\n")
+          cat(
+            paste0(
+              item_format(format(
+                paste0(prefix, xnames[i]),
+                width = lhs,
+                justify = "right"
+              )),
+              ": "
+            ),
+            "\n"
+          )
           printls(x[[i]], pad = lhs + 2)
         }
       } else if (is.logical(x[[i]])) {
         cat(paste0(
-          item_format(format(paste0(prefix, xnames[i]),
-            width = lhs, justify = "right"
-          )), ": ",
-          if (print_class) thin(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
-          ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"), "\n"
+          item_format(format(
+            paste0(prefix, xnames[i]),
+            width = lhs,
+            justify = "right"
+          )),
+          ": ",
+          if (print_class)
+            thin(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
+          ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"),
+          "\n"
         ))
       } else if (S7_inherits(x[[i]])) {
-        cat(paste0(
-          item_format(format(paste0(prefix, xnames[i]),
-            width = lhs, justify = "right"
-          )), ": "
-        ), "\n")
+        cat(
+          paste0(
+            item_format(format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            )),
+            ": "
+          ),
+          "\n"
+        )
         # Print S7 object
         print(x[[i]], pad = lhs + 2)
       } else if (isS4(x[[i]])) {
         cat(paste0(
-          item_format(format(paste0(prefix, xnames[i]),
-            width = lhs, justify = "right"
-          )), ": "
+          item_format(format(
+            paste0(prefix, xnames[i]),
+            width = lhs,
+            justify = "right"
+          )),
+          ": "
         ))
         # Print S4 object
         if (print_S4) {
@@ -117,11 +143,16 @@ printls <- function(x,
         }
       } else {
         cat(paste0(
-          item_format(format(paste0(prefix, xnames[i]),
-            width = lhs, justify = "right"
-          )), ": ",
-          if (print_class) gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
-          headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs), "\n"
+          item_format(format(
+            paste0(prefix, xnames[i]),
+            width = lhs,
+            justify = "right"
+          )),
+          ": ",
+          if (print_class)
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
+          headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
+          "\n"
         ))
       }
     }
@@ -152,7 +183,10 @@ printdf1 <- function(x, pad = 2) {
   lhs <- max(nchar(xnames)) + pad
 
   for (i in seq_len(ncol(x))) {
-    cat(paste(format(xnames[i], width = lhs, justify = "right"), ":", x[1, i]), "\n")
+    cat(
+      paste(format(xnames[i], width = lhs, justify = "right"), ":", x[1, i]),
+      "\n"
+    )
   }
 } # /rtemis::printdf1
 
@@ -196,19 +230,20 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @keywords internal
 #' @noRd
 
-
-printdf <- function(x,
-                    pad = 0,
-                    spacing = 1,
-                    ddSci_dp = NULL,
-                    transpose = FALSE,
-                    justify = "right",
-                    colnames = TRUE,
-                    rownames = TRUE,
-                    column_col = hilite,
-                    row_col = gray,
-                    newline_pre = FALSE,
-                    newline = FALSE) {
+printdf <- function(
+  x,
+  pad = 0,
+  spacing = 1,
+  ddSci_dp = NULL,
+  transpose = FALSE,
+  justify = "right",
+  colnames = TRUE,
+  rownames = TRUE,
+  column_col = hilite,
+  row_col = gray,
+  newline_pre = FALSE,
+  newline = FALSE
+) {
   if (transpose) x <- as.data.frame(t(x))
   xnames <- colnames(x)
   xrownames <- gsub(pattern = "\\.", replacement = " ", rownames(x))
@@ -230,7 +265,8 @@ printdf <- function(x,
     cat(paste0(rep(" ", xrownames_spacing), collapse = ""))
     if (justify == "left") cat(spacer)
     for (i in seq_len(NCOL(x))) {
-      cat(column_col(format(xnames[i],
+      cat(column_col(format(
+        xnames[i],
         width = col_char[i] + spacing,
         justify = justify
       )))
@@ -242,16 +278,15 @@ printdf <- function(x,
   if (rownames) {
     for (i in seq_len(NROW(x))) {
       # cat(row_col(cpad(xrownames[i], xrownames_spacing)))
-      cat(row_col(format(xrownames[i],
+      cat(row_col(format(
+        xrownames[i],
         width = xrownames_spacing,
         justify = "right"
       )))
       for (j in seq_len(NCOL(x))) {
-        cat(spacer,
-          paste(format(x[i, j],
-            width = col_char[j],
-            justify = justify
-          )),
+        cat(
+          spacer,
+          paste(format(x[i, j], width = col_char[j], justify = justify)),
           sep = ""
         )
       }
@@ -260,11 +295,9 @@ printdf <- function(x,
   } else {
     for (i in seq_len(NROW(x))) {
       for (j in seq_len(NCOL(x))) {
-        cat(spacer,
-          paste(format(x[i, j],
-            width = col_char[j],
-            justify = justify
-          )),
+        cat(
+          spacer,
+          paste(format(x[i, j], width = col_char[j], justify = justify)),
           sep = ""
         )
       }
@@ -290,23 +323,31 @@ printtable <- function(x, spacing = 2, pad = 2) {
   })
   lhspad <- max(nchar(class.names), nchar(dimnames[1])) + spacing + pad
   # Top dimname
-  cat(bold(format(dimnames[2],
-    width = lhspad + nchar(dimnames[2]),
-    justify = "right"
-  )), "\n")
+  cat(
+    bold(format(
+      dimnames[2],
+      width = lhspad + nchar(dimnames[2]),
+      justify = "right"
+    )),
+    "\n"
+  )
   # Left dimname
   cat(bold(format(dimnames[1], width = lhspad - spacing, justify = "right")))
   cat(paste0(rep(" ", spacing), collapse = ""))
   for (i in seq_len(n.classes)) {
-    cat(hilite(format(class.names[i],
-      width = col.width[i] + spacing, justify = "left"
+    cat(hilite(format(
+      class.names[i],
+      width = col.width[i] + spacing,
+      justify = "left"
     )))
   }
 
-  printdf(mat,
+  printdf(
+    mat,
     pad = lhspad - max(nchar(class.names)) - spacing,
     colnames = FALSE,
-    row_col = hilite, newline_pre = TRUE,
+    row_col = hilite,
+    newline_pre = TRUE,
     spacing = spacing
   )
 } # /rtemis::printtable
@@ -325,7 +366,10 @@ headdot <- function(x, maxlength = 6, format_fn = identity) {
   if (length(x) < maxlength) {
     paste(format_fn(x), collapse = ", ")
   } else {
-    paste0(paste(format_fn(head(as.vector(x), n = maxlength)), collapse = ", "), "...")
+    paste0(
+      paste(format_fn(head(as.vector(x), n = maxlength)), collapse = ", "),
+      "..."
+    )
   }
 } # /rtemis::headdot
 
@@ -345,40 +389,54 @@ headdot <- function(x, maxlength = 6, format_fn = identity) {
 #' }
 #' @keywords internal
 #' @noRd
-twocol2html <- function(x,
-                        font_family = "'Lato'",
-                        font_col = "#ffffff",
-                        font_size = "18px",
-                        header_bg = "#404040",
-                        table_bg = "#7F7F7F",
-                        dat_col = rep("#525252", NROW(x)), # get color grad using all tables
-                        dat_font_col = "#ffffff",
-                        height = "50px",
-                        # header
-                        head_padding = "5px",
-                        # table
-                        dat_padding = "5px") {
+twocol2html <- function(
+  x,
+  font_family = "'Lato'",
+  font_col = "#ffffff",
+  font_size = "18px",
+  header_bg = "#404040",
+  table_bg = "#7F7F7F",
+  dat_col = rep("#525252", NROW(x)), # get color grad using all tables
+  dat_font_col = "#ffffff",
+  height = "50px",
+  # header
+  head_padding = "5px",
+  # table
+  dat_padding = "5px"
+) {
   # 1. table style ----
   tablestyle <- paste0(
-    '<table style="font-family: ', font_family,
+    '<table style="font-family: ',
+    font_family,
     ", sans-serif; display: table; border-collapse: collapse; margin-left: auto; margin-right: auto; color:",
-    font_col, "; font-size: ", font_size,
+    font_col,
+    "; font-size: ",
+    font_size,
     "; padding: 0px; text-align: right; background-color: ",
-    table_bg, "; width: auto; border-top-style: none; border-bottom-style: none; overflow-y: scroll; height: ",
-    height, '; display: box">'
+    table_bg,
+    "; width: auto; border-top-style: none; border-bottom-style: none; overflow-y: scroll; height: ",
+    height,
+    '; display: box">'
   )
 
   # 2. header row ----
   header <- paste0(
-    '<tr><th style="font-weight: bold; padding: ', head_padding,
+    '<tr><th style="font-weight: bold; padding: ',
+    head_padding,
     "; text-align: center;",
-    "background-color: ", header_bg,
-    '">', colnames(x)[1], '</th>
-    <th style="font-weight: bold; padding:', head_padding,
-    "; text-align: center;",
-    "background-color: ", header_bg,
+    "background-color: ",
+    header_bg,
     '">',
-    colnames(x)[2], "</th></tr>"
+    colnames(x)[1],
+    '</th>
+    <th style="font-weight: bold; padding:',
+    head_padding,
+    "; text-align: center;",
+    "background-color: ",
+    header_bg,
+    '">',
+    colnames(x)[2],
+    "</th></tr>"
   )
 
   # 3. Data rows ----
@@ -386,12 +444,17 @@ twocol2html <- function(x,
   for (i in seq_along(tab)) {
     # first column: variable name; second column: coefficient
     tab[i] <- paste0(
-      "<tr><td>", x[i, 1],
-      '</td><td style="color: ', dat_font_col,
+      "<tr><td>",
+      x[i, 1],
+      '</td><td style="color: ',
+      dat_font_col,
       "; font-variant-numeric: tabular-nums; background-color: ",
       dat_col[i],
-      "; padding: ", dat_padding,
-      '">', ddSci(x[i, 2], 3), "</td></tr>"
+      "; padding: ",
+      dat_padding,
+      '">',
+      ddSci(x[i, 2], 3),
+      "</td></tr>"
     )
   }
 
@@ -413,7 +476,7 @@ twocol2html <- function(x,
 #' @param newline Logical: If TRUE, end with new line character.
 #'
 #' @return vector of NROW, NCOL invisibly
-#' 
+#'
 #' @author EDG
 #' @export
 #'
@@ -481,24 +544,31 @@ list2text <- function(x, sep = ": ", line = "\n") {
   .names <- names(x)
   sapply(seq_along(x), \(i) {
     paste0(.names[i], sep, x[[i]], line)
-  }) |> paste0(collapse = "")
+  }) |>
+    paste0(collapse = "")
 } # /rtemis::list2text
 
 
 #' @author EDG
 #' @keywords internal
 #' @noRd
-list2html <- function(x, sep = ": ",
-                      col = "#16A0AC",
-                      key.weight = 100,
-                      value.weight = 300,
-                      line = "<br>") {
+list2html <- function(
+  x,
+  sep = ": ",
+  col = "#16A0AC",
+  key.weight = 100,
+  value.weight = 300,
+  line = "<br>"
+) {
   .names <- names(x)
   sapply(seq_along(x), \(i) {
     paste0(
       span(.names[i], style = paste0("font-weight:", key.weight, ";")),
       sep,
-      span(x[[i]], style = paste0("color:", col, "; font-weight:", value.weight, ";")),
+      span(
+        x[[i]],
+        style = paste0("color:", col, "; font-weight:", value.weight, ";")
+      ),
       line
     )
   }) |>
@@ -514,7 +584,8 @@ printchar <- function(x, left_pad = 2) {
   target_length <- left_pad + max(nchar(x))
   for (i in x) {
     cat(
-      hilite(leftpad(i, target_length)), "\n"
+      hilite(leftpad(i, target_length)),
+      "\n"
     )
   }
 } # /rtemis::printchar

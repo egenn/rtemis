@@ -3,20 +3,24 @@
 # EDG rtemis.org
 
 #' @name get_factor_levels
-#' 
+#'
 #' @title
 #' Get factor levels from data.frame or similar
 #'
-#' @usage 
+#' @usage
 #' get_factor_levels(x)
-#' 
+#'
 #' @param x data.frame or data.table.
 #'
 #' @return Named list of factor levels. Names correspond to column names.
-#' 
+#'
 #' @author EDG
 #' @export
-get_factor_levels <- new_generic("get_factor_levels", "x", function(x) S7_dispatch())
+get_factor_levels <- new_generic(
+  "get_factor_levels",
+  "x",
+  function(x) S7_dispatch()
+)
 method(get_factor_levels, class_data.frame) <- function(x) {
   factor_index <- which(sapply(x, is.factor))
   lapply(x[, factor_index, drop = FALSE], levels)
@@ -44,17 +48,19 @@ method(get_factor_levels, class_data.table) <- function(x) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @return Merged **data.table**
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 
-merge_long_treatment <- function(x,
-                                 group_varnames,
-                                 time_varname = "Date",
-                                 start_date,
-                                 end_date,
-                                 interval_days = 14L,
-                                 verbosity = 1L) {
+merge_long_treatment <- function(
+  x,
+  group_varnames,
+  time_varname = "Date",
+  start_date,
+  end_date,
+  interval_days = 14L,
+  verbosity = 1L
+) {
   # Arguments ----
   if (!is.list(x)) stop("x must be a named list")
   n_sets <- length(x)
@@ -62,7 +68,8 @@ merge_long_treatment <- function(x,
   .names <- names(x)
 
   # Check there are at least 2 inputs
-  if (n_sets < 2) stop("Please provide at least 2 datasets as a named list in 'x'")
+  if (n_sets < 2)
+    stop("Please provide at least 2 datasets as a named list in 'x'")
 
   # Check all inputs contain at least one of group_varname and the time_varname
   for (i in seq(x)) {
@@ -72,7 +79,9 @@ merge_long_treatment <- function(x,
     }
     if (any(!group_varnames %in% .names)) {
       stop(
-        "Dataset", .names[i], "does not include any variable named",
+        "Dataset",
+        .names[i],
+        "does not include any variable named",
         paste(group_varnames, collapse = " or ")
       )
     }
@@ -81,7 +90,10 @@ merge_long_treatment <- function(x,
   # Print input summary ----
   if (verbosity > 0L) {
     msg2("There are", n_sets, "input datasets:")
-    .summary <- t(data.frame(sapply(x, function(i) paste(NROW(i), "x", NCOL(i)))))
+    .summary <- t(data.frame(sapply(
+      x,
+      function(i) paste(NROW(i), "x", NCOL(i))
+    )))
     printdf1(.summary, pad = 4)
   }
 
@@ -105,7 +117,11 @@ merge_long_treatment <- function(x,
     setkeyv(x[[i]], c(.key, time_varname))
     if (verbosity > 0L) {
       msg20(
-        "Merge ", orange(i), " of ", orange(n_sets), ": Using keys ",
+        "Merge ",
+        orange(i),
+        " of ",
+        orange(n_sets),
+        ": Using keys ",
         paste0(hilite(.key), ", ", hilite(time_varname))
       )
     }
@@ -114,8 +130,11 @@ merge_long_treatment <- function(x,
     # })) msg20("Successfully merged ", .names[i], ":")
     if (verbosity > 0L) {
       msg2(
-        "Merged dataset now contains", hilite(NROW(dat)), "rows and",
-        hilite(NCOL(dat)), "columns"
+        "Merged dataset now contains",
+        hilite(NROW(dat)),
+        "rows and",
+        hilite(NCOL(dat)),
+        "columns"
       )
     }
   }
@@ -138,17 +157,19 @@ merge_long_treatment <- function(x,
 #' @param skipEmptyCols Logical: If TRUE, skip empty columns
 #'
 #' @return List of data.frames
-#' 
+#'
 #' @author EDG
 #' @export
-xlsx2list <- function(x,
-                      sheet = NULL,
-                      startRow = 1,
-                      colNames = TRUE,
-                      na.strings = "NA",
-                      detectDates = TRUE,
-                      skipEmptyRows = TRUE,
-                      skipEmptyCols = TRUE) {
+xlsx2list <- function(
+  x,
+  sheet = NULL,
+  startRow = 1,
+  colNames = TRUE,
+  na.strings = "NA",
+  detectDates = TRUE,
+  skipEmptyRows = TRUE,
+  skipEmptyCols = TRUE
+) {
   if (is.null(sheet)) {
     sheet <- openxlsx::getSheetNames(x)
   }
@@ -158,7 +179,8 @@ xlsx2list <- function(x,
   }
 
   out <- lapply(seq_along(sheet), \(i) {
-    openxlsx::read.xlsx(x,
+    openxlsx::read.xlsx(
+      x,
       sheet = i,
       startRow = startRow[i],
       colNames = colNames,
@@ -222,16 +244,19 @@ xlsx2list <- function(x,
 #'
 #' mc <- matchcases(cases, controls, 2, "PID", "CID")
 #' }
-matchcases <- function(target, pool,
-                       n_matches = 1,
-                       target_id = NULL,
-                       pool_id = NULL,
-                       exactmatch_factors = TRUE,
-                       exactmatch_cols = NULL,
-                       distmatch_cols = NULL,
-                       norepeats = TRUE,
-                       ignore_na = FALSE,
-                       verbosity = 1L) {
+matchcases <- function(
+  target,
+  pool,
+  n_matches = 1,
+  target_id = NULL,
+  pool_id = NULL,
+  exactmatch_factors = TRUE,
+  exactmatch_cols = NULL,
+  distmatch_cols = NULL,
+  norepeats = TRUE,
+  ignore_na = FALSE,
+  verbosity = 1L
+) {
   ntarget <- nrow(target)
   npool <- nrow(pool)
 
@@ -263,9 +288,13 @@ matchcases <- function(target, pool,
   distmatch_cols <- distmatch_cols[distmatch_cols %in% colnames(pool)]
 
   # Remove unused columns, if any
-  .remove <- colnames(target)[!colnames(target) %in% c(exactmatch_cols, distmatch_cols)]
+  .remove <- colnames(target)[
+    !colnames(target) %in% c(exactmatch_cols, distmatch_cols)
+  ]
   target[, .remove] <- NULL
-  .remove <- colnames(pool)[!colnames(pool) %in% c(exactmatch_cols, distmatch_cols)]
+  .remove <- colnames(pool)[
+    !colnames(pool) %in% c(exactmatch_cols, distmatch_cols)
+  ]
   pool[, .remove] <- NULL
 
   # Convert all non-exact-matching to numeric
@@ -295,7 +324,10 @@ matchcases <- function(target, pool,
       subpool <- pool_s
     } else {
       ind <- sapply(seq_len(nrow(pool_s)), function(j) {
-        all(target_s[i, exactmatch_cols] == pool_s[j, exactmatch_cols], na.rm = ignore_na)
+        all(
+          target_s[i, exactmatch_cols] == pool_s[j, exactmatch_cols],
+          na.rm = ignore_na
+        )
       })
       subpool <- pool_s[ind, , drop = FALSE]
     }
@@ -304,7 +336,8 @@ matchcases <- function(target, pool,
     distord <- order(sapply(
       seq_len(nrow(subpool)),
       function(j) {
-        mse(unlist(target_s[i, distmatch_cols]),
+        mse(
+          unlist(target_s[i, distmatch_cols]),
           unlist(subpool[j, distmatch_cols]),
           na.rm = ignore_na
         )
@@ -312,7 +345,8 @@ matchcases <- function(target, pool,
     ))
     n_matched <- min(n_matches, nrow(subpool))
     mc[i, 2:(n_matched + 1)] <- subpool[, 1][distord[seq(n_matched)]]
-    if (norepeats) pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n_matches + 1)], ]
+    if (norepeats)
+      pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n_matches + 1)], ]
   }
 
   mc

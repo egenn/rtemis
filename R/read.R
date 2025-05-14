@@ -59,26 +59,29 @@
 #' datadir <- "~/icloud/Data"
 #' dat <- read("iris.csv", datadir)
 #' }
-read <- function(filename,
-                 datadir = NULL,
-                 make_unique = TRUE,
-                 character2factor = FALSE,
-                 clean_colnames = TRUE,
-                 delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
-                 xlsx_sheet = 1,
-                 sep = NULL,
-                 quote = "\"",
-                 na_strings = c(""),
-                 #  polars_ignore_errors = TRUE,
-                 #  polars_infer_schema_length = 100,
-                 #  polars_encoding = "utf8-lossy",
-                 #  polars_parse_dates = TRUE,
-                 output = c("data.table", "default"),
-                 attr = NULL,
-                 value = NULL,
-                 verbosity = 1L,
-                 fread_verbosity = 0L,
-                 timed = verbosity > 0L, ...) {
+read <- function(
+  filename,
+  datadir = NULL,
+  make_unique = TRUE,
+  character2factor = FALSE,
+  clean_colnames = TRUE,
+  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
+  xlsx_sheet = 1,
+  sep = NULL,
+  quote = "\"",
+  na_strings = c(""),
+  #  polars_ignore_errors = TRUE,
+  #  polars_infer_schema_length = 100,
+  #  polars_encoding = "utf8-lossy",
+  #  polars_parse_dates = TRUE,
+  output = c("data.table", "default"),
+  attr = NULL,
+  value = NULL,
+  verbosity = 1L,
+  fread_verbosity = 0L,
+  timed = verbosity > 0L,
+  ...
+) {
   check_dependencies("data.table")
   if (timed) start_time <- intro(verbosity = 0L)
   delim.reader <- match.arg(delim.reader)
@@ -95,8 +98,10 @@ read <- function(filename,
     check_dependencies("arrow")
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), " using arrow::read_parquet()..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        " using arrow::read_parquet()..."
       )
     }
     .dat <- arrow::read_parquet(path, ...)
@@ -104,8 +109,10 @@ read <- function(filename,
   } else if (ext == "rds") {
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), "..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        "..."
       )
     }
     .dat <- readRDS(path)
@@ -113,8 +120,10 @@ read <- function(filename,
     check_dependencies("openxlsx")
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), " using openxlsx::read.xlsx()..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        " using openxlsx::read.xlsx()..."
       )
     }
     .dat <- openxlsx::read.xlsx(filename, xlsx_sheet, ...)
@@ -123,8 +132,10 @@ read <- function(filename,
     check_dependencies("haven")
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), " using haven::read_dta()..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        " using haven::read_dta()..."
       )
     }
     .dat <- haven::read_dta(path, ...)
@@ -133,8 +144,10 @@ read <- function(filename,
     check_dependencies("seqinr")
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), " using seqinr::read.fasta()..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        " using seqinr::read.fasta()..."
       )
     }
     .dat <- seqinr::read.fasta(path, ...)
@@ -145,8 +158,10 @@ read <- function(filename,
     check_dependencies("farff")
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), " using farff::readARFF()..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        " using farff::readARFF()..."
       )
     }
     .dat <- farff::readARFF(path, ...)
@@ -154,9 +169,12 @@ read <- function(filename,
   } else {
     if (verbosity > 0L) {
       msg20(
-        bold(green("\u25B6")), " Reading ",
-        hilite(basename(path)), " using ",
-        delim.reader, "..."
+        bold(green("\u25B6")),
+        " Reading ",
+        hilite(basename(path)),
+        " using ",
+        delim.reader,
+        "..."
       )
     }
     if (delim.reader == "data.table") {
@@ -166,14 +184,18 @@ read <- function(filename,
         sep = sep,
         quote = quote,
         na.strings = na_strings,
-        verbose = fread_verbosity > 0L
-        , ...
+        verbose = fread_verbosity > 0L,
+        ...
       )
     } else if (delim.reader == "duckdb") {
       check_dependencies("DBI", "duckdb")
       if (is.null(sep)) sep <- ","
       if (length(na_strings) > 1) {
-        msg2("Note: 'na_strings' must be a single string for duckdb; setting to '", na_strings[1], "'")
+        msg2(
+          "Note: 'na_strings' must be a single string for duckdb; setting to '",
+          na_strings[1],
+          "'"
+        )
         na_strings <- na_strings[1]
       }
       con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
@@ -200,7 +222,8 @@ read <- function(filename,
         path,
         delim = sep,
         quote = quote,
-        na = na_strings, ...
+        na = na_strings,
+        ...
       )
       if (output == "data.table") setDT(.dat)
       # } else if (delim.reader == "polars") {
@@ -226,7 +249,8 @@ read <- function(filename,
         delim = sep,
         quote = quote,
         na = na_strings,
-        progress = verbosity > 0L, ...
+        progress = verbosity > 0L,
+        ...
       )
       if (output == "data.table") setDT(.dat)
     }
@@ -236,8 +260,10 @@ read <- function(filename,
   .ncol <- ncol(.dat)
   if (verbosity > 0L) {
     msg2(
-      "Read in", hilitebig(.nrow),
-      "x", hilitebig(.ncol)
+      "Read in",
+      hilitebig(.nrow),
+      "x",
+      hilitebig(.ncol)
     )
   }
   if (make_unique) {
@@ -252,8 +278,10 @@ read <- function(filename,
         paste0(ngettext(.dup, "row", "rows"), ".")
       )
       msg2(
-        "New dimensions:", hilitebig(.nrowp),
-        "x", hilitebig(.ncol)
+        "New dimensions:",
+        hilitebig(.nrowp),
+        "x",
+        hilitebig(.ncol)
       )
     }
   }

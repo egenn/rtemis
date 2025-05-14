@@ -20,11 +20,12 @@
 #' @keywords internal
 
 train_TabNet <- function(
-    x,
-    weights = NULL,
-    hyperparameters = NULL,
-    tuner_parameters = NULL,
-    verbosity = 1L) {
+  x,
+  weights = NULL,
+  hyperparameters = NULL,
+  tuner_parameters = NULL,
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("torch", "tabnet")
 

@@ -55,23 +55,26 @@
 #' @author EDG
 #' @export
 
-factorize <- function(x,
-                      n_factors = NULL,
-                      method = "minres",
-                      rotation = "oblimin",
-                      scores = "regression",
-                      cor = "cor",
-                      fa_n_iter = 100,
-                      omega_method = "minres",
-                      omega_rotation = c("oblimin", "simplimax", "promax", "cluster", "target"),
-                      omega_n_iter = 1,
-                      x_name = NULL,
-                      print_plot = TRUE,
-                      do_pa = TRUE,
-                      do_fa = TRUE,
-                      do_bifactor = TRUE,
-                      do_hclust = FALSE,
-                      verbosity = 1L, ...) {
+factorize <- function(
+  x,
+  n_factors = NULL,
+  method = "minres",
+  rotation = "oblimin",
+  scores = "regression",
+  cor = "cor",
+  fa_n_iter = 100,
+  omega_method = "minres",
+  omega_rotation = c("oblimin", "simplimax", "promax", "cluster", "target"),
+  omega_n_iter = 1,
+  x_name = NULL,
+  print_plot = TRUE,
+  do_pa = TRUE,
+  do_fa = TRUE,
+  do_bifactor = TRUE,
+  do_hclust = FALSE,
+  verbosity = 1L,
+  ...
+) {
   # Dependencies ----
   check_dependencies("psych")
 
@@ -83,7 +86,8 @@ factorize <- function(x,
   # Parallel Analysis - Estimate Number of Factors ----
   if (do_pa) {
     if (verbosity > 0L) msg2("Running Parallel Analysis...")
-    parallel_analysis <- psych::fa.parallel(x,
+    parallel_analysis <- psych::fa.parallel(
+      x,
       fm = method,
       main = "Parallel Analysis Scree Plot"
     )
@@ -96,8 +100,10 @@ factorize <- function(x,
     } else {
       if (n_factors != parallel_analysis[["nfact"]]) {
         msg2(
-          n_factors, "requested; Parallel analysis suggests",
-          parallel_analysis[["nfact"]], "factors."
+          n_factors,
+          "requested; Parallel analysis suggests",
+          parallel_analysis[["nfact"]],
+          "factors."
         )
         msg2("Check scree plot")
       }
@@ -110,7 +116,8 @@ factorize <- function(x,
   # Factor Analysis ----
   if (do_fa) {
     if (verbosity > 0L) msg2("Running Exploratory Factor Analysis...")
-    x_fa <- psych::fa(x,
+    x_fa <- psych::fa(
+      x,
       nfactors = n_factors,
       fm = method,
       rotate = rotation,
@@ -120,9 +127,7 @@ factorize <- function(x,
     )
     # Plot factors
     if (print_plot) {
-      psych::fa.diagram(x_fa,
-        main = paste(x_name, "Factor Analysis")
-      )
+      psych::fa.diagram(x_fa, main = paste(x_name, "Factor Analysis"))
     }
     # Get factor scores
     fa_scores <- x_fa[["scores"]]
@@ -133,7 +138,8 @@ factorize <- function(x,
   # Bifactor Analysis ----
   if (do_bifactor) {
     if (verbosity > 0L) msg2("Running Bifactor Analysis...")
-    x_omega <- psych::omegaSem(x,
+    x_omega <- psych::omegaSem(
+      x,
       nfactors = n_factors,
       fm = omega_method,
       n.iter = omega_n_iter,

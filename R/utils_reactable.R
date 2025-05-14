@@ -5,7 +5,7 @@
 #' View table using reactable
 #'
 #' @param x data.frame, data.table or similar
-#' @param datatypes Character vector: Data types of columns in x, 
+#' @param datatypes Character vector: Data types of columns in x,
 #' e.g. `c("numeric", "factor", "character")`
 #' @param lightsout Logical: If TRUE, use dark theme.
 #' @param bg Background color.
@@ -17,13 +17,16 @@
 #' @author E D Gennatas
 #' @export
 
-rt_reactable <- function(x,
-                         datatypes = NULL,
-                         lightsout = TRUE,
-                         bg = "#121212",
-                         pagination = TRUE,
-                         searchable = TRUE,
-                         bordered = TRUE, ...) {
+rt_reactable <- function(
+  x,
+  datatypes = NULL,
+  lightsout = TRUE,
+  bg = "#121212",
+  pagination = TRUE,
+  searchable = TRUE,
+  bordered = TRUE,
+  ...
+) {
   theme <- if (lightsout) {
     reactable::reactableTheme(
       color = "#fff",
@@ -39,7 +42,9 @@ rt_reactable <- function(x,
         background = "hsl(0, 0%, 20%)",
         color = "#fff",
         "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 15%)"),
-        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 10%)"),
+        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(
+          background = "hsl(0, 0%, 10%)"
+        ),
         borderColor = "#00000000"
       )
     )
@@ -53,7 +58,9 @@ rt_reactable <- function(x,
         background = "hsl(0, 0%, 85%)",
         color = "#000",
         "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 80%)"),
-        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 75%)"),
+        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(
+          background = "hsl(0, 0%, 75%)"
+        ),
         borderColor = "#ffffff00"
       )
     )
@@ -69,10 +76,9 @@ rt_reactable <- function(x,
       type <- datatypes[[value]]
       value <- gsub("_", " ", value, fixed = TRUE)
       div(
-        title = value, value,
-        div(type,
-          style = "font-weight: 300; color: rgb(24, 163, 172);"
-        )
+        title = value,
+        value,
+        div(type, style = "font-weight: 300; color: rgb(24, 163, 172);")
       )
     }
   }
@@ -90,6 +96,7 @@ rt_reactable <- function(x,
       cell = function(value) format(value, digits = 2, nsmall = 2),
       align = "right"
     ),
-    theme = theme, ...
+    theme = theme,
+    ...
   )
 } # rtemis::rt_reactable

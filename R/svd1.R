@@ -13,7 +13,6 @@
 #' @export
 
 svd1 <- function(x, x_test = NULL) {
-
   # Arguments ----
   if (missing(x)) {
     print(args(svd1))
@@ -32,12 +31,9 @@ svd1 <- function(x, x_test = NULL) {
     x_test.proj <- abs(scale(x_test, center = FALSE) %*% x.svd[["v"]])
   }
 
-  s.out <- list(u = x.svd[["u"]],
-                d = x.svd[["d"]],
-                v = x.svd[["v"]])
-  s.out$proj  <- x.proj
+  s.out <- list(u = x.svd[["u"]], d = x.svd[["d"]], v = x.svd[["v"]])
+  s.out$proj <- x.proj
   if (!is.null(x_test)) s.out$test_proj <- x_test.proj
 
   s.out
-
 } # rtemis::svd1

@@ -88,7 +88,13 @@ check_inherits <- function(x, cl) {
   xname <- bold(underline(deparse(substitute(x))))
   if (!is.null(x) && !inherits(x, cl)) {
     input <- deparse(substitute(x))
-    cli::cli_abort(hilite(xname), " must be of class ", bold(cl), ".", call. = FALSE)
+    cli::cli_abort(
+      hilite(xname),
+      " must be of class ",
+      bold(cl),
+      ".",
+      call. = FALSE
+    )
   }
 } # /rtemis::check_inherits
 
@@ -276,7 +282,10 @@ check_floatpos1 <- function(x) {
     cli::cli_abort(paste(xname, "must not contain NAs."))
   }
   if (any(x <= 0) || any(x > 1)) {
-    cli::cli_abort(paste(xname, "must be greater than 0 and less or equal to 1."))
+    cli::cli_abort(paste(
+      xname,
+      "must be greater than 0 and less or equal to 1."
+    ))
   }
 } # /rtemis::check_floatpos1
 
@@ -334,19 +343,31 @@ check_float0pos <- function(x) {
 #' @author EDG
 #' @keywords internal
 #' @noRd
-get_n_workers_for_learner <- function(algorithm, parallel_type, n_workers = NULL, verbosity = 1L) {
-
+get_n_workers_for_learner <- function(
+  algorithm,
+  parallel_type,
+  n_workers = NULL,
+  verbosity = 1L
+) {
   # If n_workers is not set, set it to available cores.
   # If learner uses parallelization and plan is run on single machine,
   # set n_workers to 1 to avoid overparallelization.
   single_machine_types <- c(
-    "future::multicore", "future::callr", "future::multisession",
-    "future.mirai::mirai_multisession", "mirai"
+    "future::multicore",
+    "future::callr",
+    "future::multisession",
+    "future.mirai::mirai_multisession",
+    "mirai"
   )
-  if (parallel_type %in% single_machine_types && algorithm %in% live[["parallelized_learners"]]) {
+  if (
+    parallel_type %in%
+      single_machine_types &&
+      algorithm %in% live[["parallelized_learners"]]
+  ) {
     if (verbosity > 0L && !is.null(n_workers) && n_workers > 1) {
       msg2(hilite2(
-        "Running a parallelized learner and n_workers is greater than 1, but plan ", parallel_type,
+        "Running a parallelized learner and n_workers is greater than 1, but plan ",
+        parallel_type,
         " is run on single machine. Setting n_workers to 1."
       ))
     }
@@ -356,7 +377,9 @@ get_n_workers_for_learner <- function(algorithm, parallel_type, n_workers = NULL
   if (!is.null(n_workers) && n_workers <= available_workers) {
     return(n_workers)
   } else {
-    if (verbosity > 0L && !is.null(n_workers) && n_workers > available_workers) {
+    if (
+      verbosity > 0L && !is.null(n_workers) && n_workers > available_workers
+    ) {
       msg2(hilite2("Requested n_workers is greater than available cores."))
     }
   }
@@ -404,7 +427,9 @@ check_dependencies <- function(..., verbosity = 0L) {
   if (any(err)) {
     cli::cli_abort(
       paste0(
-        "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
+        "Please install the following ",
+        ngettext(sum(err), "dependency", "dependencies"),
+        ":\n",
         pastels(ns[err], bullet = "    -")
       )
     )

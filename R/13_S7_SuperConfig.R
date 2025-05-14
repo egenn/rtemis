@@ -43,7 +43,6 @@ SuperConfig <- new_class(
 #' @author EDG
 #' @noRd
 print.SuperConfig <- function(x, ...) {
-
 } # /rtemis::print.SuperConfig
 
 method(print, SuperConfig) <- function(x, ...) {

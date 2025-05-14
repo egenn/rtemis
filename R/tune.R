@@ -11,9 +11,7 @@
 #' @noRd
 get_tuner_fn <- function(type = "GridSearch") {
   type <- match_arg(type, c("GridSearch"))
-  switch(type,
-    "GridSearch" = "tune_GridSearch"
-  )
+  switch(type, "GridSearch" = "tune_GridSearch")
 } # /rtemis::get_tuner_fn
 
 #' Tune Supervised Learning Model
@@ -28,18 +26,19 @@ get_tuner_fn <- function(type = "GridSearch") {
 #' @keywords internal
 #' @noRd
 tune <- function(
-    x,
-    hyperparameters,
-    tuner_parameters,
-    weights = NULL,
-    verbosity = 1L,
-    parallel_type = "none") {
+  x,
+  hyperparameters,
+  tuner_parameters,
+  weights = NULL,
+  verbosity = 1L,
+  parallel_type = "none"
+) {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
   tuner_fn <- get_tuner_fn(tuner_parameters@type)
   # do_call(
-  #   fn = tuner_fn, 
+  #   fn = tuner_fn,
   #   args = list(
   #     x = x,
   #     hyperparameters = hyperparameters,

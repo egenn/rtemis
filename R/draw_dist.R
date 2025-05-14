@@ -77,64 +77,70 @@
 #' draw_dist(split(iris[["Sepal.Length"]], iris[["Species"]]), xlab = "Sepal Length")
 #' }
 #'
-draw_dist <- function(x,
-                      type = c("density", "histogram"),
-                      mode = c("overlap", "ridge"),
-                      group = NULL,
-                      main = NULL,
-                      xlab = NULL,
-                      ylab = NULL,
-                      col = NULL,
-                      alpha = .75,
-                      plot_bg = NULL,
-                      theme = rtemis_theme,
-                      palette = rtemis_palette,
-                      axes_square = FALSE,
-                      group_names = NULL,
-                      font_size = 16,
-                      font_alpha = .8,
-                      legend = NULL,
-                      legend_xy = c(0, 1),
-                      legend_col = NULL,
-                      legend_bg = "#FFFFFF00",
-                      legend_border_col = "#FFFFFF00",
-                      bargap = .05,
-                      vline = NULL,
-                      vline_col = theme[["fg"]],
-                      vline_width = 1,
-                      vline_dash = "dot",
-                      text = NULL,
-                      text_x = 1,
-                      text_xref = "paper",
-                      text_xanchor = "left",
-                      text_y = 1,
-                      text_yref = "paper",
-                      text_yanchor = "top",
-                      text_col = theme[["fg"]],
-                      margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                      automargin_x = TRUE,
-                      automargin_y = TRUE,
-                      zerolines = FALSE,
-                      density_kernel = "gaussian",
-                      density_bw = "SJ",
-                      histnorm = c(
-                        "", "density", "percent",
-                        "probability", "probability density"
-                      ),
-                      histfunc = c("count", "sum", "avg", "min", "max"),
-                      hist_n_bins = 20,
-                      barmode = "overlay", # TODO: alternatives
-                      ridge_sharex = TRUE,
-                      ridge_y_labs = FALSE,
-                      ridge_order_on_mean = TRUE,
-                      displayModeBar = TRUE,
-                      modeBar_file_format = "svg",
-                      width = NULL,
-                      height = NULL,
-                      filename = NULL,
-                      file_width = 500,
-                      file_height = 500,
-                      file_scale = 1, ...) {
+draw_dist <- function(
+  x,
+  type = c("density", "histogram"),
+  mode = c("overlap", "ridge"),
+  group = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = .75,
+  plot_bg = NULL,
+  theme = rtemis_theme,
+  palette = rtemis_palette,
+  axes_square = FALSE,
+  group_names = NULL,
+  font_size = 16,
+  font_alpha = .8,
+  legend = NULL,
+  legend_xy = c(0, 1),
+  legend_col = NULL,
+  legend_bg = "#FFFFFF00",
+  legend_border_col = "#FFFFFF00",
+  bargap = .05,
+  vline = NULL,
+  vline_col = theme[["fg"]],
+  vline_width = 1,
+  vline_dash = "dot",
+  text = NULL,
+  text_x = 1,
+  text_xref = "paper",
+  text_xanchor = "left",
+  text_y = 1,
+  text_yref = "paper",
+  text_yanchor = "top",
+  text_col = theme[["fg"]],
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  automargin_x = TRUE,
+  automargin_y = TRUE,
+  zerolines = FALSE,
+  density_kernel = "gaussian",
+  density_bw = "SJ",
+  histnorm = c(
+    "",
+    "density",
+    "percent",
+    "probability",
+    "probability density"
+  ),
+  histfunc = c("count", "sum", "avg", "min", "max"),
+  hist_n_bins = 20,
+  barmode = "overlay", # TODO: alternatives
+  ridge_sharex = TRUE,
+  ridge_y_labs = FALSE,
+  ridge_order_on_mean = TRUE,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  width = NULL,
+  height = NULL,
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -206,7 +212,6 @@ draw_dist <- function(x,
   main_col <- plotly::toRGB(theme[["main_col"]])
   if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
 
-
   # '- Axis font ----
   f <- list(
     family = theme[["font_family"]],
@@ -241,7 +246,8 @@ draw_dist <- function(x,
       tickfont = tickfont,
       zeroline = zerolines
     )
-    ridge_groups <- if (ridge_order_on_mean) order(sapply(x, mean), decreasing = TRUE) else seq_len(n_groups)
+    ridge_groups <- if (ridge_order_on_mean)
+      order(sapply(x, mean), decreasing = TRUE) else seq_len(n_groups)
   }
 
   # plotly ----
@@ -250,15 +256,19 @@ draw_dist <- function(x,
 
   .text <- lapply(x, function(i) {
     paste(
-      "mean =", ddSci(mean(i, na.rm = TRUE)),
-      "\nsd =", ddSci(sd(i, na.rm = TRUE))
+      "mean =",
+      ddSci(mean(i, na.rm = TRUE)),
+      "\nsd =",
+      ddSci(sd(i, na.rm = TRUE))
     )
   })
 
   # '- { Density } ----
   if (type == "density") {
     if (is.null(ylab)) ylab <- "Density"
-    xl_density <- lapply(x, density,
+    xl_density <- lapply(
+      x,
+      density,
       na.rm = TRUE,
       kernel = density_kernel,
       bw = density_bw
@@ -271,7 +281,8 @@ draw_dist <- function(x,
         height = height
       )
       for (i in seq_len(n_groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = xl_density[[i]][["x"]],
           y = xl_density[[i]][["y"]],
           type = "scatter",
@@ -304,10 +315,12 @@ draw_dist <- function(x,
           plotly::layout(
             xaxis = axis,
             yaxis = c(
-              list(title = list(
-                text = .names[i],
-                font = f
-              )),
+              list(
+                title = list(
+                  text = .names[i],
+                  font = f
+                )
+              ),
               axis
             )
           )
@@ -330,7 +343,8 @@ draw_dist <- function(x,
         height = height
       )
       for (i in seq_len(n_groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = x[[i]],
           type = "histogram",
           marker = list(color = plotly::toRGB(col[i], alpha)),
@@ -344,10 +358,7 @@ draw_dist <- function(x,
           bingroup = bingroup
         )
       }
-      plt <- plotly::layout(plt,
-        barmode = barmode,
-        bargap = bargap
-      )
+      plt <- plotly::layout(plt, barmode = barmode, bargap = bargap)
     } else {
       # '- Histogram ridge ----
       plt <- lapply(ridge_groups, function(i) {
@@ -369,10 +380,12 @@ draw_dist <- function(x,
           plotly::layout(
             xaxis = axis,
             yaxis = c(
-              list(title = list(
-                text = .names[i],
-                font = f
-              )),
+              list(
+                title = list(
+                  text = .names[i],
+                  font = f
+                )
+              ),
               axis
             ),
             bargap = bargap
@@ -382,7 +395,8 @@ draw_dist <- function(x,
   }
 
   if (mode == "ridge") {
-    plt <- plotly::subplot(plt,
+    plt <- plotly::subplot(
+      plt,
       nrows = n_groups,
       shareX = ridge_sharex,
       # shareY = ridge_sharey,
@@ -405,7 +419,8 @@ draw_dist <- function(x,
     bordercolor = legend_border_col
   )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     xaxis = list(
       title = list(
         text = xlab,
@@ -439,7 +454,8 @@ draw_dist <- function(x,
   )
 
   if (mode == "overlap") {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       yaxis = list(
         title = list(
           text = ylab,
@@ -462,16 +478,21 @@ draw_dist <- function(x,
 
   # vline ----
   if (!is.null(vline)) {
-    plt <- plotly::layout(plt, shapes = plotly_vline(vline,
-      color = vline_col,
-      width = vline_width,
-      dash = vline_dash
-    ))
+    plt <- plotly::layout(
+      plt,
+      shapes = plotly_vline(
+        vline,
+        color = vline_col,
+        width = vline_width,
+        dash = vline_dash
+      )
+    )
   }
 
   # text ----
   if (!is.null(text)) {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       annotations = list(
         text = text,
         x = text_x,
@@ -491,7 +512,8 @@ draw_dist <- function(x,
   }
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

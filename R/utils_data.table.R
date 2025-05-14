@@ -45,13 +45,15 @@ nunique_perfeat <- function(x, excludeNA = FALSE) {
 #' )
 #' dt_keybin_reshape(x, id_name = "ID", key_name = "Dx")
 #' }
-dt_keybin_reshape <- function(x,
-                              id_name,
-                              key_name,
-                              positive = 1,
-                              negative = 0,
-                              xname = NULL,
-                              verbosity = 1L) {
+dt_keybin_reshape <- function(
+  x,
+  id_name,
+  key_name,
+  positive = 1,
+  negative = 0,
+  xname = NULL,
+  verbosity = 1L
+) {
   if (is.null(xname)) {
     xname <- deparse(substitute(x))
   }
@@ -64,7 +66,8 @@ dt_keybin_reshape <- function(x,
 
   .formula <- as.formula(paste(
     paste(id_name, collapse = " + "),
-    "~", key_name
+    "~",
+    key_name
   ))
   if (verbosity > 0L) {
     msg2("Reshaping", hilite(xname), "to wide format...")
@@ -106,23 +109,27 @@ dt_keybin_reshape <- function(x,
 #'
 #' @author EDG
 #' @export
-dt_merge <- function(left,
-                     right,
-                     on = NULL,
-                     left_on = NULL,
-                     right_on = NULL,
-                     how = "left",
-                     left_name = NULL,
-                     right_name = NULL,
-                     left_suffix = NULL,
-                     right_suffix = NULL,
-                     verbosity = 1L, ...) {
+dt_merge <- function(
+  left,
+  right,
+  on = NULL,
+  left_on = NULL,
+  right_on = NULL,
+  how = "left",
+  left_name = NULL,
+  right_name = NULL,
+  left_suffix = NULL,
+  right_suffix = NULL,
+  verbosity = 1L,
+  ...
+) {
   if (is.null(left_name)) left_name <- deparse(substitute(left))
   if (is.null(right_name)) right_name <- deparse(substitute(right))
   if (is.null(left_on)) left_on <- on
   if (is.null(right_on)) right_on <- on
   if (verbosity > 0L) {
-    icon <- switch(how,
+    icon <- switch(
+      how,
       inner = "\u2A1D",
       left = "\u27D5",
       right = "\u27D6",
@@ -130,13 +137,27 @@ dt_merge <- function(left,
     )
     if (left_on == right_on) {
       msg20(
-        bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
-        " on ", hilite(left_on), "..."
+        bold(green(icon)),
+        " Merging ",
+        hilite(left_name),
+        " & ",
+        hilite(right_name),
+        " on ",
+        hilite(left_on),
+        "..."
       )
     } else {
       msg20(
-        bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
-        " on ", hilite(left_on), " & ", hilite(right_on), "..."
+        bold(green(icon)),
+        " Merging ",
+        hilite(left_name),
+        " & ",
+        hilite(right_name),
+        " on ",
+        hilite(left_on),
+        " & ",
+        hilite(right_on),
+        "..."
       )
     }
 
@@ -164,9 +185,14 @@ dt_merge <- function(left,
     right_names <- setdiff(names(right), right_on)
     setnames(right, right_names, paste0(right_names, right_suffix))
   }
-  dat <- merge(left, right,
-    by.x = left_on, by.y = right_on,
-    all.x = all.x, all.y = all.y, ...
+  dat <- merge(
+    left,
+    right,
+    by.x = left_on,
+    by.y = right_on,
+    all.x = all.x,
+    all.y = all.y,
+    ...
   )
   if (verbosity > 0L) {
     catsize(dat, "Merged")
@@ -199,9 +225,12 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
   stopifnot(inherits(x, "data.table"))
   idi <- names(x)[sapply(x, is.factor)]
   for (i in idi) {
-    x[, (i) := factor(x[[i]],
-      labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
-    )]
+    x[,
+      (i) := factor(
+        x[[i]],
+        labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+      )
+    ]
   }
 } # rtemis::dt_set_cleanfactorlevels
 
@@ -259,10 +288,13 @@ dt_index_attr <- function(x, name, value) {
 #' @author EDG
 #' @export
 dt_pctmatch <- function(
-    x, y,
-    on = NULL,
-    left_on = NULL,
-    right_on = NULL, verbosity = 1L) {
+  x,
+  y,
+  on = NULL,
+  left_on = NULL,
+  right_on = NULL,
+  verbosity = 1L
+) {
   if (is.null(left_on)) left_on <- on
   if (is.null(right_on)) right_on <- on
   xv <- unique(x[[left_on]])
@@ -273,8 +305,15 @@ dt_pctmatch <- function(
   if (verbosity > 0L) {
     by_final <- paste(unique(c(left_on, right_on)), collapse = ", ")
     msg20(
-      "Matched ", hilite(nmatch), "/", hilite(n), " on ", bold(by_final),
-      " (", hilite(ddSci(matchpct)), "%)"
+      "Matched ",
+      hilite(nmatch),
+      "/",
+      hilite(n),
+      " on ",
+      bold(by_final),
+      " (",
+      hilite(ddSci(matchpct)),
+      "%)"
     )
   }
   invisible(list(nmatch = nmatch, matchpct = matchpct))
@@ -334,11 +373,12 @@ dt_pctmissing <- function(x, verbosity = 1L) {
 #' str(z)
 #' }
 dt_set_logical2factor <- function(
-    x,
-    cols = NULL,
-    labels = c("False", "True"),
-    maintain_attributes = TRUE,
-    fillNA = NULL) {
+  x,
+  cols = NULL,
+  labels = c("False", "True"),
+  maintain_attributes = TRUE,
+  fillNA = NULL
+) {
   if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
   for (i in cols) {
     if (maintain_attributes) .attr <- attributes(x[[i]])
@@ -362,7 +402,8 @@ dt_set_logical2factor <- function(
 #' @export
 dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
   attrs <- sapply(x, \(i) {
-    if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else attr(i, attr, exact = TRUE)
+    if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else
+      attr(i, attr, exact = TRUE)
   })
   table(attrs, useNA = useNA)
 }
@@ -396,7 +437,13 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 #' z <- c("mango", "banana", "tangerine", NA)
 #' inspect_type(z)
 #' }
-inspect_type <- function(x, xname = NULL, verbosity = 1L, thresh = .5, na.omit = TRUE) {
+inspect_type <- function(
+  x,
+  xname = NULL,
+  verbosity = 1L,
+  thresh = .5,
+  na.omit = TRUE
+) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   if (na.omit) x <- na.omit(x)
   xclass <- class(x)[1]
@@ -413,13 +460,18 @@ inspect_type <- function(x, xname = NULL, verbosity = 1L, thresh = .5, na.omit =
   })
   if (raw_na == xlen) {
     "NA"
-  } else if (xclass %in% c("character", "factor") && (num_na / n_non_na) < thresh) {
+  } else if (
+    xclass %in% c("character", "factor") && (num_na / n_non_na) < thresh
+  ) {
     if (verbosity > 0L) {
       msg20(
-        "Possible type error: ", hilite(xname),
-        " is a ", bold(xclass),
+        "Possible type error: ",
+        hilite(xname),
+        " is a ",
+        bold(xclass),
         ", but perhaps should be ",
-        bold("numeric"), "."
+        bold("numeric"),
+        "."
       )
     }
     "numeric"
@@ -489,8 +541,12 @@ dt_set_autotypes <- function(x, cols = NULL, verbosity = 1L) {
 #'
 #' @author EDG
 #' @export
-dt_names_by_class <- function(x, sorted = TRUE,
-                              item_format = hilite, maxlength = 24) {
+dt_names_by_class <- function(
+  x,
+  sorted = TRUE,
+  item_format = hilite,
+  maxlength = 24
+) {
   classes <- sapply(x, class)
   vals <- unique(classes)
   out <- if (sorted) {
@@ -534,7 +590,7 @@ dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
 #'
 #' Note: If `x` is not a data.table, it will be converted in place, i.e. the original
 #' object will be modified.
-#' 
+#'
 #' @return Nothing, modifies `x` in-place.
 #'
 #' @author EDG
@@ -546,9 +602,12 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
   data.table::setnames(x, names(x), clean_colnames(x))
   idi <- names(x)[sapply(x, is.factor)]
   for (i in idi) {
-    x[, (i) := factor(x[[i]],
-      labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
-    )]
+    x[,
+      (i) := factor(
+        x[[i]],
+        labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+      )
+    ]
   }
 } # rtemis::dt_set_clean_all
 
@@ -558,7 +617,7 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
 #' @param x data.table
 #'
 #' @return List with three data.tables: Numeric, Categorical, and Date.
-#' 
+#'
 #' @author EDG
 #' @export
 #'
@@ -604,7 +663,10 @@ dt_describe <- function(x) {
       Median = sapply(x[, index_nm], with = FALSE, median, na.rm = TRUE),
       Mean = sapply(x[, index_nm, with = FALSE], mean, na.rm = TRUE),
       SD = sapply(x[, index_nm, with = FALSE], sd, na.rm = TRUE),
-      Pct_missing = sapply(x[, index_nm, with = FALSE], \(col) sum(is.na(col)) / nrows)
+      Pct_missing = sapply(
+        x[, index_nm, with = FALSE],
+        \(col) sum(is.na(col)) / nrows
+      )
     )
   } else {
     data.table(
@@ -624,10 +686,16 @@ dt_describe <- function(x) {
   cf_summary <- if (length(index_cf) > 0) {
     data.table(
       Variable = x[, index_cf, with = FALSE] |> names(),
-      N_unique = sapply(x[, index_cf, with = FALSE], \(col) length(unique(col))),
+      N_unique = sapply(
+        x[, index_cf, with = FALSE],
+        \(col) length(unique(col))
+      ),
       Mode = sapply(x[, index_cf, with = FALSE], get_mode),
       Counts = sapply(x[, index_cf, with = FALSE], fct_describe),
-      Pct_missing = sapply(x[, index_cf, with = FALSE], \(col) sum(is.na(col)) / nrows)
+      Pct_missing = sapply(
+        x[, index_cf, with = FALSE],
+        \(col) sum(is.na(col)) / nrows
+      )
     )
   } else {
     data.table(
@@ -650,9 +718,18 @@ dt_describe <- function(x) {
       Variable = x[, index_dt, with = FALSE] |> names(),
       Min = do.call(c, lapply(x[, index_dt, with = FALSE], min, na.rm = TRUE)),
       Max = do.call(c, lapply(x[, index_dt, with = FALSE], max, na.rm = TRUE)),
-      Median = do.call(c, lapply(x[, index_dt, with = FALSE], median, na.rm = TRUE)),
-      Mean = do.call(c, lapply(x[, index_dt, with = FALSE], mean, na.rm = TRUE)),
-      Pct_missing = sapply(x[, index_dt, with = FALSE], \(col) sum(is.na(col)) / nrows)
+      Median = do.call(
+        c,
+        lapply(x[, index_dt, with = FALSE], median, na.rm = TRUE)
+      ),
+      Mean = do.call(
+        c,
+        lapply(x[, index_dt, with = FALSE], mean, na.rm = TRUE)
+      ),
+      Pct_missing = sapply(
+        x[, index_dt, with = FALSE],
+        \(col) sum(is.na(col)) / nrows
+      )
     )
   } else {
     data.table(
@@ -665,7 +742,11 @@ dt_describe <- function(x) {
     )
   }
 
-  invisible(list(Numeric = nm_summary, Categorical = cf_summary, Date = dt_summary))
+  invisible(list(
+    Numeric = nm_summary,
+    Categorical = cf_summary,
+    Date = dt_summary
+  ))
 } # /rtemis::dt_describe
 
 #' Describe factor
@@ -717,12 +798,20 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
     if (return_ordered) {
       idi <- idi[seq_len(max_n)]
       paste0(
-        "(Top ", max_n, " of ", n_unique, ") ",
+        "(Top ",
+        max_n,
+        " of ",
+        n_unique,
+        ") ",
         paste(x_levels[idi], x_freqs[idi], sep = ": ", collapse = "; ")
       )
     } else {
       paste0(
-        "(First ", max_n, " of ", n_unique, ") ",
+        "(First ",
+        max_n,
+        " of ",
+        n_unique,
+        ") ",
         paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
       )
     }
@@ -743,12 +832,16 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
 #'
 #' @author EDG
 #' @export
-pfread <- function(x, part_nrows,
-                   nrows = NULL,
-                   header = TRUE,
-                   sep = "auto",
-                   verbosity = 1L,
-                   stringsAsFactors = TRUE, ...) {
+pfread <- function(
+  x,
+  part_nrows,
+  nrows = NULL,
+  header = TRUE,
+  sep = "auto",
+  verbosity = 1L,
+  stringsAsFactors = TRUE,
+  ...
+) {
   # nrows <- as.integer(R.utils::countLines(x))
   # nrows <- system(paste("wc -l", x))
   if (is.null(nrows)) {
@@ -763,11 +856,13 @@ pfread <- function(x, part_nrows,
     msg2("Reading part 1...")
     i <- 1
   }
-  dat1 <- fread(x,
+  dat1 <- fread(
+    x,
     nrows = part_nrows,
     header = header,
     sep = sep,
-    stringsAsFactors = stringsAsFactors, ...
+    stringsAsFactors = stringsAsFactors,
+    ...
   )
   if (nparts == 1) {
     return(dat1)
@@ -777,13 +872,15 @@ pfread <- function(x, part_nrows,
   .col.names <- names(col_classes)
   .colClasses <- unname(col_classes)
   parts <- lapply(seq_len(nparts)[-1], \(i) {
-    fread(x,
+    fread(
+      x,
       nrows = part_nrows,
       skip = ndone + header,
       header = FALSE,
       sep = sep,
       col.names = .col.names,
-      colClasses = .colClasses, ...
+      colClasses = .colClasses,
+      ...
     )
   })
 
@@ -796,12 +893,16 @@ pfread <- function(x, part_nrows,
 } # rtemis::pfread
 
 
-pfread1 <- function(x, part_nrows,
-                    nrows = NULL,
-                    header = TRUE,
-                    sep = "auto",
-                    verbosity = 1L,
-                    stringsAsFactors = TRUE, ...) {
+pfread1 <- function(
+  x,
+  part_nrows,
+  nrows = NULL,
+  header = TRUE,
+  sep = "auto",
+  verbosity = 1L,
+  stringsAsFactors = TRUE,
+  ...
+) {
   # nrows <- as.integer(R.utils::countLines(x))
   # nrows <- system(paste("wc -l", x))
   if (is.null(nrows)) {
@@ -816,11 +917,13 @@ pfread1 <- function(x, part_nrows,
     msg2("Reading part 1...")
     i <- 1
   }
-  dat <- fread(x,
+  dat <- fread(
+    x,
     nrows = part_nrows,
     header = header,
     sep = sep,
-    stringsAsFactors = stringsAsFactors, ...
+    stringsAsFactors = stringsAsFactors,
+    ...
   )
   if (nparts == 1) {
     return(dat)
@@ -838,13 +941,15 @@ pfread1 <- function(x, part_nrows,
 
     dat <- rbind(
       dat,
-      fread(x,
+      fread(
+        x,
         nrows = part_nrows,
         skip = ndone + header,
         header = FALSE,
         sep = sep,
         col.names = .col.names,
-        colClasses = .colClasses, ...
+        colClasses = .colClasses,
+        ...
       )
     )
     ndone <- nrow(dat)
@@ -867,10 +972,7 @@ pfread1 <- function(x, part_nrows,
 #'
 #' @author EDG
 #' @export
-make_key <- function(x,
-                     code_name,
-                     description_name,
-                     filename = NULL) {
+make_key <- function(x, code_name, description_name, filename = NULL) {
   check_dependencies("data.table")
 
   .key <- unique(

@@ -3,11 +3,11 @@
 # 2025 EDG rtemis.org
 
 #' Prepare data for GLMNET
-#' 
+#'
 #' @param x data.frame or similar: Features.
-#' 
+#'
 #' @return Matrix with features.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 preproc_GLMNET <- function(x) {
@@ -32,10 +32,11 @@ preproc_GLMNET <- function(x) {
 #' @noRd
 
 train_GLMNET <- function(
-    x,
-    weights = NULL,
-    hyperparameters = setup_GLMNET(),
-    verbosity = 1L) {
+  x,
+  weights = NULL,
+  hyperparameters = setup_GLMNET(),
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("glmnet")
 
@@ -56,7 +57,9 @@ train_GLMNET <- function(
     }
   } else {
     if (length(hyperparameters[["penalty.factor"]]) != NCOL(x) - 1) {
-      stop("Length of penalty.factor must be equal to the number of predictors.")
+      stop(
+        "Length of penalty.factor must be equal to the number of predictors."
+      )
     }
   }
 
@@ -176,14 +179,14 @@ varimp_GLMNET <- function(model) {
 } # /rtemis::varimp_GLMNET
 
 #' Explain GLMNET model
-#' 
+#'
 #' Get SHAP values for a GLMNET model.
-#' 
+#'
 #' @param model Supervised model trained with [train].
 #' @param x data.frame or similar: Data to explain.
 #' @param dat_training data.frame or similar: Training data.
 #' @param method Character: Method to use.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 explain_GLMNET <- function(model, x, dat_training, method = NULL) {

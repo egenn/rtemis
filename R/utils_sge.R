@@ -35,21 +35,23 @@
 #' @author EDG
 #' @export
 
-sge_submit <- function(expr,
-                       obj_names = NULL,
-                       packages = NULL,
-                       queue = NULL,
-                       n_workers = 4,
-                       sge_out = file.path(getwd(), "./sge_out"),
-                       sge_error = sge_out,
-                       sge_env = "#! /usr/bin/env bash",
-                       sge_opts = "#$ -cwd",
-                       R_command = NULL,
-                       system_command = NULL,
-                       h_rt = "00:25:00",
-                       mem_free = NULL,
-                       temp_dir = file.path(getwd(), ".sge_tempdir"),
-                       verbosity = 1L) {
+sge_submit <- function(
+  expr,
+  obj_names = NULL,
+  packages = NULL,
+  queue = NULL,
+  n_workers = 4,
+  sge_out = file.path(getwd(), "./sge_out"),
+  sge_error = sge_out,
+  sge_env = "#! /usr/bin/env bash",
+  sge_opts = "#$ -cwd",
+  R_command = NULL,
+  system_command = NULL,
+  h_rt = "00:25:00",
+  mem_free = NULL,
+  temp_dir = file.path(getwd(), ".sge_tempdir"),
+  verbosity = 1L
+) {
   expr <- as.character(as.expression(substitute(expr)))
 
   if (verbosity > 0L) {
@@ -66,10 +68,13 @@ sge_submit <- function(expr,
   # Save obj_names to temp ----
   if (!is.null(obj_names)) {
     .temp <- tempfile(pattern = "guava", tmpdir = temp_dir)
-    do.call(save, list(
-      list = obj_names,
-      file = .temp
-    ))
+    do.call(
+      save,
+      list(
+        list = obj_names,
+        file = .temp
+      )
+    )
     if (verbosity > 1L) {
       msg2("Temp file set to", .temp)
       msg2("Objects written to temp file:", paste(obj_names, collapse = ", "))
@@ -104,15 +109,20 @@ sge_submit <- function(expr,
 
   ## Load packages ----
   if (!is.null(packages)) {
-    cat(sapply(packages, function(p) paste0("library(", p, ")\n")),
-      sep = "", file = Rfilepath, append = TRUE
+    cat(
+      sapply(packages, function(p) paste0("library(", p, ")\n")),
+      sep = "",
+      file = Rfilepath,
+      append = TRUE
     )
   }
 
   ## Diag ----
-  cat("rtemis:::msg2('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'), date = FALSE)",
+  cat(
+    "rtemis:::msg2('Running on', Sys.getenv('HOSTNAME'), 'as', Sys.getenv('USER'), date = FALSE)",
     "\n",
-    file = Rfilepath, append = TRUE
+    file = Rfilepath,
+    append = TRUE
   )
 
   ## Load data ----
@@ -139,9 +149,12 @@ sge_submit <- function(expr,
 
   # Submit .sh to grid ----
   qsub <- paste(
-    "qsub -pe smp", n_workers,
-    "-o", sge_out,
-    "-e", sge_error
+    "qsub -pe smp",
+    n_workers,
+    "-o",
+    sge_out,
+    "-e",
+    sge_error
   )
   if (!is.null(queue)) {
     qsub <- paste(qsub, "-q", queue)

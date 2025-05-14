@@ -19,11 +19,13 @@
 #' @author EDG
 #' @keywords internal
 
-train_SVM <- function(x,
-                      weights = NULL,
-                      hyperparameters = NULL,
-                      tuner_parameters = NULL,
-                      verbosity = 1L) {
+train_SVM <- function(
+  x,
+  weights = NULL,
+  hyperparameters = NULL,
+  tuner_parameters = NULL,
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("e1071")
 
@@ -65,7 +67,8 @@ train_SVM <- function(x,
 
   # Train ----
   class_weights <-
-    if (type == "Classification" && n_classes == 2 && hyperparameters[["ifw"]]) "inverse" else NULL
+    if (type == "Classification" && n_classes == 2 && hyperparameters[["ifw"]])
+      "inverse" else NULL
   model <- e1071::svm(
     x = x,
     y = y, # factor or numeric

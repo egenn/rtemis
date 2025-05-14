@@ -30,7 +30,13 @@ match_cases_by_rules <- function(x, rules, prefix = "Rule_", verbosity = 1L) {
   x[, ID := seq_len(n_cases)]
   cxr <- matrix(0, n_cases, n_rules)
   if (verbosity > 0L) {
-    msg2start("Matching", hilite(n_rules), "rules to", hilite(n_cases), "cases...")
+    msg2start(
+      "Matching",
+      hilite(n_rules),
+      "rules to",
+      hilite(n_cases),
+      "cases..."
+    )
   }
   for (i in seq_along(rules)) {
     match <- x[eval(parse(text = rules[i])), ID]
@@ -95,9 +101,11 @@ simple_prune_ <- function(rule, max_length, sep = " & ") {
 
 simple_prune <- function(rules, max_length, sep = " & ") {
   rules <- sapply(
-    rules, simple_prune_,
+    rules,
+    simple_prune_,
     max_length = max_length,
-    sep = sep, USE.NAMES = FALSE
+    sep = sep,
+    USE.NAMES = FALSE
   )
   rules
 } # rtemis::simple_prune
@@ -132,7 +140,6 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
 # averaged across C rules
 # rule_varstats
 
-
 #' Format rules
 #'
 #' Converts R-executable logical expressions to a more human-friendly format
@@ -144,8 +151,7 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
 #' @author EDG
 #' @export
 
-format_rules <- function(x, space_after_comma = FALSE,
-                         decimal_places = NULL) {
+format_rules <- function(x, space_after_comma = FALSE, decimal_places = NULL) {
   x <- gsub("[&+]", "AND", x)
   x <- gsub(">", " > ", x)
   x <- gsub("<=", " <= ", x)
@@ -155,7 +161,9 @@ format_rules <- function(x, space_after_comma = FALSE,
   x <- gsub("'", "", x)
   if (space_after_comma) x <- gsub(",", ", ", x)
   if (!is.null(decimal_places)) {
-    x <- gsubfn::gsubfn("([0-9.]+[0-9])", function(i) ddSci(i, decimal_places = decimal_places),
+    x <- gsubfn::gsubfn(
+      "([0-9.]+[0-9])",
+      function(i) ddSci(i, decimal_places = decimal_places),
       x,
       engine = "R"
     )
@@ -175,9 +183,11 @@ format_rules <- function(x, space_after_comma = FALSE,
 #' @author EDG
 #' @export
 
-format_LightRuleFit_rules <- function(x,
-                                      space_after_comma = FALSE,
-                                      decimal_places = NULL) {
+format_LightRuleFit_rules <- function(
+  x,
+  space_after_comma = FALSE,
+  decimal_places = NULL
+) {
   x <- gsub("[&+]", "AND", x)
   x <- gsub(">", " > ", x)
   x <- gsub("<=", " <= ", x)
@@ -188,7 +198,9 @@ format_LightRuleFit_rules <- function(x,
   x <- gsub("'", "", x)
   if (space_after_comma) x <- gsub(",", ", ", x)
   if (!is.null(decimal_places)) {
-    x <- gsubfn::gsubfn("([0-9.]+[0-9])", function(i) ddSci(i, decimal_places = decimal_places),
+    x <- gsubfn::gsubfn(
+      "([0-9.]+[0-9])",
+      function(i) ddSci(i, decimal_places = decimal_places),
       x,
       engine = "R"
     )
@@ -215,10 +227,7 @@ format_LightRuleFit_rules <- function(x,
 #' @author EDG
 #' @export
 
-rules2medmod <- function(rules,
-                         x,
-                         .ddSci = TRUE,
-                         verbosity = 1L) {
+rules2medmod <- function(rules, x, .ddSci = TRUE, verbosity = 1L) {
   cxr <- match_cases_by_rules(x, rules, verbosity = verbosity)
   nrules <- length(rules)
   rules.f <- vector("character", nrules)
@@ -234,13 +243,25 @@ rules2medmod <- function(rules,
       if (categorical) {
         var <- gsub("\\s", "", strsplit(sub[j], "%in%")[[1]][1])
         vals <- dat[[var]]
-        value <- paste0(get_mode(vals), " (", paste(levels(droplevels(vals)), collapse = ", "), ")")
+        value <- paste0(
+          get_mode(vals),
+          " (",
+          paste(levels(droplevels(vals)), collapse = ", "),
+          ")"
+        )
         rule[j] <- paste0(var, " = ", value)
       } else {
         sub[j] <- gsub(">|>=|<|<=", "@", sub[j])
         var <- gsub("\\s", "", strsplit(sub[j], "@")[[1]][1])
         vals <- dat[[var]]
-        value <- paste0(frmt(median(vals)), " (", frmt(min(vals)), ":", frmt(max(vals)), ")")
+        value <- paste0(
+          frmt(median(vals)),
+          " (",
+          frmt(min(vals)),
+          ":",
+          frmt(max(vals)),
+          ")"
+        )
         rule[j] <- paste0(var, " = ", value)
       }
     } # /loop through each rule's conditions

@@ -15,10 +15,7 @@
 #'
 #' @author EDG
 #' @export
-decompose <- function(x,
-                      algorithm = "ICA",
-                      parameters = NULL,
-                      verbosity = 1L) {
+decompose <- function(x, algorithm = "ICA", parameters = NULL, verbosity = 1L) {
   # Checks ----
   if (is.null(parameters)) {
     parameters <- get_default_decomparams(algorithm)

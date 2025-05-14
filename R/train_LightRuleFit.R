@@ -10,11 +10,12 @@
 #' @keywords internal
 #' @noRd
 train_LightRuleFit <- function(
-    x,
-    dat_validation = NULL,
-    weights = NULL,
-    hyperparameters,
-    verbosity) {
+  x,
+  dat_validation = NULL,
+  weights = NULL,
+  hyperparameters,
+  verbosity
+) {
   # Dependencies ----
   check_dependencies("lightgbm", "glmnet", "matrixStats", "gsubfn")
 
@@ -120,7 +121,10 @@ train_LightRuleFit <- function(
 
   # Format Rules ----
   # => Check format_LightRuleFit_rules' use of gsubfn::gsubfn
-  rules_selected_formatted <- format_LightRuleFit_rules(rules_selected, decimal_places = 2)
+  rules_selected_formatted <- format_LightRuleFit_rules(
+    rules_selected,
+    decimal_places = 2
+  )
   # appease R CMD check
   Coefficient <- NULL
   rules_selected_formatted_coefs <- data.table(
@@ -169,7 +173,11 @@ predict_LightRuleFit <- function(model, newdata, type, verbosity = 1L) {
   cases_by_rules <- match_cases_by_rules(newdata, rules, verbosity = verbosity)
   datm <- data.matrix(cases_by_rules)
   if (model@model_lightgbm@type == "Classification") {
-    predicted <- predict(model@model_glmnet@model, newx = datm, type = "response")
+    predicted <- predict(
+      model@model_glmnet@model,
+      newx = datm,
+      type = "response"
+    )
     if (length(model@y_levels) == 2) {
       predicted[, 1]
     } else {

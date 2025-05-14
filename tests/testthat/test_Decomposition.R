@@ -36,7 +36,11 @@ test_that("setup_UMAP() succeeds", {
   expect_s7_class(parameters, UMAPParameters)
 })
 iris_umap <- decompose(x, algorithm = "umap", parameters = parameters)
-iris_umap <- decompose(x, algorithm = "umap", parameters = setup_UMAP(n_neighbors = 20L))
+iris_umap <- decompose(
+  x,
+  algorithm = "umap",
+  parameters = setup_UMAP(n_neighbors = 20L)
+)
 
 # t-SNE ----
 parameters <- setup_tSNE()
@@ -51,7 +55,11 @@ test_that("decompose() t-SNE fails with duplicates", {
 
 # Test that t-SNE works after removing duplicates
 xp <- preprocess(x, setup_Preprocessor(remove_duplicates = TRUE))
-iris_tsne <- decompose(xp@preprocessed, algorithm = "tsne", parameters = parameters)
+iris_tsne <- decompose(
+  xp@preprocessed,
+  algorithm = "tsne",
+  parameters = parameters
+)
 test_that("decompose() t-SNE succeeds after removing duplicates", {
   expect_s7_class(iris_tsne, Decomposition)
 })

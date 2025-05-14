@@ -5,7 +5,7 @@
 #' Plot an amino acid sequence with annotations
 #'
 #' Plot an amino acid sequence with multiple site and/or region annotations.
-#' 
+#'
 #' @param x Character vector: amino acid sequence (1-letter abbreviations) OR
 #' `a3` object OR Character: path to JSON file OR Character: UniProt accession number.
 #' @param site Named list of lists with indices of sites. These will be
@@ -128,121 +128,124 @@
 #' # or directly using the UniProt accession number:
 #' draw_protein("P10636")
 #' }
-draw_protein <- function(x,
-                         site = NULL,
-                         region = NULL,
-                         ptm = NULL,
-                         clv = NULL,
-                         variant = NULL,
-                         disease_variants = NULL,
-                         # label_group = NULL,
-                         n_per_row = NULL,
-                         main = NULL,
-                         main_xy = c(0.055, .975),
-                         main_xref = "paper",
-                         main_yref = "paper",
-                         main_xanchor = "middle",
-                         main_yanchor = "top",
-                         layout = c("simple", "grid", "1curve", "2curve"),
-                         show_markers = TRUE,
-                         show_labels = TRUE,
-                         font_size = 18,
-                         label_col = NULL,
-                         scatter_mode = "markers+lines",
-                         # AA marker
-                         marker_size = 28,
-                         marker_col = NULL, # "gray18",
-                         marker_alpha = 1,
-                         marker_symbol = "circle",
-                         # AA line
-                         line_col = NULL, # "gray18",
-                         line_alpha = 1,
-                         line_width = 2,
-                         # Hover names
-                         show_full_names = TRUE,
-                         # regions
-                         region_scatter_mode = "markers+lines",
-                         region_style = 3,
-                         region_marker_size = marker_size,
-                         region_marker_alpha = .6,
-                         region_marker_symbol = "circle",
-                         region_line_dash = "solid",
-                         region_line_shape = "line",
-                         region_line_smoothing = 1,
-                         region_line_width = 1,
-                         region_line_alpha = .6,
-                         theme = rtemis_theme,
-                         region_palette = rtemis_palette,
-                         region_outline_only = FALSE,
-                         region_outline_pad = 2, # for fake polys
-                         region_pad = .35, # for real polys
-                         region_fill_alpha = .1666666,
-                         region_fill_shape = "line",
-                         region_fill_smoothing = 1,
-                         bpadcx = .5,
-                         bpadcy = .5,
-                         # Sites - colored marker border
-                         site_marker_size = marker_size,
-                         site_marker_symbol = marker_symbol,
-                         site_marker_alpha = 1,
-                         site_border_width = 1.5,
-                         site_palette = rtemis_palette,
-                         # Variants
-                         variant_col = "#FA6E1E",
-                         # Text groups
-                         disease_variant_col = "#E266AE", # "#c982d7"
-                         # PTMs
-                         showlegend_ptm = TRUE,
-                         ptm_col = NULL,
-                         ptm_symbol = "circle",
-                         ptm_offset = .12,
-                         ptm_pad = .35,
-                         ptm_marker_size = marker_size / 4.5,
-                         # Cleavage sites
-                         clv_col = NULL,
-                         clv_symbol = "triangle-down",
-                         clv_offset = .12,
-                         clv_pad = .35,
-                         clv_marker_size = marker_size / 4,
-                         # Position annotations
-                         annotate_position_every = 10,
-                         annotate_position_alpha = .5,
-                         annotate_position_ay = -.4 * marker_size,
-                         position_font_size = font_size - 6,
-                         # Legend
-                         legend_xy = c(.97, .954),
-                         legend_xanchor = "left",
-                         legend_yanchor = "top",
-                         legend_orientation = "v",
-                         legend_col = NULL,
-                         legend_bg = "#FFFFFF00",
-                         legend_border_col = "#FFFFFF00",
-                         legend_borderwidth = 0,
-                         legend_group_gap = 0,
-                         margin = list(b = 0, l = 0, t = 0, r = 0, pad = 0),
-                         # Axes
-                         showgrid_x = FALSE,
-                         showgrid_y = FALSE,
-                         automargin_x = TRUE,
-                         automargin_y = TRUE,
-                         xaxis_autorange = TRUE,
-                         yaxis_autorange = "reversed",
-                         scaleanchor_y = "x",
-                         scaleratio_y = 1,
-                         # Layout
-                         hoverlabel_align = "left",
-                         # config
-                         displayModeBar = TRUE,
-                         modeBar_file_format = "svg",
-                         scrollZoom = TRUE,
-                         # file out
-                         filename = NULL,
-                         file_width = 1320,
-                         file_height = 990,
-                         file_scale = 1,
-                         width = NULL,
-                         height = NULL,
-                         verbosity = 1L, ...) {
+draw_protein <- function(
+  x,
+  site = NULL,
+  region = NULL,
+  ptm = NULL,
+  clv = NULL,
+  variant = NULL,
+  disease_variants = NULL,
+  # label_group = NULL,
+  n_per_row = NULL,
+  main = NULL,
+  main_xy = c(0.055, .975),
+  main_xref = "paper",
+  main_yref = "paper",
+  main_xanchor = "middle",
+  main_yanchor = "top",
+  layout = c("simple", "grid", "1curve", "2curve"),
+  show_markers = TRUE,
+  show_labels = TRUE,
+  font_size = 18,
+  label_col = NULL,
+  scatter_mode = "markers+lines",
+  # AA marker
+  marker_size = 28,
+  marker_col = NULL, # "gray18",
+  marker_alpha = 1,
+  marker_symbol = "circle",
+  # AA line
+  line_col = NULL, # "gray18",
+  line_alpha = 1,
+  line_width = 2,
+  # Hover names
+  show_full_names = TRUE,
+  # regions
+  region_scatter_mode = "markers+lines",
+  region_style = 3,
+  region_marker_size = marker_size,
+  region_marker_alpha = .6,
+  region_marker_symbol = "circle",
+  region_line_dash = "solid",
+  region_line_shape = "line",
+  region_line_smoothing = 1,
+  region_line_width = 1,
+  region_line_alpha = .6,
+  theme = rtemis_theme,
+  region_palette = rtemis_palette,
+  region_outline_only = FALSE,
+  region_outline_pad = 2, # for fake polys
+  region_pad = .35, # for real polys
+  region_fill_alpha = .1666666,
+  region_fill_shape = "line",
+  region_fill_smoothing = 1,
+  bpadcx = .5,
+  bpadcy = .5,
+  # Sites - colored marker border
+  site_marker_size = marker_size,
+  site_marker_symbol = marker_symbol,
+  site_marker_alpha = 1,
+  site_border_width = 1.5,
+  site_palette = rtemis_palette,
+  # Variants
+  variant_col = "#FA6E1E",
+  # Text groups
+  disease_variant_col = "#E266AE", # "#c982d7"
+  # PTMs
+  showlegend_ptm = TRUE,
+  ptm_col = NULL,
+  ptm_symbol = "circle",
+  ptm_offset = .12,
+  ptm_pad = .35,
+  ptm_marker_size = marker_size / 4.5,
+  # Cleavage sites
+  clv_col = NULL,
+  clv_symbol = "triangle-down",
+  clv_offset = .12,
+  clv_pad = .35,
+  clv_marker_size = marker_size / 4,
+  # Position annotations
+  annotate_position_every = 10,
+  annotate_position_alpha = .5,
+  annotate_position_ay = -.4 * marker_size,
+  position_font_size = font_size - 6,
+  # Legend
+  legend_xy = c(.97, .954),
+  legend_xanchor = "left",
+  legend_yanchor = "top",
+  legend_orientation = "v",
+  legend_col = NULL,
+  legend_bg = "#FFFFFF00",
+  legend_border_col = "#FFFFFF00",
+  legend_borderwidth = 0,
+  legend_group_gap = 0,
+  margin = list(b = 0, l = 0, t = 0, r = 0, pad = 0),
+  # Axes
+  showgrid_x = FALSE,
+  showgrid_y = FALSE,
+  automargin_x = TRUE,
+  automargin_y = TRUE,
+  xaxis_autorange = TRUE,
+  yaxis_autorange = "reversed",
+  scaleanchor_y = "x",
+  scaleratio_y = 1,
+  # Layout
+  hoverlabel_align = "left",
+  # config
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  scrollZoom = TRUE,
+  # file out
+  filename = NULL,
+  file_width = 1320,
+  file_height = 990,
+  file_scale = 1,
+  width = NULL,
+  height = NULL,
+  verbosity = 1L,
+  ...
+) {
   # Data ----
   if (inherits(x, "a3")) {
     dat <- x
@@ -252,7 +255,9 @@ draw_protein <- function(x,
     ptm <- iflengthy(dat[["Annotations"]][["PTM"]])
     clv <- iflengthy(dat[["Annotations"]][["Cleavage_site"]])
     variant <- iflengthy(dat[["Annotations"]][["Variant"]])
-    disease_variants <- iflengthy(dat[["Annotations"]][["Site"]][["Disease_associated_variant"]])
+    disease_variants <- iflengthy(dat[["Annotations"]][["Site"]][[
+      "Disease_associated_variant"
+    ]])
   }
   if (length(x) == 1) {
     if (grepl(".json$", x)) {
@@ -262,7 +267,9 @@ draw_protein <- function(x,
         simplifyMatrix = FALSE
       )
       x <- dat[["Sequence"]]
-      disease_variants <- dat[["Annotations"]][["Site"]][["Disease_associated_variant"]]
+      disease_variants <- dat[["Annotations"]][["Site"]][[
+        "Disease_associated_variant"
+      ]]
       # dat[["Annotations"]][["Site"]][["Disease_associated_variant"]] <- NULL
       site <- dat[["Annotations"]][["Site"]]
       region <- dat[["Annotations"]][["Region"]]
@@ -341,9 +348,11 @@ draw_protein <- function(x,
   }
   if (is.null(label_col)) label_col <- theme[["fg"]]
   label_col <- recycle(label_col, x)
-  if (is.null(marker_col)) marker_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
+  if (is.null(marker_col))
+    marker_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
   marker_col <- plotly::toRGB(marker_col, alpha = marker_alpha)
-  if (is.null(line_col)) line_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
+  if (is.null(line_col))
+    line_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
   line_col <- plotly::toRGB(line_col, alpha = marker_alpha)
 
   main_col <- plotly::toRGB(theme[["main_col"]])
@@ -357,25 +366,25 @@ draw_protein <- function(x,
 
   # Match abbreviations to full names ----
   if (show_full_names) {
-    input <- switch(max(nchar(x)),
-      "1" = "1",
-      "3" = "3",
-      "full"
-    )
+    input <- switch(max(nchar(x)), "1" = "1", "3" = "3", "full")
 
     if (input == "full") {
       xnames <- x
     } else {
       if (input == "1") {
-        xnames <- factor(x,
+        xnames <- factor(
+          x,
           levels = aa[["Abbreviation1"]],
           labels = aa[["Name"]]
-        ) |> as.character()
+        ) |>
+          as.character()
       } else {
-        xnames <- factor(x,
+        xnames <- factor(
+          x,
           levels = toupper(aa[["Abbreviation3"]]),
           labels = aa[["Name"]]
-        ) |> as.character()
+        ) |>
+          as.character()
       }
     }
   } else {
@@ -406,7 +415,8 @@ draw_protein <- function(x,
   } else {
     paste0(
       "1&#176; structure (",
-      "<span style='color:", disease_variant_col,
+      "<span style='color:",
+      disease_variant_col,
       "'>Disease variants</span>)"
     )
   }
@@ -426,25 +436,26 @@ draw_protein <- function(x,
     } else {
       NULL
     }
-    plt <- plt |> plotly::add_trace(
-      x = xs,
-      y = ys,
-      type = "scatter",
-      mode = scatter_mode,
-      marker = list(
-        color = plotly::toRGB(marker_col, alpha = marker_alpha),
-        size = marker_size,
-        symbol = marker_symbol
-      ),
-      line = list(
-        color = plotly::toRGB(line_col, alpha = line_alpha),
-        width = line_width
-      ),
-      text = paste0(position, ": ", xnames, clvtext),
-      name = aaname,
-      # hoverinfo = marker.hoverinfo
-      hoverinfo = "text"
-    )
+    plt <- plt |>
+      plotly::add_trace(
+        x = xs,
+        y = ys,
+        type = "scatter",
+        mode = scatter_mode,
+        marker = list(
+          color = plotly::toRGB(marker_col, alpha = marker_alpha),
+          size = marker_size,
+          symbol = marker_symbol
+        ),
+        line = list(
+          color = plotly::toRGB(line_col, alpha = line_alpha),
+          width = line_width
+        ),
+        text = paste0(position, ": ", xnames, clvtext),
+        name = aaname,
+        # hoverinfo = marker.hoverinfo
+        hoverinfo = "text"
+      )
   }
   # regions ----
   if (!is.null(region)) {
@@ -458,11 +469,98 @@ draw_protein <- function(x,
       # for overlapping sets within each region
       for (i in seq_along(region)) {
         for (j in seq_along(region[[i]])) {
-          plt <- plt |> plotly::add_trace(
-            x = xs[region[[i]][[j]]],
-            y = ys[region[[i]][[j]]],
+          plt <- plt |>
+            plotly::add_trace(
+              x = xs[region[[i]][[j]]],
+              y = ys[region[[i]][[j]]],
+              type = "scatter",
+              mode = region_scatter_mode,
+              marker = list(
+                color = plotly::toRGB(
+                  region_palette[[i]],
+                  alpha = region_marker_alpha
+                ),
+                size = region_marker_size,
+                symbol = region_marker_symbol
+              ),
+              line = list(
+                color = plotly::toRGB(
+                  region_palette[[i]],
+                  alpha = region_line_alpha
+                ),
+                dash = region_line_dash,
+                shape = region_line_shape,
+                smoothing = region_line_smoothing,
+                width = region_line_width
+              ),
+              name = region_names[i],
+              legendgroup = region_names[i],
+              showlegend = j == 1
+            )
+          if (region_outline_only) {
+            # simulate rounded selection around AAs
+            # need region_marker_size & line_width > marker_size
+            plt <- plt |>
+              plotly::add_trace(
+                x = xs[region[[i]][[j]]],
+                y = ys[region[[i]][[j]]],
+                type = "scatter",
+                mode = region_scatter_mode,
+                marker = list(
+                  color = plotly::toRGB(
+                    # marker_col,
+                    theme[["bg"]],
+                    alpha = marker_alpha
+                  ),
+                  size = region_marker_size - region_outline_pad,
+                  symbol = region_marker_symbol
+                ),
+                line = list(
+                  color = plotly::toRGB(
+                    # line_col,
+                    theme[["bg"]],
+                    alpha = line_alpha
+                  ),
+                  shape = region_line_shape,
+                  smoothing = region_line_smoothing,
+                  width = region_line_width - region_outline_pad
+                ),
+                name = NULL,
+                legendgroup = region_names[i],
+                showlegend = FALSE
+              )
+            plt <- plt |>
+              plotly::add_trace(
+                x = xs[region[[i]][[j]]],
+                y = ys[region[[i]][[j]]],
+                type = "scatter",
+                mode = scatter_mode,
+                marker = list(
+                  color = plotly::toRGB(marker_col, alpha = marker_alpha),
+                  size = marker_size,
+                  symbol = marker_symbol
+                ),
+                line = list(
+                  color = plotly::toRGB(line_col, alpha = line_alpha),
+                  width = line_width
+                ),
+                name = NULL,
+                legendgroup = region_names[i],
+                showlegend = FALSE
+              )
+          }
+        }
+      }
+    } else if (region_style == 2) {
+      # '- region style 2 ----
+      # for non-overlapping sets within each region
+      for (i in seq_along(region)) {
+        plt <- plt |>
+          plotly::add_trace(
+            x = xs[unlist(region[[i]])],
+            y = ys[unlist(region[[i]])],
             type = "scatter",
-            mode = region_scatter_mode,
+            mode = "markers",
             marker = list(
               color = plotly::toRGB(
                 region_palette[[i]],
@@ -471,91 +569,8 @@ draw_protein <- function(x,
               size = region_marker_size,
               symbol = region_marker_symbol
             ),
-            line = list(
-              color = plotly::toRGB(
-                region_palette[[i]],
-                alpha = region_line_alpha
-              ),
-              dash = region_line_dash,
-              shape = region_line_shape,
-              smoothing = region_line_smoothing,
-              width = region_line_width
-            ),
-            name = region_names[i],
-            legendgroup = region_names[i],
-            showlegend = j == 1
+            name = region_names[i]
           )
-          if (region_outline_only) {
-            # simulate rounded selection around AAs
-            # need region_marker_size & line_width > marker_size
-            plt <- plt |> plotly::add_trace(
-              x = xs[region[[i]][[j]]],
-              y = ys[region[[i]][[j]]],
-              type = "scatter",
-              mode = region_scatter_mode,
-              marker = list(
-                color = plotly::toRGB(
-                  # marker_col,
-                  theme[["bg"]],
-                  alpha = marker_alpha
-                ),
-                size = region_marker_size - region_outline_pad,
-                symbol = region_marker_symbol
-              ),
-              line = list(
-                color = plotly::toRGB(
-                  # line_col,
-                  theme[["bg"]],
-                  alpha = line_alpha
-                ),
-                shape = region_line_shape,
-                smoothing = region_line_smoothing,
-                width = region_line_width - region_outline_pad
-              ),
-              name = NULL,
-              legendgroup = region_names[i],
-              showlegend = FALSE
-            )
-            plt <- plt |> plotly::add_trace(
-              x = xs[region[[i]][[j]]],
-              y = ys[region[[i]][[j]]],
-              type = "scatter",
-              mode = scatter_mode,
-              marker = list(
-                color = plotly::toRGB(marker_col, alpha = marker_alpha),
-                size = marker_size,
-                symbol = marker_symbol
-              ),
-              line = list(
-                color = plotly::toRGB(line_col, alpha = line_alpha),
-                width = line_width
-              ),
-              name = NULL,
-              legendgroup = region_names[i],
-              showlegend = FALSE
-            )
-          }
-        }
-      }
-    } else if (region_style == 2) {
-      # '- region style 2 ----
-      # for non-overlapping sets within each region
-      for (i in seq_along(region)) {
-        plt <- plt |> plotly::add_trace(
-          x = xs[unlist(region[[i]])],
-          y = ys[unlist(region[[i]])],
-          type = "scatter",
-          mode = "markers",
-          marker = list(
-            color = plotly::toRGB(
-              region_palette[[i]],
-              alpha = region_marker_alpha
-            ),
-            size = region_marker_size,
-            symbol = region_marker_symbol
-          ),
-          name = region_names[i]
-        )
       }
     } else {
       # '- region style 3 ----
@@ -587,23 +602,24 @@ draw_protein <- function(x,
         })
 
         for (j in seq_along(region[[i]])) {
-          plt <- plt |> plotly::add_polygons(
-            x = region_poly_xy[[j]][["px"]],
-            y = region_poly_xy[[j]][["py"]],
-            line = list(
-              color = region_palette[[i]],
-              width = region_line_width,
-              shape = region_fill_shape,
-              smoothing = region_fill_smoothing
-            ),
-            fillcolor = plotly::toRGB(
-              region_palette[[i]],
-              alpha = region_fill_alpha
-            ),
-            name = region_names[i],
-            legendgroup = region_names[i],
-            showlegend = j == 1
-          )
+          plt <- plt |>
+            plotly::add_polygons(
+              x = region_poly_xy[[j]][["px"]],
+              y = region_poly_xy[[j]][["py"]],
+              line = list(
+                color = region_palette[[i]],
+                width = region_line_width,
+                shape = region_fill_shape,
+                smoothing = region_fill_smoothing
+              ),
+              fillcolor = plotly::toRGB(
+                region_palette[[i]],
+                alpha = region_fill_alpha
+              ),
+              name = region_names[i],
+              legendgroup = region_names[i],
+              showlegend = j == 1
+            )
         }
       } # each region's individual regions' coords
     }
@@ -618,30 +634,31 @@ draw_protein <- function(x,
     # for overlapping sets within each region
     for (i in seq_along(site)) {
       for (j in seq_along(site[[i]])) {
-        plt <- plt |> plotly::add_trace(
-          x = xs[site[[i]][[j]]],
-          y = ys[site[[i]][[j]]],
-          type = "scatter",
-          mode = "markers",
-          marker = list(
-            color = plotly::toRGB(
-              "#000000",
-              alpha = 0
-            ),
-            size = site_marker_size,
-            symbol = site_marker_symbol,
-            line = list(
+        plt <- plt |>
+          plotly::add_trace(
+            x = xs[site[[i]][[j]]],
+            y = ys[site[[i]][[j]]],
+            type = "scatter",
+            mode = "markers",
+            marker = list(
               color = plotly::toRGB(
-                site_palette[[i]],
-                alpha = site_marker_alpha
+                "#000000",
+                alpha = 0
               ),
-              width = site_border_width
-            )
-          ),
-          name = site_names[i],
-          legendgroup = site_names[i],
-          showlegend = j == 1
-        )
+              size = site_marker_size,
+              symbol = site_marker_symbol,
+              line = list(
+                color = plotly::toRGB(
+                  site_palette[[i]],
+                  alpha = site_marker_alpha
+                ),
+                width = site_border_width
+              )
+            ),
+            name = site_names[i],
+            legendgroup = site_names[i],
+            showlegend = j == 1
+          )
       }
     }
   } # /sites
@@ -655,19 +672,20 @@ draw_protein <- function(x,
     ptm.names <- names(ptm)
     for (i in seq_along(ptm)) {
       polyoffset <- npad(i, n = length(ptm), pad = ptm_pad)
-      plt <- plt |> plotly::add_trace(
-        x = xs[ptm[[i]]] + polyoffset[1],
-        y = ys[ptm[[i]]] + polyoffset[2],
-        type = "scatter",
-        mode = "markers",
-        marker = list(
-          color = plotly::toRGB(ptm.col[[i]]),
-          size = ptm_marker_size,
-          symbol = ptm.symbol[i]
-        ),
-        name = ptm.names[i],
-        showlegend = showlegend_ptm
-      )
+      plt <- plt |>
+        plotly::add_trace(
+          x = xs[ptm[[i]]] + polyoffset[1],
+          y = ys[ptm[[i]]] + polyoffset[2],
+          type = "scatter",
+          mode = "markers",
+          marker = list(
+            color = plotly::toRGB(ptm.col[[i]]),
+            size = ptm_marker_size,
+            symbol = ptm.symbol[i]
+          ),
+          name = ptm.names[i],
+          showlegend = showlegend_ptm
+        )
     }
   }
   # Cleavage sites ----
@@ -676,27 +694,32 @@ draw_protein <- function(x,
     if (verbosity > 1L) msg2("Adding cleavage site markers...")
     if (is.null(clv_col)) {
       clv_col <- c(
-        colorspace::qualitative_hcl(round(length(clv) / 2), h = c(0, 360), c = 180, l = 64),
-        colorspace::qualitative_hcl(ceiling(length(clv) / 2), h = c(0, 360), c = 180, l = 80)
+        colorspace::qualitative_hcl(
+          (length(clv)),
+          h = c(40, 360),
+          c = 120,
+          l = 50
+        )
       )
     }
     clv_symbol <- recycle(clv_symbol, clv)
     clv_names <- names(clv)
     for (i in seq_along(clv)) {
       polyoffset <- npad(i, n = length(clv), pad = clv_pad)
-      plt <- plt |> plotly::add_trace(
-        x = xs[clv[[i]]] + polyoffset[1],
-        y = ys[clv[[i]]] + polyoffset[2],
-        type = "scatter",
-        mode = "markers",
-        marker = list(
-          color = plotly::toRGB(clv_col[[i]]),
-          size = clv_marker_size,
-          symbol = clv_symbol[i]
-        ),
-        name = clv_names[i],
-        showlegend = showlegend_ptm
-      )
+      plt <- plt |>
+        plotly::add_trace(
+          x = xs[clv[[i]]] + polyoffset[1],
+          y = ys[clv[[i]]] + polyoffset[2],
+          type = "scatter",
+          mode = "markers",
+          marker = list(
+            color = plotly::toRGB(clv_col[[i]]),
+            size = clv_marker_size,
+            symbol = clv_symbol[i]
+          ),
+          name = clv_names[i],
+          showlegend = showlegend_ptm
+        )
     }
   }
 
@@ -715,46 +738,50 @@ draw_protein <- function(x,
     label_group_col <- levels(label_group)
     for (i in seq_along(label_group_col)) {
       idx <- label_group == label_group_col[i]
-      plt <- plt |> plotly::add_annotations(
-        xref = "x",
-        yref = "y",
-        x = xs[idx],
-        y = ys[idx],
-        text = x[idx],
-        font = list(
-          family = theme[["font_family"]],
-          size = font_size,
-          color = label_group_col[[i]]
-        ),
-        showarrow = FALSE
-        # name = label_group.levels[[i]],
-        # showlegend = nchar(label_group.levels[[i]]) > 0
-      )
+      plt <- plt |>
+        plotly::add_annotations(
+          xref = "x",
+          yref = "y",
+          x = xs[idx],
+          y = ys[idx],
+          text = x[idx],
+          font = list(
+            family = theme[["font_family"]],
+            size = font_size,
+            color = label_group_col[[i]]
+          ),
+          showarrow = FALSE
+          # name = label_group.levels[[i]],
+          # showlegend = nchar(label_group.levels[[i]]) > 0
+        )
     }
     # }
   }
 
   # Position annotations ----
-  if (!is.null(annotate_position_every) && length(x) > annotate_position_every) {
+  if (
+    !is.null(annotate_position_every) && length(x) > annotate_position_every
+  ) {
     idxpos <- seq(annotate_position_every, n, annotate_position_every)
-    plt <- plt |> plotly::add_annotations(
-      x = xs[idxpos],
-      y = ys[idxpos],
-      xref = "x",
-      yref = "y",
-      xanchor = "middle",
-      yanchor = "bottom",
-      ax = 0,
-      ay = annotate_position_ay,
-      text = idxpos,
-      showarrow = TRUE,
-      arrowcolor = "#ffffff00",
-      font = list(
-        size = position_font_size,
-        family = theme[["font_family"]],
-        color = plotly::toRGB(theme[["fg"]], alpha = annotate_position_alpha)
+    plt <- plt |>
+      plotly::add_annotations(
+        x = xs[idxpos],
+        y = ys[idxpos],
+        xref = "x",
+        yref = "y",
+        xanchor = "middle",
+        yanchor = "bottom",
+        ax = 0,
+        ay = annotate_position_ay,
+        text = idxpos,
+        showarrow = TRUE,
+        arrowcolor = "#ffffff00",
+        font = list(
+          size = position_font_size,
+          family = theme[["font_family"]],
+          color = plotly::toRGB(theme[["fg"]], alpha = annotate_position_alpha)
+        )
       )
-    )
   }
 
   # Layout ----
@@ -775,7 +802,8 @@ draw_protein <- function(x,
     tracegroupgap = legend_group_gap
   )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     xaxis = list(
       autorange = xaxis_autorange,
       showgrid = showgrid_x,
@@ -820,7 +848,8 @@ draw_protein <- function(x,
   )
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(
@@ -847,30 +876,86 @@ draw_protein <- function(x,
 
 aa <- data.frame(
   Abbreviation1 = c(
-    "A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K",
-    "M", "F", "P", "S", "T", "W", "Y", "V", "B", "Z", "X", ""
+    "A",
+    "R",
+    "N",
+    "D",
+    "C",
+    "Q",
+    "E",
+    "G",
+    "H",
+    "I",
+    "L",
+    "K",
+    "M",
+    "F",
+    "P",
+    "S",
+    "T",
+    "W",
+    "Y",
+    "V",
+    "B",
+    "Z",
+    "X",
+    ""
   ),
   Abbreviation3 = c(
-    "Ala", "Arg", "Asn", "Asp", "Cys", "Gln", "Glu", "Gly", "His",
-    "Ile", "Leu", "Lys", "Met", "Phe", "Pro", "Ser", "Thr", "Trp",
-    "Tyr", "Val", "Asx", "Glx", "Xaa", "TERM"
+    "Ala",
+    "Arg",
+    "Asn",
+    "Asp",
+    "Cys",
+    "Gln",
+    "Glu",
+    "Gly",
+    "His",
+    "Ile",
+    "Leu",
+    "Lys",
+    "Met",
+    "Phe",
+    "Pro",
+    "Ser",
+    "Thr",
+    "Trp",
+    "Tyr",
+    "Val",
+    "Asx",
+    "Glx",
+    "Xaa",
+    "TERM"
   ),
   Name = c(
-    "Alanine", "Arginine", "Asparagine", "Aspartate",
-    "Cysteine", "Glutamine", "Glutamate", "Glycine",
-    "Histidine", "Isoleucine", "Leucine", "Lysine", "Methionine",
-    "Phenylalanine", "Proline", "Serine", "Threonine", "Tryptophan",
-    "Tyrosine", "Valine", "Aspartic acid or Asparagine",
-    "Glutamine or Glutamic acid", "(Any)", "Termination codon"
+    "Alanine",
+    "Arginine",
+    "Asparagine",
+    "Aspartate",
+    "Cysteine",
+    "Glutamine",
+    "Glutamate",
+    "Glycine",
+    "Histidine",
+    "Isoleucine",
+    "Leucine",
+    "Lysine",
+    "Methionine",
+    "Phenylalanine",
+    "Proline",
+    "Serine",
+    "Threonine",
+    "Tryptophan",
+    "Tyrosine",
+    "Valine",
+    "Aspartic acid or Asparagine",
+    "Glutamine or Glutamic acid",
+    "(Any)",
+    "Termination codon"
   )
 )
 
-poly_xys <- function(xs,
-                     ys,
-                     d,
-                     pad = 1,
-                     bpadcx = .5,
-                     bpadcy = .5) {
+poly_xys <- function(xs, ys, d, pad = 1, bpadcx = .5, bpadcy = .5) {
   n <- length(xs)
   dk <- rep(1, n)
   kinks <- which("rb" == d | "lb" == d)
@@ -881,13 +966,15 @@ poly_xys <- function(xs,
   }
 
   # première ----
-  px_1 <- switch(d[1],
+  px_1 <- switch(
+    d[1],
     "r" = xs[1] - pad,
     "l" = xs[1] + pad,
     "rb" = c(xs[1] - pad, xs[1]),
     "lb" = c(xs[1] + pad, xs[1])
   )
-  py_1 <- switch(d[1],
+  py_1 <- switch(
+    d[1],
     "rb" = rep(ys[1] - pad, 2),
     "lb" = rep(ys[1] - pad, 2),
     ys[1] - pad
@@ -906,7 +993,8 @@ poly_xys <- function(xs,
       } else {
         xs[k]
       }
-    }) |> unlist()
+    }) |>
+    unlist()
 
   py_aller <-
     sapply(seq_along(d), \(k) {
@@ -925,7 +1013,8 @@ poly_xys <- function(xs,
           c(ys[k] - sqrt(.5 * pad^2), ys[k] + sqrt(.5 * pad^2))
         }
       }
-    }) |> unlist()
+    }) |>
+    unlist()
 
   # centre ----
   dr <- rev(d)
@@ -933,7 +1022,8 @@ poly_xys <- function(xs,
   xsr <- rev(xs)
   ysr <- rev(ys)
   px_centre <-
-    switch(dr[1],
+    switch(
+      dr[1],
       "r" = rep(xsr[1] + pad, 2),
       "l" = rep(xsr[1] - pad, 2),
       # "rb" = c(xsr[1], xsr[1] - sqrt(.5 * pad^2)),
@@ -971,7 +1061,8 @@ poly_xys <- function(xs,
       } else {
         xsr[k]
       }
-    }) |> unlist()
+    }) |>
+    unlist()
 
   py_retour <-
     sapply(seq_along(dr), \(k) {
@@ -984,7 +1075,8 @@ poly_xys <- function(xs,
       } else {
         rep(ysr[k], 2)
       }
-    }) |> unlist()
+    }) |>
+    unlist()
 
   # find point before and after rb/lb
   idirb <- which(d == "rb")
@@ -1008,7 +1100,8 @@ poly_xys <- function(xs,
   }
 
   # pénultième ----
-  py_pen <- if (d[1] %in% c("rb", "lb")) ys[1] - sqrt(.5 * pad^2) else ys[1] + pad
+  py_pen <- if (d[1] %in% c("rb", "lb")) ys[1] - sqrt(.5 * pad^2) else
+    ys[1] + pad
 
   # out ----
   list(
@@ -1020,7 +1113,8 @@ poly_xys <- function(xs,
 
 qrtpad <- function(i, pad = .3) {
   qrt <- sqrt(.5 * pad^2)
-  switch(i,
+  switch(
+    i,
     `1` = c(qrt, -qrt),
     `2` = c(pad, 0),
     `3` = c(qrt, qrt),

@@ -24,10 +24,10 @@ class_data.table <- new_S3_class("data.table")
 class_lgb.Booster <- new_S3_class("lgb.Booster")
 
 #' Custom S7 validators
-#' 
+#'
 #' @description
 #' A collection of custom S7 validators used in rtemis.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 scalar_dbl <- S7::new_property(
@@ -119,11 +119,11 @@ scalar_int_12 <- S7::new_property(
 
 # data.frame data.table compatibility ----
 #' Select columns by character or numeric vector.
-#' 
+#'
 #' @param x data.frame or similar.
-#' 
+#'
 #' @return data.frame, tibble, or data.table.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 .. <- identity
@@ -147,7 +147,10 @@ method(exc, list(class_data.frame, class_double)) <- function(x, idx) {
   idx <- clean_int(idx)
   x[, -idx, drop = FALSE]
 }
-method(exc, list(class_data.table, class_character | class_integer)) <- function(x, idx) {
+method(
+  exc,
+  list(class_data.table, class_character | class_integer)
+) <- function(x, idx) {
   x[, !..idx]
 }
 method(exc, list(class_data.table, class_double)) <- function(x, idx) {
@@ -158,9 +161,9 @@ method(exc, list(class_data.table, class_double)) <- function(x, idx) {
 #' Get the name of the last column
 #'
 #' @param x data.frame or similar.
-#' 
+#'
 #' @return Name of the last column.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 outcome_name <- new_generic("outcome_name", "x")
@@ -169,11 +172,11 @@ method(outcome_name, class_data.frame) <- function(x) {
 }
 
 #' Get last column as a vector
-#' 
+#'
 #' @param x data.frame or similar.
-#' 
+#'
 #' @return Last column as a vector.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 outcome <- new_generic("outcome", "x")
@@ -193,11 +196,11 @@ method(feature_names, class_data.frame) <- function(x) {
 }
 
 #' Get factor names
-#' 
+#'
 #' @param x data.frame or similar.
-#' 
+#'
 #' @return Character vector of factor names.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 get_factor_names <- new_generic("get_factor_names", "x")
