@@ -26,7 +26,11 @@ test_that("get_params_need_tuning() succeeds", {
 setup_CART()
 setup_CART(prune.cp = c(.001, .01, .1))
 setup_CART(prune.cp = c(.001, .01, .1), minsplit = c(2L, 10L))
-setup_CART(prune.cp = c(.001, .01, .1), minsplit = c(2L, 10L), minbucket = c(1L, 10L))
+setup_CART(
+  prune.cp = c(.001, .01, .1),
+  minsplit = c(2L, 10L),
+  minbucket = c(1L, 10L)
+)
 
 # CARTHyperparameters ----
 cart_hpr <- CARTHyperparameters()
@@ -72,7 +76,10 @@ test_that("setup_LightRF() succeeds", {
 })
 
 # setup_LightGBM ----
-lgbm_hpr <- setup_LightGBM(num_leaves = c(4, 8, 16), learning_rate = c(.001, .01, .1))
+lgbm_hpr <- setup_LightGBM(
+  num_leaves = c(4, 8, 16),
+  learning_rate = c(.001, .01, .1)
+)
 test_that("setup_LightGBM() succeeds", {
   expect_s7_class(setup_LightGBM(), LightGBMHyperparameters)
 })
@@ -97,7 +104,6 @@ test_that("setup_RadialSVM() succeeds", {
 })
 
 # setup_TabNet ----
-# tabnet removed from CRAN 20250401
-# test_that("setup_TabNet() succeeds", {
-#   expect_s7_class(setup_TabNet(), TabNetHyperparameters)
-# })
+test_that("setup_TabNet() succeeds", {
+  expect_s7_class(setup_TabNet(), TabNetHyperparameters)
+})

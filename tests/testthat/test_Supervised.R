@@ -448,7 +448,6 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 # )
 
 # TabNet Regression ----
-# tabnet removed from CRAN 20250401 (https://cran.r-project.org/web/packages/tabnet/index.html)
 ## TabNet Regression ----
 # Test if lantern is installed
 if (torch::torch_is_installed()) {
@@ -611,7 +610,6 @@ test_that("train() SVM Classification succeeds", {
 })
 
 # TabNet Classification ----
-# 2025-04-01: removed from CRAN (https://cran.r-project.org/web/packages/tabnet/index.html)
 if (torch::torch_is_installed()) {
   mod_c_tabnet <- train(
     x = datc2_train,
