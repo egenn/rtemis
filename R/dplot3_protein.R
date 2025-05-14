@@ -687,7 +687,7 @@ dplot3_protein <- function(
   if (!is.null(clv)) {
     if (verbosity > 1) msg2("Adding cleavage site markers...")
     if (is.null(clv.col)) {
-      clv_col <- colorspace::qualitative_hcl(
+      clv.col <- colorspace::qualitative_hcl(
         n = (length(clv)),
         h = c(40, 360),
         c = 120,
