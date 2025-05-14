@@ -34,36 +34,41 @@
 #' @keywords internal
 #' @export
 
-
-cartLiteBoostTV <- function(x, y = NULL,
-                            x.valid = NULL, y.valid = NULL,
-                            x.test = NULL, y.test = NULL,
-                            resid = NULL,
-                            boost.obj = NULL,
-                            mod.params = list(),
-                            weights.p = 1,
-                            weights.0 = 0,
-                            weights = NULL,
-                            learning.rate = .1,
-                            max.iter = 10,
-                            init = NULL,
-                            seed = NULL,
-                            x.name = NULL,
-                            y.name = NULL,
-                            question = NULL,
-                            base.verbose = FALSE,
-                            verbose = TRUE,
-                            trace = 0,
-                            print.progress.every = 5,
-                            print.error.plot = "final",
-                            prefix = NULL,
-                            plot.theme = rtTheme,
-                            plot.fitted = NULL,
-                            plot.predicted = NULL,
-                            print.plot = FALSE,
-                            print.base.plot = FALSE,
-                            plot.type = "l",
-                            outdir = NULL, ...) {
+cartLiteBoostTV <- function(
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  resid = NULL,
+  boost.obj = NULL,
+  mod.params = list(),
+  weights.p = 1,
+  weights.0 = 0,
+  weights = NULL,
+  learning.rate = .1,
+  max.iter = 10,
+  init = NULL,
+  seed = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  base.verbose = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  print.progress.every = 5,
+  print.error.plot = "final",
+  prefix = NULL,
+  plot.theme = rtTheme,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  print.plot = FALSE,
+  print.base.plot = FALSE,
+  plot.type = "l",
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(boost))
@@ -71,7 +76,14 @@ cartLiteBoostTV <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -84,13 +96,19 @@ cartLiteBoostTV <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   # if (save.mod & is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   extra.args <- list(...)
   mod.params <- c(mod.params, extra.args)
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
-    x.valid = x.valid, y.valid = y.valid,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    x.valid = x.valid,
+    y.valid = y.valid,
     verbose = verbose
   )
   x <- dt$x
@@ -106,8 +124,10 @@ cartLiteBoostTV <- function(x, y = NULL,
   # y0 <- if (upsample|downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -188,7 +208,11 @@ cartLiteBoostTV <- function(x, y = NULL,
     print.progress.index <- FALSE
     print.error.plot <- "none"
   } else if (print.progress.every < max.iter) {
-    print.progress.index <- seq(print.progress.every, max.iter, print.progress.every)
+    print.progress.index <- seq(
+      print.progress.every,
+      max.iter,
+      print.progress.every
+    )
   } else {
     print.progress.index <- max.iter
   }
@@ -196,7 +220,11 @@ cartLiteBoostTV <- function(x, y = NULL,
   # Print error plot
   if (max.iter > 1 && is.numeric(print.error.plot)) {
     if (print.error.plot < max.iter) {
-      print.error.plot.index <- seq(print.error.plot, max.iter, print.error.plot)
+      print.error.plot.index <- seq(
+        print.error.plot,
+        max.iter,
+        print.error.plot
+      )
     } else {
       print.error.plot.index <- max.iter
     }
@@ -216,7 +244,8 @@ cartLiteBoostTV <- function(x, y = NULL,
 
     mod.args <- c(
       list(
-        x = x1, y = resid1,
+        x = x1,
+        y = resid1,
         weights = weights1,
         save.fitted = TRUE
         # x.test = x.valid, y.test = y.valid,
@@ -248,9 +277,13 @@ cartLiteBoostTV <- function(x, y = NULL,
       error.valid[[i]] <- mse(y.valid, Fvalid)
       if (verbose && i %in% print.progress.index) {
         if (verbose) {
-          msg2("Iteration #", i, ": Training MSE = ",
+          msg2(
+            "Iteration #",
+            i,
+            ": Training MSE = ",
             ddSci(error[[i]]),
-            "; Validation MSE = ", ddSci(error.valid[[i]]),
+            "; Validation MSE = ",
+            ddSci(error.valid[[i]]),
             sep = ""
           )
         }
@@ -262,19 +295,28 @@ cartLiteBoostTV <- function(x, y = NULL,
     }
     if (print.error.plot == "iter" && i %in% print.error.plot.index) {
       if (is.null(x.valid)) {
-        mplot3_xy(seq(error), error,
+        mplot3_xy(
+          seq(error),
+          error,
           type = plot.type,
-          xlab = "Iteration", ylab = "MSE",
+          xlab = "Iteration",
+          ylab = "MSE",
           x.axis.at = seq(error),
-          main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+          main = paste0(prefix, learner.short, " Boosting"),
+          zerolines = FALSE,
           theme = plot.theme
         )
       } else {
-        mplot3_xy(seq(error), list(training = error, validation = error.valid),
+        mplot3_xy(
+          seq(error),
+          list(training = error, validation = error.valid),
           type = plot.type,
-          xlab = "Iteration", ylab = "MSE", group.adj = .95,
+          xlab = "Iteration",
+          ylab = "MSE",
+          group.adj = .95,
           x.axis.at = seq(error),
-          main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+          main = paste0(prefix, learner.short, " Boosting"),
+          zerolines = FALSE,
           theme = plot.theme
         )
       }
@@ -285,23 +327,32 @@ cartLiteBoostTV <- function(x, y = NULL,
 
   if (print.error.plot == "final") {
     if (is.null(x.valid)) {
-      mplot3_xy(seq(error), error,
+      mplot3_xy(
+        seq(error),
+        error,
         type = plot.type,
-        xlab = "Iteration", ylab = "MSE",
+        xlab = "Iteration",
+        ylab = "MSE",
         x.axis.at = seq(error),
-        main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
+        main = paste0(prefix, learner.short, " Boosting"),
+        zerolines = FALSE,
         theme = plot.theme
       )
     } else {
-      mplot3_xy(seq(error), list(
-        Training = error,
-        Validation = error.valid
-      ),
-      type = plot.type,
-      xlab = "Iteration", ylab = "MSE", group.adj = .95,
-      x.axis.at = seq(error),
-      main = paste0(prefix, learner.short, " Boosting"), zerolines = FALSE,
-      theme = plot.theme
+      mplot3_xy(
+        seq(error),
+        list(
+          Training = error,
+          Validation = error.valid
+        ),
+        type = plot.type,
+        xlab = "Iteration",
+        ylab = "MSE",
+        group.adj = .95,
+        x.axis.at = seq(error),
+        main = paste0(prefix, learner.short, " Boosting"),
+        zerolines = FALSE,
+        theme = plot.theme
       )
     }
   }
@@ -372,7 +423,8 @@ cartLiteBoostTV <- function(x, y = NULL,
     extra = extra
   )
 
-  rtMod.out(rt,
+  rtMod.out(
+    rt,
     print.plot,
     plot.fitted,
     plot.predicted,
@@ -384,7 +436,11 @@ cartLiteBoostTV <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::cartLiteBoostTV
 
@@ -423,13 +479,16 @@ print.cartLiteBoostTV <- function(x, ...) {
 #' @author E.D. Gennatas
 #' @export
 
-predict.cartLiteBoostTV <- function(object,
-                                    newdata = NULL,
-                                    n.feat = NCOL(newdata),
-                                    n.iter = NULL,
-                                    as.matrix = FALSE,
-                                    verbose = FALSE,
-                                    n.cores = rtCores, ...) {
+predict.cartLiteBoostTV <- function(
+  object,
+  newdata = NULL,
+  n.feat = NCOL(newdata),
+  n.iter = NULL,
+  as.matrix = FALSE,
+  verbose = FALSE,
+  n.cores = rtCores,
+  ...
+) {
   if (inherits(object, "rtMod") && inherits(object$mod, "cartLiteBoostTV")) {
     object <- object$mod
     if (verbose) msg2("Found rtemis cartLiteBoostTV object")
@@ -445,7 +504,8 @@ predict.cartLiteBoostTV <- function(object,
 
   if (!is.null(newdata)) {
     if (!is.data.frame(newdata)) {
-      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq_len(NCOL(newdata)))
+      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else
+        paste0("V", seq_len(NCOL(newdata)))
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
       newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -457,15 +517,19 @@ predict.cartLiteBoostTV <- function(object,
   if (!as.matrix) {
     predicted <- rowSums(cbind(
       rep(object$init, NROW(newdata)),
-      pbapply::pbsapply(seq(n.iter), \(i)
-      predict.cartLite(object$mods[[i]], newdata) * object$learning.rate[i],
-      cl = n.cores
+      pbapply::pbsapply(
+        seq(n.iter),
+        \(i)
+          predict.cartLite(object$mods[[i]], newdata) * object$learning.rate[i],
+        cl = n.cores
       )
     ))
   } else {
-    predicted.n <- pbapply::pbsapply(seq(n.iter), \(i)
-    predict.cartLite(object$mods[[i]], newdata) * object$learning.rate[i],
-    cl = n.cores
+    predicted.n <- pbapply::pbsapply(
+      seq(n.iter),
+      \(i)
+        predict.cartLite(object$mods[[i]], newdata) * object$learning.rate[i],
+      cl = n.cores
     )
 
     predicted <- matrix(nrow = NROW(newdata), ncol = n.iter)
@@ -490,31 +554,39 @@ predict.cartLiteBoostTV <- function(object,
 #' @keywords internal
 #' @noRd
 
-expand.cartLiteBoostTV <- function(object,
-                                   x, y = NULL,
-                                   x.valid = NULL, y.valid = NULL,
-                                   x.test = NULL, y.test = NULL,
-                                   resid = NULL,
-                                   mod.params = NULL,
-                                   max.iter = 10,
-                                   learning.rate = NULL,
-                                   # case.p = 1,
-                                   weights.p = 1,
-                                   weights.0 = 0,
-                                   seed = NULL,
-                                   prefix = NULL,
-                                   verbose = TRUE,
-                                   trace = 0,
-                                   print.error.plot = "final",
-                                   print.plot = FALSE) {
+expand.cartLiteBoostTV <- function(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  resid = NULL,
+  mod.params = NULL,
+  max.iter = 10,
+  learning.rate = NULL,
+  # case.p = 1,
+  weights.p = 1,
+  weights.0 = 0,
+  seed = NULL,
+  prefix = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.error.plot = "final",
+  print.plot = FALSE
+) {
   if (is.null(y)) y <- object$y.train
   if (is.null(mod.params)) mod.params <- object$parameters$mod.params
   if (is.null(learning.rate)) learning.rate <- object$parameters$learning.rate
 
   cartLiteBoostTV(
-    x = x, y = y,
-    x.valid = x.valid, y.valid = y.valid,
-    x.test = x.test, y.test = y.test,
+    x = x,
+    y = y,
+    x.valid = x.valid,
+    y.valid = y.valid,
+    x.test = x.test,
+    y.test = y.test,
     resid = resid,
     boost.obj = object,
     mod.params = mod.params,
@@ -547,14 +619,16 @@ expand.cartLiteBoostTV <- function(object,
 #' @noRd
 # TODO: add x = NULL, if not NULL calculate fitted values
 
-as.cartLiteBoostTV <- function(object,
-                               x,
-                               y = NULL,
-                               x.valid = NULL,
-                               y.valid = NULL,
-                               learning.rate = 1,
-                               init = 0,
-                               apply.lr = TRUE) {
+as.cartLiteBoostTV <- function(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  learning.rate = 1,
+  init = 0,
+  apply.lr = TRUE
+) {
   if (!inherits(object, "cartLite")) {
     stop("Please provide cartLite object")
   }
@@ -643,12 +717,15 @@ as.cartLiteBoostTV <- function(object,
 #' @keywords internal
 #' @noRd
 
-update.cartLiteBoostTV <- function(object,
-                                   x = NULL,
-                                   x.valid = NULL,
-                                   trace = 0,
-                                   last.step.only = FALSE,
-                                   n.cores = rtCores, ...) {
+update.cartLiteBoostTV <- function(
+  object,
+  x = NULL,
+  x.valid = NULL,
+  trace = 0,
+  last.step.only = FALSE,
+  n.cores = rtCores,
+  ...
+) {
   if (trace > 0) fitted.orig <- object$fitted_tv
   # fitted <- plyr::laply(object$mod$mods, function(i) i$fitted)
   # Create n.iter x n.cases fitted values; one row per iteration
@@ -657,13 +734,18 @@ update.cartLiteBoostTV <- function(object,
     fitted <- t(sapply(object$mod$mods, \(i) i$fitted))
   } else {
     if (!last.step.only) {
-      fitted <- t(as.data.frame(pbapply::pblapply(object$mod$mods, \(i) predict(i, x), cl = n.cores)))
+      fitted <- t(as.data.frame(pbapply::pblapply(
+        object$mod$mods,
+        \(i) predict(i, x),
+        cl = n.cores
+      )))
     } else {
       u <- length(object$mod$mods)
       object$mod$mods[[u]]$fitted_tv <- predict(object$mod$mods[[u]], x)
       fitted <- t(vapply(
         object$mod$mods,
-        \(i) i$fitted, vector("numeric", length(object$fitted))
+        \(i) i$fitted,
+        vector("numeric", length(object$fitted))
       ))
     }
   }
@@ -674,9 +756,13 @@ update.cartLiteBoostTV <- function(object,
   # }
 
   # Multiply each row by its corresponding learning.rate, and sum all n.case-length vectors to get fitted value
-  object$mod$fitted_tv <- object$mod$init + colSums(fitted * object$mod$learning.rate)
+  object$mod$fitted_tv <- object$mod$init +
+    colSums(fitted * object$mod$learning.rate)
   object$fitted <- object$mod$fitted_tv[seq(object$mod$train.ncases)]
-  object$error.train <- mod_error(object$y.train, object$mod$fitted_tv[seq(object$mod$train.ncases)])
+  object$error.train <- mod_error(
+    object$y.train,
+    object$mod$fitted_tv[seq(object$mod$train.ncases)]
+  )
   if (trace > 0) {
     mse.orig <- mse(object$y.train, fitted.orig)
     mse.new <- mse(object$y.train, fitted)

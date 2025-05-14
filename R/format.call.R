@@ -25,10 +25,13 @@
 #' )
 #' format(irmod$call) |> cat()
 #' }
-format.call <- function(x,
-                        as.html = FALSE,
-                        # font.family = "monospace",
-                        class = "rtcode", ...) {
+format.call <- function(
+  x,
+  as.html = FALSE,
+  # font.family = "monospace",
+  class = "rtcode",
+  ...
+) {
   leftpad <- nchar(x[1])
   out <- paste0(format.default(x), collapse = "")
   out <- gsub(" +", " ", out)

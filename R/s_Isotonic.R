@@ -16,16 +16,20 @@
 #' @family Supervised Learning
 #' @export
 
-s_Isotonic <- function(x, y = NULL,
-                       x.test = NULL,
-                       y.test = NULL,
-                       x.name = NULL,
-                       y.name = NULL,
-                       binclasspos = NULL,
-                       verbose = TRUE,
-                       question = NULL,
-                       outdir = NULL,
-                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_Isotonic <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  binclasspos = NULL,
+  verbose = TRUE,
+  question = NULL,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   if (is.null(binclasspos)) binclasspos <- rtenv$binclasspos
 
   # Intro ----
@@ -33,9 +37,16 @@ s_Isotonic <- function(x, y = NULL,
     print(args(s_Isotonic))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -48,7 +59,8 @@ s_Isotonic <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test, verbose = verbose)
@@ -82,11 +94,15 @@ s_Isotonic <- function(x, y = NULL,
   fitted <- mod(x[[1]])
   if (.class) {
     fitted.prob <- fitted
-    fitted <- prob2categorical(fitted.prob, levels(yf), binclasspos = rtenv$binclasspos)
+    fitted <- prob2categorical(
+      fitted.prob,
+      levels(yf),
+      binclasspos = rtenv$binclasspos
+    )
   } else {
     fitted.prob <- NULL
   }
-  
+
   error.train <- mod_error(if (.class) yf else y, fitted, fitted.prob)
   if (verbose) errorSummary(error.train, mod.name)
 
@@ -96,11 +112,19 @@ s_Isotonic <- function(x, y = NULL,
     predicted <- mod(x.test[[1]])
     if (.class) {
       predicted.prob <- predicted
-      predicted <- prob2categorical(predicted.prob, levels(yf), binclasspos = rtenv$binclasspos)
+      predicted <- prob2categorical(
+        predicted.prob,
+        levels(yf),
+        binclasspos = rtenv$binclasspos
+      )
     } else {
       predicted.prob <- NULL
     }
-    error.test <- mod_error(if (.class) y.test else y.test, predicted, predicted.prob)
+    error.test <- mod_error(
+      if (.class) y.test else y.test,
+      predicted,
+      predicted.prob
+    )
     if (verbose) errorSummary(error.test, mod.name)
   }
 
@@ -138,7 +162,8 @@ s_Isotonic <- function(x, y = NULL,
     verbose = verbose
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )
@@ -148,11 +173,11 @@ s_Isotonic <- function(x, y = NULL,
 
 #' @rdname s_Isotonic
 #' @export
-#' 
+#'
 #' @param object Object of class `rtMod` that has been trained with [s_Isotonic]
 #' @param newdata Data frame of new data to predict
 #' @param ... Not used
-#' 
+#'
 #' @return Predicted values
 predict.Isotonic <- function(object, newdata, ...) {
   object$mod(newdata)

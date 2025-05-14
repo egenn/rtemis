@@ -51,7 +51,7 @@
 #' Used to define monotonicity constraints. `0`: no constraint, `1`: increasing,
 #' `-1`: decreasing.
 #' @param .gs Internal use only
-#' 
+#'
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
@@ -59,69 +59,82 @@
 #' @family Ensembles
 #' @export
 
-s_GBM <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  weights = NULL,
-                  ifw = TRUE,
-                  ifw.type = 2,
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  distribution = NULL,
-                  interaction.depth = 2,
-                  shrinkage = .01,
-                  bag.fraction = 0.9,
-                  n.minobsinnode = 5,
-                  n.trees = 2000,
-                  max.trees = 5000,
-                  force.n.trees = NULL,
-                  gbm.select.smooth = FALSE,
-                  n.new.trees = 500,
-                  min.trees = 50,
-                  failsafe.trees = 500,
-                  imetrics = FALSE,
-                  .gs = FALSE,
-                  grid.resample.params = setup.resample("kfold", 5),
-                  gridsearch.type = "exhaustive",
-                  metric = NULL,
-                  maximize = NULL,
-                  plot.tune.error = FALSE,
-                  n.cores = rtCores,
-                  relInf = TRUE,
-                  varImp = FALSE,
-                  offset = NULL,
-                  # misc = NULL,
-                  var.monotone = NULL,
-                  keep.data = TRUE,
-                  var.names = NULL,
-                  response.name = "y",
-                  checkmods = FALSE,
-                  group = NULL,
-                  plot.perf = FALSE,
-                  plot.res = ifelse(!is.null(outdir), TRUE, FALSE),
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  print.plot = FALSE,
-                  plot.theme = rtTheme,
-                  x.name = NULL, y.name = NULL,
-                  question = NULL,
-                  verbose = TRUE,
-                  trace = 0,
-                  grid.verbose = verbose,
-                  gbm.fit.verbose = FALSE,
-                  outdir = NULL,
-                  save.gridrun = FALSE,
-                  save.res = FALSE,
-                  save.res.mod = FALSE,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
+s_GBM <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  distribution = NULL,
+  interaction.depth = 2,
+  shrinkage = .01,
+  bag.fraction = 0.9,
+  n.minobsinnode = 5,
+  n.trees = 2000,
+  max.trees = 5000,
+  force.n.trees = NULL,
+  gbm.select.smooth = FALSE,
+  n.new.trees = 500,
+  min.trees = 50,
+  failsafe.trees = 500,
+  imetrics = FALSE,
+  .gs = FALSE,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  metric = NULL,
+  maximize = NULL,
+  plot.tune.error = FALSE,
+  n.cores = rtCores,
+  relInf = TRUE,
+  varImp = FALSE,
+  offset = NULL,
+  # misc = NULL,
+  var.monotone = NULL,
+  keep.data = TRUE,
+  var.names = NULL,
+  response.name = "y",
+  checkmods = FALSE,
+  group = NULL,
+  plot.perf = FALSE,
+  plot.res = ifelse(!is.null(outdir), TRUE, FALSE),
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  print.plot = FALSE,
+  plot.theme = rtTheme,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  grid.verbose = verbose,
+  gbm.fit.verbose = FALSE,
+  outdir = NULL,
+  save.gridrun = FALSE,
+  save.res = FALSE,
+  save.res.mod = FALSE,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_GBM))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -130,8 +143,12 @@ s_GBM <- function(x, y = NULL,
 
   if (is.null(force.n.trees) && n.trees < min.trees) {
     warning(
-      "You requested n.trees = ", n.trees, ", but specified min.trees = ", min.trees,
-      "\n  I'll go ahead and specify n.trees = ", min.trees
+      "You requested n.trees = ",
+      n.trees,
+      ", but specified min.trees = ",
+      min.trees,
+      "\n  I'll go ahead and specify n.trees = ",
+      min.trees
     )
     n.trees <- min.trees
   }
@@ -146,15 +163,23 @@ s_GBM <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (n.trees > max.trees) {
-    if (verbose) msg2("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
+    if (verbose)
+      msg2(
+        "n.trees specified is greater than max.trees, setting n.trees to",
+        max.trees
+      )
     n.trees <- max.trees
   }
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -172,11 +197,14 @@ s_GBM <- function(x, y = NULL,
   x0 <- if (upsample || downsample) dt$x0 else x
   y0 <- if (upsample || downsample) dt$y0 else y
   n.classes <- length(levels(y0))
-  if (type == "Classificationn" && n.classes != 2) stop("GBM only supports binary classification")
+  if (type == "Classificationn" && n.classes != 2)
+    stop("GBM only supports binary classification")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -200,7 +228,11 @@ s_GBM <- function(x, y = NULL,
   .y.test <- y.test
 
   # Name of loss function - in order to get the correct name for quantile regression
-  loss <- ifelse(length(distribution) == 1, distribution, as.character(distribution$name))
+  loss <- ifelse(
+    length(distribution) == 1,
+    distribution,
+    as.character(distribution$name)
+  )
 
   # For Bernoulli, convert to {0, 1}
   if (loss == "bernoulli") {
@@ -208,7 +240,15 @@ s_GBM <- function(x, y = NULL,
     .y.test <- as.integer(.y.test) - 1
   }
 
-  if (verbose) msg2("Running Gradient Boosting", type, "with a", loss[[1]], "loss function", newline.pre = TRUE)
+  if (verbose)
+    msg2(
+      "Running Gradient Boosting",
+      type,
+      "with a",
+      loss[[1]],
+      "loss function",
+      newline.pre = TRUE
+    )
 
   # Grid Search ----
   if (is.null(metric)) {
@@ -229,7 +269,8 @@ s_GBM <- function(x, y = NULL,
   gc <- gridCheck(interaction.depth, shrinkage, bag.fraction, n.minobsinnode)
   if (!.gs && (gc || is.null(force.n.trees))) {
     gs <- gridSearchLearn(
-      x = x0, y = y0,
+      x = x0,
+      y = y0,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -272,13 +313,17 @@ s_GBM <- function(x, y = NULL,
     if (n.trees == -1) {
       warning(
         "Tuning failed to find n.trees, defaulting to failsafe.trees = ",
-        failsafe.trees, "."
+        failsafe.trees,
+        "."
       )
       n.trees <- failsafe.trees
     }
     if (n.trees < min.trees) {
       warning(
-        "Tuning returned ", n.trees, " trees; using min.trees = ", min.trees,
+        "Tuning returned ",
+        n.trees,
+        " trees; using min.trees = ",
+        min.trees,
         " instead."
       )
       n.trees <- min.trees
@@ -300,12 +345,16 @@ s_GBM <- function(x, y = NULL,
     weights = .weights
   )
   if (verbose) {
-    parameterSummary(n.trees, interaction.depth, shrinkage,
-      bag.fraction, n.minobsinnode, weights,
+    parameterSummary(
+      n.trees,
+      interaction.depth,
+      shrinkage,
+      bag.fraction,
+      n.minobsinnode,
+      weights,
       newline.pre = TRUE
     )
   }
-
 
   # gbm::gbm.fit ----
   if (!is.null(logFile)) sink() # pause writing to log
@@ -322,7 +371,8 @@ s_GBM <- function(x, y = NULL,
     if (verbose) msg2("Training GBM on full training set...")
   }
   mod <- gbm::gbm.fit(
-    x = .x.train, y = .y.train,
+    x = .x.train,
+    y = .y.train,
     offset = offset,
     # misc = misc,
     distribution = distribution,
@@ -348,7 +398,8 @@ s_GBM <- function(x, y = NULL,
       warning("Caught gbm.fit error: retraining last model and continuing")
       if (!is.null(logFile)) sink() # pause logging
       mod <- gbm::gbm.fit(
-        x = .x.train, y = .y.train,
+        x = .x.train,
+        y = .y.train,
         offset = offset,
         # misc = misc,
         distribution = distribution,
@@ -373,7 +424,8 @@ s_GBM <- function(x, y = NULL,
   # If we are in .gs, use the best n.trees to get fitted and predicted values,
   # error.train, and error.test.
   if (.gs) {
-    gst <- gbm.select.trees(mod,
+    gst <- gbm.select.trees(
+      mod,
       smooth = gbm.select.smooth,
       plot = plot.tune.error,
       verbose = verbose
@@ -381,17 +433,20 @@ s_GBM <- function(x, y = NULL,
     n.trees <- gst$n.trees
     valid.error.smooth <- gst$valid.error.smooth
     if (plot.tune.error) {
-      mplot3_xy(seq(valid.error.smooth),
+      mplot3_xy(
+        seq(valid.error.smooth),
         list(
           Training = mod$train.error,
           Validation = mod$valid.error,
           `Smoothed Validation` = valid.error.smooth
         ),
-        type = "l", group.adj = .95,
+        type = "l",
+        group.adj = .95,
         line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
         vline = c(which.min(mod$valid.error), which.min(valid.error.smooth)),
         vline.col = c(ucsfCol$red, ucsfCol$purple),
-        xlab = "N trees", ylab = "Loss"
+        xlab = "N trees",
+        ylab = "Loss"
       )
     }
     if (trace > 0) msg2("### n.trees is", n.trees)
@@ -399,13 +454,19 @@ s_GBM <- function(x, y = NULL,
       n.new.trees <- min(n.new.trees, max.trees - mod$n.trees)
       if (verbose) {
         msg2(
-          "Adding", n.new.trees, "more trees to trained GBM model...",
-          "\n    * current mod$n.trees =", mod$n.trees,
-          "\n    * best n.trees = ", n.trees,
-          "\n    * max.trees =", max.trees
+          "Adding",
+          n.new.trees,
+          "more trees to trained GBM model...",
+          "\n    * current mod$n.trees =",
+          mod$n.trees,
+          "\n    * best n.trees = ",
+          n.trees,
+          "\n    * max.trees =",
+          max.trees
         )
       }
-      mod <- gbm::gbm.more(mod,
+      mod <- gbm::gbm.more(
+        mod,
         n.new.trees = n.new.trees,
         verbose = gbm.fit.verbose
       )
@@ -419,17 +480,20 @@ s_GBM <- function(x, y = NULL,
       n.trees <- gst$n.trees
       valid.error.smooth <- gst$valid.error.smooth
       if (plot.tune.error) {
-        mplot3_xy(seq(valid.error.smooth),
+        mplot3_xy(
+          seq(valid.error.smooth),
           list(
             Training = mod$train.error,
             Validation = mod$valid.error,
             `Smoothed Validation` = valid.error.smooth
           ),
-          type = "l", group.adj = .95,
+          type = "l",
+          group.adj = .95,
           line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
           vline = c(which.min(mod$valid.error), which.min(valid.error.smooth)),
           vline.col = c(ucsfCol$red, ucsfCol$purple),
-          xlab = "N trees", ylab = "Loss"
+          xlab = "N trees",
+          ylab = "Loss"
         )
       }
     }
@@ -447,7 +511,9 @@ s_GBM <- function(x, y = NULL,
   } else {
     if (distribution == "multinomial") {
       # Get probabilities per class
-      fitted.prob <- fitted <- predict(mod, .x,
+      fitted.prob <- fitted <- predict(
+        mod,
+        .x,
         n.trees = n.trees,
         type = "response"
       )
@@ -457,12 +523,15 @@ s_GBM <- function(x, y = NULL,
       )
     } else {
       # Bernoulli: convert {0, 1} back to factor
-      fitted.prob <- 1 - predict(
-        mod, .x,
-        n.trees = n.trees,
-        type = "response"
-      )
-      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
+      fitted.prob <- 1 -
+        predict(
+          mod,
+          .x,
+          n.trees = n.trees,
+          type = "response"
+        )
+      fitted <- factor(
+        ifelse(fitted.prob >= .5, 1, 0),
         levels = c(1, 0),
         labels = levels(y)
       )
@@ -478,15 +547,18 @@ s_GBM <- function(x, y = NULL,
   mod.summary.rel <- NULL
   if (relInf) {
     if (verbose) msg2("Calculating relative influence of variables...")
-    mod.summary.rel <- gbm::summary.gbm(mod,
+    mod.summary.rel <- gbm::summary.gbm(
+      mod,
       plotit = FALSE,
-      order = FALSE, method = gbm::relative.influence
+      order = FALSE,
+      method = gbm::relative.influence
     )
   }
 
   mod.summary.perm <- NULL
   if (varImp) {
-    if (verbose) msg2("Calculating variable importance by permutation testing...")
+    if (verbose)
+      msg2("Calculating variable importance by permutation testing...")
     # similar to random forests (stated as experimental)
     mod.summary.perm <- gbm::summary.gbm(
       mod,
@@ -501,7 +573,8 @@ s_GBM <- function(x, y = NULL,
   if (!is.null(.x.test)) {
     if (type == "Regression" || type == "Survival") {
       if (distribution == "poisson") {
-        if (trace > 0) msg2("Using predict for Poisson Regression with type = response")
+        if (trace > 0)
+          msg2("Using predict for Poisson Regression with type = response")
         predicted <- predict(mod, x.test, n.trees = n.trees, type = "response")
       } else {
         if (verbose) msg2("Using predict for", type, "with type = link")
@@ -509,10 +582,16 @@ s_GBM <- function(x, y = NULL,
       }
     } else {
       if (distribution == "multinomial") {
-        if (trace > 0) msg2("Using predict for multinomial classification with type = response")
+        if (trace > 0)
+          msg2(
+            "Using predict for multinomial classification with type = response"
+          )
         # Get per-class probabilities
-        predicted.prob <- predicted <- predict(mod, x.test,
-          n.trees = n.trees, type = "response"
+        predicted.prob <- predicted <- predict(
+          mod,
+          x.test,
+          n.trees = n.trees,
+          type = "response"
         )
         # Now get the predicted classes
         predicted <- factor(
@@ -521,8 +600,12 @@ s_GBM <- function(x, y = NULL,
         )
       } else {
         # Bernoulli: convert {0, 1} back to factor
-        predicted.prob <- 1 - predict(mod, x.test, n.trees = n.trees, type = "response")
-        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        predicted.prob <- 1 -
+          predict(mod, x.test, n.trees = n.trees, type = "response")
+        predicted <- factor(
+          ifelse(predicted.prob >= .5, 1, 0),
+          levels = c(1, 0)
+        )
         levels(predicted) <- levels(y)
       }
     }
@@ -594,20 +677,26 @@ s_GBM <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_GBM
 
 
 #' Select number of trees for GBM
-#' 
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
-gbm.select.trees <- function(object,
-                             smooth = TRUE,
-                             plot = FALSE,
-                             verbose = FALSE) {
+gbm.select.trees <- function(
+  object,
+  smooth = TRUE,
+  plot = FALSE,
+  verbose = FALSE
+) {
   n.trees <- object$n.trees
 
   valid.error.smooth <- if (smooth) {
@@ -618,16 +707,20 @@ gbm.select.trees <- function(object,
   valid.error <- if (smooth) valid.error.smooth else object$valid.error
 
   if (plot) {
-    mplot3_xy(seq(n.trees), list(
-      Training = object$train.error,
-      Validation = object$valid.error,
-      `Smoothed Validation` = valid.error.smooth
-    ),
-    type = "l", group.adj = .95,
-    line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
-    vline = c(which.min(object$valid.error), which.min(valid.error.smooth)),
-    vline.col = c(ucsfCol$red, ucsfCol$purple),
-    xlab = "N trees", ylab = "Loss"
+    mplot3_xy(
+      seq(n.trees),
+      list(
+        Training = object$train.error,
+        Validation = object$valid.error,
+        `Smoothed Validation` = valid.error.smooth
+      ),
+      type = "l",
+      group.adj = .95,
+      line.col = c(ucsfCol$teal, ucsfCol$red, ucsfCol$purple),
+      vline = c(which.min(object$valid.error), which.min(valid.error.smooth)),
+      vline.col = c(ucsfCol$red, ucsfCol$purple),
+      xlab = "N trees",
+      ylab = "Loss"
     )
   }
 

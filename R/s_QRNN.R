@@ -34,28 +34,34 @@
 #' @family Supervised Learning
 #' @export
 
-s_QRNN <- function(x, y = NULL,
-                   x.test = NULL, y.test = NULL,
-                   x.name = NULL, y.name = NULL,
-                   n.hidden = 1,
-                   tau = .5,
-                   n.ensemble = 5,
-                   iter.max = 5000,
-                   n.trials = 5,
-                   bag = TRUE,
-                   lower = -Inf,
-                   eps.seq = 2^(-8:-32),
-                   Th = qrnn::sigmoid,
-                   Th.prime = qrnn::sigmoid.prime,
-                   penalty = 0,
-                   print.plot = FALSE,
-                   plot.fitted = NULL,
-                   plot.predicted = NULL,
-                   plot.theme = rtTheme,
-                   question = NULL,
-                   verbose = TRUE,
-                   outdir = NULL,
-                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_QRNN <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  n.hidden = 1,
+  tau = .5,
+  n.ensemble = 5,
+  iter.max = 5000,
+  n.trials = 5,
+  bag = TRUE,
+  lower = -Inf,
+  eps.seq = 2^(-8:-32),
+  Th = qrnn::sigmoid,
+  Th.prime = qrnn::sigmoid.prime,
+  penalty = 0,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_QRNN))
@@ -63,7 +69,14 @@ s_QRNN <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -84,13 +97,16 @@ s_QRNN <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test)
@@ -106,7 +122,8 @@ s_QRNN <- function(x, y = NULL,
   # QRNN ----
   if (verbose) msg2("Training QRNN mmodel...", newline.pre = TRUE)
   mod <- qrnn::qrnn.fit(
-    x = as.matrix(x), y = as.matrix(y),
+    x = as.matrix(x),
+    y = as.matrix(y),
     n.hidden = n.hidden,
     tau = tau,
     n.ensemble = n.ensemble,
@@ -118,7 +135,8 @@ s_QRNN <- function(x, y = NULL,
     Th = Th,
     Th.prime = Th.prime,
     penalty = penalty,
-    trace = verbose, ...
+    trace = verbose,
+    ...
   )
 
   # Fitted ----
@@ -152,7 +170,8 @@ s_QRNN <- function(x, y = NULL,
     error.train = error.train,
     predicted = predicted,
     se.prediction = NULL,
-    error.test = error.test, list,
+    error.test = error.test,
+    list,
     question = question
   )
 
@@ -169,6 +188,10 @@ s_QRNN <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_QRNN

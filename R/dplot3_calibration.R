@@ -47,24 +47,28 @@
 #'   pos.class = 2
 #' )
 #' }
-dplot3_calibration <- function(true.labels, predicted.prob,
-                               n.bins = 10,
-                               bin.method = c("quantile", "equidistant"),
-                               pos.class = NULL,
-                               main = NULL,
-                               subtitle = NULL,
-                               xlab = "Mean predicted probability",
-                               ylab = "Empirical risk",
-                               show.marginal.x = TRUE,
-                               marginal.x.y = -.02,
-                               marginal.col = NULL,
-                               marginal.size = 10,
-                               #  show.bins = TRUE,
-                               #    conf_level = .95,
-                               mode = "markers+lines",
-                               show.brier = TRUE,
-                               theme = rtTheme,
-                               filename = NULL, ...) {
+dplot3_calibration <- function(
+  true.labels,
+  predicted.prob,
+  n.bins = 10,
+  bin.method = c("quantile", "equidistant"),
+  pos.class = NULL,
+  main = NULL,
+  subtitle = NULL,
+  xlab = "Mean predicted probability",
+  ylab = "Empirical risk",
+  show.marginal.x = TRUE,
+  marginal.x.y = -.02,
+  marginal.col = NULL,
+  marginal.size = 10,
+  #  show.bins = TRUE,
+  #    conf_level = .95,
+  mode = "markers+lines",
+  show.brier = TRUE,
+  theme = rtTheme,
+  filename = NULL,
+  ...
+) {
   # Arguments ----
   bin.method <- match.arg(bin.method)
   if (is.null(pos.class)) {
@@ -104,7 +108,10 @@ dplot3_calibration <- function(true.labels, predicted.prob,
   # Calculate the mean probability in each window
   mean_bin_prob <- lapply(seq_along(predicted.prob), \(i) {
     sapply(seq_len(n.bins), \(j) {
-      mean(predicted.prob[[i]][predicted.prob[[i]] >= breaks[[i]][j] & predicted.prob[[i]] < breaks[[i]][j + 1]])
+      mean(predicted.prob[[i]][
+        predicted.prob[[i]] >= breaks[[i]][j] &
+          predicted.prob[[i]] < breaks[[i]][j + 1]
+      ])
     })
   })
   names(mean_bin_prob) <- names(predicted.prob)
@@ -112,7 +119,8 @@ dplot3_calibration <- function(true.labels, predicted.prob,
   # Calculate the proportion of condition positive cases in each window
   window_empirical_risk <- lapply(seq_along(predicted.prob), \(i) {
     sapply(seq_len(n.bins), \(j) {
-      idl <- predicted.prob[[i]] >= breaks[[i]][j] & predicted.prob[[i]] < breaks[[i]][j + 1]
+      idl <- predicted.prob[[i]] >= breaks[[i]][j] &
+        predicted.prob[[i]] < breaks[[i]][j + 1]
       sum(true.labels[[i]][idl] == pos_class[[i]]) / sum(idl)
     })
   })
@@ -127,7 +135,12 @@ dplot3_calibration <- function(true.labels, predicted.prob,
       )
     })
     # names(mean_bin_prob) <- paste0(names(mean_bin_prob), "(", round(.brier.score, 3), ")")
-    names(window_empirical_risk) <- paste0(names(window_empirical_risk), " (Brier=", round(.brier.score, 3), ")")
+    names(window_empirical_risk) <- paste0(
+      names(window_empirical_risk),
+      " (Brier=",
+      round(.brier.score, 3),
+      ")"
+    )
   }
 
   # Calculate confidence intervals
@@ -144,7 +157,8 @@ dplot3_calibration <- function(true.labels, predicted.prob,
   # Plot
   if (is.null(subtitle)) {
     subtitle <- paste(
-      "using", n.bins,
+      "using",
+      n.bins,
       if (bin.method == "quantile") "quantiles" else "equidistant bins"
     )
   }
@@ -168,10 +182,12 @@ dplot3_calibration <- function(true.labels, predicted.prob,
     marginal.size = marginal.size,
     axes.square = TRUE,
     diagonal = TRUE,
-    xlim = c(0, 1), ylim = c(0, 1),
+    xlim = c(0, 1),
+    ylim = c(0, 1),
     mode = mode,
     theme = theme,
-    filename = filename, ...
+    filename = filename,
+    ...
   )
 
   # Add marginal.x ----

@@ -7,7 +7,7 @@
 #' Train a bayesian GLM using `arm::bayesglm`
 #'
 #' @inheritParams s_CART
-#' @param family Character or function for the error distribution and link function to 
+#' @param family Character or function for the error distribution and link function to
 #' be used. See `arm::bayesglm` for details.
 #' @param prior.mean Numeric, vector: Prior mean for the coefficients. If scalar,
 #' it will be replicated to length N features.
@@ -18,7 +18,7 @@
 #' t distribution; set to Inf for normal prior distribution. If scalar,
 #' it will be replicated to length N features.
 #' @param prior.mean.for.intercept Numeric: Prior mean for the intercept.
-#' @param prior.scale.for.intercept Numeric: Default = NULL, which results in 10 for a 
+#' @param prior.scale.for.intercept Numeric: Default = NULL, which results in 10 for a
 #' logit model, and 10*1.6 for probit model.
 #' @param prior.df.for.intercept Numeric: Prior df for the intercept.
 #' @param min.prior.scale Numeric: Minimum prior scale for the coefficients.
@@ -32,53 +32,66 @@
 #' @param drop.baseline Logical: If TRUE, drop the base level of factor features.
 #' @param maxit Integer: Maximum number of iterations
 #' @param ... Additional parameters to pass to `arm::bayesglm`
-#' 
+#'
 #' @family Bayesian
 #' @family Supervised Learning
 #' @export
 #' @author E.D. Gennatas
 
-s_BayesGLM <- function(x, y = NULL,
-                       x.test = NULL, y.test = NULL,
-                       family = NULL,
-                       prior.mean = 0,
-                       prior.scale = NULL,
-                       prior.df = 1,
-                       prior.mean.for.intercept = 0,
-                       prior.scale.for.intercept = NULL,
-                       prior.df.for.intercept = 1,
-                       min.prior.scale = 1e-12,
-                       scaled = TRUE,
-                       keep.order = TRUE,
-                       drop.baseline = TRUE,
-                       maxit = 100,
-                       x.name = NULL, y.name = NULL,
-                       weights = NULL,
-                       ifw = TRUE,
-                       ifw.type = 2,
-                       upsample = FALSE,
-                       downsample = FALSE,
-                       resample.seed = NULL,
-                       metric = NULL,
-                       maximize = NULL,
-                       print.plot = FALSE,
-                       plot.fitted = NULL,
-                       plot.predicted = NULL,
-                       plot.theme = rtTheme,
-                       question = NULL,
-                       grid.verbose = verbose,
-                       verbose = TRUE,
-                       outdir = NULL,
-                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
+s_BayesGLM <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  family = NULL,
+  prior.mean = 0,
+  prior.scale = NULL,
+  prior.df = 1,
+  prior.mean.for.intercept = 0,
+  prior.scale.for.intercept = NULL,
+  prior.df.for.intercept = 1,
+  min.prior.scale = 1e-12,
+  scaled = TRUE,
+  keep.order = TRUE,
+  drop.baseline = TRUE,
+  maxit = 100,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  metric = NULL,
+  maximize = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  grid.verbose = verbose,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_BayesGLM))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -100,14 +113,18 @@ s_BayesGLM <- function(x, y = NULL,
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
 
   # Data ----
-  dt <- prepare_data(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -116,8 +133,10 @@ s_BayesGLM <- function(x, y = NULL,
   type <- dt$type
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -147,39 +166,48 @@ s_BayesGLM <- function(x, y = NULL,
   .formula <- as.formula(paste(y.name, "~ ."))
 
   extra.args <- list(...)
-  parameters <- c(list(ifw = ifw,
-                       ifw.type = ifw.type,
-                       upsample = upsample,
-                       resample.seed = resample.seed,
-                       prior.mean = prior.mean,
-                       prior.scale = prior.scale,
-                       prior.df = prior.df,
-                       prior.mean.for.intercept = prior.mean.for.intercept,
-                       prior.scale.for.intercept = prior.scale.for.intercept,
-                       prior.df.for.intercept = prior.df.for.intercept,
-                       min.prior.scale = min.prior.scale,
-                       scaled = scaled,
-                       keep.order = keep.order,
-                       drop.baseline = drop.baseline,
-                       maxit = maxit), extra.args)
+  parameters <- c(
+    list(
+      ifw = ifw,
+      ifw.type = ifw.type,
+      upsample = upsample,
+      resample.seed = resample.seed,
+      prior.mean = prior.mean,
+      prior.scale = prior.scale,
+      prior.df = prior.df,
+      prior.mean.for.intercept = prior.mean.for.intercept,
+      prior.scale.for.intercept = prior.scale.for.intercept,
+      prior.df.for.intercept = prior.df.for.intercept,
+      min.prior.scale = min.prior.scale,
+      scaled = scaled,
+      keep.order = keep.order,
+      drop.baseline = drop.baseline,
+      maxit = maxit
+    ),
+    extra.args
+  )
 
   # BayesGLM ----
   if (verbose) msg2("Training Bayesian GLM...", newline.pre = TRUE)
-  args <- c(list(formula = .formula,
-                 data = df.train,
-                 family = family,
-                 prior.mean = prior.mean,
-                 prior.scale = prior.scale,
-                 prior.df = prior.df,
-                 prior.mean.for.intercept = prior.mean.for.intercept,
-                 prior.scale.for.intercept = prior.scale.for.intercept,
-                 prior.df.for.intercept = prior.df.for.intercept,
-                 min.prior.scale = min.prior.scale,
-                 scaled = scaled,
-                 keep.order = keep.order,
-                 drop.baseline = drop.baseline,
-                 maxit = maxit),
-            extra.args)
+  args <- c(
+    list(
+      formula = .formula,
+      data = df.train,
+      family = family,
+      prior.mean = prior.mean,
+      prior.scale = prior.scale,
+      prior.df = prior.df,
+      prior.mean.for.intercept = prior.mean.for.intercept,
+      prior.scale.for.intercept = prior.scale.for.intercept,
+      prior.df.for.intercept = prior.df.for.intercept,
+      min.prior.scale = min.prior.scale,
+      scaled = scaled,
+      keep.order = keep.order,
+      drop.baseline = drop.baseline,
+      maxit = maxit
+    ),
+    extra.args
+  )
   mod <- do.call(arm::bayesglm, args)
 
   # Fitted ----
@@ -216,40 +244,47 @@ s_BayesGLM <- function(x, y = NULL,
 
   # Outro ----
   extra <- list()
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 parameters = parameters,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = mod$coefficients[-1],
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    parameters = parameters,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = mod$coefficients[-1],
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_BayesGLM

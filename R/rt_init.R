@@ -13,13 +13,15 @@
 #' @keywords internal
 #' @noRd
 
-intro <- function(message = NULL,
-                  verbose = TRUE,
-                  #   as.message = FALSE,
-                  #   color = gray,
-                  logFile = NULL,
-                  call.depth = 1,
-                  newline.pre = FALSE) {
+intro <- function(
+  message = NULL,
+  verbose = TRUE,
+  #   as.message = FALSE,
+  #   color = gray,
+  logFile = NULL,
+  call.depth = 1,
+  newline.pre = FALSE
+) {
   if (!is.null(logFile)) {
     logFile <- normalizePath(logFile, mustWork = FALSE)
     outdir <- dirname(logFile)
@@ -33,13 +35,16 @@ intro <- function(message = NULL,
   if (verbose || !is.null(logFile)) {
     if (newline.pre) cat("\n")
     if (is.null(message)) {
-      msg2("Hello,", Sys.getenv("USER"),
+      msg2(
+        "Hello,",
+        Sys.getenv("USER"),
         # as.message = as.message,
         call.depth = call.depth,
         caller.id = 2
       )
     } else {
-      msg2(message,
+      msg2(
+        message,
         # as.message = as.message,
         call.depth = call.depth,
         sep = "",
@@ -62,21 +67,30 @@ intro <- function(message = NULL,
 #'
 #' @keywords internal
 #' @noRd
-outro <- function(start.time,
-                  message = NULL,
-                  verbose = TRUE,
-                  #   as.message = FALSE,
-                  sinkOff = FALSE,
-                  #   color = gray,
-                  newline.pre = FALSE) {
+outro <- function(
+  start.time,
+  message = NULL,
+  verbose = TRUE,
+  #   as.message = FALSE,
+  sinkOff = FALSE,
+  #   color = gray,
+  newline.pre = FALSE
+) {
   elapsed <- as.numeric(proc.time() - start.time)
   if (verbose || sinkOff) {
     if (newline.pre) cat("\n")
     msg20(
       gray(paste0(
-        "Completed in ", ddSci(elapsed[3] / 60), " minutes (",
-        "Real: ", ddSci(elapsed[3]), "; User: ", ddSci(elapsed[1]),
-        "; System: ", ddSci(elapsed[2]), ")"
+        "Completed in ",
+        ddSci(elapsed[3] / 60),
+        " minutes (",
+        "Real: ",
+        ddSci(elapsed[3]),
+        "; User: ",
+        ddSci(elapsed[1]),
+        "; System: ",
+        ddSci(elapsed[2]),
+        ")"
       )),
       # as.message = as.message,
       caller.id = 2
@@ -96,9 +110,14 @@ outro <- function(start.time,
 #'
 #' @keywords internal
 #' @noRd
-dataSummary <- function(x, y,
-                        x.test = NULL, y.test = NULL,
-                        type = NULL, testSet = TRUE) {
+dataSummary <- function(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  type = NULL,
+  testSet = TRUE
+) {
   if (!is.null(type)) {
     boxcat(paste(type, "Input Summary"), pad = 0)
   } else {
@@ -140,11 +159,13 @@ dataSummary <- function(x, y,
 #' @keywords internal
 #' @noRd
 
-parameterSummary <- function(...,
-                             title = "Parameters",
-                             pad = 0,
-                             newline.pre = FALSE,
-                             newline = FALSE) {
+parameterSummary <- function(
+  ...,
+  title = "Parameters",
+  pad = 0,
+  newline.pre = FALSE,
+  newline = FALSE
+) {
   if (newline.pre) cat("\n")
   if (length(list(...)) > 0) {
     x <- list(...)
@@ -154,7 +175,8 @@ parameterSummary <- function(...,
       if (is.list(x[[i]]) && length(x[[i]]) > 0) {
         if (is.null(names(x[[i]]))) {
           names(x[[i]]) <- paste0(
-            xnames[i], ".",
+            xnames[i],
+            ".",
             seq_len(length(x[[i]]))
           )
         }
@@ -229,7 +251,11 @@ errorSummary <- function(error, mod.name = NULL, pre = NULL) {
 checkType <- function(type, allowed.types, mod.name) {
   if (!type %in% allowed.types) {
     rtStop(
-      "You were attempting to perform", type, "but", mod.name, "only supports:\n",
+      "You were attempting to perform",
+      type,
+      "but",
+      mod.name,
+      "only supports:\n",
       paste(allowed.types, collapse = ", ")
     )
   }
@@ -239,9 +265,7 @@ checkType <- function(type, allowed.types, mod.name) {
 #'
 #' @keywords internal
 
-rtemis_init <- function(n.cores = 1,
-                        context = NULL,
-                        verbose = TRUE) {
+rtemis_init <- function(n.cores = 1, context = NULL, verbose = TRUE) {
   # Future plan ====
   # if (!is.null(context)) context <- paste0(context, ":")
   # if (n.cores > 1) {
@@ -274,10 +298,7 @@ rtemis_init <- function(n.cores = 1,
     progressr::handlers(rtHandler)
     rtenv$handlers_set <- 1
     if (verbose) {
-      msg2("Progress handler set to",
-        bold(rtHandler),
-        color = magenta
-      )
+      msg2("Progress handler set to", bold(rtHandler), color = magenta)
     }
   }
 } # rtemis::rtemis_init

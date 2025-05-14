@@ -7,36 +7,40 @@
 #' Train a QDA Classifier using `MASS::qda`
 #'
 #' @inheritParams s_GLM
-#' @param prior Numeric, vector (length = N classes of outcome variable): Prior 
+#' @param prior Numeric, vector (length = N classes of outcome variable): Prior
 #' probabilities
 #' @param method Character: "moment", "mle", "mve", or "t". See `MASS::qda`
 #' @param nu Integer: Degrees of freedom for methdo "t"
-#' 
+#'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
-s_QDA <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  prior = NULL,
-                  method = "moment",
-                  nu = NULL,
-                  x.name = NULL,
-                  y.name = NULL,
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
+s_QDA <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  prior = NULL,
+  method = "moment",
+  nu = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_QDA))
@@ -45,8 +49,12 @@ s_QDA <- function(x, y = NULL,
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, "/", sys.calls()[[1]][[1]], ".",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -63,15 +71,20 @@ s_QDA <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -81,18 +94,19 @@ s_QDA <- function(x, y = NULL,
   checkType(type, "Classification", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
 
   # MASS::qda ----
-  params <- c(list(x = x, grouping = y,
-                   method = method,
-                   nu = nu), list(...))
+  params <- c(list(x = x, grouping = y, method = method, nu = nu), list(...))
   if (!is.null(prior)) params$prior <- prior
-  if (verbose) msg2("Running Quadratic Discriminant Analysis...", newline.pre = TRUE)
+  if (verbose)
+    msg2("Running Quadratic Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(MASS::qda, args = params)
 
   # Fitted ----
@@ -117,8 +131,12 @@ s_QDA <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(fitted.prob = fitted.prob, predicted.prob = predicted.prob,
-                train.projections = train.projections, test.projections = test.projections)
+  extra <- list(
+    fitted.prob = fitted.prob,
+    predicted.prob = predicted.prob,
+    train.projections = train.projections,
+    test.projections = test.projections
+  )
   rt <- rtModSet(
     rtclass = "rtMod",
     mod.name = mod.name,
@@ -137,18 +155,23 @@ s_QDA <- function(x, y = NULL,
     question = question
   )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_QDA

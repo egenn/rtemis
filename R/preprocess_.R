@@ -4,7 +4,7 @@
 
 #' Data preprocessing (in-place)
 #'
-#' Prepare data for analysis and visualization 
+#' Prepare data for analysis and visualization
 #'
 #' This function (ending in "_") performs operations **in-place** and returns the
 #' preprocessed data.table silently (e.g. for piping).
@@ -33,39 +33,39 @@
 #' @md
 #' @param x data.frame or data.table to be preprocessed. If data.frame, will
 #' be converted to data.table in-place
-# @param completeCases Logical: If TRUE, only retain complete cases 
-# @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction 
+# @param completeCases Logical: If TRUE, only retain complete cases
+# @param removeCases.thres Float (0, 1): Remove cases with >= to this fraction
 #' of missing features.
-#' @param removeFeatures.thres Float (0, 1): Remove features with missing 
+#' @param removeFeatures.thres Float (0, 1): Remove features with missing
 #' values in >= to this fraction of cases.
-#' @param missingness Logical: If TRUE, generate new boolean columns for each 
+#' @param missingness Logical: If TRUE, generate new boolean columns for each
 #' feature with missing values, indicating which cases were missing data.
 #' @param integer2factor Logical: If TRUE, convert all integers to factors
-#' @param integer2numeric Logical: If TRUE, convert all integers to numeric 
+#' @param integer2numeric Logical: If TRUE, convert all integers to numeric
 #' (will only work if `integer2factor = FALSE`)
-#' @param logical2factor Logical: If TRUE, convert all logical variables to 
+#' @param logical2factor Logical: If TRUE, convert all logical variables to
 #' factors
-#' @param logical2numeric Logical: If TRUE, convert all logical variables to 
+#' @param logical2numeric Logical: If TRUE, convert all logical variables to
 #' numeric
-#' @param numeric2factor Logical: If TRUE, convert all numeric variables to 
+#' @param numeric2factor Logical: If TRUE, convert all numeric variables to
 #' factors
 #' @param numeric2factor.levels Character vector: Optional - If `numeric2factor = TRUE`,
 #' use these levels for all numeric variables.
-#' @param len2factor Integer (>=2): Convert all numeric variables with less 
+#' @param len2factor Integer (>=2): Convert all numeric variables with less
 #' than or equal to this number of unique values to factors.
-#' For example, if binary variables are encoded with 1, 2, you could use 
-#' `len2factor = 2` to convert them to factors. If race is encoded with 6 
+#' For example, if binary variables are encoded with 1, 2, you could use
+#' `len2factor = 2` to convert them to factors. If race is encoded with 6
 #' integers, you can use 6.
-#' @param character2factor Logical: If TRUE, convert all character variables 
+#' @param character2factor Logical: If TRUE, convert all character variables
 #' to factors
-#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of 
-#' level `factorNA2missing.level`. In many cases this is the preferred way 
-#' to handle missing data in categorical variables. Note that since this step 
-#' is performed before imputation, you can use this option to handle missing 
+#' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
+#' level `factorNA2missing.level`. In many cases this is the preferred way
+#' to handle missing data in categorical variables. Note that since this step
+#' is performed before imputation, you can use this option to handle missing
 #' data in categorical variables and impute numeric variables in the same
 #' `preprocess` call.
-#' @param factorNA2missing.level Character: Name of level if 
-#' `factorNA2missing = TRUE`. 
+#' @param factorNA2missing.level Character: Name of level if
+#' `factorNA2missing = TRUE`.
 #' @param scale Logical: If TRUE, scale columns of `x`
 #' @param center Logical: If TRUE, center columns of `x`
 #' @param removeConstants Logical: If TRUE, remove constant columns.
@@ -73,7 +73,7 @@
 #' @param oneHot Logical: If TRUE, convert all factors using one-hot encoding
 #' @param exclude Integer, vector: Exclude these columns from preprocessing.
 #' @param verbose Logical: If TRUE, write messages to console.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -93,38 +93,39 @@
 #' preprocess_(x)
 #' }
 
-preprocess_ <- function(x,
-                      #  completeCases = FALSE,
-                      #  removeCases.thres = NULL,
-                       removeFeatures.thres = NULL,
-                       missingness = FALSE,
-                      #  impute = FALSE,
-                      #  impute.type = c("missRanger",
-                      #                  "micePMM",
-                      #                  "meanMode"),
-                      #  impute.missRanger.params = list(pmm.k = 3,
-                      #                                  maxiter = 10,
-                      #                                  num.trees = 500),
-                      #  impute.discrete = get_mode,
-                      #  impute.numeric = mean,
-                       integer2factor = FALSE,
-                       integer2numeric = FALSE,
-                       logical2factor = FALSE,
-                       logical2numeric = FALSE,
-                       numeric2factor = FALSE,
-                       numeric2factor.levels = NULL,
-                       len2factor = 0,
-                       character2factor = FALSE,
-                       factorNA2missing = FALSE,
-                       factorNA2missing.level = "missing",
-                       scale = FALSE,
-                       center = scale,
-                       removeConstants = FALSE,
-                      #  removeDuplicates = FALSE,
-                       oneHot = FALSE,
-                       exclude = NULL,
-                       verbose = TRUE) {
-
+preprocess_ <- function(
+  x,
+  #  completeCases = FALSE,
+  #  removeCases.thres = NULL,
+  removeFeatures.thres = NULL,
+  missingness = FALSE,
+  #  impute = FALSE,
+  #  impute.type = c("missRanger",
+  #                  "micePMM",
+  #                  "meanMode"),
+  #  impute.missRanger.params = list(pmm.k = 3,
+  #                                  maxiter = 10,
+  #                                  num.trees = 500),
+  #  impute.discrete = get_mode,
+  #  impute.numeric = mean,
+  integer2factor = FALSE,
+  integer2numeric = FALSE,
+  logical2factor = FALSE,
+  logical2numeric = FALSE,
+  numeric2factor = FALSE,
+  numeric2factor.levels = NULL,
+  len2factor = 0,
+  character2factor = FALSE,
+  factorNA2missing = FALSE,
+  factorNA2missing.level = "missing",
+  scale = FALSE,
+  center = scale,
+  removeConstants = FALSE,
+  #  removeDuplicates = FALSE,
+  oneHot = FALSE,
+  exclude = NULL,
+  verbose = TRUE
+) {
   # Arguments ----
   # impute.type <- match.arg(impute.type)
   if (!inherits(x, "data.table")) setDT(x)
@@ -189,8 +190,14 @@ preprocess_ <- function(x,
       na.fraction.byfeat <- x[, lapply(.SD, function(i) sum(is.na(i)) / nrows)]
       removeFeat.index <- which(na.fraction.byfeat >= removeFeatures.thres)
       if (length(removeFeat.index) > 0) {
-        if (verbose) msg2("Removing", bold(orange(length(removeFeat.index))), "features with >=",
-                         removeFeatures.thres, "missing data...")
+        if (verbose)
+          msg2(
+            "Removing",
+            bold(orange(length(removeFeat.index))),
+            "features with >=",
+            removeFeatures.thres,
+            "missing data..."
+          )
         x[, (removeFeat.index) := NULL]
       }
     }
@@ -204,10 +211,14 @@ preprocess_ <- function(x,
       for (j in index.integer) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nintegers <- length(index.integer)
-        msg2("Converted", bold(orange(
-          singorplu(nintegers, "integer"),
-          "to", ngettext(nintegers, "a factor", "factors")
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            singorplu(nintegers, "integer"),
+            "to",
+            ngettext(nintegers, "a factor", "factors")
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No integers found")
@@ -222,10 +233,13 @@ preprocess_ <- function(x,
       for (j in index.integer) set(x, i = NULL, j, as.numeric(x[[j]]))
       if (verbose) {
         nintegers <- length(index.integer)
-        msg2("Converted", bold(orange(
-          singorplu(nintegers, "integer"),
-          "to numeric"
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            singorplu(nintegers, "integer"),
+            "to numeric"
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No integers found")
@@ -240,10 +254,15 @@ preprocess_ <- function(x,
       for (j in index.logical) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nlogical <- length(index.logical)
-        msg2("Converted", bold(orange(
-          nlogical, ngettext(nlogical, "column", "columns"),
-          "to", ngettext(nlogical, "a factor", "factors")
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            nlogical,
+            ngettext(nlogical, "column", "columns"),
+            "to",
+            ngettext(nlogical, "a factor", "factors")
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No logical columns found")
@@ -258,10 +277,14 @@ preprocess_ <- function(x,
       for (j in index.logical) set(x, i = NULL, j, as.numeric(x[[j]]))
       if (verbose) {
         nlogical <- length(index.logical)
-        msg2("Converted", bold(orange(
-          nlogical, ngettext(nlogical, "column", "columns"),
-          "to numeric"
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            nlogical,
+            ngettext(nlogical, "column", "columns"),
+            "to numeric"
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No logical columns found")
@@ -276,10 +299,15 @@ preprocess_ <- function(x,
       for (j in index.numeric) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nnumeric <- length(index.numeric)
-        msg2("Converted", bold(orange(
-          nnumeric, ngettext(nnumeric, "column", "columns"),
-          "to", ngettext(nnumeric, "a factor", "factors")
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            nnumeric,
+            ngettext(nnumeric, "column", "columns"),
+            "to",
+            ngettext(nnumeric, "a factor", "factors")
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No numeric columns found")
@@ -290,14 +318,22 @@ preprocess_ <- function(x,
   if (len2factor > 1) {
     index.numeric <- which(sapply(x, is.numeric))
     if (length(index.numeric) > 0) {
-      index.numeric.len <- as.integer(which(x[, sapply(.SD, function(i) is.numeric(i) && length(unique(i)) <= len2factor)]))
+      index.numeric.len <- as.integer(which(x[, sapply(
+        .SD,
+        function(i) is.numeric(i) && length(unique(i)) <= len2factor
+      )]))
       for (j in index.numeric.len) set(x, i = NULL, j, as.factor(x[[j]]))
       if (verbose) {
         nnumlen <- length(index.numeric.len)
-        msg2("Converted", bold(orange(
-          nnumlen, ngettext(nnumlen, "column", "columns"),
-          "to", ngettext(nnumlen, "a factor", "factors")
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            nnumlen,
+            ngettext(nnumlen, "column", "columns"),
+            "to",
+            ngettext(nnumlen, "a factor", "factors")
+          ))
+        )
       }
     }
   }
@@ -310,10 +346,15 @@ preprocess_ <- function(x,
       for (j in index.char) set(x, i = NULL, j, factor(x[[j]]))
       if (verbose) {
         nchar <- length(index.char)
-        msg2("Converted", bold(orange(
-          nchar, ngettext(nchar, "column", "columns"),
-          "to", ngettext(nchar, "a factor", "factors")
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            nchar,
+            ngettext(nchar, "column", "columns"),
+            "to",
+            ngettext(nchar, "a factor", "factors")
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No character columns found")
@@ -323,17 +364,31 @@ preprocess_ <- function(x,
   # factor NA to level ----
   if (factorNA2missing) {
     index.factor <- which(sapply(x, is.factor))
-    index.factorna <- as.integer(which(x[, sapply(.SD, function(i) is.factor(i) && anyNA(i))]))
+    index.factorna <- as.integer(which(x[, sapply(
+      .SD,
+      function(i) is.factor(i) && anyNA(i)
+    )]))
     # for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
     nfactorna <- length(index.factorna)
     if (nfactorna > 0) {
-      if (verbose) info(paste0('Converting NA in factors to level "', factorNA2missing.level, '"...'))
-      for (j in index.factorna) set(x, i = NULL, j, factor_NA2missing(x[[j]], factorNA2missing.level))
+      if (verbose)
+        info(paste0(
+          'Converting NA in factors to level "',
+          factorNA2missing.level,
+          '"...'
+        ))
+      for (j in index.factorna)
+        set(x, i = NULL, j, factor_NA2missing(x[[j]], factorNA2missing.level))
       if (verbose) {
-        msg2("Converted", bold(orange(
-          nfactorna, ngettext(nfactorna, "factor's", "factors'"),
-          "NA level to", paste0('"', factorNA2missing.level, '"')
-        )))
+        msg2(
+          "Converted",
+          bold(orange(
+            nfactorna,
+            ngettext(nfactorna, "factor's", "factors'"),
+            "NA level to",
+            paste0('"', factorNA2missing.level, '"')
+          ))
+        )
       }
     } else {
       if (verbose) msg2("No factors with NA values found")
@@ -349,7 +404,11 @@ preprocess_ <- function(x,
     ncolsna <- length(cols.with.na)
     if (ncolsna > 0) {
       for (i in cols.with.na) {
-        x[, (paste0(.colnames[i], "_missing")) := factor(as.numeric(is.na(x[[i]])))]
+        x[,
+          (paste0(.colnames[i], "_missing")) := factor(as.numeric(is.na(x[[
+            i
+          ]])))
+        ]
       }
       if (verbose) {
         msg2(
@@ -408,10 +467,14 @@ preprocess_ <- function(x,
       if (verbose) {
         sc <- if (scale) "Scaling" else NULL
         ce <- if (center) "Centering" else NULL
-        info(paste(c(sc, ce), collapse = " and "),
-                        length(numeric_index), "numeric features...")
+        info(
+          paste(c(sc, ce), collapse = " and "),
+          length(numeric_index),
+          "numeric features..."
+        )
       }
-      for (j in numeric_index) set(x, i = NULL, j, scale(x[[j]], scale = scale, center = center))
+      for (j in numeric_index)
+        set(x, i = NULL, j, scale(x[[j]], scale = scale, center = center))
     } else {
       if (verbose) msg2("No numeric columns present")
     }
@@ -439,5 +502,4 @@ preprocess_ <- function(x,
 
   if (verbose) msg2("Done")
   invisible(x)
-
 } # rtemis::preprocess

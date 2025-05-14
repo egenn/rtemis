@@ -18,18 +18,24 @@
 #' @seealso [train_cv]
 #' @export
 
-s_LOESS <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    x.name = NULL, y.name = NULL,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose = TRUE,
-                    trace = 0,
-                    outdir = NULL,
-                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_LOESS <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LOESS))
@@ -37,7 +43,14 @@ s_LOESS <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -59,7 +72,8 @@ s_LOESS <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test)
@@ -72,8 +86,10 @@ s_LOESS <- function(x, y = NULL,
   checkType(type, "Regression", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -120,7 +136,8 @@ s_LOESS <- function(x, y = NULL,
     error.train = error.train,
     predicted = predicted,
     se.prediction = se.prediction,
-    error.test = error.test, list,
+    error.test = error.test,
+    list,
     question = question
   )
 
@@ -137,6 +154,10 @@ s_LOESS <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_LOESS

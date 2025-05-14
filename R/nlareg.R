@@ -14,21 +14,24 @@
 #' @param optim.method Character: Optimization method to use: "Nelder-Mead", "BFGS", "CG", "L-BFGS-B",
 #' "SANN", "Brent". See `stats::optim` for more details. Default = `"BFGS"`
 #' @param control List: Control parameters passed to `stats::optim`
-#' 
+#'
 #' @export
 #' @author E.D. Gennatas
 #' @return `nlareg` object
 #' @keywords internal
 
-nlareg <- function(x, y,
-                   b_o = mean(y),
-                   W_o = 1,
-                   b_h = 0,
-                   W_h = 0,
-                   activation = softplus,
-                   optim.method = "BFGS",
-                   control = list(), ...) {
-
+nlareg <- function(
+  x,
+  y,
+  b_o = mean(y),
+  W_o = 1,
+  b_h = 0,
+  W_h = 0,
+  activation = softplus,
+  optim.method = "BFGS",
+  control = list(),
+  ...
+) {
   # Arguments ----
 
   if (is.character(activation)) {
@@ -68,13 +71,16 @@ nlareg <- function(x, y,
   }
 
   # optim ----
-  est <- optim(c(b_o, W_o, b_h, W_h),
-               minSS,
-               method = optim.method,
-               control = control,
-               data = dat)
+  est <- optim(
+    c(b_o, W_o, b_h, W_h),
+    minSS,
+    method = optim.method,
+    control = control,
+    data = dat
+  )
 
-  if (est$convergence > 0) warning("Optimizer failed to converge. Error code: ", est$convergence)
+  if (est$convergence > 0)
+    warning("Optimizer failed to converge. Error code: ", est$convergence)
 
   # nlareg object ----
   b_o <- est$par[1]
@@ -82,18 +88,35 @@ nlareg <- function(x, y,
   b_h <- est$par[3]
   W_h <- est$par[-seq(3)]
   # change: replace with above
-  .nla <- list(activation = activation,
-               params = list(b_o = est$par[1],
-                             W_o = est$par[2],
-                             b_h = est$par[3],
-                             W_h = est$par[-seq(3)]),
-               formula = paste0(ddSci(b_o), " + ", ddSci(W_o), " * ",
-                                fn.name, "(", ddSci(b_h), paste0(ifelse(W_h >= 0, " + ", " - "),
-                                                                 ddSci(abs(W_h)), "*", colnames(x), collapse = ""), ")"),
-               optim.method = optim.method)
+  .nla <- list(
+    activation = activation,
+    params = list(
+      b_o = est$par[1],
+      W_o = est$par[2],
+      b_h = est$par[3],
+      W_h = est$par[-seq(3)]
+    ),
+    formula = paste0(
+      ddSci(b_o),
+      " + ",
+      ddSci(W_o),
+      " * ",
+      fn.name,
+      "(",
+      ddSci(b_h),
+      paste0(
+        ifelse(W_h >= 0, " + ", " - "),
+        ddSci(abs(W_h)),
+        "*",
+        colnames(x),
+        collapse = ""
+      ),
+      ")"
+    ),
+    optim.method = optim.method
+  )
   class(.nla) <- c("nlareg", "list")
   .nla
-
 } # rtemis::nlareg
 
 #' Predict method for `nlareg` object
@@ -106,7 +129,6 @@ nlareg <- function(x, y,
 #' @export
 
 predict.nlareg <- function(object, newdata, ...) {
-
   xm <- data.matrix(newdata)
   b_o <- object$params$b_o
   W_o <- object$params$W_o
@@ -114,5 +136,4 @@ predict.nlareg <- function(object, newdata, ...) {
   W_h <- object$params$W_h
   yhat <- c(b_o + W_o * (object$activation(b_h + xm %*% W_h)))
   yhat
-
 } # rtemis::predicr.nlareg

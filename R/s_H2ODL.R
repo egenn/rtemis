@@ -43,60 +43,75 @@
 #' @family Deep Learning
 #' @export
 
-s_H2ODL <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    x.valid = NULL, y.valid = NULL,
-                    x.name = NULL, y.name = NULL,
-                    ip = "localhost",
-                    port = 54321,
-                    n.hidden.nodes = c(20, 20),
-                    epochs = 1000,
-                    activation = "Rectifier",
-                    mini.batch.size = 1,
-                    learning.rate = 0.005,
-                    adaptive.rate = TRUE,
-                    rho = .99,
-                    epsilon = 1e-08,
-                    rate.annealing = 1e-06,
-                    rate.decay = 1,
-                    momentum.start = 0,
-                    momentum.ramp = 1e+06,
-                    momentum.stable = 0,
-                    nesterov.accelerated.gradient = TRUE,
-                    input.dropout.ratio = 0,
-                    hidden.dropout.ratios = NULL,
-                    l1 = 0,
-                    l2 = 0,
-                    max.w2 = 3.4028235e+38,
-                    nfolds = 0,
-                    initial.biases = NULL,
-                    initial.weights = NULL,
-                    loss = "Automatic",
-                    distribution = "AUTO",
-                    stopping.rounds = 5,
-                    stopping.metric = "AUTO",
-                    upsample = FALSE,
-                    downsample = FALSE,
-                    resample.seed = NULL,
-                    na.action = na.fail,
-                    n.cores = rtCores,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose = TRUE,
-                    trace = 0,
-                    outdir = NULL,
-                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_H2ODL <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  ip = "localhost",
+  port = 54321,
+  n.hidden.nodes = c(20, 20),
+  epochs = 1000,
+  activation = "Rectifier",
+  mini.batch.size = 1,
+  learning.rate = 0.005,
+  adaptive.rate = TRUE,
+  rho = .99,
+  epsilon = 1e-08,
+  rate.annealing = 1e-06,
+  rate.decay = 1,
+  momentum.start = 0,
+  momentum.ramp = 1e+06,
+  momentum.stable = 0,
+  nesterov.accelerated.gradient = TRUE,
+  input.dropout.ratio = 0,
+  hidden.dropout.ratios = NULL,
+  l1 = 0,
+  l2 = 0,
+  max.w2 = 3.4028235e+38,
+  nfolds = 0,
+  initial.biases = NULL,
+  initial.weights = NULL,
+  loss = "Automatic",
+  distribution = "AUTO",
+  stopping.rounds = 5,
+  stopping.metric = "AUTO",
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  na.action = na.fail,
+  n.cores = rtCores,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_H2ODL))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -121,11 +136,15 @@ s_H2ODL <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -140,8 +159,10 @@ s_H2ODL <- function(x, y = NULL,
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -192,9 +213,11 @@ s_H2ODL <- function(x, y = NULL,
     loss = loss,
     distribution = distribution,
     stopping_rounds = stopping.rounds,
-    stopping_metric = stopping.metric, ...
+    stopping_metric = stopping.metric,
+    ...
   )
-  if (!is.null(hidden.dropout.ratios)) net.args$hidden_dropout_ratios <- hidden.dropout.ratios
+  if (!is.null(hidden.dropout.ratios))
+    net.args$hidden_dropout_ratios <- hidden.dropout.ratios
   if (verbose) msg2("Training H2O Deep Net...", newline.pre = TRUE)
   mod <- do.call(h2o::h2o.deeplearning, net.args)
   if (trace > 0) print(summary(mod))
@@ -266,7 +289,12 @@ s_H2ODL <- function(x, y = NULL,
     plot.theme
   )
 
-  if (verbose) msg20("Access H2O Flow by pointing your browser to ", ip, ":", port)
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  if (verbose)
+    msg20("Access H2O Flow by pointing your browser to ", ip, ":", port)
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_H2ODL

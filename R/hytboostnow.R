@@ -29,50 +29,54 @@
 #' @keywords internal
 #' @noRd
 
-hytboostnow <- function(x, y,
-                        x.valid = NULL, y.valid = NULL,
-                        resid = NULL,
-                        boost.obj = NULL,
-                        # mod.params = list(),
-                        case.p = .9,
-                        # weights = NULL,
-                        learning.rate = .1,
-                        # tolerance = 0,
-                        # tolerance.valid = 0,
-                        max.iter = 10,
-                        # ++ hytreenow params ++
-                        max.depth = 5,
-                        # gamma = .1,
-                        alpha = 0,
-                        lambda = 1,
-                        lambda.seq = NULL,
-                        minobsinnode = 2,
-                        minobsinnode.lin = 10,
-                        shrinkage = 1,
-                        part.minsplit = 2,
-                        part.xval = 0,
-                        part.max.depth = 1,
-                        part.cp = 0,
-                        part.minbucket = 5,
-                        # init = mean(y),
-                        lin.type = "glmnet",
-                        cv.glmnet.nfolds = 5,
-                        cv.glmnet.lambda = "lambda.min",
-                        # -- earlystop --
-                        earlystop.params = setup.earlystop(),
-                        earlystop.using = "train",
-                        init = mean(y),
-                        cxrcoef = FALSE,
-                        print.progress.every = 5,
-                        print.error.plot = "final",
-                        base.verbose = FALSE,
-                        verbose = TRUE,
-                        trace = 0,
-                        prefix = NULL,
-                        print.plot = TRUE,
-                        plot.theme = "darkgrid",
-                        # print.base.plot = FALSE,
-                        plot.type = "l") {
+hytboostnow <- function(
+  x,
+  y,
+  x.valid = NULL,
+  y.valid = NULL,
+  resid = NULL,
+  boost.obj = NULL,
+  # mod.params = list(),
+  case.p = .9,
+  # weights = NULL,
+  learning.rate = .1,
+  # tolerance = 0,
+  # tolerance.valid = 0,
+  max.iter = 10,
+  # ++ hytreenow params ++
+  max.depth = 5,
+  # gamma = .1,
+  alpha = 0,
+  lambda = 1,
+  lambda.seq = NULL,
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  shrinkage = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  # init = mean(y),
+  lin.type = "glmnet",
+  cv.glmnet.nfolds = 5,
+  cv.glmnet.lambda = "lambda.min",
+  # -- earlystop --
+  earlystop.params = setup.earlystop(),
+  earlystop.using = "train",
+  init = mean(y),
+  cxrcoef = FALSE,
+  print.progress.every = 5,
+  print.error.plot = "final",
+  base.verbose = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  prefix = NULL,
+  print.plot = TRUE,
+  plot.theme = "darkgrid",
+  # print.base.plot = FALSE,
+  plot.type = "l"
+) {
   # Arguments ----
   if (!verbose) print.plot <- FALSE
   # extra.args <- list(...)
@@ -102,7 +106,8 @@ hytboostnow <- function(x, y,
     part.minbucket = part.minbucket
   )
   if (trace > 0) {
-    parameterSummary(mod.params,
+    parameterSummary(
+      mod.params,
       init = init,
       max.iter = max.iter,
       learning.rate = learning.rate,
@@ -156,7 +161,11 @@ hytboostnow <- function(x, y,
     print.progress.index <- FALSE
     print.error.plot <- "none"
   } else if (print.progress.every < max.iter) {
-    print.progress.index <- seq(print.progress.every, max.iter, print.progress.every)
+    print.progress.index <- seq(
+      print.progress.every,
+      max.iter,
+      print.progress.every
+    )
   } else {
     print.progress.index <- max.iter
   }
@@ -164,7 +173,11 @@ hytboostnow <- function(x, y,
   # Print error plot
   if (max.iter > 1 && is.numeric(print.error.plot)) {
     if (print.error.plot < max.iter) {
-      print.error.plot.index <- seq(print.error.plot, max.iter, print.error.plot)
+      print.error.plot.index <- seq(
+        print.error.plot,
+        max.iter,
+        print.error.plot
+      )
     } else {
       print.error.plot.index <- max.iter
     }
@@ -188,7 +201,8 @@ hytboostnow <- function(x, y,
     }
     mod.args <- c(
       list(
-        x = x1, y = resid1,
+        x = x1,
+        y = resid1,
         # x.test = x.valid, y.test = y.valid,
         verbose = base.verbose
       ),
@@ -216,8 +230,13 @@ hytboostnow <- function(x, y,
       Fvalid <- Fvalid + .learning.rate[i] * predicted.valid
       error.valid[i] <- mse(y.valid, Fvalid)
       if (verbose && i %in% print.progress.index) {
-        msg2("Iteration #", i, ": Training MSE = ", ddSci(error[i]),
-          "; Validation MSE = ", ddSci(error.valid[i]),
+        msg2(
+          "Iteration #",
+          i,
+          ": Training MSE = ",
+          ddSci(error[i]),
+          "; Validation MSE = ",
+          ddSci(error.valid[i]),
           sep = ""
         )
       }
@@ -236,19 +255,28 @@ hytboostnow <- function(x, y,
     }
     if (print.error.plot == "iter" && i %in% print.error.plot.index) {
       if (is.null(x.valid)) {
-        mplot3_xy(seq(error), error,
+        mplot3_xy(
+          seq(error),
+          error,
           type = plot.type,
-          xlab = "Iteration", ylab = "MSE",
+          xlab = "Iteration",
+          ylab = "MSE",
           x.axis.at = seq(error),
-          main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
+          main = paste0(prefix, "LIHAD Boosting"),
+          zerolines = FALSE,
           theme = plot.theme
         )
       } else {
-        mplot3_xy(seq(error), list(training = error, validation = error.valid),
+        mplot3_xy(
+          seq(error),
+          list(training = error, validation = error.valid),
           type = plot.type,
-          xlab = "Iteration", ylab = "MSE", group.adj = .95,
+          xlab = "Iteration",
+          ylab = "MSE",
+          group.adj = .95,
           x.axis.at = seq(error),
-          main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
+          main = paste0(prefix, "LIHAD Boosting"),
+          zerolines = FALSE,
           theme = plot.theme
         )
       }
@@ -273,19 +301,28 @@ hytboostnow <- function(x, y,
 
   if (print.error.plot == "final") {
     if (is.null(x.valid)) {
-      mplot3_xy(seq(error), error,
+      mplot3_xy(
+        seq(error),
+        error,
         type = plot.type,
-        xlab = "Iteration", ylab = "MSE",
+        xlab = "Iteration",
+        ylab = "MSE",
         x.axis.at = seq(error),
-        main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
+        main = paste0(prefix, "LIHAD Boosting"),
+        zerolines = FALSE,
         theme = plot.theme
       )
     } else {
-      mplot3_xy(seq(error), list(training = error, validation = error.valid),
+      mplot3_xy(
+        seq(error),
+        list(training = error, validation = error.valid),
         type = plot.type,
-        xlab = "Iteration", ylab = "MSE", group.adj = .95,
+        xlab = "Iteration",
+        ylab = "MSE",
+        group.adj = .95,
         x.axis.at = seq(error),
-        main = paste0(prefix, "LIHAD Boosting"), zerolines = FALSE,
+        main = paste0(prefix, "LIHAD Boosting"),
+        zerolines = FALSE,
         theme = plot.theme
       )
     }
@@ -315,7 +352,7 @@ hytboostnow <- function(x, y,
 #'
 #' @param x `hytboostnow` object
 #' @param ... Not used
-#' 
+#'
 #' @method print hytboostnow
 #' @author E.D. Gennatas
 #' @export
@@ -336,21 +373,25 @@ print.hytboostnow <- function(x, ...) {
 #' @author E.D. Gennatas
 #' @export
 
-predict.hytboostnow <- function(object,
-                                newdata = NULL,
-                                n.feat = NCOL(newdata),
-                                n.iter = NULL,
-                                fixed.cxr = NULL,
-                                as.matrix = FALSE,
-                                n.cores = 1,
-                                verbose = FALSE, ...) {
+predict.hytboostnow <- function(
+  object,
+  newdata = NULL,
+  n.feat = NCOL(newdata),
+  n.iter = NULL,
+  fixed.cxr = NULL,
+  as.matrix = FALSE,
+  n.cores = 1,
+  verbose = FALSE,
+  ...
+) {
   if (is.null(newdata)) {
     return(object$fitted)
   }
 
   if (!is.null(newdata)) {
     if (!is.data.frame(newdata)) {
-      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else paste0("V", seq_len(NCOL(newdata)))
+      .colnames <- if (!is.null(colnames(newdata))) colnames(newdata) else
+        paste0("V", seq_len(NCOL(newdata)))
       newdata <- as.data.frame(newdata)
       colnames(newdata) <- .colnames
       newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -363,21 +404,31 @@ predict.hytboostnow <- function(object,
   if (!as.matrix) {
     predicted <- rowSums(cbind(
       rep(object$init, NROW(newdata)),
-      pbapply::pbsapply(seq(n.iter), function(i) {
-        predict.hytreenow(object$mods[[i]], newdata,
-          fixed.cxr = fixed.cxr[[i]]
-        ) * object$learning.rate[i]
-      },
-      cl = n.cores
+      pbapply::pbsapply(
+        seq(n.iter),
+        function(i) {
+          predict.hytreenow(
+            object$mods[[i]],
+            newdata,
+            fixed.cxr = fixed.cxr[[i]]
+          ) *
+            object$learning.rate[i]
+        },
+        cl = n.cores
       )
     ))
   } else {
-    predicted.n <- pbapply::pbsapply(seq(n.iter), function(i) {
-      predict.hytreenow(object$mods[[i]], newdata,
-        fixed.cxr = fixed.cxr[[i]]
-      ) * object$learning.rate[i]
-    },
-    cl = n.cores
+    predicted.n <- pbapply::pbsapply(
+      seq(n.iter),
+      function(i) {
+        predict.hytreenow(
+          object$mods[[i]],
+          newdata,
+          fixed.cxr = fixed.cxr[[i]]
+        ) *
+          object$learning.rate[i]
+      },
+      cl = n.cores
     )
 
     predicted <- matrix(nrow = NROW(newdata), ncol = n.iter)
@@ -402,27 +453,33 @@ predict.hytboostnow <- function(object,
 #' @noRd
 #' @author E.D. Gennatas
 
-expand.hytboostnow <- function(object,
-                               x, y = NULL,
-                               x.valid = NULL, y.valid = NULL,
-                               resid = NULL,
-                               mod.params = NULL,
-                               max.iter = 10,
-                               learning.rate = NULL,
-                               case.p = 1,
-                               # tolerance = NULL,
-                               cxrcoef = FALSE,
-                               prefix = NULL,
-                               verbose = TRUE,
-                               trace = 0,
-                               print.error.plot = "final") {
+expand.hytboostnow <- function(
+  object,
+  x,
+  y = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  resid = NULL,
+  mod.params = NULL,
+  max.iter = 10,
+  learning.rate = NULL,
+  case.p = 1,
+  # tolerance = NULL,
+  cxrcoef = FALSE,
+  prefix = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.error.plot = "final"
+) {
   if (is.null(mod.params)) mod.params <- object$mod.params
   if (is.null(learning.rate)) learning.rate <- rev(object$learning.rate)[1]
   if (trace > 0) msg2("learning.rate =", learning.rate)
 
   hytboostnow(
-    x = x, y = y,
-    x.valid = x.valid, y.valid = y.valid,
+    x = x,
+    y = y,
+    x.valid = x.valid,
+    y.valid = y.valid,
     resid = resid,
     boost.obj = object,
     learning.rate = learning.rate,
@@ -445,22 +502,26 @@ expand.hytboostnow <- function(object,
 #' @keywords internal
 #' @noRd
 
-as.hytboostnow <- function(object,
-                           x, y,
-                           x.valid, y.valid, # not currently used
-                           learning.rate = .1,
-                           init.learning.rate = learning.rate,
-                           init = 0,
-                           apply.lr = TRUE
-                           # tolerance = .00001,
-                           # tolerance.valid = .00001
+as.hytboostnow <- function(
+  object,
+  x,
+  y,
+  x.valid,
+  y.valid, # not currently used
+  learning.rate = .1,
+  init.learning.rate = learning.rate,
+  init = 0,
+  apply.lr = TRUE
+  # tolerance = .00001,
+  # tolerance.valid = .00001
 ) {
   if (!inherits(object, "hytreenow")) {
     stop("Please provide hytreenow object")
   }
   mods <- list()
   mods[[1]] <- object
-  fitted <- if (apply.lr) predict.hytreenow(object, x) * init.learning.rate else predict.hytreenow(object, x)
+  fitted <- if (apply.lr) predict.hytreenow(object, x) * init.learning.rate else
+    predict.hytreenow(object, x)
   obj <- list(
     init = init,
     learning.rate = ifelse(apply.lr, init.learning.rate, 1),
@@ -492,11 +553,12 @@ as.hytboostnow <- function(object,
 #' @noRd
 # TODO: save penultimate fitted, add last
 
-update.hytboostnow <- function(object, x, y = NULL,
-                               trace = 0, ...) {
+update.hytboostnow <- function(object, x, y = NULL, trace = 0, ...) {
   if (trace > 0) fitted.orig <- object$fitted
 
-  fitted <- object$penult.fitted + rev(object$learning.rate)[1] * predict.hytreenow(object$mods[[length(object$mods)]], x)
+  fitted <- object$penult.fitted +
+    rev(object$learning.rate)[1] *
+      predict.hytreenow(object$mods[[length(object$mods)]], x)
 
   object$error[length(object$error)] <- mse(object$y.train, fitted)
   if (trace > 0 && !is.null(y)) {
@@ -516,18 +578,22 @@ update.hytboostnow <- function(object, x, y = NULL,
 #' @keywords internal
 #' @noRd
 
-as.hytboostnow2 <- function(object,
-                            x, y,
-                            learning.rate = .1,
-                            init.learning.rate = learning.rate,
-                            init = 0,
-                            apply.lr = TRUE) {
+as.hytboostnow2 <- function(
+  object,
+  x,
+  y,
+  learning.rate = .1,
+  init.learning.rate = learning.rate,
+  init = 0,
+  apply.lr = TRUE
+) {
   if (!inherits(object, "hytreenow")) {
     stop("Please provide hytreenow object")
   }
   mods <- list()
   mods[[1]] <- object
-  fitted <- if (apply.lr) predict.hytreenow(object, x) * init.learning.rate else predict.hytreenow(object, x)
+  fitted <- if (apply.lr) predict.hytreenow(object, x) * init.learning.rate else
+    predict.hytreenow(object, x)
   obj <- list(
     init = init,
     learning.rate = c(init.learning.rate, learning.rate),

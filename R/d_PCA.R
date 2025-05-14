@@ -20,13 +20,15 @@
 #' @family Decomposition
 #' @export
 
-d_PCA <- function(x,
-                  x.test = NULL,
-                  k = NULL,
-                  scale = TRUE,
-                  center = TRUE,
-                  verbose = TRUE, ...) {
-
+d_PCA <- function(
+  x,
+  x.test = NULL,
+  k = NULL,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "PCA"
@@ -65,16 +67,15 @@ d_PCA <- function(x,
 
   # Outro ----
   extra <- list(rotation = rotation)
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = projections.test,
-                    parameters = list(k = k,
-                                      scale = scale,
-                                      center = center),
-                    extra = extra)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = projections.test,
+    parameters = list(k = k, scale = scale, center = center),
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_PCA

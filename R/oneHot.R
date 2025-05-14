@@ -7,7 +7,7 @@
 #' One hot encode a vector or factors in a data.frame
 #'
 #' A vector input will be one-hot encoded regardless of type by looking at all unique values. With data.frame input,
-#' only column of type factor will be one-hot encoded. 
+#' only column of type factor will be one-hot encoded.
 #' This function is used by [preprocess].
 #' `oneHot.data.table` operates on a copy of its input.
 #' `oneHot_` performs one-hot encoding in-place.
@@ -16,7 +16,7 @@
 #' @param xname Character: Variable name
 #' @param verbose Logical: If TRUE, print messages to console
 #'
-#' @return For vector input, a one-hot-encoded matrix, for data.frame frame 
+#' @return For vector input, a one-hot-encoded matrix, for data.frame frame
 #' input, an expanded data.frame where all factors are one-hot encoded
 #' @author E.D. Gennatas
 #' @export
@@ -28,21 +28,15 @@
 #' vf_onehot <- oneHot(vf)
 #' }
 
-oneHot <- function(x,
-                   xname = NULL,
-                   verbose = FALSE) {
-
+oneHot <- function(x, xname = NULL, verbose = FALSE) {
   UseMethod("oneHot", x)
-
 } # rtemis::oneHot
 
 
 #' @rdname oneHot
 #' @export
 
-oneHot.default <- function(x,
-                           xname = NULL,
-                           verbose = TRUE) {
+oneHot.default <- function(x, xname = NULL, verbose = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   # ensures if factor without all levels present, gets all columns created
   if (!is.factor(x)) x <- factor(x)
@@ -53,19 +47,19 @@ oneHot.default <- function(x,
   colnames(oh) <- paste(xname, .levels, sep = "_")
   for (i in seq(ncases)) oh[i, index[i]] <- 1
   oh
-
 } # rtemis::oneHot.default
 
 
 # included for benchmarking mostly
-onehotcm <- function(x,
-                     xname = deparse(substitute(x)),
-                     return = "data.frame") {
+onehotcm <- function(x, xname = deparse(substitute(x)), return = "data.frame") {
   stopifnot(is.factor(x))
-  dt <- data.table(ID = seq_along(x),
-                   x = x)
+  dt <- data.table(ID = seq_along(x), x = x)
   setnames(dt, "x", xname)
-  out <- dcast(melt(dt, id.vars = "ID"), ID ~ variable + value, fun.aggregate = length)[, -1]
+  out <- dcast(
+    melt(dt, id.vars = "ID"),
+    ID ~ variable + value,
+    fun.aggregate = length
+  )[, -1]
   if (return == "data.frame") setDF(out)
   out
 }
@@ -79,9 +73,7 @@ onehotcm <- function(x,
 #' @examples
 #' oneHot(iris) |> head()
 
-oneHot.data.frame <- function(x,
-                              xname = NULL,
-                              verbose = TRUE) {
+oneHot.data.frame <- function(x, xname = NULL, verbose = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   ncases <- NROW(x)
   factor.index <- which(sapply(x, is.factor))
@@ -109,9 +101,7 @@ oneHot.data.frame <- function(x,
 #' ir_oh <- oneHot(ir)
 #' ir_oh
 
-oneHot.data.table <- function(x,
-                              xname = NULL,
-                              verbose = TRUE) {
+oneHot.data.table <- function(x, xname = NULL, verbose = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   x <- copy(x)
   ncases <- NROW(x)
@@ -130,7 +120,6 @@ oneHot.data.table <- function(x,
   x[, paste(.names[factor.index]) := NULL]
   if (verbose) msg2("Done")
   invisible(x)
-
 } # rtemis::oneHot.data.table
 
 
@@ -143,9 +132,7 @@ oneHot.data.table <- function(x,
 #' dt_set_oneHot(ir)
 #' ir
 
-dt_set_oneHot <- function(x,
-                    xname = NULL,
-                    verbose = TRUE) {
+dt_set_oneHot <- function(x, xname = NULL, verbose = TRUE) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   ncases <- NROW(x)
   factor.index <- which(sapply(x, is.factor))
@@ -163,5 +150,4 @@ dt_set_oneHot <- function(x,
   x[, paste(.names[factor.index]) := NULL]
   if (verbose) msg2("Done")
   invisible(x)
-
 } # rtemis::dt_set_oneHot

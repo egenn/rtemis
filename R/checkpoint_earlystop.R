@@ -30,49 +30,51 @@
 #' @param min.steps Integer: Do not calculate relativeVariance unless `x` is at least this length
 #' @param na.response Character: "stop" or "continue": what should happen if the last value of `x` is `NA`
 #' @param verbose Logical: If TRUE, print messages to console
-#' 
+#'
 #' @author E.D. Gennatas
 #' @return List with the following items:
-#' 
+#'
 #' - `last.value` Float: Last value of `x`
 #' - `relativeVariance` Float: relative variance of last `n.steps`
 #' - `check.thresh` Logical: TRUE, if absolute threshold was reached
 #' - `check.rvar `Logical: TRUE, if relative variance threshold was reached
 #' - `stop` Logical: TRUE, if either criterion was met - absolute threshold or relativeVariance.threshold
-#' 
+#'
 #' @export
 
-checkpoint_earlystop <- function(x,
-                      absolute.threshold = NA,
-                      relative.threshold = NA,
-                      minimize = TRUE,
-                      relativeVariance.threshold = NA,
-                      n.steps = 10,
-                      combine.relative.thresholds = "AND",
-                      min.steps = 50,
-                      na.response = c("stop", "continue"),
-                      verbose = TRUE) {
-
+checkpoint_earlystop <- function(
+  x,
+  absolute.threshold = NA,
+  relative.threshold = NA,
+  minimize = TRUE,
+  relativeVariance.threshold = NA,
+  n.steps = 10,
+  combine.relative.thresholds = "AND",
+  min.steps = 50,
+  na.response = c("stop", "continue"),
+  verbose = TRUE
+) {
   na.response <- match.arg(na.response)
   last.value <- x[length(x)]
   if (is.na(last.value) && na.response == "stop") {
-    return(list(absolute.threshold = absolute.threshold,
-                minimize = minimize,
-                last.value = last.value,
-                check.thresh = TRUE,
-                relative.change = NA,
-                relative.threshold = relative.threshold,
-                check.rthresh = NA,
-                relativeVariance.threshold = relativeVariance.threshold,
-                relativeVariance = NA,
-                check.rvar = NA,
-                stop = TRUE,
-                restart = TRUE))
+    return(list(
+      absolute.threshold = absolute.threshold,
+      minimize = minimize,
+      last.value = last.value,
+      check.thresh = TRUE,
+      relative.change = NA,
+      relative.threshold = relative.threshold,
+      check.rthresh = NA,
+      relativeVariance.threshold = relativeVariance.threshold,
+      relativeVariance = NA,
+      check.rvar = NA,
+      stop = TRUE,
+      restart = TRUE
+    ))
   }
 
   # Check absolute threshold ----
   if (!is.na(absolute.threshold)) {
-
     if (is.na(last.value)) {
       warning("Last value was NA; this may mean trouble")
       check.thresh <- FALSE
@@ -83,15 +85,14 @@ checkpoint_earlystop <- function(x,
         ifelse(last.value >= absolute.threshold, TRUE, FALSE)
       }
     }
-
   } else {
     check.thresh <- FALSE
   }
 
-
   # Check relative threshold ----
   if (!is.na(relative.threshold)) {
-    relative.threshold <- if (minimize)  -(abs(relative.threshold)) else abs(relative.threshold)
+    relative.threshold <- if (minimize) -(abs(relative.threshold)) else
+      abs(relative.threshold)
     first.value <- x[1]
     relative.change <- (last.value - first.value) / first.value
     if (is.na(relative.change)) {
@@ -99,9 +100,11 @@ checkpoint_earlystop <- function(x,
       relative.change <- 0
     }
     if (minimize) {
-      if (relative.change >= 0) check.rthresh <- FALSE else check.rthresh <- relative.change <= relative.threshold
+      if (relative.change >= 0) check.rthresh <- FALSE else
+        check.rthresh <- relative.change <= relative.threshold
     } else {
-      if (relative.change <= 0) check.rthresh <- FALSE else check.rthresh <- relative.change >= relative.threshold
+      if (relative.change <= 0) check.rthresh <- FALSE else
+        check.rthresh <- relative.change >= relative.threshold
     }
   } else {
     relative.change <- NA
@@ -151,8 +154,18 @@ checkpoint_earlystop <- function(x,
     #              Minimize = minimize,
     #              Stop = .stop)
     # printls(.msg)
-    msg20("Last: ", ddSci(last.value), "; RelDelta: ", ddSci(relative.change * 100),
-         "; RelVar: ", ddSci(relativeVariance), "; Min:", minimize, "; Stop: ", .stop)
+    msg20(
+      "Last: ",
+      ddSci(last.value),
+      "; RelDelta: ",
+      ddSci(relative.change * 100),
+      "; RelVar: ",
+      ddSci(relativeVariance),
+      "; Min:",
+      minimize,
+      "; Stop: ",
+      .stop
+    )
     #
     # msg20("Last: ", ddSci(last.value), " (", absolute.threshold, ")\n",
     #      "Pct: ", ddSci(relative.change * 100), " (", relative.threshold * 100, ")\n",
@@ -160,17 +173,18 @@ checkpoint_earlystop <- function(x,
     #      " (", relativeVariance.threshold, ")")
   }
 
-  list(absolute.threshold = absolute.threshold,
-       minimize = minimize,
-       last.value = last.value,
-       check.thresh = check.thresh,
-       relative.change = relative.change,
-       relative.threshold = relative.threshold,
-       check.rthresh = check.rthresh,
-       relativeVariance.threshold = relativeVariance.threshold,
-       relativeVariance = relativeVariance,
-       check.rvar = check.rvar,
-       stop = .stop,
-       restart = FALSE)
-
+  list(
+    absolute.threshold = absolute.threshold,
+    minimize = minimize,
+    last.value = last.value,
+    check.thresh = check.thresh,
+    relative.change = relative.change,
+    relative.threshold = relative.threshold,
+    check.rthresh = check.rthresh,
+    relativeVariance.threshold = relativeVariance.threshold,
+    relativeVariance = relativeVariance,
+    check.rvar = check.rvar,
+    stop = .stop,
+    restart = FALSE
+  )
 } # rtemis::checkpoint_earlystop

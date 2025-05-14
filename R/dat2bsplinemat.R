@@ -21,20 +21,24 @@
 #' @author E.D. Gennatas
 #' @export
 
-dat2bsplinemat <- function(x,
-                           df = NULL,
-                           knots = NULL,
-                           degree = 3L,
-                           intercept = FALSE,
-                           Boundary.knots = range(x, na.rm = TRUE),
-                           return.deriv = FALSE,
-                           as.data.frame = TRUE) {
+dat2bsplinemat <- function(
+  x,
+  df = NULL,
+  knots = NULL,
+  degree = 3L,
+  intercept = FALSE,
+  Boundary.knots = range(x, na.rm = TRUE),
+  return.deriv = FALSE,
+  as.data.frame = TRUE
+) {
   nc <- NCOL(x)
-  feat.names <- if (!is.null(colnames(x))) colnames(x) else paste0("Feat", seq(nc))
+  feat.names <- if (!is.null(colnames(x))) colnames(x) else
+    paste0("Feat", seq(nc))
 
   # Splines ----
   Splines <- lapply(seq(nc), function(i) {
-    splines2::bSpline(x[, i],
+    splines2::bSpline(
+      x[, i],
       df = df,
       knots = knots,
       degree = degree,
@@ -47,11 +51,17 @@ dat2bsplinemat <- function(x,
   if (return.deriv) {
     dx.s <- lapply(seq(nc), function(i) deriv(Splines[[i]]))
     dx.s <- do.call(cbind, dx.s)
-    colnames(dx.s) <- unlist(lapply(seq(nc), function(i) paste0(feat.names[i], "_basis", seq(degree))))
+    colnames(dx.s) <- unlist(lapply(
+      seq(nc),
+      function(i) paste0(feat.names[i], "_basis", seq(degree))
+    ))
   }
 
   x.s <- do.call(cbind, Splines)
-  colnames(x.s) <- unlist(lapply(seq(nc), function(i) paste0(feat.names[i], "_basis", seq(degree))))
+  colnames(x.s) <- unlist(lapply(
+    seq(nc),
+    function(i) paste0(feat.names[i], "_basis", seq(degree))
+  ))
 
   if (as.data.frame) {
     x.s <- as.data.frame(x.s)
@@ -84,17 +94,22 @@ predict.rtBSplines <- function(object, newdata = NULL, ...) {
     return(object$Splines)
   } else {
     nsplines <- length(object$SplineObj)
-    if (NCOL(newdata) != nsplines) stop("N of columns in newdata does not match N of spline objects")
+    if (NCOL(newdata) != nsplines)
+      stop("N of columns in newdata does not match N of spline objects")
     feat.names <- colnames(newdata)
     if (is.null(feat.names)) feat.names <- paste0("Feature", seq_len(nsplines))
     predicted <- do.call(
-      cbind, lapply(
+      cbind,
+      lapply(
         seq_len(nsplines),
         function(i) predict(object$SplineObj[[i]], newdata[, i])
       )
     )
     degree <- attr(object$SplineObj[[1]], "degree")
-    colnames(predicted) <- unlist(lapply(seq(nsplines), function(i) paste0(feat.names[i], "_basis", seq(degree))))
+    colnames(predicted) <- unlist(lapply(
+      seq(nsplines),
+      function(i) paste0(feat.names[i], "_basis", seq(degree))
+    ))
   }
 
   predicted

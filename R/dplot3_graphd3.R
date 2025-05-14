@@ -21,18 +21,20 @@
 #'
 #' @author E.D. Gennatas
 #' @export
-dplot3_graphd3 <- function(net,
-                           groups = NULL,
-                           color.scale = NULL,
-                           edge.col = NULL,
-                           node.col = NULL,
-                           node.alpha = .5,
-                           edge.alpha = .33,
-                           zoom = TRUE,
-                           legend = FALSE,
-                           palette = rtPalette,
-                           theme = rtTheme,
-                           ...) {
+dplot3_graphd3 <- function(
+  net,
+  groups = NULL,
+  color.scale = NULL,
+  edge.col = NULL,
+  node.col = NULL,
+  node.alpha = .5,
+  edge.alpha = .33,
+  zoom = TRUE,
+  legend = FALSE,
+  palette = rtPalette,
+  theme = rtTheme,
+  ...
+) {
   # Dependencies ----
   dependency_check("networkD3")
 
@@ -57,10 +59,12 @@ dplot3_graphd3 <- function(net,
     if (length(unique(netd3$nodes$group)) == 1) {
       color.scale <- paste0(
         'd3.scaleOrdinal().domain(["A"]).range(["',
-        adjustcolor(node.col, node.alpha), '"]);'
+        adjustcolor(node.col, node.alpha),
+        '"]);'
       )
     } else {
-      if (is.character(palette)) palette <- adjustcolor(unlist(rtpalette(palette)), node.alpha)
+      if (is.character(palette))
+        palette <- adjustcolor(unlist(rtpalette(palette)), node.alpha)
       ngroups <- length(unique(groups))
       .groups <- paste0(sort(unique(groups)), collapse = '", "')
       if (ngroups > length(palette)) {
@@ -68,8 +72,11 @@ dplot3_graphd3 <- function(net,
       }
       .colors <- paste0(palette[seq(ngroups)], collapse = '", "')
       color.scale <- paste0(
-        'd3.scaleOrdinal().domain(["', .groups,
-        '"]).range(["', .colors, '"]);'
+        'd3.scaleOrdinal().domain(["',
+        .groups,
+        '"]).range(["',
+        .colors,
+        '"]);'
       )
     }
   }

@@ -29,22 +29,25 @@
 #' @keywords internal
 #' @noRd
 
-addtree <- function(x, y,
-                    catPredictors = NULL,
-                    depthLimit = 8,
-                    learning.rate = 1,
-                    gamma = 0,
-                    update = "exponential",
-                    min.update = ifelse(update == "polynomial", 10, 1000),
-                    weights = NULL,
-                    autoweights = FALSE,
-                    min.hessian = .01,
-                    min.membership = 0,
-                    steps.past.min.membership = 2,
-                    rpart.params = NULL,
-                    save.rpart = FALSE,
-                    verbose = TRUE,
-                    trace = 1) {
+addtree <- function(
+  x,
+  y,
+  catPredictors = NULL,
+  depthLimit = 8,
+  learning.rate = 1,
+  gamma = 0,
+  update = "exponential",
+  min.update = ifelse(update == "polynomial", 10, 1000),
+  weights = NULL,
+  autoweights = FALSE,
+  min.hessian = .01,
+  min.membership = 0,
+  steps.past.min.membership = 2,
+  rpart.params = NULL,
+  save.rpart = FALSE,
+  verbose = TRUE,
+  trace = 1
+) {
   # Arguments ----
   if (is.null(catPredictors)) catPredictors <- lapply(x, class) == "factor"
 
@@ -93,7 +96,9 @@ addtree <- function(x, y,
   membership <- rep(TRUE, length(y))
 
   # Recursive function to build tree
-  tree <- likelihoodMediboostSplitNode(x, y,
+  tree <- likelihoodMediboostSplitNode(
+    x,
+    y,
     weights = weights,
     catPredictors,
     obsValues,
@@ -169,26 +174,29 @@ addtree <- function(x, y,
 #' @keywords internal
 #' @noRd
 
-likelihoodMediboostSplitNode <- function(x, y,
-                                         weights,
-                                         catPredictors,
-                                         obsValues,
-                                         nodeValue,
-                                         colIdx,
-                                         depth,
-                                         depthLimit,
-                                         learning.rate,
-                                         gamma,
-                                         membership,
-                                         min.membership,
-                                         steps.past.min.membership,
-                                         min.mem.counter,
-                                         update,
-                                         min.update = ifelse(update == "exponential", 1000, 10),
-                                         hessian,
-                                         min.hessian,
-                                         save.rpart,
-                                         verbose = TRUE) {
+likelihoodMediboostSplitNode <- function(
+  x,
+  y,
+  weights,
+  catPredictors,
+  obsValues,
+  nodeValue,
+  colIdx,
+  depth,
+  depthLimit,
+  learning.rate,
+  gamma,
+  membership,
+  min.membership,
+  steps.past.min.membership,
+  min.mem.counter,
+  update,
+  min.update = ifelse(update == "exponential", 1000, 10),
+  hessian,
+  min.hessian,
+  save.rpart,
+  verbose = TRUE
+) {
   # Intro ----
   if (verbose) msg2("Depth =", depth)
 
@@ -213,20 +221,28 @@ likelihoodMediboostSplitNode <- function(x, y,
   }
   if (verbose) {
     msg2(
-      "sign(node$value) is", sign(node$value),
-      "sign(y %*% node$weights) is", sign(y %*% node$weights),
-      "node$value is", node$value,
-      "depth is", depth,
-      "sum(membership) is", sum(membership),
-      "min.mem.counter is", min.mem.counter
+      "sign(node$value) is",
+      sign(node$value),
+      "sign(y %*% node$weights) is",
+      sign(y %*% node$weights),
+      "node$value is",
+      node$value,
+      "depth is",
+      depth,
+      "sum(membership) is",
+      sum(membership),
+      "min.mem.counter is",
+      min.mem.counter
     )
   }
-  if ((sign(node$value) != sign(y %*% node$weights) ||
-         depth < depthLimit) &&
-        !is.infinite(node$value) &&
-        hessian >= min.hessian &&
-        sum(membership) >= min.membership &&
-        min.mem.counter <= steps.past.min.membership) {
+  if (
+    (sign(node$value) != sign(y %*% node$weights) ||
+      depth < depthLimit) &&
+      !is.infinite(node$value) &&
+      hessian >= min.hessian &&
+      sum(membership) >= min.membership &&
+      min.mem.counter <= steps.past.min.membership
+  ) {
     # if (verbose) msg2("sign(node$value) is", sign(node$value), "sign(y %*% node$weights) is",
     #                  sign(y %*% node$weights), "node$value is", node$value,
     #                  "and Depth is", depth)
@@ -234,7 +250,9 @@ likelihoodMediboostSplitNode <- function(x, y,
     node$terminal <- FALSE
 
     # Choose a feature to split on using regression of the first derivative of the loss function.
-    nodefeat <- likelihoodMediboostChooseFeat(x, y,
+    nodefeat <- likelihoodMediboostChooseFeat(
+      x,
+      y,
       catPredictors,
       funcValue = node$obsValues,
       weights = node$weights,
@@ -252,10 +270,13 @@ likelihoodMediboostSplitNode <- function(x, y,
     }
     node$membership <- membership
     # cutCategory contains all levels of categorical var that should go Left
-    if (length(node$cutPoint) > 0 && !is.na(node$cutPoint) ||
-          length(node$cutCategory) > 0 && !is.na(node$cutCategory)) {
-          # The node is not terminal
-          node$terminal <- FALSE
+    if (
+      length(node$cutPoint) > 0 &&
+        !is.na(node$cutPoint) ||
+        length(node$cutCategory) > 0 && !is.na(node$cutCategory)
+    ) {
+      # The node is not terminal
+      node$terminal <- FALSE
 
       # Split the data based on this feature
       if (length(node$cutPoint) > 0) {
@@ -302,7 +323,8 @@ likelihoodMediboostSplitNode <- function(x, y,
         # nodeValueLeft <- c(sign(y[leftIdx] %*% leftWeight) * Inf)
         nodeValueLeft <- -sign(weightedFirstDerLeft) * Inf
       } else {
-        updateVal <- learning.rate * sign((weightedFirstDerLeft)) *
+        updateVal <- learning.rate *
+          sign((weightedFirstDerLeft)) *
           min(min.update, abs(weightedFirstDerLeft / weightedSecDerLeft))
         nodeValueLeft <- c(node$value - updateVal) # scalar
       }
@@ -331,21 +353,34 @@ likelihoodMediboostSplitNode <- function(x, y,
         nodeValueRight <- -sign(weightedFirstDerRight) * Inf
       } else {
         # 12.31.2017 add learning.rate
-        updateVal <- learning.rate * sign(weightedFirstDerRight) *
+        updateVal <- learning.rate *
+          sign(weightedFirstDerRight) *
           min(min.update, abs(weightedFirstDerRight / weightedSecDerRight))
         nodeValueRight <- c(node$value - updateVal) # scalar
       }
 
       if (verbose) {
-        msg2("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
+        msg2(
+          "weightedFirstDerLeft = ",
+          weightedFirstDerLeft,
+          "; weightedFirstDerRight = ",
           weightedFirstDerRight,
           sep = ""
         )
-        msg2("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
+        msg2(
+          "weightedSecDerLeft = ",
+          weightedSecDerLeft,
+          "; weightedSecDerRight = ",
           weightedSecDerRight,
           sep = ""
         )
-        msg2("nodeValueLeft = ", nodeValueLeft, "; nodeValueRight = ", nodeValueRight, sep = "")
+        msg2(
+          "nodeValueLeft = ",
+          nodeValueLeft,
+          "; nodeValueRight = ",
+          nodeValueRight,
+          sep = ""
+        )
       }
 
       # Using exp(log(a)-log(b)) = a/b to avoid singularity errors in
@@ -389,10 +424,14 @@ likelihoodMediboostSplitNode <- function(x, y,
         # Update the weights
         lambda <- gamma / (1 - gamma)
         if (!is.infinite(lambda)) {
-          leftWeights <- node$weights * (exp((leftRule - 1) * lambda / 2) /
-            (exp((leftRule - 1) * lambda / 2) + exp((rightRule - 1) * lambda / 2)))
-          rightWeights <- node$weights * (exp((rightRule - 1) * lambda / 2) /
-            (exp((leftRule - 1) * lambda / 2) + exp((rightRule - 1) * lambda / 2)))
+          leftWeights <- node$weights *
+            (exp((leftRule - 1) * lambda / 2) /
+              (exp((leftRule - 1) * lambda / 2) +
+                exp((rightRule - 1) * lambda / 2)))
+          rightWeights <- node$weights *
+            (exp((rightRule - 1) * lambda / 2) /
+              (exp((leftRule - 1) * lambda / 2) +
+                exp((rightRule - 1) * lambda / 2)))
         } else {
           leftWeights <- rightWeights <- node$weights
         }
@@ -404,7 +443,9 @@ likelihoodMediboostSplitNode <- function(x, y,
 
       # L&R SPLIT ----
       # Create the right and left terminal nodes
-      node$right <- likelihoodMediboostSplitNode(x, y,
+      node$right <- likelihoodMediboostSplitNode(
+        x,
+        y,
         weights = rightWeights,
         catPredictors,
         obsValues = newObservValue,
@@ -425,7 +466,9 @@ likelihoodMediboostSplitNode <- function(x, y,
         save.rpart = save.rpart,
         verbose = verbose
       )
-      node$left <- likelihoodMediboostSplitNode(x, y,
+      node$left <- likelihoodMediboostSplitNode(
+        x,
+        y,
         weights = leftWeights,
         catPredictors,
         obsValues = newObservValue,
@@ -454,14 +497,24 @@ likelihoodMediboostSplitNode <- function(x, y,
       if (depth == depthLimit) msg2("Reached max depth")
       msg2("Total members = ", sum(membership))
       if (is.infinite(node$value)) {
-        msg2("Node value is", ifelse(sign(node$value) == 1, "positive", "negative"), "infinity")
+        msg2(
+          "Node value is",
+          ifelse(sign(node$value) == 1, "positive", "negative"),
+          "infinity"
+        )
       }
       if (hessian < min.hessian) {
-        msg2("hessian = ", hessian, " (min.hessian = ", min.hessian, ")",
+        msg2(
+          "hessian = ",
+          hessian,
+          " (min.hessian = ",
+          min.hessian,
+          ")",
           sep = ""
         )
       }
-      if (min.mem.counter > steps.past.min.membership) msg2("Reached max steps past min.membership")
+      if (min.mem.counter > steps.past.min.membership)
+        msg2("Reached max steps past min.membership")
     }
     return(node)
   }
@@ -503,13 +556,16 @@ likelihoodMediboostSplitNode <- function(x, y,
 #' @keywords internal
 #' @noRd
 
-likelihoodMediboostChooseFeat <- function(x, y,
-                                          catPredictors,
-                                          funcValue,
-                                          weights,
-                                          colIdx,
-                                          rpart.params = NULL,
-                                          verbose = TRUE) {
+likelihoodMediboostChooseFeat <- function(
+  x,
+  y,
+  catPredictors,
+  funcValue,
+  weights,
+  colIdx,
+  rpart.params = NULL,
+  verbose = TRUE
+) {
   # Initialize variables
   cutPoint <- cutCategory <- NULL
 
@@ -523,7 +579,8 @@ likelihoodMediboostChooseFeat <- function(x, y,
   df <- data.frame(y, x1)
 
   # rpart ----
-  tree <- rpart::rpart(y ~ .,
+  tree <- rpart::rpart(
+    y ~ .,
     data = df,
     weights = weights,
     control = rpart::rpart.control(
@@ -545,14 +602,22 @@ likelihoodMediboostChooseFeat <- function(x, y,
     if (is.numeric(x[[cutFeatName]])) {
       cutPoint <- tree$splits[1, "index"]
       if (verbose) {
-        msg2("Split Feature is \"", cutFeatName, "\"; Cut Point = ", cutPoint,
+        msg2(
+          "Split Feature is \"",
+          cutFeatName,
+          "\"; Cut Point = ",
+          cutPoint,
           sep = ""
         )
       }
     } else {
       cutCategory <- levels(x[[cutFeatName]])[which(tree$csplit[1, ] == 1)]
       if (verbose) {
-        msg2("Split Feature is \"", cutFeatName, "\"; Cut Category is \"", cutCategory,
+        msg2(
+          "Split Feature is \"",
+          cutFeatName,
+          "\"; Cut Category is \"",
+          cutCategory,
           "\"",
           sep = ""
         )
@@ -620,20 +685,50 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
       if (!is.null(node$cutPoint)) {
         if (x_i[node$fIdx] < node$cutPoint && !is.null(node$left)) {
           node <- node$left
-          if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutPoint is", node$cutPoint, "and path is left")
+          if (verbose)
+            msg2(
+              "node$fIdx is ",
+              node$fIdx,
+              " and node$cutPoint is",
+              node$cutPoint,
+              "and path is left"
+            )
         } else if (!is.null(node$right) && !is.null(node$right)) {
           node <- node$right
-          if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutPoint is", node$cutPoint, "and path is right")
+          if (verbose)
+            msg2(
+              "node$fIdx is ",
+              node$fIdx,
+              " and node$cutPoint is",
+              node$cutPoint,
+              "and path is right"
+            )
         } else {
           break
         }
       } else {
-        if (is.element(x_i[, node$fIdx], node$cutCategory) && !is.null(node$left)) {
+        if (
+          is.element(x_i[, node$fIdx], node$cutCategory) && !is.null(node$left)
+        ) {
           node <- node$left
-          if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutCategory is", node$cutCategory, "and path is left")
+          if (verbose)
+            msg2(
+              "node$fIdx is ",
+              node$fIdx,
+              " and node$cutCategory is",
+              node$cutCategory,
+              "and path is left"
+            )
         } else if (!is.null(node$right)) {
           node <- node$right
-          if (verbose) msg2("node$fIdx is ", node$fIdx, " and node$cutCategory is", node$cutCategory, "and path is right")
+          if (verbose)
+            msg2(
+              "node$fIdx is ",
+              node$fIdx,
+              " and node$cutCategory is",
+              node$cutCategory,
+              "and path is right"
+            )
         } else {
           break
         }
@@ -663,7 +758,6 @@ predict.addtree <- function(object, newdata, verbose = FALSE, ...) {
 #' @keywords internal
 #' @noRd
 
-
 # preorder + Include Rules ----
 # Traverse AddTree tree
 preorderTree.addtree <- function(rt, x, verbose = FALSE) {
@@ -671,33 +765,52 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
   tree <- rt$mod
 
   # Recursive preorder function ----
-  preorder <- function(node, out = data.frame(), n = 1,
-                       left = "left", right = "right",
-                       condition = "All cases",
-                       rule = "All cases",
-                       verbose = FALSE) {
+  preorder <- function(
+    node,
+    out = data.frame(),
+    n = 1,
+    left = "left",
+    right = "right",
+    condition = "All cases",
+    rule = "All cases",
+    verbose = FALSE
+  ) {
     if (is.null(node)) {
       return(out)
     }
     name <- if (node$terminal) "<leaf>" else varnames[node$fIdx]
-    row <- data.frame(n,
+    row <- data.frame(
+      n,
       Condition = condition,
       Path = rule,
       SplitVar = name,
       N = sum(node$membership),
       Value = node$value,
-      EstimateInt = if (node$value == 0) c(1, -1)[which.max(rt$mod$yfreq)] else sign(node$value),
-      Depth = node$depth, stringsAsFactors = FALSE
+      EstimateInt = if (node$value == 0) c(1, -1)[which.max(rt$mod$yfreq)] else
+        sign(node$value),
+      Depth = node$depth,
+      stringsAsFactors = FALSE
     )
     out <- rbind(out, row)
     if (verbose) print(out)
     conditionLeft <- if (length(node$cutPoint) > 0) {
       paste(name, "<", node$cutPoint)
     } else {
-      paste0(name, " = ", '{"', paste(node$cutCategory, collapse = '", "'), '"}')
+      paste0(
+        name,
+        " = ",
+        '{"',
+        paste(node$cutCategory, collapse = '", "'),
+        '"}'
+      )
     }
     ruleLeft <- paste0(c(rule, conditionLeft), collapse = "/")
-    out <- preorder(node[[left]], out, n * 2, left, right,
+    out <- preorder(
+      node[[left]],
+      out,
+      n * 2,
+      left,
+      right,
       condition = conditionLeft,
       rule = ruleLeft,
       verbose
@@ -710,7 +823,12 @@ preorderTree.addtree <- function(rt, x, verbose = FALSE) {
       paste0(name, " = ", '{"', paste(compLevels, collapse = '", "'), '"}')
     }
     ruleRight <- paste0(c(rule, conditionRight), collapse = "/")
-    out <- preorder(node[[right]], out, n * 2 + 1, left, right,
+    out <- preorder(
+      node[[right]],
+      out,
+      n * 2 + 1,
+      left,
+      right,
       condition = conditionRight,
       rule = ruleRight,
       verbose
@@ -740,7 +858,7 @@ addtree_path_to_rules <- function(x) {
 #' @method print addtree
 #' @param x `rtMod` object created using [s_AddTree]
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -755,21 +873,33 @@ print.addtree <- function(x, ...) {
   n.leaves <- sum(frame$SplitVar == "<leaf>")
   depth <- max(frame$Depth)
   boxcat(paste(
-    "AddTree with", n.nodes, "nodes total,",
-    n.leaves, "leaves, and max depth of", depth
+    "AddTree with",
+    n.nodes,
+    "nodes total,",
+    n.leaves,
+    "leaves, and max depth of",
+    depth
   ))
   cat("Index [Condition] N| Value| Estimate| Depth (* leaf node)\n\n")
   for (i in seq_len(nrow(frame))) {
     cat(
       paste(c(
-        sprintf("%3s", frame$n[i]), " ",
-        frame$prefix[i], "[", frame$Condition[i], "] ",
-        frame$N[i], "| ",
-        ddSci(frame$Value[i]), "| ",
-        frame$Estimate[i], "| ",
+        sprintf("%3s", frame$n[i]),
+        " ",
+        frame$prefix[i],
+        "[",
+        frame$Condition[i],
+        "] ",
+        frame$N[i],
+        "| ",
+        ddSci(frame$Value[i]),
+        "| ",
+        frame$Estimate[i],
+        "| ",
         frame$Depth[i]
       )),
-      ifelse(frame$SplitVar[i] == "<leaf>", " *", ""), "\n",
+      ifelse(frame$SplitVar[i] == "<leaf>", " *", ""),
+      "\n",
       sep = ""
     )
   }

@@ -21,14 +21,16 @@
 #' @family Decomposition
 #' @export
 
-d_SVD <- function(x,
-                  x.test = NULL,
-                  k = 2, # nv
-                  nu = 0,
-                  scale = TRUE,
-                  center = TRUE,
-                  verbose = TRUE, ...) {
-
+d_SVD <- function(
+  x,
+  x.test = NULL,
+  k = 2, # nv
+  nu = 0,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "SVD"
@@ -63,17 +65,15 @@ d_SVD <- function(x,
 
   # Outro ----
   extra <- list(rotation = rotation)
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = projections.test,
-                    parameters = list(k = k,
-                                      nu = nu,
-                                      scale = scale,
-                                      center = center),
-                    extra = extra)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = projections.test,
+    parameters = list(k = k, nu = nu, scale = scale, center = center),
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_SVD

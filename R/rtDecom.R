@@ -25,7 +25,8 @@
 #' @keywords internal
 #' @noRd
 
-rtDecom <- R6::R6Class("rtDecom",
+rtDecom <- R6::R6Class(
+  "rtDecom",
   public = list(
     ### Attributes
     decom.name = NULL,
@@ -52,16 +53,18 @@ rtDecom <- R6::R6Class("rtDecom",
     #' @param projections.train Training set projections
     #' @param projections.test Testing set projections
     #' @param extra Optional list of algorithm-specific info
-    initialize = function(decom.name = character(),
-                          # call = call("NULL"),
-                          xnames = character(),
-                          decom = list(),
-                          parameters = list(),
-                          center = numeric(),
-                          scale = numeric(),
-                          projections.train = numeric(),
-                          projections.test = numeric(),
-                          extra = list()) {
+    initialize = function(
+      decom.name = character(),
+      # call = call("NULL"),
+      xnames = character(),
+      decom = list(),
+      parameters = list(),
+      center = numeric(),
+      scale = numeric(),
+      projections.train = numeric(),
+      projections.test = numeric(),
+      extra = list()
+    ) {
       self$decom.name <- decom.name
       # self$call <- call
       self$xnames <- xnames
@@ -79,15 +82,15 @@ rtDecom <- R6::R6Class("rtDecom",
     print = function() {
       "show / print method for rtDecom"
       objcat("Decomposition object")
-      cat(hilite(self$decom.name), " (", select_decom(self$decom.name, desc = TRUE),
+      cat(
+        hilite(self$decom.name),
+        " (",
+        select_decom(self$decom.name, desc = TRUE),
         ")\n",
         sep = ""
       )
       if (length(self$parameters) > 0) {
-        printls(self$parameters,
-          title = "Parameters",
-          newline.pre = TRUE
-        )
+        printls(self$parameters, title = "Parameters", newline.pre = TRUE)
       }
     }
   )

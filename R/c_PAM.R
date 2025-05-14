@@ -4,8 +4,8 @@
 
 #' Partitioning Around Medoids
 #'
-#' Perform 
-#' [PAM clustering](https://en.wikipedia.org/wiki/K-medoids#Partitioning_Around_Medoids_(PAM)) 
+#' Perform
+#' [PAM clustering](https://en.wikipedia.org/wiki/K-medoids#Partitioning_Around_Medoids_(PAM))
 #' using `cluster::pam`
 #'
 #' @inheritParams c_KMeans
@@ -20,13 +20,15 @@
 #' @family Clustering
 #' @export
 
-c_PAM <- function(x,
-                  k = 2,
-                  diss = FALSE,
-                  metric = "euclidean",
-                  do.swap = TRUE,
-                  verbose = TRUE, ...) {
-
+c_PAM <- function(
+  x,
+  k = 2,
+  diss = FALSE,
+  metric = "euclidean",
+  do.swap = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "PAM"
@@ -47,26 +49,30 @@ c_PAM <- function(x,
 
   # CLUST ----
   if (verbose) msg2("Partitioning Around Medoids with k = ", k, "...", sep = "")
-  clust <- cluster::pam(x,
-                        k = k,
-                        diss = diss,
-                        metric = metric,
-                        do.swap = do.swap,
-                        trace.lev = ifelse(verbose, 3, 0), ...)
+  clust <- cluster::pam(
+    x,
+    k = k,
+    diss = diss,
+    metric = metric,
+    do.swap = do.swap,
+    trace.lev = ifelse(verbose, 3, 0),
+    ...
+  )
 
   # Clusters ----
   clusters.train <- clust$clustering
 
   # Outro ----
-  cl <- rtClust$new(clust.name = clust.name,
-                    k = k,
-                    xnames = xnames,
-                    clust = clust,
-                    clusters.train = clusters.train,
-                    clusters.test = NULL,
-                    parameters = list(k = k, diss = diss, metric = metric),
-                    extra = list())
+  cl <- rtClust$new(
+    clust.name = clust.name,
+    k = k,
+    xnames = xnames,
+    clust = clust,
+    clusters.train = clusters.train,
+    clusters.test = NULL,
+    parameters = list(k = k, diss = diss, metric = metric),
+    extra = list()
+  )
   outro(start.time, verbose = verbose)
   cl
-
 } # rtemis::c_PAM

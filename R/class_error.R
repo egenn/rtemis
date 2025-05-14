@@ -32,13 +32,15 @@
 #' class_error(true, estimated, estimated.prob, auc.method = "ROCR")
 #' class_error(true, estimated, estimated.prob, auc.method = "auc_pairs")
 #' }
-class_error <- function(true,
-                        estimated,
-                        estimated.prob = NULL,
-                        calc.auc = TRUE,
-                        calc.brier = TRUE,
-                        auc.method = c("pROC", "ROCR", "auc_pairs"),
-                        trace = 0) {
+class_error <- function(
+  true,
+  estimated,
+  estimated.prob = NULL,
+  calc.auc = TRUE,
+  calc.brier = TRUE,
+  auc.method = c("pROC", "ROCR", "auc_pairs"),
+  trace = 0
+) {
   # Input ----
   # Binary class probabilities only (for now)
   if (length(estimated.prob) > length(true)) estimated.prob <- NULL
@@ -52,7 +54,10 @@ class_error <- function(true,
   Positive.class <- if (n.classes == 2) true.levels[1] else NA
   if (trace > 0) {
     if (n.classes == 2) {
-      msg2("There are two outcome classes:", hilite(paste(true.levels, collapse = ", ")))
+      msg2(
+        "There are two outcome classes:",
+        hilite(paste(true.levels, collapse = ", "))
+      )
       msg2("        The positive class is:", hilite(Positive.class))
     } else {
       msg2("There are", n.classes, "classes:", true.levels)
@@ -72,7 +77,9 @@ class_error <- function(true,
   Class$Sensitivity <- Class$Hits / Class$Totals
   # attr(Class$Sensitivity, "Formula") <- "Class$Hits/Class$Totals"
   Class$Condition.negative <- Total - Class$Totals
-  Class$True.negative <- Total - Class$Predicted.totals - (Class$Totals - Class$Hits)
+  Class$True.negative <- Total -
+    Class$Predicted.totals -
+    (Class$Totals - Class$Hits)
   Class$Specificity <- Class$True.negative / Class$Condition.negative
   # attr(Class$Specificity, "Formula") <- "Class$True.negative / Class$Condition.negative"
   Class$`Balanced Accuracy` <- .5 * (Class$Sensitivity + Class$Specificity)
@@ -83,7 +90,9 @@ class_error <- function(true,
   # NPV  = true negative / predicted condition negative
   Class$NPV <- Class$True.negative / (Total - Class$Predicted.totals)
   # attr(Class$NPV, "Formula") <- "Class$True.negative/(Total - Class$Predicted.totals)"
-  Class$F1 <- 2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)
+  Class$F1 <- 2 *
+    (Class$PPV * Class$Sensitivity) /
+    (Class$PPV + Class$Sensitivity)
   # attr(Class$F1, "Formula") <- "2 * (Class$PPV * Class$Sensitivity) / (Class$PPV + Class$Sensitivity)"
 
   # Binary vs Multiclass ----
@@ -108,7 +117,11 @@ class_error <- function(true,
   # Prob-based ----
   if (!is.null(estimated.prob) && n.classes == 2) {
     if (calc.auc) {
-      Overall$AUC <- auc(preds = estimated.prob, labels = true, method = auc.method)
+      Overall$AUC <- auc(
+        preds = estimated.prob,
+        labels = true,
+        method = auc.method
+      )
     }
     if (calc.brier) {
       true_bin <- if (rtenv$binclasspos == 1) {
@@ -157,7 +170,8 @@ print.class_error <- function(x, decimal.places = 4, ...) {
   x$Overall$`Log loss` <- NULL
   tblpad <- 17 - max(nchar(colnames(x$ConfusionMatrix)), 9)
   printtable(x$ConfusionMatrix, pad = tblpad)
-  printdf(x$Overall,
+  printdf(
+    x$Overall,
     transpose = TRUE,
     ddSci.dp = decimal.places,
     justify = "left",
@@ -167,7 +181,8 @@ print.class_error <- function(x, decimal.places = 4, ...) {
     row.col = reset
   )
   if (is.na(x$Positive.class)) {
-    printdf(x$Class,
+    printdf(
+      x$Class,
       transpose = TRUE,
       ddSci.dp = decimal.places,
       justify = "left",
@@ -203,14 +218,14 @@ f1 <- function(precision, recall) {
 
 
 #' Brier Score
-#' 
+#'
 #' Calculate the Brier Score for classification:
-#' 
+#'
 #' \deqn{BS = \frac{1}{N} \sum_{i=1}^{N} (y_i - p_i)^2}{BS = 1/N * sum_{i=1}^{N} (y_i - p_i)^2}
-#' 
+#'
 #' @param true Numeric vector, {0, 1}: True labels
 #' @param estimated.prob Numeric vector, \[0, 1\]: Estimated probabilities
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 brier_score <- function(true, estimated.prob) {

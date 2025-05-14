@@ -13,15 +13,15 @@
 #' @param main Character: Plot title.
 #' @param xlab Character: x-axis label.
 #' @param ylab Character: y-axis label.
-#' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion 
+#' @param plot.metrics Logical: If TRUE, draw classification metrics next to confusion
 #' matrix.
 #' @param mod.name Character: Name of the algorithm used to make predictions. If NULL,
-#'  will look for `object$mod.name`. 
-#' @param oma Numeric, vector, length 4: Outer margins. 
+#'  will look for `object$mod.name`.
+#' @param oma Numeric, vector, length 4: Outer margins.
 #' @param dim.main Numeric: Height for title.
 #' @param dim.lab Numeric: Height for labels.
 #' @param dim.in Numeric: Height/Width for confusion matrix cells.
-#' @param dim.out Numeric: Height for metrics cells. Default = -1, which autoadjusts 
+#' @param dim.out Numeric: Height for metrics cells. Default = -1, which autoadjusts
 #' depending on number of output classes.
 #' @param font.in Integer: The `font` parameter for confusion matrix cells.
 #' @param font.out Integer: The `font` parameter for metrics cells.
@@ -33,24 +33,24 @@
 #' @param cex.out Numeric: The `cex` parameter for metrics cells.
 #' @param col.main Color for title. Default = "auto", determined by `theme`.
 #' @param col.lab Color for labels. Default = "auto", determined by `theme`.
-#' @param col.text.out Color for metrics cells' text. Default = "auto", 
+#' @param col.text.out Color for metrics cells' text. Default = "auto",
 #' determined by `theme`.
-#' @param col.bg Color for background. Default = "auto", determined by 
+#' @param col.bg Color for background. Default = "auto", determined by
 #' `theme`.
-#' @param col.bg.out1 Color for metrics cells' background (row1). 
+#' @param col.bg.out1 Color for metrics cells' background (row1).
 #' Default = "auto", determined by `theme`.
-#' @param col.bg.out2 Color for metrics cells' background (row2). 
+#' @param col.bg.out2 Color for metrics cells' background (row2).
 #' Default = "auto", determined by `theme`.
-#' @param col.text.hi Color for high confusion matrix values. Default = "auto", 
+#' @param col.text.hi Color for high confusion matrix values. Default = "auto",
 #' determined by `theme`.
-#' @param col.text.lo Color for low confusion matrix values. Default = "auto", 
+#' @param col.text.lo Color for low confusion matrix values. Default = "auto",
 #' determined by `theme`.
 #' @param show.ba Logical: If TRUE, show Balanced Accuracy at bottom right corner.
-#' @param theme Character: "light", or "dark". Set to 
+#' @param theme Character: "light", or "dark". Set to
 #' `options("rt.theme")`, if set, otherwise "light"
-#' @param mid.col Color: The mid color for the confusion matrix. 
+#' @param mid.col Color: The mid color for the confusion matrix.
 #' Default = "auto", determined by `theme`.
-#' @param hi.color.pos Color: The hi color for correct classification. 
+#' @param hi.color.pos Color: The hi color for correct classification.
 #' @param hi.color.neg Color: The hi color for missclassification.
 #' @param autolabel Character vector to be used to generate autolabels when using
 #' [rtlayout] with `autolabel = TRUE`.
@@ -70,49 +70,52 @@
 #' mplot3_conf(table(predicted, true))
 #' }
 
-mplot3_conf <- function(object,
-                        main = "auto",
-                        xlab = "Reference",
-                        ylab = "Predicted",
-                        plot.metrics = TRUE,
-                        mod.name = NULL,
-                        oma = c(0, 0, 0, 0),
-                        dim.main = NULL,
-                        dim.lab = 1,
-                        dim.in = 4,
-                        dim.out = -1,
-                        font.in = 2,
-                        font.out = 1,
-                        cex.main = 1.2,
-                        cex.in = 1.2,
-                        cex.lab = 1.2,
-                        cex.lab2 = 1.2,
-                        cex.lab3 = 1,
-                        cex.out = 1,
-                        col.main = "auto",
-                        col.lab = "auto",
-                        col.text.out = "auto",
-                        col.bg = "auto",
-                        col.bg.out1 = "auto",
-                        col.bg.out2 = "auto",
-                        col.text.hi = "auto",
-                        col.text.lo = "auto",
-                        show.ba = TRUE,
-                        theme = getOption("rt.theme", "white"),
-                        mid.col = "auto",
-                        hi.color.pos = "#18A3AC",
-                        hi.color.neg = "#C23A70", # "#F48024"
-                        autolabel = letters,
-                        par.reset = TRUE,
-                        pdf.width = 7,
-                        pdf.height = 7,
-                        filename = NULL, ...) {
-
+mplot3_conf <- function(
+  object,
+  main = "auto",
+  xlab = "Reference",
+  ylab = "Predicted",
+  plot.metrics = TRUE,
+  mod.name = NULL,
+  oma = c(0, 0, 0, 0),
+  dim.main = NULL,
+  dim.lab = 1,
+  dim.in = 4,
+  dim.out = -1,
+  font.in = 2,
+  font.out = 1,
+  cex.main = 1.2,
+  cex.in = 1.2,
+  cex.lab = 1.2,
+  cex.lab2 = 1.2,
+  cex.lab3 = 1,
+  cex.out = 1,
+  col.main = "auto",
+  col.lab = "auto",
+  col.text.out = "auto",
+  col.bg = "auto",
+  col.bg.out1 = "auto",
+  col.bg.out2 = "auto",
+  col.text.hi = "auto",
+  col.text.lo = "auto",
+  show.ba = TRUE,
+  theme = getOption("rt.theme", "white"),
+  mid.col = "auto",
+  hi.color.pos = "#18A3AC",
+  hi.color.neg = "#C23A70", # "#F48024"
+  autolabel = letters,
+  par.reset = TRUE,
+  pdf.width = 7,
+  pdf.height = 7,
+  filename = NULL,
+  ...
+) {
   # Data ----
   .test <- NULL
   if (inherits(object, "rtMod")) {
     .test <- length(object$error.test) > 0
-    tbl <- if (.test) object$error.test$ConfusionMatrix else object$error.train$ConfusionMatrix
+    tbl <- if (.test) object$error.test$ConfusionMatrix else
+      object$error.train$ConfusionMatrix
     if (is.null(mod.name)) mod.name <- object$mod.name
   } else if (inherits(object, "class_error")) {
     tbl <- object$ConfusionMatrix
@@ -125,7 +128,8 @@ mplot3_conf <- function(object,
 
   if (!is.null(mod.name) && !is.null(main) && main == "auto") {
     main <- paste(mod.name)
-    if (!is.null(.test)) main <- if (.test) paste(main, "(Testing)") else paste(main, "(Training)")
+    if (!is.null(.test))
+      main <- if (.test) paste(main, "(Testing)") else paste(main, "(Training)")
   } else {
     if (!is.null(main) && main == "auto") main <- NULL
   }
@@ -162,7 +166,9 @@ mplot3_conf <- function(object,
   # consider multiplying all custom cex vals with theme$cex
 
   # File out ----
-  if (!is.null(filename)) if (!dir.exists(dirname(filename))) dir.create(dirname(filename), recursive = TRUE)
+  if (!is.null(filename))
+    if (!dir.exists(dirname(filename)))
+      dir.create(dirname(filename), recursive = TRUE)
 
   color.pos <- colorRampPalette(c(mid.col, hi.color.pos))(100)
   color.neg <- colorRampPalette(c(mid.col, hi.color.neg))(100)
@@ -186,8 +192,13 @@ mplot3_conf <- function(object,
   # NPV  = true negative / predicted condition negative
   class.npv <- true.negative / (total - predicted.totals)
 
-  if (!is.null(filename)) grDevices::pdf(filename, width = pdf.width, height = pdf.height,
-                                         title = "rtemis Graphics")
+  if (!is.null(filename))
+    grDevices::pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
 
   # Par ----
   if (!is.null(rtenv$rtpar)) {
@@ -206,49 +217,76 @@ mplot3_conf <- function(object,
   } else {
     dim.main <- 0
   }
-  widths <- c(rep(dim.lab, 2),
-              rep(dim.in, n.classes),
-              rep(dim.out, ifelse(n.classes > 2, 2, 1)))
-  heights <- rev(c(rep(dim.lab, ifelse(is.null(main), 2, 3)),
-                   rep(dim.in, n.classes),
-                   rep(dim.out, ifelse(n.classes > 2, 2, 1))))
+  widths <- c(
+    rep(dim.lab, 2),
+    rep(dim.in, n.classes),
+    rep(dim.out, ifelse(n.classes > 2, 2, 1))
+  )
+  heights <- rev(c(
+    rep(dim.lab, ifelse(is.null(main), 2, 3)),
+    rep(dim.in, n.classes),
+    rep(dim.out, ifelse(n.classes > 2, 2, 1))
+  ))
 
   leftpad <- 2 * dim.lab
   bottompad <- ifelse(n.classes > 2, 2, 1) * dim.out
   width <- leftpad + n.classes * dim.in + ifelse(n.classes == 2, 1, 2) * dim.out
   height <- bottompad + 2 * dim.lab + n.classes * dim.in + dim.main
 
-  plot(NULL, NULL,
-       xlim = c(0, width),
-       ylim = c(0, height),
-       axes = FALSE, ann = FALSE,
-       xaxs = "i", yaxs = "i")
+  plot(
+    NULL,
+    NULL,
+    xlim = c(0, width),
+    ylim = c(0, height),
+    axes = FALSE,
+    ann = FALSE,
+    xaxs = "i",
+    yaxs = "i"
+  )
 
   # "Predicted"
   # y: middle of confusion matrix
-  text(x = widths[1] / 2,
-       y = bottompad + n.classes / 2 * dim.in,
-       labels = ylab, col = col.lab, cex = cex.lab, srt = 90,
-       adj = c(.5, .5), font = 2)
+  text(
+    x = widths[1] / 2,
+    y = bottompad + n.classes / 2 * dim.in,
+    labels = ylab,
+    col = col.lab,
+    cex = cex.lab,
+    srt = 90,
+    adj = c(.5, .5),
+    font = 2
+  )
 
   # Predicted classes
-  text(x = widths[1] + widths[2] / 2,
-       y = bottompad + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
-       labels = rev(class.labels),
-       adj = c(.5, .5),
-       srt = 90, cex = cex.lab2, col = col.lab)
+  text(
+    x = widths[1] + widths[2] / 2,
+    y = bottompad + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
+    labels = rev(class.labels),
+    adj = c(.5, .5),
+    srt = 90,
+    cex = cex.lab2,
+    col = col.lab
+  )
 
   # "Reference"
-  text(x = leftpad + n.classes / 2 * dim.in,
-       y = bottompad + n.classes * dim.in + 1.5 * dim.lab,
-       labels = xlab, col = col.lab, cex = cex.lab,
-       adj = c(.5, .5), font = 2)
+  text(
+    x = leftpad + n.classes / 2 * dim.in,
+    y = bottompad + n.classes * dim.in + 1.5 * dim.lab,
+    labels = xlab,
+    col = col.lab,
+    cex = cex.lab,
+    adj = c(.5, .5),
+    font = 2
+  )
   # Reference classes
-  text(x = sum(widths[1:2]) + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
-       bottompad + n.classes * dim.in + .5 * dim.lab,
-       labels = class.labels,
-       adj = c(.5, .5),
-       cex = cex.lab2, col = col.lab)
+  text(
+    x = sum(widths[1:2]) + dim.in / 2 + c(seq(n.classes) - 1) * dim.in,
+    bottompad + n.classes * dim.in + .5 * dim.lab,
+    labels = class.labels,
+    adj = c(.5, .5),
+    cex = cex.lab2,
+    col = col.lab
+  )
 
   # '- Confusion matrix ----
   for (i in seq_len(n.classes)) {
@@ -262,17 +300,21 @@ mplot3_conf <- function(object,
       # {xi, yj}: top-left starting point
       xi <- leftpad + (i - 1) * dim.in
       yj <- bottompad + (n.classes + 1 - j) * dim.in
-      polygon(x = c(xi, rep(xi + dim.in, 2), xi),
-              y = c(rep(yj, 2),
-                    rep((yj - dim.in), 2)),
-              col = col, border = NA)
+      polygon(
+        x = c(xi, rep(xi + dim.in, 2), xi),
+        y = c(rep(yj, 2), rep((yj - dim.in), 2)),
+        col = col,
+        border = NA
+      )
       # N in each cell
-      text(x = xi + .5 * dim.in,
-           y = yj - .5 * dim.in,
-           labels = tbl[j, i],
-           cex = cex.in, font = font.in,
-           col = ifelse(frac >= .5, col.text.hi, col.text.lo))
-
+      text(
+        x = xi + .5 * dim.in,
+        y = yj - .5 * dim.in,
+        labels = tbl[j, i],
+        cex = cex.in,
+        font = font.in,
+        col = ifelse(frac >= .5, col.text.hi, col.text.lo)
+      )
     }
   }
 
@@ -281,96 +323,161 @@ mplot3_conf <- function(object,
     if (n.classes == 2) {
       # 2 classes
       # PPV & NPV
-      polygon(x = c(leftpad, rep(leftpad + dim.in, 2), leftpad),
-              y = c(rep(dim.out, 2), rep(0, 2)),
-              border = NA, col = col.bg.out1)
-      polygon(x = c(leftpad + dim.in, rep(leftpad + 2 * dim.in, 2), leftpad + dim.in),
-              y = c(rep(dim.out, 2), rep(0, 2)),
-              border = NA, col = col.bg.out2)
-      text(x = leftpad + c(.5, 1.5) * dim.in,
-           y = .5 * dim.out,
-           labels = c(paste("PPV\n", ddSci(class.ppv[1])),
-                      paste("NPV\n", ddSci(class.npv[1]))),
-           col = col.text.out, cex = cex.out, font = font.out)
+      polygon(
+        x = c(leftpad, rep(leftpad + dim.in, 2), leftpad),
+        y = c(rep(dim.out, 2), rep(0, 2)),
+        border = NA,
+        col = col.bg.out1
+      )
+      polygon(
+        x = c(leftpad + dim.in, rep(leftpad + 2 * dim.in, 2), leftpad + dim.in),
+        y = c(rep(dim.out, 2), rep(0, 2)),
+        border = NA,
+        col = col.bg.out2
+      )
+      text(
+        x = leftpad + c(.5, 1.5) * dim.in,
+        y = .5 * dim.out,
+        labels = c(
+          paste("PPV\n", ddSci(class.ppv[1])),
+          paste("NPV\n", ddSci(class.npv[1]))
+        ),
+        col = col.text.out,
+        cex = cex.out,
+        font = font.out
+      )
 
       # Sensitivity & Specificity
       xright <- leftpad + 2 * dim.in
-      polygon(x = c(xright, rep(xright + dim.out, 2), xright),
-              y = c(rep(dim.out + 2 * dim.in, 2), rep(dim.out + dim.in, 2)),
-              border = NA, col = col.bg.out1)
-      polygon(x = c(xright, rep(xright + dim.out, 2), xright),
-              y = c(rep(dim.out + dim.in, 2), rep(dim.out, 2)),
-              border = NA, col = col.bg.out2)
-      text(x = xright + .5 * dim.out,
-           y = dim.out + c(.5, 1.5) * dim.in,
-           labels = c(paste("Specificity\n", ddSci(class.specificity[1])),
-                      paste("Sensitivity\n", ddSci(class.sensitivity[1]))),
-           col = col.text.out, cex = cex.out,
-           srt = 90, font = font.out)
+      polygon(
+        x = c(xright, rep(xright + dim.out, 2), xright),
+        y = c(rep(dim.out + 2 * dim.in, 2), rep(dim.out + dim.in, 2)),
+        border = NA,
+        col = col.bg.out1
+      )
+      polygon(
+        x = c(xright, rep(xright + dim.out, 2), xright),
+        y = c(rep(dim.out + dim.in, 2), rep(dim.out, 2)),
+        border = NA,
+        col = col.bg.out2
+      )
+      text(
+        x = xright + .5 * dim.out,
+        y = dim.out + c(.5, 1.5) * dim.in,
+        labels = c(
+          paste("Specificity\n", ddSci(class.specificity[1])),
+          paste("Sensitivity\n", ddSci(class.sensitivity[1]))
+        ),
+        col = col.text.out,
+        cex = cex.out,
+        srt = 90,
+        font = font.out
+      )
     } else {
       # 3+ classes
       # "PPV", "NPV"
-      text(x = dim.lab,
-           y = c(1.5, .5) * dim.out,
-           labels = c("PPV", "NPV"),
-           adj = c(.5, .5),
-           col = col.text.out, cex = cex.lab3)
-      polygon(x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
-              y = c(rep(2 * dim.out, 2), rep(dim.out, 2)),
-              col = col.bg.out1, border = NA)
-      polygon(x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
-              y = c(rep(dim.out, 2), rep(0, 2)),
-              col = col.bg.out2, border = NA)
+      text(
+        x = dim.lab,
+        y = c(1.5, .5) * dim.out,
+        labels = c("PPV", "NPV"),
+        adj = c(.5, .5),
+        col = col.text.out,
+        cex = cex.lab3
+      )
+      polygon(
+        x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
+        y = c(rep(2 * dim.out, 2), rep(dim.out, 2)),
+        col = col.bg.out1,
+        border = NA
+      )
+      polygon(
+        x = c(leftpad, rep(leftpad + n.classes * dim.in, 2), leftpad),
+        y = c(rep(dim.out, 2), rep(0, 2)),
+        col = col.bg.out2,
+        border = NA
+      )
       # Sensitivity values
-      text(x = leftpad + c(seq(n.classes) - .5) * dim.in,
-           y = 1.5 * dim.out,
-           labels = ddSci(class.ppv),
-           col = col.text.out, cex = cex.out, font = font.out)
+      text(
+        x = leftpad + c(seq(n.classes) - .5) * dim.in,
+        y = 1.5 * dim.out,
+        labels = ddSci(class.ppv),
+        col = col.text.out,
+        cex = cex.out,
+        font = font.out
+      )
       # Specificity values
-      text(x = leftpad + c(seq(n.classes) - .5) * dim.in,
-           y = .5 * dim.out,
-           labels = ddSci(class.npv),
-           col = col.text.out, cex = cex.out, font = font.out)
+      text(
+        x = leftpad + c(seq(n.classes) - .5) * dim.in,
+        y = .5 * dim.out,
+        labels = ddSci(class.npv),
+        col = col.text.out,
+        cex = cex.out,
+        font = font.out
+      )
 
       # "Sens.", "Spec."
-      text(x = leftpad + n.classes * dim.in + c(.5, 1.5) * dim.out,
-           y = bottompad + n.classes * dim.in + dim.lab,
-           labels = c("Sens.", "Spec."),
-           adj = c(.5, .5), xpd = TRUE,
-           col = col.text.out, cex = cex.lab3, srt = 90)
+      text(
+        x = leftpad + n.classes * dim.in + c(.5, 1.5) * dim.out,
+        y = bottompad + n.classes * dim.in + dim.lab,
+        labels = c("Sens.", "Spec."),
+        adj = c(.5, .5),
+        xpd = TRUE,
+        col = col.text.out,
+        cex = cex.lab3,
+        srt = 90
+      )
       xstart <- leftpad + n.classes * dim.in
       ystart <- bottompad + n.classes * dim.in
-      polygon(x = c(xstart, rep(xstart + dim.out, 2), xstart),
-              y = c(rep(ystart, 2), rep(ystart - n.classes * dim.in, 2)),
-              col = col.bg.out1, border = NA)
+      polygon(
+        x = c(xstart, rep(xstart + dim.out, 2), xstart),
+        y = c(rep(ystart, 2), rep(ystart - n.classes * dim.in, 2)),
+        col = col.bg.out1,
+        border = NA
+      )
       # PPV values
-      text(x = xstart + .5 * dim.out,
-           y = rev(bottompad + c(seq_len(n.classes) - .5) * dim.in),
-           labels = ddSci(class.sensitivity),
-           srt = 90, adj = c(.5, .5),
-           col = col.text.out, cex = cex.out, font = font.out)
+      text(
+        x = xstart + .5 * dim.out,
+        y = rev(bottompad + c(seq_len(n.classes) - .5) * dim.in),
+        labels = ddSci(class.sensitivity),
+        srt = 90,
+        adj = c(.5, .5),
+        col = col.text.out,
+        cex = cex.out,
+        font = font.out
+      )
       # NPV values
       xstart <- leftpad + n.classes * dim.in + dim.out
-      polygon(x = c(xstart, rep(xstart + dim.out, 2), xstart),
-              y = c(rep(ystart, 2), rep(ystart - n.classes * dim.in, 2)),
-              col = col.bg.out2, border = NA)
-      text(x = xstart + .5 * dim.out,
-           y = bottompad + c(seq_len(n.classes) - .5) * dim.in,
-           labels = ddSci(rev(class.specificity)),
-           srt = 90, adj = c(.5, .5),
-           col = col.text.out, cex = cex.out, font = font.out)
+      polygon(
+        x = c(xstart, rep(xstart + dim.out, 2), xstart),
+        y = c(rep(ystart, 2), rep(ystart - n.classes * dim.in, 2)),
+        col = col.bg.out2,
+        border = NA
+      )
+      text(
+        x = xstart + .5 * dim.out,
+        y = bottompad + c(seq_len(n.classes) - .5) * dim.in,
+        labels = ddSci(rev(class.specificity)),
+        srt = 90,
+        adj = c(.5, .5),
+        col = col.text.out,
+        cex = cex.out,
+        font = font.out
+      )
     }
   }
 
   # Balanced Accuracy
   if (show.ba) {
-    text(x = width - .5 * bottompad,
-         y = .5 * bottompad,
-         labels = paste0("BA\n", ddSci(mean(class.sensitivity))),
-         # srt = 45,
-         adj = c(.5, .5),
-         col = col.text.out,
-         cex = cex.out, font = font.out)
+    text(
+      x = width - .5 * bottompad,
+      y = .5 * bottompad,
+      labels = paste0("BA\n", ddSci(mean(class.sensitivity))),
+      # srt = 45,
+      adj = c(.5, .5),
+      col = col.text.out,
+      cex = cex.out,
+      font = font.out
+    )
   }
   # plot(0, 0, xlim = c(-1, 1), ylim = c(-1, 1), axes = FALSE, col = col.bg.out2, cex = 50, pch = 15)
   # text(0, 0, paste("Balanced\nAccuracy\n=", ddSci(balanced.accuracy)), srt = 45,
@@ -384,31 +491,38 @@ mplot3_conf <- function(object,
   }
 
   if (length(main) > 0) {
-    text(x = leftpad,
-         y = height - .5 * dim.main,
-         labels = main, font = theme$main.font,
-         cex = cex.main,
-         col = theme$main.col, adj = 0, xpd = TRUE)
+    text(
+      x = leftpad,
+      y = height - .5 * dim.main,
+      labels = main,
+      font = theme$main.font,
+      cex = cex.main,
+      col = theme$main.col,
+      adj = 0,
+      xpd = TRUE
+    )
   }
 
   if (!is.null(filename)) grDevices::dev.off()
 
   # Return ----
-  invisible(list(confusion.matrix = tbl,
-                 n.classes = n.classes,
-                 class.totals = class.totals,
-                 predicted.totals = predicted.totals,
-                 total = total,
-                 hits = hits,
-                 misses = misses,
-                 class.sensitivity = class.sensitivity,
-                 condition.negative = condition.negative,
-                 true.negative = true.negative,
-                 class.specificity = class.specificity,
-                 class.balancedAccuracy = class.balancedAccuracy,
-                 class.ppv = class.ppv,
-                 class.npv = class.npv,
-                 main = main,
-                 heights = heights,
-                 widths = widths))
+  invisible(list(
+    confusion.matrix = tbl,
+    n.classes = n.classes,
+    class.totals = class.totals,
+    predicted.totals = predicted.totals,
+    total = total,
+    hits = hits,
+    misses = misses,
+    class.sensitivity = class.sensitivity,
+    condition.negative = condition.negative,
+    true.negative = true.negative,
+    class.specificity = class.specificity,
+    class.balancedAccuracy = class.balancedAccuracy,
+    class.ppv = class.ppv,
+    class.npv = class.npv,
+    main = main,
+    heights = heights,
+    widths = widths
+  ))
 } # rtemis::mplot3_conf

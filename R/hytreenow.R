@@ -14,27 +14,30 @@
 #' @keywords internal
 #' @noRd
 
-hytreenow <- function(x, y,
-                      max.depth = 5,
-                      shrinkage = 1,
-                      init = mean(y),
-                      # lincoef --
-                      alpha = 1,
-                      lambda = .1,
-                      lambda.seq = NULL,
-                      lin.type = "glmnet",
-                      cv.glmnet.nfolds = 5,
-                      which.cv.glmnet.lambda = "lambda.min",
-                      # rpart --
-                      minobsinnode = 2,
-                      minobsinnode.lin = 10,
-                      part.minsplit = 2,
-                      part.xval = 0,
-                      part.max.depth = 1,
-                      part.cp = 0,
-                      part.minbucket = 5,
-                      verbose = FALSE,
-                      trace = 0) {
+hytreenow <- function(
+  x,
+  y,
+  max.depth = 5,
+  shrinkage = 1,
+  init = mean(y),
+  # lincoef --
+  alpha = 1,
+  lambda = .1,
+  lambda.seq = NULL,
+  lin.type = "glmnet",
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  # rpart --
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  verbose = FALSE,
+  trace = 0
+) {
   # [ Check y is not constant ] ----
   if (is_constant(y)) {
     coefs <- list(rep(0, NCOL(x) + 1))
@@ -53,11 +56,16 @@ hytreenow <- function(x, y,
   .env <- environment()
 
   # [ lin1 ] ----
-  if (verbose) msg2("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
+  if (verbose)
+    msg2("Training Hybrid Tree (max depth = ", max.depth, ")...", sep = "")
 
-  coef.c <- lincoef(x, y,
+  coef.c <- lincoef(
+    x,
+    y,
     method = lin.type,
-    alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
+    alpha = alpha,
+    lambda = lambda,
+    lambda.seq = lambda.seq,
     cv.glmnet.nfolds = cv.glmnet.nfolds,
     which.cv.glmnet.lambda = which.cv.glmnet.lambda
   )
@@ -118,43 +126,45 @@ hytreenow <- function(x, y,
 } # rtemis::hytreenow
 
 
-hyt <- function(node = list(
-                  x = NULL,
-                  y = NULL,
-                  Fval = NULL,
-                  index = NULL,
-                  depth = NULL,
-                  partlin = NULL, # To hold the output of partLm()
-                  left = NULL, # \  To hold the left and right nodes,
-                  right = NULL, # /  if partLm splits
-                  lin = NULL,
-                  part = NULL,
-                  coef.c = NULL,
-                  terminal = NULL,
-                  type = NULL,
-                  rule = NULL
-                ),
-                coef.c = 0,
-                max.depth = 7,
-                minobsinnode = 2,
-                minobsinnode.lin = 5,
-                shrinkage = 1,
-                alpha = .1,
-                lambda = .1,
-                lambda.seq = NULL,
-                part.minsplit = 2,
-                part.xval = 0,
-                part.max.depth = 1,
-                part.minbucket = 5,
-                part.cp = 0,
-                .env = NULL,
-                keep.x = FALSE,
-                simplify = TRUE,
-                lin.type = "glmnet",
-                cv.glmnet.nfolds = 5,
-                which.cv.glmnet.lambda = "lambda.min",
-                verbose = TRUE,
-                trace = 0) {
+hyt <- function(
+  node = list(
+    x = NULL,
+    y = NULL,
+    Fval = NULL,
+    index = NULL,
+    depth = NULL,
+    partlin = NULL, # To hold the output of partLm()
+    left = NULL, # \  To hold the left and right nodes,
+    right = NULL, # /  if partLm splits
+    lin = NULL,
+    part = NULL,
+    coef.c = NULL,
+    terminal = NULL,
+    type = NULL,
+    rule = NULL
+  ),
+  coef.c = 0,
+  max.depth = 7,
+  minobsinnode = 2,
+  minobsinnode.lin = 5,
+  shrinkage = 1,
+  alpha = .1,
+  lambda = .1,
+  lambda.seq = NULL,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.minbucket = 5,
+  part.cp = 0,
+  .env = NULL,
+  keep.x = FALSE,
+  simplify = TRUE,
+  lin.type = "glmnet",
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  verbose = TRUE,
+  trace = 0
+) {
   # [ EXIT ] ----
   if (node$terminal) {
     return(node)
@@ -175,7 +185,8 @@ hyt <- function(node = list(
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
     if (trace > 1) msg2("y1 (resid) is", resid)
     node$partlin <- partLm(
-      x1 = x, y1 = resid,
+      x1 = x,
+      y1 = resid,
       lambda = lambda,
       lambda.seq = lambda.seq,
       part.minsplit = part.minsplit,
@@ -197,27 +208,35 @@ hyt <- function(node = list(
       node$type <- "split"
       left.index <- node$partlin$left.index
       right.index <- node$partlin$right.index
-      if (trace > 1) msg2("Depth:", depth, "left.index:", node$partlin$left.index)
+      if (trace > 1)
+        msg2("Depth:", depth, "left.index:", node$partlin$left.index)
       x.left <- x[left.index, , drop = FALSE]
       x.right <- x[right.index, , drop = FALSE]
       y.left <- y[left.index]
       y.right <- y[right.index]
       if (trace > 1) msg2("y.left is", y.left)
       if (trace > 1) msg2("y.right is", y.right)
-      Fval.left <- Fval[left.index] + shrinkage * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
-      Fval.right <- Fval[right.index] + shrinkage * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
+      Fval.left <- Fval[left.index] +
+        shrinkage *
+          (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
+      Fval.right <- Fval[right.index] +
+        shrinkage *
+          (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
       coef.c.left <- coef.c.right <- coef.c
 
       # Cumulative sum of coef.c
-      coef.c.left <- coef.c.left + c(
-        node$partlin$lin.coef.left[1] + node$partlin$part.c.left,
-        node$partlin$lin.coef.left[-1]
-      )
-      coef.c.right <- coef.c.right + c(
-        node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
-        node$partlin$lin.coef.right[-1]
-      )
-      if (trace > 1) msg2("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
+      coef.c.left <- coef.c.left +
+        c(
+          node$partlin$lin.coef.left[1] + node$partlin$part.c.left,
+          node$partlin$lin.coef.left[-1]
+        )
+      coef.c.right <- coef.c.right +
+        c(
+          node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
+          node$partlin$lin.coef.right[-1]
+        )
+      if (trace > 1)
+        msg2("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
         rule.right <- gsub("<", ">=", node$partlin$split.rule)
@@ -264,8 +283,10 @@ hyt <- function(node = list(
 
       # Run Left and Right nodes
       # [ LEFT ] ----
-      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Left node...", sep = "")
-      node$left <- hyt(node$left,
+      if (trace > 0)
+        msg2("Depth = ", depth + 1, "; Working on Left node...", sep = "")
+      node$left <- hyt(
+        node$left,
         coef.c = coef.c.left,
         max.depth = max.depth,
         minobsinnode = minobsinnode,
@@ -287,8 +308,10 @@ hyt <- function(node = list(
         trace = trace
       )
       # [ RIGHT ] ----
-      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Right node...", sep = "")
-      node$right <- hyt(node$right,
+      if (trace > 0)
+        msg2("Depth = ", depth + 1, "; Working on Right node...", sep = "")
+      node$right <- hyt(
+        node$right,
         coef.c = coef.c.right,
         max.depth = max.depth,
         minobsinnode = minobsinnode,
@@ -317,7 +340,8 @@ hyt <- function(node = list(
       .env$leaf.coef <- c(.env$leaf.coef, list(node$coef.c))
       node$type <- "nosplit"
       if (trace > 0) msg2("STOP: nosplit")
-      if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
+      if (simplify)
+        node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     } # !node$terminal
   } else {
     # max.depth or minobsinnode reached
@@ -331,7 +355,8 @@ hyt <- function(node = list(
       if (trace > 0) msg2("STOP: minobsinnode")
       node$type <- "minobsinnode"
     }
-    if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
+    if (simplify)
+      node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     return(node)
   } # max.depth, minobsinnode
 
@@ -344,24 +369,29 @@ hyt <- function(node = list(
 #' Fit a linear model on (x, y) and a tree on the residual yhat - y
 #' @keywords internal
 #' @noRd
-partLm <- function(x1, y1,
-                   alpha = .1,
-                   lambda = 1,
-                   lambda.seq = NULL,
-                   part.minsplit = 2,
-                   part.xval = 0,
-                   part.max.depth = 1,
-                   part.cp = 0,
-                   part.minbucket = 5,
-                   minobsinnode.lin = 5,
-                   lin.type = "glmnet",
-                   cv.glmnet.nfolds = 5,
-                   which.cv.glmnet.lambda = "lambda.min",
-                   verbose = TRUE,
-                   trace = 0) {
+partLm <- function(
+  x1,
+  y1,
+  alpha = .1,
+  lambda = 1,
+  lambda.seq = NULL,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 5,
+  minobsinnode.lin = 5,
+  lin.type = "glmnet",
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  verbose = TRUE,
+  trace = 0
+) {
   # [ PART ] ----
   dat <- data.frame(x1, y1)
-  part <- rpart::rpart(y1 ~ ., dat,
+  part <- rpart::rpart(
+    y1 ~ .,
+    dat,
     control = rpart::rpart.control(
       minsplit = part.minsplit,
       xval = part.xval,
@@ -399,24 +429,43 @@ partLm <- function(x1, y1,
       if (is.numeric(x1[[cutFeat.name]])) {
         cutFeat.point <- part$splits[1, "index"]
         if (trace > 0) {
-          msg2("Split Feature is \"", cutFeat.name,
-            "\"; Cut Point = ", cutFeat.point,
+          msg2(
+            "Split Feature is \"",
+            cutFeat.name,
+            "\"; Cut Point = ",
+            cutFeat.point,
             sep = ""
           )
         }
         split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
         split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
       } else {
-        cutFeat.category <- levels(x1[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
+        cutFeat.category <- levels(x1[[cutFeat.name]])[which(
+          part$csplit[1, ] == 1
+        )]
         if (trace > 0) {
-          msg2("Split Feature is \"", cutFeat.name,
-            "\"; Cut Category is \"", cutFeat.category,
+          msg2(
+            "Split Feature is \"",
+            cutFeat.name,
+            "\"; Cut Category is \"",
+            cutFeat.category,
             "\"",
             sep = ""
           )
         }
-        split.rule.left <- paste0(cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
-        split.rule.right <- paste0("!", cutFeat.name, " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
+        split.rule.left <- paste0(
+          cutFeat.name,
+          " %in% ",
+          "c(",
+          paste(cutFeat.category, collapse = ", ")
+        )
+        split.rule.right <- paste0(
+          "!",
+          cutFeat.name,
+          " %in% ",
+          "c(",
+          paste(cutFeat.category, collapse = ", ")
+        )
       }
 
       if (length(cutFeat.point) > 0) {
@@ -434,32 +483,50 @@ partLm <- function(x1, y1,
   resid.left <- resid[left.index]
   resid.right <- resid[right.index]
   if (!is.null(cutFeat.name)) {
-    if (is_constant(resid.left) || all(sapply(x1[left.index, , drop = FALSE], is_constant)) || length(resid.left) < minobsinnode.lin) {
+    if (
+      is_constant(resid.left) ||
+        all(sapply(x1[left.index, , drop = FALSE], is_constant)) ||
+        length(resid.left) < minobsinnode.lin
+    ) {
       if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
     } else {
-      lin.coef.left <- lincoef(x1[left.index, , drop = FALSE], resid.left,
+      lin.coef.left <- lincoef(
+        x1[left.index, , drop = FALSE],
+        resid.left,
         method = lin.type,
-        alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
+        alpha = alpha,
+        lambda = lambda,
+        lambda.seq = lambda.seq,
         cv.glmnet.nfolds = cv.glmnet.nfolds,
         which.cv.glmnet.lambda = which.cv.glmnet.lambda
       )
-      lin.val.left <- (data.matrix(cbind(1, x1[left.index, ])) %*% lin.coef.left)[, 1]
+      lin.val.left <- (data.matrix(cbind(1, x1[left.index, ])) %*%
+        lin.coef.left)[, 1]
     } # if (is_constant(resid.left))
 
-    if (is_constant(resid.right) || all(sapply(x1[right.index, , drop = FALSE], is_constant)) || length(resid.right) < minobsinnode.lin) {
+    if (
+      is_constant(resid.right) ||
+        all(sapply(x1[right.index, , drop = FALSE], is_constant)) ||
+        length(resid.right) < minobsinnode.lin
+    ) {
       if (trace > 0) msg2("Not fitting any more lines here")
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
     } else {
-      lin.coef.right <- lincoef(x1[right.index, , drop = FALSE], resid.right,
+      lin.coef.right <- lincoef(
+        x1[right.index, , drop = FALSE],
+        resid.right,
         method = lin.type,
-        alpha = alpha, lambda = lambda, lambda.seq = lambda.seq,
+        alpha = alpha,
+        lambda = lambda,
+        lambda.seq = lambda.seq,
         cv.glmnet.nfolds = cv.glmnet.nfolds,
         which.cv.glmnet.lambda = which.cv.glmnet.lambda
       )
-      lin.val.right <- (data.matrix(cbind(1, x1[right.index, ])) %*% lin.coef.right)[, 1]
+      lin.val.right <- (data.matrix(cbind(1, x1[right.index, ])) %*%
+        lin.coef.right)[, 1]
     } # if (is_constant(resid.right))
   } # if (!is.null(cutFeat.name))
 
@@ -500,19 +567,24 @@ partLm <- function(x1, y1,
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param ... Not used
-#' 
+#'
 #' @export
 #' @author E.D. Gennatas
 
-predict.hytreenow <- function(object, newdata,
-                              n.feat = NCOL(newdata),
-                              fixed.cxr = NULL,
-                              cxr.newdata = NULL,
-                              cxr = FALSE,
-                              cxrcoef = FALSE,
-                              verbose = FALSE, ...) {
+predict.hytreenow <- function(
+  object,
+  newdata,
+  n.feat = NCOL(newdata),
+  fixed.cxr = NULL,
+  cxr.newdata = NULL,
+  cxr = FALSE,
+  cxrcoef = FALSE,
+  verbose = FALSE,
+  ...
+) {
   # [ newdata colnames ] ----
-  if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
+  if (is.null(colnames(newdata)))
+    colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
 
   # [ PREDICT ] ----
   newdata <- newdata[, seq(n.feat), drop = FALSE]
@@ -531,9 +603,9 @@ predict.hytreenow <- function(object, newdata,
   # Add column of ones for intercept
   newdata <- data.matrix(cbind(1, newdata))
   yhat <- sapply(seq_len(NROW(newdata)), function(n) {
-    object$init + object$shrinkage * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE]))
+    object$init +
+      object$shrinkage * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE]))
   })
-
 
   if (!cxrcoef && !cxr) {
     out <- yhat

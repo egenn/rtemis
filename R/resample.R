@@ -53,20 +53,21 @@
 #' # 100 stratified bootstraps
 #' res <- resample(y, 100, "strat.boot")
 
-resample <- function(y,
-                     n.resamples = 10,
-                     resampler = c("strat.sub", "strat.boot", "kfold", 
-                                   "bootstrap", "loocv"),
-                     index = NULL,
-                     group = NULL,
-                     stratify.var = y,
-                     train.p = .75,
-                     strat.n.bins = 4,
-                     target.length = NROW(y),
-                     id.strat = NULL,
-                     rtset = NULL,
-                     seed = NULL,
-                     verbosity = TRUE) {
+resample <- function(
+  y,
+  n.resamples = 10,
+  resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
+  index = NULL,
+  group = NULL,
+  stratify.var = y,
+  train.p = .75,
+  strat.n.bins = 4,
+  target.length = NROW(y),
+  id.strat = NULL,
+  rtset = NULL,
+  seed = NULL,
+  verbosity = TRUE
+) {
   # If rtset is provided, it takes precedence over all other arguments,
   # excluding the verbosity arg
   if (!is.null(rtset)) {
@@ -82,7 +83,8 @@ resample <- function(y,
     group <- rtset$group
   }
 
-  type <- if (!is.null(index)) ".index" else if (!is.null(group)) ".group" else ".res"
+  type <- if (!is.null(index)) ".index" else if (!is.null(group)) ".group" else
+    ".res"
 
   if (type == ".res") {
     # type = "res" ----
@@ -94,12 +96,13 @@ resample <- function(y,
         if (verbosity > 0) msg2("Survival object will be stratified on time")
         y <- y[, 1]
       } else {
-        if (verbosity > 0) msg2("Input contains more than one columns; will stratify on last")
+        if (verbosity > 0)
+          msg2("Input contains more than one columns; will stratify on last")
         y <- y[[NCOL(y)]]
       }
     }
     if (!is.null(id.strat)) {
-      # Only keep unique IDs  
+      # Only keep unique IDs
       idl <- !duplicated(id.strat)
       y <- y[idl]
     }
@@ -125,21 +128,36 @@ resample <- function(y,
     # Print parameters ----
     if (verbosity > 0) {
       if (resampler == "strat.sub") {
-        parameterSummary(n.resamples, resampler, stratify.var,
-          train.p, strat.n.bins,
+        parameterSummary(
+          n.resamples,
+          resampler,
+          stratify.var,
+          train.p,
+          strat.n.bins,
           title = "Resampling Parameters"
         )
       } else if (resampler == "strat.boot") {
-        parameterSummary(n.resamples, resampler, stratify.var, train.p,
-          strat.n.bins, target.length,
+        parameterSummary(
+          n.resamples,
+          resampler,
+          stratify.var,
+          train.p,
+          strat.n.bins,
+          target.length,
           title = "Resampling Parameters"
         )
       } else if (resampler == "kfold") {
-        parameterSummary(n.resamples, resampler, stratify.var, strat.n.bins,
+        parameterSummary(
+          n.resamples,
+          resampler,
+          stratify.var,
+          strat.n.bins,
           title = "Resampling Parameters"
         )
       } else {
-        parameterSummary(n.resamples, resampler,
+        parameterSummary(
+          n.resamples,
+          resampler,
           title = "Resampling Parameters"
         )
       }
@@ -212,7 +230,8 @@ resample <- function(y,
     }
   }
 
-  desc <- switch(resampler,
+  desc <- switch(
+    resampler,
     kfold = "independent folds",
     strat.sub = "stratified subsamples",
     strat.boot = "stratified bootstraps",
@@ -236,7 +255,8 @@ resample <- function(y,
     attr(res.part, "strat.n.bins") <- NULL
     attr(res.part, "strat.n.bins") <- strat.n.bins
   }
-  if (resampler == "strat.boot") attr(res.part, "target.length") <- target.length
+  if (resampler == "strat.boot")
+    attr(res.part, "target.length") <- target.length
   if (!is.null(id.strat)) {
     attr(res.part, "id.strat") <- id.strat
   }
@@ -268,7 +288,7 @@ plot.resample <- function(x, col = NULL, ...) {
 #' @method print resample
 #' @param x [resample] object
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -291,7 +311,8 @@ print1.resample <- function(x, verbosity = 0, ...) {
   } else {
     .text <- paste0(
       attr(x, "N"),
-      resamples <- switch(resampler,
+      resamples <- switch(
+        resampler,
         strat.sub = " stratified subsamples",
         bootstrap = " bootstraps",
         strat.boot = " stratified bootstraps",
@@ -313,15 +334,17 @@ print1.resample <- function(x, verbosity = 0, ...) {
 #' @author E.D. Gennatas
 #' @export
 
-bootstrap <- function(x, n.resamples = 10,
-                      seed = NULL) {
+bootstrap <- function(x, n.resamples = 10, seed = NULL) {
   if (!is.null(seed)) set.seed(seed)
 
   ids <- seq_along(x)
   .length <- length(x)
   if (!is.null(seed)) set.seed(seed)
 
-  res <- lapply(seq(n.resamples), function(i) sort(sample(ids, .length, replace = TRUE)))
+  res <- lapply(
+    seq(n.resamples),
+    function(i) sort(sample(ids, .length, replace = TRUE))
+  )
   names(res) <- paste0("Bootsrap_", seq(n.resamples))
   res
 } # rtemis::bootstrap
@@ -335,11 +358,14 @@ bootstrap <- function(x, n.resamples = 10,
 #' @author E.D. Gennatas
 #' @export
 
-kfold <- function(x, k = 10,
-                  stratify.var = NULL,
-                  strat.n.bins = 4,
-                  seed = NULL,
-                  verbosity = TRUE) {
+kfold <- function(
+  x,
+  k = 10,
+  stratify.var = NULL,
+  strat.n.bins = 4,
+  seed = NULL,
+  verbosity = TRUE
+) {
   if (!is.null(seed)) set.seed(seed)
 
   if (is.null(stratify.var)) stratify.var <- x
@@ -370,7 +396,11 @@ kfold <- function(x, k = 10,
     idl.k[[i]] <- lapply(seq(k), function(j) idl[[i]][cut1 == j])
   }
 
-  res <- lapply(seq(k), \(i) seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), \(j) idl.k[[j]][[i]])))])
+  res <- lapply(
+    seq(k),
+    \(i)
+      seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), \(j) idl.k[[j]][[i]])))]
+  )
 
   names(res) <- paste0("Fold_", seq(k))
   attr(res, "strat.n.bins") <- strat.n.bins
@@ -385,13 +415,15 @@ kfold <- function(x, k = 10,
 #' @author E.D. Gennatas
 #' @export
 
-strat.sub <- function(x,
-                      n.resamples = 10,
-                      train.p = .75,
-                      stratify.var = NULL,
-                      strat.n.bins = 4,
-                      seed = NULL,
-                      verbosity = TRUE) {
+strat.sub <- function(
+  x,
+  n.resamples = 10,
+  train.p = .75,
+  stratify.var = NULL,
+  strat.n.bins = 4,
+  seed = NULL,
+  verbosity = TRUE
+) {
   if (!is.null(seed)) set.seed(seed)
   if (is.null(stratify.var)) stratify.var <- x
   stratify.var <- as.numeric(stratify.var)
@@ -423,17 +455,21 @@ strat.sub <- function(x,
 #' @author E.D. Gennatas
 #' @export
 
-strat.boot <- function(x, n.resamples = 10,
-                       train.p = .75,
-                       stratify.var = NULL,
-                       strat.n.bins = 4,
-                       target.length = NULL,
-                       seed = NULL,
-                       verbosity = TRUE) {
+strat.boot <- function(
+  x,
+  n.resamples = 10,
+  train.p = .75,
+  stratify.var = NULL,
+  strat.n.bins = 4,
+  target.length = NULL,
+  seed = NULL,
+  verbosity = TRUE
+) {
   if (!is.null(seed)) set.seed(seed)
 
   res.part1 <- strat.sub(
-    x = x, n.resamples = n.resamples,
+    x = x,
+    n.resamples = n.resamples,
     train.p = train.p,
     stratify.var = stratify.var,
     strat.n.bins = strat.n.bins,
@@ -448,7 +484,10 @@ strat.boot <- function(x, n.resamples = 10,
   # Add back this many cases
   add.length <- target.length - res.length
   doreplace <- ifelse(add.length > res.length, 1, 0)
-  res.part2 <- lapply(res.part1, function(i) sample(i, add.length, replace = doreplace))
+  res.part2 <- lapply(
+    res.part1,
+    function(i) sample(i, add.length, replace = doreplace)
+  )
   res <- mapply(c, res.part1, res.part2, SIMPLIFY = FALSE)
   res <- lapply(res, sort)
   names(res) <- paste0("StratBoot_", seq(n.resamples))
@@ -478,7 +517,8 @@ print.resamplertset <- function(x, verbosity = TRUE, ...) {
   } else {
     .text <- paste0(
       x$n.resamples,
-      resamples <- switch(x$resampler,
+      resamples <- switch(
+        x$resampler,
         strat.sub = " stratified subsamples",
         bootstrap = " bootstraps",
         strat.boot = " stratified bootstraps",

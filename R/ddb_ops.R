@@ -43,23 +43,25 @@
 #'   filter_vals = 8001:9999
 #' )
 #' }
-ddb_data <- function(filename,
-                     datadir = NULL,
-                     sep = ",",
-                     header = TRUE,
-                     quotechar = "",
-                     ignore_errors = TRUE,
-                     make_unique = TRUE,
-                     select_columns = NULL,
-                     filter_column = NULL,
-                     filter_vals = NULL,
-                     character2factor = FALSE,
-                     collect = TRUE,
-                     progress = TRUE,
-                     returnobj = c("data.table", "data.frame"),
-                     data.table.key = NULL,
-                     clean_colnames = TRUE,
-                     verbose = TRUE) {
+ddb_data <- function(
+  filename,
+  datadir = NULL,
+  sep = ",",
+  header = TRUE,
+  quotechar = "",
+  ignore_errors = TRUE,
+  make_unique = TRUE,
+  select_columns = NULL,
+  filter_column = NULL,
+  filter_vals = NULL,
+  character2factor = FALSE,
+  collect = TRUE,
+  progress = TRUE,
+  returnobj = c("data.table", "data.frame"),
+  data.table.key = NULL,
+  clean_colnames = TRUE,
+  verbose = TRUE
+) {
   # Intro ----
   dependency_check("DBI", "duckdb")
   returnobj <- match.arg(returnobj)
@@ -79,8 +81,10 @@ ddb_data <- function(filename,
   )
   if (!is.null(filter_column)) {
     out <- paste(
-      out, bold(green("\u29e8")),
-      "filtering on", bold(filter_column)
+      out,
+      bold(green("\u29e8")),
+      "filtering on",
+      bold(filter_column)
     )
   }
   startTime <- intro(out, verbose = verbose)
@@ -96,15 +100,27 @@ ddb_data <- function(filename,
     paste0(
       "SELECT ",
       paste0(distinct, select),
-      " FROM read_parquet('", path, "')"
+      " FROM read_parquet('",
+      path,
+      "')"
     )
   } else {
     paste0(
       "SELECT ",
       paste0(distinct, select),
-      " FROM read_csv_auto('", path, "',
-            sep='", sep, "', quote='", quotechar, "',
-            header=", header, ", ignore_errors=", ignore_errors, ")"
+      " FROM read_csv_auto('",
+      path,
+      "',
+            sep='",
+      sep,
+      "', quote='",
+      quotechar,
+      "',
+            header=",
+      header,
+      ", ignore_errors=",
+      ignore_errors,
+      ")"
     )
   }
 
@@ -116,7 +132,11 @@ ddb_data <- function(filename,
     }
     paste(
       sql,
-      "WHERE", filter_column, "in (", vals, ");"
+      "WHERE",
+      filter_column,
+      "in (",
+      vals,
+      ");"
     )
   } else {
     paste0(sql, ";")
@@ -156,7 +176,9 @@ ddb_data <- function(filename,
 # output: '"alpha", "beta", "gamma"'
 ls2sel <- function(x) {
   paste0(
-    '"', paste0(x, collapse = '", "'), '"'
+    '"',
+    paste0(x, collapse = '", "'),
+    '"'
   )
 }
 
@@ -177,9 +199,11 @@ ls2sel <- function(x) {
 #' sql <- ddb_data("/Data/iris.csv", collect = FALSE)
 #' ir <- ddb_ollect(sql)
 #' }
-ddb_collect <- function(sql,
-                        progress = TRUE,
-                        returnobj = c("data.frame", "data.table")) {
+ddb_collect <- function(
+  sql,
+  progress = TRUE,
+  returnobj = c("data.frame", "data.table")
+) {
   returnobj <- match.arg(returnobj)
   conn <- DBI::dbConnect(duckdb::duckdb())
   on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))

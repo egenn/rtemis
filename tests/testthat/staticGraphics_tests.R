@@ -37,7 +37,15 @@ x1 <- rnormmat(3, 6, seed = 2019)
 colnames(x1) <- paste("F", seq(6))
 rownames(x1) <- paste("Case", seq_len(nrow(x1)))
 mplot3_bar(x1)
-mplot3_bar(x1, col = colorGrad(nrow(x1), lo = pennCol$lighterBlue, mid = pennCol$red, hi = "white")[seq_len(nrow(x1))])
+mplot3_bar(
+  x1,
+  col = colorGrad(
+    nrow(x1),
+    lo = pennCol$lighterBlue,
+    mid = pennCol$red,
+    hi = "white"
+  )[seq_len(nrow(x1))]
+)
 # Suppress group legend
 mplot3_bar(x1, group.legend = FALSE)
 
@@ -49,13 +57,19 @@ mplot3_box(z, theme = "whitegrid")
 # mplot3_xy ===
 mplot3_xy(x, y)
 mplot3_xy(x, y, fit = "gam")
-mplot3_xy(x, list(Raw = x * .3,
-                  N1 = x * .3 + .5 * rnorm(50),
-                  N2 = x * .3 + rnorm(50),
-                  N3 = x * .3 + 1.5 * rnorm(50),
-                  N4 = x * .3 + 2 * rnorm(50),
-                  N5 = x * .3 + 2.5 * rnorm(50)),
-          fit = "glm", theme = "darkgrid")
+mplot3_xy(
+  x,
+  list(
+    Raw = x * .3,
+    N1 = x * .3 + .5 * rnorm(50),
+    N2 = x * .3 + rnorm(50),
+    N3 = x * .3 + 1.5 * rnorm(50),
+    N4 = x * .3 + 2 * rnorm(50),
+    N5 = x * .3 + 2.5 * rnorm(50)
+  ),
+  fit = "glm",
+  theme = "darkgrid"
+)
 mplot3_xym(x, y)
 
 iris2 <- iris[51:150, ]
@@ -86,7 +100,10 @@ z[] <- as.numeric(seq(n.col * n.row))
 # Check column names, row names, values, with as.mat TRUE and FALSE
 mplot3_img(z)
 mplot3_img(z, as.mat = FALSE)
-rownames(z) <- sapply(1:10, function(i) paste0(rep(letters[i], 10), collapse = ""))
+rownames(z) <- sapply(
+  1:10,
+  function(i) paste0(rep(letters[i], 10), collapse = "")
+)
 mplot3_img(z)
 
 # mplot3_res ----

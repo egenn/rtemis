@@ -13,10 +13,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-gtTable <- function(x = list(),
-                    x.name = NULL,
-                    na.rm = TRUE,
-                    verbose = TRUE) {
+gtTable <- function(x = list(), x.name = NULL, na.rm = TRUE, verbose = TRUE) {
   if (is.null(x.name)) x.name <- deparse(substitute(x))
 
   if (is.null(names(x))) names(x) <- paste0("x", seq_along(x))

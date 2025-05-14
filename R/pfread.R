@@ -17,13 +17,16 @@
 #' @author E.D. Gennatas
 #' @export
 
-
-pfread <- function(x, part_nrows,
-                   nrows = NULL,
-                   header = TRUE,
-                   sep = "auto",
-                   verbose = TRUE,
-                   stringsAsFactors = TRUE, ...) {
+pfread <- function(
+  x,
+  part_nrows,
+  nrows = NULL,
+  header = TRUE,
+  sep = "auto",
+  verbose = TRUE,
+  stringsAsFactors = TRUE,
+  ...
+) {
   # nrows <- as.integer(R.utils::countLines(x))
   # nrows <- system(paste("wc -l", x))
   if (is.null(nrows)) {
@@ -38,11 +41,13 @@ pfread <- function(x, part_nrows,
     msg2("Reading part 1...")
     i <- 1
   }
-  dat1 <- fread(x,
+  dat1 <- fread(
+    x,
     nrows = part_nrows,
     header = header,
     sep = sep,
-    stringsAsFactors = stringsAsFactors, ...
+    stringsAsFactors = stringsAsFactors,
+    ...
   )
   if (nparts == 1) {
     return(dat1)
@@ -52,13 +57,15 @@ pfread <- function(x, part_nrows,
   .col.names <- names(col_classes)
   .colClasses <- unname(col_classes)
   parts <- lapply(seq_len(nparts)[-1], \(i) {
-    fread(x,
+    fread(
+      x,
       nrows = part_nrows,
       skip = ndone + header,
       header = FALSE,
       sep = sep,
       col.names = .col.names,
-      colClasses = .colClasses, ...
+      colClasses = .colClasses,
+      ...
     )
   })
 
@@ -69,12 +76,16 @@ pfread <- function(x, part_nrows,
 } # rtemis::pfread
 
 
-pfread1 <- function(x, part_nrows,
-                    nrows = NULL,
-                    header = TRUE,
-                    sep = "auto",
-                    verbose = TRUE,
-                    stringsAsFactors = TRUE, ...) {
+pfread1 <- function(
+  x,
+  part_nrows,
+  nrows = NULL,
+  header = TRUE,
+  sep = "auto",
+  verbose = TRUE,
+  stringsAsFactors = TRUE,
+  ...
+) {
   # nrows <- as.integer(R.utils::countLines(x))
   # nrows <- system(paste("wc -l", x))
   if (is.null(nrows)) {
@@ -89,11 +100,13 @@ pfread1 <- function(x, part_nrows,
     msg2("Reading part 1...")
     i <- 1
   }
-  dat <- fread(x,
+  dat <- fread(
+    x,
     nrows = part_nrows,
     header = header,
     sep = sep,
-    stringsAsFactors = stringsAsFactors, ...
+    stringsAsFactors = stringsAsFactors,
+    ...
   )
   if (nparts == 1) {
     return(dat)
@@ -111,13 +124,15 @@ pfread1 <- function(x, part_nrows,
 
     dat <- rbind(
       dat,
-      fread(x,
+      fread(
+        x,
         nrows = part_nrows,
         skip = ndone + header,
         header = FALSE,
         sep = sep,
         col.names = .col.names,
-        colClasses = .colClasses, ...
+        colClasses = .colClasses,
+        ...
       )
     )
     ndone <- nrow(dat)

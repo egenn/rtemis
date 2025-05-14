@@ -17,13 +17,13 @@
 #' @param port Integer: Port to connect to at `ip`
 #' @param n.trees Integer: Number of trees to grow
 #' @param max.depth Integer: Maximum tree depth
-#' @param n.stopping.rounds Integer: Early stopping if simple moving average of this 
+#' @param n.stopping.rounds Integer: Early stopping if simple moving average of this
 #' many rounds does not improve. Set to 0 to disable early stopping.
-#' @param mtry Integer: Number of variables randomly sampled and considered for 
-#' splitting at each round. If set to -1, defaults to `sqrt(N_features)` for 
+#' @param mtry Integer: Number of variables randomly sampled and considered for
+#' splitting at each round. If set to -1, defaults to `sqrt(N_features)` for
 #' classification and `N_features/3` for regression.
 #' @param nfolds Integer: Number of folds for K-fold CV used by `h2o.randomForest`.
-#' Set to 0 to disable (included for experimentation only, use [train_cv] for outer 
+#' Set to 0 to disable (included for experimentation only, use [train_cv] for outer
 #' resampling)
 #' @param balance.classes Logical: If TRUE, `h2o.randomForest` will over/undersample
 #' to balance data. (included for experimentation only)
@@ -31,7 +31,7 @@
 #' training is complete.
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional parameters to pass to `h2o::h2o.randomForest`
-#' 
+#'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
@@ -39,34 +39,41 @@
 #' @family Tree-based methods
 #' @export
 
-s_H2ORF <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    x.valid = NULL, y.valid = NULL,
-                    x.name = NULL, y.name = NULL,
-                    ip = "localhost",
-                    port = 54321,
-                    n.trees = 500,
-                    max.depth = 20,
-                    n.stopping.rounds = 0,
-                    mtry = -1,
-                    nfolds = 0,
-                    weights = NULL,
-                    balance.classes = TRUE,
-                    upsample = FALSE,
-                    downsample = FALSE,
-                    resample.seed = NULL,
-                    na.action = na.fail,
-                    h2o.shutdown.at.end = TRUE,
-                    n.cores = rtCores,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose = TRUE,
-                    trace = 0,
-                    save.mod = FALSE,
-                    outdir = NULL, ...) {
+s_H2ORF <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  ip = "localhost",
+  port = 54321,
+  n.trees = 500,
+  max.depth = 20,
+  n.stopping.rounds = 0,
+  mtry = -1,
+  nfolds = 0,
+  weights = NULL,
+  balance.classes = TRUE,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  na.action = na.fail,
+  h2o.shutdown.at.end = TRUE,
+  n.cores = rtCores,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_H2ORF))
@@ -74,7 +81,14 @@ s_H2ORF <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -99,11 +113,15 @@ s_H2ORF <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -118,8 +136,10 @@ s_H2ORF <- function(x, y = NULL,
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -136,7 +156,10 @@ s_H2ORF <- function(x, y = NULL,
   df.train <- h2o::as.h2o(data.frame(x, y = y, weights = weights), "df_train")
   if (!is.null(x.valid) && !is.null(y.valid)) {
     if (is.null(weights.valid)) weights.valid <- rep(1, NROW(y.valid))
-    df.valid <- h2o::as.h2o(data.frame(x.valid, y = y.valid, weights = weights.valid), "df_valid")
+    df.valid <- h2o::as.h2o(
+      data.frame(x.valid, y = y.valid, weights = weights.valid),
+      "df_valid"
+    )
   } else {
     df.valid <- NULL
   }
@@ -159,7 +182,8 @@ s_H2ORF <- function(x, y = NULL,
     stopping_rounds = n.stopping.rounds,
     mtries = mtry,
     weights_column = "weights",
-    balance_classes = balance.classes, ...
+    balance_classes = balance.classes,
+    ...
   )
   if (trace > 0) print(summary(mod))
 
@@ -229,7 +253,12 @@ s_H2ORF <- function(x, y = NULL,
   )
 
   if (h2o.shutdown.at.end) h2o::h2o.shutdown(prompt = FALSE)
-  if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  if (verbose)
+    msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_H2ORF

@@ -50,25 +50,30 @@
 #' @family Cross-Decomposition
 #' @export
 
-x_CCA <- function(x, z,
-                  x.test = NULL, z.test = NULL,
-                  y = NULL,
-                  outcome = NULL,
-                  k = 3,
-                  niter = 20,
-                  nperms = 50,
-                  permute.niter = 15,
-                  typex = "standard",
-                  typez = "standard",
-                  penaltyx = NULL,
-                  penaltyz = NULL,
-                  standardize = TRUE,
-                  upos = FALSE,
-                  vpos = FALSE,
-                  verbose = TRUE,
-                  n.cores = rtCores,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+x_CCA <- function(
+  x,
+  z,
+  x.test = NULL,
+  z.test = NULL,
+  y = NULL,
+  outcome = NULL,
+  k = 3,
+  niter = 20,
+  nperms = 50,
+  permute.niter = 15,
+  typex = "standard",
+  typez = "standard",
+  penaltyx = NULL,
+  penaltyz = NULL,
+  standardize = TRUE,
+  upos = FALSE,
+  vpos = FALSE,
+  verbose = TRUE,
+  n.cores = rtCores,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x) || missing(z)) {
     print(args(x_CCA))
@@ -76,7 +81,14 @@ x_CCA <- function(x, z,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -101,8 +113,11 @@ x_CCA <- function(x, z,
   # CCA permute ----
   if (is.null(penaltyx)) {
     # Run permutations to find optimal penaltyx and penaltyz
-    if (verbose) msg2("Running CCA.permute to estimate best penalty for x and z...")
-    CCA.perm <- x_CCA.permute(x, z,
+    if (verbose)
+      msg2("Running CCA.permute to estimate best penalty for x and z...")
+    CCA.perm <- x_CCA.permute(
+      x,
+      z,
       typex = typex,
       typez = typez,
       niter = permute.niter,
@@ -111,7 +126,8 @@ x_CCA <- function(x, z,
       upos = upos,
       vpos = vpos,
       trace = verbose,
-      n.cores = n.cores, ...
+      n.cores = n.cores,
+      ...
     )
     .penaltyx <- CCA.perm$bestpenaltyx
     .penaltyz <- CCA.perm$bestpenaltyz
@@ -124,7 +140,9 @@ x_CCA <- function(x, z,
   if (verbose) msg2("\nRunning CCA...\n")
   xnames <- colnames(x)
   znames <- colnames(z)
-  xdecom <- PMA::CCA(x, z,
+  xdecom <- PMA::CCA(
+    x,
+    z,
     typex = typex,
     typez = typez,
     penaltyx = .penaltyx,
@@ -134,7 +152,8 @@ x_CCA <- function(x, z,
     y = y,
     xnames = colnames(x),
     znames = colnames(z),
-    trace = verbose, ...
+    trace = verbose,
+    ...
   )
 
   # Projections ----
@@ -188,7 +207,11 @@ x_CCA <- function(x, z,
     extra = extra
   )
   if (save.mod) rt_save(rt, outdir, file.prefix = "x.", verbose = verbose)
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::x_CCA
 
@@ -203,29 +226,32 @@ x_CCA <- function(x, z,
 #'
 #' @author adapted by E.D. Gennatas; original authors: Daniela M. Witten, Robert Tibshirani
 #' @keywords internal
-#' @noRd 
+#' @noRd
 
-x_CCA.permute <- function(x, z,
-                          typex = c("standard", "ordered"),
-                          typez = c("standard", "ordered"),
-                          penaltyxs = NULL,
-                          penaltyzs = NULL,
-                          niter = 3,
-                          v = NULL,
-                          trace = TRUE,
-                          nperms = 25,
-                          standardize = TRUE,
-                          chromx = NULL,
-                          chromz = NULL,
-                          upos = FALSE,
-                          uneg = FALSE,
-                          vpos = FALSE,
-                          vneg = FALSE,
-                          outcome = NULL,
-                          y = NULL,
-                          cens = NULL,
-                          verbose = TRUE,
-                          n.cores = rtCores) {
+x_CCA.permute <- function(
+  x,
+  z,
+  typex = c("standard", "ordered"),
+  typez = c("standard", "ordered"),
+  penaltyxs = NULL,
+  penaltyzs = NULL,
+  niter = 3,
+  v = NULL,
+  trace = TRUE,
+  nperms = 25,
+  standardize = TRUE,
+  chromx = NULL,
+  chromz = NULL,
+  upos = FALSE,
+  uneg = FALSE,
+  vpos = FALSE,
+  vneg = FALSE,
+  outcome = NULL,
+  y = NULL,
+  cens = NULL,
+  verbose = TRUE,
+  n.cores = rtCores
+) {
   CheckVs <- getFromNamespace("CheckVs", "PMA")
   ChooseLambda1Lambda2 <- getFromNamespace("ChooseLambda1Lambda2", "PMA")
   CCA.permute.justone <- getFromNamespace("CCA.permute.justone", "PMA")
@@ -245,19 +271,30 @@ x_CCA.permute <- function(x, z,
   typex <- match.arg(typex)
   typez <- match.arg(typez)
   call <- match.call()
-  if (!is.null(penaltyxs) && !is.null(penaltyzs) && length(penaltyxs) >
-    1 && length(penaltyzs) > 1 && length(penaltyxs) != length(penaltyzs)) {
-    stop("Penaltyxs and Penaltyzs must be same length, or one must have length 1. This is because tuning parameters are considered in pairs.")
+  if (
+    !is.null(penaltyxs) &&
+      !is.null(penaltyzs) &&
+      length(penaltyxs) > 1 &&
+      length(penaltyzs) > 1 &&
+      length(penaltyxs) != length(penaltyzs)
+  ) {
+    stop(
+      "Penaltyxs and Penaltyzs must be same length, or one must have length 1. This is because tuning parameters are considered in pairs."
+    )
   }
   if (is.null(penaltyxs) && typex == "ordered") {
     u <- CheckVs(NULL, z, x, 1)
     penaltyxs <- c(ChooseLambda1Lambda2(as.numeric(u)))
-    warning("Since type of x is ordered, the penalty for x was chosen w/o permutations.")
+    warning(
+      "Since type of x is ordered, the penalty for x was chosen w/o permutations."
+    )
   }
   if (is.null(penaltyzs) && typez == "ordered") {
     v <- CheckVs(v, x, z, 1)
     penaltyzs <- c(ChooseLambda1Lambda2(as.numeric(v)))
-    warning("Since type of z is ordered, the penalty for z was chosen w/o permutations.")
+    warning(
+      "Since type of z is ordered, the penalty for z was chosen w/o permutations."
+    )
   }
   if (is.null(penaltyxs)) {
     penaltyxs <- seq(0.1, 0.7, len = 10)
@@ -266,51 +303,111 @@ x_CCA.permute <- function(x, z,
     penaltyzs <- seq(0.1, 0.7, len = 10)
   }
   if (typex == "ordered" && (upos || uneg)) {
-    stop("If type=ordered then you cannot require elements of u to be positive or negative!")
+    stop(
+      "If type=ordered then you cannot require elements of u to be positive or negative!"
+    )
   }
   if (typez == "ordered" && (vpos || vneg)) {
-    stop("If type=ordered then you cannot require elements of v to be positive or negative!")
+    stop(
+      "If type=ordered then you cannot require elements of v to be positive or negative!"
+    )
   }
-  if (length(unique(penaltyxs)) == 1 && length(unique(penaltyzs)) ==
-    1) {
+  if (length(unique(penaltyxs)) == 1 && length(unique(penaltyzs)) == 1) {
     out <- CCA.permute.justone(
-      x = x, z = z, typex = typex,
-      typez = typez, penaltyx = penaltyxs[1], penaltyz = penaltyzs[1],
-      niter = niter, v = v, trace = trace, nperms = nperms,
-      standardize = standardize, chromx = chromx, chromz = chromz,
-      upos = upos, uneg = uneg, vpos = vpos, vneg = vneg,
-      outcome = outcome, y = y, cens = cens
+      x = x,
+      z = z,
+      typex = typex,
+      typez = typez,
+      penaltyx = penaltyxs[1],
+      penaltyz = penaltyzs[1],
+      niter = niter,
+      v = v,
+      trace = trace,
+      nperms = nperms,
+      standardize = standardize,
+      chromx = chromx,
+      chromz = chromz,
+      upos = upos,
+      uneg = uneg,
+      vpos = vpos,
+      vneg = vneg,
+      outcome = outcome,
+      y = y,
+      cens = cens
     )
   }
   if (length(penaltyxs) == 1 && length(penaltyzs) > 1) {
     out <- CCA.permute.zonly(
-      x = x, z = z, typex = typex,
-      typez = typez, penaltyx = penaltyxs, penaltyzs = penaltyzs,
-      niter = niter, v = v, trace = trace, nperms = nperms,
-      standardize = standardize, chromx = chromx, chromz = chromz,
-      upos = upos, uneg = uneg, vpos = vpos, vneg = vneg,
-      outcome = outcome, y = y, cens = cens
+      x = x,
+      z = z,
+      typex = typex,
+      typez = typez,
+      penaltyx = penaltyxs,
+      penaltyzs = penaltyzs,
+      niter = niter,
+      v = v,
+      trace = trace,
+      nperms = nperms,
+      standardize = standardize,
+      chromx = chromx,
+      chromz = chromz,
+      upos = upos,
+      uneg = uneg,
+      vpos = vpos,
+      vneg = vneg,
+      outcome = outcome,
+      y = y,
+      cens = cens
     )
   }
   if (length(penaltyxs) > 1 && length(penaltyzs) == 1) {
     out <- CCA.permute.xonly(
-      x = x, z = z, typex = typex,
-      typez = typez, penaltyxs = penaltyxs, penaltyz = penaltyzs,
-      niter = niter, v = v, trace = trace, nperms = nperms,
-      standardize = standardize, chromx = chromx, chromz = chromz,
-      upos = upos, uneg = uneg, vpos = vpos, vneg = vneg,
-      outcome = outcome, y = y, cens = cens
+      x = x,
+      z = z,
+      typex = typex,
+      typez = typez,
+      penaltyxs = penaltyxs,
+      penaltyz = penaltyzs,
+      niter = niter,
+      v = v,
+      trace = trace,
+      nperms = nperms,
+      standardize = standardize,
+      chromx = chromx,
+      chromz = chromz,
+      upos = upos,
+      uneg = uneg,
+      vpos = vpos,
+      vneg = vneg,
+      outcome = outcome,
+      y = y,
+      cens = cens
     )
   }
   if (length(penaltyzs) > 1 && length(penaltyxs) > 1) {
     out <- x_CCA.permute.both(
-      x = x, z = z, typex = typex,
-      typez = typez, penaltyxs = penaltyxs, penaltyzs = penaltyzs,
-      niter = niter, v = v, trace = trace, nperms = nperms,
-      standardize = standardize, chromx = chromx, chromz = chromz,
-      upos = upos, uneg = uneg, vpos = vpos, vneg = vneg,
-      outcome = outcome, y = y, cens = cens,
-      verbose = verbose, n.cores = n.cores
+      x = x,
+      z = z,
+      typex = typex,
+      typez = typez,
+      penaltyxs = penaltyxs,
+      penaltyzs = penaltyzs,
+      niter = niter,
+      v = v,
+      trace = trace,
+      nperms = nperms,
+      standardize = standardize,
+      chromx = chromx,
+      chromz = chromz,
+      upos = upos,
+      uneg = uneg,
+      vpos = vpos,
+      vneg = vneg,
+      outcome = outcome,
+      y = y,
+      cens = cens,
+      verbose = verbose,
+      n.cores = n.cores
     )
   }
 
@@ -337,28 +434,31 @@ x_CCA.permute <- function(x, z,
 #' @noRd
 #' @importFrom parallel clusterEvalQ makePSOCKcluster stopCluster
 
-x_CCA.permute.both <- function(x, z,
-                               typex,
-                               typez,
-                               penaltyxs,
-                               penaltyzs,
-                               niter,
-                               v,
-                               trace,
-                               nperms,
-                               standardize,
-                               chromx,
-                               chromz,
-                               upos,
-                               uneg,
-                               vpos,
-                               vneg,
-                               outcome,
-                               y,
-                               cens,
-                               verbose = TRUE,
-                               n.cores = rtCores,
-                               parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")) {
+x_CCA.permute.both <- function(
+  x,
+  z,
+  typex,
+  typez,
+  penaltyxs,
+  penaltyzs,
+  niter,
+  v,
+  trace,
+  nperms,
+  standardize,
+  chromx,
+  chromz,
+  upos,
+  uneg,
+  vpos,
+  vneg,
+  outcome,
+  y,
+  cens,
+  verbose = TRUE,
+  n.cores = rtCores,
+  parallel.type = ifelse(.Platform$OS.type == "unix", "fork", "psock")
+) {
   ftrans <- getFromNamespace("ftrans", "PMA")
   CheckVs <- getFromNamespace("CheckVs", "PMA")
 
@@ -401,56 +501,85 @@ x_CCA.permute.both <- function(x, z,
 
   # Permutations ----
   # pbapply version
-  mango <- pbapply::pblapply(seq(nperms), FUN = function(i) {
-    sampz <- sample(NROW(z))
-    sampx <- sample(NROW(x))
-    for (j in seq_along(penaltyxs)) {
-      if (trace && .Platform$OS.type != "windows") {
-        cat(j, fill = FALSE)
-      }
-      if (i == 1) {
-        out <- PMA::CCA(x, z,
-          typex = typex, typez = typez,
-          penaltyx = penaltyxs[j], penaltyz = penaltyzs[j],
-          y = y, outcome = outcome, cens = cens, niter = niter,
-          v = v, trace = FALSE, upos = upos, uneg = uneg,
-          vpos = vpos, vneg = vneg, standardize = FALSE,
-          chromz = chromz, chromx = chromx
+  mango <- pbapply::pblapply(
+    seq(nperms),
+    FUN = function(i) {
+      sampz <- sample(NROW(z))
+      sampx <- sample(NROW(x))
+      for (j in seq_along(penaltyxs)) {
+        if (trace && .Platform$OS.type != "windows") {
+          cat(j, fill = FALSE)
+        }
+        if (i == 1) {
+          out <- PMA::CCA(
+            x,
+            z,
+            typex = typex,
+            typez = typez,
+            penaltyx = penaltyxs[j],
+            penaltyz = penaltyzs[j],
+            y = y,
+            outcome = outcome,
+            cens = cens,
+            niter = niter,
+            v = v,
+            trace = FALSE,
+            upos = upos,
+            uneg = uneg,
+            vpos = vpos,
+            vneg = vneg,
+            standardize = FALSE,
+            chromz = chromz,
+            chromx = chromx
+          )
+          nnonzerous[j] <- sum(out$u != 0)
+          nnonzerovs[j] <- sum(out$v != 0)
+          if (mean(out$u == 0) != 1 && mean(out$v == 0) != 1) {
+            ccs[j] <- cor(x %*% out$u, z %*% out$v)
+          } else {
+            ccs[j] <- 0
+          }
+        }
+        out <- PMA::CCA(
+          x[sampx, ],
+          z[sampz, ],
+          typex = typex,
+          typez = typez,
+          penaltyx = penaltyxs[j],
+          penaltyz = penaltyzs[j],
+          y = y,
+          outcome = outcome,
+          cens = cens,
+          niter = niter,
+          v = v,
+          trace = FALSE,
+          upos = upos,
+          uneg = uneg,
+          vpos = vpos,
+          vneg = vneg,
+          standardize = FALSE,
+          chromz = chromz,
+          chromx = chromx
         )
-        nnonzerous[j] <- sum(out$u != 0)
-        nnonzerovs[j] <- sum(out$v != 0)
-        if (mean(out$u == 0) != 1 && mean(out$v == 0) !=
-          1) {
-          ccs[j] <- cor(x %*% out$u, z %*% out$v)
+        nnonzerous.perms[j, i] <- sum(out$u != 0) # rtCheck no visible binding for i
+        nnonzerovs.perms[j, i] <- sum(out$v != 0) # rtCheck no visible binding for i
+        if (mean(out$u == 0) != 1 && mean(out$v == 0) != 1) {
+          ccperms1[j] <- cor(x[sampx, ] %*% out$u, z[sampz, ] %*% out$v)
         } else {
-          ccs[j] <- 0
+          ccperms1[j] <- 0
         }
       }
-      out <- PMA::CCA(x[sampx, ], z[sampz, ],
-        typex = typex,
-        typez = typez, penaltyx = penaltyxs[j], penaltyz = penaltyzs[j],
-        y = y, outcome = outcome, cens = cens, niter = niter,
-        v = v, trace = FALSE, upos = upos, uneg = uneg,
-        vpos = vpos, vneg = vneg, standardize = FALSE,
-        chromz = chromz, chromx = chromx
-      )
-      nnonzerous.perms[j, i] <- sum(out$u != 0) # rtCheck no visible binding for i
-      nnonzerovs.perms[j, i] <- sum(out$v != 0) # rtCheck no visible binding for i
-      if (mean(out$u == 0) != 1 && mean(out$v == 0) !=
-        1) {
-        ccperms1[j] <- cor(x[sampx, ] %*% out$u, z[sampz, ] %*% out$v)
-      } else {
-        ccperms1[j] <- 0
-      }
-    }
-    list(ccs = ccs, ccperms1 = ccperms1)
-  }, cl = n.cores) # END PERMUTATIONS keep last ccs, whole ccperms matrix
+      list(ccs = ccs, ccperms1 = ccperms1)
+    },
+    cl = n.cores
+  ) # END PERMUTATIONS keep last ccs, whole ccperms matrix
 
   ccs <- mango[[length(mango)]]$ccs
   ccperms <- sapply(mango, function(i) c(i$ccperms1))
   cc.norm <- ftrans(ccs)
   ccperm.norm <- ftrans(ccperms)
-  zstats <- (cc.norm - rowMeans(ccperm.norm)) / (apply(ccperm.norm, 1, sd) + 0.05)
+  zstats <- (cc.norm - rowMeans(ccperm.norm)) /
+    (apply(ccperm.norm, 1, sd) + 0.05)
   if (trace) cat(fill = TRUE)
   pvals <- apply(sweep(ccperms, 1, ccs, "-") >= 0, 1, mean)
   results <- list(
@@ -463,12 +592,19 @@ x_CCA.permute.both <- function(x, z,
     corperms = ccperms,
     ft.cors = cc.norm,
     ft.corperms = rowMeans(ccperm.norm),
-    nnonzerous = nnonzerous, nnonzerovs = nnonzerovs,
+    nnonzerous = nnonzerous,
+    nnonzerovs = nnonzerovs,
     nnonzerous.perm = rowMeans(nnonzerous.perms),
     nnonzerovs.perm = rowMeans(nnonzerovs.perms),
     call = call,
-    v.init = v, pvals = pvals, nperms = nperms, chromz = chromz,
-    chromx = chromx, typex = typex, typez = typez, pvalbestz = pvals[which.max(zstats)]
+    v.init = v,
+    pvals = pvals,
+    nperms = nperms,
+    chromz = chromz,
+    chromx = chromx,
+    typex = typex,
+    typez = typez,
+    pvalbestz = pvals[which.max(zstats)]
   )
   results
 } # rtemis::x_CCA.permute.both

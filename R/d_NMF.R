@@ -26,15 +26,17 @@
 #' @family Decomposition
 #' @export
 
-d_NMF <- function(x,
-                  x.test = NULL,
-                  k = 2,
-                  method = "brunet",
-                  nrun = 30,
-                  scale = TRUE,
-                  center = FALSE,
-                  verbose = TRUE, ...) {
-
+d_NMF <- function(
+  x,
+  x.test = NULL,
+  k = 2,
+  method = "brunet",
+  nrun = 30,
+  scale = TRUE,
+  center = FALSE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "NMF"
@@ -65,28 +67,30 @@ d_NMF <- function(x,
   projections.test <- NULL
   if (scale) {
     projections.train <- scale(x, center = center) %*% basis
-    if (!is.null(x.test)) projections.test <- scale(x.test, center = center) %*% basis
+    if (!is.null(x.test))
+      projections.test <- scale(x.test, center = center) %*% basis
   } else {
     projections.train <- x %*% basis
     if (!is.null(x.test)) projections.test <- x.test %*% basis
   }
 
   # Outro ----
-  extra <- list(basis = basis,
-                coef = coef,
-                scoef = scoef)
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = projections.test,
-                    parameters = list(k = k,
-                                      method = method,
-                                      nrun = nrun,
-                                      scale = scale,
-                                      center = center),
-                    extra = extra)
+  extra <- list(basis = basis, coef = coef, scoef = scoef)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = projections.test,
+    parameters = list(
+      k = k,
+      method = method,
+      nrun = nrun,
+      scale = scale,
+      center = center
+    ),
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_NMF

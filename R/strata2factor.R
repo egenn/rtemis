@@ -17,5 +17,8 @@ strata2factor <- function(x) {
 #' @export
 
 strata2factor.survfit <- function(x) {
-  unlist(lapply(seq(x$strata), function(i) rep(names(x$strata)[i], x$strata[i])))
+  unlist(lapply(
+    seq(x$strata),
+    function(i) rep(names(x$strata)[i], x$strata[i])
+  ))
 } # rtemis::strata2factor.survfit

@@ -16,19 +16,24 @@
 #' @family Supervised Learning
 #' @export
 
-s_NBayes <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     laplace = 0,
-                     x.name = NULL,
-                     y.name = NULL,
-                     print.plot = FALSE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = rtTheme,
-                     question = NULL,
-                     verbose = TRUE,
-                     outdir = NULL,
-                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_NBayes <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  laplace = 0,
+  x.name = NULL,
+  y.name = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_NBayes))
@@ -36,7 +41,14 @@ s_NBayes <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -51,7 +63,8 @@ s_NBayes <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test)
@@ -64,8 +77,10 @@ s_NBayes <- function(x, y = NULL,
   checkType(type, "Classification", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -73,17 +88,12 @@ s_NBayes <- function(x, y = NULL,
 
   # e1071::naiveBayes ----
   if (verbose) msg2("Training Naive Bayes Classifier...", newline.pre = TRUE)
-  mod <- e1071::naiveBayes(x, y,
-    laplace = laplace, ...
-  )
+  mod <- e1071::naiveBayes(x, y, laplace = laplace, ...)
 
   # Fitted ----
   fitted.prob <- predict(mod, x, type = "raw")
   fitted <- predict(mod, x, type = "class")
-  error.train <- mod_error(y, fitted,
-    fitted.prob,
-    type = "Classification"
-  )
+  error.train <- mod_error(y, fitted, fitted.prob, type = "Classification")
   if (verbose) errorSummary(error.train, mod.name)
 
   # Predicted ----
@@ -92,7 +102,9 @@ s_NBayes <- function(x, y = NULL,
     predicted.prob <- predict(mod, x, type = "raw")
     predicted <- predict(mod, x.test, type = "class")
     if (!is.null(y.test)) {
-      error.test <- mod_error(y.test, predicted,
+      error.test <- mod_error(
+        y.test,
+        predicted,
         predicted.prob,
         type = "Classification"
       )
@@ -139,6 +151,10 @@ s_NBayes <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_NBayes

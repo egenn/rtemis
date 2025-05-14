@@ -23,29 +23,32 @@
 #' @family Ensembles
 #' @export
 
-s_AdaBoost <- function(x,
-                       y = NULL,
-                       x.test = NULL,
-                       y.test = NULL,
-                       loss = "exponential",
-                       type = "discrete",
-                       iter = 50,
-                       nu = .1,
-                       bag.frac = .5,
-                       upsample = FALSE,
-                       downsample = FALSE,
-                       resample.seed = NULL,
-                       x.name = NULL,
-                       y.name = NULL,
-                       print.plot = FALSE,
-                       plot.fitted = NULL,
-                       plot.predicted = NULL,
-                       plot.theme = rtTheme,
-                       question = NULL,
-                       verbose = TRUE,
-                       trace = 0,
-                       outdir = NULL,
-                       save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_AdaBoost <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  loss = "exponential",
+  type = "discrete",
+  iter = 50,
+  nu = .1,
+  bag.frac = .5,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_AdaBoost))
@@ -53,7 +56,14 @@ s_AdaBoost <- function(x,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -71,10 +81,15 @@ s_AdaBoost <- function(x,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -86,24 +101,30 @@ s_AdaBoost <- function(x,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  if (type != "Classification" || length(levels(y)) > 2) stop("AdaBoost is for binary classification only")
+  if (type != "Classification" || length(levels(y)) > 2)
+    stop("AdaBoost is for binary classification only")
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
 
   # AdaBoost ----
   if (verbose) msg2("Training AdaBoost Classifier...", newline.pre = TRUE)
-  mod <- ada::ada(x, y,
+  mod <- ada::ada(
+    x,
+    y,
     loss = loss,
     type = .type,
     iter = iter,
     nu = nu,
     bag.frac = bag.frac,
-    verbose = verbose, ...
+    verbose = verbose,
+    ...
   )
   if (trace > 0) summary(mod)
 
@@ -119,7 +140,10 @@ s_AdaBoost <- function(x,
   if (!is.null(x.test)) {
     predicted.raw <- predict(mod, x.test, type = "both")
     predicted.prob <- predicted.raw$probs
-    predicted <- factor(levels(y)[as.numeric(predicted.raw$class)], levels = levels(y))
+    predicted <- factor(
+      levels(y)[as.numeric(predicted.raw$class)],
+      levels = levels(y)
+    )
     if (!is.null(y.test)) {
       error.test <- mod_error(y.test, predicted, type = "Classification")
       if (verbose) errorSummary(error.test, mod.name)

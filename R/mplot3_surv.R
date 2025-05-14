@@ -14,7 +14,7 @@
 #' @param lwd Float: Line width. Default = 2
 #' @param alpha Float: Alpha for lines. Default = 1
 #' @param ... Additional arguments to pass to [mplot3_xy]
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 #' @examples
@@ -23,31 +23,33 @@
 #' mplot3_surv(Surv(time = lung$time, event = lung$status))
 #' }
 
-mplot3_surv <- function(x,
-                        lty = 1,
-                        lwd = 2,
-                        alpha = 1,
-                        col = NULL,
-                        mark.censored = TRUE,
-                        normalize.time = FALSE,
-                        cex = 1.2,
-                        xlab = NULL,
-                        ylab = "Survival",
-                        main = "Kaplan-Meier curve",
-                        theme = rtTheme,
-                        palette = rtPalette,
-                        plot.error = FALSE,
-                        error.lty = 2,
-                        error.alpha = .5,
-                        group.legend = NULL,
-                        group.title = "",
-                        group.names = NULL,
-                        group.side = 3,
-                        group.adj = .98,
-                        group.padj = 2,
-                        group.at = NA,
-                        par.reset = TRUE, ...) {
-
+mplot3_surv <- function(
+  x,
+  lty = 1,
+  lwd = 2,
+  alpha = 1,
+  col = NULL,
+  mark.censored = TRUE,
+  normalize.time = FALSE,
+  cex = 1.2,
+  xlab = NULL,
+  ylab = "Survival",
+  main = "Kaplan-Meier curve",
+  theme = rtTheme,
+  palette = rtPalette,
+  plot.error = FALSE,
+  error.lty = 2,
+  error.alpha = .5,
+  group.legend = NULL,
+  group.title = "",
+  group.names = NULL,
+  group.side = 3,
+  group.adj = .98,
+  group.padj = 2,
+  group.at = NA,
+  par.reset = TRUE,
+  ...
+) {
   # Data ----
   if (class(x)[1] != "list") x <- list(x)
   # x <- lapply(1:length(x), function(i) as.numeric(as.matrix(x[[i]])[, 1]))
@@ -84,19 +86,27 @@ mplot3_surv <- function(x,
     xlab <- if (normalize.time) "Normalized Time" else "Time"
   }
 
-  mplot3_xy(x = xl,
-            y = yl,
-            ylim = c(0, 1),
-            xlim = xlim,
-            type = 's', lwd = 2, lty = lty,
-            theme = theme,
-            palette = palette,
-            marker.alpha = alpha,
-            marker.col = col,
-            line.alpha = 1,
-            main = main,
-            xlab = xlab, ylab = ylab,
-            group.legend = FALSE, zerolines = FALSE, par.reset = FALSE, ...)
+  mplot3_xy(
+    x = xl,
+    y = yl,
+    ylim = c(0, 1),
+    xlim = xlim,
+    type = 's',
+    lwd = 2,
+    lty = lty,
+    theme = theme,
+    palette = palette,
+    marker.alpha = alpha,
+    marker.col = col,
+    line.alpha = 1,
+    main = main,
+    xlab = xlab,
+    ylab = ylab,
+    group.legend = FALSE,
+    zerolines = FALSE,
+    par.reset = FALSE,
+    ...
+  )
 
   # Censoring markers
   if (mark.censored) {
@@ -109,10 +119,18 @@ mplot3_surv <- function(x,
   # pointwise errors
   if (plot.error) {
     for (i in seq(xl)) {
-      lines(.survfit[[i]]$time, .survfit[[i]]$upper,
-            lty = error.lty, col = colorAdjust(col[[i]], error.alpha))
-      lines(.survfit[[i]]$time, .survfit[[i]]$lower,
-            lty = error.lty, col = colorAdjust(col[[i]], error.alpha))
+      lines(
+        .survfit[[i]]$time,
+        .survfit[[i]]$upper,
+        lty = error.lty,
+        col = colorAdjust(col[[i]], error.alpha)
+      )
+      lines(
+        .survfit[[i]]$time,
+        .survfit[[i]]$lower,
+        lty = error.lty,
+        col = colorAdjust(col[[i]], error.alpha)
+      )
     }
   }
 
@@ -123,7 +141,7 @@ mplot3_surv <- function(x,
     if (!is.null(names(x))) {
       group.names <- c(group.title, names(x))
     } else {
-      group.names <- c(group.title, paste(" ", toupper(letters[seq_along(x)])) )
+      group.names <- c(group.title, paste(" ", toupper(letters[seq_along(x)])))
     }
   }
 
@@ -131,13 +149,14 @@ mplot3_surv <- function(x,
   if (is.null(group.legend)) group.legend <- ifelse(length(x) > 1, TRUE, FALSE)
 
   if (group.legend) {
-    mtext(group.names,
-          col = c("black", unlist(col))[1:(length(x) + 1)], # change black depending on theme
-          side = group.side,
-          adj = group.adj,
-          at = group.at,
-          cex = cex,
-          padj = seq(group.padj, group.padj + 1.5 * length(x), 1.5))
+    mtext(
+      group.names,
+      col = c("black", unlist(col))[1:(length(x) + 1)], # change black depending on theme
+      side = group.side,
+      adj = group.adj,
+      at = group.at,
+      cex = cex,
+      padj = seq(group.padj, group.padj + 1.5 * length(x), 1.5)
+    )
   }
-
 } # rtemis::mplot3_surv

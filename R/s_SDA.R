@@ -35,35 +35,39 @@
 #' # Learns fine with default settings (scaling & centering)
 #' mod_c2 <- s_SDA(datc2_train, datc2_test)
 #' }
-s_SDA <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  lambda = 1e-6,
-                  stop = NULL,
-                  maxIte = 100,
-                  Q = NULL,
-                  tol = 1e-6,
-                  .preprocess = setup.preprocess(scale = TRUE, center = TRUE),
-                  upsample = TRUE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  x.name = NULL,
-                  y.name = NULL,
-                  grid.resample.params = setup.resample("kfold", 5),
-                  gridsearch.type = c("exhaustive", "randomized"),
-                  gridsearch.randomized.p = .1,
-                  metric = NULL,
-                  maximize = NULL,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  grid.verbose = verbose,
-                  trace = 0,
-                  outdir = NULL,
-                  n.cores = rtCores,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
+s_SDA <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  lambda = 1e-6,
+  stop = NULL,
+  maxIte = 100,
+  Q = NULL,
+  tol = 1e-6,
+  .preprocess = setup.preprocess(scale = TRUE, center = TRUE),
+  upsample = TRUE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = .1,
+  metric = NULL,
+  maximize = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  grid.verbose = verbose,
+  trace = 0,
+  outdir = NULL,
+  n.cores = rtCores,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_SDA))
@@ -71,7 +75,14 @@ s_SDA <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -87,17 +98,23 @@ s_SDA <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -128,7 +145,9 @@ s_SDA <- function(x, y = NULL,
 
   # Grid Search ----
   if (gridCheck(lambda, stop, Q)) {
-    gs <- gridSearchLearn(x0, y0,
+    gs <- gridSearchLearn(
+      x0,
+      y0,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -159,7 +178,8 @@ s_SDA <- function(x, y = NULL,
 
   # sparseLDA::sda ----
   params <- list(
-    x = x, y = y,
+    x = x,
+    y = y,
     lambda = lambda,
     stop = stop,
     maxIte = maxIte,
@@ -167,7 +187,8 @@ s_SDA <- function(x, y = NULL,
     trace = trace,
     tol = tol
   )
-  if (verbose) msg2("Running Sparse Linear Discriminant Analysis...", newline.pre = TRUE)
+  if (verbose)
+    msg2("Running Sparse Linear Discriminant Analysis...", newline.pre = TRUE)
   mod <- do.call(sparseLDA::sda, args = params)
 
   # Fitted ----
@@ -230,6 +251,10 @@ s_SDA <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_SDA

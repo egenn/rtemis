@@ -23,14 +23,16 @@
 #' @author E.D. Gennatas
 #' @export
 
-mod_error <- function(true,
-                      estimated,
-                      estimated.prob = NULL,
-                      type = NULL,
-                      rho = FALSE,
-                      tau = FALSE,
-                      na.rm = TRUE,
-                      verbosity = 0) {
+mod_error <- function(
+  true,
+  estimated,
+  estimated.prob = NULL,
+  type = NULL,
+  rho = FALSE,
+  tau = FALSE,
+  na.rm = TRUE,
+  verbosity = 0
+) {
   x <- true
   y <- estimated
 
@@ -45,13 +47,17 @@ mod_error <- function(true,
   # Check input lengths match (NROW works with Survival object as well as vectors)
   if (NROW(x) != NROW(y)) {
     stop(
-      "Input lengths do not match:\n    Length of true = ", NROW(x),
-      "\n    Length of estimated = ", NROW(y)
+      "Input lengths do not match:\n    Length of true = ",
+      NROW(x),
+      "\n    Length of estimated = ",
+      NROW(y)
     )
   }
   if (NROW(x) < 2) {
     if (verbosity > 0) {
-      warning("Vector of length 1; no per-resample test error can be estimated for LOOCV; estimate aggregate error")
+      warning(
+        "Vector of length 1; no per-resample test error can be estimated for LOOCV; estimate aggregate error"
+      )
     }
     return(NULL)
   }
@@ -85,7 +91,15 @@ mod_error <- function(true,
 #'
 #' @return Object of class `regError`
 #' @author E.D. Gennatas
-reg_error <- function(x, y, rho = FALSE, tau = FALSE, pct.red = FALSE, na.rm = FALSE, verbosity = 0) {
+reg_error <- function(
+  x,
+  y,
+  rho = FALSE,
+  tau = FALSE,
+  pct.red = FALSE,
+  na.rm = FALSE,
+  verbosity = 0
+) {
   inherits_check(x, "numeric")
   inherits_check(y, "numeric")
   error <- x - y
@@ -123,7 +137,6 @@ reg_error <- function(x, y, rho = FALSE, tau = FALSE, pct.red = FALSE, na.rm = F
     rmse.exp <- sqrt(mse.exp)
     rmse.red <- (rmse.exp - rmse) / rmse.exp
   }
-  
 
   out <- data.frame(
     MAE = mae,
@@ -230,7 +243,9 @@ logloss <- function(true, estimated.prob) {
   true.bin <- 2 - as.numeric(true)
   eps <- 1e-16
   estimated.prob <- pmax(pmin(estimated.prob, 1 - eps), eps)
-  -mean(true.bin * log(estimated.prob) + (1 - true.bin) * log(1 - estimated.prob))
+  -mean(
+    true.bin * log(estimated.prob) + (1 - true.bin) * log(1 - estimated.prob)
+  )
 } # rtemis::logloss
 
 
@@ -244,10 +259,9 @@ logloss <- function(true, estimated.prob) {
 #' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
-sensitivity <- function(true, estimated,
-                        harmonize = FALSE,
-                        verbosity = 1) {
-  if (harmonize) estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
+sensitivity <- function(true, estimated, harmonize = FALSE, verbosity = 1) {
+  if (harmonize)
+    estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   pos.index <- true == levels(true)[1]
   condition.pos <- sum(pos.index)
   true.pos <- sum(true[pos.index] == estimated[pos.index])
@@ -265,10 +279,9 @@ sensitivity <- function(true, estimated,
 #' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
-specificity <- function(true, estimated,
-                        harmonize = FALSE,
-                        verbosity = 1) {
-  if (harmonize) estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
+specificity <- function(true, estimated, harmonize = FALSE, verbosity = 1) {
+  if (harmonize)
+    estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   neg.index <- true == levels(true)[2]
   condition.neg <- sum(neg.index)
   true.neg <- sum(true[neg.index] == estimated[neg.index])
@@ -289,11 +302,20 @@ specificity <- function(true, estimated,
 #' @param verbosity Integer: If > 0, print messages to console.
 #' @export
 
-bacc <- function(true, predicted,
-                 harmonize = FALSE,
-                 verbosity = 1) {
-  .5 * (sensitivity(true, predicted, harmonize = harmonize, verbosity = verbosity) +
-    specificity(true, predicted, harmonize = harmonize, verbosity = verbosity))
+bacc <- function(true, predicted, harmonize = FALSE, verbosity = 1) {
+  .5 *
+    (sensitivity(
+      true,
+      predicted,
+      harmonize = harmonize,
+      verbosity = verbosity
+    ) +
+      specificity(
+        true,
+        predicted,
+        harmonize = harmonize,
+        verbosity = verbosity
+      ))
 }
 
 #' Precision (aka PPV)
@@ -307,9 +329,7 @@ bacc <- function(true, predicted,
 #'
 #' @export
 
-precision <- function(true, estimated,
-                      harmonize = FALSE,
-                      verbosity = 1) {
+precision <- function(true, estimated, harmonize = FALSE, verbosity = 1) {
   if (harmonize) {
     estimated <- factor_harmonize(true, estimated, verbosity = verbosity)
   }
@@ -332,8 +352,7 @@ precision <- function(true, estimated,
 # #' @param allow.rename Logical: If TRUE, allow renaming - not simply reordering - factor levels of input \code{x}
 #' @export
 
-factor_harmonize <- function(reference, x,
-                             verbosity = 1) {
+factor_harmonize <- function(reference, x, verbosity = 1) {
   if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
@@ -370,9 +389,30 @@ factor_harmonize <- function(reference, x,
 print.regError <- function(x, ...) {
   obj <- as.data.frame(x)
   if (!is.null(x$MSE.RED)) {
-    cat("    MSE = ", ddSci(obj$MSE), " (", ddSci(obj$MSE.RED * 100), "%)\n", sep = "")
-    cat("   RMSE = ", ddSci(obj$RMSE), " (", ddSci(obj$RMSE.RED * 100), "%)\n", sep = "")
-    cat("    MAE = ", ddSci(obj$MAE), " (", ddSci(obj$MAE.RED * 100), "%)\n", sep = "")
+    cat(
+      "    MSE = ",
+      ddSci(obj$MSE),
+      " (",
+      ddSci(obj$MSE.RED * 100),
+      "%)\n",
+      sep = ""
+    )
+    cat(
+      "   RMSE = ",
+      ddSci(obj$RMSE),
+      " (",
+      ddSci(obj$RMSE.RED * 100),
+      "%)\n",
+      sep = ""
+    )
+    cat(
+      "    MAE = ",
+      ddSci(obj$MAE),
+      " (",
+      ddSci(obj$MAE.RED * 100),
+      "%)\n",
+      sep = ""
+    )
   } else {
     cat("    MSE = ", ddSci(obj$MSE), "\n", sep = "")
     cat("   RMSE = ", ddSci(obj$RMSE), "\n", sep = "")
@@ -380,7 +420,14 @@ print.regError <- function(x, ...) {
   }
   cat("      r = ", ddSci(obj$r), " (p = ", ddSci(obj$r.p), ")\n", sep = "")
   if (!is.null(obj$rho)) {
-    cat("    rho = ", ddSci(obj$rho), " (p = ", ddSci(obj$rho.p), ")\n", sep = "")
+    cat(
+      "    rho = ",
+      ddSci(obj$rho),
+      " (p = ",
+      ddSci(obj$rho.p),
+      ")\n",
+      sep = ""
+    )
   }
   cat("   R sq = ", hilite(ddSci(obj$Rsq)), "\n", sep = "")
   invisible(x)

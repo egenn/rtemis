@@ -17,9 +17,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-decom <- function(x,
-                  decom = "PCA",
-                  verbose = TRUE, ...) {
+decom <- function(x, decom = "PCA", verbose = TRUE, ...) {
   if (missing(x)) {
     cat('Usage:\n  decom(x, "nmf", ...)\n\n')
     return(select_decom())

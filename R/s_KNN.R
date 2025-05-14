@@ -12,27 +12,31 @@
 #' @param k Integer: Number of neighbors considered
 #' @param algorithm Character: Algorithm to use. Options: "kd_tree", "cover_tree", "brute"
 #' @param outdir Optional. Path to directory to save output
-#' 
+#'
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
-s_KNN <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  x.name = NULL, y.name = NULL,
-                  k = 3,
-                  algorithm = "kd_tree",
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
-
+s_KNN <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  k = 3,
+  algorithm = "kd_tree",
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_KNN))
@@ -40,7 +44,14 @@ s_KNN <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -61,13 +72,16 @@ s_KNN <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test)
@@ -78,18 +92,29 @@ s_KNN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(k, algorithm,
-                                newline.pre = TRUE)
+  if (verbose) parameterSummary(k, algorithm, newline.pre = TRUE)
 
   # FNN::knn/knn.reg ----
-  if (verbose) msg2("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
+  if (verbose)
+    msg2("Running k-Nearest Neighbors", type, "...", newline.pre = TRUE)
   .x.test <- if (is.null(x.test)) x else x.test
   if (type == "Classification") {
-    mod <- FNN::knn(train = x, test = .x.test, cl = y,
-                    k = k, prob = FALSE, algorithm = algorithm)
+    mod <- FNN::knn(
+      train = x,
+      test = .x.test,
+      cl = y,
+      k = k,
+      prob = FALSE,
+      algorithm = algorithm
+    )
   } else {
-    mod <- FNN::knn.reg(train = x, test = .x.test, y = y,
-                        k = k, algorithm = algorithm)
+    mod <- FNN::knn.reg(
+      train = x,
+      test = .x.test,
+      y = y,
+      k = k,
+      algorithm = algorithm
+    )
   }
 
   # Fitted / Predicted ----
@@ -126,35 +151,42 @@ s_KNN <- function(x, y = NULL,
 
   # Outro ----
   extra <- list()
-  rt <- rtModSet(mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_KNN

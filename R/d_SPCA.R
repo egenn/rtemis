@@ -31,17 +31,19 @@
 #' @family Decomposition
 #' @export
 
-d_SPCA <- function(x,
-                   x.test = NULL,
-                   k = 1,
-                   nz = floor(.5 * NCOL(x)),
-                   nneg = FALSE,
-                   gamma = 0,
-                   method = c("cumulative", "vanilla"),
-                   scale = TRUE,
-                   center = TRUE,
-                   verbose = TRUE, ...) {
-
+d_SPCA <- function(
+  x,
+  x.test = NULL,
+  k = 1,
+  nz = floor(.5 * NCOL(x)),
+  nneg = FALSE,
+  gamma = 0,
+  method = c("cumulative", "vanilla"),
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "SPCA"
@@ -76,14 +78,23 @@ d_SPCA <- function(x,
   # sPCA ----
   if (verbose) msg2("Performing Sparse Principal Components Analysis...")
   if (method == "cumulative") {
-    decom <- nsprcomp::nscumcomp(x,
-      ncomp = k, k = nz, nneg = nneg,
-      gamma = gamma, scale. = FALSE, ...
+    decom <- nsprcomp::nscumcomp(
+      x,
+      ncomp = k,
+      k = nz,
+      nneg = nneg,
+      gamma = gamma,
+      scale. = FALSE,
+      ...
     )
   } else {
-    decom <- nsprcomp::nsprcomp(x,
-      ncomp = k, k = nz, nneg = nneg,
-      scale. = FALSE, ...
+    decom <- nsprcomp::nsprcomp(
+      x,
+      ncomp = k,
+      k = nz,
+      nneg = nneg,
+      scale. = FALSE,
+      ...
     )
   }
 
@@ -101,21 +112,24 @@ d_SPCA <- function(x,
 
   # Outro ----
   extra <- list(vectors = vectors)
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = projections.test,
-                    parameters = list(k = k,
-                                      nz = nz,
-                                      nneg = nneg,
-                                      method = method,
-                                      scale = scale,
-                                      center = center),
-                    center = .center,
-                    scale = .scale,
-                    extra = extra)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = projections.test,
+    parameters = list(
+      k = k,
+      nz = nz,
+      nneg = nneg,
+      method = method,
+      scale = scale,
+      center = center
+    ),
+    center = .center,
+    scale = .scale,
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_SPCA

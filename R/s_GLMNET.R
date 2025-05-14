@@ -36,39 +36,45 @@
 #' @family Supervised Learning
 #' @family Interpretable models
 #' @export
-s_GLMNET <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     x.name = NULL, y.name = NULL,
-                     grid.resample.params = setup.resample("kfold", 5),
-                     gridsearch.type = c("exhaustive", "randomized"),
-                     gridsearch.randomized.p = .1,
-                     intercept = TRUE,
-                     nway.interactions = 0,
-                     family = NULL,
-                     alpha = seq(0, 1, .2),
-                     lambda = NULL,
-                     nlambda = 100,
-                     which.cv.lambda = c("lambda.1se", "lambda.min"),
-                     penalty.factor = NULL,
-                     weights = NULL,
-                     ifw = TRUE,
-                     ifw.type = 2,
-                     upsample = FALSE,
-                     downsample = FALSE,
-                     resample.seed = NULL,
-                     res.summary.fn = mean,
-                     metric = NULL,
-                     maximize = NULL,
-                     .gs = FALSE,
-                     n.cores = rtCores,
-                     print.plot = FALSE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = rtTheme,
-                     question = NULL,
-                     verbose = TRUE,
-                     outdir = NULL,
-                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_GLMNET <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = .1,
+  intercept = TRUE,
+  nway.interactions = 0,
+  family = NULL,
+  alpha = seq(0, 1, .2),
+  lambda = NULL,
+  nlambda = 100,
+  which.cv.lambda = c("lambda.1se", "lambda.min"),
+  penalty.factor = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  res.summary.fn = mean,
+  metric = NULL,
+  maximize = NULL,
+  .gs = FALSE,
+  n.cores = rtCores,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_GLMNET))
@@ -79,8 +85,11 @@ s_GLMNET <- function(x, y = NULL,
   }
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, sys.calls()[[1]][[1]], ".",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -112,8 +121,11 @@ s_GLMNET <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -148,7 +160,11 @@ s_GLMNET <- function(x, y = NULL,
   if (type == "Survival") intercept <- FALSE
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
-  if (!is.null(family) && family %in% c("binomial", "multinomial") && !is.factor(y)) {
+  if (
+    !is.null(family) &&
+      family %in% c("binomial", "multinomial") &&
+      !is.factor(y)
+  ) {
     if (type == "Survival") {
       colnames(y) <- c("time", "status")
       if (!is.null(y.test)) colnames(y.test) <- c("time", "status")
@@ -198,7 +214,9 @@ s_GLMNET <- function(x, y = NULL,
   cv.lambda <- is.null(lambda)
   do.gs <- is.null(lambda) | length(alpha) > 1 | length(lambda) > 1
   if (!.gs && do.gs) {
-    gs <- gridSearchLearn(x, y,
+    gs <- gridSearchLearn(
+      x,
+      y,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -223,14 +241,13 @@ s_GLMNET <- function(x, y = NULL,
     gs <- NULL
   }
   if (verbose) {
-    parameterSummary(alpha, lambda,
-      newline.pre = TRUE
-    )
+    parameterSummary(alpha, lambda, newline.pre = TRUE)
   }
 
   # glmnet::cv.glmnet/glmnet ----
   if (.gs && cv.lambda) {
-    mod <- glmnet::cv.glmnet(x,
+    mod <- glmnet::cv.glmnet(
+      x,
       if (family == "binomial") reverseLevels(y) else y,
       family = family,
       alpha = alpha,
@@ -238,11 +255,13 @@ s_GLMNET <- function(x, y = NULL,
       nlambda = nlambda,
       weights = .weights,
       intercept = intercept,
-      penalty.factor = penalty.factor, ...
+      penalty.factor = penalty.factor,
+      ...
     )
   } else {
     if (verbose) msg2("Training elastic net model...", newline.pre = TRUE)
-    mod <- glmnet::glmnet(x,
+    mod <- glmnet::glmnet(
+      x,
       if (family == "binomial") reverseLevels(y) else y,
       family = family,
       alpha = alpha,
@@ -250,7 +269,8 @@ s_GLMNET <- function(x, y = NULL,
       nlambda = nlambda,
       weights = .weights,
       intercept = intercept,
-      penalty.factor = penalty.factor, ...
+      penalty.factor = penalty.factor,
+      ...
     )
   }
 
@@ -270,7 +290,8 @@ s_GLMNET <- function(x, y = NULL,
       levels(fitted) <- levels(y)
     } else {
       fitted.prob <- predict(mod, x, type = "response")
-      fitted <- factor(colnames(fitted.prob)[apply(fitted.prob, 1, which.max)],
+      fitted <- factor(
+        colnames(fitted.prob)[apply(fitted.prob, 1, which.max)],
         levels = levels(y)
       )
     }
@@ -289,14 +310,21 @@ s_GLMNET <- function(x, y = NULL,
       if (family == "binomial") {
         predicted.prob <- predict(mod, x.test, type = "response")[, 1]
         if (rtenv$binclasspos == 1) {
-          predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+          predicted <- factor(
+            ifelse(predicted.prob >= .5, 1, 0),
+            levels = c(1, 0)
+          )
         } else {
-          predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(0, 1))
+          predicted <- factor(
+            ifelse(predicted.prob >= .5, 1, 0),
+            levels = c(0, 1)
+          )
         }
         levels(predicted) <- levels(y)
       } else {
         predicted.prob <- predict(mod, x.test, type = "response")
-        predicted <- factor(colnames(predicted.prob)[apply(predicted.prob, 1, which.max)],
+        predicted <- factor(
+          colnames(predicted.prob)[apply(predicted.prob, 1, which.max)],
           levels = levels(y)
         )
       }
@@ -347,7 +375,8 @@ s_GLMNET <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

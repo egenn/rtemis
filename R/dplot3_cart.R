@@ -51,33 +51,35 @@
 #' @author E.D. Gennatas
 #' @export
 
-dplot3_cart <- function(object,
-                        col.positive = "#F48024DD",
-                        col.negative = "#18A3ACDD",
-                        col.lo = "#80ffff",
-                        col.mid = "gray20",
-                        col.hi = "#F4A0FF",
-                        node.col = "#666666",
-                        node.shape = "none",
-                        node.labels = TRUE,
-                        node.cond = TRUE,
-                        node.prob = TRUE,
-                        node.estimate = NULL,
-                        node.n = TRUE,
-                        edge.col = "#999999",
-                        edge.width = 2,
-                        edge.labels = FALSE,
-                        arrowhead = "vee",
-                        layout = "dot",
-                        drop.leaves = FALSE,
-                        rankdir = "TB",
-                        splines = "polyline",
-                        fontname = "helvetica",
-                        bg.color = "white",
-                        overlap = "false",
-                        prune = FALSE,
-                        rpart.cp = NULL,
-                        verbose = TRUE) {
+dplot3_cart <- function(
+  object,
+  col.positive = "#F48024DD",
+  col.negative = "#18A3ACDD",
+  col.lo = "#80ffff",
+  col.mid = "gray20",
+  col.hi = "#F4A0FF",
+  node.col = "#666666",
+  node.shape = "none",
+  node.labels = TRUE,
+  node.cond = TRUE,
+  node.prob = TRUE,
+  node.estimate = NULL,
+  node.n = TRUE,
+  edge.col = "#999999",
+  edge.width = 2,
+  edge.labels = FALSE,
+  arrowhead = "vee",
+  layout = "dot",
+  drop.leaves = FALSE,
+  rankdir = "TB",
+  splines = "polyline",
+  fontname = "helvetica",
+  bg.color = "white",
+  overlap = "false",
+  prune = FALSE,
+  rpart.cp = NULL,
+  verbose = TRUE
+) {
   # Dependencies ----
   dependency_check("data.tree")
 
@@ -105,20 +107,26 @@ dplot3_cart <- function(object,
     }
   }
   type <- "rpart"
-  if (is.null(node.estimate)) node.estimate <- if (method == "class") FALSE else TRUE
+  if (is.null(node.estimate))
+    node.estimate <- if (method == "class") FALSE else TRUE
 
   # Graph Style ----
-  data.tree::SetGraphStyle(.tree,
+  data.tree::SetGraphStyle(
+    .tree,
     layout = layout,
     rankdir = rankdir,
     splines = splines,
     bgcolor = bg.color,
     overlap = overlap,
     tooltip = paste(
-      toupper(type), "tree\n---------------",
-      "\nDepth =", .tree$height,
-      "\nN nodes =", .tree$totalCount,
-      "\nN leaves =", length(.tree$leaves)
+      toupper(type),
+      "tree\n---------------",
+      "\nDepth =",
+      .tree$height,
+      "\nN nodes =",
+      .tree$totalCount,
+      "\nN leaves =",
+      length(.tree$leaves)
     )
   )
 
@@ -146,7 +154,8 @@ dplot3_cart <- function(object,
     ""
   }
 
-  data.tree::SetNodeStyle(.tree,
+  data.tree::SetNodeStyle(
+    .tree,
     style = "filled,",
     shape = node.shape,
     fillcolor = node.col,
@@ -155,7 +164,8 @@ dplot3_cart <- function(object,
     label = .node.labels,
     tooltip = if (method == "class") {
       function(node) {
-        paste(paste("Node", node$node.id),
+        paste(
+          paste("Node", node$node.id),
           paste("Prob =", ddSci(node$ProbClass1)),
           paste("Estimate level =", node$Estimate),
           paste("Estimate label =", node$EstimateLabel),
@@ -164,7 +174,8 @@ dplot3_cart <- function(object,
       }
     } else if (method == "anova") {
       function(node) {
-        paste(paste("Node", node$node.id),
+        paste(
+          paste("Node", node$node.id),
           paste("Estimate =", ddSci(node$Estimate)),
           sep = "\n"
         )
@@ -175,7 +186,8 @@ dplot3_cart <- function(object,
 
   # Edge Style ----
   .edge.labels <- if (edge.labels) function(node) node$name else NULL # was node$Condition
-  data.tree::SetEdgeStyle(.tree,
+  data.tree::SetEdgeStyle(
+    .tree,
     arrowhead = arrowhead,
     color = edge.col,
     penwidth = edge.width,
@@ -188,24 +200,23 @@ dplot3_cart <- function(object,
   # Leaves ----
   leaves.rank <- if (drop.leaves) .tree$height else NULL
   data.tree::Do(.tree$leaves, function(node) {
-    data.tree::SetNodeStyle(node,
+    data.tree::SetNodeStyle(
+      node,
       rank = leaves.rank,
       fillcolor = if (method == "class") {
         function(node) {
-          ifelse(node$Estimate == 1 & node$isLeaf,
-            col.positive, col.negative
-          )
+          ifelse(node$Estimate == 1 & node$isLeaf, col.positive, col.negative)
         }
       } else if (method == "anova") {
         function(node) {
-          colorGrad(101,
-            lo = col.lo,
-            mid = col.mid,
-            hi = col.hi
-          )[round(drange(c(
-            node$Estimate,
-            range(y)
-          ), 0, 100)[1])]
+          colorGrad(101, lo = col.lo, mid = col.mid, hi = col.hi)[round(drange(
+            c(
+              node$Estimate,
+              range(y)
+            ),
+            0,
+            100
+          )[1])]
         }
       }
     )

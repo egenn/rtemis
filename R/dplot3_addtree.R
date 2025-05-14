@@ -7,7 +7,7 @@
 #' Plot AddTree trees trained with [s_AddTree] using `data.tree::plot.Node`
 #'
 #' Edge info and styles have been removed because of problems with `DiagrammeR`
-#' 
+#'
 #' @inheritParams prune.addtree
 #' @param addtree Additive Tree object created by [s_AddTree]
 #' @param col.positive Color for outcome positive.
@@ -33,29 +33,30 @@
 #' @author E.D. Gennatas
 #' @export
 
-dplot3_addtree <- function(addtree,
-                           col.positive = "#F48024DD",
-                           col.negative = "#18A3ACDD",
-                           node.col = "#666666",
-                           node.shape = "none",
-                           node.labels = TRUE,
-                           node.labels.pct.pos = NULL,
-                           pos.name = NULL,
-                           edge.col = "#999999",
-                          #  edge.width = 2,
-                          #  edge.labels = FALSE,
-                          #  arrowhead = "vee",
-                           layout = "dot",
-                          #  drop.leaves = FALSE,
-                           rankdir = "TB",
-                           splines = "polyline",
-                           fontname = "helvetica",
-                           bg.color = "#ffffff",
-                           overlap = "false",
-                           prune = NULL,
-                           prune.empty.leaves = TRUE,
-                           remove.bad.parents = FALSE
-                           #  filename = NULL
+dplot3_addtree <- function(
+  addtree,
+  col.positive = "#F48024DD",
+  col.negative = "#18A3ACDD",
+  node.col = "#666666",
+  node.shape = "none",
+  node.labels = TRUE,
+  node.labels.pct.pos = NULL,
+  pos.name = NULL,
+  edge.col = "#999999",
+  #  edge.width = 2,
+  #  edge.labels = FALSE,
+  #  arrowhead = "vee",
+  layout = "dot",
+  #  drop.leaves = FALSE,
+  rankdir = "TB",
+  splines = "polyline",
+  fontname = "helvetica",
+  bg.color = "#ffffff",
+  overlap = "false",
+  prune = NULL,
+  prune.empty.leaves = TRUE,
+  remove.bad.parents = FALSE
+  #  filename = NULL
 ) {
   # Dependencies ----
   dependency_check("data.tree", "DiagrammeR")
@@ -82,14 +83,16 @@ dplot3_addtree <- function(addtree,
 
   # Prune ----
   if (prune) {
-    addtree <- prune.addtree(addtree,
+    addtree <- prune.addtree(
+      addtree,
       prune.empty.leaves = prune.empty.leaves,
       remove.bad.parents = remove.bad.parents
     )
   }
 
   # Graph Style ----
-  data.tree::SetGraphStyle(addtree,
+  data.tree::SetGraphStyle(
+    addtree,
     layout = layout,
     rankdir = rankdir,
     splines = splines,
@@ -97,9 +100,12 @@ dplot3_addtree <- function(addtree,
     overlap = overlap,
     tooltip = paste(
       "AddTree tree\n---------------",
-      "\nDepth =", addtree$height - 1,
-      "\nN nodes =", addtree$totalCount - 1,
-      "\nN leaves =", length(addtree$leaves)
+      "\nDepth =",
+      addtree$height - 1,
+      "\nN nodes =",
+      addtree$totalCount - 1,
+      "\nN leaves =",
+      length(addtree$leaves)
     )
   )
   # Node Style ----
@@ -111,7 +117,10 @@ dplot3_addtree <- function(addtree,
           # gsub('[{}]', "", node$Condition),
           formatcondition(node$Condition),
           paste("N =", node$N),
-          paste(paste0(ddSci(node$pct.pos, asNumeric = TRUE) * 100, "%"), pos.name),
+          paste(
+            paste0(ddSci(node$pct.pos, asNumeric = TRUE) * 100, "%"),
+            pos.name
+          ),
           sep = "\n"
         )
       }
@@ -124,7 +133,8 @@ dplot3_addtree <- function(addtree,
     ""
   }
 
-  data.tree::SetNodeStyle(addtree,
+  data.tree::SetNodeStyle(
+    addtree,
     style = "filled",
     shape = node.shape,
     fillcolor = node.col,
@@ -132,7 +142,8 @@ dplot3_addtree <- function(addtree,
     fontname = fontname,
     label = .node.labels,
     tooltip = function(node) {
-      paste(paste("Node", node$n),
+      paste(
+        paste("Node", node$n),
         paste("Value =", ddSci(node$Value)),
         sep = "\n"
       )
@@ -155,14 +166,13 @@ dplot3_addtree <- function(addtree,
 
   # leaves.rank <- if (drop.leaves) addtree$height else NULL
   data.tree::Do(addtree$leaves, function(node) {
-    data.tree::SetNodeStyle(node,
+    data.tree::SetNodeStyle(
+      node,
       # rank = leaves.rank,
       style = "filled",
       shape = node.shape,
       fillcolor = function(node) {
-        ifelse(node$EstimateInt == 1 & node$isLeaf,
-          col.positive, col.negative
-        )
+        ifelse(node$EstimateInt == 1 & node$isLeaf, col.positive, col.negative)
       }
     )
   })
@@ -179,9 +189,7 @@ dplot3_addtree <- function(addtree,
 } # rtemis::dplot3_addtree
 
 
-formatcondition <- function(x,
-                            remove.chars = "[{}]",
-                            decimal.places = 2) {
+formatcondition <- function(x, remove.chars = "[{}]", decimal.places = 2) {
   categorical <- any(grepl("{", x, fixed = TRUE))
   if (categorical) {
     xf <- gsub(remove.chars, "", x)

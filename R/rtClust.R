@@ -21,7 +21,8 @@
 #' @keywords internal
 #' @noRd
 
-rtClust <- R6::R6Class("rtClust",
+rtClust <- R6::R6Class(
+  "rtClust",
   public = list(
     ### Attributes
     clust.name = NULL,
@@ -43,14 +44,16 @@ rtClust <- R6::R6Class("rtClust",
     #' @param clusters.test Testing set clustering results
     #' @param parameters List of clustering algorithm parameters
     #' @param extra Optional list of algorithm-specific info
-    initialize = function(clust.name = character(),
-                          k = NULL,
-                          xnames = character(),
-                          clust = list(),
-                          clusters.train = numeric(),
-                          clusters.test = numeric(),
-                          parameters = list(),
-                          extra = list()) {
+    initialize = function(
+      clust.name = character(),
+      k = NULL,
+      xnames = character(),
+      clust = list(),
+      clusters.train = numeric(),
+      clusters.test = numeric(),
+      parameters = list(),
+      extra = list()
+    ) {
       self$clust.name <- clust.name
       self$k <- k
       self$xnames <- xnames
@@ -66,15 +69,15 @@ rtClust <- R6::R6Class("rtClust",
     print = function() {
       "show / print method for rtClust"
       objcat("Clustering object")
-      cat(hilite(self$clust.name), " (", select_clust(self$clust.name, desc = TRUE),
+      cat(
+        hilite(self$clust.name),
+        " (",
+        select_clust(self$clust.name, desc = TRUE),
         ")\n",
         sep = ""
       )
       if (length(self$parameters) > 0) {
-        printls(self$parameters,
-          title = "Parameters",
-          newline.pre = TRUE
-        )
+        printls(self$parameters, title = "Parameters", newline.pre = TRUE)
       }
     }
   )
@@ -91,13 +94,13 @@ NULL
 
 
 #' `print.rtClust`: `print` method for `rtClust` object
-#' 
+#'
 #' @param x `rtClust` object
 #' @param ... Not used
 #'
 #' @method print rtClust
 #' @rdname rtClust-methods
-#' 
+#'
 #' @export
 print.rtClust <- function(x, ...) {
   x$print()

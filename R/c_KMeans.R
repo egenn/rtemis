@@ -17,11 +17,14 @@
 #' @family Clustering
 #' @export
 
-c_KMeans <- function(x,
-                     x.test = NULL,
-                     k = 2,
-                     dist = "euclidean",
-                     verbose = TRUE, ...) {
+c_KMeans <- function(
+  x,
+  x.test = NULL,
+  k = 2,
+  dist = "euclidean",
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "KMeans"
@@ -36,17 +39,15 @@ c_KMeans <- function(x,
   }
 
   # Data ----
-  .colnames <- if (is.null(colnames(x))) paste0("Feature_", seq_len(NCOL(x))) else (colnames(x))
+  .colnames <- if (is.null(colnames(x)))
+    paste0("Feature_", seq_len(NCOL(x))) else (colnames(x))
   x <- as.data.frame(x)
   xnames <- colnames(x) <- .colnames
 
   # KMEANS ----
-  if (verbose) msg2("Performing K-means Clustering with k = ", k, "...", sep = "")
-  clust <- flexclust::cclust(x,
-    k = k,
-    dist = dist,
-    method = "kmeans", ...
-  )
+  if (verbose)
+    msg2("Performing K-means Clustering with k = ", k, "...", sep = "")
+  clust <- flexclust::cclust(x, k = k, dist = dist, method = "kmeans", ...)
 
   # Clusters ----
   clusters.train <- flexclust::clusters(clust)

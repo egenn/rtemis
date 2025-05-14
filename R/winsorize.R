@@ -10,36 +10,37 @@
 #' no values are changed
 #'
 #' @param x Numeric vector: Input data
-#' @param lo Numeric: If not NULL, replace any values in `x` lower than 
+#' @param lo Numeric: If not NULL, replace any values in `x` lower than
 #' this with this. Default = NULL
-#' @param hi Numeric: If not NULL, replace any values in `x` higher than 
+#' @param hi Numeric: If not NULL, replace any values in `x` higher than
 #' this with this.
-#' @param prob.lo Numeric (0, 1): If not NULL and `lo = NULL`, find sample 
-#' quantile that corresponds to this probability and set as `lo`. 
-#' @param prob.hi Numeric (0, 1): If not NULL and `hi = NULL`, find sample 
+#' @param prob.lo Numeric (0, 1): If not NULL and `lo = NULL`, find sample
+#' quantile that corresponds to this probability and set as `lo`.
+#' @param prob.hi Numeric (0, 1): If not NULL and `hi = NULL`, find sample
 #' quantile that corresponds to this probability and set as `hi`.
 #' @param quantile.type Integer: passed to `stats::quantile`
 #' @param verbose Logical: If TRUE, print messages to console.
-#' 
+#'
 #' @examples
 #' # Winsorize a normally distributed variable
 #' x <- rnorm(500)
 #' xw <- winsorize(x)
-#' # Winsorize an exponentially distributed variable only on 
+#' # Winsorize an exponentially distributed variable only on
 #' # the top 5% highest values
 #' x <- rexp(500)
 #' xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
 #' @author E.D. Gennatas
 #' @export
 
-winsorize <- function(x, 
-                      lo = NULL,
-                      hi = NULL,
-                      prob.lo = .025, 
-                      prob.hi = .975,
-                      quantile.type = 7,
-                      verbose = TRUE) {
-
+winsorize <- function(
+  x,
+  lo = NULL,
+  hi = NULL,
+  prob.lo = .025,
+  prob.hi = .975,
+  quantile.type = 7,
+  verbose = TRUE
+) {
   lo.cut <- if (!is.null(lo)) {
     lo
   } else if (!is.null(prob.lo)) {
@@ -62,5 +63,4 @@ winsorize <- function(x,
   xw <- ifelse(xw > hi.cut, hi.cut, xw)
 
   xw
-
 } # rtemis::winsorize

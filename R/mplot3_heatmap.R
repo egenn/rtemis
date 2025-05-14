@@ -82,7 +82,7 @@
 #' @param pdf.width Float: Width of PDF output, if `filename` is set
 #' @param pdf.height Float: Height of PDF output, if `filename` is set
 #' @param ... Additional arguments passed to `graphics::image`
-#' 
+#'
 #' @author E.D. Gennatas modified from original `stats::heatmap`
 #' by Andy Liaw, R. Gentleman, M. Maechler, W. Huber
 #' @examples
@@ -93,63 +93,65 @@
 #' }
 #' @export
 
-mplot3_heatmap <- function(x,
-                           colorGrad.n = 101,
-                           colorGrad.col = NULL,
-                           lo = "#18A3AC",
-                           lomid = NULL,
-                           mid = NULL,
-                           midhi = NULL,
-                           hi = "#F48024",
-                           space = "rgb",
-                           theme = getOption("rt.theme", "white"),
-                           colorbar = TRUE,
-                           cb.n = 21,
-                           cb.title = NULL,
-                           cb.cex = NULL,
-                           cb.title.cex = 1,
-                           cb.mar = NULL,
-                           Rowv = TRUE,
-                           Colv = TRUE, # if (symm) Rowv else NA,
-                           distfun = dist,
-                           hclustfun = hclust,
-                           reorderfun = function(d, w) reorder(d, w),
-                           add.expr,
-                           symm = FALSE,
-                           revC = identical(Colv, "Rowv"),
-                           # scale = c("row", "column", "none"),
-                           scale = "none",
-                           na.rm = TRUE,
-                           margins = NULL,
-                           group.columns = NULL,
-                           group.legend = !is.null(group.columns),
-                           column.palette = rtPalette,
-                           group.rows = NULL,
-                           row.palette = rtPalette,
-                           ColSideColors,
-                           RowSideColors,
-                           cexRow = 0.2 + 1/log10(nr),
-                           cexCol = 0.2 + 1/log10(nc),
-                           labRow = NULL,
-                           labCol = NULL,
-                           labCol.las = NULL, # rtemis
-                           main = "", # affects subsequent plot (CB); never NULL to keep streamlined
-                           main.adj = 0,
-                           main.line = NA,
-                           xlab = NULL,
-                           ylab = NULL,
-                           xlab.line = NULL,
-                           ylab.line = NULL,
-                           keep.dendro = FALSE,
-                           trace = 0,
-                           zlim = NULL,                     # rtemis
-                           autorange = TRUE,
-                           autolabel = letters,
-                           filename = NULL,
-                           par.reset = TRUE,
-                           pdf.width = 7,
-                           pdf.height = 7, ...) {
-
+mplot3_heatmap <- function(
+  x,
+  colorGrad.n = 101,
+  colorGrad.col = NULL,
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  space = "rgb",
+  theme = getOption("rt.theme", "white"),
+  colorbar = TRUE,
+  cb.n = 21,
+  cb.title = NULL,
+  cb.cex = NULL,
+  cb.title.cex = 1,
+  cb.mar = NULL,
+  Rowv = TRUE,
+  Colv = TRUE, # if (symm) Rowv else NA,
+  distfun = dist,
+  hclustfun = hclust,
+  reorderfun = function(d, w) reorder(d, w),
+  add.expr,
+  symm = FALSE,
+  revC = identical(Colv, "Rowv"),
+  # scale = c("row", "column", "none"),
+  scale = "none",
+  na.rm = TRUE,
+  margins = NULL,
+  group.columns = NULL,
+  group.legend = !is.null(group.columns),
+  column.palette = rtPalette,
+  group.rows = NULL,
+  row.palette = rtPalette,
+  ColSideColors,
+  RowSideColors,
+  cexRow = 0.2 + 1 / log10(nr),
+  cexCol = 0.2 + 1 / log10(nc),
+  labRow = NULL,
+  labCol = NULL,
+  labCol.las = NULL, # rtemis
+  main = "", # affects subsequent plot (CB); never NULL to keep streamlined
+  main.adj = 0,
+  main.line = NA,
+  xlab = NULL,
+  ylab = NULL,
+  xlab.line = NULL,
+  ylab.line = NULL,
+  keep.dendro = FALSE,
+  trace = 0,
+  zlim = NULL, # rtemis
+  autorange = TRUE,
+  autolabel = letters,
+  filename = NULL,
+  par.reset = TRUE,
+  pdf.width = 7,
+  pdf.height = 7,
+  ...
+) {
   # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
@@ -165,27 +167,32 @@ mplot3_heatmap <- function(x,
   if (is.null(cb.cex)) cb.cex <- theme$cex
 
   # Color ----
-  col <- colorGrad(n = colorGrad.n,
-                   colors = colorGrad.col,
-                   space = space,
-                   lo = lo,
-                   lomid = lomid,
-                   mid = mid,
-                   midhi = midhi,
-                   hi = hi)
+  col <- colorGrad(
+    n = colorGrad.n,
+    colors = colorGrad.col,
+    space = space,
+    lo = lo,
+    lomid = lomid,
+    mid = mid,
+    midhi = midhi,
+    hi = hi
+  )
 
   # Row and Col groups ----
   if (!is.null(group.columns) && missing(ColSideColors)) {
     group.columns <- factor(group.columns)
-    if (is.character(column.palette)) column.palette <- rtpalette(column.palette)
-    if (length(unique(group.columns)) > length(column.palette)) stop("Need more colors in column.palette")
+    if (is.character(column.palette))
+      column.palette <- rtpalette(column.palette)
+    if (length(unique(group.columns)) > length(column.palette))
+      stop("Need more colors in column.palette")
     ColSideColors <- unlist(column.palette)[group.columns]
   }
 
   if (!is.null(group.rows) && missing(RowSideColors)) {
     group.rows <- factor(group.rows)
     if (is.character(row.palette)) row.palette <- rtpalette(row.palette)
-    if (length(unique(group.rows)) > length(row.palette)) stop("Need more colors in column.palette")
+    if (length(unique(group.rows)) > length(row.palette))
+      stop("Need more colors in column.palette")
     RowSideColors <- unlist(row.palette)[group.rows]
   }
 
@@ -212,43 +219,33 @@ mplot3_heatmap <- function(x,
     stop("'x' must be a numeric matrix")
   nr <- di[1L]
   nc <- di[2L]
-  if (nr <= 1 || nc <= 1)
-    stop("'x' must have at least 2 rows and 2 columns")
+  if (nr <= 1 || nc <= 1) stop("'x' must have at least 2 rows and 2 columns")
   if (!is.numeric(margins) || length(margins) != 2L)
     stop("'margins' must be a numeric vector of length 2")
   doRdend <- !identical(Rowv, NA)
   doCdend <- !identical(Colv, NA)
-  if (!doRdend && identical(Colv, "Rowv"))
-    doCdend <- FALSE
-  if (is.null(Rowv))
-    Rowv <- rowMeans(x, na.rm = na.rm)
-  if (is.null(Colv))
-    Colv <- colMeans(x, na.rm = na.rm)
+  if (!doRdend && identical(Colv, "Rowv")) doCdend <- FALSE
+  if (is.null(Rowv)) Rowv <- rowMeans(x, na.rm = na.rm)
+  if (is.null(Colv)) Colv <- colMeans(x, na.rm = na.rm)
   if (doRdend) {
-    if (inherits(Rowv, "dendrogram"))
-      ddr <- Rowv
-    else {
+    if (inherits(Rowv, "dendrogram")) ddr <- Rowv else {
       hcr <- hclustfun(distfun(x))
       ddr <- as.dendrogram(hcr)
-      if (!is.logical(Rowv) || Rowv)
-        ddr <- reorderfun(ddr, Rowv)
+      if (!is.logical(Rowv) || Rowv) ddr <- reorderfun(ddr, Rowv)
     }
     if (nr != length(rowInd <- order.dendrogram(ddr)))
       stop("row dendrogram ordering gave index of wrong length")
   } else rowInd <- 1L:nr
   if (doCdend) {
-    if (inherits(Colv, "dendrogram"))
-      ddc <- Colv
-    else if (identical(Colv, "Rowv")) {
-      if (nr != nc)
-        stop("Colv = \"Rowv\" but nrow(x) != ncol(x)")
+    if (inherits(Colv, "dendrogram")) ddc <- Colv else if (
+      identical(Colv, "Rowv")
+    ) {
+      if (nr != nc) stop("Colv = \"Rowv\" but nrow(x) != ncol(x)")
       ddc <- ddr
-    }
-    else {
+    } else {
       hcc <- hclustfun(distfun(if (symm) x else t(x)))
       ddc <- as.dendrogram(hcc)
-      if (!is.logical(Colv) || Colv)
-        ddc <- reorderfun(ddc, Colv)
+      if (!is.logical(Colv) || Colv) ddc <- reorderfun(ddc, Colv)
     }
     if (nc != length(colInd <- order.dendrogram(ddc)))
       stop("column dendrogram ordering gave index of wrong length")
@@ -282,18 +279,15 @@ mplot3_heatmap <- function(x,
   lwid <- c(if (doRdend) 1 else 0.05, 4)
   lhei <- c((if (doCdend) 1 else 0.05) + if (!is.null(main)) 0.2 else 0, 4)
   if (!missing(ColSideColors)) {
-    if (!is.character(ColSideColors) || length(ColSideColors) !=
-        nc)
+    if (!is.character(ColSideColors) || length(ColSideColors) != nc)
       stop("'ColSideColors' must be a character vector of length ncol(x)")
     lmat <- rbind(lmat[1, ] + 1, c(NA, 1), lmat[2, ] + 1)
     lhei <- c(lhei[1L], 0.2, lhei[2L])
   }
   if (!missing(RowSideColors)) {
-    if (!is.character(RowSideColors) || length(RowSideColors) !=
-        nr)
+    if (!is.character(RowSideColors) || length(RowSideColors) != nr)
       stop("'RowSideColors' must be a character vector of length nrow(x)")
-    lmat <- cbind(lmat[, 1] + 1, c(rep(NA, nrow(lmat) - 1),
-                                   1), lmat[, 2] + 1)
+    lmat <- cbind(lmat[, 1] + 1, c(rep(NA, nrow(lmat) - 1), 1), lmat[, 2] + 1)
     lwid <- c(lwid[1L], 0.2, lwid[2L])
   }
   lmat[is.na(lmat)] <- 0
@@ -322,7 +316,13 @@ mplot3_heatmap <- function(x,
   on.exit(dev.flush())
 
   # par ----
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+  if (!is.null(filename))
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
   op <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(op)))
@@ -330,51 +330,80 @@ mplot3_heatmap <- function(x,
   layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
   if (!missing(RowSideColors)) {
     par(mar = c(margins[1L], 0, 0, 0.5), bg = theme$bg) # orig c(margins[1L], 0, 0, 0.5)
-    image(rbind(if (revC)
-      nr:1L
-      else 1L:nr), col = RowSideColors[rowInd], axes = FALSE)
+    image(
+      rbind(if (revC) nr:1L else 1L:nr),
+      col = RowSideColors[rowInd],
+      axes = FALSE
+    )
   }
   if (!missing(ColSideColors)) {
     par(mar = c(0.5, 0, 0, margins[2L]), bg = theme$bg)
     image(cbind(1L:nc), col = ColSideColors[colInd], axes = FALSE)
   }
-  par(mar = c(margins[1L], 0, 0, margins[2L]),
-      bg = theme$bg,
-      family = theme$font.family)
-  if (!symm || scale != "none")
-    x <- t(x)
+  par(
+    mar = c(margins[1L], 0, 0, margins[2L]),
+    bg = theme$bg,
+    family = theme$font.family
+  )
+  if (!symm || scale != "none") x <- t(x)
   if (revC) {
     iy <- nr:1
-    if (doRdend)
-      ddr <- rev(ddr)
+    if (doRdend) ddr <- rev(ddr)
     x <- x[, iy]
-  }
-  else iy <- 1L:nr
-  image(1L:nc, 1L:nr, x,
-        xlim = 0.5 + c(0, nc),
-        ylim = 0.5 + c(0, nr),
-        axes = FALSE,
-        xlab = "",
-        ylab = "",
-        col = col,
-        zlim = zlim, ...)
-  axis(1, 1L:nc, labels = labCol, las = labCol.las, line = -0.5, tick = 0,
-       cex.axis = cexCol, col.axis = col.axis)
+  } else iy <- 1L:nr
+  image(
+    1L:nc,
+    1L:nr,
+    x,
+    xlim = 0.5 + c(0, nc),
+    ylim = 0.5 + c(0, nr),
+    axes = FALSE,
+    xlab = "",
+    ylab = "",
+    col = col,
+    zlim = zlim,
+    ...
+  )
+  axis(
+    1,
+    1L:nc,
+    labels = labCol,
+    las = labCol.las,
+    line = -0.5,
+    tick = 0,
+    cex.axis = cexCol,
+    col.axis = col.axis
+  )
   if (!is.null(xlab)) {
     if (is.null(xlab.line)) xlab.line <- margins[1L] - 1.25
-    if (trace > 0) msg2("xlab is", xlab,"margins is", margins," and xlab.line is", xlab.line)
+    if (trace > 0)
+      msg2(
+        "xlab is",
+        xlab,
+        "margins is",
+        margins,
+        " and xlab.line is",
+        xlab.line
+      )
     mtext(xlab, side = 1, line = xlab.line)
   }
 
-  axis(4, iy, labels = labRow, las = 2, line = -0.5, tick = 0,
-       cex.axis = cexRow, col.axis = col.axis)
+  axis(
+    4,
+    iy,
+    labels = labRow,
+    las = 2,
+    line = -0.5,
+    tick = 0,
+    cex.axis = cexRow,
+    col.axis = col.axis
+  )
   if (!is.null(ylab)) {
     if (is.null(ylab.line)) ylab.line <- margins[2L] - 1.25
     mtext(ylab, side = 4, line = ylab.line)
   }
 
-  if (!missing(add.expr))
-    eval.parent(substitute(add.expr))
+  if (!missing(add.expr)) eval.parent(substitute(add.expr))
 
   # Main Title ----
   if (!is.null(rtenv$autolabel)) {
@@ -386,18 +415,31 @@ mplot3_heatmap <- function(x,
   # Plot ----
   par(mar = c(margins[1L], 0, 0, 0), bg = theme$bg)
   if (doRdend)
-    plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none",
-         edgePar = list(col = col.axis))
-  else frame()
+    plot(
+      ddr,
+      horiz = TRUE,
+      axes = FALSE,
+      yaxs = "i",
+      leaflab = "none",
+      edgePar = list(col = col.axis)
+    ) else frame()
   par(mar = c(0, 0, if (!is.null(main)) 1 else 0, margins[2L]), bg = theme$bg)
   if (doCdend)
-    plot(ddc, axes = FALSE, xaxs = "i", leaflab = "none",
-         edgePar = list(col = col.axis))
-  else if (!is.null(main))
-    frame()
+    plot(
+      ddc,
+      axes = FALSE,
+      xaxs = "i",
+      leaflab = "none",
+      edgePar = list(col = col.axis)
+    ) else if (!is.null(main)) frame()
   if (!is.null(main)) {
     par(xpd = NA, mar = c(0, 0, 0, 0), bg = theme$bg)
-    title(main, cex.main = 1.5 * op[["cex.main"]], adj = main.adj, line = main.line)
+    title(
+      main,
+      cex.main = 1.5 * op[["cex.main"]],
+      adj = main.adj,
+      line = main.line
+    )
   }
 
   # Colorbar ----
@@ -411,25 +453,27 @@ mplot3_heatmap <- function(x,
       if (is.null(cb.mar)) cb.mar <- c(margins[1], 0, 0, 3)
       cb.add.new <- TRUE
     }
-    colorGrad(colorGrad.n,
-              colors = colorGrad.col,
-              lo = lo,
-              lomid = lomid,
-              mid = mid,
-              midhi = midhi,
-              hi = hi,
-              colorbar = TRUE,
-              cb.n = cb.n,
-              par.reset = TRUE,
-              # cb.add = T,
-              cex = cb.cex,
-              cb.axis.pos = 1.2,
-              cb.add = cb.add.new,
-              cb.add.mar = cb.mar,
-              bar.min = ddSci(zlim[1]),
-              bar.mid = ddSci((zlim[1] + zlim[2]) / 2),
-              bar.max = ddSci(zlim[2]),
-              col.text = col.axis)
+    colorGrad(
+      colorGrad.n,
+      colors = colorGrad.col,
+      lo = lo,
+      lomid = lomid,
+      mid = mid,
+      midhi = midhi,
+      hi = hi,
+      colorbar = TRUE,
+      cb.n = cb.n,
+      par.reset = TRUE,
+      # cb.add = T,
+      cex = cb.cex,
+      cb.axis.pos = 1.2,
+      cb.add = cb.add.new,
+      cb.add.mar = cb.mar,
+      bar.min = ddSci(zlim[1]),
+      bar.mid = ddSci((zlim[1] + zlim[2]) / 2),
+      bar.max = ddSci(zlim[2]),
+      col.text = col.axis
+    )
 
     if (!is.null(cb.title)) mtext(text = cb.title, cex = cb.title.cex)
   }
@@ -440,21 +484,27 @@ mplot3_heatmap <- function(x,
     ngroups <- length(group.names)
     frame()
     par(mar = rep(0, 4), oma = rep(0, 4))
-    mtext(group.names, 1, line = seq(1, ngroups * 1.3, 1.3) - (ngroups + 2),
-          col = unlist(column.palette)[seq_len(ngroups)],
-          adj = 0, xpd = TRUE,
-          cex = theme$cex)
+    mtext(
+      group.names,
+      1,
+      line = seq(1, ngroups * 1.3, 1.3) - (ngroups + 2),
+      col = unlist(column.palette)[seq_len(ngroups)],
+      adj = 0,
+      xpd = TRUE,
+      cex = theme$cex
+    )
     # line = seq(-1, -ngroups * 1.3, -1.3)
   }
 
   if (!is.null(filename)) dev.off()
 
-  invisible(list(rowInd = rowInd,
-                 colInd = colInd,
-                 Rowv = if (keep.dendro && doRdend) ddr,
-                 Colv = if (keep.dendro && doCdend) ddc,
-                 lmat = lmat,
-                 group.columns = group.columns,
-                 group.rows = group.rows))
-
+  invisible(list(
+    rowInd = rowInd,
+    colInd = colInd,
+    Rowv = if (keep.dendro && doRdend) ddr,
+    Colv = if (keep.dendro && doCdend) ddc,
+    lmat = lmat,
+    group.columns = group.columns,
+    group.rows = group.rows
+  ))
 } # rtemis::mplot3_heatmap

@@ -17,11 +17,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-rules2medmod <- function(rules,
-                         x,
-                         .ddSci = TRUE,
-                         verbose = TRUE,
-                         trace = 0) {
+rules2medmod <- function(rules, x, .ddSci = TRUE, verbose = TRUE, trace = 0) {
   cxr <- matchCasesByRules(x, rules, verbose = verbose)
   nrules <- length(rules)
   rules.f <- vector("character", nrules)
@@ -37,13 +33,25 @@ rules2medmod <- function(rules,
       if (categorical) {
         var <- gsub("\\s", "", strsplit(sub[j], "%in%")[[1]][1])
         vals <- dat[[var]]
-        value <- paste0(get_mode(vals), " (", paste(levels(droplevels(vals)), collapse = ", "), ")")
+        value <- paste0(
+          get_mode(vals),
+          " (",
+          paste(levels(droplevels(vals)), collapse = ", "),
+          ")"
+        )
         rule[j] <- paste0(var, " = ", value)
       } else {
         sub[j] <- gsub(">|>=|<|<=", "@", sub[j])
         var <- gsub("\\s", "", strsplit(sub[j], "@")[[1]][1])
         vals <- dat[[var]]
-        value <- paste0(frmt(median(vals)), " (", frmt(min(vals)), ":", frmt(max(vals)), ")")
+        value <- paste0(
+          frmt(median(vals)),
+          " (",
+          frmt(min(vals)),
+          ":",
+          frmt(max(vals)),
+          ")"
+        )
         rule[j] <- paste0(var, " = ", value)
       }
     } # /loop through each rule's conditions

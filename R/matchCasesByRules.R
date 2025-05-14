@@ -7,7 +7,7 @@
 #' @param x Matrix / data frame: Input features
 #' @param rules Character vector: Rules
 #' @param verbose Logical: If TRUE, print messages to console
-#' 
+#'
 #' @author E.D. Gennatas
 #'
 #' @return cases-by-rules matrix (binary; 1: match, 0: no match)
@@ -15,7 +15,6 @@
 #' @noRd
 
 matchCasesByRules <- function(x, rules, verbose = TRUE) {
-
   n_cases <- NROW(x)
   n_rules <- length(rules)
   if (!is.data.table(x)) x <- data.table::as.data.table(x)
@@ -31,7 +30,6 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
   if (verbose) msg2done()
 
   cxr
-
 } # rtemis::matchCasesByRules
 
 #' Index cases by rules
@@ -40,7 +38,7 @@ matchCasesByRules <- function(x, rules, verbose = TRUE) {
 #' and one rule only
 #'
 #' @inheritParams matchCasesByRules
-#' 
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd

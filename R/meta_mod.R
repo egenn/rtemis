@@ -32,37 +32,42 @@
 #' @author E.D. Gennatas
 #' @export
 
-meta_mod <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     base.mods = c("mars", "ranger"),
-                     base.params = vector("list", length(base.mods)),
-                     base.resample.params = setup.resample(
-                       resampler = "kfold",
-                       n.resamples = 4
-                     ),
-                     meta.mod = "gam",
-                     # meta.input = c("retrain", "bag"),
-                     meta.params = list(),
-                     x.name = NULL,
-                     y.name = NULL,
-                     save.base.res = TRUE,
-                     save.base.full = FALSE,
-                     col = NULL,
-                     se.lty = 3,
-                     print.base.plot = FALSE,
-                     print.plot = TRUE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = rtTheme,
-                     question = NULL,
-                     verbose.base.res.mods = FALSE,
-                     verbose.base.mods = FALSE,
-                     verbose = TRUE,
-                     trace = 0,
-                     base.n.cores = 1,
-                     n.cores = rtCores,
-                     save.mod = FALSE,
-                     outdir = NULL, ...) {
+meta_mod <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  base.mods = c("mars", "ranger"),
+  base.params = vector("list", length(base.mods)),
+  base.resample.params = setup.resample(
+    resampler = "kfold",
+    n.resamples = 4
+  ),
+  meta.mod = "gam",
+  # meta.input = c("retrain", "bag"),
+  meta.params = list(),
+  x.name = NULL,
+  y.name = NULL,
+  save.base.res = TRUE,
+  save.base.full = FALSE,
+  col = NULL,
+  se.lty = 3,
+  print.base.plot = FALSE,
+  print.plot = TRUE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose.base.res.mods = FALSE,
+  verbose.base.mods = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  base.n.cores = 1,
+  n.cores = rtCores,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(meta_mod))
@@ -70,7 +75,14 @@ meta_mod <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -91,15 +103,14 @@ meta_mod <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   names(base.params) <- base.mod.names
   # meta.input <- match.arg(meta.input)
   meta.input <- "retrain"
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
-    verbose = verbose
-  )
+  dt <- prepare_data(x, y, x.test, y.test, verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -109,21 +120,32 @@ meta_mod <- function(x, y = NULL,
   checkType(type, "Regression", mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
 
   # Resamples ----
-  res.part <- resample(y, rtset = base.resample.params, verbosity = as.integer(verbose))
+  res.part <- resample(
+    y,
+    rtset = base.resample.params,
+    verbosity = as.integer(verbose)
+  )
 
   # {Grid} Function ----
-  waffle1 <- function(index, grid,
-                      x.int, y.int,
-                      res.part,
-                      base.params,
-                      verbose, ...) {
+  waffle1 <- function(
+    index,
+    grid,
+    x.int,
+    y.int,
+    res.part,
+    base.params,
+    verbose,
+    ...
+  ) {
     mod.name <- grid$mod[index]
     res.id <- grid$resample.id[index]
     x.int.train <- x.int[res.part[[res.id]], ]
@@ -132,9 +154,12 @@ meta_mod <- function(x, y = NULL,
     y.int.test <- y.int[-res.part[[res.id]]]
     params <- base.params[[mod.name]]
     args <- list(
-      x = x.int.train, y = y.int.train,
-      x.test = x.int.test, y.test = y.int.test,
-      x.name = "X", y.name = "y",
+      x = x.int.train,
+      y = y.int.train,
+      x.test = x.int.test,
+      y.test = y.int.test,
+      x.name = "X",
+      y.name = "y",
       print.plot = FALSE,
       verbose = verbose
     )
@@ -148,22 +173,35 @@ meta_mod <- function(x, y = NULL,
   grid <- expand.grid(mod = base.mod.names, resample.id = seq(res.part))
   nbases <- length(base.mod.names)
   if (verbose) {
-    cat("\n  I will train ", nbases, " base learners: ",
+    cat(
+      "\n  I will train ",
+      nbases,
+      " base learners: ",
       hilite(paste(base.mod.names, collapse = ", ")),
       sep = ""
     )
   }
   if (verbose) {
-    cat("  using ", base.resample.params$n.resamples, " internal resamples (",
-      base.resample.params$resampler, "),",
+    cat(
+      "  using ",
+      base.resample.params$n.resamples,
+      " internal resamples (",
+      base.resample.params$resampler,
+      "),",
       sep = ""
     )
   }
   if (verbose) cat("  and build a", hilite(toupper(meta.mod)), "meta model")
   if (verbose) {
-    cat("  Training ", nbases, " base learners",
-      " on ", length(res.part), " training set resamples (",
-      nrow(grid), " models total)...\n",
+    cat(
+      "  Training ",
+      nbases,
+      " base learners",
+      " on ",
+      length(res.part),
+      " training set resamples (",
+      nrow(grid),
+      " models total)...\n",
       sep = ""
     )
   }
@@ -173,7 +211,9 @@ meta_mod <- function(x, y = NULL,
   } else {
     pbapply::pboptions(type = "none")
   }
-  base.res <- pbapply::pblapply(seq_len(NROW(grid)), waffle1,
+  base.res <- pbapply::pblapply(
+    seq_len(NROW(grid)),
+    waffle1,
     grid = grid,
     x.int = x,
     y.int = y,
@@ -185,14 +225,27 @@ meta_mod <- function(x, y = NULL,
   names(base.res) <- paste0(grid$mod, "_", grid$resample.id)
 
   # Collect all grid lines' y.test and predicted
-  base.res.y.test <- unlist(lapply(seq(res.part), function(res) c(y[-res.part[[res]]])))
-  base.res.predicted <- as.data.frame(plyr::llply(seq(base.mod.names), function(mod) {
-    cbind(plyr::ldply(seq(res.part), function(res) {
-      grid.index <- seq(mod, nrow(grid), nbases)[res]
-      if (trace > 0) cat("mod.name is", base.mod.names[mod], "and grid.index is ", grid.index, "\n")
-      cbind(base.res[[grid.index]]$predicted)
-    }))
-  }))
+  base.res.y.test <- unlist(lapply(
+    seq(res.part),
+    function(res) c(y[-res.part[[res]]])
+  ))
+  base.res.predicted <- as.data.frame(plyr::llply(
+    seq(base.mod.names),
+    function(mod) {
+      cbind(plyr::ldply(seq(res.part), function(res) {
+        grid.index <- seq(mod, nrow(grid), nbases)[res]
+        if (trace > 0)
+          cat(
+            "mod.name is",
+            base.mod.names[mod],
+            "and grid.index is ",
+            grid.index,
+            "\n"
+          )
+        cbind(base.res[[grid.index]]$predicted)
+      }))
+    }
+  ))
   colnames(base.res.predicted) <- base.mod.names
 
   # Base res Performance  ----
@@ -227,14 +280,18 @@ meta_mod <- function(x, y = NULL,
     if (verbose) msg2("Bagging base resamples to get final base outputs...")
     base.mods.fitted <- sapply()
   } else {
-    if (verbose) msg2("Training", nbases, "base learners on full training set...")
-    base.mods <- pbapply::pblapply(seq(base.mod.names),
+    if (verbose)
+      msg2("Training", nbases, "base learners on full training set...")
+    base.mods <- pbapply::pblapply(
+      seq(base.mod.names),
       function(mod) {
         do.call(
           select_learn(base.mod.names[mod]),
           list(
-            x = x, y = y,
-            x.test = x.test, y.test = y.test,
+            x = x,
+            y = y,
+            x.test = x.test,
+            y.test = y.test,
             print.plot = print.base.plot,
             verbose = verbose.base.mods
           )
@@ -246,7 +303,10 @@ meta_mod <- function(x, y = NULL,
   }
 
   # Fitted ----
-  base.mods.fitted <- as.data.frame(sapply(base.mods, function(mod) c(mod$fitted)))
+  base.mods.fitted <- as.data.frame(sapply(
+    base.mods,
+    function(mod) c(mod$fitted)
+  ))
   base.mods.error.train <- as.data.frame(sapply(
     base.mods,
     function(mod) c(mod$error.train)
@@ -268,7 +328,8 @@ meta_mod <- function(x, y = NULL,
       function(mod) c(mod$error.test)
     ))
     if (meta.mod.name == "GBM") {
-      meta.predicted <- predict(meta.mod$mod,
+      meta.predicted <- predict(
+        meta.mod$mod,
         newdata = base.mods.predicted,
         n.trees = meta.mod$best.tune$n.trees
       )
@@ -327,6 +388,10 @@ meta_mod <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::meta_mod

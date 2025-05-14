@@ -1,11 +1,11 @@
 # Rule operations
 
 #' Prune a rule to a maximum length
-#' 
+#'
 #' @param rule Character: A rule.
 #' @param max_length Integer: The maximum number of conditions to keep.
 #' @param sep Character: The separator between conditions.
-#' 
+#'
 #' @return Character: The pruned rule.
 #' @author E.D. Gennatas
 #' @keywords internal
@@ -35,19 +35,21 @@ simple_prune_ <- function(rule, max_length, sep = " & ") {
 
 simple_prune <- function(rules, max_length, sep = " & ") {
   rules <- sapply(
-    rules, simple_prune_,
+    rules,
+    simple_prune_,
     max_length = max_length,
-    sep = sep, USE.NAMES = FALSE
+    sep = sep,
+    USE.NAMES = FALSE
   )
   rules
 } # rtemis::simple_prune
 
 
 #' Extract variable names from rules
-#' 
+#'
 #' @param rules Character vector: Rules.
 #' @param unique Logical: If TRUE, return only unique variables.
-#' 
+#'
 #' @return Character vector: Variable names.
 #' @author E.D. Gennatas
 #' @export
@@ -64,9 +66,8 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
   vars
 }
 
-
 #' Calculate variable statistics from rules
-#' 
+#'
 
 # N times variable appears in each rule divided by N variables,
 # averaged across C rules

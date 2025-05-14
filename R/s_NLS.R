@@ -17,36 +17,40 @@
 #' @param save.func Logical: If TRUE, save model as character string
 #' @param verbosity Integer: If > 0, print model summary
 #' @param ... Additional arguments to be passed to `nls`
-#' 
+#'
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
 #' @export
 
-s_NLS <- function(x, y = NULL,
-                  x.test = NULL,
-                  y.test = NULL,
-                  formula = NULL,
-                  weights = NULL,
-                  start = NULL,
-                  control = nls.control(maxiter = 200),
-                  .type = NULL,
-                  default.start = .1,
-                  algorithm = "default",
-                  nls.trace = FALSE,
-                  x.name = NULL, y.name = NULL,
-                  save.func = TRUE,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  verbosity = 0,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
+s_NLS <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  formula = NULL,
+  weights = NULL,
+  start = NULL,
+  control = nls.control(maxiter = 200),
+  .type = NULL,
+  default.start = .1,
+  algorithm = "default",
+  nls.trace = FALSE,
+  x.name = NULL,
+  y.name = NULL,
+  save.func = TRUE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  verbosity = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_NLS))
@@ -54,7 +58,14 @@ s_NLS <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -67,7 +78,8 @@ s_NLS <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test)
@@ -81,8 +93,10 @@ s_NLS <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   df <- data.frame(x, y = y)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -92,7 +106,10 @@ s_NLS <- function(x, y = NULL,
     if (is.null(formula)) {
       feature.names <- colnames(df)[-NCOL(df)]
       weight.names <- paste0("w", seq(feature.names))
-      formula <- as.formula(paste("y ~ b +", paste0(weight.names, "*", feature.names, collapse = " + ")))
+      formula <- as.formula(paste(
+        "y ~ b +",
+        paste0(weight.names, "*", feature.names, collapse = " + ")
+      ))
       params <- getTerms2(formula, data = df)
       # Doesn't work with single predictor because of glmnet
       # if (is.null(start)) {
@@ -102,7 +119,12 @@ s_NLS <- function(x, y = NULL,
       # }
     }
     if (is.null(start)) {
-      if (verbose) msg2("Initializing all parameters as", default.start, newline.pre = TRUE)
+      if (verbose)
+        msg2(
+          "Initializing all parameters as",
+          default.start,
+          newline.pre = TRUE
+        )
       params <- getTerms2(formula, data = df)
       start <- lapply(seq(params), function(i) start[[i]] <- default.start)
       names(start) <- params
@@ -121,14 +143,16 @@ s_NLS <- function(x, y = NULL,
 
   # NLS ----
   if (verbose) msg2("Training NLS model...", newline.pre = TRUE)
-  mod <- nls(formula,
-             data = df,
-             start = start,
-             control = control,
-             algorithm = algorithm,
-             trace = nls.trace, ...)
+  mod <- nls(
+    formula,
+    data = df,
+    start = start,
+    control = control,
+    algorithm = algorithm,
+    trace = nls.trace,
+    ...
+  )
   if (verbosity > 0) print(summary(mod))
-
 
   if (save.func) {
     func <- as.character(formula)
@@ -155,64 +179,67 @@ s_NLS <- function(x, y = NULL,
   }
 
   # Outro ----
-  extra <- list(formula = formula,
-                .type = .type)
+  extra <- list(formula = formula, .type = .type)
   if (save.func) extra$model <- .func
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 varimp = coef(mod),
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    varimp = coef(mod),
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_NLS
 
 
 #' Get terms of a formula
 #'
 #' @param formula formula with more than x & y, e.g. `y ~ b * m ^ x`
-#' 
+#'
 #' @keywords internal
 #' @noRd
 
 getTerms <- function(formula) {
-
   terms <- as.character(formula)
   if (length(terms) < 3) stop("Incorrect formula supplied")
   terms <- terms[3]
   terms <- strsplit(terms, "^")[[1]]
   terms[terms %in% letters[-24]]
-
 } # rtemis::getTerms
 
 getTerms2 <- function(formula, data = NULL) {
-
   terms <- as.character(formula)
   if (length(terms) < 3) stop("Incorrect formula supplied")
   terms <- terms[3]
@@ -223,43 +250,53 @@ getTerms2 <- function(formula, data = NULL) {
   # Split terms
   terms <- strsplit(terms, "#")[[1]]
   # Exclude predictors from terms
-  if (!is.null(data)) if (!is.null(colnames(data))) terms <- setdiff(terms, colnames(data))
+  if (!is.null(data))
+    if (!is.null(colnames(data))) terms <- setdiff(terms, colnames(data))
   terms
-
 } # rtemis::getTerms2
 
-s_POWER <- function(x, y,
-                    x.test, y.test,
-                    formula = y ~ b * m ^ x,
-                    start = NULL,
-                    control = nls.control(),
-                    default.start = 1,
-                    algorithm = "default",
-                    x.name = NULL, y.name = NULL,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose = TRUE,
-                    outdir = NULL,
-                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
-  s_NLS(x, y,
-        x.test, y.test,
-        formula = formula,
-        start = start,
-        control = control,
-        default.start = default.start,
-        algorithm = algorithm,
-        x.name = x.name, y.name = y.name,
-        print.plot = print.plot,
-        plot.fitted = plot.fitted,
-        plot.predicted = plot.predicted,
-        plot.theme = plot.theme,
-        question = question,
-        verbose = verbose,
-        outdir = outdir,
-        save.mod = save.mod, ...)
-
+s_POWER <- function(
+  x,
+  y,
+  x.test,
+  y.test,
+  formula = y ~ b * m^x,
+  start = NULL,
+  control = nls.control(),
+  default.start = 1,
+  algorithm = "default",
+  x.name = NULL,
+  y.name = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
+  s_NLS(
+    x,
+    y,
+    x.test,
+    y.test,
+    formula = formula,
+    start = start,
+    control = control,
+    default.start = default.start,
+    algorithm = algorithm,
+    x.name = x.name,
+    y.name = y.name,
+    print.plot = print.plot,
+    plot.fitted = plot.fitted,
+    plot.predicted = plot.predicted,
+    plot.theme = plot.theme,
+    question = question,
+    verbose = verbose,
+    outdir = outdir,
+    save.mod = save.mod,
+    ...
+  )
 } # rtemis::s_POWER

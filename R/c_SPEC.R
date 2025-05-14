@@ -4,7 +4,7 @@
 
 #' Spectral Clustering
 #'
-#' Perform [Spectral Clustering](https://en.wikipedia.org/wiki/Spectral_clustering) 
+#' Perform [Spectral Clustering](https://en.wikipedia.org/wiki/Spectral_clustering)
 #' using `kernlab::specc`
 #'
 #' @inheritParams c_KMeans
@@ -29,17 +29,19 @@
 #' @family Clustering
 #' @export
 
-c_SPEC <- function(x,
-                   k = 2,
-                   kernel = "rbfdot",
-                   kpar = "automatic",
-                   nystrom.red = FALSE,
-                   nystrom.sample = dim(x)[1] / 6,
-                   iterations = 200,
-                   mod.sample = 0.75,
-                   na.action = na.omit,
-                   verbose = TRUE, ...) {
-
+c_SPEC <- function(
+  x,
+  k = 2,
+  kernel = "rbfdot",
+  kpar = "automatic",
+  nystrom.red = FALSE,
+  nystrom.sample = dim(x)[1] / 6,
+  iterations = 200,
+  mod.sample = 0.75,
+  na.action = na.omit,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "SPEC"
@@ -59,37 +61,44 @@ c_SPEC <- function(x,
   }
 
   # Spectral clust ----
-  if (verbose) msg2("Performing Spectral Clustering with k = ", k, "...", sep = "")
-  clust <- kernlab::specc(data.matrix(x),
-                          centers = k,
-                          kernel = kernel,
-                          kpar = kpar,
-                          nystrom.red = nystrom.red,
-                          nystrom.sample = nystrom.sample,
-                          iterations = iterations,
-                          mod.sample = mod.sample,
-                          na.action = na.action, ...)
+  if (verbose)
+    msg2("Performing Spectral Clustering with k = ", k, "...", sep = "")
+  clust <- kernlab::specc(
+    data.matrix(x),
+    centers = k,
+    kernel = kernel,
+    kpar = kpar,
+    nystrom.red = nystrom.red,
+    nystrom.sample = nystrom.sample,
+    iterations = iterations,
+    mod.sample = mod.sample,
+    na.action = na.action,
+    ...
+  )
 
   # Clusters ----
   clusters.train <- clust@.Data
   clusters.test <- NULL
 
   # Outro ----
-  cl <- rtClust$new(clust.name = clust.name,
-                    k = k,
-                    xnames = xnames,
-                    clust = clust,
-                    clusters.train = clusters.train,
-                    clusters.test = clusters.test,
-                    parameters = list(k = k,
-                                      kernel = kernel,
-                                      kpar = kpar,
-                                      nystrom.red = nystrom.red,
-                                      nystrom.sample = nystrom.sample,
-                                      iterations = iterations,
-                                      mod.sample = mod.sample),
-                    extra = list())
+  cl <- rtClust$new(
+    clust.name = clust.name,
+    k = k,
+    xnames = xnames,
+    clust = clust,
+    clusters.train = clusters.train,
+    clusters.test = clusters.test,
+    parameters = list(
+      k = k,
+      kernel = kernel,
+      kpar = kpar,
+      nystrom.red = nystrom.red,
+      nystrom.sample = nystrom.sample,
+      iterations = iterations,
+      mod.sample = mod.sample
+    ),
+    extra = list()
+  )
   outro(start.time, verbose = verbose)
   cl
-
 } # rtemis::c_SPEC

@@ -28,65 +28,79 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #' @export
 
-s_LightRuleFit <- function(x, y = NULL,
-                           x.test = NULL, y.test = NULL,
-                           #  params = setup.LightRuleFit(),
-                           lgbm.mod = NULL, # pre-trained LightGBM model
-                           # LightGBM params
-                           n_trees = 200,
-                           num_leaves = 32L,
-                           max_depth = 4,
-                           learning_rate = 0.1,
-                           subsample = 0.666,
-                           subsample_freq = 1L,
-                           lambda_l1 = 0,
-                           lambda_l2 = 0,
-                           objective = NULL,
-                           importance = FALSE,
-                           lgbm.ifw = TRUE,
-                           lgbm.grid.resample.params = setup.resample(
-                             resampler = "kfold", n.resamples = 5
-                           ),
-                           # GLMNET params
-                           glmnet.ifw = TRUE,
-                           alpha = 1,
-                           lambda = NULL,
-                           glmnet.grid.resample.params = setup.resample(
-                             resampler = "kfold", n.resamples = 5
-                           ),
-                           # Grid search
-                           grid.resample.params = setup.resample("kfold", 5),
-                           gridsearch.type = "exhaustive",
-                           metric = NULL,
-                           maximize = NULL,
-                           grid.verbose = FALSE,
-                           save.gridrun = FALSE,
-                           weights = NULL, # not used
-                           # RuleFit settings
-                           empirical_risk = TRUE,
-                           cases_by_rules = NULL,
-                           save_cases_by_rules = FALSE,
-                           x.name = NULL,
-                           y.name = NULL,
-                           n.cores = rtCores,
-                           question = NULL,
-                           print.plot = FALSE,
-                           plot.fitted = NULL,
-                           plot.predicted = NULL,
-                           plot.theme = rtTheme,
-                           outdir = NULL,
-                           save.mod = if (!is.null(outdir)) TRUE else FALSE,
-                           verbose = TRUE,
-                           trace = 0,
-                           .gs = FALSE) {
+s_LightRuleFit <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  #  params = setup.LightRuleFit(),
+  lgbm.mod = NULL, # pre-trained LightGBM model
+  # LightGBM params
+  n_trees = 200,
+  num_leaves = 32L,
+  max_depth = 4,
+  learning_rate = 0.1,
+  subsample = 0.666,
+  subsample_freq = 1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  objective = NULL,
+  importance = FALSE,
+  lgbm.ifw = TRUE,
+  lgbm.grid.resample.params = setup.resample(
+    resampler = "kfold",
+    n.resamples = 5
+  ),
+  # GLMNET params
+  glmnet.ifw = TRUE,
+  alpha = 1,
+  lambda = NULL,
+  glmnet.grid.resample.params = setup.resample(
+    resampler = "kfold",
+    n.resamples = 5
+  ),
+  # Grid search
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  metric = NULL,
+  maximize = NULL,
+  grid.verbose = FALSE,
+  save.gridrun = FALSE,
+  weights = NULL, # not used
+  # RuleFit settings
+  empirical_risk = TRUE,
+  cases_by_rules = NULL,
+  save_cases_by_rules = FALSE,
+  x.name = NULL,
+  y.name = NULL,
+  n.cores = rtCores,
+  question = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  outdir = NULL,
+  save.mod = if (!is.null(outdir)) TRUE else FALSE,
+  verbose = TRUE,
+  trace = 0,
+  .gs = FALSE
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LightRuleFit))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -136,8 +150,10 @@ s_LightRuleFit <- function(x, y = NULL,
   #   xp <- x
   # }
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -159,10 +175,19 @@ s_LightRuleFit <- function(x, y = NULL,
   }
 
   tuned <- FALSE
-  if (gridCheck(
-    n_trees, num_leaves, max_depth, learning_rate, subsample, lambda_l1, lambda_l2,
-    alpha, lambda
-  )) {
+  if (
+    gridCheck(
+      n_trees,
+      num_leaves,
+      max_depth,
+      learning_rate,
+      subsample,
+      lambda_l1,
+      lambda_l2,
+      alpha,
+      lambda
+    )
+  ) {
     grid.params <-
       list(
         n_trees = n_trees,
@@ -176,7 +201,8 @@ s_LightRuleFit <- function(x, y = NULL,
         lambda = lambda
       )
     gs <- gridSearchLearn(
-      x = x, y = y,
+      x = x,
+      y = y,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = grid.params,
@@ -235,7 +261,8 @@ s_LightRuleFit <- function(x, y = NULL,
 
       lgbm_args <- c(
         list(
-          x = x, y = y,
+          x = x,
+          y = y,
           verbose = verbose,
           print.plot = FALSE
         ),
@@ -245,7 +272,9 @@ s_LightRuleFit <- function(x, y = NULL,
       if (verbose) {
         if (tuned) {
           msg2(
-            "Training", mod.name, type,
+            "Training",
+            mod.name,
+            type,
             "with tuned hyperparameters...",
             newline.pre = TRUE
           )
@@ -280,7 +309,8 @@ s_LightRuleFit <- function(x, y = NULL,
   # Meta: Select Rules ----
   if (verbose) msg2("Running LASSO on GBM rules...")
   glmnet_select_args <- list(
-    x = cases_by_rules, y = y,
+    x = cases_by_rules,
+    y = y,
     alpha = alpha,
     lambda = lambda,
     ifw = glmnet.ifw,
@@ -324,7 +354,8 @@ s_LightRuleFit <- function(x, y = NULL,
 
   # Write CSV ----
   rules_selected_formatted <- gsub(
-    "  ", " ",
+    "  ",
+    " ",
     formatLightRules(rules_selected, decimal.places = 2)
   )
   # appease R CMD check
@@ -454,7 +485,8 @@ s_LightRuleFit <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )
@@ -475,10 +507,13 @@ s_LightRuleFit <- function(x, y = NULL,
 #' @return Vector of estimated values
 #' @export
 
-predict.LightRuleFit <- function(object,
-                                 newdata = NULL,
-                                 return.cases.by.rules = FALSE,
-                                 verbose = TRUE, ...) {
+predict.LightRuleFit <- function(
+  object,
+  newdata = NULL,
+  return.cases.by.rules = FALSE,
+  verbose = TRUE,
+  ...
+) {
   # Rules ----
   # Get all rules, some have 0 coefficients
   rules <- object$lgbm_rules
@@ -499,23 +534,19 @@ predict.LightRuleFit <- function(object,
   # Predict ----
   datm <- data.matrix(cases_by_rules)
   if (object$mod_lgbm$type == "Classification") {
-    prob <- predict(object$mod_glmnet_select$mod,
+    prob <- predict(
+      object$mod_glmnet_select$mod,
       newx = datm,
       type = "response"
     )[, 1]
 
     yhat <- factor(
-      predict(object$mod_glmnet_select$mod,
-        newx = datm,
-        type = "class"
-      ),
+      predict(object$mod_glmnet_select$mod, newx = datm, type = "class"),
       levels = object$y_levels
     )
   } else {
     prob <- NULL
-    yhat <- as.numeric(predict(object$mod_glmnet_select$mod,
-      newx = datm
-    ))
+    yhat <- as.numeric(predict(object$mod_glmnet_select$mod, newx = datm))
   }
   if (return.cases.by.rules) {
     if (is.null(prob)) {

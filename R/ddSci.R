@@ -29,11 +29,7 @@
 #' # "4.6e-09"
 #' @export
 
-ddSci <- function(x,
-                  decimal.places = 2,
-                  hi = 1e06,
-                  asNumeric = FALSE) {
-
+ddSci <- function(x, decimal.places = 2, hi = 1e06, asNumeric = FALSE) {
   if (is.null(x)) if (asNumeric) return(NULL) else return("NULL")
   if (is.factor(x)) return(as.character(x))
 
@@ -51,17 +47,24 @@ ddSci <- function(x,
       xf[[i]] <- NA
     } else {
       # if (decs & x[[i]] == 0) { # x[[i]] is zero but others have decimals
-      if (x[[i]] == 0) { # always give requested decimal places
+      if (x[[i]] == 0) {
+        # always give requested decimal places
         xf[[i]] <- format(0, nsmall = decimal.places)
       } else {
         if (abs(x[[i]]) >= hi) {
-          xf[[i]] <- format(round(x[[i]], decimal.places), scientific = TRUE, digits = decimal.places,
-                            nsmall = decimal.places)
+          xf[[i]] <- format(
+            round(x[[i]], decimal.places),
+            scientific = TRUE,
+            digits = decimal.places,
+            nsmall = decimal.places
+          )
         } else {
           if (decs) {
-            xf[[i]] <- ifelse(round(x[[i]], 2) != 0,
-                              format(round(x[[i]], decimal.places), nsmall = decimal.places),
-                              format(x[[i]], scientific = TRUE, digits = 2))
+            xf[[i]] <- ifelse(
+              round(x[[i]], 2) != 0,
+              format(round(x[[i]], decimal.places), nsmall = decimal.places),
+              format(x[[i]], scientific = TRUE, digits = 2)
+            )
           } else {
             xf[[i]] <- as.character(x[[i]])
           }
@@ -72,5 +75,4 @@ ddSci <- function(x,
   xf <- as.character(xf)
   if (asNumeric) xf <- as.numeric(xf)
   xf
-
 } # rtemis::ddSci

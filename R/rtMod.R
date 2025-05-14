@@ -51,7 +51,8 @@
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
-rtMod <- R6::R6Class("rtMod",
+rtMod <- R6::R6Class(
+  "rtMod",
   public = list(
     ### Attributes
     mod.name = NULL,
@@ -98,26 +99,28 @@ rtMod <- R6::R6Class("rtMod",
     #' @param question Question the model is trying to answer
     #' @param extra List of extra model info
     #' @param sessionInfo R session info at time of training
-    initialize = function(mod.name = character(),
-                          y.train = numeric(),
-                          y.test = numeric(),
-                          x.name = character(),
-                          y.name = character(),
-                          xnames = character(),
-                          mod = list(),
-                          type = character(),
-                          gridsearch = NULL,
-                          parameters = list(),
-                          fitted = numeric(),
-                          se.fit = NULL,
-                          error.train = list(),
-                          predicted = NULL,
-                          se.prediction = NULL,
-                          error.test = NULL,
-                          varimp = NULL,
-                          question = character(),
-                          extra = list(),
-                          sessionInfo = NULL) {
+    initialize = function(
+      mod.name = character(),
+      y.train = numeric(),
+      y.test = numeric(),
+      x.name = character(),
+      y.name = character(),
+      xnames = character(),
+      mod = list(),
+      type = character(),
+      gridsearch = NULL,
+      parameters = list(),
+      fitted = numeric(),
+      se.fit = NULL,
+      error.train = list(),
+      predicted = NULL,
+      se.prediction = NULL,
+      error.test = NULL,
+      varimp = NULL,
+      question = character(),
+      extra = list(),
+      sessionInfo = NULL
+    ) {
       self$mod.name <- mod.name
       self$y.train <- y.train
       self$y.test <- y.test
@@ -146,7 +149,10 @@ rtMod <- R6::R6Class("rtMod",
     print = function() {
       "show / print method for rtMod"
       objcat("Supervised Model")
-      cat(hilite(self$mod.name), " (", select_learn(self$mod.name, desc = TRUE),
+      cat(
+        hilite(self$mod.name),
+        " (",
+        select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )
@@ -164,32 +170,34 @@ rtMod <- R6::R6Class("rtMod",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Additional arguments passed to plotting function
-    plot = function(estimate = NULL,
-                    theme = rtTheme,
-                    filename = NULL, ...) {
+    plot = function(estimate = NULL, theme = rtTheme, filename = NULL, ...) {
       "Plot predicted vs. true if available, otherwise fitted vs. true"
       if (!is.null(estimate)) {
         if (estimate == "fitted") {
           self$plotFitted(
             theme = theme,
-            filename = filename, ...
+            filename = filename,
+            ...
           )
         } else if (estimate == "predicted") {
           self$plotPredicted(
             theme = theme,
-            filename = filename, ...
+            filename = filename,
+            ...
           )
         }
       } else {
         if (length(self$predicted) < 1) {
           self$plotFitted(
             theme = theme,
-            filename = filename, ...
+            filename = filename,
+            ...
           )
         } else {
           self$plotPredicted(
             theme = theme,
-            filename = filename, ...
+            filename = filename,
+            ...
           )
         }
       }
@@ -202,29 +210,38 @@ rtMod <- R6::R6Class("rtMod",
     #' @param main Character: main title
     #' @param filename Character: path to file to save plot
     #' @param ... Additional arguments passed to plotting function
-    plotFitted = function(print.plot = TRUE,
-                          theme = rtTheme,
-                          main = NULL,
-                          filename = NULL, ...) {
+    plotFitted = function(
+      print.plot = TRUE,
+      theme = rtTheme,
+      main = NULL,
+      filename = NULL,
+      ...
+    ) {
       "Plot fitted vs. true values for Regression or confusion matrix for Classification"
       if (self$type == "Regression") {
-        mplot3_fit(self$y.train, self$fitted,
+        mplot3_fit(
+          self$y.train,
+          self$fitted,
           xlab = paste("True", self$y.name),
           ylab = paste("Fitted", self$y.name),
           main = if (is.null(main)) paste(self$mod.name, "Training") else main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else if (self$type == "Classification") {
-        mplot3_conf(self$error.train,
+        mplot3_conf(
+          self$error.train,
           xlab = "Reference",
           ylab = "Fitted",
           main = if (is.null(main)) paste(self$mod.name, "Training") else main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
-        mplot3_surv(list(True = self$y.train, Fitted = self$fitted),
+        mplot3_surv(
+          list(True = self$y.train, Fitted = self$fitted),
           main = if (is.null(main)) {
             paste(
               self$mod.name,
@@ -235,7 +252,8 @@ rtMod <- R6::R6Class("rtMod",
           },
           normalize.time = TRUE,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       }
     },
@@ -247,33 +265,42 @@ rtMod <- R6::R6Class("rtMod",
     #' @param main Character: main title
     #' @param filename Character: path to file to save plot
     #' @param ... Additional arguments passed to plotting function
-    plotPredicted = function(print.plot = TRUE,
-                             theme = rtTheme,
-                             main = NULL,
-                             filename = NULL, ...) {
+    plotPredicted = function(
+      print.plot = TRUE,
+      theme = rtTheme,
+      main = NULL,
+      filename = NULL,
+      ...
+    ) {
       "Plot predicted vs. true values"
       if (length(self$y.test) < 1 | length(self$predicted) < 1) {
         warning("No testing data available")
         return(NULL)
       }
       if (self$type == "Regression") {
-        mplot3_fit(self$y.test, self$predicted,
+        mplot3_fit(
+          self$y.test,
+          self$predicted,
           xlab = paste("True", self$y.name),
           ylab = paste("Predicted", self$y.name),
           main = if (is.null(main)) paste(self$mod.name, "Testing") else main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else if (self$type == "Classification") {
-        mplot3_conf(self$error.test,
+        mplot3_conf(
+          self$error.test,
           xlab = "Reference",
           ylab = "Predicted",
           main = if (is.null(main)) paste(self$mod.name, "Testing") else main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
-        mplot3_surv(list(True = self$y.test, Predicted = self$predicted),
+        mplot3_surv(
+          list(True = self$y.test, Predicted = self$predicted),
           main = if (is.null(main)) {
             paste(
               self$mod.name,
@@ -284,7 +311,8 @@ rtMod <- R6::R6Class("rtMod",
           },
           normalize.time = TRUE,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       }
     },
@@ -295,9 +323,12 @@ rtMod <- R6::R6Class("rtMod",
     #' @param theme Theme to be passed on to plotting function
     #' @param filename Character: path to file to save plot
     #' @param ... Additional arguments passed to [mplot3_conf] or [mplot3_fit]
-    plotFittedPredicted = function(print.plot = TRUE,
-                                   theme = rtTheme,
-                                   filename = NULL, ...) {
+    plotFittedPredicted = function(
+      print.plot = TRUE,
+      theme = rtTheme,
+      filename = NULL,
+      ...
+    ) {
       if (length(self$y.test) < 1 | length(self$predicted) < 1) {
         warning("No testing data available")
         return(NULL)
@@ -305,17 +336,21 @@ rtMod <- R6::R6Class("rtMod",
 
       if (self$type == "Classification") {
         rtlayout(2, 1)
-        mplot3_conf(self$error.train,
+        mplot3_conf(
+          self$error.train,
           xlab = "Refernece",
           ylab = "Fitted",
           main = paste(self$mod.name, "Training"),
-          theme = theme, ...
+          theme = theme,
+          ...
         )
-        mplot3_conf(self$error.test,
+        mplot3_conf(
+          self$error.test,
           xlab = "Reference",
           ylab = "Predicted",
           main = paste(self$mod.name, "Testing"),
-          theme = theme, ...
+          theme = theme,
+          ...
         )
         rtlayout()
         invisible(list(
@@ -325,14 +360,16 @@ rtMod <- R6::R6Class("rtMod",
           self$error.test
         ))
       } else {
-        mplot3_fit(list(Train = self$y.train, Test = self$y.test),
+        mplot3_fit(
+          list(Train = self$y.train, Test = self$y.test),
           list(Train = self$fitted, Test = self$predicted),
           xlab = paste("True", self$y.name),
           ylab = paste("Predicted", self$y.name),
           main = paste(self$mod.name, "Training & Testing"),
           col = c("#18A3AC", "#F48024"),
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       }
     }, # /plotFittedPredicted
@@ -345,32 +382,42 @@ rtMod <- R6::R6Class("rtMod",
     #' @param theme Theme to be passed on to plotting function
     #' @param xlab Character: x-axis label
     #' @param ... Not used
-    plotVarImp = function(plot.top = 12,
-                          type = c("barplot", "lollipop"),
-                          xlab = NULL,
-                          theme = rtTheme, ...) {
+    plotVarImp = function(
+      plot.top = 12,
+      type = c("barplot", "lollipop"),
+      xlab = NULL,
+      theme = rtTheme,
+      ...
+    ) {
       if (length(self$varimp) == 0) {
         warning("Variable importance is not available for this model")
       } else {
         type <- match.arg(type)
         if (is.null(xlab)) {
-          xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "Logistic", "MULTINOM", "POLY")) {
+          xlab <- if (
+            self$mod.name %in%
+              c("GLM", "GLMNET", "Logistic", "MULTINOM", "POLY")
+          ) {
             paste(self$mod.name, "Coefficients")
           } else {
             paste(self$mod.name, "Variable Importance")
           }
         }
         if (type == "lollipop") {
-          mplot3_lolli(self$varimp,
+          mplot3_lolli(
+            self$varimp,
             plot.top = plot.top,
             xlab = xlab,
-            theme = theme, ...
+            theme = theme,
+            ...
           )
         } else {
-          mplot3_varimp(self$varimp,
+          mplot3_varimp(
+            self$varimp,
             plot.top = plot.top,
             xlab = xlab,
-            theme = theme, ...
+            theme = theme,
+            ...
           )
         }
       }
@@ -393,15 +440,18 @@ rtMod <- R6::R6Class("rtMod",
     #' @param theme Theme to pass to plotting functions
     #' @param title.col Title color
     #' @param ... Extra argument to pass to
-    summary = function(plots = TRUE,
-                       cex = 1,
-                       fit.true.line = "lm",
-                       resid.fit.line = "gam",
-                       fit.legend = TRUE,
-                       se.fit = TRUE,
-                       single.fig = TRUE,
-                       theme = rtTheme,
-                       title.col = NULL, ...) {
+    summary = function(
+      plots = TRUE,
+      cex = 1,
+      fit.true.line = "lm",
+      resid.fit.line = "gam",
+      fit.legend = TRUE,
+      se.fit = TRUE,
+      single.fig = TRUE,
+      theme = rtTheme,
+      title.col = NULL,
+      ...
+    ) {
       "Get model summary"
       summary.rtMod(self)
     },
@@ -411,13 +461,12 @@ rtMod <- R6::R6Class("rtMod",
     describe = function() {
       type <- self$type
       algorithm <- select_learn(self$mod.name, desc = TRUE)
-      cat(algorithm, " was used for ",
-        tolower(type), ".\n",
-        sep = ""
-      )
+      cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
       desc <- paste0(
-        algorithm, " was used for ",
-        tolower(type), "."
+        algorithm,
+        " was used for ",
+        tolower(type),
+        "."
       )
 
       # '- Tuning ----
@@ -425,21 +474,27 @@ rtMod <- R6::R6Class("rtMod",
         res <- self$gridsearch$resample.params
         n.resamples <- res$n.resamples
         resampler <- res$resampler
-        resamples <- switch(resampler,
+        resamples <- switch(
+          resampler,
           strat.sub = " stratified subsamples",
           bootstrap = " bootstraps",
           strat.boot = " stratified bootstraps",
           kfold = "-fold crossvalidation",
           "custom resamples"
         )
-        cat(" Hyperparameter tuning was performed using ",
-          n.resamples, resamples, ".\n",
+        cat(
+          " Hyperparameter tuning was performed using ",
+          n.resamples,
+          resamples,
+          ".\n",
           sep = ""
         )
         desc <- paste0(
           desc,
           " Hyperparameter tuning was performed using ",
-          n.resamples, resamples, "."
+          n.resamples,
+          resamples,
+          "."
         )
         params <- self$gridsearch$params$search
         search.index <- which(lapply(params, length) > 1)
@@ -463,9 +518,12 @@ rtMod <- R6::R6Class("rtMod",
           cat("Grid search was performed on:\n")
           printls(searched)
         }
-        cat(metric, "was", ifelse(self$gridsearch$maximize,
-          "maximized", "minimized"
-        ), "with:\n")
+        cat(
+          metric,
+          "was",
+          ifelse(self$gridsearch$maximize, "maximized", "minimized"),
+          "with:\n"
+        )
         printls(self$gridsearch$best.tune)
       }
 
@@ -477,7 +535,8 @@ rtMod <- R6::R6Class("rtMod",
           "(training)"
         )
         desc <- paste(
-          desc, "Balanced accuracy was",
+          desc,
+          "Balanced accuracy was",
           ddSci(self$error.train$Overall$`Balanced Accuracy`),
           "on the training set"
         )
@@ -488,7 +547,8 @@ rtMod <- R6::R6Class("rtMod",
             "(testing)."
           )
           desc <- paste(
-            desc, "and",
+            desc,
+            "and",
             ddSci(self$error.test$Overall$`Balanced Accuracy`),
             "on the testing set."
           )
@@ -503,17 +563,20 @@ rtMod <- R6::R6Class("rtMod",
           "(training)"
         )
         desc <- paste(
-          desc, "R-squared was",
+          desc,
+          "R-squared was",
           ddSci(self$error.train$Rsq),
           "on the training set"
         )
         if (!is.null(self$error.test$`Balanced Accuracy`)) {
           cat(
             "and",
-            ddSci(self$error.test$Rsq), "(testing)."
+            ddSci(self$error.test$Rsq),
+            "(testing)."
           )
           desc <- paste(
-            desc, "and",
+            desc,
+            "and",
             ddSci(self$error.test$Rsq),
             "on the testing set."
           )
@@ -575,11 +638,14 @@ fitted.rtMod <- function(object, ...) {
 #' @param ... Extra arguments to pass to trained model's `predict` method
 #' @rdname rtMod-methods
 #' @export
-predict.rtMod <- function(object,
-                          newdata,
-                          classification.output = c("prob", "class"),
-                          trace = 0,
-                          verbose = TRUE, ...) {
+predict.rtMod <- function(
+  object,
+  newdata,
+  classification.output = c("prob", "class"),
+  trace = 0,
+  verbose = TRUE,
+  ...
+) {
   extraArgs <- list(...)
   classification.output <- match.arg(classification.output)
 
@@ -594,7 +660,11 @@ predict.rtMod <- function(object,
   if (object$mod.name == "LightGBM") {
     ## LightGBM ----
     return(
-      predict_LightGBM(object, newdata, classification.output = classification.output)
+      predict_LightGBM(
+        object,
+        newdata,
+        classification.output = classification.output
+      )
     )
   } else if (object$mod.name == "LightRuleFit") {
     ## LightRuleFit ----
@@ -613,12 +683,15 @@ predict.rtMod <- function(object,
     # estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
     # levels(estimated) <- levels(object$y.train)
   } else if (object$mod.name == "AddTree") {
-    if (is.null(extraArgs$learning.rate)) learning.rate <- object$parameters$learning.rate
+    if (is.null(extraArgs$learning.rate))
+      learning.rate <- object$parameters$learning.rate
     if (is.null(extraArgs$n.feat)) n.feat <- length(object$xnames)
-    estimated <- predict(object$mod,
+    estimated <- predict(
+      object$mod,
       newdata = newdata,
       learning.rate = learning.rate,
-      n.feat = n.feat, ...
+      n.feat = n.feat,
+      ...
     )
   } else if (object$mod.name == "BRUTO") {
     # BRUTO: newdata must be matrix
@@ -639,7 +712,12 @@ predict.rtMod <- function(object,
     } else {
       which.lambda <- extraArgs$which.lambda
     }
-    estimated <- predict(object$mod, newdata, index = which.lambda, type = "response")
+    estimated <- predict(
+      object$mod,
+      newdata,
+      index = which.lambda,
+      type = "response"
+    )
     if (object$type == "Classification") {
       estimated <- factor(ifelse(estimated >= .5, 1, 0), levels = c(1, 0))
       levels(estimated) <- levels(object$y.train)
@@ -661,7 +739,8 @@ predict.rtMod <- function(object,
     y <- object$y.train
     if (type == "Regression" || type == "Survival") {
       if (distribution == "poisson") {
-        if (trace > 0) msg2("Using predict for Poisson Regression with type = response")
+        if (trace > 0)
+          msg2("Using predict for Poisson Regression with type = response")
         estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
       } else {
         if (verbose) msg2("Using predict for", type, "with type = link")
@@ -669,15 +748,29 @@ predict.rtMod <- function(object,
       }
     } else {
       if (distribution == "multinomial") {
-        if (trace > 0) msg2("Using predict for multinomial classification with type = response")
+        if (trace > 0)
+          msg2(
+            "Using predict for multinomial classification with type = response"
+          )
         # Get probabilities per class
-        estimated.prob <- estimated <- predict(mod, newdata, n.trees = n.trees, type = "response")
+        estimated.prob <- estimated <- predict(
+          mod,
+          newdata,
+          n.trees = n.trees,
+          type = "response"
+        )
         # Now get the predicted classes
         # estimated <- apply(estimated, 1, function(x) levels(newdata)[which.max(x)])
       } else {
         # Bernoulli: convert {0, 1} back to factor
-        if (trace > 0) msg2("Using predict for classification with type = response")
-        estimated.prob <- predict(mod, newdata, n.trees = n.trees, type = "response")
+        if (trace > 0)
+          msg2("Using predict for classification with type = response")
+        estimated.prob <- predict(
+          mod,
+          newdata,
+          n.trees = n.trees,
+          type = "response"
+        )
         # estimated <- factor(levels(y)[as.numeric(estimated.prob >= .5) + 1])
       }
     }
@@ -703,24 +796,28 @@ predict.rtMod <- function(object,
     predict.ranger <- getFromNamespace("predict.ranger", "ranger")
     estimated <- predict.ranger(object$mod, data = newdata)$predictions
     if (.class && object$parameters$probability) {
-      estimated.prob <- if (nclass  == 2) {
+      estimated.prob <- if (nclass == 2) {
         estimated[, rtenv$binclasspos]
       } else {
         estimated
       }
     } else {
-      stop("Please run Ranger with probability = TRUE to get class probabilities")
+      stop(
+        "Please run Ranger with probability = TRUE to get class probabilities"
+      )
     }
   } else if (object$mod.name %in% c("XGBoost", "XGBLIN", "XGBDART")) {
     # XGB: must convert newdata to xgb.DMatrix
     if (any(sapply(newdata, is.factor))) {
       newdata <- preprocess(newdata, oneHot = TRUE)
     }
-    estimated <- predict(object$mod,
+    estimated <- predict(
+      object$mod,
       newdata = xgboost::xgb.DMatrix(as.matrix(newdata))
     )
   } else if (object$mod.name == "MXFFN") {
-    estimated <- predict(object$mod,
+    estimated <- predict(
+      object$mod,
       data.matrix(newdata),
       array.layout = "rowmajor"
     )
@@ -737,7 +834,10 @@ predict.rtMod <- function(object,
     }
     sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
     new.tbl <- sparklyr::sdf_copy_to(sc, newdata)
-    estimated <- as.data.frame(sparklyr::sdf_predict(new.tbl, object$mod))$prediction
+    estimated <- as.data.frame(sparklyr::sdf_predict(
+      new.tbl,
+      object$mod
+    ))$prediction
     # } else if (object$mod.name == "MXN") {
     #   predict.MXFeedForwardModel <- getFromNamespace("predict.MXFeedForwardModel", "mxnet")
     #   if (object$type == "Classification") {
@@ -762,8 +862,10 @@ predict.rtMod <- function(object,
     estimated <- predict(object$mod, newdata = newdata, ...)
   }
 
-
-  if (!is.null(object$type) && (object$type == "Regression" || object$type == "Survival")) {
+  if (
+    !is.null(object$type) &&
+      (object$type == "Regression" || object$type == "Survival")
+  ) {
     estimated <- as.numeric(estimated)
   }
 
@@ -775,14 +877,21 @@ predict.rtMod <- function(object,
       # Classification labels
       if (length(levels(object$y.train)) > 2) {
         # Get the class with the highest probability
-        estimated <- factor(apply(estimated.prob, 1, which.max),
+        estimated <- factor(
+          apply(estimated.prob, 1, which.max),
           levels = levels(object$y.train)
         )
       } else {
         if (rtenv$binclasspos == 1) {
-          estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(1, 0))
+          estimated <- factor(
+            ifelse(estimated.prob >= .5, 1, 0),
+            levels = c(1, 0)
+          )
         } else {
-          estimated <- factor(ifelse(estimated.prob >= .5, 1, 0), levels = c(0, 1))
+          estimated <- factor(
+            ifelse(estimated.prob >= .5, 1, 0),
+            levels = c(0, 1)
+          )
         }
       }
     }
@@ -812,13 +921,18 @@ residuals.rtMod <- function(object, ...) {
 #' @param filename Character: Path to file to save plot
 #' @rdname rtMod-methods
 #' @export
-plot.rtMod <- function(x, estimate = NULL,
-                       theme = rtTheme,
-                       filename = NULL, ...) {
+plot.rtMod <- function(
+  x,
+  estimate = NULL,
+  theme = rtTheme,
+  filename = NULL,
+  ...
+) {
   x$plot(
     estimate = estimate,
     theme = theme,
-    filename = filename, ...
+    filename = filename,
+    ...
   )
 } # rtemis::plot.rtemisRC
 
@@ -843,17 +957,20 @@ plot.rtMod <- function(x, estimate = NULL,
 #' @author E.D. Gennatas
 #' @rdname rtMod-methods
 #' @export
-summary.rtMod <- function(object,
-                          plots = TRUE,
-                          cex = 1,
-                          fit.true.line = "lm",
-                          resid.fit.line = "gam",
-                          fit.legend = TRUE,
-                          se.fit = TRUE,
-                          single.fig = TRUE,
-                          summary = TRUE,
-                          theme = rtTheme,
-                          title.col = NULL, ...) {
+summary.rtMod <- function(
+  object,
+  plots = TRUE,
+  cex = 1,
+  fit.true.line = "lm",
+  resid.fit.line = "gam",
+  fit.legend = TRUE,
+  se.fit = TRUE,
+  single.fig = TRUE,
+  summary = TRUE,
+  theme = rtTheme,
+  title.col = NULL,
+  ...
+) {
   # Arguments
   do.test <- ifelse(length(object$y.test) > 1, TRUE, FALSE)
 
@@ -888,73 +1005,132 @@ summary.rtMod <- function(object,
       if (single.fig) {
         par(oma = c(0, 0, 2, 0))
         on.exit(suppressWarnings(par(par.orig)))
-        if (do.test) layout(matrix(1:6, nrow = 2)) else layout(matrix(1:3, nrow = 1))
+        if (do.test) layout(matrix(1:6, nrow = 2)) else
+          layout(matrix(1:3, nrow = 1))
       }
       pr <- ifelse(single.fig, FALSE, TRUE)
 
       # 1. Fitted vs. True
-      mplot3_xy(y.train, fitted,
-        xlab = "True", ylab = "Fitted", main = "Training",
-        fit = fit.true.line, fit.legend = fit.legend, se.fit = se.fit,
-        axes.equal = TRUE, fit.error = TRUE, cex = cex,
-        point.col = pennCol$lighterBlue, fit.col = pennCol$red,
-        theme = theme, par.reset = pr, ...
+      mplot3_xy(
+        y.train,
+        fitted,
+        xlab = "True",
+        ylab = "Fitted",
+        main = "Training",
+        fit = fit.true.line,
+        fit.legend = fit.legend,
+        se.fit = se.fit,
+        axes.equal = TRUE,
+        fit.error = TRUE,
+        cex = cex,
+        point.col = pennCol$lighterBlue,
+        fit.col = pennCol$red,
+        theme = theme,
+        par.reset = pr,
+        ...
       )
 
       # 2. Predicted vs. True
       if (do.test) {
-        mplot3_xy(y.test, predicted,
-          xlab = "True", ylab = "Predicted", main = "Testing",
-          fit = fit.true.line, fit.legend = fit.legend, se.fit = se.fit,
-          axes.equal = TRUE, fit.error = TRUE, cex = cex,
-          point.col = pennCol$lighterBlue, fit.col = pennCol$red,
-          theme = theme, par.reset = pr, ...
+        mplot3_xy(
+          y.test,
+          predicted,
+          xlab = "True",
+          ylab = "Predicted",
+          main = "Testing",
+          fit = fit.true.line,
+          fit.legend = fit.legend,
+          se.fit = se.fit,
+          axes.equal = TRUE,
+          fit.error = TRUE,
+          cex = cex,
+          point.col = pennCol$lighterBlue,
+          fit.col = pennCol$red,
+          theme = theme,
+          par.reset = pr,
+          ...
         )
       }
 
       # 3. Residuals vs. Fitted
-      mplot3_xy(fitted, residuals,
-        xlab = "Fitted", ylab = "Residuals", main = "Residuals",
-        fit = resid.fit.line, fit.legend = fit.legend, se.fit = se.fit,
-        point.col = pennCol$red, fit.col = pennCol$lighterBlue,
-        cex = cex, theme = theme, par.reset = pr, ...
+      mplot3_xy(
+        fitted,
+        residuals,
+        xlab = "Fitted",
+        ylab = "Residuals",
+        main = "Residuals",
+        fit = resid.fit.line,
+        fit.legend = fit.legend,
+        se.fit = se.fit,
+        point.col = pennCol$red,
+        fit.col = pennCol$lighterBlue,
+        cex = cex,
+        theme = theme,
+        par.reset = pr,
+        ...
       )
 
       # 4. Prediction error vs. True
       if (do.test) {
-        mplot3_xy(y.test, error^2,
+        mplot3_xy(
+          y.test,
+          error^2,
           main = "Error", # old: predicted, error
-          xlab = "True", ylab = "Squared Error",
-          fit = resid.fit.line, fit.legend = fit.legend, se.fit = se.fit,
-          point.col = pennCol$red, fit.col = pennCol$lighterBlue,
-          cex = cex, theme = theme, par.reset = pr, ...
+          xlab = "True",
+          ylab = "Squared Error",
+          fit = resid.fit.line,
+          fit.legend = fit.legend,
+          se.fit = se.fit,
+          point.col = pennCol$red,
+          fit.col = pennCol$lighterBlue,
+          cex = cex,
+          theme = theme,
+          par.reset = pr,
+          ...
         )
       }
 
       # 5. Residuals Q-Q plot
-      mplot3_x(residuals,
+      mplot3_x(
+        residuals,
         type = "qqline",
         main = "Residuals Q-Q Plot",
-        col = pennCol$blue, qqline.col = pennCol$green,
-        cex = cex, theme = theme, par.reset = pr, ...
+        col = pennCol$blue,
+        qqline.col = pennCol$green,
+        cex = cex,
+        theme = theme,
+        par.reset = pr,
+        ...
       )
 
       # 6. Error Q-Q plot
       if (do.test) {
-        mplot3_x(error,
+        mplot3_x(
+          error,
           type = "qqline",
           main = "Error Q-Q Plot",
-          col = pennCol$blue, qqline.col = pennCol$green,
-          cex = cex, theme = theme, par.reset = pr, ...
+          col = pennCol$blue,
+          qqline.col = pennCol$green,
+          cex = cex,
+          theme = theme,
+          par.reset = pr,
+          ...
         )
       }
       if (is.null(title.col)) {
-        title.col <- ifelse(theme == "box" |
-          theme == "light", "black", "white")
+        title.col <- ifelse(
+          theme == "box" |
+            theme == "light",
+          "black",
+          "white"
+        )
       }
-      mtext(paste(object$mod.name, "diagnostic plots"),
+      mtext(
+        paste(object$mod.name, "diagnostic plots"),
         outer = TRUE,
-        cex = 1.5, line = -0.5, col = title.col
+        cex = 1.5,
+        line = -0.5,
+        col = title.col
       )
     }
   } # /plots
@@ -996,7 +1172,8 @@ coef.rtMod <- function(object, verbose = TRUE, ...) {
 #'
 #' @field fitted.prob Training set probability estimates
 #' @field predicted.prob Testing set probability estimates
-rtModClass <- R6::R6Class("rtModClass",
+rtModClass <- R6::R6Class(
+  "rtModClass",
   inherit = rtMod,
   public = list(
     fitted.prob = NULL,
@@ -1026,27 +1203,29 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param question Question the model is trying to answer
     #' @param extra List of extra model info
     #' @param sessionInfo R session info at time of training
-    initialize = function(mod.name = character(),
-                          y.train = numeric(),
-                          y.test = numeric(),
-                          x.name = character(),
-                          y.name = character(),
-                          xnames = character(),
-                          mod = list(),
-                          type = character(),
-                          gridsearch = NULL,
-                          parameters = list(),
-                          fitted = numeric(),
-                          fitted.prob = numeric(),
-                          se.fit = numeric(),
-                          error.train = list(),
-                          predicted = NULL,
-                          predicted.prob = NULL,
-                          se.prediction = NULL,
-                          error.test = NULL,
-                          varimp = NULL,
-                          question = character(),
-                          extra = list()) {
+    initialize = function(
+      mod.name = character(),
+      y.train = numeric(),
+      y.test = numeric(),
+      x.name = character(),
+      y.name = character(),
+      xnames = character(),
+      mod = list(),
+      type = character(),
+      gridsearch = NULL,
+      parameters = list(),
+      fitted = numeric(),
+      fitted.prob = numeric(),
+      se.fit = numeric(),
+      error.train = list(),
+      predicted = NULL,
+      predicted.prob = NULL,
+      se.prediction = NULL,
+      error.test = NULL,
+      varimp = NULL,
+      question = character(),
+      extra = list()
+    ) {
       super$initialize(
         mod.name,
         y.train,
@@ -1079,20 +1258,21 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Extra arguments to pass to plotting function
-    plotROC = function(theme = rtTheme,
-                       filename = NULL, ...) {
+    plotROC = function(theme = rtTheme, filename = NULL, ...) {
       if (length(self$fitted.prob) == 0) {
         stop("Estimated probabilities are not available")
       }
       if (length(self$predicted.prob) > 0) {
         self$plotROCpredicted(
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
         self$plotROCfitted(
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       }
     },
@@ -1103,15 +1283,20 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Extra arguments to pass to plotting function
-    plotROCfitted = function(main = "ROC Training",
-                             theme = rtTheme,
-                             filename = NULL, ...) {
+    plotROCfitted = function(
+      main = "ROC Training",
+      theme = rtTheme,
+      filename = NULL,
+      ...
+    ) {
       if (length(self$fitted.prob) > 0) {
         mplot3_roc(
-          self$fitted.prob, self$y.train,
+          self$fitted.prob,
+          self$y.train,
           main = main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -1124,15 +1309,20 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Extra arguments to pass to plotting function
-    plotROCpredicted = function(main = "ROC Testing",
-                                theme = rtTheme,
-                                filename = NULL, ...) {
+    plotROCpredicted = function(
+      main = "ROC Testing",
+      theme = rtTheme,
+      filename = NULL,
+      ...
+    ) {
       if (length(self$predicted.prob) > 0) {
         mplot3_roc(
-          self$predicted.prob, self$y.test,
+          self$predicted.prob,
+          self$y.test,
           main = main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -1144,20 +1334,21 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Extra arguments to pass to plotting function
-    plotPR = function(theme = rtTheme,
-                      filename = NULL, ...) {
+    plotPR = function(theme = rtTheme, filename = NULL, ...) {
       if (length(self$fitted.prob) == 0) {
         stop("Estimated probabilities are not available")
       }
       if (length(self$predicted.prob) > 0) {
         self$plotPRpredicted(
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
         self$plotPRfitted(
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       }
     },
@@ -1168,14 +1359,20 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Extra arguments to pass to plotting function
-    plotPRfitted = function(main = "P-R Training",
-                            theme = rtTheme,
-                            filename = NULL, ...) {
+    plotPRfitted = function(
+      main = "P-R Training",
+      theme = rtTheme,
+      filename = NULL,
+      ...
+    ) {
       if (length(self$fitted.prob) > 0) {
-        mplot3_pr(self$fitted.prob, self$y.train,
+        mplot3_pr(
+          self$fitted.prob,
+          self$y.train,
           main = main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -1188,14 +1385,20 @@ rtModClass <- R6::R6Class("rtModClass",
     #' @param theme Theme to pass to plotting function
     #' @param filename Character: Path to file to save plot
     #' @param ... Extra arguments to pass to plotting function
-    plotPRpredicted = function(main = "P-R Testing",
-                               theme = rtTheme,
-                               filename = NULL, ...) {
+    plotPRpredicted = function(
+      main = "P-R Testing",
+      theme = rtTheme,
+      filename = NULL,
+      ...
+    ) {
       if (length(self$predicted.prob) > 0) {
-        mplot3_pr(self$predicted.prob, self$y.test,
+        mplot3_pr(
+          self$predicted.prob,
+          self$y.test,
           main = main,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -1223,7 +1426,8 @@ rtModClass <- R6::R6Class("rtModClass",
 #'
 #' @keywords internal
 #' @noRd
-rtModBag <- R6::R6Class("rtModBag",
+rtModBag <- R6::R6Class(
+  "rtModBag",
   inherit = rtMod,
   public = list(
     bag.resample.params = NULL,
@@ -1261,31 +1465,33 @@ rtModBag <- R6::R6Class("rtModBag",
     #' @param varimp Variable importance
     #' @param question Question the model is hoping to answer
     #' @param extra Algorithm-specific output
-    initialize = function(mod.name = character(),
-                          # call = call("NULL"),
-                          y.train = numeric(),
-                          y.test = numeric(),
-                          x.name = character(),
-                          y.name = character(),
-                          xnames = character(),
-                          bag.resample.params = list(),
-                          mod = list(),
-                          type = character(),
-                          parameters = list(),
-                          fitted.bag = numeric(),
-                          fitted = numeric(),
-                          se.fit.bag = numeric(),
-                          se.fit = numeric(),
-                          error.train = list(),
-                          predicted.bag = numaric(),
-                          predicted = numeric(),
-                          se.predicted.bag = numeric(),
-                          se.prediction = numeric(),
-                          aggr.fn = character(),
-                          error.test = list(),
-                          varimp = NULL,
-                          question = character(),
-                          extra = list()) {
+    initialize = function(
+      mod.name = character(),
+      # call = call("NULL"),
+      y.train = numeric(),
+      y.test = numeric(),
+      x.name = character(),
+      y.name = character(),
+      xnames = character(),
+      bag.resample.params = list(),
+      mod = list(),
+      type = character(),
+      parameters = list(),
+      fitted.bag = numeric(),
+      fitted = numeric(),
+      se.fit.bag = numeric(),
+      se.fit = numeric(),
+      error.train = list(),
+      predicted.bag = numaric(),
+      predicted = numeric(),
+      se.predicted.bag = numeric(),
+      se.prediction = numeric(),
+      aggr.fn = character(),
+      error.test = list(),
+      varimp = NULL,
+      question = character(),
+      extra = list()
+    ) {
       self$mod.name <- mod.name
       self$y.train <- y.train
       self$y.test <- y.test
@@ -1318,12 +1524,15 @@ rtModBag <- R6::R6Class("rtModBag",
     print = function() {
       "show / print method for rtModBag"
       objcat("Bagged Supervised Model")
-      cat(hilite(self$mod.name), " (",
+      cat(
+        hilite(self$mod.name),
+        " (",
         select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )
-      .resamples <- switch(self$bag.resample.params$resampler,
+      .resamples <- switch(
+        self$bag.resample.params$resampler,
         strat.sub = "stratified subsamples",
         bootstrap = "bootstraps",
         strat.boot = "stratified bootstraps",
@@ -1331,8 +1540,10 @@ rtModBag <- R6::R6Class("rtModBag",
         "custom resamples"
       )
       cat(
-        "Aggregating", self$bag.resample.params$n.resamples,
-        .resamples, "\n"
+        "Aggregating",
+        self$bag.resample.params$n.resamples,
+        .resamples,
+        "\n"
       )
       boxcat("Training Error")
       print(self$error.train)
@@ -1366,15 +1577,19 @@ NULL
 #'
 #' @rdname rtModBag-methods
 #' @export
-predict.rtModBag <- function(object,
-                             newdata,
-                             aggr.fn = NULL,
-                             n.cores = 1,
-                             verbose = FALSE, ...) {
+predict.rtModBag <- function(
+  object,
+  newdata,
+  aggr.fn = NULL,
+  n.cores = 1,
+  verbose = FALSE,
+  ...
+) {
   if (verbose) {
     msg2(
       "Calculating estimated values of",
-      length(object$mod), "bag resamples"
+      length(object$mod),
+      "bag resamples"
     )
   }
   if (is.null(aggr.fn)) aggr.fn <- object$aggr.fn
@@ -1388,7 +1603,9 @@ predict.rtModBag <- function(object,
   # No progress bar if not verbose
   if (!verbose) pbapply::pboptions(type = "none")
 
-  estimated.bag <- pbapply::pblapply(object$mod$mods, function(k) predict(k$mod1, newdata),
+  estimated.bag <- pbapply::pblapply(
+    object$mod$mods,
+    function(k) predict(k$mod1, newdata),
     cl = n.cores
   )
   estimated.bag <- do.call(cbind, estimated.bag)
@@ -1538,42 +1755,44 @@ rtModCV <- R6::R6Class(
     #' @param question Question the model is hoping to answer
     #' @param call elevate call
     #' @param sessionInfo R session info at time of training
-    initialize = function(mod = NULL,
-                          mod.name = NULL,
-                          type = NULL,
-                          y.train = NULL,
-                          x.name = NULL,
-                          y.name = NULL,
-                          xnames = NULL,
-                          parameters = NULL,
-                          n.repeats = NULL,
-                          resampler.params = NULL,
-                          resamples = NULL,
-                          y.train.res = NULL,
-                          y.train.res.aggr = NULL,
-                          fitted.res = NULL,
-                          fitted.res.aggr = NULL,
-                          error.train.res = NULL,
-                          error.train.res.mean = NULL,
-                          error.train.res.aggr = NULL,
-                          error.train.repeats = NULL,
-                          error.train.repeats.mean = NULL,
-                          error.train.repeats.sd = NULL,
-                          y.test.res = NULL,
-                          y.test.res.aggr = NULL,
-                          predicted.res = NULL,
-                          predicted.res.aggr = NULL,
-                          error.test.res = NULL,
-                          error.test.res.mean = NULL,
-                          error.test.res.aggr = NULL,
-                          error.test.repeats = NULL,
-                          error.test.repeats.mean = NULL,
-                          error.test.repeats.sd = NULL,
-                          fitted.bag = NULL,
-                          error.bag = NULL,
-                          varimp = NULL,
-                          call = NULL,
-                          question = NULL) {
+    initialize = function(
+      mod = NULL,
+      mod.name = NULL,
+      type = NULL,
+      y.train = NULL,
+      x.name = NULL,
+      y.name = NULL,
+      xnames = NULL,
+      parameters = NULL,
+      n.repeats = NULL,
+      resampler.params = NULL,
+      resamples = NULL,
+      y.train.res = NULL,
+      y.train.res.aggr = NULL,
+      fitted.res = NULL,
+      fitted.res.aggr = NULL,
+      error.train.res = NULL,
+      error.train.res.mean = NULL,
+      error.train.res.aggr = NULL,
+      error.train.repeats = NULL,
+      error.train.repeats.mean = NULL,
+      error.train.repeats.sd = NULL,
+      y.test.res = NULL,
+      y.test.res.aggr = NULL,
+      predicted.res = NULL,
+      predicted.res.aggr = NULL,
+      error.test.res = NULL,
+      error.test.res.mean = NULL,
+      error.test.res.aggr = NULL,
+      error.test.repeats = NULL,
+      error.test.repeats.mean = NULL,
+      error.test.repeats.sd = NULL,
+      fitted.bag = NULL,
+      error.bag = NULL,
+      varimp = NULL,
+      call = NULL,
+      question = NULL
+    ) {
       self$mod <- mod
       self$mod.name <- mod.name
       self$type <- type
@@ -1619,7 +1838,9 @@ rtModCV <- R6::R6Class(
     print = function() {
       "R6 show / print method for rtModCV"
       objcat(paste("Cross-Validated", self$type, "Model"))
-      cat(hilite(self$mod.name), " (",
+      cat(
+        hilite(self$mod.name),
+        " (",
         select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
@@ -1635,7 +1856,8 @@ rtModCV <- R6::R6Class(
       cat(
         "      Outer resampling: ",
         print1(self$resamples[[1]], verbosity = 0),
-        " (", singorplu(self$n.repeats, "repeat"),
+        " (",
+        singorplu(self$n.repeats, "repeat"),
         ")\n",
         sep = ""
       )
@@ -1645,19 +1867,23 @@ rtModCV <- R6::R6Class(
           print.resamplertset(
             self$mod[[1]][[1]]$mod1$gridsearch$resample.params,
             verbose = FALSE
-          ), "\n"
+          ),
+          "\n"
         )
       }
       if (self$type == "Classification") {
         cat(
           "Mean Balanced Accuracy:",
           self$error.test.repeats.mean$Balanced.Accuracy,
-          "\n              Mean AUC:", self$error.test.repeats.mean$AUC, "\n"
+          "\n              Mean AUC:",
+          self$error.test.repeats.mean$AUC,
+          "\n"
         )
       } else {
         cat(
           "  Mean R-squared:",
-          self$error.test.repeats.mean$Rsq * 100, "\n"
+          self$error.test.repeats.mean$Rsq * 100,
+          "\n"
         )
       }
     },
@@ -1678,45 +1904,53 @@ rtModCV <- R6::R6Class(
     #' @param filename Character: path to file to save plot
     #' @param mar Numeric vector of plot margins
     #' @param ... Additional arguments passed to plotting function
-    plotPredicted = function(which.repeat = 1,
-                             theme = rtTheme,
-                             filename = NULL,
-                             mar = c(2.5, 3, 2.5, 1), ...) {
+    plotPredicted = function(
+      which.repeat = 1,
+      theme = rtTheme,
+      filename = NULL,
+      mar = c(2.5, 3, 2.5, 1),
+      ...
+    ) {
       "R6 method: Plot aggregated predicted vs. true values"
-      predicted <- unlist(self$predicted.res[[which.repeat]],
-        use.names = FALSE
-      )
-      y.test <- unlist(self$y.test.res[[which.repeat]],
-        use.names = FALSE
-      )
+      predicted <- unlist(self$predicted.res[[which.repeat]], use.names = FALSE)
+      y.test <- unlist(self$y.test.res[[which.repeat]], use.names = FALSE)
       main <- paste0(
-        self$mod.name, " Testing\n(",
+        self$mod.name,
+        " Testing\n(",
         self$resampler.params$n.resamples,
         " aggregated resamples",
-        ifelse(self$n.repeats > 1, paste0(
-          "; repeat #",
-          which.repeat, ")"
-        ),
-        ")"
+        ifelse(
+          self$n.repeats > 1,
+          paste0(
+            "; repeat #",
+            which.repeat,
+            ")"
+          ),
+          ")"
         )
       )
       if (self$type == "Classification") {
         conf <- class_error(y.test, predicted)$ConfusionMatrix
-        mplot3_conf(conf,
+        mplot3_conf(
+          conf,
           main = main,
           # mar = c(3, 3, 5, 3),
           dim.main = 2,
           theme = theme,
-          filename = filename, ...
+          filename = filename,
+          ...
         )
       } else if (self$type == "Regression") {
-        mplot3_fit(y.test, predicted,
+        mplot3_fit(
+          y.test,
+          predicted,
           main = main,
           xlab = paste("True", self$y.name),
           ylab = paste("Predicted", self$y.name),
           theme = theme,
           filename = filename,
-          mar = mar, ...
+          mar = mar,
+          ...
         )
       } else {
         msg2("Plotting for survival not currently supported")
@@ -1730,45 +1964,61 @@ rtModCV <- R6::R6Class(
     #' @param filename Character: path to file to save plot
     #' @param mar Numeric vector of plot margins
     #' @param ... Additional arguments passed to plotting function
-    plotFitted = function(which.repeat = 1,
-                          theme = rtTheme,
-                          filename = NULL,
-                          mar = c(2.5, 3, 2.5, 1), ...) {
+    plotFitted = function(
+      which.repeat = 1,
+      theme = rtTheme,
+      filename = NULL,
+      mar = c(2.5, 3, 2.5, 1),
+      ...
+    ) {
       "R6 method: Plot aggregated fitted vs. true values"
-      fitted <- unlist(self$fitted.res[[which.repeat]],
-        recursive = TRUE, use.names = FALSE
+      fitted <- unlist(
+        self$fitted.res[[which.repeat]],
+        recursive = TRUE,
+        use.names = FALSE
       )
-      y.train <- unlist(self$y.train.res[[which.repeat]],
-        recursive = TRUE, use.names = FALSE
+      y.train <- unlist(
+        self$y.train.res[[which.repeat]],
+        recursive = TRUE,
+        use.names = FALSE
       )
       main <- paste0(
-        self$mod.name, " Training\n(",
+        self$mod.name,
+        " Training\n(",
         self$resampler.params$n.resamples,
         " aggregated resamples",
-        ifelse(self$n.repeats > 1, paste0(
-          "; repeat #",
-          which.repeat, ")"
-        ),
-        ")"
+        ifelse(
+          self$n.repeats > 1,
+          paste0(
+            "; repeat #",
+            which.repeat,
+            ")"
+          ),
+          ")"
         )
       )
       if (self$type == "Classification") {
         conf <- class_error(y.train, fitted)$ConfusionMatrix
-        mplot3_conf(conf,
+        mplot3_conf(
+          conf,
           main = main,
           # mar = c(3, 3, 5, 3),
           filename = filename,
           theme = theme,
-          dim.main = 2, ...
+          dim.main = 2,
+          ...
         )
       } else if (self$type == "Regression") {
-        mplot3_fit(y.train, fitted,
+        mplot3_fit(
+          y.train,
+          fitted,
           main = main,
           xlab = paste("True", self$y.name),
           ylab = paste("Fitted", self$y.name),
           theme = theme,
           filename = filename,
-          mar = mar, ...
+          mar = mar,
+          ...
         )
       } else {
         msg2("Plotting for survival not currently supported")
@@ -1783,13 +2033,18 @@ rtModCV <- R6::R6Class(
     #' @param theme rtemis theme to use
     #' @param xlab Character: x-axis label
     #' @param ... Additional arguments passed to plotting function
-    plotVarImp = function(plot.top = 12,
-                          type = c("barplot", "lollipop"),
-                          which.repeat = 1,
-                          xlab = NULL,
-                          theme = rtTheme, ...) {
+    plotVarImp = function(
+      plot.top = 12,
+      type = c("barplot", "lollipop"),
+      which.repeat = 1,
+      xlab = NULL,
+      theme = rtTheme,
+      ...
+    ) {
       if (is.null(xlab)) {
-        xlab <- if (self$mod.name %in% c("GLM", "GLMNET", "Logistic", "MULTINOM", "POLY")) {
+        xlab <- if (
+          self$mod.name %in% c("GLM", "GLMNET", "Logistic", "MULTINOM", "POLY")
+        ) {
           paste(self$mod.name, "Coefficients")
         } else {
           paste(self$mod.name, "Variable Importance")
@@ -1801,16 +2056,20 @@ rtModCV <- R6::R6Class(
       } else {
         type <- match.arg(type)
         if (type == "lollipop") {
-          mplot3_lolli(varimp,
+          mplot3_lolli(
+            varimp,
             plot.top = plot.top,
             xlab = xlab,
-            theme = theme, ...
+            theme = theme,
+            ...
           )
         } else {
-          mplot3_varimp(varimp,
+          mplot3_varimp(
+            varimp,
             plot.top = plot.top,
             xlab = xlab,
-            theme = theme, ...
+            theme = theme,
+            ...
           )
         }
       }
@@ -1821,12 +2080,12 @@ rtModCV <- R6::R6Class(
     describe = function() {
       type <- self$type
       algorithm <- select_learn(self$mod.name, desc = TRUE)
-      cat(type, " was performed using ", algorithm, ".",
-        sep = ""
-      )
+      cat(type, " was performed using ", algorithm, ".", sep = "")
       desc <- paste0(
-        type, " was performed using ",
-        algorithm, "."
+        type,
+        " was performed using ",
+        algorithm,
+        "."
       )
 
       # '- Preprocessing ----
@@ -1847,21 +2106,31 @@ rtModCV <- R6::R6Class(
         pre <- rev(gsub(",", ", and", rev(pre)))
         cat(pre, ".", sep = "")
         desc <- paste(
-          desc, "Data was preprocessed by",
-          pre, "."
+          desc,
+          "Data was preprocessed by",
+          pre,
+          "."
         )
       }
 
       # '- Decomposition ----
       if (!is.null(self$parameters$decompose)) {
         decom <- self$parameters$decompose
-        cat(" Input was projected to ", decom$k, " dimensions using ",
-          select_decom(decom$decom, desc = TRUE), ".",
+        cat(
+          " Input was projected to ",
+          decom$k,
+          " dimensions using ",
+          select_decom(decom$decom, desc = TRUE),
+          ".",
           sep = ""
         )
         desc <- paste0(
-          desc, " Input was projected to ", decom$k, " dimensions using ",
-          select_decom(decom$decom, desc = TRUE), "."
+          desc,
+          " Input was projected to ",
+          decom$k,
+          " dimensions using ",
+          select_decom(decom$decom, desc = TRUE),
+          "."
         )
       }
 
@@ -1871,20 +2140,26 @@ rtModCV <- R6::R6Class(
         res <- self$mod[[1]][[1]]$mod1$gridsearch$resample.params
         n.resamples <- res$n.resamples
         resampler <- res$resampler
-        resamples <- switch(resampler,
+        resamples <- switch(
+          resampler,
           strat.sub = " stratified subsamples",
           bootstrap = " bootstraps",
           strat.boot = " stratified bootstraps",
           kfold = "-fold crossvalidation"
         )
-        cat(" Hyperparameter tuning was performed using ",
-          n.resamples, resamples, ".",
+        cat(
+          " Hyperparameter tuning was performed using ",
+          n.resamples,
+          resamples,
+          ".",
           sep = ""
         )
         desc <- paste0(
           desc,
           " Hyperparameter tuning was performed using ",
-          n.resamples, resamples, "."
+          n.resamples,
+          resamples,
+          "."
         )
       }
 
@@ -1892,7 +2167,8 @@ rtModCV <- R6::R6Class(
       n.repeats <- self$n.repeats
       n.resamples <- self$resampler.params$n.resamples
       resampler <- self$resampler.params$resampler
-      resamples <- switch(resampler,
+      resamples <- switch(
+        resampler,
         strat.sub = " stratified subsamples",
         bootstrap = " bootstraps",
         strat.boot = " stratified bootstraps",
@@ -1916,24 +2192,28 @@ rtModCV <- R6::R6Class(
         desc <- paste(desc, resamples, ".")
       }
       if (type == "Classification") {
-        cat(" The mean Balanced Accuracy across all testing set resamples was ",
+        cat(
+          " The mean Balanced Accuracy across all testing set resamples was ",
           ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`),
           ".",
           sep = ""
         )
         desc <- paste0(
-          desc, " The mean Balanced Accuracy across all testing set resamples was ",
+          desc,
+          " The mean Balanced Accuracy across all testing set resamples was ",
           ddSci(self$error.test.repeats.mean$`Balanced.Accuracy`),
           "."
         )
       } else if (type == "Regression") {
-        cat(" The mean R-squared across all testing set resamples was ",
+        cat(
+          " The mean R-squared across all testing set resamples was ",
           ddSci(self$error.test.repeats.mean$Rsq),
           ".",
           sep = ""
         )
         desc <- paste0(
-          desc, " The mean R-squared across all testing set resamples was ",
+          desc,
+          " The mean R-squared across all testing set resamples was ",
           ddSci(self$error.test.repeats.mean$Rsq),
           "."
         )
@@ -1995,10 +2275,14 @@ summary.rtModCV <- function(object, ...) {
 #'
 #' @rdname rtModCV-methods
 #' @export
-predict.rtModCV <- function(object, newdata,
-                            which.repeat = 1,
-                            classification.output = c("prob", "class"),
-                            output = c("array", "avg"), ...) {
+predict.rtModCV <- function(
+  object,
+  newdata,
+  which.repeat = 1,
+  classification.output = c("prob", "class"),
+  output = c("array", "avg"),
+  ...
+) {
   # Arguments ----
   classification.output <- match.arg(classification.output)
   output <- match.arg(output)
@@ -2007,7 +2291,8 @@ predict.rtModCV <- function(object, newdata,
 
   # Array of predictions ----
   predicted <- as.data.frame(sapply(
-    mods, function(i) predict(i$mod1, newdata)
+    mods,
+    function(i) predict(i$mod1, newdata)
   ))
   if (output == "array") {
     return(predicted)
@@ -2050,7 +2335,8 @@ describe.rtModCV <- function(object, ...) object$describe()
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
-rtModCVClass <- R6::R6Class("rtModCVClass",
+rtModCVClass <- R6::R6Class(
+  "rtModCVClass",
   inherit = rtModCV,
   public = list(
     fitted.prob.aggr = NULL,
@@ -2104,45 +2390,47 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param question Question the model is hoping to answer
     #' @param call elevate call
     #' @param sessionInfo R session info at time of training
-    initialize = function(mod = NULL,
-                          mod.name = NULL,
-                          type = NULL,
-                          y.train = NULL,
-                          x.name = NULL,
-                          y.name = NULL,
-                          xnames = NULL,
-                          parameters = NULL,
-                          n.repeats = NULL,
-                          resampler.params = NULL,
-                          resamples = NULL,
-                          y.train.res = NULL,
-                          y.train.res.aggr = NULL,
-                          fitted.res = NULL,
-                          fitted.res.aggr = NULL,
-                          fitted.prob.aggr = NULL,
-                          error.train.res = NULL,
-                          error.train.res.mean = NULL,
-                          error.train.res.aggr = NULL,
-                          error.train.repeats = NULL,
-                          error.train.repeats.mean = NULL,
-                          error.train.repeats.sd = NULL,
-                          y.test.res = NULL,
-                          y.test.res.aggr = NULL,
-                          predicted.res = NULL,
-                          predicted.res.aggr = NULL,
-                          predicted.prob.res = NULL,
-                          predicted.prob.aggr = NULL,
-                          error.test.res = NULL,
-                          error.test.res.mean = NULL,
-                          error.test.res.aggr = NULL,
-                          error.test.repeats = NULL,
-                          error.test.repeats.mean = NULL,
-                          error.test.repeats.sd = NULL,
-                          fitted.bag = NULL,
-                          error.bag = NULL,
-                          varimp = NULL,
-                          call = NULL,
-                          question = NULL) {
+    initialize = function(
+      mod = NULL,
+      mod.name = NULL,
+      type = NULL,
+      y.train = NULL,
+      x.name = NULL,
+      y.name = NULL,
+      xnames = NULL,
+      parameters = NULL,
+      n.repeats = NULL,
+      resampler.params = NULL,
+      resamples = NULL,
+      y.train.res = NULL,
+      y.train.res.aggr = NULL,
+      fitted.res = NULL,
+      fitted.res.aggr = NULL,
+      fitted.prob.aggr = NULL,
+      error.train.res = NULL,
+      error.train.res.mean = NULL,
+      error.train.res.aggr = NULL,
+      error.train.repeats = NULL,
+      error.train.repeats.mean = NULL,
+      error.train.repeats.sd = NULL,
+      y.test.res = NULL,
+      y.test.res.aggr = NULL,
+      predicted.res = NULL,
+      predicted.res.aggr = NULL,
+      predicted.prob.res = NULL,
+      predicted.prob.aggr = NULL,
+      error.test.res = NULL,
+      error.test.res.mean = NULL,
+      error.test.res.aggr = NULL,
+      error.test.repeats = NULL,
+      error.test.repeats.mean = NULL,
+      error.test.repeats.sd = NULL,
+      fitted.bag = NULL,
+      error.bag = NULL,
+      varimp = NULL,
+      call = NULL,
+      question = NULL
+    ) {
       super$initialize(
         mod,
         mod.name,
@@ -2200,13 +2488,13 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param which.repeat Integer: Which repeat to plot
     #' @param main Character: Main title
     #' @param ... Additional arguments passed to plotting function
-    plotROCfitted = function(which.repeat = 1,
-                             main = "ROC Training", ...) {
+    plotROCfitted = function(which.repeat = 1, main = "ROC Training", ...) {
       if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
         mplot3_roc(
           self$fitted.prob.aggr[[which.repeat]],
           self$y.train.res.aggr[[which.repeat]],
-          main = main, ...
+          main = main,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -2218,13 +2506,13 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param which.repeat Integer: Which repeat to plot
     #' @param main Character: Main title
     #' @param ... Additional arguments passed to plotting function
-    plotROCpredicted = function(which.repeat = 1,
-                                main = "ROC Testing", ...) {
+    plotROCpredicted = function(which.repeat = 1, main = "ROC Testing", ...) {
       if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
         mplot3_roc(
           self$predicted.prob.aggr[[which.repeat]],
           self$y.test.res.aggr[[which.repeat]],
-          main = main, ...
+          main = main,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -2241,35 +2529,50 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param pdf.width Width of PDF output in inches
     #' @param pdf.height Height of PDF output in inches
     #' @param ... Additional arguments passed to [mplot3_roc]
-    plotROCpredictedCV = function(which.repeat = 1,
-                                  main = "ROC Testing",
-                                  col = "#16A0AC",
-                                  alpha = .5,
-                                  filename = NULL,
-                                  pdf.width = 6,
-                                  pdf.height = 6, ...) {
+    plotROCpredictedCV = function(
+      which.repeat = 1,
+      main = "ROC Testing",
+      col = "#16A0AC",
+      alpha = .5,
+      filename = NULL,
+      pdf.width = 6,
+      pdf.height = 6,
+      ...
+    ) {
       if (!is.null(self$predicted.prob.res[[which.repeat]])) {
         par_orig <- par(no.readonly = TRUE)
         on.exit(suppressWarnings(par(par_orig)))
         if (!is.null(filename)) {
-          pdf(filename,
-            width = pdf.width, height = pdf.height,
+          pdf(
+            filename,
+            width = pdf.width,
+            height = pdf.height,
             title = "rtemis Graphics"
           )
         }
         mplot3_roc(
           self$predicted.prob.res[[which.repeat]],
           self$y.test.res[[which.repeat]],
-          main = main, col = col, alpha = alpha,
-          annotation = FALSE, par.reset = FALSE, ...
+          main = main,
+          col = col,
+          alpha = alpha,
+          annotation = FALSE,
+          par.reset = FALSE,
+          ...
         )
         mtext("AUROC mean (sd)", side = 1, adj = 1, line = -2, font = 1)
-        mtext(paste0(
-          ddSci(mean(self$error.test.res[[which.repeat]]$AUC)),
-          " (",
-          ddSci(sd(self$error.test.res[[which.repeat]]$AUC)),
-          ")"
-        ), side = 1, adj = 1, line = -1, col = col)
+        mtext(
+          paste0(
+            ddSci(mean(self$error.test.res[[which.repeat]]$AUC)),
+            " (",
+            ddSci(sd(self$error.test.res[[which.repeat]]$AUC)),
+            ")"
+          ),
+          side = 1,
+          adj = 1,
+          line = -1,
+          col = col
+        )
         if (!is.null(filename)) dev.off()
       } else {
         msg2("Estimated probabilities are not available")
@@ -2291,12 +2594,13 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param main Character: main title
     #' @param ... Additional arguments passed to
     #' `mplot3_pr`
-    plotPRfitted = function(which.repeat = 1,
-                            main = "P-R Training", ...) {
+    plotPRfitted = function(which.repeat = 1, main = "P-R Training", ...) {
       if (!is.null(self$fitted.prob.aggr[[which.repeat]])) {
-        mplot3_pr(self$fitted.prob.aggr[[which.repeat]],
+        mplot3_pr(
+          self$fitted.prob.aggr[[which.repeat]],
           self$y.train.res.aggr[[which.repeat]],
-          main = main, ...
+          main = main,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -2309,12 +2613,13 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
     #' @param main Character: main title
     #' @param ... Additional arguments passed to
     #' `mplot3_pr`
-    plotPRpredicted = function(which.repeat = 1,
-                               main = "PR Testing", ...) {
+    plotPRpredicted = function(which.repeat = 1, main = "PR Testing", ...) {
       if (!is.null(self$predicted.prob.aggr[[which.repeat]])) {
-        mplot3_pr(self$predicted.prob.aggr[[which.repeat]],
+        mplot3_pr(
+          self$predicted.prob.aggr[[which.repeat]],
           self$y.test.res.aggr[[which.repeat]],
-          main = main, ...
+          main = main,
+          ...
         )
       } else {
         msg2("Estimated probabilities are not available")
@@ -2346,7 +2651,8 @@ rtModCVClass <- R6::R6Class("rtModCVClass",
 #'
 #' @keywords internal
 #' @noRd
-rtMeta <- R6::R6Class("rtMeta",
+rtMeta <- R6::R6Class(
+  "rtMeta",
   inherit = rtMod,
   public = list(
     grid = NULL,
@@ -2396,34 +2702,36 @@ rtMeta <- R6::R6Class("rtMeta",
     #' @param question Question the model is trying to answer
     #' @param extra List of extra model info
     #' @param sessionInfo R session info at time of training
-    initialize = function(mod.name = character(),
-                          # call = call("NULL"),
-                          y.train = numeric(),
-                          y.test = numeric(),
-                          x.name = character(),
-                          y.name = character(),
-                          xnames = character(),
-                          grid = data.frame(),
-                          base.resample.params = list(),
-                          base.mod.names = character(),
-                          base.params = list(),
-                          base.res.y.test = numeric(),
-                          base.res.predicted = numeric(),
-                          base.mods = list(),
-                          base.mods.error.train = list(),
-                          base.mods.error.test = list(),
-                          meta.mod.name = character(),
-                          meta.params = list(),
-                          meta.mod = list(),
-                          type = character(),
-                          fitted = numeric(),
-                          se.fit = numeric(),
-                          error.train = list(),
-                          predicted = numeric(),
-                          se.prediction = numeric(),
-                          error.test = list(),
-                          question = character(),
-                          extra = list()) {
+    initialize = function(
+      mod.name = character(),
+      # call = call("NULL"),
+      y.train = numeric(),
+      y.test = numeric(),
+      x.name = character(),
+      y.name = character(),
+      xnames = character(),
+      grid = data.frame(),
+      base.resample.params = list(),
+      base.mod.names = character(),
+      base.params = list(),
+      base.res.y.test = numeric(),
+      base.res.predicted = numeric(),
+      base.mods = list(),
+      base.mods.error.train = list(),
+      base.mods.error.test = list(),
+      meta.mod.name = character(),
+      meta.params = list(),
+      meta.mod = list(),
+      type = character(),
+      fitted = numeric(),
+      se.fit = numeric(),
+      error.train = list(),
+      predicted = numeric(),
+      se.prediction = numeric(),
+      error.test = list(),
+      question = character(),
+      extra = list()
+    ) {
       self$mod.name <- mod.name
       self$y.train <- y.train
       self$y.test <- y.test
@@ -2460,7 +2768,11 @@ rtMeta <- R6::R6Class("rtMeta",
     print = function() {
       "R6 show / print method for rtMeta"
       objcat("Meta Model")
-      cat("   Base: ", hilite(paste(self$base.mod.names, collapse = ", ")), "\n")
+      cat(
+        "   Base: ",
+        hilite(paste(self$base.mod.names, collapse = ", ")),
+        "\n"
+      )
       cat("   Meta: ", hilite(self$meta.mod.name), "\n")
       boxcat("Training Error")
       print(self$error.train)
@@ -2492,9 +2804,7 @@ NULL
 #'
 #' @rdname rtMeta-methods
 #' @export
-predict.rtMeta <- function(object,
-                           newdata,
-                           fn = median, ...) {
+predict.rtMeta <- function(object, newdata, fn = median, ...) {
   if (missing(newdata)) {
     predicted <- object$predicted
   } else {
@@ -2539,7 +2849,8 @@ predict.rtMeta <- function(object,
 #'
 #' @keywords internal
 #' @noRd
-rtModLite <- R6::R6Class("rtModLite",
+rtModLite <- R6::R6Class(
+  "rtModLite",
   public = list(
     ### Attributes
     mod.name = NULL,
@@ -2551,9 +2862,11 @@ rtModLite <- R6::R6Class("rtModLite",
     #' @param mod Trained model
     #' @param mod.name Algorithm name
     #' @param fitted Vector of fitted values
-    initialize = function(mod = list(),
-                          mod.name = character(),
-                          fitted = numeric()) {
+    initialize = function(
+      mod = list(),
+      mod.name = character(),
+      fitted = numeric()
+    ) {
       self$mod.name <- mod.name
       self$mod <- mod
       self$fitted <- fitted
@@ -2565,7 +2878,10 @@ rtModLite <- R6::R6Class("rtModLite",
     print = function() {
       "show / print method for rtModLite"
       objcat("Lite Supervised Model")
-      cat(self$mod.name, " (", select_learn(self$mod.name, desc = TRUE),
+      cat(
+        self$mod.name,
+        " (",
+        select_learn(self$mod.name, desc = TRUE),
         ")\n",
         sep = ""
       )
@@ -2617,10 +2933,12 @@ predict.rtModLite <- function(object, newdata, ...) {
     if (object$mod.name == "ADDT") {
       if (is.null(extraArgs$learning.rate)) stop("Please provide learning.rate")
       if (is.null(extraArgs$n.feat)) stop("Please provide n.feat")
-      estimated <- predict(object$mod,
+      estimated <- predict(
+        object$mod,
         newdata = newdata,
         learning.rate = extraArgs$learning.rate,
-        n.feat = extraArgs$n.feat, ...
+        n.feat = extraArgs$n.feat,
+        ...
       )
     } else if (object$mod.name == "BRUTO") {
       # BRUTO: newdata must be matrix
@@ -2634,9 +2952,16 @@ predict.rtModLite <- function(object, newdata, ...) {
       if (any(sapply(newdata, is.factor))) {
         newdata <- preprocess(newdata, oneHot = TRUE)
       }
-      estimated <- predict(object$mod, newdata = xgboost::xgb.DMatrix(as.matrix(newdata)))
+      estimated <- predict(
+        object$mod,
+        newdata = xgboost::xgb.DMatrix(as.matrix(newdata))
+      )
     } else if (object$mod.name == "MXFFN") {
-      estimated <- predict(object$mod, data.matrix(newdata), array.layout = "rowmajor")
+      estimated <- predict(
+        object$mod,
+        data.matrix(newdata),
+        array.layout = "rowmajor"
+      )
     } else {
       estimated <- predict(object$mod, newdata = newdata, ...)
     }
@@ -2672,16 +2997,19 @@ predict.rtModLite <- function(object, newdata, ...) {
 #' @keywords internal
 #' @noRd
 
-rtMod.out <- function(rt,
-                      print.plot = FALSE,
-                      plot.fitted = FALSE,
-                      plot.predicted = FALSE,
-                      y.test,
-                      mod.name,
-                      outdir,
-                      save.mod,
-                      verbose,
-                      theme = rtTheme, ...) {
+rtMod.out <- function(
+  rt,
+  print.plot = FALSE,
+  plot.fitted = FALSE,
+  plot.predicted = FALSE,
+  y.test,
+  mod.name,
+  outdir,
+  save.mod,
+  verbose,
+  theme = rtTheme,
+  ...
+) {
   if (!is.null(outdir)) {
     filename.train <- paste0(outdir, "s_", mod.name, "_Fitted.vs.True.pdf")
     if (!is.null(y.test)) {
@@ -2693,19 +3021,23 @@ rtMod.out <- function(rt,
 
   if (print.plot || !is.null(outdir)) {
     if (plot.fitted || !is.null(outdir)) {
-      plot(rt,
+      plot(
+        rt,
         estimate = "fitted",
         print.plot = plot.fitted,
         filename = filename.train,
-        theme = theme, ...
+        theme = theme,
+        ...
       )
     }
     if (!is.null(y.test) && (plot.predicted || !is.null(outdir))) {
-      plot(rt,
+      plot(
+        rt,
         estimate = "predicted",
         print.plot = plot.predicted,
         filename = filename.test,
-        theme = theme, ...
+        theme = theme,
+        ...
       )
     }
   }

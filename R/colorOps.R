@@ -18,9 +18,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-colorOp <- function(col,
-                    fn = c("invert", "mean"),
-                    space = c("HSV", "RGB")) {
+colorOp <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
   # Arguments ----
   fn <- match.arg(fn)
   space <- match.arg(space)
@@ -34,7 +32,8 @@ colorOp <- function(col,
     # maintain alpha
     inverted[4, ] <- col.rgb[4, ]
     invertedl <- lapply(seq_len(NCOL(inverted)), \(i) {
-      rgb(inverted[1, i],
+      rgb(
+        inverted[1, i],
         inverted[2, i],
         inverted[3, i],
         inverted[4, i],
@@ -47,7 +46,13 @@ colorOp <- function(col,
     if (length(col) < 2) stop("Need at least two colors to average")
     if (space == "RGB") {
       averaged <- rowMeans(col.rgb)
-      averaged <- rgb(averaged[1], averaged[2], averaged[3], averaged[4], maxColorValue = 255)
+      averaged <- rgb(
+        averaged[1],
+        averaged[2],
+        averaged[3],
+        averaged[4],
+        maxColorValue = 255
+      )
       return(list(average = averaged))
     } else if (space == "HSV") {
       # Convert HSV to RGB
@@ -96,13 +101,14 @@ color_sqdist <- function(x, y) {
 #' @export
 #'
 
-color_order <- function(x, start_with = 1, order_by = c("similarity", "dissimilarity")) {
+color_order <- function(
+  x,
+  start_with = 1,
+  order_by = c("similarity", "dissimilarity")
+) {
   order_by <- match.arg(order_by)
   if (!is.integer(start_with)) start_with <- which(x == start_with)
-  fn <- switch(order_by,
-    similarity = which.min,
-    dissimilarity = which.max
-  )
+  fn <- switch(order_by, similarity = which.min, dissimilarity = which.max)
   out <- x[start_with]
   x <- x[-start_with]
   while (length(x) > 1) {
@@ -158,8 +164,7 @@ color_separate <- function(x, start_with = 1) {
 #' col2grayscale("red")
 #' col2grayscale("red", "dec")
 #'
-col2grayscale <- function(x,
-                          what = c("color", "decimal")) {
+col2grayscale <- function(x, what = c("color", "decimal")) {
   what <- match.arg(what)
   col <- col2rgb(x)
   gs <- (0.299 * col[1, ] + 0.587 * col[2, ] + 0.114 * col[3, ]) / 255
@@ -186,10 +191,12 @@ col2grayscale <- function(x,
 #'
 #' @author E.D. Gennatas
 #' @export
-palettize <- function(x,
-                      grayscale_hicut = .8,
-                      start_with = "#16A0AC",
-                      order_by = c("separation", "dissimilarity", "similarity")) {
+palettize <- function(
+  x,
+  grayscale_hicut = .8,
+  start_with = "#16A0AC",
+  order_by = c("separation", "dissimilarity", "similarity")
+) {
   order_by <- match.arg(order_by)
   x <- unlist(x)
   if (!is.integer(start_with)) {
@@ -202,7 +209,8 @@ palettize <- function(x,
     xf <- x
   }
 
-  switch(order_by,
+  switch(
+    order_by,
     separation = color_separate(xf, start_with),
     dissimilarity = color_order(xf, start_with, "dissimilarity"),
     similarity = color_order(xf, start_with, "similarity")
@@ -231,7 +239,8 @@ color_invertRGB <- function(x) {
   # maintain alpha
   inverted[4, ] <- col_rgb[4, ]
   invertedl <- sapply(seq_len(NCOL(inverted)), \(i) {
-    rgb(inverted[1, i],
+    rgb(
+      inverted[1, i],
       inverted[2, i],
       inverted[3, i],
       inverted[4, i],
@@ -241,7 +250,6 @@ color_invertRGB <- function(x) {
   if (!is.null(names(col))) names(invertedl) <- paste0(names(col), ".invert")
   invertedl
 } # rtemis::color_invertRGB
-
 
 
 #' Average colors
@@ -256,8 +264,7 @@ color_invertRGB <- function(x) {
 #' color_mean(c("red", "blue")) |> previewcolor()
 #' color_mean(c("red", "blue"), "HSV") |> previewcolor()
 #' }
-color_mean <- function(x,
-                       space = c("RGB", "HSV")) {
+color_mean <- function(x, space = c("RGB", "HSV")) {
   if (length(x) < 2) stop("Need at least two colors to average")
   space <- match.arg(space)
 
@@ -267,7 +274,10 @@ color_mean <- function(x,
   if (space == "RGB") {
     averaged <- rowMeans(col.rgb)
     averaged <- rgb(
-      averaged[1], averaged[2], averaged[3], averaged[4],
+      averaged[1],
+      averaged[2],
+      averaged[3],
+      averaged[4],
       maxColorValue = 255
     )
   } else if (space == "HSV") {

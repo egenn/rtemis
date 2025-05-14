@@ -8,14 +8,13 @@
 #' (https://github.com/anthonynorth/rscodeio)
 #' Recommended to use the Fira Code font with the theme
 #' (https://fonts.google.com/specimen/Fira+Code?query=fira+code)
-#' 
+#'
 #' @param theme Character: "dark" or "light"
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
 rstudio_theme_rtemis <- function(theme = "dark") {
-
   .theme <- if (theme == "dark") "rtemis" else "rtemis-light"
   # '- Check we are in RStudio ----
   if (!rstudioapi::isAvailable()) {
@@ -23,7 +22,10 @@ rstudio_theme_rtemis <- function(theme = "dark") {
   }
 
   # '- Check RStudio supports themes ----
-  if (compareVersion(as.character(rstudioapi::versionInfo()$version), "1.2.0") == -1) {
+  if (
+    compareVersion(as.character(rstudioapi::versionInfo()$version), "1.2.0") ==
+      -1
+  ) {
     stop("Please update to the latest RStudio version (or at least 1.2.0)")
   }
 
@@ -35,11 +37,15 @@ rstudio_theme_rtemis <- function(theme = "dark") {
   # '- Add theme ----
   msg2("Adding rtemis theme...")
   .theme <- rstudioapi::addTheme(
-    system.file(fs::path("resources", paste0(.theme, ".rstheme")), package = "rtemis")
+    system.file(
+      fs::path("resources", paste0(.theme, ".rstheme")),
+      package = "rtemis"
+    )
   )
 
   # '- Activate theme ----
   rstudioapi::applyTheme(.theme)
-  msg2("You may need to restart RStudio for theme changes to take effect in the Options menu")
-
+  msg2(
+    "You may need to restart RStudio for theme changes to take effect in the Options menu"
+  )
 } # rtemis::rstudio_theme_rtemis

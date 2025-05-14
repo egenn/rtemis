@@ -54,35 +54,39 @@
 #' }
 # NA in legend issue: https://github.com/rstudio/leaflet/issues/615
 #'
-dplot3_leaflet <- function(fips,
-                           values,
-                           names = NULL,
-                           fillOpacity = 1,
-                           palette = NULL,
-                           color.mapping = c("Numeric", "Bin"),
-                           col.lo = "#0290EE",
-                           col.hi = "#FE4AA3",
-                           col.na = "#303030",
-                           col.highlight = "#FE8A4F",
-                           col.interpolate = c("linear", "spline"),
-                           col.bins = 21, # for color.mapping Bin
-                           domain = NULL,
-                           weight = .5,
-                           color = "black",
-                           alpha = 1,
-                           bg.tile.provider = leaflet::providers$Stamen.TonerBackground,
-                           bg.tile.alpha = .67,
-                           fg.tile.provider = leaflet::providers$Stamen.TonerLabels,
-                           legend.position = c(
-                             "topright", "bottomright",
-                             "bottomleft", "topleft"
-                           ),
-                           legend.alpha = .8,
-                           legend.title = NULL,
-                           init.lng = -98.54180833333334,
-                           init.lat = 39.207413888888894,
-                           init.zoom = 3,
-                           stroke = TRUE) {
+dplot3_leaflet <- function(
+  fips,
+  values,
+  names = NULL,
+  fillOpacity = 1,
+  palette = NULL,
+  color.mapping = c("Numeric", "Bin"),
+  col.lo = "#0290EE",
+  col.hi = "#FE4AA3",
+  col.na = "#303030",
+  col.highlight = "#FE8A4F",
+  col.interpolate = c("linear", "spline"),
+  col.bins = 21, # for color.mapping Bin
+  domain = NULL,
+  weight = .5,
+  color = "black",
+  alpha = 1,
+  bg.tile.provider = leaflet::providers$Stamen.TonerBackground,
+  bg.tile.alpha = .67,
+  fg.tile.provider = leaflet::providers$Stamen.TonerLabels,
+  legend.position = c(
+    "topright",
+    "bottomright",
+    "bottomleft",
+    "topleft"
+  ),
+  legend.alpha = .8,
+  legend.title = NULL,
+  init.lng = -98.54180833333334,
+  init.lat = 39.207413888888894,
+  init.zoom = 3,
+  stroke = TRUE
+) {
   # Dependencies ----
   dependency_check("leaflet", "geojsonio", "htmltools", "htmlwidgets", "sf")
 
@@ -103,7 +107,8 @@ dplot3_leaflet <- function(fips,
   if (max(nchar(fips)) < 3) {
     geo <- geojsonio::geojson_read(
       system.file(
-        "extdata", "us-states.json",
+        "extdata",
+        "us-states.json",
         package = "rtemis"
       ),
       what = "sp"
@@ -112,7 +117,8 @@ dplot3_leaflet <- function(fips,
   } else {
     geo <- geojsonio::geojson_read(
       system.file(
-        "extdata", "us-counties.json",
+        "extdata",
+        "us-counties.json",
         package = "rtemis"
       ),
       what = "sp"
@@ -151,7 +157,8 @@ dplot3_leaflet <- function(fips,
       } else {
         sprintf("<strong>%s</strong><br/>%g", .names[i], .labs[i])
       }
-    }) |> lapply(htmltools::HTML)
+    }) |>
+      lapply(htmltools::HTML)
   } else {
     labels <- lapply(seq_len(NROW(geo)), function(i) {
       if (is.na(.labs[i])) {
@@ -159,7 +166,8 @@ dplot3_leaflet <- function(fips,
       } else {
         sprintf("%g", .labs[i])
       }
-    }) |> lapply(htmltools::HTML)
+    }) |>
+      lapply(htmltools::HTML)
   }
   geo[["labels"]] <- labels[index]
 
@@ -205,7 +213,6 @@ dplot3_leaflet <- function(fips,
     ) |>
     leaflet::addLayersControl(overlayGroups = c(legend.title)) |>
     leaflet::setView(lng = init.lng, lat = init.lat, zoom = init.zoom)
-
 
   insert <- htmltools::tags$style(
     type = "text/css",

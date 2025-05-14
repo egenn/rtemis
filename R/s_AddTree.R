@@ -34,7 +34,7 @@
 #' @param prune.verbose Logical: If TRUE, prune tree.
 #' @param trace Integer: 0, 1, 2. The higher the number, the more verbose the output.
 #' @param save.rpart Logical: passed to `addtree`
-#' 
+#'
 #' @return Object of class `rtMod`
 #' @author E.D. Gennatas
 #' @family Supervised Learning
@@ -47,43 +47,47 @@
 #' Proc Natl Acad Sci U S A. 2019 Oct 1;116(40):19887-19893. doi: 10.1073/pnas.1816748116
 #' @export
 
-s_AddTree <- function(x, y = NULL,
-                      x.test = NULL, y.test = NULL,
-                      x.name = NULL, y.name = NULL,
-                      weights = NULL,
-                      update = c("exponential", "polynomial"),
-                      min.update = ifelse(update == "polynomial", .035, 1000),
-                      min.hessian = .001,
-                      min.membership = 1,
-                      steps.past.min.membership = 0,
-                      gamma = .8,
-                      max.depth = 30,
-                      learning.rate = .1,
-                      ifw = TRUE,
-                      ifw.type = 2,
-                      upsample = FALSE,
-                      downsample = FALSE,
-                      resample.seed = NULL,
-                      imetrics = TRUE,
-                      grid.resample.params = setup.resample("kfold", 5),
-                      metric = "Balanced Accuracy",
-                      maximize = TRUE,
-                      rpart.params = NULL,
-                      match.rules = TRUE,
-                      print.plot = FALSE,
-                      plot.fitted = NULL,
-                      plot.predicted = NULL,
-                      plot.theme = rtTheme,
-                      question = NULL,
-                      verbose = TRUE,
-                      prune.verbose = FALSE,
-                      trace = 1,
-                      grid.verbose = verbose,
-                      outdir = NULL,
-                      save.rpart = FALSE,
-                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                      n.cores = rtCores) {
-
+s_AddTree <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  update = c("exponential", "polynomial"),
+  min.update = ifelse(update == "polynomial", .035, 1000),
+  min.hessian = .001,
+  min.membership = 1,
+  steps.past.min.membership = 0,
+  gamma = .8,
+  max.depth = 30,
+  learning.rate = .1,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  imetrics = TRUE,
+  grid.resample.params = setup.resample("kfold", 5),
+  metric = "Balanced Accuracy",
+  maximize = TRUE,
+  rpart.params = NULL,
+  match.rules = TRUE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  prune.verbose = FALSE,
+  trace = 1,
+  grid.verbose = verbose,
+  outdir = NULL,
+  save.rpart = FALSE,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  n.cores = rtCores
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_AddTree))
@@ -91,7 +95,14 @@ s_AddTree <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -111,7 +122,8 @@ s_AddTree <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   update <- match.arg(update)
   # if (update == "exponential") {
   #   if (!(0 <= min(gamma) & max(gamma) <= 1)) stop("gamma must be between 0 and 1")
@@ -119,14 +131,18 @@ s_AddTree <- function(x, y = NULL,
   if (!verbose) prune.verbose <- FALSE
 
   # Data ----
-  dt <- prepare_data(x, y,
-                    x.test, y.test,
-                    ifw = ifw,
-                    ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -137,33 +153,43 @@ s_AddTree <- function(x, y = NULL,
   x0 <- if (upsample || downsample) dt$x0 else x
   y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (dt$type != "Classification") stop("Only binary classification is currently supported")
+  if (dt$type != "Classification")
+    stop("Only binary classification is currently supported")
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
 
   # Grid Search ----
   if (gridCheck(gamma, max.depth, learning.rate)) {
-    gs <- gridSearchLearn(x0, y0,
-                          mod.name,
-                          resample.params = grid.resample.params,
-                          grid.params = list(gamma = gamma,
-                                             max.depth = max.depth,
-                                             learning.rate = learning.rate,
-                                             min.hessian = min.hessian),
-                          fixed.params = list(ifw = ifw,
-                                              ifw.type = ifw.type,
-                                              upsample = upsample,
-                                              resample.seed = resample.seed),
-                          weights = weights,
-                          metric = metric,
-                          maximize = maximize,
-                          verbose = verbose,
-                          grid.verbose = grid.verbose,
-                          n.cores = n.cores)
+    gs <- gridSearchLearn(
+      x0,
+      y0,
+      mod.name,
+      resample.params = grid.resample.params,
+      grid.params = list(
+        gamma = gamma,
+        max.depth = max.depth,
+        learning.rate = learning.rate,
+        min.hessian = min.hessian
+      ),
+      fixed.params = list(
+        ifw = ifw,
+        ifw.type = ifw.type,
+        upsample = upsample,
+        resample.seed = resample.seed
+      ),
+      weights = weights,
+      metric = metric,
+      maximize = maximize,
+      verbose = verbose,
+      grid.verbose = grid.verbose,
+      n.cores = n.cores
+    )
     gamma <- gs$best.tune$gamma
     max.depth <- gs$best.tune$max.depth
     learning.rate <- gs$best.tune$learning.rate
@@ -171,32 +197,37 @@ s_AddTree <- function(x, y = NULL,
   } else {
     gs <- NULL
   }
-  parameters <- list(gamma = gamma,
-                     max.depth = max.depth,
-                     learning.rate = learning.rate,
-                     min.hessian = min.hessian,
-                     ifw = ifw,
-                     ifw.type = ifw.type,
-                     upsample = upsample,
-                     resample.seed = resample.seed)
+  parameters <- list(
+    gamma = gamma,
+    max.depth = max.depth,
+    learning.rate = learning.rate,
+    min.hessian = min.hessian,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    resample.seed = resample.seed
+  )
 
   # addtree ----
   if (verbose) msg2("Training AddTree...", newline.pre = TRUE)
-  mod <- addtree(x, y,
-                 catPredictors = NULL,
-                 depthLimit = max.depth,
-                 learning.rate = learning.rate,
-                 gamma = gamma,
-                 update = update,
-                 min.update = min.update,
-                 min.hessian = min.hessian,
-                 min.membership = min.membership,
-                 steps.past.min.membership = steps.past.min.membership,
-                 weights = .weights,
-                 rpart.params = rpart.params,
-                 save.rpart = save.rpart,
-                 verbose = verbose,
-                 trace = trace)
+  mod <- addtree(
+    x,
+    y,
+    catPredictors = NULL,
+    depthLimit = max.depth,
+    learning.rate = learning.rate,
+    gamma = gamma,
+    update = update,
+    min.update = min.update,
+    min.hessian = min.hessian,
+    min.membership = min.membership,
+    steps.past.min.membership = steps.past.min.membership,
+    weights = .weights,
+    rpart.params = rpart.params,
+    save.rpart = save.rpart,
+    verbose = verbose,
+    trace = trace
+  )
 
   # Fitted ----
   fitted <- predict(mod, x)
@@ -217,24 +248,26 @@ s_AddTree <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = parameters,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = parameters,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question
+  )
 
   # data.tree ----
   if (verbose) msg2("Traversing tree by preorder...")
@@ -248,12 +281,19 @@ s_AddTree <- function(x, y = NULL,
   prune <- prune.empty.leaves <- remove.bad.parents <- TRUE
   if (prune) {
     if (verbose) msg2("Pruning tree...")
-    rt$mod$addtree.pruned <- prune.addtree(rt$mod$addtree,
-                                           prune.empty.leaves = prune.empty.leaves,
-                                           remove.bad.parents = remove.bad.parents,
-                                           verbose = prune.verbose)
-    rt$mod$rules <- data.tree::Get(data.tree::Traverse(rt$mod$addtree.pruned,
-                                                       filterFun = function(node) node$isLeaf), "Rule")
+    rt$mod$addtree.pruned <- prune.addtree(
+      rt$mod$addtree,
+      prune.empty.leaves = prune.empty.leaves,
+      remove.bad.parents = remove.bad.parents,
+      verbose = prune.verbose
+    )
+    rt$mod$rules <- data.tree::Get(
+      data.tree::Traverse(
+        rt$mod$addtree.pruned,
+        filterFun = function(node) node$isLeaf
+      ),
+      "Rule"
+    )
     names(rt$mod$rules) <- NULL
   }
 
@@ -268,30 +308,39 @@ s_AddTree <- function(x, y = NULL,
       n.match[i] <- NROW(match)
       n.pos[i] <- table(match$y)[1]
     }
-    rt$extra$node.stats <- data.frame(n.match = n.match,
-                                      pct.total = n.match / NROW(x),
-                                      pct.pos = n.pos / n.match)
+    rt$extra$node.stats <- data.frame(
+      n.match = n.match,
+      pct.total = n.match / NROW(x),
+      pct.pos = n.pos / n.match
+    )
     rt$mod$addtree.pruned$Set(n.match = rt$extra$node.stats$n.match)
     rt$mod$addtree.pruned$Set(pct.total = rt$extra$node.stats$pct.total)
     rt$mod$addtree.pruned$Set(pct.pos = rt$extra$node.stats$pct.pos)
   }
 
   # imetrics ----
-  rt$extra$imetrics <- list(n.nodes = rt$mod$addtree.pruned$totalCount - 1,
-                            depth = rt$mod$addtree.pruned$height - 1)
+  rt$extra$imetrics <- list(
+    n.nodes = rt$mod$addtree.pruned$totalCount - 1,
+    depth = rt$mod$addtree.pruned$height - 1
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_AddTree

@@ -27,47 +27,56 @@
 #' xysplit <- splitline(x, y)
 #' xysplit <- splitline(x, y, lambda = .1)
 #' }
-splitline <- function(x, y,
-                      caseweights = rep(1, length(y)),
-                      gamma = .1,
-                      n.quantiles = 20,
-                      minobsinnode = round(.1 * length(y)),
-                      minbucket = round(.05 * length(y)),
-                      # lincoef
-                      lin.type = "glmnet",
-                      alpha = 1,
-                      lambda = .1,
-                      lambda.seq = NULL,
-                      cv.glmnet.nfolds = 5,
-                      which.cv.glmnet.lambda = "lambda.min",
-                      nbest = 1,
-                      nvmax = 4,
-                      # /lincoef
-                      n.cores = 1,
-                      trace = 0) {
+splitline <- function(
+  x,
+  y,
+  caseweights = rep(1, length(y)),
+  gamma = .1,
+  n.quantiles = 20,
+  minobsinnode = round(.1 * length(y)),
+  minbucket = round(.05 * length(y)),
+  # lincoef
+  lin.type = "glmnet",
+  alpha = 1,
+  lambda = .1,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 4,
+  # /lincoef
+  n.cores = 1,
+  trace = 0
+) {
   if (sum(caseweights == 1) > minobsinnode) {
     nfeatures <- NCOL(x)
     # for each feature: c(cutpoint, loss)
-    minloss_perfeat <- pbapply::pbsapply(seq(nfeatures), function(i) {
-      cutnsplit(x, y,
-        caseweights = caseweights,
-        index = i,
-        n.quantiles = n.quantiles,
-        gamma = gamma,
-        # lincoef
-        lin.type = lin.type,
-        alpha = alpha,
-        lambda = lambda,
-        lambda.seq = lambda.seq,
-        cv.glmnet.nfolds = cv.glmnet.nfolds,
-        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-        nbest = nbest,
-        nvmax = nvmax,
-        # /lincoef
-        minbucket = minbucket,
-        trace = trace
-      )
-    }, cl = n.cores)
+    minloss_perfeat <- pbapply::pbsapply(
+      seq(nfeatures),
+      function(i) {
+        cutnsplit(
+          x,
+          y,
+          caseweights = caseweights,
+          index = i,
+          n.quantiles = n.quantiles,
+          gamma = gamma,
+          # lincoef
+          lin.type = lin.type,
+          alpha = alpha,
+          lambda = lambda,
+          lambda.seq = lambda.seq,
+          cv.glmnet.nfolds = cv.glmnet.nfolds,
+          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+          nbest = nbest,
+          nvmax = nvmax,
+          # /lincoef
+          minbucket = minbucket,
+          trace = trace
+        )
+      },
+      cl = n.cores
+    )
 
     if (all(minloss_perfeat[2, ] == Inf)) {
       return(list(
@@ -98,26 +107,30 @@ splitline <- function(x, y,
 } # rtemis::splitline
 
 # Input: Matrix with all features, but work on one. Output: cutpoints and loss
-cutnsplit <- function(x, y,
-                      caseweights,
-                      index,
-                      n.quantiles = 20,
-                      gamma = .05,
-                      # lincoef
-                      lin.type,
-                      alpha = 1,
-                      lambda = .1,
-                      lambda.seq = NULL,
-                      cv.glmnet.nfolds = 5,
-                      which.cv.glmnet.lambda = "lambda.min",
-                      nbest = 1,
-                      nvmax = 4,
-                      # /lincoef
-                      minbucket = 10,
-                      trace = 0) {
+cutnsplit <- function(
+  x,
+  y,
+  caseweights,
+  index,
+  n.quantiles = 20,
+  gamma = .05,
+  # lincoef
+  lin.type,
+  alpha = 1,
+  lambda = .1,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 4,
+  # /lincoef
+  minbucket = 10,
+  trace = 0
+) {
   ncases <- NROW(x)
 
-  cutpoints <- quantile(x[, index],
+  cutpoints <- quantile(
+    x[, index],
     probs = seq(0, 1, length.out = n.quantiles + 1),
     names = FALSE
   )[-c(1, n.quantiles + 1)]
@@ -135,7 +148,9 @@ cutnsplit <- function(x, y,
     weightsRight[indexLeft] <- weightsRight[indexLeft] * gamma
 
     # Check either y is constant
-    .constant <- is_constant(y) | is_constant(y * weightsLeft) | is_constant(y * weightsRight)
+    .constant <- is_constant(y) |
+      is_constant(y * weightsLeft) |
+      is_constant(y * weightsRight)
     if (.constant) {
       if (trace > 1) msg2("y is constant, abort split", color = magenta)
       return(Inf)
@@ -143,16 +158,20 @@ cutnsplit <- function(x, y,
 
     # '- lm left ----
     elnetLeft <- try(
-      cbind(1, x) %*% lincoef(x, y, weightsLeft,
-        method = lin.type,
-        alpha = alpha,
-        lambda = lambda,
-        lambda.seq = lambda.seq,
-        cv.glmnet.nfolds = cv.glmnet.nfolds,
-        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-        nbest = nbest,
-        nvmax = nvmax
-      ),
+      cbind(1, x) %*%
+        lincoef(
+          x,
+          y,
+          weightsLeft,
+          method = lin.type,
+          alpha = alpha,
+          lambda = lambda,
+          lambda.seq = lambda.seq,
+          cv.glmnet.nfolds = cv.glmnet.nfolds,
+          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+          nbest = nbest,
+          nvmax = nvmax
+        ),
       outFile = stdout(),
       silent = trace < 2
     )
@@ -162,16 +181,20 @@ cutnsplit <- function(x, y,
 
     # '- lm right ----
     elnetRight <- try(
-      cbind(1, x) %*% lincoef(x, y, weightsRight,
-        method = lin.type,
-        alpha = alpha,
-        lambda = lambda,
-        lambda.seq = lambda.seq,
-        cv.glmnet.nfolds = cv.glmnet.nfolds,
-        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-        nbest = nbest,
-        nvmax = nvmax
-      ),
+      cbind(1, x) %*%
+        lincoef(
+          x,
+          y,
+          weightsRight,
+          method = lin.type,
+          alpha = alpha,
+          lambda = lambda,
+          lambda.seq = lambda.seq,
+          cv.glmnet.nfolds = cv.glmnet.nfolds,
+          which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+          nbest = nbest,
+          nvmax = nvmax
+        ),
       outFile = stdout(),
       silent = trace < 2
     )

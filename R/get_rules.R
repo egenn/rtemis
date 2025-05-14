@@ -19,11 +19,12 @@
 #' @author ED Gennatas
 #' @export
 get_rules <- function(
-    mod,
-    formatted = FALSE,
-    collapse = TRUE,
-    collapse.keep.names = FALSE,
-    collapse.unique = TRUE) {
+  mod,
+  formatted = FALSE,
+  collapse = TRUE,
+  collapse.keep.names = FALSE,
+  collapse.unique = TRUE
+) {
   mod.name <- mod$mod.name
   stopifnot(mod.name %in% c("RuleFit", "LightRuleFit"))
   if (inherits(mod, "rtMod")) {
@@ -43,9 +44,15 @@ get_rules <- function(
   } else if (inherits(mod, "rtModCV")) {
     if (formatted) {
       out <- if (mod.name == "RuleFit") {
-        lapply(mod$mod, \(rep) lapply(rep, \(mod) mod$mod1$mod$rules.selected.formatted))
+        lapply(
+          mod$mod,
+          \(rep) lapply(rep, \(mod) mod$mod1$mod$rules.selected.formatted)
+        )
       } else {
-        lapply(mod$mod, \(rep) lapply(rep, \(mod) mod$mod1$mod$rules_selected_formatted))
+        lapply(
+          mod$mod,
+          \(rep) lapply(rep, \(mod) mod$mod1$mod$rules_selected_formatted)
+        )
       }
     } else {
       out <- if (mod.name == "RuleFit") {

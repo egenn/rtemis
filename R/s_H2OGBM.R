@@ -27,7 +27,7 @@
 #' training is complete.
 #' @param n.cores Integer: Number of cores to use
 #' @param .gs Internal use only
-#' 
+#'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
@@ -35,50 +35,56 @@
 #' @family Tree-based methods
 #' @export
 
-s_H2OGBM <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     x.name = NULL, y.name = NULL,
-                     ip = "localhost",
-                     port = 54321,
-                     h2o.init = TRUE,
-                     gs.h2o.init = FALSE,
-                     h2o.shutdown.at.end = TRUE,
-                     grid.resample.params = setup.resample("kfold", 5),
-                     metric = NULL,
-                     maximize = NULL,
-                     n.trees = 10000,
-                     force.n.trees = NULL,
-                     max.depth = 5,
-                     n.stopping.rounds = 50,
-                     stopping.metric = "AUTO",
-                     p.col.sample = 1,
-                     p.row.sample = .9,
-                     minobsinnode = 5,
-                     min.split.improvement = 1e-05,
-                     quantile.alpha = .5,
-                     learning.rate = .01,
-                     learning.rate.annealing = 1,
-                     weights = NULL,
-                     ifw = TRUE,
-                     ifw.type = 2,
-                     upsample = FALSE,
-                     downsample = FALSE,
-                     resample.seed = NULL,
-                     na.action = na.fail,
-                     grid.n.cores = 1,
-                     n.cores = rtCores,
-                     imetrics = FALSE,
-                     .gs = FALSE,
-                     print.plot = FALSE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = rtTheme,
-                     question = NULL,
-                     verbose = TRUE,
-                     trace = 0,
-                     grid.verbose = verbose,
-                     save.mod = FALSE,
-                     outdir = NULL, ...) {
+s_H2OGBM <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  ip = "localhost",
+  port = 54321,
+  h2o.init = TRUE,
+  gs.h2o.init = FALSE,
+  h2o.shutdown.at.end = TRUE,
+  grid.resample.params = setup.resample("kfold", 5),
+  metric = NULL,
+  maximize = NULL,
+  n.trees = 10000,
+  force.n.trees = NULL,
+  max.depth = 5,
+  n.stopping.rounds = 50,
+  stopping.metric = "AUTO",
+  p.col.sample = 1,
+  p.row.sample = .9,
+  minobsinnode = 5,
+  min.split.improvement = 1e-05,
+  quantile.alpha = .5,
+  learning.rate = .01,
+  learning.rate.annealing = 1,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  na.action = na.fail,
+  grid.n.cores = 1,
+  n.cores = rtCores,
+  imetrics = FALSE,
+  .gs = FALSE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  grid.verbose = verbose,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_H2OGBM))
@@ -86,7 +92,14 @@ s_H2OGBM <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -110,12 +123,16 @@ s_H2OGBM <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (!is.null(force.n.trees)) n.trees <- force.n.trees
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -136,8 +153,10 @@ s_H2OGBM <- function(x, y = NULL,
   if (is.null(.weights)) .weights <- rep(1, NROW(y))
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -151,11 +170,17 @@ s_H2OGBM <- function(x, y = NULL,
   df.train <- h2o::as.h2o(data.frame(x, y = y, weights = .weights), "df_train")
   # if we are in gs, create df.valid, otherwise df.test
   if (.gs) {
-    df.valid <- h2o::as.h2o(data.frame(x.test, y = y.test, weights = NA), "df_valid")
+    df.valid <- h2o::as.h2o(
+      data.frame(x.test, y = y.test, weights = NA),
+      "df_valid"
+    )
   } else {
     df.valid <- NULL
     if (!is.null(x.test)) {
-      df.test <- h2o::as.h2o(data.frame(x.test, y = y.test, weights = NA), "df_test")
+      df.test <- h2o::as.h2o(
+        data.frame(x.test, y = y.test, weights = NA),
+        "df_test"
+      )
     } else {
       df.test <- NULL
     }
@@ -178,7 +203,10 @@ s_H2OGBM <- function(x, y = NULL,
 
   .final <- FALSE
   if (!.gs && is.null(force.n.trees)) {
-    gs <- gridSearchLearn(x0, y0, mod.name,
+    gs <- gridSearchLearn(
+      x0,
+      y0,
+      mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
         max.depth = max.depth,
@@ -218,9 +246,15 @@ s_H2OGBM <- function(x, y = NULL,
     n.trees <- round(gs$best.tune$n.trees)
 
     # Reload original df.train and df.test
-    df.train <- h2o::as.h2o(data.frame(x, y = y, weights = .weights), "df_train")
+    df.train <- h2o::as.h2o(
+      data.frame(x, y = y, weights = .weights),
+      "df_train"
+    )
     if (!is.null(x.test)) {
-      df.test <- h2o::as.h2o(data.frame(x.test, y = y.test, weights = NA), "df_test")
+      df.test <- h2o::as.h2o(
+        data.frame(x.test, y = y.test, weights = NA),
+        "df_test"
+      )
     }
     # Now ready to train full model
     .final <- TRUE
@@ -243,7 +277,8 @@ s_H2OGBM <- function(x, y = NULL,
     n.stopping.rounds <- 0
     if (verbose) msg2("Training final H2O GBM model...", newline.pre = TRUE)
   } else {
-    if (verbose) msg2("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
+    if (verbose)
+      msg2("Training H2O Gradient Boosting Machine...", newline.pre = TRUE)
   }
 
   mod <- h2o::h2o.gbm(
@@ -339,7 +374,12 @@ s_H2OGBM <- function(x, y = NULL,
   )
 
   if (.final) if (h2o.shutdown.at.end) h2o::h2o.shutdown(prompt = FALSE)
-  if (verbose) msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  if (verbose)
+    msg20("Access H2O Flow at http://", ip, ":", port, " in your browser")
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_H2OGBM

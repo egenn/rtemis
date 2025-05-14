@@ -77,9 +77,7 @@ binmat2vec <- function(x, labels = colnames(x)) {
 }
 
 
-binmat2lvec <- function(x,
-                        labels = colnames(x),
-                        return.list = FALSE) {
+binmat2lvec <- function(x, labels = colnames(x), return.list = FALSE) {
   if (NCOL(x) == 1) {
     return(factor(x))
   }

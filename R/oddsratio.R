@@ -11,19 +11,18 @@
 #' @export
 
 oddsratio <- function(x, verbose = TRUE) {
-
   stopifnot(inherits(x, "table"))
   stopifnot(dim(x) == c(2, 2))
 
-  odds1 <- x[2, 1]/sum(x[, 1])
-  odds2 <- x[2, 2]/sum(x[, 2])
+  odds1 <- x[2, 1] / sum(x[, 1])
+  odds2 <- x[2, 2] / sum(x[, 2])
   out <- data.frame(matrix(c(x), 2))
   colnames(out) <- colnames(x)
   rownames(out) <- rownames(x)
   out <- rbind(out, c(odds1, odds2))
   rownames(out) <- c(rownames(x), "Odds")
   out
-  or <- odds2/odds1
+  or <- odds2 / odds1
   attr(out, "OddsRatio") <- or
 
   if (verbose) {
@@ -32,6 +31,4 @@ oddsratio <- function(x, verbose = TRUE) {
   }
 
   out
-
 }
-

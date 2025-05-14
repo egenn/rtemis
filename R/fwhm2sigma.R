@@ -15,10 +15,8 @@
 #' @export
 
 fwhm2sigma <- function(fwhm) {
-
-	sigma <- fwhm / (2 * sqrt(2 * log(2)))
-	cat("FWHM of", fwhm, "is equivalent to sigma =", sigma, "\n")
+  sigma <- fwhm / (2 * sqrt(2 * log(2)))
+  cat("FWHM of", fwhm, "is equivalent to sigma =", sigma, "\n")
   # return only prints if function run without assignment
   sigma
-
 } # rtemis::fwhm2sigma

@@ -75,7 +75,7 @@
 #' on differents resamples under subdirectories of `outdir`
 #' @param debug Logical: If TRUE, sets `outer.n.workers` to 1, `options(error=recover)`,
 #' and options(warn = 2)
-#' @param ... Additional train.params to be passed to learner. Will be concatenated 
+#' @param ... Additional train.params to be passed to learner. Will be concatenated
 #' with `train.params`
 #'
 #' @return Object of class `rtModCV` (Regression) or
@@ -101,45 +101,49 @@
 #' }
 #' @export
 
-train_cv <- function(x, y = NULL,
-                     alg = "ranger",
-                     train.params = list(),
-                     .preprocess = NULL,
-                     .decompose = NULL,
-                     weights = NULL,
-                     n.repeats = 1,
-                     outer.resampling = setup.resample(
-                       resampler = "strat.sub",
-                       n.resamples = 10
-                     ),
-                     inner.resampling = setup.resample(
-                       resampler = "kfold",
-                       n.resamples = 5
-                     ),
-                     bag.fn = median,
-                     x.name = NULL,
-                     y.name = NULL,
-                     save.mods = TRUE,
-                     save.tune = TRUE,
-                     bag.fitted = FALSE,
-                     # parallelize outer (testing) resamples
-                     outer.n.workers = 1,
-                     print.plot = FALSE,
-                     plot.fitted = FALSE,
-                     plot.predicted = TRUE,
-                     plot.theme = rtTheme,
-                     print.res.plot = FALSE,
-                     question = NULL,
-                     verbose = TRUE,
-                     res.verbose = FALSE,
-                     trace = 0,
-                     headless = FALSE,
-                     outdir = NULL,
-                     save.plots = FALSE,
-                     save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
-                     save.mod = TRUE,
-                     save.res = FALSE,
-                     debug = FALSE, ...) {
+train_cv <- function(
+  x,
+  y = NULL,
+  alg = "ranger",
+  train.params = list(),
+  .preprocess = NULL,
+  .decompose = NULL,
+  weights = NULL,
+  n.repeats = 1,
+  outer.resampling = setup.resample(
+    resampler = "strat.sub",
+    n.resamples = 10
+  ),
+  inner.resampling = setup.resample(
+    resampler = "kfold",
+    n.resamples = 5
+  ),
+  bag.fn = median,
+  x.name = NULL,
+  y.name = NULL,
+  save.mods = TRUE,
+  save.tune = TRUE,
+  bag.fitted = FALSE,
+  # parallelize outer (testing) resamples
+  outer.n.workers = 1,
+  print.plot = FALSE,
+  plot.fitted = FALSE,
+  plot.predicted = TRUE,
+  plot.theme = rtTheme,
+  print.res.plot = FALSE,
+  question = NULL,
+  verbose = TRUE,
+  res.verbose = FALSE,
+  trace = 0,
+  headless = FALSE,
+  outdir = NULL,
+  save.plots = FALSE,
+  save.rt = ifelse(!is.null(outdir), TRUE, FALSE),
+  save.mod = TRUE,
+  save.res = FALSE,
+  debug = FALSE,
+  ...
+) {
   # Intro ----
   .call <- match.call()
   # Make sure data is not substituted by list with entire raw data
@@ -156,7 +160,8 @@ train_cv <- function(x, y = NULL,
     if (!file.exists(config_path)) {
       stop(
         "The 'x' you input was a character. ",
-        "Assuming this is the path to a config file, but file not found: ", config_path
+        "Assuming this is the path to a config file, but file not found: ",
+        config_path
       )
     }
     config <- read_config(config_path)
@@ -199,8 +204,12 @@ train_cv <- function(x, y = NULL,
 
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, "/", sys.calls()[[1]][[1]], "_",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      "_",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -230,21 +239,53 @@ train_cv <- function(x, y = NULL,
   # Combine train.params with (...)
   train.params <- c(train.params, list(...))
 
-  if (alg %in% c(
-    "AddTree", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET",
-    "GLMTree", "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "POLYMARS", "PPR",
-    "Ranger", "RF", "SPLS", "SVM", "XGBoost", "XRF"
-  )) {
+  if (
+    alg %in%
+      c(
+        "AddTree",
+        "CART",
+        "DN",
+        "GBM",
+        "GBM0",
+        "GBM3",
+        "GLMNET",
+        "GLMTree",
+        "H2OGBM",
+        "LIHAD",
+        "LINAD",
+        "LINOA",
+        "MARS",
+        "POLYMARS",
+        "PPR",
+        "Ranger",
+        "RF",
+        "SPLS",
+        "SVM",
+        "XGBoost",
+        "XRF"
+      )
+  ) {
     train.params <- c(
       train.params,
       list(grid.resample.params = inner.resampling)
     )
   }
 
-  if (outer.n.workers > 1 && alg %in% c(
-    "H2OGBM", "H2ORF", "H2OGLM", "H2ODL",
-    "XRF", "XGBoost", "XGBLIN", "LightGBM", "LightRF"
-  )) {
+  if (
+    outer.n.workers > 1 &&
+      alg %in%
+        c(
+          "H2OGBM",
+          "H2ORF",
+          "H2OGLM",
+          "H2ODL",
+          "XRF",
+          "XGBoost",
+          "XGBLIN",
+          "LightGBM",
+          "LightRF"
+        )
+  ) {
     if (verbose) msg2("Using", alg, "- outer.n.workers set to 1")
     outer.n.workers <- 1
   }
@@ -281,7 +322,8 @@ train_cv <- function(x, y = NULL,
   if (save.tune) best.tune <- list()
 
   if (verbose) {
-    desc <- switch(outer.resampling$resampler,
+    desc <- switch(
+      outer.resampling$resampler,
       kfold = "independent folds",
       strat.sub = "stratified subsamples",
       strat.boot = "stratified bootstraps",
@@ -292,8 +334,13 @@ train_cv <- function(x, y = NULL,
     msg2(
       hilite(
         paste0(
-          "Training ", bold(select_learn(alg, desc = TRUE)), " on ",
-          outer.resampling$n.resamples, " ", desc, "..."
+          "Training ",
+          bold(select_learn(alg, desc = TRUE)),
+          " on ",
+          outer.resampling$n.resamples,
+          " ",
+          desc,
+          "..."
         ),
         bold = FALSE
       ),
@@ -304,7 +351,8 @@ train_cv <- function(x, y = NULL,
   # Loop through repeats (this is often set to one)
   for (i in seq_len(n.repeats)) {
     res.run[[i]] <- resLearn(
-      x = x, y = y,
+      x = x,
+      y = y,
       alg = alg,
       resample.params = outer.resampling,
       weights = weights,
@@ -332,7 +380,8 @@ train_cv <- function(x, y = NULL,
   n.resamples <- attr(res.run[[1]]$res, "N")
   resampler <- attr(res.run[[1]]$res, "resampler")
 
-  if (!is.null(logFile) && trace < 2) sink(logFile, append = TRUE, split = verbose) # Resume writing to log
+  if (!is.null(logFile) && trace < 2)
+    sink(logFile, append = TRUE, split = verbose) # Resume writing to log
   names(mods) <- paste0("CV_", alg, "_repeat", seq(mods))
 
   # Res fitted  ----
@@ -343,13 +392,19 @@ train_cv <- function(x, y = NULL,
   fitted.res <- lapply(seq(n.repeats), function(n) {
     lapply(mods[[n]], function(m) m$mod1$fitted)
   })
-  names(y.train.res) <- names(fitted.res) <- paste0("CV_", alg, "_repeat", seq(mods))
+  names(y.train.res) <- names(fitted.res) <- paste0(
+    "CV_",
+    alg,
+    "_repeat",
+    seq(mods)
+  )
 
   if (resampler != "loocv") {
     # Only if not LOOCV
     if (type == "Classification") {
       error.train.res <- lapply(seq(n.repeats), function(n) {
-        plyr::ldply(mods[[n]],
+        plyr::ldply(
+          mods[[n]],
           function(m) as.data.frame(m$mod1$error.train$Overall),
           .id = NULL
         )
@@ -398,7 +453,8 @@ train_cv <- function(x, y = NULL,
   if (resampler != "loocv") {
     if (type == "Classification") {
       error.test.res <- lapply(seq(n.repeats), function(n) {
-        plyr::ldply(mods[[n]],
+        plyr::ldply(
+          mods[[n]],
           function(m) as.data.frame(m$mod1$error.test$Overall),
           .id = NULL
         )
@@ -475,7 +531,8 @@ train_cv <- function(x, y = NULL,
     # cat("N repeats =", hilite(n.repeats), "\n")
     # cat("N resamples =", hilite(n.resamples), "\n")
     # cat("Resampler =", hilite(resampler), "\n")
-    desc <- switch(resampler,
+    desc <- switch(
+      resampler,
       kfold = "independent folds",
       strat.sub = "stratified subsamples",
       strat.boot = "stratified bootstraps",
@@ -488,7 +545,9 @@ train_cv <- function(x, y = NULL,
     # otherwise mean error across test sets
     if (resampler == "loocv" || resampler == "kfold") {
       if (type == "Regression") {
-        cat("MSE of ", n.resamples,
+        cat(
+          "MSE of ",
+          n.resamples,
           " aggregated test sets",
           if (n.repeats > 1) " in each repeat ",
           ": ",
@@ -498,24 +557,34 @@ train_cv <- function(x, y = NULL,
               function(x) x$MSE
             )),
             collapse = ", "
-          )), "\n",
+          )),
+          "\n",
           sep = ""
         )
         cat(
           "MSE reduction",
           if (n.repeats > 1) " in each repeat",
           ": ",
-          hilite(paste(
-            ddSci(plyr::laply(
-              error.test.res.aggr,
-              function(x) x$Rsq
-            ) * 100),
-            collapse = "%, "
-          ), "%\n", sep = ""),
+          hilite(
+            paste(
+              ddSci(
+                plyr::laply(
+                  error.test.res.aggr,
+                  function(x) x$Rsq
+                ) *
+                  100
+              ),
+              collapse = "%, "
+            ),
+            "%\n",
+            sep = ""
+          ),
           sep = ""
         )
       } else {
-        cat("Balanced Accuracy of ", n.resamples,
+        cat(
+          "Balanced Accuracy of ",
+          n.resamples,
           " aggregated test sets",
           if (n.repeats > 1) " in each repeat",
           ": ",
@@ -525,14 +594,19 @@ train_cv <- function(x, y = NULL,
               function(x) x$`Balanced Accuracy`
             )),
             collapse = ", "
-          )), "\n",
+          )),
+          "\n",
           sep = ""
         )
       }
     } else {
       # strat.sub, strat.boot, bootstrap
       if (type == "Regression") {
-        cat("Mean MSE of ", n.resamples, " ", desc,
+        cat(
+          "Mean MSE of ",
+          n.resamples,
+          " ",
+          desc,
           if (n.repeats > 1) " in each repeat",
           ": ",
           hilite(paste(
@@ -541,24 +615,33 @@ train_cv <- function(x, y = NULL,
               function(x) x$MSE
             )),
             collapse = ", "
-          )), "\n",
+          )),
+          "\n",
           sep = ""
         )
         cat(
           "Mean MSE reduction",
           if (n.repeats > 1) " in each repeat",
           ": ",
-          hilite(paste(
-            ddSci(plyr::laply(
-              error.test.res.mean,
-              function(x) x$Rsq * 100
-            )),
-            collapse = "%, "
-          ), "%\n", sep = ""),
+          hilite(
+            paste(
+              ddSci(plyr::laply(
+                error.test.res.mean,
+                function(x) x$Rsq * 100
+              )),
+              collapse = "%, "
+            ),
+            "%\n",
+            sep = ""
+          ),
           sep = ""
         )
       } else {
-        cat("Mean Balanced Accuracy of ", n.resamples, " ", desc,
+        cat(
+          "Mean Balanced Accuracy of ",
+          n.resamples,
+          " ",
+          desc,
           if (n.repeats > 1) " in each repeat ",
           ": ",
           hilite(paste(
@@ -567,7 +650,8 @@ train_cv <- function(x, y = NULL,
               function(x) x$`Balanced.Accuracy`
             )),
             collapse = ", "
-          )), "\n",
+          )),
+          "\n",
           sep = ""
         )
       }
@@ -577,23 +661,30 @@ train_cv <- function(x, y = NULL,
     if (n.repeats > 1) {
       if (type == "Regression") {
         cat(
-          "Mean MSE across", n.repeats, "repeats =",
+          "Mean MSE across",
+          n.repeats,
+          "repeats =",
           hilite(
             ddSci(error.test.repeats.mean$MSE)
-          ), "\n"
+          ),
+          "\n"
         )
         cat(
           "Mean R-squared was",
           hilite(
             ddSci(error.test.repeats.mean$Rsq)
-          ), "\n"
+          ),
+          "\n"
         )
       } else if (type == "Classification") {
         cat(
-          "Mean Balanced Accuracy across", n.repeats, "repeats =",
+          "Mean Balanced Accuracy across",
+          n.repeats,
+          "repeats =",
           hilite(
             ddSci(error.test.repeats.mean$`Balanced.Accuracy`)
-          ), "\n"
+          ),
+          "\n"
         )
       }
     }
@@ -619,9 +710,12 @@ train_cv <- function(x, y = NULL,
     }
 
     fitted.prob.aggr <- plyr::llply(mods, function(i) {
-      unlist(plyr::llply(i, function(j) {
-        j$mod1$fitted.prob
-      }), use.names = FALSE)
+      unlist(
+        plyr::llply(i, function(j) {
+          j$mod1$fitted.prob
+        }),
+        use.names = FALSE
+      )
     })
     predicted.prob.res <- plyr::llply(mods, function(i) {
       plyr::llply(i, function(j) {
@@ -629,14 +723,17 @@ train_cv <- function(x, y = NULL,
       })
     })
     predicted.prob.aggr <- plyr::llply(mods, function(i) {
-      unlist(plyr::llply(i, function(j) {
-        j$mod1$predicted.prob
-      }), use.names = FALSE)
+      unlist(
+        plyr::llply(i, function(j) {
+          j$mod1$predicted.prob
+        }),
+        use.names = FALSE
+      )
     })
     names(y.train.res.aggr) <- names(y.test.res.aggr) <-
       names(predicted.res.aggr) <- names(fitted.res.aggr) <-
-      names(fitted.prob.aggr) <- names(predicted.prob.aggr) <-
-      paste0("CV_", alg, "_repeat", seq(mods))
+        names(fitted.prob.aggr) <- names(predicted.prob.aggr) <-
+          paste0("CV_", alg, "_repeat", seq(mods))
   } else {
     y.train.res.aggr <- lapply(seq(n.repeats), function(i) {
       c(y.train.res[[i]], recursive = TRUE, use.names = FALSE)
@@ -653,8 +750,10 @@ train_cv <- function(x, y = NULL,
     fitted.prob.aggr <- predicted.prob.aggr <- NULL
     names(y.train.res.aggr) <- names(y.test.res.aggr) <-
       names(predicted.res.aggr) <- paste0(
-        "CV_", alg,
-        "_repeat", seq(mods)
+        "CV_",
+        alg,
+        "_repeat",
+        seq(mods)
       )
   }
 
@@ -782,14 +881,22 @@ train_cv <- function(x, y = NULL,
     if (plot.predicted) rt$plotPredicted()
   }
   if (!is.null(outdir)) {
-    rt$plotFitted(filename = paste0(
-      outdir,
-      "CV_", alg, "_fitted.pdf"
-    ))
-    rt$plotPredicted(filename = paste0(
-      outdir,
-      "CV_", alg, "_predicted.pdf"
-    ))
+    rt$plotFitted(
+      filename = paste0(
+        outdir,
+        "CV_",
+        alg,
+        "_fitted.pdf"
+      )
+    )
+    rt$plotPredicted(
+      filename = paste0(
+        outdir,
+        "CV_",
+        alg,
+        "_predicted.pdf"
+      )
+    )
     if (alg %in% c("LightGBM", "LightRF")) {
       # LightGBM models need to be saved separately with
       # saveRDS.lgb.Booster
@@ -808,7 +915,8 @@ train_cv <- function(x, y = NULL,
       }
     }
   }
-  outro(start_time,
+  outro(
+    start_time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

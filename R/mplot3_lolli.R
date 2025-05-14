@@ -32,41 +32,43 @@
 #'              lwd = 10, segment.alpha = 1)
 #' }
 
-mplot3_lolli <- function(x,
-                         order.on.x = TRUE,
-                         plot.top = 1,
-                         orientation = c("horizontal", "vertical"),
-                         xnames = NULL,
-                         points = TRUE,
-                         segments = TRUE,
-                         main = NULL,
-                         col = NULL,
-                         cex = 1.2,
-                         matching.segment.col = FALSE,
-                         segment.alpha = .333,
-                         lty = 3,
-                         lwd = 2,
-                         theme = rtTheme,
-                         palette = rtPalette,
-                         autolabel = letters,
-                         par.reset = TRUE,
-                         pdf.width = 6,
-                         pdf.height = 6,
-                         mar = c(2.5, 3, 2, 1),
-                         pty = "m",
-                         pch = 16,
-                         x.axis.at = NULL,
-                         y.axis.at = NULL,
-                         xlab = NULL,
-                         ylab = NULL,
-                         label.las = 1,
-                         label.padj = .5,
-                         xaxs = "r",
-                         yaxs = "r",
-                         xlab.adj = .5,
-                         ylab.adj = .5,
-                         filename = NULL, ...) {
-
+mplot3_lolli <- function(
+  x,
+  order.on.x = TRUE,
+  plot.top = 1,
+  orientation = c("horizontal", "vertical"),
+  xnames = NULL,
+  points = TRUE,
+  segments = TRUE,
+  main = NULL,
+  col = NULL,
+  cex = 1.2,
+  matching.segment.col = FALSE,
+  segment.alpha = .333,
+  lty = 3,
+  lwd = 2,
+  theme = rtTheme,
+  palette = rtPalette,
+  autolabel = letters,
+  par.reset = TRUE,
+  pdf.width = 6,
+  pdf.height = 6,
+  mar = c(2.5, 3, 2, 1),
+  pty = "m",
+  pch = 16,
+  x.axis.at = NULL,
+  y.axis.at = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  label.las = 1,
+  label.padj = .5,
+  xaxs = "r",
+  yaxs = "r",
+  xlab.adj = .5,
+  ylab.adj = .5,
+  filename = NULL,
+  ...
+) {
   # Arguments ----
   orientation <- match.arg(orientation)
   .horizontal <- orientation == "horizontal"
@@ -123,15 +125,32 @@ mplot3_lolli <- function(x,
   if (length(col) < length(x)) col <- recycle(col, x)
 
   # Plot ----
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
-                              title = "rtemis Graphics")
+  if (!is.null(filename))
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, xpd = FALSE)
   if (.horizontal) {
-    plot(NULL, NULL, xlim = getlim(x, axs = "i"), ylim = c(1, length(x)), axes = FALSE)
+    plot(
+      NULL,
+      NULL,
+      xlim = getlim(x, axs = "i"),
+      ylim = c(1, length(x)),
+      axes = FALSE
+    )
   } else {
-    plot(NULL, NULL, ylim = getlim(x, axs = "i"), xlim = c(1, length(x)), axes = FALSE)
+    plot(
+      NULL,
+      NULL,
+      ylim = getlim(x, axs = "i"),
+      xlim = c(1, length(x)),
+      axes = FALSE
+    )
   }
 
   # Plot bg ----
@@ -143,16 +162,25 @@ mplot3_lolli <- function(x,
       .ylim <- getlim(x, axs = yaxs)
       .xlim <- getlim(seq_along(x), axs = xaxs)
     }
-    rect(.xlim[1], .ylim[1], .xlim[2], .ylim[2], border = NA, col = theme$plot.bg)
+    rect(
+      .xlim[1],
+      .ylim[1],
+      .xlim[2],
+      .ylim[2],
+      border = NA,
+      col = theme$plot.bg
+    )
   }
 
   # Grid ----
   if (theme$grid) {
-    grid(nx = if (.horizontal) theme$grid.nx else NA,
-         ny = if (.horizontal) NA else theme$grid.ny,
-         col = colorAdjust(theme$grid.col, theme$grid.alpha),
-         lty = theme$grid.lty,
-         lwd = theme$grid.lwd)
+    grid(
+      nx = if (.horizontal) theme$grid.nx else NA,
+      ny = if (.horizontal) NA else theme$grid.ny,
+      col = colorAdjust(theme$grid.col, theme$grid.alpha),
+      lty = theme$grid.lty,
+      lwd = theme$grid.lwd
+    )
   }
 
   # Zero line ----
@@ -167,67 +195,91 @@ mplot3_lolli <- function(x,
 
   # Axes ----
   if (theme$axes.visible) {
-    axis(side = theme$x.axis.side,
-         line = theme$x.axis.line,
-         at = if (.horizontal) x.axis.at else seq_along(x),
-         labels = if (.horizontal) NULL else xnames,
-         col = theme$axes.col,
-         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-         col.axis = theme$tick.labels.col,
-         las = theme$x.axis.las,
-         padj = theme$x.axis.padj,
-         hadj = theme$x.axis.hadj,
-         tck = theme$tck,
-         tcl = theme$tcl,
-         cex = theme$cex,
-         family = theme$font.family)
-    axis(side = theme$y.axis.side,
-         line = theme$y.axis.line,
-         at = if (.horizontal) seq_along(x) else y.axis.at,
-         labels = if (.horizontal) xnames else NULL,
-         col = theme$axes.col,
-         col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-         col.axis = theme$tick.labels.col,
-         # las = theme$y.axis.las,
-         las = label.las,
-         # padj = theme$y.axis.padj,
-         padj = .5,
-         # hadj = theme$y.axis.hadj,
-         mgp = c(3, .5, 0),
-         hadj = 1,
-         tck = theme$tck,
-         tcl = theme$tcl,
-         cex = theme$cex,
-         family = theme$font.family)
-    mtext(xlab, side = theme$x.axis.side,
-          line = theme$xlab.line,
-          cex = theme$cex,
-          adj = xlab.adj, col = theme$labs.col,
-          family = theme$font.family)
-    mtext(ylab, side = theme$y.axis.side,
-          line = theme$ylab.line,
-          cex = theme$cex,
-          adj = ylab.adj, col = theme$labs.col,
-          family = theme$font.family)
+    axis(
+      side = theme$x.axis.side,
+      line = theme$x.axis.line,
+      at = if (.horizontal) x.axis.at else seq_along(x),
+      labels = if (.horizontal) NULL else xnames,
+      col = theme$axes.col,
+      col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+      col.axis = theme$tick.labels.col,
+      las = theme$x.axis.las,
+      padj = theme$x.axis.padj,
+      hadj = theme$x.axis.hadj,
+      tck = theme$tck,
+      tcl = theme$tcl,
+      cex = theme$cex,
+      family = theme$font.family
+    )
+    axis(
+      side = theme$y.axis.side,
+      line = theme$y.axis.line,
+      at = if (.horizontal) seq_along(x) else y.axis.at,
+      labels = if (.horizontal) xnames else NULL,
+      col = theme$axes.col,
+      col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+      col.axis = theme$tick.labels.col,
+      # las = theme$y.axis.las,
+      las = label.las,
+      # padj = theme$y.axis.padj,
+      padj = .5,
+      # hadj = theme$y.axis.hadj,
+      mgp = c(3, .5, 0),
+      hadj = 1,
+      tck = theme$tck,
+      tcl = theme$tcl,
+      cex = theme$cex,
+      family = theme$font.family
+    )
+    mtext(
+      xlab,
+      side = theme$x.axis.side,
+      line = theme$xlab.line,
+      cex = theme$cex,
+      adj = xlab.adj,
+      col = theme$labs.col,
+      family = theme$font.family
+    )
+    mtext(
+      ylab,
+      side = theme$y.axis.side,
+      line = theme$ylab.line,
+      cex = theme$cex,
+      adj = ylab.adj,
+      col = theme$labs.col,
+      family = theme$font.family
+    )
   }
 
   # Lollipops ----
   if (segments) {
     if (.horizontal) {
       for (i in seq_along(x)) {
-        segments(0, i, x[i], i,
-                 col = if (matching.segment.col) adjustcolor(col[[i]], segment.alpha)
-                 else adjustcolor(theme$fg, segment.alpha),
-                 lty = lty,
-                 lwd = lwd)
+        segments(
+          0,
+          i,
+          x[i],
+          i,
+          col = if (matching.segment.col)
+            adjustcolor(col[[i]], segment.alpha) else
+            adjustcolor(theme$fg, segment.alpha),
+          lty = lty,
+          lwd = lwd
+        )
       }
     } else {
       for (i in seq_along(x)) {
-        segments(i, 0, i, x[i],
-                 col = if (matching.segment.col) adjustcolor(col[[i]], segment.alpha)
-                 else adjustcolor(theme$fg, segment.alpha),
-                 lty = lty,
-                 lwd = lwd)
+        segments(
+          i,
+          0,
+          i,
+          x[i],
+          col = if (matching.segment.col)
+            adjustcolor(col[[i]], segment.alpha) else
+            adjustcolor(theme$fg, segment.alpha),
+          lty = lty,
+          lwd = lwd
+        )
       }
     }
   }
@@ -248,12 +300,16 @@ mplot3_lolli <- function(x,
   }
 
   if (length(main) > 0) {
-    mtext(main, line = theme$main.line,
-          font = theme$main.font, adj = theme$main.adj,
-          cex = theme$cex, col = theme$main.col,
-          family = theme$font.family)
+    mtext(
+      main,
+      line = theme$main.line,
+      font = theme$main.font,
+      adj = theme$main.adj,
+      cex = theme$cex,
+      col = theme$main.col,
+      family = theme$font.family
+    )
   }
 
   if (!is.null(filename)) dev.off()
-
 } # rtemis::mplot3_lolli

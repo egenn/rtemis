@@ -5,10 +5,10 @@
 #' Uniform Manifold Approximation and Projection (UMAP)
 #'
 #' Perform UMAP decomposition using `uwot::umap`
-#' 
+#'
 #' Updated 2023-12-09: See [GitHub issue](https://github.com/jlmelville/uwot/issues/115)
 #' and [related comment](https://github.com/bwlewis/irlba/issues/70#issuecomment-1826900769)
-#' 
+#'
 #' @param x Input matrix
 #' @param x.test Optional test set matrix. Will be projected on to UMAP bases
 #' @param k Integer: Number of projections
@@ -28,16 +28,19 @@
 #' @family Decomposition
 #' @export
 
-d_UMAP <- function(x,
-                   x.test = NULL,
-                   k = 2,
-                   n.neighbors = 15,
-                   init = "spectral",
-                   metric = c("euclidean", "cosine", "manhattan", "hamming", "categorical"),
-                   epochs = NULL,
-                   learning.rate = 1,
-                   scale = TRUE,
-                   verbose = TRUE, ...) {
+d_UMAP <- function(
+  x,
+  x.test = NULL,
+  k = 2,
+  n.neighbors = 15,
+  init = "spectral",
+  metric = c("euclidean", "cosine", "manhattan", "hamming", "categorical"),
+  epochs = NULL,
+  learning.rate = 1,
+  scale = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "UMAP"
@@ -63,7 +66,8 @@ d_UMAP <- function(x,
 
   # UMAP ----
   if (verbose) msg2("Performing UMAP Decomposition...")
-  decom <- uwot::umap(x,
+  decom <- uwot::umap(
+    x,
     n_components = k,
     n_neighbors = n.neighbors,
     init = init,
@@ -72,7 +76,8 @@ d_UMAP <- function(x,
     metric = metric,
     scale = scale,
     verbose = verbose,
-    ret_model = TRUE, ...
+    ret_model = TRUE,
+    ...
   )
 
   # Projections ----

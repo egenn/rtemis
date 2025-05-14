@@ -6,24 +6,24 @@
 #'
 #' Plot variable importance using `plotly`
 #'
-#' A simple `plotly` wrapper to plot horizontal barplots, sorted by value, 
+#' A simple `plotly` wrapper to plot horizontal barplots, sorted by value,
 #' which can be used to visualize variable importance, model coefficients, etc.
 #' @inheritParams mplot3_varimp
 #' @param names Vector, string: Names of features
 #' @param main Character: main title
 #' @param xlab Character: x-axis label
 #' @param ylab Character: y-axis label
-#' @param col Vector, colors: Single value, or multiple values to define bar 
+#' @param col Vector, colors: Single value, or multiple values to define bar
 #' (feature) color(s)
 #' @param alpha Numeric: Transparency
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
 #' @param mar Vector, numeric, length 4: Plot margins in pixels (NOT inches).
 #' Default = c(50, 110, 50, 50)
-#' @param font.size Integer: Overall font size to use (essentially for the 
+#' @param font.size Integer: Overall font size to use (essentially for the
 #' title at this point).
 #' Default = 14
 #' @param axis.font.size Integer: Font size to use for axis labels and tick labels
-#' (Seems not to be in same scale as `font.size` for some reason. 
+#' (Seems not to be in same scale as `font.size` for some reason.
 #' Experiment!)
 #' @param theme Output of an rtemis theme function (list of parameters) or theme
 #' name. Use `themes()` to print available themes.
@@ -38,22 +38,24 @@
 #' dplot3_varimp(x)
 #' @export
 
-dplot3_varimp <- function(x,
-                          names = NULL,
-                          main = NULL,
-                          xlab = "Variable Importance",
-                          ylab = "",
-                          plot.top = 1, # 1 or less means plot this percent
-                          labelify = TRUE,
-                          col = NULL,
-                          alpha = 1,
-                          palette = NULL,
-                          mar = NULL,
-                          font.size = 16,
-                          axis.font.size = 14,
-                          theme = rtTheme,
-                          showlegend = TRUE, ...) {
-
+dplot3_varimp <- function(
+  x,
+  names = NULL,
+  main = NULL,
+  xlab = "Variable Importance",
+  ylab = "",
+  plot.top = 1, # 1 or less means plot this percent
+  labelify = TRUE,
+  col = NULL,
+  alpha = 1,
+  palette = NULL,
+  mar = NULL,
+  font.size = 16,
+  axis.font.size = 14,
+  theme = rtTheme,
+  showlegend = TRUE,
+  ...
+) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -80,14 +82,14 @@ dplot3_varimp <- function(x,
   main.col <- plotly::toRGB(theme$main.col)
 
   # '- Axis font ----
-  f <- list(family = theme$font.family,
-            size = font.size,
-            color = labs.col)
+  f <- list(family = theme$font.family, size = font.size, color = labs.col)
 
   # '- Tick font ----
-  tickfont <- list(family = theme$font.family,
-                   size = font.size,
-                   color = theme$tick.labels.col)
+  tickfont <- list(
+    family = theme$font.family,
+    size = font.size,
+    color = theme$tick.labels.col
+  )
 
   # Data ----
   if (NCOL(x) > 1 && NROW(x) > 1) {
@@ -137,47 +139,54 @@ dplot3_varimp <- function(x,
   col <- colorAdjust(col, alpha = alpha)
 
   # plotly ----
-  plt <- plotly::plot_ly(x = x, y = y,
-                         type = "bar",
-                         orientation = "h",
-                         marker = list(color = col),
-                         showlegend = FALSE)
+  plt <- plotly::plot_ly(
+    x = x,
+    y = y,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = col),
+    showlegend = FALSE
+  )
 
   # Layout ----
-  plt <- plotly::layout(plt,
-                        margin = list(l = mar[2],
-                                      t = mar[3],
-                                      r = mar[4],
-                                      b = mar[1],
-                                      pad = 0), # inner plot area padding
-                        xaxis = list(title = list(text = xlab,
-                                                  font = f),
-                                     # showline = axes.visible,
-                                     # mirror = axes.mirrored,
-                                     showgrid = theme$grid,
-                                     gridcolor = grid.col,
-                                     gridwidth = theme$grid.lwd,
-                                     tickcolor = tick.col,
-                                     tickfont = tickfont,
-                                     zeroline = FALSE),
-                        yaxis = list(title = list(text = ylab,
-                                                  font = f),
-                                     # showline = axes.visible,
-                                     # mirror = axes.mirrored,
-                                     showgrid = FALSE,
-                                     # gridcolor = grid.col,
-                                     # gridwidth = theme$grid.lwd,
-                                     tickcolor = tick.col,
-                                     tickfont = tickfont,
-                                     zeroline = FALSE),
-                        title = list(text = main,
-                                     font = list(family = theme$font.family,
-                                                 size = font.size,
-                                                 color = main.col),
-                                     xref = "paper",
-                                     x = theme$main.adj),
-                        paper_bgcolor = bg,
-                        plot_bgcolor = plot.bg)
+  plt <- plotly::layout(
+    plt,
+    margin = list(l = mar[2], t = mar[3], r = mar[4], b = mar[1], pad = 0), # inner plot area padding
+    xaxis = list(
+      title = list(text = xlab, font = f),
+      # showline = axes.visible,
+      # mirror = axes.mirrored,
+      showgrid = theme$grid,
+      gridcolor = grid.col,
+      gridwidth = theme$grid.lwd,
+      tickcolor = tick.col,
+      tickfont = tickfont,
+      zeroline = FALSE
+    ),
+    yaxis = list(
+      title = list(text = ylab, font = f),
+      # showline = axes.visible,
+      # mirror = axes.mirrored,
+      showgrid = FALSE,
+      # gridcolor = grid.col,
+      # gridwidth = theme$grid.lwd,
+      tickcolor = tick.col,
+      tickfont = tickfont,
+      zeroline = FALSE
+    ),
+    title = list(
+      text = main,
+      font = list(
+        family = theme$font.family,
+        size = font.size,
+        color = main.col
+      ),
+      xref = "paper",
+      x = theme$main.adj
+    ),
+    paper_bgcolor = bg,
+    plot_bgcolor = plot.bg
+  )
 
   # Remove padding
   plt$sizingPolicy$padding <- 0

@@ -18,14 +18,16 @@
 #' present_gridsearch(mod)
 #' present_gridsearch(mod_10ss)
 #' }
-present_gridsearch <- function(x,
-                               rtModCV.repeat = 1, ...) {
+present_gridsearch <- function(x, rtModCV.repeat = 1, ...) {
   if (inherits(x, "rtMod")) {
     search <- x$gridsearch$params$search
     best_tune <- x$gridsearch$best.tune
   } else if (inherits(x, "rtModCV")) {
     search <- x$mod[[rtModCV.repeat]][[1]]$mod1$gridsearch$params$search
-    best_tune <- sapply(x$mod[[rtModCV.repeat]], \(i) i$mod1$gridsearch$best.tune)
+    best_tune <- sapply(
+      x$mod[[rtModCV.repeat]],
+      \(i) i$mod1$gridsearch$best.tune
+    )
   }
 
   # Print search params

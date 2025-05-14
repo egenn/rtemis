@@ -36,46 +36,52 @@
 #' @family Supervised Learning
 #' @export
 
-s_MARS <- function(x, y = NULL,
-                   x.test = NULL, y.test = NULL,
-                   x.name = NULL, y.name = NULL,
-                   grid.resample.params = setup.grid.resample(),
-                   weights = NULL,
-                   ifw = TRUE,
-                   ifw.type = 2,
-                   upsample = FALSE,
-                   downsample = FALSE,
-                   resample.seed = NULL,
-                   glm = NULL,
-                   degree = 2,
-                   penalty = 3, # if (degree > 1) 3 else 2
-                   nk = NULL,
-                   thresh = 0,
-                   minspan = 0,
-                   endspan = 0,
-                   newvar.penalty = 0,
-                   fast.k = 2,
-                   fast.beta = 1,
-                   linpreds = FALSE,
-                   pmethod = "forward",
-                   nprune = NULL,
-                   nfold = 4,
-                   ncross = 1,
-                   stratify = TRUE,
-                   wp = NULL,
-                   na.action = na.fail,
-                   metric = NULL,
-                   maximize = NULL,
-                   n.cores = rtCores,
-                   print.plot = FALSE,
-                   plot.fitted = NULL,
-                   plot.predicted = NULL,
-                   plot.theme = rtTheme,
-                   question = NULL,
-                   verbose = TRUE,
-                   trace = 0,
-                   save.mod = FALSE,
-                   outdir = NULL, ...) {
+s_MARS <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  grid.resample.params = setup.grid.resample(),
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  glm = NULL,
+  degree = 2,
+  penalty = 3, # if (degree > 1) 3 else 2
+  nk = NULL,
+  thresh = 0,
+  minspan = 0,
+  endspan = 0,
+  newvar.penalty = 0,
+  fast.k = 2,
+  fast.beta = 1,
+  linpreds = FALSE,
+  pmethod = "forward",
+  nprune = NULL,
+  nfold = 4,
+  ncross = 1,
+  stratify = TRUE,
+  wp = NULL,
+  na.action = na.fail,
+  metric = NULL,
+  maximize = NULL,
+  n.cores = rtCores,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_MARS))
@@ -83,7 +89,14 @@ s_MARS <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -108,11 +121,15 @@ s_MARS <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -135,8 +152,10 @@ s_MARS <- function(x, y = NULL,
     glm <- list(family = binomial)
   }
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -159,7 +178,10 @@ s_MARS <- function(x, y = NULL,
 
   gs <- NULL
   if (gridCheck(pmethod, degree, nprune, penalty, nk, thresh)) {
-    gs <- gridSearchLearn(x0, y0, mod.name,
+    gs <- gridSearchLearn(
+      x0,
+      y0,
+      mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
         pmethod = pmethod,
@@ -172,7 +194,8 @@ s_MARS <- function(x, y = NULL,
       weights = weights,
       metric = "MSE",
       maximize = FALSE,
-      verbose = verbose, n.cores = n.cores
+      verbose = verbose,
+      n.cores = n.cores
     )
     pmethod <- as.character(gs$best.tune$pmethod)
     degree <- gs$best.tune$degree
@@ -185,7 +208,14 @@ s_MARS <- function(x, y = NULL,
   # earth::earth ----
   if (verbose) msg2("Training MARS model...", newline.pre = TRUE)
   if (verbose) {
-    parameterSummary(pmethod, degree, nprune, ncross, nfold, penalty, nk,
+    parameterSummary(
+      pmethod,
+      degree,
+      nprune,
+      ncross,
+      nfold,
+      penalty,
+      nk,
       newline.pre = TRUE
     )
   }
@@ -193,7 +223,8 @@ s_MARS <- function(x, y = NULL,
   # update.earth or related function and error out.
   args <- c(
     list(
-      x = x, y = y,
+      x = x,
+      y = y,
       weights = .weights,
       wp = wp,
       na.action = na.action,
@@ -298,6 +329,10 @@ s_MARS <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_MARS

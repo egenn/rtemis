@@ -22,22 +22,24 @@
 #' # Notice how most values are near zero therefore almost white
 #' }
 
-colorgradient.x <- function(x,
-                            symmetric = FALSE,
-                            lo.col = "#0290EE",
-                            mid.col = "#1A1A1A",
-                            hi.col = "#FFBD4F",
-                            space = "Lab") {
-
+colorgradient.x <- function(
+  x,
+  symmetric = FALSE,
+  lo.col = "#0290EE",
+  mid.col = "#1A1A1A",
+  hi.col = "#FFBD4F",
+  space = "Lab"
+) {
   grad <- colorRampPalette(c(lo.col, mid.col, hi.col), space = space)(201)
 
   if (symmetric) {
     maxabsx <- max(abs(x))
-    cuts <- cut(c(-maxabsx, x, maxabsx), 201, labels = FALSE)[-c(1, length(x) + 2)]
+    cuts <- cut(c(-maxabsx, x, maxabsx), 201, labels = FALSE)[
+      -c(1, length(x) + 2)
+    ]
   } else {
     cuts <- cut(x, 201, labels = FALSE)
   }
 
   grad[cuts]
-
 } # rtemis::colorgradient.x

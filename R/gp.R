@@ -21,13 +21,18 @@
 #' @author E.D. Gennatas
 #' @export
 
-gp <- function(x, y,
-               new.x = NULL,
-               x.name = "x", y.name = "y",
-               print.plot = TRUE,
-               lwd = 3,
-               cex = 1.2,
-               par.reset = TRUE, ...) {
+gp <- function(
+  x,
+  y,
+  new.x = NULL,
+  x.name = "x",
+  y.name = "y",
+  print.plot = TRUE,
+  lwd = 3,
+  cex = 1.2,
+  par.reset = TRUE,
+  ...
+) {
   # Dependencies ----
   dependency_check("tgp")
 
@@ -63,12 +68,18 @@ gp <- function(x, y,
     par.orig <- par(no.readonly = TRUE)
     if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-    mplot3_xy(x, y,
+    mplot3_xy(
+      x,
+      y,
       main = main,
-      fit = "gam", fit.col = pennCol$orange,
-      lty = 1, lwd = lwd,
-      xlab = x.name, ylab = y.name,
-      xlim = xlim, ylim = ylim,
+      fit = "gam",
+      fit.col = pennCol$orange,
+      lty = 1,
+      lwd = lwd,
+      xlab = x.name,
+      ylab = y.name,
+      xlim = xlim,
+      ylim = ylim,
       mar = c(3, 3, 3, 4),
       cex = cex,
       par.reset = FALSE
@@ -79,9 +90,13 @@ gp <- function(x, y,
       lines(xl[[i]], yl[[i]], lwd = lwd, col = col[[i + 1]], lty = lty[[i]])
     }
     legend <- c("GAM fit", "   Mean", "  95th Q", "    5th Q")
-    mtext(legend, 3,
-      adj = 0, col = col,
-      padj = seq(1.5, 1.5 + 1.5 * 3, 1.5), cex = cex
+    mtext(
+      legend,
+      3,
+      adj = 0,
+      col = col,
+      padj = seq(1.5, 1.5 + 1.5 * 3, 1.5),
+      cex = cex
     )
   }
 

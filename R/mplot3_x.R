@@ -64,100 +64,102 @@
 #' mplot3_x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 #' }
 #'
-mplot3_x <- function(x,
-                     type = c("density", "histogram", "hd", "lhist", "index", "ts", "qqline"),
-                     group = NULL,
-                     data = NULL,
-                     xlab = NULL,
-                     ylab = NULL,
-                     main = NULL,
-                     xlim = NULL,
-                     ylim = NULL,
-                     index.ypad = .1,
-                     axes.swap = FALSE,
-                     axes.col = NULL,
-                     tick.col = NULL,
-                     cex = 1.2,
-                     col = NULL,
-                     alpha = .75,
-                     index.type = c("p", "l"),
-                     hist.breaks = "Sturges",
-                     hist.type = c("bars", "lines"),
-                     hist.probability = FALSE,
-                     hist.lwd = 3,
-                     density.line = FALSE,
-                     density.shade = TRUE,
-                     density.legend.side = 3,
-                     density.legend.adj = .98,
-                     density.bw = "nrd0",
-                     density.kernel = "gaussian",
-                     density.params = list(na.rm = na.rm),
-                     qqline.col = "#18A3AC",
-                     qqline.alpha = 1,
-                     pch = 16,
-                     point.col = NULL,
-                     point.cex = 1,
-                     point.bg.col = NULL,
-                     point.alpha = .66,
-                     hline = NULL,
-                     vline = NULL,
-                     diagonal = FALSE,
-                     grid = FALSE,
-                     grid.col = NULL,
-                     grid.alpha = .5,
-                     grid.lty = 3,
-                     grid.lwd = 1,
-                     annotation = NULL,
-                     annot.col = NULL,
-                     group.legend = NULL,
-                     group.title = "",
-                     group.names = NULL,
-                     group.side = 3,
-                     group.adj = 0.02,
-                     group.at = NA,
-                     text.xy = NULL,
-                     text.x = NULL,
-                     text.y = NULL,
-                     text.xy.cex = 1,
-                     text.xy.col = "white",
-                     line.col = "#008E00", # for QQ-line or dh density line
-                     x.axis.padj = -1.1,
-                     # xlab.line = 1.3,
-                     y.axis.padj = .9,
-                     # ylab.line = 1.6,
-                     labs.col = NULL,
-                     lab.adj = .5,
-                     density.avg = ifelse(type == "density", TRUE, FALSE),
-                     density.avg.fn = c("median", "mean"),
-                     density.avg.line = FALSE,
-                     density.avg.lwd = 1.5,
-                     density.avg.lty = 3,
-                     hline.col = "black",
-                     hline.lwd = 1,
-                     hline.lty = 1,
-                     vline.col = "black",
-                     vline.lwd = 1,
-                     vline.lty = 1,
-                     lty = 1,
-                     lwd = 2,
-                     qqline.lwd = lwd,
-                     density.lwd = lwd,
-                     theme = rtTheme,
-                     palette = rtPalette,
-                     pty = "m",
-                     mar = NULL,
-                     oma = rep(0, 4),
-                     xaxs = "r",
-                     yaxs = "r",
-                     autolabel = letters,
-                     new = FALSE,
-                     alpha.off = FALSE, # Turn off all alpha if it's not supported by the device
-                     na.rm = TRUE,
-                     par.reset = TRUE,
-                     filename = NULL,
-                     pdf.width = 6,
-                     pdf.height = 6,
-                     ...) {
+mplot3_x <- function(
+  x,
+  type = c("density", "histogram", "hd", "lhist", "index", "ts", "qqline"),
+  group = NULL,
+  data = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  index.ypad = .1,
+  axes.swap = FALSE,
+  axes.col = NULL,
+  tick.col = NULL,
+  cex = 1.2,
+  col = NULL,
+  alpha = .75,
+  index.type = c("p", "l"),
+  hist.breaks = "Sturges",
+  hist.type = c("bars", "lines"),
+  hist.probability = FALSE,
+  hist.lwd = 3,
+  density.line = FALSE,
+  density.shade = TRUE,
+  density.legend.side = 3,
+  density.legend.adj = .98,
+  density.bw = "nrd0",
+  density.kernel = "gaussian",
+  density.params = list(na.rm = na.rm),
+  qqline.col = "#18A3AC",
+  qqline.alpha = 1,
+  pch = 16,
+  point.col = NULL,
+  point.cex = 1,
+  point.bg.col = NULL,
+  point.alpha = .66,
+  hline = NULL,
+  vline = NULL,
+  diagonal = FALSE,
+  grid = FALSE,
+  grid.col = NULL,
+  grid.alpha = .5,
+  grid.lty = 3,
+  grid.lwd = 1,
+  annotation = NULL,
+  annot.col = NULL,
+  group.legend = NULL,
+  group.title = "",
+  group.names = NULL,
+  group.side = 3,
+  group.adj = 0.02,
+  group.at = NA,
+  text.xy = NULL,
+  text.x = NULL,
+  text.y = NULL,
+  text.xy.cex = 1,
+  text.xy.col = "white",
+  line.col = "#008E00", # for QQ-line or dh density line
+  x.axis.padj = -1.1,
+  # xlab.line = 1.3,
+  y.axis.padj = .9,
+  # ylab.line = 1.6,
+  labs.col = NULL,
+  lab.adj = .5,
+  density.avg = ifelse(type == "density", TRUE, FALSE),
+  density.avg.fn = c("median", "mean"),
+  density.avg.line = FALSE,
+  density.avg.lwd = 1.5,
+  density.avg.lty = 3,
+  hline.col = "black",
+  hline.lwd = 1,
+  hline.lty = 1,
+  vline.col = "black",
+  vline.lwd = 1,
+  vline.lty = 1,
+  lty = 1,
+  lwd = 2,
+  qqline.lwd = lwd,
+  density.lwd = lwd,
+  theme = rtTheme,
+  palette = rtPalette,
+  pty = "m",
+  mar = NULL,
+  oma = rep(0, 4),
+  xaxs = "r",
+  yaxs = "r",
+  autolabel = letters,
+  new = FALSE,
+  alpha.off = FALSE, # Turn off all alpha if it's not supported by the device
+  na.rm = TRUE,
+  par.reset = TRUE,
+  filename = NULL,
+  pdf.width = 6,
+  pdf.height = 6,
+  ...
+) {
   # Arguments ----
   type <- match.arg(type)
   if (type == "ts") {
@@ -197,9 +199,7 @@ mplot3_x <- function(x,
 
   if (!is.null(filename)) {
     if (!dir.exists(dirname(filename))) {
-      dir.create(dirname(filename),
-        recursive = TRUE
-      )
+      dir.create(dirname(filename), recursive = TRUE)
     }
   }
   if (is.character(palette)) palette <- rtpalette(palette)
@@ -219,7 +219,8 @@ mplot3_x <- function(x,
   which.nonnum <- which(sapply(xl, function(i) !is.numeric(i)))
   if (length(which.nonnum) > 0) xl[[which.nonnum]] <- NULL
 
-  if (type == "index") yl <- lapply(seq_along(xl), function(i) seq(1, length(xl[[i]])))
+  if (type == "index")
+    yl <- lapply(seq_along(xl), function(i) seq(1, length(xl[[i]])))
   # if (type == "qqline" & length(xl) > 1) stop("Draw Q-Q plots one variable at a time")
 
   # Group names
@@ -231,7 +232,8 @@ mplot3_x <- function(x,
       group.names <- c(group.title, paste(" ", toupper(letters[seq_along(xl)])))
     }
   }
-  if (length(lty) != length(xl)) lty <- as.list(rep(lty, length(xl) / length(lty)))
+  if (length(lty) != length(xl))
+    lty <- as.list(rep(lty, length(xl) / length(lty)))
 
   # If not defined, group legend defaults to T, if more than one group
   if (is.null(group.legend)) group.legend <- ifelse(length(xl) > 1, TRUE, FALSE)
@@ -266,7 +268,10 @@ mplot3_x <- function(x,
     if (is.null(ylab)) ylab <- "Density"
     density.params$bw <- density.bw
     density.params$kernel <- density.kernel
-    .out <- lapply(xl, function(j) do.call(density, c(list(x = j), density.params)))
+    .out <- lapply(
+      xl,
+      function(j) do.call(density, c(list(x = j), density.params))
+    )
     densityl <- lapply(.out, function(d) data.frame(x = d$x, y = d$y))
     if (is.null(xlab)) xlab <- labelify(xname)
   }
@@ -274,7 +279,8 @@ mplot3_x <- function(x,
   # Data: histogram ----
   if (type == "histogram") {
     .out <- histl <- lapply(xl, function(x) {
-      hist(x,
+      hist(
+        x,
         breaks = hist.breaks,
         # probability = hist.probability,
         plot = FALSE
@@ -286,14 +292,18 @@ mplot3_x <- function(x,
   # Data: DH ----
   if (type %in% c("hd", "density")) {
     histl <- lapply(xl, function(x) {
-      hist(x,
+      hist(
+        x,
         breaks = hist.breaks,
         # probability = hist.probability,
         plot = FALSE
       )
     })
     .out <- list(
-      densityl = lapply(xl, function(j) do.call(density, c(list(x = j), density.params))),
+      densityl = lapply(
+        xl,
+        function(j) do.call(density, c(list(x = j), density.params))
+      ),
       histl = histl
     )
     densityl <- lapply(.out$densityl, function(d) data.frame(x = d$x, y = d$y))
@@ -302,17 +312,21 @@ mplot3_x <- function(x,
   # Axes limits ----
   if (type == "histogram") {
     if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
-    if (is.null(ylim)) ylim <- c(0, max(unlist(sapply(histl, function(x) c(x$counts)))))
+    if (is.null(ylim))
+      ylim <- c(0, max(unlist(sapply(histl, function(x) c(x$counts)))))
   } else if (type == "density") {
     if (is.null(xlim)) xlim <- range(sapply(densityl, function(d) range(d$x)))
     if (is.null(ylim)) ylim <- c(0, max(sapply(densityl, function(d) max(d$y))))
   } else if (type == "hd") {
     if (is.null(xlim)) xlim <- range(sapply(histl, function(x) c(x$breaks)))
     if (is.null(ylim)) {
-      ylim <- c(0, max(
-        max(sapply(densityl, function(d) max(d$y))),
-        unlist(sapply(histl, function(x) c(x$density)))
-      ))
+      ylim <- c(
+        0,
+        max(
+          max(sapply(densityl, function(d) max(d$y))),
+          unlist(sapply(histl, function(x) c(x$density)))
+        )
+      )
     }
   } else if (type == "qqline") {
     if (is.null(xlim)) xlim <- range(qxl, na.rm = na.rm)
@@ -327,8 +341,10 @@ mplot3_x <- function(x,
 
   # Plot ----
   if (!is.null(filename)) {
-    pdf(filename,
-      width = pdf.width, height = pdf.height,
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
       title = "rtemis Graphics"
     )
   }
@@ -338,14 +354,39 @@ mplot3_x <- function(x,
     par.reset <- FALSE
     par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
   } else {
-    par(mar = mar, oma = oma, bg = theme$bg, pty = pty, cex = theme$cex, new = new)
+    par(
+      mar = mar,
+      oma = oma,
+      bg = theme$bg,
+      pty = pty,
+      cex = theme$cex,
+      new = new
+    )
   }
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
   if (!axes.swap) {
-    plot(NULL, NULL, xlim = xlim, ylim = ylim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
+    plot(
+      NULL,
+      NULL,
+      xlim = xlim,
+      ylim = ylim,
+      ann = FALSE,
+      axes = FALSE,
+      xaxs = xaxs,
+      yaxs = yaxs
+    )
   } else {
-    plot(NULL, NULL, xlim = ylim, ylim = xlim, ann = FALSE, axes = FALSE, xaxs = xaxs, yaxs = yaxs)
+    plot(
+      NULL,
+      NULL,
+      xlim = ylim,
+      ylim = xlim,
+      ann = FALSE,
+      axes = FALSE,
+      xaxs = xaxs,
+      yaxs = yaxs
+    )
   }
 
   # Plot bg ----
@@ -431,14 +472,18 @@ mplot3_x <- function(x,
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
     if (ylim[1] <= 0 && 0 <= ylim[2]) {
       abline(
-        h = 0, lwd = theme$zerolines.lwd,
-        col = zerocol, lty = theme$zerolines.lty
+        h = 0,
+        lwd = theme$zerolines.lwd,
+        col = zerocol,
+        lty = theme$zerolines.lty
       )
     }
     if (xlim[1] <= 0 && 0 <= xlim[2]) {
       abline(
-        v = 0, lwd = theme$zerolines.lwd,
-        col = zerocol, lty = theme$zerolines.lty
+        v = 0,
+        lwd = theme$zerolines.lwd,
+        col = zerocol,
+        lty = theme$zerolines.lty
       )
     }
   }
@@ -446,7 +491,9 @@ mplot3_x <- function(x,
   if (theme$bty != "n") {
     box(
       col = adjustcolor(theme$box.col, theme$box.alpha),
-      lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty
+      lty = theme$box.lty,
+      lwd = theme$box.lwd,
+      bty = theme$bty
     )
   }
 
@@ -460,7 +507,9 @@ mplot3_x <- function(x,
     }
     for (i in seq_along(xl)) {
       if (!axes.swap) {
-        points(yl[[i]], xl[[i]],
+        points(
+          yl[[i]],
+          xl[[i]],
           type = index.type[[i]],
           col = col[[i]],
           bg = point.bg.col,
@@ -469,7 +518,9 @@ mplot3_x <- function(x,
           cex = point.cex
         )
       } else {
-        points(xl[[i]], yl[[i]],
+        points(
+          xl[[i]],
+          yl[[i]],
           type = index.type[[i]],
           col = col[[i]],
           bg = point.bg.col,
@@ -486,18 +537,27 @@ mplot3_x <- function(x,
     if (!axes.swap) {
       for (i in seq_along(xl)) {
         if (density.shade) {
-          polygon(c(densityl[[i]]$x, rev(densityl[[i]]$x)), c(
-            densityl[[i]]$y,
-            rep(0, length(densityl[[i]]$y))
-          ),
-          col = col.alpha[[i]], border = NA
+          polygon(
+            c(densityl[[i]]$x, rev(densityl[[i]]$x)),
+            c(
+              densityl[[i]]$y,
+              rep(0, length(densityl[[i]]$y))
+            ),
+            col = col.alpha[[i]],
+            border = NA
           )
         }
         if (density.line) {
-          lines(densityl[[i]]$x, densityl[[i]]$y,
-            xlim = xlim, ylim = ylim, ann = FALSE,
+          lines(
+            densityl[[i]]$x,
+            densityl[[i]]$y,
+            xlim = xlim,
+            ylim = ylim,
+            ann = FALSE,
             col = col.alpha[[i]],
-            lwd = density.lwd, type = "l", lty = lty[[i]]
+            lwd = density.lwd,
+            type = "l",
+            lty = lty[[i]]
           )
         }
       }
@@ -506,18 +566,27 @@ mplot3_x <- function(x,
     } else {
       for (i in seq_along(xl)) {
         if (density.shade) {
-          polygon(c(densityl[[i]]$y, rev(densityl[[i]]$y)), c(
-            densityl[[i]]$x,
-            rep(0, length(densityl[[i]]$x))
-          ),
-          col = col.alpha[[i]], border = NA
+          polygon(
+            c(densityl[[i]]$y, rev(densityl[[i]]$y)),
+            c(
+              densityl[[i]]$x,
+              rep(0, length(densityl[[i]]$x))
+            ),
+            col = col.alpha[[i]],
+            border = NA
           )
         }
         if (density.line) {
-          lines(densityl[[i]]$y, densityl[[i]]$x,
-            xlim = ylim, ylim = xlim, ann = FALSE,
+          lines(
+            densityl[[i]]$y,
+            densityl[[i]]$x,
+            xlim = ylim,
+            ylim = xlim,
+            ann = FALSE,
             col = col.alpha[[i]],
-            lwd = density.lwd, type = "l", lty = lty[[i]]
+            lwd = density.lwd,
+            type = "l",
+            lty = lty[[i]]
           )
         }
       }
@@ -528,14 +597,18 @@ mplot3_x <- function(x,
   # Plot: histogram ----
   if (type %in% c("histogram", "hd")) {
     if (length(xl) > 1) {
-      breaks <- hist(unlist(xl),
+      breaks <- hist(
+        unlist(xl),
         breaks = hist.breaks,
         # probability = hist.probability,
         plot = FALSE
       )$breaks
       dist <- diff(breaks)[1] # mean(diff(breaks))
       breaksl <- lapply(seq_along(xl), function(i) {
-        c(breaks - ((i - 1) / length(xl) * dist), max(breaks) - ((i - 1) / length(xl) * dist) + dist)
+        c(
+          breaks - ((i - 1) / length(xl) * dist),
+          max(breaks) - ((i - 1) / length(xl) * dist) + dist
+        )
       })
     } else {
       breaksl <- list(histl[[1]]$breaks)
@@ -550,21 +623,32 @@ mplot3_x <- function(x,
   if (type %in% c("histogram", "hd")) {
     if (hist.type == "bars") {
       for (i in seq_along(xl)) {
-        hist(xl[[i]],
+        hist(
+          xl[[i]],
           breaks = hist.breaks,
-          col = col.alpha[[i]], add = TRUE,
+          col = col.alpha[[i]],
+          add = TRUE,
           probability = hist.probability,
-          border = theme$bg, xlim = xlim
+          border = theme$bg,
+          xlim = xlim
         )
       }
     } else {
       for (i in seq_along(xl)) {
-        mhist(xl[[i]],
-          measure = "count", breaks = breaksl[[i]],
-          col = col.alpha[[i]], add = TRUE,
+        mhist(
+          xl[[i]],
+          measure = "count",
+          breaks = breaksl[[i]],
+          col = col.alpha[[i]],
+          add = TRUE,
           lwd = hist.lwd,
-          xlim = xlim, ylim = ylim, plot.axes = FALSE,
-          xaxis = FALSE, yaxis = FALSE, xlab = "", ylab = ""
+          xlim = xlim,
+          ylim = ylim,
+          plot.axes = FALSE,
+          xaxis = FALSE,
+          yaxis = FALSE,
+          xlab = "",
+          ylab = ""
         )
       }
     }
@@ -573,9 +657,7 @@ mplot3_x <- function(x,
   # Plot: DH lines ----
   if (type == "hd") {
     for (i in seq_along(xl)) {
-      lines(densityl[[i]]$x, densityl[[i]]$y,
-        col = col[[i]], lwd = lwd
-      )
+      lines(densityl[[i]]$x, densityl[[i]]$y, col = col[[i]], lwd = lwd)
     }
   }
 
@@ -587,16 +669,20 @@ mplot3_x <- function(x,
   }
 
   if (length(main) > 0) {
-    mtext(main,
+    mtext(
+      main,
       line = theme$main.line,
-      font = theme$main.font, adj = theme$main.adj,
-      cex = theme$cex, col = theme$main.col
+      font = theme$main.font,
+      adj = theme$main.adj,
+      cex = theme$cex,
+      col = theme$main.col
     )
   }
 
   # Group legend ----
   if (group.legend) {
-    mtext(group.names,
+    mtext(
+      group.names,
       col = c(theme$fg, unlist(col[seq_along(xl)])),
       side = group.side,
       adj = group.adj,
@@ -609,9 +695,13 @@ mplot3_x <- function(x,
   # Annotation ----
   if (!is.null(annotation)) {
     if (is.null(annot.col)) annot.col <- col[[1]]
-    mtext(annotation, 1, -1.5,
+    mtext(
+      annotation,
+      1,
+      -1.5,
       adj = .97,
-      cex = theme$cex, col = annot.col,
+      cex = theme$cex,
+      col = annot.col,
       family = theme$family
     )
   }
@@ -624,14 +714,19 @@ mplot3_x <- function(x,
       qqline.col <- palette
     }
   }
-  qqline.col <- lapply(qqline.col, function(x) adjustcolor(qqline.col, qqline.alpha))
+  qqline.col <- lapply(
+    qqline.col,
+    function(x) adjustcolor(qqline.col, qqline.alpha)
+  )
   qqline.col <- recycle(qqline.col, xl)
   # if (length(qqline.col) < length(xl)) qqline.col <- rep(qqline.col,
   #                                                        length(xl) / length(qqline.col))
 
   if (type == "qqline") {
     for (i in seq_along(xl)) {
-      points(qxl[[i]], qyl[[i]],
+      points(
+        qxl[[i]],
+        qyl[[i]],
         type = "p",
         col = col.alpha[[i]],
         bg = point.bg.col,
@@ -650,20 +745,28 @@ mplot3_x <- function(x,
   if (type == "density" && density.avg) {
     avgl <- lapply(xl, density.avg.fn, na.rm = TRUE)
     sdl <- lapply(xl, sd, na.rm = TRUE)
-    density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else "Median (SD)"
+    density.legend.text <- if (density.avg.fn == "mean") "Mean (SD)" else
+      "Median (SD)"
     mtext(
-      c(density.legend.text, lapply(
-        seq(xl),
-        function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")")
-      )),
+      c(
+        density.legend.text,
+        lapply(
+          seq(xl),
+          function(j) paste0(ddSci(avgl[[j]]), " (", ddSci(sdl[[j]]), ")")
+        )
+      ),
       col = c(theme$fg, unlist(col[seq_along(xl)])),
-      side = density.legend.side, adj = density.legend.adj, cex = theme$cex,
+      side = density.legend.side,
+      adj = density.legend.adj,
+      cex = theme$cex,
       padj = seq(2, 2 + 1.5 * length(xl), 1.5)
     )
     if (density.avg.line) {
       abline(
-        v = unlist(avgl), col = unlist(col[seq_along(xl)]),
-        lwd = density.avg.lwd, lty = density.avg.lty
+        v = unlist(avgl),
+        col = unlist(col[seq_along(xl)]),
+        lwd = density.avg.lwd,
+        lty = density.avg.lty
       )
     }
   }
@@ -672,12 +775,20 @@ mplot3_x <- function(x,
   if (!is.null(text.xy)) {
     if (is.null(text.x)) text.x <- mean(xlim)
     if (is.null(text.y)) text.y <- mean(ylim)
-    text(x = text.x, y = text.y, labels = text.xy, cex = text.xy.cex, col = text.xy.col)
+    text(
+      x = text.x,
+      y = text.y,
+      labels = text.xy,
+      cex = text.xy.cex,
+      col = text.xy.col
+    )
   }
 
   # H-line & V-line ----
-  if (!is.null(hline)) abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
-  if (!is.null(vline)) abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
+  if (!is.null(hline))
+    abline(h = hline, lwd = hline.lwd, col = hline.col, lty = hline.lty)
+  if (!is.null(vline))
+    abline(v = vline, lwd = vline.lwd, col = vline.col, lty = vline.lty)
 
   # Outro ----
   if (!is.null(filename)) grDevices::dev.off()

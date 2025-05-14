@@ -25,17 +25,24 @@
 #' @family Clustering
 #' @export
 
-c_HOPACH <- function(x,
-                     dmat = NULL,
-                     metric = c(
-                       "cosangle", "abscosangle", "euclid",
-                       "abseuclid", "cor", "abscor"
-                     ),
-                     k = 15,
-                     kmax = 9,
-                     khigh = 9,
-                     trace = 0,
-                     verbose = TRUE, ...) {
+c_HOPACH <- function(
+  x,
+  dmat = NULL,
+  metric = c(
+    "cosangle",
+    "abscosangle",
+    "euclid",
+    "abseuclid",
+    "cor",
+    "abscor"
+  ),
+  k = 15,
+  kmax = 9,
+  khigh = 9,
+  trace = 0,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = FALSE)
   clust.name <- "HOPACH"
@@ -53,17 +60,23 @@ c_HOPACH <- function(x,
 
   # HOPACH ----
   if (verbose) msg2("Running HOPACH clustering...")
-  clust <- hopach::hopach(x,
+  clust <- hopach::hopach(
+    x,
     dmat = dmat,
     d = metric,
     K = k,
     kmax = kmax,
     khigh = khigh,
-    verbose = trace > 0, ...
+    verbose = trace > 0,
+    ...
   )
   if (verbose) {
-    msg2("HOPACH identified ", clust$clustering$k, " clusters (sizes: ",
-      paste(clust$clustering$sizes, collapse = ", "), ")",
+    msg2(
+      "HOPACH identified ",
+      clust$clustering$k,
+      " clusters (sizes: ",
+      paste(clust$clustering$sizes, collapse = ", "),
+      ")",
       sep = ""
     )
   }

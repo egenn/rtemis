@@ -7,12 +7,15 @@
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
-#' @noRd 
+#' @noRd
 
-JL_splitlin <- function(x, y, wts = rep(1, length(y)),
-                        lambda = .1,
-                        verbose = TRUE) {
-
+JL_splitlin <- function(
+  x,
+  y,
+  wts = rep(1, length(y)),
+  lambda = .1,
+  verbose = TRUE
+) {
   julia <- JuliaCall::julia_setup()
   julia$command("import Rtemis.splitline")
   # julia$library("Rtemis")
@@ -23,7 +26,6 @@ JL_splitlin <- function(x, y, wts = rep(1, length(y)),
   julia$command("lambda = [lambda];")
   sl <- julia$eval("splitline(x, y, wts, lambda = lambda);")
   sl
-
 } # rtemis::JL_splitlin
 
 #' predict JLsplitlin
@@ -32,9 +34,7 @@ JL_splitlin <- function(x, y, wts = rep(1, length(y)),
 #' @keywords internal
 #' @noRd
 predict.JLsplitlin <- function(object, newdata, ...) {
-
   estimated <- rep(0, NROW(newdata))
   index <- newdata[, object$featindex] < object$cutoff
   estimated[index] <- predict(object$glmLeft, newdata[index, ])
-
 }

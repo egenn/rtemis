@@ -24,38 +24,41 @@
 #' @param annot.adj Numeric: Adjustment for annotation.
 #' @param annot.font Integer: Font for annotation.
 #' @param verbose Logical: If TRUE, print messages to console.
-#' 
+#'
 #' @return List with Precision, Recall, and Threshold values, invisibly
 #' @author E.D. Gennatas
 #' @export
 
-mplot3_pr <- function(prob, labels,
-                      f1 = FALSE,
-                      main = "",
-                      col = NULL,
-                      cex = 1.2,
-                      lwd = 2.5,
-                      diagonal = FALSE,
-                      hline.lty = 1,
-                      hline.lwd = 1,
-                      hline.col = "red",
-                      diagonal.lwd = 2.5,
-                      diagonal.lty = 3,
-                      group.legend = FALSE,
-                      annotation = TRUE,
-                      annotation.side = 3,
-                      annotation.col = col,
-                      annot.line = NULL,
-                      annot.adj = 1,
-                      annot.font = 1,
-                      mar = c(2.5, 3, 2.5, 1),
-                      theme = rtTheme,
-                      palette = rtPalette,
-                      par.reset = TRUE,
-                      verbose = TRUE,
-                      filename = NULL,
-                      pdf.width = 5,
-                      pdf.height = 5) {
+mplot3_pr <- function(
+  prob,
+  labels,
+  f1 = FALSE,
+  main = "",
+  col = NULL,
+  cex = 1.2,
+  lwd = 2.5,
+  diagonal = FALSE,
+  hline.lty = 1,
+  hline.lwd = 1,
+  hline.col = "red",
+  diagonal.lwd = 2.5,
+  diagonal.lty = 3,
+  group.legend = FALSE,
+  annotation = TRUE,
+  annotation.side = 3,
+  annotation.col = col,
+  annot.line = NULL,
+  annot.adj = 1,
+  annot.font = 1,
+  mar = c(2.5, 3, 2.5, 1),
+  theme = rtTheme,
+  palette = rtPalette,
+  par.reset = TRUE,
+  verbose = TRUE,
+  filename = NULL,
+  pdf.width = 5,
+  pdf.height = 5
+) {
   # Dependencies ----
   dependency_check("PRROC")
 
@@ -90,11 +93,15 @@ mplot3_pr <- function(prob, labels,
   theme$zerolines <- FALSE
 
   # PR ----
-  pr <- lapply(seq_along(probl), \(i)
-  PRROC::pr.curve(
-    scores.class0 = probl[[i]], weights.class0 = 2 - as.numeric(labelsl[[i]]),
-    curve = TRUE
-  ))
+  pr <- lapply(
+    seq_along(probl),
+    \(i)
+      PRROC::pr.curve(
+        scores.class0 = probl[[i]],
+        weights.class0 = 2 - as.numeric(labelsl[[i]]),
+        curve = TRUE
+      )
+  )
   Recall <- lapply(pr, function(i) i$curve[, 1])
   Precision <- lapply(pr, function(i) i$curve[, 2])
   AUPRC <- lapply(pr, function(i) i$auc.integral)
@@ -113,24 +120,40 @@ mplot3_pr <- function(prob, labels,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) {
-    pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
   }
   # Get P / P + N
   freq <- table(labels)
-  mplot3_xy(Recall, Precision,
+  mplot3_xy(
+    Recall,
+    Precision,
     main = main,
-    ylab = "Precision", xlab = "Recall",
+    ylab = "Precision",
+    xlab = "Recall",
     type = "l",
-    line.alpha = 1, line.col = col, group.legend = group.legend,
+    line.alpha = 1,
+    line.col = col,
+    group.legend = group.legend,
     hline = freq[1] / sum(freq),
     hline.col = hline.col,
     hline.lty = hline.lty,
     hline.lwd = hline.lwd,
-    xlim = c(0, 1), ylim = c(0, 1), xaxs = "i", yaxs = "i", cex = cex,
+    xlim = c(0, 1),
+    ylim = c(0, 1),
+    xaxs = "i",
+    yaxs = "i",
+    cex = cex,
     order.on.x = FALSE,
-    lwd = lwd, theme = theme,
+    lwd = lwd,
+    theme = theme,
     mar = mar,
-    xpd = TRUE, par.reset = FALSE
+    xpd = TRUE,
+    par.reset = FALSE
   )
   if (f1) {
     for (i in seq_along(probl)) {
@@ -143,11 +166,15 @@ mplot3_pr <- function(prob, labels,
         x = Recall[[i]][F1.max.index[[i]]] - .5,
         y = Precision[[i]][F1.max.index[[i]]] - .1,
         labels = paste0(
-          "max F1 = ", ddSci(max(F1[[i]])), "\n(Thresh = ",
-          ddSci(Threshold[[i]][F1.max.index[[i]]]), ")"
+          "max F1 = ",
+          ddSci(max(F1[[i]])),
+          "\n(Thresh = ",
+          ddSci(Threshold[[i]][F1.max.index[[i]]]),
+          ")"
         ),
         col = col[[i]],
-        pos = 4, xpd = TRUE,
+        pos = 4,
+        xpd = TRUE,
         family = theme$font.family
       )
     }
@@ -160,7 +187,8 @@ mplot3_pr <- function(prob, labels,
       annot.line <- seq(-length(probl), 0) - 1.7
       if (annotation.side == 3) annot.line <- rev(annot.line)
     }
-    mtext(c("AUPRC   ", auprc),
+    mtext(
+      c("AUPRC   ", auprc),
       font = annot.font,
       side = annotation.side,
       line = annot.line,

@@ -18,17 +18,21 @@
 #' @author E.D. Gennatas
 #' @export
 
-dplot3_pvals <- function(x,
-                         xnames = NULL,
-                         yname = NULL,
-                         p.adjust.method = "none",
-                         pval.hline = .05,
-                         hline.col = "#FE4AA3",
-                         hline.dash = "dash", ...) {
+dplot3_pvals <- function(
+  x,
+  xnames = NULL,
+  yname = NULL,
+  p.adjust.method = "none",
+  pval.hline = .05,
+  hline.col = "#FE4AA3",
+  hline.dash = "dash",
+  ...
+) {
   if (is.null(xnames)) xnames <- names(x)
   if (is.null(yname)) yname <- deparse(substitute(x))
 
-  dplot3_bar(1 - p.adjust(x, method = p.adjust.method),
+  dplot3_bar(
+    1 - p.adjust(x, method = p.adjust.method),
     group.names = xnames,
     legend = F,
     ylab = if (p.adjust.method == "none") {
@@ -38,6 +42,7 @@ dplot3_pvals <- function(x,
     },
     hline = 1 - pval.hline,
     hline.col = hline.col,
-    hline.dash = hline.dash, ...
+    hline.dash = hline.dash,
+    ...
   )
 } # rtemis::dplot3_pvals

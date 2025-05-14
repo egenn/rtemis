@@ -8,10 +8,10 @@
 #'
 #' The overhead incurred by Spark means this is best used for larged datasets on
 #' a Spark cluster.
-#' 
-#' See also: 
+#'
+#' See also:
 #' [Spark MLLib documentation](https://spark.apache.org/docs/latest/api/R/index.html)
-#' 
+#'
 #' @inheritParams s_GLM
 #' @param x vector, matrix or dataframe of training set features
 #' @param y vector of outcomes
@@ -21,20 +21,20 @@
 #' @param max.depth Integer: Max depth of each tree
 #' @param subsampling.rate Numeric: Fraction of cases to use for training each tree
 #' @param min.instances.per.node Integer: Min N of cases per node.
-#' @param feature.subset.strategy Character: The number of features to consider for 
-#' splits at each tree node. Supported options: "auto" (choose automatically for task: 
-#' If numTrees == 1, set to "all." If numTrees > 1 (forest), set to "sqrt" for 
-#' classification and to "onethird" for regression), "all" (use all features), 
-#' "onethird" (use 1/3 of the features), "sqrt" (use sqrt(number of features)), 
-#' "log2" (use log2(number of features)), "n": (when n is in the range (0, 1.0], use 
-#' n * number of features. When n is in the range (1, number of features), use n 
+#' @param feature.subset.strategy Character: The number of features to consider for
+#' splits at each tree node. Supported options: "auto" (choose automatically for task:
+#' If numTrees == 1, set to "all." If numTrees > 1 (forest), set to "sqrt" for
+#' classification and to "onethird" for regression), "all" (use all features),
+#' "onethird" (use 1/3 of the features), "sqrt" (use sqrt(number of features)),
+#' "log2" (use log2(number of features)), "n": (when n is in the range (0, 1.0], use
+#' n * number of features. When n is in the range (1, number of features), use n
 #' features). Default is "auto".
 #' @param max.bins Integer. Max N of bins used for discretizing continuous features and for
 #'   choosing how to split on features at each node. More bins give higher granularity.
 ## @param type "regression" for continuous outcome; "classification" for categorical outcome.
 ##   "auto" will result in regression for numeric `y` and classification otherwise
 #' @param spark.master Spark cluster URL or "local"
-#' 
+#'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
@@ -42,29 +42,34 @@
 #' @family Tree-based methods
 #' @export
 
-s_MLRF <- function(x, y = NULL,
-                   x.test = NULL, y.test = NULL,
-                   upsample = FALSE,
-                   downsample = FALSE,
-                   resample.seed = NULL,
-                   n.trees = 500L,
-                   max.depth = 30L,
-                   subsampling.rate = 1,
-                   min.instances.per.node = 1,
-                   feature.subset.strategy = "auto",
-                   max.bins = 32L,
-                   x.name = NULL,
-                   y.name = NULL,
-                   spark.master = "local",
-                   print.plot = FALSE,
-                   plot.fitted = NULL,
-                   plot.predicted = NULL,
-                   plot.theme = rtTheme,
-                   question = NULL,
-                   verbose = TRUE,
-                   trace = 0,
-                   outdir = NULL,
-                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_MLRF <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  n.trees = 500L,
+  max.depth = 30L,
+  subsampling.rate = 1,
+  min.instances.per.node = 1,
+  feature.subset.strategy = "auto",
+  max.bins = 32L,
+  x.name = NULL,
+  y.name = NULL,
+  spark.master = "local",
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_MLRF))
@@ -72,7 +77,14 @@ s_MLRF <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -93,8 +105,11 @@ s_MLRF <- function(x, y = NULL,
   # verbose <- verbose | !is.null(logFile)
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -117,20 +132,25 @@ s_MLRF <- function(x, y = NULL,
   }
 
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Spark cluster ----
   sc <- sparklyr::spark_connect(master = spark.master, app_name = "rtemis")
   if (is(sc, "spark_connection")) {
     if (verbose) msg2("[@] Connected to Spark cluster")
   } else {
-    stop("[X] Failed to connect to Spark cluster. Please check cluster is available")
+    stop(
+      "[X] Failed to connect to Spark cluster. Please check cluster is available"
+    )
   }
 
   # Copy dataframe to Spark cluster
@@ -143,14 +163,13 @@ s_MLRF <- function(x, y = NULL,
   }
 
   # sparklyr::ml_random_forest ----
-  if (verbose) msg2("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
+  if (verbose)
+    msg2("Training MLlib Random Forest", type, "...", newline.pre = TRUE)
   args <- c(
     list(
       x = tbl,
       formula = .formula,
-      type = ifelse(type == "Classification",
-        "classification", "regression"
-      ),
+      type = ifelse(type == "Classification", "classification", "regression"),
       num_trees = n.trees,
       subsampling_rate = subsampling.rate,
       max_depth = max.depth,
@@ -182,7 +201,9 @@ s_MLRF <- function(x, y = NULL,
     if (is(tbl.test, "tbl_spark")) {
       if (verbose) msg2("...Success")
     } else {
-      stop("Failed to copy testing set dataframe to Spark cluster. Check cluster")
+      stop(
+        "Failed to copy testing set dataframe to Spark cluster. Check cluster"
+      )
     }
     predicted.raw <- as.data.frame(sparklyr::ml_predict(mod, tbl.test))
     if (type == "Classification") {
@@ -217,7 +238,8 @@ s_MLRF <- function(x, y = NULL,
     predicted = predicted,
     predicted.prob = predicted.prob,
     se.prediction = NULL,
-    error.test = error.test, list,
+    error.test = error.test,
+    list,
     varimp = varimp,
     question = question
   )
@@ -235,6 +257,10 @@ s_MLRF <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_MLRF

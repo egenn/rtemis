@@ -20,15 +20,19 @@
 #' oddsratiotable(ir.fit)
 #' }
 
-oddsratiotable <- function(x,
-                           confint.method = c("default", "profilelikelihood")) {
-
+oddsratiotable <- function(
+  x,
+  confint.method = c("default", "profilelikelihood")
+) {
   confint.method <- match.arg(confint.method)
   .cs <- coef(summary(x))
   if (confint.method == "default") {
-    cbind(OR = exp(.cs[, "Estimate"]), exp(confint.default(x)), p_val = .cs[, 4])
+    cbind(
+      OR = exp(.cs[, "Estimate"]),
+      exp(confint.default(x)),
+      p_val = .cs[, 4]
+    )
   } else {
     cbind(OR = exp(.cs[, "Estimate"]), exp(confint(x)), p_val = .cs[, 4])
   }
-
 }

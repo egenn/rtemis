@@ -22,7 +22,7 @@
 #' @param bootstrap Character:
 #' @param mtry Integer: Number of features sampled randomly at each split
 #' @param importance Logical: If TRUE, calculate variable importance.
-#' @param proximity Character or Logical: "inbag", "oob", "all", TRUE, or FALSE; passed 
+#' @param proximity Character or Logical: "inbag", "oob", "all", TRUE, or FALSE; passed
 #' to `randomForestSRC::rfsrc`
 #' @param nodesize Integer: Minimum size of terminal nodes.
 #' @param nodedepth Integer: Maximum tree depth.
@@ -38,32 +38,38 @@
 #' @family Tree-based methods
 #' @export
 
-s_RFSRC <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    x.name = NULL, y.name = NULL,
-                    n.trees = 1000,
-                    weights = NULL,
-                    ifw = TRUE,
-                    ifw.type = 2,
-                    upsample = FALSE,
-                    downsample = FALSE,
-                    resample.seed = NULL,
-                    bootstrap = "by.root",
-                    mtry = NULL,
-                    importance = TRUE,
-                    proximity = TRUE,
-                    nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
-                    nodedepth = NULL,
-                    na.action = "na.impute",
-                    trace = FALSE,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose = TRUE,
-                    outdir = NULL,
-                    save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_RFSRC <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  n.trees = 1000,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  bootstrap = "by.root",
+  mtry = NULL,
+  importance = TRUE,
+  proximity = TRUE,
+  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
+  nodedepth = NULL,
+  na.action = "na.impute",
+  trace = FALSE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_RFSRC))
@@ -71,7 +77,14 @@ s_RFSRC <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -91,12 +104,16 @@ s_RFSRC <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (is.null(trace)) trace <- if (verbose) n.trees / 10 else FALSE
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -114,8 +131,10 @@ s_RFSRC <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -136,11 +155,17 @@ s_RFSRC <- function(x, y = NULL,
 
   # randomForestSRC::rfsrc ----
   if (verbose) {
-    msg2("Training Random Forest SRC", type, "with", n.trees, "trees...",
+    msg2(
+      "Training Random Forest SRC",
+      type,
+      "with",
+      n.trees,
+      "trees...",
       newline.pre = TRUE
     )
   }
-  mod <- randomForestSRC::rfsrc(.formula,
+  mod <- randomForestSRC::rfsrc(
+    .formula,
     data = df.train,
     ntree = n.trees,
     bootstrap = bootstrap,
@@ -151,7 +176,8 @@ s_RFSRC <- function(x, y = NULL,
     importance = importance,
     proximity = proximity,
     na.action = na.action,
-    do.trace = trace, ...
+    do.trace = trace,
+    ...
   )
 
   # Fitted ----
@@ -243,6 +269,10 @@ s_RFSRC <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_RFSRC

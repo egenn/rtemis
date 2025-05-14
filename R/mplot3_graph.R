@@ -53,43 +53,53 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot3_graph <- function(net,
-                         vertex.size = 12,
-                         vertex.col = NULL,
-                         vertex.alpha = .33,
-                         vertex.label.col = NULL,
-                         vertex.label.alpha = .66,
-                         vertex.frame.col = NA,
-                         vertex.label = NULL,
-                         vertex.shape = "circle",
-                         edge.col = NULL,
-                         edge.alpha = .2,
-                         edge.curved = .35,
-                         edge.width = 2,
-                         layout = c(
-                           "fr", "dh", "drl", "gem", "graphopt",
-                           "kk", "lgl", "mds", "sugiyama"
-                         ),
-                         coords = NULL,
-                         layout_params = list(),
-                         cluster = NULL,
-                         groups = NULL,
-                         cluster_params = list(),
-                         cluster_mark_groups = TRUE,
-                         mark.col = NULL,
-                         mark.alpha = .3,
-                         mark.border = NULL,
-                         mark.border.alpha = 1,
-                         cluster_color_vertices = FALSE,
-                         theme = rtTheme,
-                         theme_extra_args = list(),
-                         palette = rtPalette,
-                         mar = rep(0, 4),
-                         par.reset = TRUE,
-                         filename = NULL,
-                         pdf.width = 6,
-                         pdf.height = 6,
-                         verbose = TRUE, ...) {
+mplot3_graph <- function(
+  net,
+  vertex.size = 12,
+  vertex.col = NULL,
+  vertex.alpha = .33,
+  vertex.label.col = NULL,
+  vertex.label.alpha = .66,
+  vertex.frame.col = NA,
+  vertex.label = NULL,
+  vertex.shape = "circle",
+  edge.col = NULL,
+  edge.alpha = .2,
+  edge.curved = .35,
+  edge.width = 2,
+  layout = c(
+    "fr",
+    "dh",
+    "drl",
+    "gem",
+    "graphopt",
+    "kk",
+    "lgl",
+    "mds",
+    "sugiyama"
+  ),
+  coords = NULL,
+  layout_params = list(),
+  cluster = NULL,
+  groups = NULL,
+  cluster_params = list(),
+  cluster_mark_groups = TRUE,
+  mark.col = NULL,
+  mark.alpha = .3,
+  mark.border = NULL,
+  mark.border.alpha = 1,
+  cluster_color_vertices = FALSE,
+  theme = rtTheme,
+  theme_extra_args = list(),
+  palette = rtPalette,
+  mar = rep(0, 4),
+  par.reset = TRUE,
+  filename = NULL,
+  pdf.width = 6,
+  pdf.height = 6,
+  verbose = TRUE,
+  ...
+) {
   # Dependencies ----
   dependency_check("igraph")
 
@@ -112,8 +122,10 @@ mplot3_graph <- function(net,
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
   if (!is.null(filename)) {
-    grDevices::pdf(filename,
-      width = pdf.width, height = pdf.height,
+    grDevices::pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
       title = "rtemis Graphics"
     )
   }
@@ -142,7 +154,6 @@ mplot3_graph <- function(net,
   } else {
     list()
   }
-
 
   if (!is.null(groups) && cluster_mark_groups) {
     if (is.null(mark.col)) {
@@ -179,7 +190,8 @@ mplot3_graph <- function(net,
     edge.col <- adjustcolor(edge.col, edge.alpha)
   }
 
-  igraph::plot.igraph(net,
+  igraph::plot.igraph(
+    net,
     layout = coords,
     vertex.shape = vertex.shape,
     vertex.size = vertex.size,
@@ -193,7 +205,8 @@ mplot3_graph <- function(net,
     mark.col = mark.col,
     mark.border = mark.border,
     vertex.label.family = theme$font.family,
-    verbose = verbose, ...
+    verbose = verbose,
+    ...
   )
 
   if (!is.null(filename)) grDevices::dev.off()

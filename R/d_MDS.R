@@ -29,18 +29,25 @@
 #' @family Decomposition
 #' @export
 
-d_MDS <- function(x,
-                  k = 2,
-                  dist.method = c(
-                    "euclidean", "maximum", "manhattan",
-                    "canberra", "binary", "minkowski"
-                  ),
-                  eig = FALSE,
-                  add = FALSE,
-                  x.ret = FALSE,
-                  scale = TRUE,
-                  center = TRUE,
-                  verbose = TRUE, ...) {
+d_MDS <- function(
+  x,
+  k = 2,
+  dist.method = c(
+    "euclidean",
+    "maximum",
+    "manhattan",
+    "canberra",
+    "binary",
+    "minkowski"
+  ),
+  eig = FALSE,
+  add = FALSE,
+  x.ret = FALSE,
+  scale = TRUE,
+  center = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   dist.method <- match.arg(dist.method)

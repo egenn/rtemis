@@ -25,12 +25,13 @@
 #' }
 #' @export
 
-rsd <- function(x,
-                as.percentage = TRUE,
-                na.rm = TRUE,
-                adjust = FALSE,
-                adjust.lo = 1) {
-
+rsd <- function(
+  x,
+  as.percentage = TRUE,
+  na.rm = TRUE,
+  adjust = FALSE,
+  adjust.lo = 1
+) {
   if (adjust) {
     if (any(x < adjust.lo)) {
       x <- x - min(x, na.rm = TRUE)
@@ -40,5 +41,4 @@ rsd <- function(x,
   cov <- sd(x, na.rm = na.rm) / mean(x, na.rm = na.rm)
   if (as.percentage) cov <- cov * 100
   cov
-
 } # rtemis::rsd

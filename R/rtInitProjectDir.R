@@ -5,14 +5,13 @@
 #' Initialize Project Directory
 #'
 #' Initializes Directory Structure: "R", "Data", "Results"
-#' 
+#'
 #' @param verbose Logical, If TRUE, print messages to console
 #'
 #' @author E.D. Gennatas
 #' @export
 
 rtInitProjectDir <- function(verbose = TRUE) {
-
   wd <- getwd()
   if (verbose) msg2("Initializing project directory...")
   if (verbose) cat("  Working in ", wd, "...\n", sep = "")
@@ -43,5 +42,4 @@ rtInitProjectDir <- function(verbose = TRUE) {
   }
 
   if (verbose) cat(hilite("  All done\n"))
-
 } # rtemis::rtInitProjectDir

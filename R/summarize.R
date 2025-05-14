@@ -18,21 +18,25 @@
 #' @author E.D. Gennatas
 #' @export
 
-summarize <- function(x,
-                      varname,
-                      group_by = NULL,
-                      type = c("all", "median-range", "mean-sd"),
-                      na.rm = TRUE) {
+summarize <- function(
+  x,
+  varname,
+  group_by = NULL,
+  type = c("all", "median-range", "mean-sd"),
+  na.rm = TRUE
+) {
   UseMethod("summarize")
 } # rtemis::summarize
 
 #' @method summarize data.frame
 #' @export
-summarize.data.frame <- function(x,
-                                 varname,
-                                 group_by = NULL,
-                                 type = c("all", "median-range", "mean-sd"),
-                                 na.rm = TRUE) {
+summarize.data.frame <- function(
+  x,
+  varname,
+  group_by = NULL,
+  type = c("all", "median-range", "mean-sd"),
+  na.rm = TRUE
+) {
   summarize(
     as.data.table(x),
     varname,
@@ -44,47 +48,52 @@ summarize.data.frame <- function(x,
 
 #' @method summarize data.table
 #' @export
-summarize.data.table <- function(x,
-                                 varname,
-                                 group_by = NULL,
-                                 type = c("all", "median-range", "mean-sd"),
-                                 na.rm = TRUE) {
+summarize.data.table <- function(
+  x,
+  varname,
+  group_by = NULL,
+  type = c("all", "median-range", "mean-sd"),
+  na.rm = TRUE
+) {
   type <- match.arg(type)
 
   if (type == "all") {
-    x[, list(
-      Var = varname,
-      N = sapply(.SD, length),
-      Mean = sapply(.SD, mean, na.rm = na.rm),
-      SD = sapply(.SD, sd, na.rm = na.rm),
-      Median = sapply(.SD, median, na.rm = na.rm),
-      Range = sapply(.SD, catrange),
-      `N missing` = sapply(.SD, function(i) sum(is.na(i)))
-    ),
-    .SDcols = varname,
-    by = group_by
+    x[,
+      list(
+        Var = varname,
+        N = sapply(.SD, length),
+        Mean = sapply(.SD, mean, na.rm = na.rm),
+        SD = sapply(.SD, sd, na.rm = na.rm),
+        Median = sapply(.SD, median, na.rm = na.rm),
+        Range = sapply(.SD, catrange),
+        `N missing` = sapply(.SD, function(i) sum(is.na(i)))
+      ),
+      .SDcols = varname,
+      by = group_by
     ]
   } else if (type == "median-range") {
-    x[, list(
-      Var = varname,
-      N = sapply(.SD, length),
-      Median = sapply(.SD, median, na.rm = na.rm),
-      Range = sapply(.SD, catrange),
-      `N missing` = sapply(.SD, function(i) sum(is.na(i)))
-    ),
-    .SDcols = varname,
-    by = group_by
+    x[,
+      list(
+        Var = varname,
+        N = sapply(.SD, length),
+        Median = sapply(.SD, median, na.rm = na.rm),
+        Range = sapply(.SD, catrange),
+        `N missing` = sapply(.SD, function(i) sum(is.na(i)))
+      ),
+      .SDcols = varname,
+      by = group_by
     ]
   } else {
-    x[, list(
-      Var = varname,
-      N = sapply(.SD, length),
-      Mean = sapply(.SD, mean, na.rm = na.rm),
-      SD = sapply(.SD, sd, na.rm = na.rm),
-      `N missing` = sapply(.SD, function(i) sum(is.na(i)))
-    ),
-    .SDcols = varname,
-    by = group_by
+    x[,
+      list(
+        Var = varname,
+        N = sapply(.SD, length),
+        Mean = sapply(.SD, mean, na.rm = na.rm),
+        SD = sapply(.SD, sd, na.rm = na.rm),
+        `N missing` = sapply(.SD, function(i) sum(is.na(i)))
+      ),
+      .SDcols = varname,
+      by = group_by
     ]
   }
 } # rtemis::summarize.data.table

@@ -17,11 +17,13 @@
 #' @keywords internal
 #' @noRd
 
-boxcat <- function(x,
-                   col = NULL,
-                   newline.pre = TRUE,
-                   newline = FALSE,
-                   pad = 0) {
+boxcat <- function(
+  x,
+  col = NULL,
+  newline.pre = TRUE,
+  newline = FALSE,
+  pad = 0
+) {
   x <- as.character(x)
   if (newline.pre) cat("\n")
   cat(rep(" ", pad), sep = "")

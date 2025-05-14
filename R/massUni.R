@@ -17,10 +17,15 @@
 #' @author E.D. Gennatas
 #' @export
 
-massUni <- function(x, y, mod = "gam",
-                    save.mods = FALSE,
-                    verbose = TRUE,
-                    n.cores = rtCores, ...) {
+massUni <- function(
+  x,
+  y,
+  mod = "gam",
+  save.mods = FALSE,
+  verbose = TRUE,
+  n.cores = rtCores,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
 
@@ -34,7 +39,13 @@ massUni <- function(x, y, mod = "gam",
 
   # mod1 ----
   mod1 <- function(index, x, y, learner, args) {
-    mod.1 <- R.utils::doCall(learner, x = x, y = y[, index], print.plot = FALSE, args = args)
+    mod.1 <- R.utils::doCall(
+      learner,
+      x = x,
+      y = y[, index],
+      print.plot = FALSE,
+      args = args
+    )
     return(mod.1)
   }
 
@@ -45,9 +56,13 @@ massUni <- function(x, y, mod = "gam",
   } else {
     pbapply::pboptions(type = "none")
   }
-  mods <- pbapply::pblapply(seq_len(NCOL(y)), mod1,
-    x = x, y = y,
-    learner = learner, args = args,
+  mods <- pbapply::pblapply(
+    seq_len(NCOL(y)),
+    mod1,
+    x = x,
+    y = y,
+    learner = learner,
+    args = args,
     cl = n.cores
   )
 

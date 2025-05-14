@@ -36,12 +36,12 @@
 #'
 #' Train a Linear Hard Hybrid Tree for Regression
 #'
-#' The Hybrid Tree grows a tree using a sequence of regularized linear models and tree 
+#' The Hybrid Tree grows a tree using a sequence of regularized linear models and tree
 #' stumps.
-#' Use s_LINAD for the standard Linear Additive Tree Algorithm, which grows branches 
+#' Use s_LINAD for the standard Linear Additive Tree Algorithm, which grows branches
 #' stepwise and includes all observations weighted by gamma
 #'
-#' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate, 
+#' Grid searched parameters: max.depth, alpha, lambda, minobsinnode, learning.rate,
 #' part.cp
 #'
 #' @inheritParams s_GLM
@@ -49,60 +49,72 @@
 #' @param alpha \[gS\] Float: `lincoef` alpha Overrides `lincoef.params` alpha
 #' @param lambda \[gS\] Float: `lincoef` lambda. Overrides `lincoef.params` lambda
 #' @param lincoef.params Named List: Output of [setup.lincoef]
-#' @param minobsinnode \[gS\] Integer: Minimum N observations needed in node, before 
+#' @param minobsinnode \[gS\] Integer: Minimum N observations needed in node, before
 #' considering splitting
-#' @param minobsinnode.lin Integer: Minimum N observations needed in node in order to 
+#' @param minobsinnode.lin Integer: Minimum N observations needed in node in order to
 #' train linear model.
 #' @param learning.rate \[gS\] Float (0, 1): Learning rate.
 #' @param part.cp \[gS\] Float: Minimum complexity needed to allow split by `rpart`.
 #' @param part.max.depth Integer: Max depth for each tree model within the additive tree
-#' @param cxrcoef Logical: Passed to [predict.lihad], if TRUE, returns cases by 
+#' @param cxrcoef Logical: Passed to [predict.lihad], if TRUE, returns cases by
 #' coefficients matrix
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
-s_LIHAD <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    max.depth = 3,
-                    alpha = 0,
-                    lambda = .1,
-                    lincoef.params = setup.lincoef("glmnet"),
-                    minobsinnode = 2,
-                    minobsinnode.lin = 10,
-                    learning.rate = 1,
-                    part.minsplit = 2,
-                    part.xval = 0,
-                    part.max.depth = 1,
-                    part.cp = 0,
-                    weights = NULL,
-                    metric = "MSE",
-                    maximize = FALSE,
-                    grid.resample.params = setup.grid.resample(),
-                    keep.x = FALSE,
-                    simplify = TRUE,
-                    cxrcoef = FALSE,
-                    n.cores = rtCores,
-                    verbose = TRUE,
-                    verbose.predict = FALSE,
-                    trace = 0,
-                    x.name = NULL,
-                    y.name = NULL,
-                    question = NULL,
-                    outdir = NULL,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    save.mod = FALSE) {
+s_LIHAD <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  max.depth = 3,
+  alpha = 0,
+  lambda = .1,
+  lincoef.params = setup.lincoef("glmnet"),
+  minobsinnode = 2,
+  minobsinnode.lin = 10,
+  learning.rate = 1,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  weights = NULL,
+  metric = "MSE",
+  maximize = FALSE,
+  grid.resample.params = setup.grid.resample(),
+  keep.x = FALSE,
+  simplify = TRUE,
+  cxrcoef = FALSE,
+  n.cores = rtCores,
+  verbose = TRUE,
+  verbose.predict = FALSE,
+  trace = 0,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  outdir = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  save.mod = FALSE
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LIHAD))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -118,8 +130,11 @@ s_LIHAD <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     # ifw = ifw, ifw.type = ifw.type,
     # upsample = upsample, resample.seed = resample.seed,
     verbose = verbose
@@ -130,17 +145,25 @@ s_LIHAD <- function(x, y = NULL,
   y.test <- dt$y.test
   xnames <- dt$xnames
   type <- dt$type
-  if (type != "Regression") stop("This function currently only supports Regression. Use s.AADDT for Classification")
+  if (type != "Regression")
+    stop(
+      "This function currently only supports Regression. Use s.AADDT for Classification"
+    )
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) {
-    parameterSummary(max.depth, minobsinnode, lincoef.params,
+    parameterSummary(
+      max.depth,
+      minobsinnode,
+      lincoef.params,
       newline.pre = TRUE
     )
   }
 
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -150,7 +173,9 @@ s_LIHAD <- function(x, y = NULL,
     if (!lincoef.params$method %in% c("glm", "sgd", "solve")) {
       if (verbose) {
         msg2(
-          "Cannot use lincoef method", lincoef.params$method, "with a single feature;",
+          "Cannot use lincoef method",
+          lincoef.params$method,
+          "with a single feature;",
           "switching to 'glm'"
         )
       }
@@ -162,8 +187,12 @@ s_LIHAD <- function(x, y = NULL,
   .env <- environment()
 
   # Grid Search ----
-  if (gridCheck(max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp)) {
-    gs <- gridSearchLearn(x, y,
+  if (
+    gridCheck(max.depth, alpha, lambda, minobsinnode, learning.rate, part.cp)
+  ) {
+    gs <- gridSearchLearn(
+      x,
+      y,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -191,7 +220,10 @@ s_LIHAD <- function(x, y = NULL,
 
   # lin1 ----
   if (verbose) {
-    msg20("Training Hybrid Additive Tree (max depth = ", max.depth, ")...",
+    msg20(
+      "Training Hybrid Additive Tree (max depth = ",
+      max.depth,
+      ")...",
       newline.pre = TRUE
     )
   }
@@ -255,7 +287,9 @@ s_LIHAD <- function(x, y = NULL,
   )
 
   # Fitted ----
-  fitted <- predict.lihad(mod, x,
+  fitted <- predict.lihad(
+    mod,
+    x,
     learning.rate = learning.rate,
     trace = trace,
     verbose = verbose.predict,
@@ -274,7 +308,9 @@ s_LIHAD <- function(x, y = NULL,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-    predicted <- predict.lihad(mod, x.test,
+    predicted <- predict.lihad(
+      mod,
+      x.test,
       learning.rate = learning.rate,
       trace = trace,
       verbose = verbose.predict
@@ -320,7 +356,11 @@ s_LIHAD <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis:: s_LIHAD
 
@@ -329,39 +369,41 @@ s_LIHAD <- function(x, y = NULL,
 #'
 #' @keywords internal
 #' @noRd
-lihad <- function(node = list(
-                    x = NULL,
-                    y = NULL,
-                    Fval = NULL,
-                    index = NULL,
-                    depth = NULL,
-                    partlin = NULL, # To hold the output of partLin()
-                    left = NULL, # \  To hold the left and right nodes,
-                    right = NULL, # /  if partLin splits
-                    lin = NULL,
-                    part = NULL,
-                    coef.c = NULL,
-                    terminal = NULL,
-                    type = NULL,
-                    rule = NULL
-                  ),
-                  coef.c = 0,
-                  max.depth = 7,
-                  minobsinnode = 2,
-                  minobsinnode.lin = 5,
-                  learning.rate = 1,
-                  # alpha = 0,
-                  # lambda = .01,
-                  lincoef.params = setup.lincoef(),
-                  part.minsplit = 2,
-                  part.xval = 0,
-                  part.max.depth = 1,
-                  part.cp = 0,
-                  .env = NULL,
-                  keep.x = FALSE,
-                  simplify = FALSE,
-                  verbose = TRUE,
-                  trace = 0) {
+lihad <- function(
+  node = list(
+    x = NULL,
+    y = NULL,
+    Fval = NULL,
+    index = NULL,
+    depth = NULL,
+    partlin = NULL, # To hold the output of partLin()
+    left = NULL, # \  To hold the left and right nodes,
+    right = NULL, # /  if partLin splits
+    lin = NULL,
+    part = NULL,
+    coef.c = NULL,
+    terminal = NULL,
+    type = NULL,
+    rule = NULL
+  ),
+  coef.c = 0,
+  max.depth = 7,
+  minobsinnode = 2,
+  minobsinnode.lin = 5,
+  learning.rate = 1,
+  # alpha = 0,
+  # lambda = .01,
+  lincoef.params = setup.lincoef(),
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  .env = NULL,
+  keep.x = FALSE,
+  simplify = FALSE,
+  verbose = TRUE,
+  trace = 0
+) {
   # EXIT ----
   if (node$terminal) {
     return(node)
@@ -383,7 +425,8 @@ lihad <- function(node = list(
   if (node$depth < max.depth && nobsinnode >= minobsinnode) {
     if (trace > 1) msg2("y1 (resid) is", resid)
     node$partlin <- partLin(
-      x1 = x, y1 = resid,
+      x1 = x,
+      y1 = resid,
       lincoef.params = lincoef.params,
       part.minsplit = part.minsplit,
       part.xval = part.xval,
@@ -402,27 +445,35 @@ lihad <- function(node = list(
       node$type <- "split"
       left.index <- node$partlin$left.index
       right.index <- node$partlin$right.index
-      if (trace > 1) msg2("Depth:", depth, "left.index:", node$partlin$left.index)
+      if (trace > 1)
+        msg2("Depth:", depth, "left.index:", node$partlin$left.index)
       x.left <- x[left.index, , drop = FALSE]
       x.right <- x[right.index, , drop = FALSE]
       y.left <- y[left.index]
       y.right <- y[right.index]
       if (trace > 1) msg2("y.left is", y.left)
       if (trace > 1) msg2("y.right is", y.right)
-      Fval.left <- Fval[left.index] + learning.rate * (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
-      Fval.right <- Fval[right.index] + learning.rate * (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
+      Fval.left <- Fval[left.index] +
+        learning.rate *
+          (node$partlin$part.val[left.index] + node$partlin$lin.val.left)
+      Fval.right <- Fval[right.index] +
+        learning.rate *
+          (node$partlin$part.val[right.index] + node$partlin$lin.val.right)
       coef.c.left <- coef.c.right <- coef.c
 
       # Cumulative sum of coef.c
-      coef.c.left <- coef.c.left + c(
-        node$partlin$lin.coef.left[1] + node$partlin$part.c.left,
-        node$partlin$lin.coef.left[-1]
-      )
-      coef.c.right <- coef.c.right + c(
-        node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
-        node$partlin$lin.coef.right[-1]
-      )
-      if (trace > 1) msg2("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
+      coef.c.left <- coef.c.left +
+        c(
+          node$partlin$lin.coef.left[1] + node$partlin$part.c.left,
+          node$partlin$lin.coef.left[-1]
+        )
+      coef.c.right <- coef.c.right +
+        c(
+          node$partlin$lin.coef.right[1] + node$partlin$part.c.right,
+          node$partlin$lin.coef.right[-1]
+        )
+      if (trace > 1)
+        msg2("coef.c.left is", coef.c.left, "coef.c.right is", coef.c.right)
 
       if (!is.null(node$partlin$cutFeat.point)) {
         rule.left <- node$partlin$split.rule
@@ -470,8 +521,10 @@ lihad <- function(node = list(
 
       # Run Left and Right nodes
       # LEFT ----
-      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Left node...", sep = "")
-      node$left <- lihad(node$left,
+      if (trace > 0)
+        msg2("Depth = ", depth + 1, "; Working on Left node...", sep = "")
+      node$left <- lihad(
+        node$left,
         coef.c = coef.c.left,
         max.depth = max.depth,
         minobsinnode = minobsinnode,
@@ -489,8 +542,10 @@ lihad <- function(node = list(
         trace = trace
       )
       # RIGHT ----
-      if (trace > 0) msg2("Depth = ", depth + 1, "; Working on Right node...", sep = "")
-      node$right <- lihad(node$right,
+      if (trace > 0)
+        msg2("Depth = ", depth + 1, "; Working on Right node...", sep = "")
+      node$right <- lihad(
+        node$right,
         coef.c = coef.c.right,
         max.depth = max.depth,
         minobsinnode = minobsinnode,
@@ -515,7 +570,8 @@ lihad <- function(node = list(
       .env$leaf.coef <- c(.env$leaf.coef, list(node$coef.c))
       node$type <- "nosplit"
       if (trace > 0) msg2("STOP: nosplit")
-      if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
+      if (simplify)
+        node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     } # !node$terminal
   } else {
     # max.depth or minobsinnode reached
@@ -529,7 +585,8 @@ lihad <- function(node = list(
       if (trace > 0) msg2("STOP: minobsinnode")
       node$type <- "minobsinnode"
     }
-    if (simplify) node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
+    if (simplify)
+      node$x <- node$y <- node$Fval <- node$index <- node$depth <- node$type <- node$partlin <- NULL
     return(node)
   } # max.depth, minobsinnode
 
@@ -540,21 +597,26 @@ lihad <- function(node = list(
 #' \pkg{rtemis} internal: Ridge and Stump
 #'
 #' Fit a linear model on (x, y) and a tree on the residual yhat - y
-#' 
+#'
 #' @keywords internal
 #' @noRd
-partLin <- function(x1, y1,
-                    lincoef.params = setup.lincoef(),
-                    part.minsplit = 2,
-                    part.xval = 0,
-                    part.max.depth = 1,
-                    part.cp = 0,
-                    minobsinnode.lin = 5,
-                    verbose = TRUE,
-                    trace = 0) {
+partLin <- function(
+  x1,
+  y1,
+  lincoef.params = setup.lincoef(),
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  minobsinnode.lin = 5,
+  verbose = TRUE,
+  trace = 0
+) {
   # PART ----
   dat <- data.frame(x1, y1)
-  part <- rpart::rpart(y1 ~ ., dat,
+  part <- rpart::rpart(
+    y1 ~ .,
+    dat,
     control = rpart::rpart.control(
       minsplit = part.minsplit,
       xval = part.xval,
@@ -592,8 +654,11 @@ partLin <- function(x1, y1,
       if (is.numeric(x1[[cutFeat.name]])) {
         cutFeat.point <- part$splits[1, "index"]
         if (trace > 0) {
-          msg2("Split Feature is \"", cutFeat.name,
-            "\"; Cut Point = ", cutFeat.point,
+          msg2(
+            "Split Feature is \"",
+            cutFeat.name,
+            "\"; Cut Point = ",
+            cutFeat.point,
             sep = ""
           )
         }
@@ -601,21 +666,31 @@ partLin <- function(x1, y1,
         split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
         # split.rule.i <- paste0("X[, ", cutFeat.index,"]", " < ", cutFeat.point)
       } else {
-        cutFeat.category <- levels(x1[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
+        cutFeat.category <- levels(x1[[cutFeat.name]])[which(
+          part$csplit[1, ] == 1
+        )]
         if (trace > 0) {
-          msg2("Split Feature is \"", cutFeat.name,
-            "\"; Cut Category is \"", cutFeat.category,
+          msg2(
+            "Split Feature is \"",
+            cutFeat.name,
+            "\"; Cut Category is \"",
+            cutFeat.category,
             "\"",
             sep = ""
           )
         }
         split.rule.left <- paste0(
-          cutFeat.name, " %in% ",
-          "c(", paste(cutFeat.category, collapse = ", ")
+          cutFeat.name,
+          " %in% ",
+          "c(",
+          paste(cutFeat.category, collapse = ", ")
         )
         split.rule.right <- paste0(
-          "!", cutFeat.name, " %in% ",
-          "c(", paste(cutFeat.category, collapse = ", ")
+          "!",
+          cutFeat.name,
+          " %in% ",
+          "c(",
+          paste(cutFeat.category, collapse = ", ")
         )
         # split.rule.i <- paste0("X[, ", cutFeat.index,"]", " %in% ", "c(", paste(cutFeat.category, collapse = ", "))
       }
@@ -640,26 +715,47 @@ partLin <- function(x1, y1,
   if (!is.null(cutFeat.name)) {
     if (is_constant(resid.left) || length(resid.left) < minobsinnode.lin) {
       if (trace > 0) {
-        msg2("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
+        msg2(
+          "Not fitting any more lines here (constant resid OR under minobsinnode.lin)"
+        )
       }
       lin.val.left <- rep(0, length(left.index))
       lin.coef.left <- rep(0, NCOL(x1) + 1)
     } else {
       dat <- data.frame(x1[left.index, , drop = FALSE], resid.left)
-      lin.coef.left <- do.call(lincoef, c(list(x = x1[left.index, , drop = FALSE], y = resid.left), lincoef.params))
-      lin.val.left <- (data.matrix(cbind(1, x1[left.index, , drop = FALSE])) %*% lin.coef.left)
+      lin.coef.left <- do.call(
+        lincoef,
+        c(
+          list(x = x1[left.index, , drop = FALSE], y = resid.left),
+          lincoef.params
+        )
+      )
+      lin.val.left <- (data.matrix(cbind(1, x1[left.index, , drop = FALSE])) %*%
+        lin.coef.left)
     } # if (is_constant(resid.left))
 
     if (is_constant(resid.right) || length(resid.right) < minobsinnode.lin) {
-      if (trace > 0) msg2("Not fitting any more lines here (constant resid OR under minobsinnode.lin)")
+      if (trace > 0)
+        msg2(
+          "Not fitting any more lines here (constant resid OR under minobsinnode.lin)"
+        )
       lin.val.right <- rep(0, length(right.index))
       lin.coef.right <- rep(0, NCOL(x1) + 1)
     } else {
-      lin.coef.right <- do.call(lincoef, c(list(x = x1[right.index, , drop = FALSE], y = resid.right), lincoef.params))
-      lin.val.right <- (data.matrix(cbind(1, x1[right.index, , drop = FALSE])) %*% lin.coef.right)
+      lin.coef.right <- do.call(
+        lincoef,
+        c(
+          list(x = x1[right.index, , drop = FALSE], y = resid.right),
+          lincoef.params
+        )
+      )
+      lin.val.right <- (data.matrix(cbind(
+        1,
+        x1[right.index, , drop = FALSE]
+      )) %*%
+        lin.coef.right)
     } # if (is_constant(resid.right))
   } # if (!is.null(cutFeat.name))
-
 
   list(
     lin.coef.left = lin.coef.left,
@@ -687,7 +783,7 @@ partLin <- function(x1, y1,
 #'
 #' @param x `lihad` object
 #' @param ... Not used
-#' 
+#'
 #' @method print lihad
 #' @author E.D. Gennatas
 #' @export
@@ -728,18 +824,22 @@ preorderMatch.lihad <- function(node, x, trace = 0) {
 #' @param learning.rate Float: learning rate if `object` was `lihad`
 #' @param n.feat Integer: internal use only
 #' @param verbose Logical: If TRUE, print messages to console.
-#' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with 
+#' @param cxrcoef Logical: If TRUE, return matrix of cases by coefficients along with
 #' predictions.
 #' @param ... Not used
 #'
 #' @export
 #' @author E.D. Gennatas
 
-predict.lihad <- function(object, newdata = NULL,
-                          learning.rate = NULL,
-                          n.feat = NULL,
-                          verbose = FALSE,
-                          cxrcoef = FALSE, ...) {
+predict.lihad <- function(
+  object,
+  newdata = NULL,
+  learning.rate = NULL,
+  n.feat = NULL,
+  verbose = FALSE,
+  cxrcoef = FALSE,
+  ...
+) {
   if (inherits(object, "rtMod")) {
     if (verbose) msg2("Found rtMod object")
     tree <- object$mod
@@ -752,7 +852,9 @@ predict.lihad <- function(object, newdata = NULL,
     # if (is.null(learning.rate)) stop("Please provide learning rate")
     if (is.null(n.feat)) n.feat <- NCOL(newdata)
   } else {
-    stop("Please provide an object of class 'rtMod' with a trained hybrid tree, or an 'lihad' object")
+    stop(
+      "Please provide an object of class 'rtMod' with a trained hybrid tree, or an 'lihad' object"
+    )
   }
 
   # ENH: consider removing
@@ -795,15 +897,15 @@ predict.lihad <- function(object, newdata = NULL,
 #' @param trace Integer {0:2} Increase verbosity
 #' @author E.D. Gennatas
 #' @export
-betas.lihad <- function(object, newdata,
-                        verbose = FALSE,
-                        trace = 0) {
+betas.lihad <- function(object, newdata, verbose = FALSE, trace = 0) {
   if (inherits(object, "rtMod")) {
     tree <- object$mod
   } else if (inherits(object, "lihad")) {
     tree <- object
   } else {
-    stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object")
+    stop(
+      "Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object"
+    )
   }
 
   # newdata colnames ----
@@ -861,15 +963,15 @@ preorder.lihad <- function(node, x, trace = 0) {
 #' @param ... Not used
 #' @author E.D. Gennatas
 #' @export
-coef.lihad <- function(object, newdata,
-                       verbose = FALSE,
-                       trace = 0, ...) {
+coef.lihad <- function(object, newdata, verbose = FALSE, trace = 0, ...) {
   if (inherits(object, "rtMod")) {
     tree <- object$mod
   } else if (inherits(object, "lihad")) {
     tree <- object
   } else {
-    stop("Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object")
+    stop(
+      "Please provide an object of class 'rtMod' with a trained additive tree, or an 'lihad' object"
+    )
   }
 
   # newdata colnames ----

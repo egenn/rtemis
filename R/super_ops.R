@@ -3,11 +3,11 @@
 # 2024 EDG rtemis.org
 
 #' Convert probabilities to categorical (factor)
-#' 
+#'
 #' @param x Numeric vector: Probabilities
 #' @param levels Character vector: Class labels
 #' @param binclasspos Integer: Index of the positive class for binary classification
-#' 
+#'
 #' @return Factor
 #' @author EDG
 #' @export
@@ -47,7 +47,6 @@ prob2categorical <- function(x, levels, binclasspos = NULL) {
     )
   }
   fitted
-
 } # rtemis::prob2categorical
 
 

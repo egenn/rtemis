@@ -10,7 +10,7 @@
 #' @return Logical
 #' @author EDG
 #' @keywords internal
-#' @examples 
+#' @examples
 #' \dontrun{
 #' is_check("papaya", is.character) # TRUE
 #' is_check(c(1, 2.5, 3.2), is.integer) # FALSE
@@ -44,7 +44,7 @@ is_test <- function(x, fn) {
   }
   invisible(NULL)
 } # /rtemis::is_test
-  
+
 
 #' Check class of object
 #'

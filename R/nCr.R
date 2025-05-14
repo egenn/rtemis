@@ -11,17 +11,15 @@
 #'
 #' @param n Integer: Total number of items
 #' @param r Integer: Number of items in each combination
-#' 
+#'
 #' @return Integer: Number of combinations
 #' @author E.D. Gennatas
 #' @export
 
 nCr <- function(n, r) {
-
   if (n < r) {
     0
   } else {
     factorial(n) / (factorial(r) * factorial(n - r))
   }
-
 } # rtemis::nCr

@@ -24,10 +24,7 @@
 #' }
 #' @export
 
-mplot3_res <- function(res,
-                       col = NULL,
-                       mar = NULL,
-                       theme = rtTheme, ...) {
+mplot3_res <- function(res, col = NULL, mar = NULL, theme = rtTheme, ...) {
   # Theme ----
   extraargs <- list(...)
   if (is.character(theme)) {
@@ -53,7 +50,8 @@ mplot3_res <- function(res,
   # if (is.null(mar)) mar <- c(2, 7, 2, .5)
 
   # Plot ----
-  mplot3_img(resn,
+  mplot3_img(
+    resn,
     theme = theme,
     col = col,
     y.axis.las = 2,

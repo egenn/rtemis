@@ -23,17 +23,18 @@
 #' @author E.D. Gennatas
 #' @export
 
-ruleDist <- function(x,
-                     rules1,
-                     rules2 =  NULL,
-                     print.plot = TRUE,
-                     plot.type = c("static", "interactive"),
-                     # heat.lo = "black",
-                     heat.lo = "black",
-                     heat.mid = NA,
-                     heat.hi = "#F48024",
-                     verbose = TRUE) {
-
+ruleDist <- function(
+  x,
+  rules1,
+  rules2 = NULL,
+  print.plot = TRUE,
+  plot.type = c("static", "interactive"),
+  # heat.lo = "black",
+  heat.lo = "black",
+  heat.mid = NA,
+  heat.hi = "#F48024",
+  verbose = TRUE
+) {
   #  Match cases by rules
   cxr1 <- matchCasesByRules(x, rules1, verbose)
 
@@ -43,7 +44,10 @@ ruleDist <- function(x,
   if (is.null(rules2)) {
     rxr.hamming <- apply(cxr1, 2, function(i) matrixStats::colSums2(i != cxr1))
   } else {
-    rxr.hamming <- sapply(seq_along(rules1), function(i) matrixStats::colSums2(cxr1[, i] != cxr2))
+    rxr.hamming <- sapply(
+      seq_along(rules1),
+      function(i) matrixStats::colSums2(cxr1[, i] != cxr2)
+    )
   }
 
   # Rule total distance
@@ -64,22 +68,34 @@ ruleDist <- function(x,
   if (print.plot) {
     plot.type <- match.arg(plot.type)
     if (plot.type == "static") {
-      mplot3_heatmap(rxr.hamming,
-                     Rowv = TRUE, Colv = TRUE,
-                     autorange = FALSE,
-                     zlim = c(0, nrow(x)),
-                     lo = heat.lo, mid = heat.mid, hi = heat.hi)
+      mplot3_heatmap(
+        rxr.hamming,
+        Rowv = TRUE,
+        Colv = TRUE,
+        autorange = FALSE,
+        zlim = c(0, nrow(x)),
+        lo = heat.lo,
+        mid = heat.mid,
+        hi = heat.hi
+      )
     } else {
-      dplot3_heatmap(rxr.hamming,
-                     Rowv = TRUE, Colv = TRUE,
-                     limits = c(0, nrow(x)),
-                     lo = heat.lo, mid = heat.mid, hi = heat.hi)
+      dplot3_heatmap(
+        rxr.hamming,
+        Rowv = TRUE,
+        Colv = TRUE,
+        limits = c(0, nrow(x)),
+        lo = heat.lo,
+        mid = heat.mid,
+        hi = heat.hi
+      )
     }
   }
 
-  out <- list(rxr.hamming = rxr.hamming,
-              rules.total.dist1 = rules.total.dist1,
-              rules.ordered1 = rules.ordered1)
+  out <- list(
+    rxr.hamming = rxr.hamming,
+    rules.total.dist1 = rules.total.dist1,
+    rules.ordered1 = rules.ordered1
+  )
 
   if (!is.null(rules2)) {
     out$rules.total.dist2 <- rules.total.dist2
@@ -88,10 +104,9 @@ ruleDist <- function(x,
 
   class(out) <- c("rtRuleDist", "list")
   out
-
 } # rtemis::ruleDist
 
 
-hamming  <- function(x, y) {
+hamming <- function(x, y) {
   sum(x != y)
 } # rtemis::hamming

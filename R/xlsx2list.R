@@ -18,14 +18,16 @@
 #' @author E.D. Gennatas
 #' @export
 
-xlsx2list <- function(x,
-                      sheet = NULL,
-                      startRow = 1,
-                      colNames = TRUE,
-                      na.strings = "NA",
-                      detectDates = TRUE,
-                      skipEmptyRows = TRUE,
-                      skipEmptyCols = TRUE) {
+xlsx2list <- function(
+  x,
+  sheet = NULL,
+  startRow = 1,
+  colNames = TRUE,
+  na.strings = "NA",
+  detectDates = TRUE,
+  skipEmptyRows = TRUE,
+  skipEmptyCols = TRUE
+) {
   if (is.null(sheet)) {
     sheet <- openxlsx::getSheetNames(x)
   }
@@ -35,7 +37,8 @@ xlsx2list <- function(x,
   }
 
   out <- lapply(seq_along(sheet), \(i) {
-    openxlsx::read.xlsx(x,
+    openxlsx::read.xlsx(
+      x,
       sheet = i,
       startRow = startRow[i],
       colNames = colNames,

@@ -59,12 +59,13 @@
 #
 # } # rtemis::date2factor
 
-date2factor <- function(x,
-                        time_bin = c("year", "quarter", "month", "day"),
-                        make_bins = c("range", "present"),
-                        bin_range = range(x, na.rm = TRUE),
-                        ordered = FALSE) {
-
+date2factor <- function(
+  x,
+  time_bin = c("year", "quarter", "month", "day"),
+  make_bins = c("range", "present"),
+  bin_range = range(x, na.rm = TRUE),
+  ordered = FALSE
+) {
   time_bin <- match.arg(time_bin)
   make_bins <- match.arg(make_bins)
 
@@ -73,18 +74,31 @@ date2factor <- function(x,
       factor(data.table::year(x), ordered = ordered)
     } else {
       out <- as.character(data.table::year(x))
-      factor(out,
-             levels = as.character(seq(data.table::year(bin_range[1]), data.table::year(bin_range[2]))),
-             ordered = ordered)
+      factor(
+        out,
+        levels = as.character(seq(
+          data.table::year(bin_range[1]),
+          data.table::year(bin_range[2])
+        )),
+        ordered = ordered
+      )
     }
   } else if (time_bin == "quarter") {
     if (make_bins == "present") {
-      factor(paste0(data.table::year(x), " Q", data.table::quarter(x)),
-             ordered = ordered)
+      factor(
+        paste0(data.table::year(x), " Q", data.table::quarter(x)),
+        ordered = ordered
+      )
     } else {
-      factor(paste0(data.table::year(x), " Q", data.table::quarter(x)),
-             levels = levels(date2yq(seq(bin_range[1], bin_range[2], by = "quarter"))),
-             ordered = ordered)
+      factor(
+        paste0(data.table::year(x), " Q", data.table::quarter(x)),
+        levels = levels(date2yq(seq(
+          bin_range[1],
+          bin_range[2],
+          by = "quarter"
+        ))),
+        ordered = ordered
+      )
     }
   } else if (time_bin == "month") {
     ym <- paste(substr(months(x), 1, 3), data.table::year(x))
@@ -92,20 +106,23 @@ date2factor <- function(x,
       .levels <- unique(ym[order(x)])
       factor(ym, levels = .levels, ordered = ordered)
     } else {
-      factor(ym,
-             levels = levels(date2ym(seq(bin_range[1], bin_range[2], by = "month"))),
-             ordered = ordered)
+      factor(
+        ym,
+        levels = levels(date2ym(seq(bin_range[1], bin_range[2], by = "month"))),
+        ordered = ordered
+      )
     }
   } else if (time_bin == "day") {
     if (make_bins == "present") {
       factor(x, levels = as.character(unique(x[order(x)])), ordered = ordered)
     } else {
-      factor(x,
-             levels = as.character(seq(bin_range[1], bin_range[2], by = 1)),
-             ordered = ordered)
+      factor(
+        x,
+        levels = as.character(seq(bin_range[1], bin_range[2], by = 1)),
+        ordered = ordered
+      )
     }
   }
-
 } # rtemis::date2factor
 
 
@@ -118,8 +135,10 @@ date2factor <- function(x,
 #' @export
 
 date2yq <- function(x, ordered = FALSE) {
-  factor(paste0(data.table::year(x), " Q", data.table::quarter(x)),
-         ordered = ordered)
+  factor(
+    paste0(data.table::year(x), " Q", data.table::quarter(x)),
+    ordered = ordered
+  )
 }
 
 

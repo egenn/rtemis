@@ -25,7 +25,7 @@
 #' @param which.xy2 Integer vector: Indices of `x2` and `y2` to plot.
 #' If not provided, will select up to the first two x2-y2 traces.
 #' @param shade.bin Integer vector {0, 1}: Time points in `x` to shade on the plot. For example,
-#' if there are 10 time points in `x`, and you want to shade time points 3 to 7, 
+#' if there are 10 time points in `x`, and you want to shade time points 3 to 7,
 #' `shade.bin = c(0, 0, 1, 1, 1, 1, 1, 0, 0, 0)`. Only set `shade.bin` or `shade.interval`, not
 #' both.
 #' @param shade.interval List of numeric vectors: Intervals to shade on the plot. Only set
@@ -99,77 +99,81 @@
 #' @author EDG
 #' @export
 dplot3_xt <- function(
-    x, y = NULL,
-    x2 = NULL, y2 = NULL,
-    which.xy = NULL,
-    which.xy2 = NULL,
-    # Shade intervals
-    shade.bin = NULL,
-    shade.interval = NULL,
-    shade.col = NULL,
-    shade.x = NULL,
-    shade.name = "",
-    shade.showlegend = FALSE,
-    ynames = NULL,
-    y2names = NULL,
-    xlab = NULL,
-    ylab = NULL,
-    y2lab = NULL,
-    xunits = NULL,
-    yunits = NULL,
-    y2units = NULL,
-    yunits.col = NULL,
-    y2units.col = NULL,
-    zt = NULL,
-    show.zt = TRUE,
-    show.zt.every = NULL,
-    zt.nticks = 18L,
-    # zt.start.at = 1L,
-    main = NULL,
-    main.y = 1,
-    main.yanchor = "bottom",
-    x.nticks = 0,
-    y.nticks = 0,
-    show.rangeslider = NULL,
-    slider.start = NULL,
-    slider.end = NULL,
-    theme = rtTheme,
-    palette = rtpalette(rtPalette),
-    font.size = 16,
-    yfill = "none",
-    y2fill = "none",
-    fill.alpha = .2,
-    yline.width = 2,
-    y2line.width = 2,
-    x.showspikes = TRUE,
-    spike.dash = "solid",
-    spike.col = NULL,
-    x.spike.thickness = -2,
-    tickfont.size = 16,
-    x.tickmode = "auto",
-    x.tickvals = NULL,
-    x.ticktext = NULL,
-    x.tickangle = NULL,
-    # legend
-    legend.x = 0,
-    legend.y = 1.1,
-    legend.xanchor = "left",
-    legend.yanchor = "top",
-    legend.orientation = "h",
-    margin = list(l = 75, r = 75, b = 75, t = 75),
-    # axis labels
-    x.standoff = 20L,
-    y.standoff = 20L,
-    y2.standoff = 20L,
-    hovermode = "x",
-    # config
-    displayModeBar = TRUE,
-    modeBar.file.format = "svg",
-    scrollZoom = TRUE,
-    filename = NULL,
-    file.width = 960,
-    file.height = 500,
-    file.scale = 1, ...) {
+  x,
+  y = NULL,
+  x2 = NULL,
+  y2 = NULL,
+  which.xy = NULL,
+  which.xy2 = NULL,
+  # Shade intervals
+  shade.bin = NULL,
+  shade.interval = NULL,
+  shade.col = NULL,
+  shade.x = NULL,
+  shade.name = "",
+  shade.showlegend = FALSE,
+  ynames = NULL,
+  y2names = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  y2lab = NULL,
+  xunits = NULL,
+  yunits = NULL,
+  y2units = NULL,
+  yunits.col = NULL,
+  y2units.col = NULL,
+  zt = NULL,
+  show.zt = TRUE,
+  show.zt.every = NULL,
+  zt.nticks = 18L,
+  # zt.start.at = 1L,
+  main = NULL,
+  main.y = 1,
+  main.yanchor = "bottom",
+  x.nticks = 0,
+  y.nticks = 0,
+  show.rangeslider = NULL,
+  slider.start = NULL,
+  slider.end = NULL,
+  theme = rtTheme,
+  palette = rtpalette(rtPalette),
+  font.size = 16,
+  yfill = "none",
+  y2fill = "none",
+  fill.alpha = .2,
+  yline.width = 2,
+  y2line.width = 2,
+  x.showspikes = TRUE,
+  spike.dash = "solid",
+  spike.col = NULL,
+  x.spike.thickness = -2,
+  tickfont.size = 16,
+  x.tickmode = "auto",
+  x.tickvals = NULL,
+  x.ticktext = NULL,
+  x.tickangle = NULL,
+  # legend
+  legend.x = 0,
+  legend.y = 1.1,
+  legend.xanchor = "left",
+  legend.yanchor = "top",
+  legend.orientation = "h",
+  margin = list(l = 75, r = 75, b = 75, t = 75),
+  # axis labels
+  x.standoff = 20L,
+  y.standoff = 20L,
+  y2.standoff = 20L,
+  hovermode = "x",
+  # config
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  scrollZoom = TRUE,
+  filename = NULL,
+  file.width = 960,
+  file.height = 500,
+  file.scale = 1,
+  ...
+) {
   # Names ----
   .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
@@ -293,7 +297,11 @@ dplot3_xt <- function(
     }
     yunits <- paste0(
       "(",
-      '<span style="color:', yunits.col, ';">', yunits, "</span>",
+      '<span style="color:',
+      yunits.col,
+      ';">',
+      yunits,
+      "</span>",
       ")"
     )
     ynames <- paste(ynames, yunits)
@@ -308,7 +316,11 @@ dplot3_xt <- function(
     }
     y2units <- paste0(
       "(",
-      '<span style="color:', y2units.col, ';">', y2units, "</span>",
+      '<span style="color:',
+      y2units.col,
+      ';">',
+      y2units,
+      "</span>",
       ")"
     )
     y2names <- paste(y2names, y2units)
@@ -397,7 +409,10 @@ dplot3_xt <- function(
       while (diff_idi0 %% sze_high != 0) {
         sze_high <- sze_high + 1
       }
-      show.zt.every <- c(sze_low, sze_high)[which.min(abs(c(sze - sze_low, sze - sze_high)))]
+      show.zt.every <- c(sze_low, sze_high)[which.min(abs(c(
+        sze - sze_low,
+        sze - sze_high
+      )))]
     }
     idi <- seq(1, length(zt), by = show.zt.every)
     # Make sure 0 is included
@@ -606,7 +621,8 @@ dplot3_xt <- function(
   } # /yaxis2 layout
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

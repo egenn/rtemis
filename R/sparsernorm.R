@@ -19,10 +19,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-sparsernorm <- function(n,
-                        sparseness = .1,
-                        mean = 0,
-                        sd = 1) {
+sparsernorm <- function(n, sparseness = .1, mean = 0, sd = 1) {
   if (sparseness > 0 && sparseness < 1) {
     .n <- round(sparseness * n)
     .rnorm <- rnorm(.n, mean = mean, sd = sd)

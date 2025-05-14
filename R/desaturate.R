@@ -17,7 +17,6 @@
 #' color.p <- desaturate(color)
 
 desaturate <- function(color, s = .3) {
-
   # Infer color names, if available
   if (is.character(color)) {
     .names <- color
@@ -38,5 +37,4 @@ desaturate <- function(color, s = .3) {
 
   names(xp) <- .names
   xp
-
 } # rtemis::desaturate

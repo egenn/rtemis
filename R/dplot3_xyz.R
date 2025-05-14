@@ -24,57 +24,62 @@
 #' \dontrun{
 #' dplot3_xyz(iris, group = iris$Species, theme = "darkgrid")
 #' }
-dplot3_xyz <- function(x, y = NULL, z = NULL,
-                       fit = NULL,
-                       cluster = NULL,
-                       cluster.params = list(k = 2),
-                       group = NULL,
-                       formula = NULL,
-                       rsq = TRUE,
-                       mode = "markers",
-                       order.on.x = NULL,
-                       main = NULL,
-                       xlab = NULL,
-                       ylab = NULL,
-                       zlab = NULL,
-                       col = NULL,
-                       alpha = .8,
-                       bg = NULL,
-                       plot.bg = NULL,
-                       theme = rtTheme,
-                       palette = rtPalette,
-                       axes.square = FALSE,
-                       group.names = NULL,
-                       font.size = 16,
-                       marker.col = NULL,
-                       marker.size = 8,
-                       fit.col = NULL,
-                       fit.alpha = .7,
-                       fit.lwd = 2.5,
-                       tick.font.size = 12,
-                       spike.col = NULL,
-                       legend = NULL,
-                       legend.xy = c(0, 1),
-                       legend.xanchor = "left",
-                       legend.yanchor = "auto",
-                       legend.orientation = "v",
-                       legend.col = NULL,
-                       legend.bg = "#FFFFFF00",
-                       legend.border.col = "#FFFFFF00",
-                       legend.borderwidth = 0,
-                       legend.group.gap = 0,
-                       margin = list(t = 30, b = 0, l = 0, r = 0),
-                       fit.params = list(),
-                       width = NULL,
-                       height = NULL,
-                       padding = 0,
-                       displayModeBar = TRUE,
-                       modeBar.file.format = "svg",
-                       trace = 0,
-                       filename = NULL,
-                       file.width = 500,
-                       file.height = 500,
-                       file.scale = 1, ...) {
+dplot3_xyz <- function(
+  x,
+  y = NULL,
+  z = NULL,
+  fit = NULL,
+  cluster = NULL,
+  cluster.params = list(k = 2),
+  group = NULL,
+  formula = NULL,
+  rsq = TRUE,
+  mode = "markers",
+  order.on.x = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  zlab = NULL,
+  col = NULL,
+  alpha = .8,
+  bg = NULL,
+  plot.bg = NULL,
+  theme = rtTheme,
+  palette = rtPalette,
+  axes.square = FALSE,
+  group.names = NULL,
+  font.size = 16,
+  marker.col = NULL,
+  marker.size = 8,
+  fit.col = NULL,
+  fit.alpha = .7,
+  fit.lwd = 2.5,
+  tick.font.size = 12,
+  spike.col = NULL,
+  legend = NULL,
+  legend.xy = c(0, 1),
+  legend.xanchor = "left",
+  legend.yanchor = "auto",
+  legend.orientation = "v",
+  legend.col = NULL,
+  legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00",
+  legend.borderwidth = 0,
+  legend.group.gap = 0,
+  margin = list(t = 30, b = 0, l = 0, r = 0),
+  fit.params = list(),
+  width = NULL,
+  height = NULL,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  trace = 0,
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  ...
+) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -96,21 +101,24 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
   # order.on.x ----
   if (is.null(order.on.x)) {
-    order.on.x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
+    order.on.x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else
+      FALSE
   }
 
   # CLUSTER ----
   if (!is.null(cluster)) {
-    group <- suppressWarnings(do.call(
-      select_clust(cluster),
-      c(
-        list(
-          x = data.frame(x, y),
-          verbose = trace > 0
-        ),
-        cluster.params
-      )
-    )$clusters.train)
+    group <- suppressWarnings(
+      do.call(
+        select_clust(cluster),
+        c(
+          list(
+            x = data.frame(x, y),
+            verbose = trace > 0
+          ),
+          cluster.params
+        )
+      )$clusters.train
+    )
     group <- paste("Cluster", group)
   }
 
@@ -118,13 +126,16 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # xlab, ylab ----
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
-    if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+    if (is.list(x)) xlab <- "x" else
+      xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   }
   if (!is.null(y) && is.null(ylab)) {
-    if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
+    if (is.list(y)) ylab <- "y" else
+      ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   }
   if (!is.null(z) && is.null(zlab)) {
-    if (is.list(z)) zlab <- "z" else zlab <- labelify(gsub(".*\\$", "", deparse(substitute(z))))
+    if (is.list(z)) zlab <- "z" else
+      zlab <- labelify(gsub(".*\\$", "", deparse(substitute(z))))
   }
 
   # '- Group ----
@@ -169,7 +180,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # legend <- if (is.null(legend) & n.groups == 1 & is.null(fit)) FALSE else TRUE
   legend <- if (is.null(legend) && n.groups == 1) FALSE else TRUE
 
-  if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
+  if (length(.mode) < n.groups)
+    .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n.groups > 1
   if (is.null(.names)) {
@@ -229,7 +241,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
   # marker.col, se.col ===
   if (is.null(marker.col)) {
-    marker.col <- if (!is.null(fit) && n.groups == 1) as.list(rep(theme$fg, n.groups)) else col
+    marker.col <- if (!is.null(fit) && n.groups == 1)
+      as.list(rep(theme$fg, n.groups)) else col
   }
 
   if (!is.null(fit)) {
@@ -270,7 +283,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
       mod <- do.call(learner, learner.args)
       fitted[[i]] <- fitted(mod)
       if (se.fit) se[[i]] <- se(mod)
-      fitted.text[i] <- switch(fit,
+      fitted.text[i] <- switch(
+        fit,
         NLS = mod$extra$model,
         NLA = mod$mod$formula,
         fit
@@ -279,7 +293,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
         fitted.text[i] <- paste0(
           fitted.text[i],
           if (n.groups == 1) " (" else " ",
-          "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+          "R<sup>2</sup> = ",
+          ddSci(mod$error.train$Rsq),
           if (n.groups == 1) ")"
         )
       }
@@ -301,7 +316,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     } else {
       NULL
     }
-    plt <- plotly::add_trace(plt,
+    plt <- plotly::add_trace(
+      plt,
       x = x[[i]],
       y = y[[i]],
       z = z[[i]],
@@ -314,7 +330,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
       # hoverinfo = "text",
       # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
       marker = marker,
-      line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
+      line = if (grepl("lines", .mode[i]))
+        list(color = plotly::toRGB(marker.col[[i]], alpha = alpha)) else NULL,
       legendgroup = if (n.groups > 1) .names[i] else "Raw",
       showlegend = legend
     )
@@ -346,7 +363,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
 
     if (!is.null(fit)) {
       # '- { Fitted mesh } ----
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = x[[i]],
         y = y[[i]],
         z = fitted[[i]],
@@ -358,7 +376,10 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
         inherit = FALSE,
         showscale = FALSE,
         intensity = 1,
-        colorscale = list(c(0, plotly::toRGB(fit.col[[i]])), c(1, plotly::toRGB(fit.col[[i]])))
+        colorscale = list(
+          c(0, plotly::toRGB(fit.col[[i]])),
+          c(1, plotly::toRGB(fit.col[[i]]))
+        )
       )
     }
   }
@@ -392,7 +413,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
     tracegroupgap = legend.group.gap
   )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     scene = list(
       yaxis = list(
         title = ylab,
@@ -453,7 +475,8 @@ dplot3_xyz <- function(x, y = NULL, z = NULL,
   # Padding
   plt$sizingPolicy$padding <- padding
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

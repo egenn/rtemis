@@ -13,9 +13,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-formatRules <- function(x, space.after.comma = FALSE,
-                         decimal.places = NULL) {
-
+formatRules <- function(x, space.after.comma = FALSE, decimal.places = NULL) {
   x <- gsub("[&+]", "AND", x)
   x <- gsub(">", " > ", x)
   x <- gsub("<=", " <= ", x)
@@ -25,11 +23,14 @@ formatRules <- function(x, space.after.comma = FALSE,
   x <- gsub("'", "", x)
   if (space.after.comma) x <- gsub(",", ", ", x)
   if (!is.null(decimal.places)) {
-    x <- gsubfn::gsubfn("([0-9.]+[0-9])", function(i) ddSci(i, decimal.places = decimal.places),
-                        x, engine = "R")
+    x <- gsubfn::gsubfn(
+      "([0-9.]+[0-9])",
+      function(i) ddSci(i, decimal.places = decimal.places),
+      x,
+      engine = "R"
+    )
   }
   x
-
 } # rtemis::formatRules
 
 
@@ -44,9 +45,11 @@ formatRules <- function(x, space.after.comma = FALSE,
 #' @author E.D. Gennatas
 #' @export
 
-formatLightRules <- function(x, 
-                             space.after.comma = FALSE,
-                             decimal.places = NULL) {
+formatLightRules <- function(
+  x,
+  space.after.comma = FALSE,
+  decimal.places = NULL
+) {
   x <- gsub("[&+]", "AND", x)
   x <- gsub(">", " > ", x)
   x <- gsub("<=", " <= ", x)
@@ -57,7 +60,9 @@ formatLightRules <- function(x,
   x <- gsub("'", "", x)
   if (space.after.comma) x <- gsub(",", ", ", x)
   if (!is.null(decimal.places)) {
-    x <- gsubfn::gsubfn("([0-9.]+[0-9])", function(i) ddSci(i, decimal.places = decimal.places),
+    x <- gsubfn::gsubfn(
+      "([0-9.]+[0-9])",
+      function(i) ddSci(i, decimal.places = decimal.places),
       x,
       engine = "R"
     )

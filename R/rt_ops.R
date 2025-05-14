@@ -44,17 +44,21 @@ getName <- function(x, alt = "x", max.nchar = 20) {
 #' get_mode(x)
 #' get_mode(x, getlast = FALSE)
 #'
-get_mode <- function(x,
-                     na.exclude = TRUE,
-                     getlast = TRUE,
-                     retain.class = TRUE) {
+get_mode <- function(
+  x,
+  na.exclude = TRUE,
+  getlast = TRUE,
+  retain.class = TRUE
+) {
   if (retain.class) .class <- class(x)
   if (na.exclude) x <- na.exclude(x)
   freq <- table(x)
   if (sum(freq) > 0) {
     if (getlast) {
       .vals <- unique(x)
-      out <- .vals[rev(which(.vals %in% names(freq)[which(freq == max(freq))]))[1]]
+      out <- .vals[rev(which(.vals %in% names(freq)[which(freq == max(freq))]))[
+        1
+      ]]
     } else {
       out <- names(freq)[which.max(freq)]
     }
@@ -115,7 +119,7 @@ is_constant <- function(x, skip_missing = FALSE) {
 #' Check if variable is discrete (factor or integer)
 #'
 #' @param x Input
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -127,7 +131,7 @@ is_discrete <- function(x) {
 #' Logit transform
 #'
 #' @param x Float \[0, 1\] Input
-#' 
+#'
 #' @export
 
 logit <- function(x) {
@@ -138,7 +142,7 @@ logit <- function(x) {
 #' Inverse Logit
 #'
 #' @param x Float: Input data
-#' 
+#'
 #' @return The inverse logit of the input
 #' @author E.D. Gennatas
 #' @export
@@ -154,7 +158,7 @@ invlogit <- function(x) {
 #' @param x0 x-value of the midpoint.
 #' @param L maximum value.
 #' @param k steepness of the curve.
-#' 
+#'
 #' @export
 
 logistic <- function(x, x0 = 0, L = 1, k = 1) {
@@ -165,7 +169,7 @@ logistic <- function(x, x0 = 0, L = 1, k = 1) {
 #' ReLU - Rectified Linear Unit
 #'
 #' @param x Numeric: Input
-#' 
+#'
 #' @export
 relu <- function(x) {
   unlist(Map(function(i) max(0, i), x))
@@ -177,7 +181,7 @@ relu <- function(x) {
 #' Softplus function:
 #' \deqn{log(1 + e^x)}
 #' @param x Vector, Float: Input
-#' 
+#'
 #' @export
 
 softplus <- function(x) {
@@ -188,7 +192,7 @@ softplus <- function(x) {
 #' Sigmoid function
 #'
 #' @param x Vector, float: Input
-#' 
+#'
 #' @export
 
 sigmoid <- function(x) 1 / (1 + exp(-x))
@@ -197,7 +201,7 @@ sigmoid <- function(x) 1 / (1 + exp(-x))
 #' Softmax function
 #'
 #' @param x Vector, Float: Input
-#' 
+#'
 #' @export
 
 softmax <- function(x) {
@@ -213,7 +217,7 @@ softmax <- function(x) {
 #' Square
 #'
 #' @param x Vector, Float: Input
-#' 
+#'
 #' @keywords internal
 #' @noRd
 
@@ -223,7 +227,7 @@ square <- function(x) x^2
 #' Cube
 #'
 #' @param x Vector, Float: Input
-#' 
+#'
 #' @keywords internal
 #' @noRd
 
@@ -235,7 +239,7 @@ cube <- function(x) x^3
 #' @param x Matrix or Data frame input
 #' @param na.rm Logical: passed to `max`, If TRUE, ignore NA values,
 #' otherwise if NA is present in any column, NA will be returned.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -248,7 +252,7 @@ colMax <- function(x, na.rm = TRUE) {
 #'
 #' @param x Input vector
 #' @param na.rm Logical. If TRUE, missing values are not considered.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -260,7 +264,7 @@ rowMax <- function(x, na.rm = TRUE) {
 #' Combine rules
 #'
 #' @param ... Character: Rules
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -280,7 +284,7 @@ crules <- function(...) {
 #' @param x Input of any type, may be NULL
 #' @param defType If `x` is NULL, return empty vector of this type. Options: list, numeric,
 #' character, integer
-#' 
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
@@ -307,7 +311,7 @@ ifNotNull <- function(x, defType) {
 #' Caution is advised, however, as you never know how many may be hiding underground.
 #'
 #' @param x Numeric vector
-#' 
+#'
 #' @return Population standard deviation
 #' @author E.D. Gennatas
 #' @export
@@ -327,13 +331,17 @@ psd <- function(x) {
 #' @param sd Float: Standard deviation. Default = 1
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix. Default = TRUE
 #' @param seed Integer: Set seed for `rnorm`. Default = NULL
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
-rnormmat <- function(nrow = 10, ncol = 10,
-                     mean = 0, sd = 1,
-                     return.df = FALSE,
-                     seed = NULL) {
+rnormmat <- function(
+  nrow = 10,
+  ncol = 10,
+  mean = 0,
+  sd = 1,
+  return.df = FALSE,
+  seed = NULL
+) {
   if (length(mean) < ncol) mean <- rep(mean, ncol / length(mean))
   if (length(sd) < ncol) sd <- rep(sd, ncol / length(sd))
 
@@ -354,13 +362,17 @@ rnormmat <- function(nrow = 10, ncol = 10,
 #' @param max Float: Max.
 #' @param return.df Logical: If TRUE, return data.frame, otherwise matrix.
 #' @param seed Integer: Set seed for `rnorm`.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
-runifmat <- function(nrow = 10, ncol = 10,
-                     min = 0, max = 1,
-                     return.df = FALSE,
-                     seed = NULL) {
+runifmat <- function(
+  nrow = 10,
+  ncol = 10,
+  min = 0,
+  max = 1,
+  return.df = FALSE,
+  seed = NULL
+) {
   if (length(min) < ncol) min <- rep(min, ncol / length(min))
   if (length(max) < ncol) max <- rep(max, ncol / length(max))
 
@@ -377,7 +389,7 @@ runifmat <- function(nrow = 10, ncol = 10,
 #'
 #' @param n Length of vector to return
 #' @param caps Logical: If TRUE, return all caps
-#' 
+#'
 #' @keywords internal
 #' @noRd
 rtLetters <- function(n = 100, caps = FALSE) {
@@ -395,7 +407,8 @@ rtLetters <- function(n = 100, caps = FALSE) {
 #' @keywords internal
 #' @noRd
 singorplu <- function(n, x) {
-  switch(as.character(n),
+  switch(
+    as.character(n),
     `0` = paste0("no ", x, "s"),
     `1` = paste("1", x),
     paste0(n, " ", x, "s")
@@ -430,15 +443,10 @@ roundtofrac <- function(x, t = .5) {
 #' @author E.D. Gennatas
 #' @export
 
-catrange <- function(x,
-                     ddSci = TRUE,
-                     decimal.places = 1,
-                     na.rm = TRUE) {
+catrange <- function(x, ddSci = TRUE, decimal.places = 1, na.rm = TRUE) {
   if (ddSci) {
     paste(
-      ddSci(range(x, na.rm = na.rm),
-        decimal.places = decimal.places
-      ),
+      ddSci(range(x, na.rm = na.rm), decimal.places = decimal.places),
       collapse = " to "
     )
   } else {
@@ -516,7 +524,7 @@ pval_stars <- function(x) {
 
 
 #' Return object if it has length > 0
-#' 
+#'
 #' @keywords internal
 #' @noRd
 iflengthy <- function(x) {

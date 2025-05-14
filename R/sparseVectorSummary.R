@@ -42,6 +42,10 @@ sparseVectorSummary <- function(vectors, y = NULL) {
   mean.vec.cor <- mean(vec.cor[lower.tri(vec.cor)])
 
   # Output
-  listOut <- list(vec.summary = vec.summary, overallSparseness = overallSparseness, mean.vec.cor = mean.vec.cor)
+  listOut <- list(
+    vec.summary = vec.summary,
+    overallSparseness = overallSparseness,
+    mean.vec.cor = mean.vec.cor
+  )
   return(listOut)
 } # rtemis::sparseVectorSummary

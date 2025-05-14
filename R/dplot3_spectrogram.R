@@ -49,47 +49,52 @@
 #' @author E.D. Gennatas
 #' @export
 
-dplot3_spectrogram <- function(x, y, z,
-                               colorGrad.n = 101,
-                               colors = NULL,
-                               xlab = "Time",
-                               ylab = "Frequency",
-                               zlab = "Power",
-                               hover.xlab = xlab,
-                               hover.ylab = ylab,
-                               hover.zlab = zlab,
-                               zmin = NULL,
-                               zmax = NULL,
-                               zauto = TRUE,
-                               hoverlabel.align = "right",
-                               colorscale = "Jet",
-                               colorbar.y = .5,
-                               colorbar.yanchor = "middle",
-                               colorbar.xpad = 0,
-                               colorbar.ypad = 0,
-                               colorbar.len = .75,
-                               colorbar.title.side = "bottom",
-                               showgrid = FALSE,
-                               space = "rgb",
-                               lo = "#18A3AC",
-                               lomid = NULL,
-                               mid = NULL,
-                               midhi = NULL,
-                               hi = "#F48024",
-                               grid.gap = 0,
-                               limits = NULL,
-                               main = NULL,
-                               key.title = NULL,
-                               showticklabels = NULL,
-                               theme = rtTheme,
-                               font.size = NULL,
-                               padding = 0,
-                               displayModeBar = TRUE,
-                               modeBar.file.format = "svg",
-                               filename = NULL,
-                               file.width = 500,
-                               file.height = 500,
-                               file.scale = 1, ...) {
+dplot3_spectrogram <- function(
+  x,
+  y,
+  z,
+  colorGrad.n = 101,
+  colors = NULL,
+  xlab = "Time",
+  ylab = "Frequency",
+  zlab = "Power",
+  hover.xlab = xlab,
+  hover.ylab = ylab,
+  hover.zlab = zlab,
+  zmin = NULL,
+  zmax = NULL,
+  zauto = TRUE,
+  hoverlabel.align = "right",
+  colorscale = "Jet",
+  colorbar.y = .5,
+  colorbar.yanchor = "middle",
+  colorbar.xpad = 0,
+  colorbar.ypad = 0,
+  colorbar.len = .75,
+  colorbar.title.side = "bottom",
+  showgrid = FALSE,
+  space = "rgb",
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  grid.gap = 0,
+  limits = NULL,
+  main = NULL,
+  key.title = NULL,
+  showticklabels = NULL,
+  theme = rtTheme,
+  font.size = NULL,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  ...
+) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -145,21 +150,27 @@ dplot3_spectrogram <- function(x, y, z,
 
   # Plot ----
   plt <- plotly::plot_ly()
-  plt <- plt |> plotly::add_trace(
-    x = x, y = y, z = z,
-    type = "heatmap",
-    zauto = zauto,
-    zmin = zmin,
-    zmax = zmax,
-    colorscale = colorscale,
-    colors = colors,
-    hovertemplate = paste0(
-      hover.xlab, ":<b> %{x:.3f}</b><br>",
-      hover.ylab, ":<b> %{y:.3f}</b><br>",
-      hover.zlab, ":<b> %{z:.3f}</b><extra></extra>"
-    ),
-    showlegend = FALSE
-  )
+  plt <- plt |>
+    plotly::add_trace(
+      x = x,
+      y = y,
+      z = z,
+      type = "heatmap",
+      zauto = zauto,
+      zmin = zmin,
+      zmax = zmax,
+      colorscale = colorscale,
+      colors = colors,
+      hovertemplate = paste0(
+        hover.xlab,
+        ":<b> %{x:.3f}</b><br>",
+        hover.ylab,
+        ":<b> %{y:.3f}</b><br>",
+        hover.zlab,
+        ":<b> %{z:.3f}</b><extra></extra>"
+      ),
+      showlegend = FALSE
+    )
 
   # Layout ----
   # '- layout ----
@@ -173,13 +184,16 @@ dplot3_spectrogram <- function(x, y, z,
     size = font.size,
     color = tick.labels.col
   )
-  .legend <- list(font = list(
-    family = theme$font.family,
-    size = font.size,
-    color = bg
-  ))
+  .legend <- list(
+    font = list(
+      family = theme$font.family,
+      size = font.size,
+      color = bg
+    )
+  )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis = list(
       title = list(
         text = ylab,
@@ -253,7 +267,8 @@ dplot3_spectrogram <- function(x, y, z,
     )
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

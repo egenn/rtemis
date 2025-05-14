@@ -59,49 +59,52 @@
 #' }
 #' @export
 
-dplot3_heatmap <- function(x,
-                           Rowv = TRUE,
-                           Colv = TRUE,
-                           cluster = FALSE,
-                           #    k = 1,
-                           symm = FALSE,
-                           cellnote = NULL,
-                           colorGrad.n = 101,
-                           colors = NULL,
-                           space = "rgb",
-                           lo = "#18A3AC",
-                           lomid = NULL,
-                           mid = NULL,
-                           midhi = NULL,
-                           hi = "#F48024",
-                           k_row = 1,
-                           k_col = 1,
-                           # show_grid = FALSE,
-                           grid.gap = 0,
-                           limits = NULL,
-                           # margins = c(50, 50, 50, 50),
-                           margins = NULL,
-                           main = NULL,
-                           xlab = NULL,
-                           ylab = NULL,
-                           key.title = NULL,
-                           showticklabels = NULL,
-                           colorbar_len = .7,
-                           plot_method = "plotly",
-                           theme = rtTheme,
-                           #    palette = rtPalette,
-                           row_side_colors = NULL, # x[["row_side_colors"]],
-                           row_side_palette = NULL,
-                           col_side_colors = NULL, # x[["col_side_colors"]],
-                           col_side_palette = NULL,
-                           font.size = NULL,
-                           padding = 0,
-                           displayModeBar = TRUE,
-                           modeBar.file.format = "svg",
-                           filename = NULL,
-                           file.width = 500,
-                           file.height = 500,
-                           file.scale = 1, ...) {
+dplot3_heatmap <- function(
+  x,
+  Rowv = TRUE,
+  Colv = TRUE,
+  cluster = FALSE,
+  #    k = 1,
+  symm = FALSE,
+  cellnote = NULL,
+  colorGrad.n = 101,
+  colors = NULL,
+  space = "rgb",
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  k_row = 1,
+  k_col = 1,
+  # show_grid = FALSE,
+  grid.gap = 0,
+  limits = NULL,
+  # margins = c(50, 50, 50, 50),
+  margins = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  key.title = NULL,
+  showticklabels = NULL,
+  colorbar_len = .7,
+  plot_method = "plotly",
+  theme = rtTheme,
+  #    palette = rtPalette,
+  row_side_colors = NULL, # x[["row_side_colors"]],
+  row_side_palette = NULL,
+  col_side_colors = NULL, # x[["col_side_colors"]],
+  col_side_palette = NULL,
+  font.size = NULL,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  ...
+) {
   # Dependencies ----
   dependency_check("heatmaply")
 
@@ -219,8 +222,10 @@ dplot3_heatmap <- function(x,
     dendextend::set("branches_col", theme$fg) |>
     dendextend::ladderize()
 
-  plt <- suppressWarnings(heatmaply::heatmaply(x,
-    Rowv = Rowv, Colv = Colv,
+  plt <- suppressWarnings(heatmaply::heatmaply(
+    x,
+    Rowv = Rowv,
+    Colv = Colv,
     symm = symm,
     cellnote = cellnote,
     colors = colors,
@@ -257,13 +262,16 @@ dplot3_heatmap <- function(x,
     size = font.size,
     color = tick.labels.col
   )
-  .legend <- list(font = list(
-    family = theme$font.family,
-    size = font.size,
-    color = bg
-  ))
+  .legend <- list(
+    font = list(
+      family = theme$font.family,
+      size = font.size,
+      color = bg
+    )
+  )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis2 = list(
       title = list(
         # text = ylab,
@@ -321,7 +329,8 @@ dplot3_heatmap <- function(x,
   plt$sizingPolicy$padding <- padding
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

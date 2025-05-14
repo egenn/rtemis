@@ -17,17 +17,21 @@
 #' @export
 
 xselect_decom <- function(xdecom, fn = FALSE, desc = FALSE) {
-
   description <- list(
     "CCA" = "Sparse Canonical Correlation Analysis"
     # "SD2RES" = "ANTsR sparse decomposition"
     # "SD2RESDEF" = "ANTsR sparse decomposition with deflation"
   )
   description <- t(as.data.frame(description))
-  description <- data.frame(Name = rownames(description), Description = description)
+  description <- data.frame(
+    Name = rownames(description),
+    Description = description
+  )
 
   if (missing(xdecom)) {
-    cat(".:xselect_decom\nrtemis supports the following cross-decomposition algorithms:\n\n")
+    cat(
+      ".:xselect_decom\nrtemis supports the following cross-decomposition algorithms:\n\n"
+    )
     print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
@@ -49,5 +53,4 @@ xselect_decom <- function(xdecom, fn = FALSE, desc = FALSE) {
   # if (name == "SD2RESDEF") xdecomposer <- if (fn) x.SD2RESDEF else "x.SD2RESDEF"
 
   return(xdecomposer)
-
 } # rtemis::xselect_decom

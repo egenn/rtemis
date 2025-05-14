@@ -4,9 +4,9 @@
 
 #' Variable Selection by Random Forest
 #'
-#' Select important variables from a set of features based on RF-estimated variable 
+#' Select important variables from a set of features based on RF-estimated variable
 #' importance
-#' 
+#'
 #' Please note that this function is included for academic and exploratory purposes.
 #' It may be best to rely on each supervised learning algorithm's own variable selection
 #' approach.
@@ -18,14 +18,10 @@
 #'   positives which can be dealt by an appropriate learning algorithm.
 #' @param print.plot Logical: If TRUE, print plot of variable importance
 #' @param verbose Logical: If TRUE, print messages to console.
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
-rfVarSelect <- function(x, y,
-                        p = .2,
-                        print.plot = TRUE,
-                        verbose = TRUE) {
-
+rfVarSelect <- function(x, y, p = .2, print.plot = TRUE, verbose = TRUE) {
   n <- NCOL(x)
   if (n < 2) stop("You need 2 or more variables to select from")
   start.time <- intro(verbose = verbose)
@@ -35,8 +31,11 @@ rfVarSelect <- function(x, y,
   if (print.plot) mplot3_x(mod$mod$importance, group.title = "")
   importance.rank <- order(importance, decreasing = TRUE)
   top.index <- importance.rank[1:(p * n)]
-  if (verbose) msg2(length(top.index), "variables selected based on RF-estimated importance")
+  if (verbose)
+    msg2(
+      length(top.index),
+      "variables selected based on RF-estimated importance"
+    )
   outro(start.time, verbose = verbose)
   return(top.index)
-
 } # rtemis:: rfVarSelect

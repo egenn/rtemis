@@ -120,54 +120,56 @@
 #' @author E.D. Gennatas
 #' @export
 
-preprocess <- function(x,
-                       completeCases = FALSE,
-                       removeCases.thres = NULL,
-                       removeFeatures.thres = NULL,
-                       missingness = FALSE,
-                       impute = FALSE,
-                       impute.type = c(
-                         "missRanger",
-                         "micePMM",
-                         "meanMode"
-                       ),
-                       impute.missRanger.params = list(
-                         pmm.k = 3,
-                         maxiter = 10,
-                         num.trees = 500
-                       ),
-                       impute.discrete = get_mode,
-                       impute.numeric = mean,
-                       integer2factor = FALSE,
-                       integer2numeric = FALSE,
-                       logical2factor = FALSE,
-                       logical2numeric = FALSE,
-                       numeric2factor = FALSE,
-                       numeric2factor.levels = NULL,
-                       numeric.cut.n = 0,
-                       numeric.cut.labels = FALSE,
-                       numeric.quant.n = 0,
-                       numeric.quant.NAonly = FALSE,
-                       len2factor = 0,
-                       character2factor = FALSE,
-                       factorNA2missing = FALSE,
-                       factorNA2missing.level = "missing",
-                       #    nonzeroFactors = FALSE,
-                       factor2integer = FALSE,
-                       factor2integer_startat0 = TRUE,
-                       scale = FALSE,
-                       center = scale,
-                       removeConstants = FALSE,
-                       removeConstants.skipMissing = TRUE,
-                       removeDuplicates = FALSE,
-                       oneHot = FALSE,
-                       #    cleanfactorlevels = FALSE,
-                       add_date_features = FALSE,
-                       date_features = c("weekday", "month", "year"),
-                       add_holidays = FALSE,
-                       exclude = NULL,
-                       xname = NULL,
-                       verbose = TRUE) {
+preprocess <- function(
+  x,
+  completeCases = FALSE,
+  removeCases.thres = NULL,
+  removeFeatures.thres = NULL,
+  missingness = FALSE,
+  impute = FALSE,
+  impute.type = c(
+    "missRanger",
+    "micePMM",
+    "meanMode"
+  ),
+  impute.missRanger.params = list(
+    pmm.k = 3,
+    maxiter = 10,
+    num.trees = 500
+  ),
+  impute.discrete = get_mode,
+  impute.numeric = mean,
+  integer2factor = FALSE,
+  integer2numeric = FALSE,
+  logical2factor = FALSE,
+  logical2numeric = FALSE,
+  numeric2factor = FALSE,
+  numeric2factor.levels = NULL,
+  numeric.cut.n = 0,
+  numeric.cut.labels = FALSE,
+  numeric.quant.n = 0,
+  numeric.quant.NAonly = FALSE,
+  len2factor = 0,
+  character2factor = FALSE,
+  factorNA2missing = FALSE,
+  factorNA2missing.level = "missing",
+  #    nonzeroFactors = FALSE,
+  factor2integer = FALSE,
+  factor2integer_startat0 = TRUE,
+  scale = FALSE,
+  center = scale,
+  removeConstants = FALSE,
+  removeConstants.skipMissing = TRUE,
+  removeDuplicates = FALSE,
+  oneHot = FALSE,
+  #    cleanfactorlevels = FALSE,
+  add_date_features = FALSE,
+  date_features = c("weekday", "month", "year"),
+  add_holidays = FALSE,
+  exclude = NULL,
+  xname = NULL,
+  verbose = TRUE
+) {
   # Intro ----
   xname <- deparse(substitute(x))
   start_time <- intro(
@@ -197,10 +199,18 @@ preprocess <- function(x,
   # Remove constants ----
   # Must be ahead of numeric quantile at least
   if (removeConstants) {
-    constant <- which(sapply(x, is_constant, skip_missing = removeConstants.skipMissing))
+    constant <- which(sapply(
+      x,
+      is_constant,
+      skip_missing = removeConstants.skipMissing
+    ))
     if (length(constant) > 0) {
       if (verbose) {
-        msg20("Removing ", singorplu(length(constant), "constant feature"), "...")
+        msg20(
+          "Removing ",
+          singorplu(length(constant), "constant feature"),
+          "..."
+        )
       }
       x <- x[, -constant]
     }
@@ -224,16 +234,21 @@ preprocess <- function(x,
     if (anyNA(x)) {
       xt <- data.table::as.data.table(x)
       # na.fraction.bycase <- apply(x, 1, function(i) sum(is.na(i))/length(i))
-      na.fraction.bycase <- data.table::transpose(xt)[, lapply(.SD, function(i) {
-        sum(is.na(i)) / length(i)
-      })]
+      na.fraction.bycase <- data.table::transpose(xt)[, lapply(
+        .SD,
+        function(i) {
+          sum(is.na(i)) / length(i)
+        }
+      )]
       removeCases.thres.index <- which(na.fraction.bycase >= removeCases.thres)
       if (length(removeCases.thres.index) > 0) {
         if (verbose) {
           msg2(
-            "Removing", length(removeCases.thres.index),
+            "Removing",
+            length(removeCases.thres.index),
             "cases with >=",
-            removeCases.thres, "missing data..."
+            removeCases.thres,
+            "missing data..."
           )
         }
         xt <- xt[-removeCases.thres.index, ]
@@ -249,13 +264,17 @@ preprocess <- function(x,
       na.fraction.byfeat <- xt[, lapply(.SD, function(i) {
         sum(is.na(i)) / length(i)
       })]
-      removeFeat.thres.index <- which(na.fraction.byfeat >= removeFeatures.thres)
+      removeFeat.thres.index <- which(
+        na.fraction.byfeat >= removeFeatures.thres
+      )
       if (length(removeFeat.thres.index) > 0) {
         if (verbose) {
           msg2(
-            "Removing", length(removeFeat.thres.index),
+            "Removing",
+            length(removeFeat.thres.index),
             "features with >=",
-            removeFeatures.thres, "missing data..."
+            removeFeatures.thres,
+            "missing data..."
           )
         }
         x <- x[, -removeFeat.thres.index]
@@ -273,7 +292,8 @@ preprocess <- function(x,
     if (verbose) {
       if (length(index.integer) > 0) {
         msg2(
-          "Converting", singorplu(length(index.integer), "integer"),
+          "Converting",
+          singorplu(length(index.integer), "integer"),
           "to factor..."
         )
       } else {
@@ -289,8 +309,11 @@ preprocess <- function(x,
     if (verbose) {
       if (length(index.logical) > 0) {
         msg20(
-          "Converting ", singorplu(length(index.logical), "logical feature"), " to ",
-          ngettext(length(index.logical), "factor", "factors"), "..."
+          "Converting ",
+          singorplu(length(index.logical), "logical feature"),
+          " to ",
+          ngettext(length(index.logical), "factor", "factors"),
+          "..."
         )
       } else {
         msg2("No logicals to convert to factor...")
@@ -306,7 +329,8 @@ preprocess <- function(x,
     if (is.null(numeric2factor.levels)) {
       for (i in index_numeric) x[, i] <- as.factor(x[, i])
     } else {
-      for (i in index_numeric) x[, i] <- factor(x[, i], levels = numeric2factor.levels)
+      for (i in index_numeric)
+        x[, i] <- factor(x[, i], levels = numeric2factor.levels)
     }
   }
 
@@ -316,8 +340,11 @@ preprocess <- function(x,
     if (verbose) {
       if (length(index.char) > 0) {
         msg20(
-          "Converting ", singorplu(length(index.char), "character feature"),
-          " to ", ngettext(length(index.char), "a factor", "factors"), "..."
+          "Converting ",
+          singorplu(length(index.char), "character feature"),
+          " to ",
+          ngettext(length(index.char), "a factor", "factors"),
+          "..."
         )
       } else {
         msg2("No character features to convert to factors found.")
@@ -334,7 +361,13 @@ preprocess <- function(x,
     index.len <- setdiff(index.len, index.factor)
     if (verbose) {
       if (length(index.len) > 0) {
-        msg2("Converting", singorplu(length(index.len), "feature"), "with <=", len2factor, "unique values to factors...")
+        msg2(
+          "Converting",
+          singorplu(length(index.len), "feature"),
+          "with <=",
+          len2factor,
+          "unique values to factors..."
+        )
       } else {
         msg2("No features with <=", len2factor, "unique values found.")
       }
@@ -352,7 +385,11 @@ preprocess <- function(x,
     }
     if (verbose) {
       if (length(index.integer) > 0) {
-        msg2("Converting", singorplu(length(index.integer), "integer"), "to numeric...")
+        msg2(
+          "Converting",
+          singorplu(length(index.integer), "integer"),
+          "to numeric..."
+        )
       } else {
         msg2("No integers to convert to numeric...")
       }
@@ -388,7 +425,8 @@ preprocess <- function(x,
       which(sapply(x, is.numeric))
     }
     if (length(index_numeric2q) > 0) {
-      if (verbose) msg2("Cutting numeric features in", numeric.quant.n, "quantiles...")
+      if (verbose)
+        msg2("Cutting numeric features in", numeric.quant.n, "quantiles...")
       for (i in index_numeric2q) {
         rng <- abs(diff(range(x[, i], na.rm = TRUE)))
         quantiles <- quantile(
@@ -415,15 +453,19 @@ preprocess <- function(x,
     if (verbose) {
       if (length(index.factor) > 0) {
         msg20(
-          "Converting ", length(index.factor),
+          "Converting ",
+          length(index.factor),
           ngettext(length(index.factor), " factor's", " factors'"),
-          " NA values to level '", factorNA2missing.level, "'..."
+          " NA values to level '",
+          factorNA2missing.level,
+          "'..."
         )
       } else {
         msg2("No factors found.")
       }
     }
-    for (i in index.factor) x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
+    for (i in index.factor)
+      x[, i] <- factor_NA2missing(x[, i], factorNA2missing.level)
   }
 
   # Factor to integer ----
@@ -434,7 +476,8 @@ preprocess <- function(x,
     if (verbose) {
       if (length(index.factor) > 0) {
         msg2(
-          "Converting", singorplu(length(index.factor), "factor"),
+          "Converting",
+          singorplu(length(index.factor), "factor"),
           "to integer..."
         )
       } else {
@@ -454,7 +497,8 @@ preprocess <- function(x,
     .colnames <- colnames(x)
     for (i in cols.with.na) {
       x[, paste0(.colnames[i], "_missing")] <- factor(as.numeric(is.na(x[, i])))
-      if (verbose) msg20("Created missingness indicator for ", .colnames[i], "...")
+      if (verbose)
+        msg20("Created missingness indicator for ", .colnames[i], "...")
     }
   }
 
@@ -465,25 +509,34 @@ preprocess <- function(x,
       dependency_check("missRanger")
       if (verbose) {
         if (impute.missRanger.params$pmm.k > 0) {
-          msg2("Imputing missing values using predictive mean matching with missRanger...")
+          msg2(
+            "Imputing missing values using predictive mean matching with missRanger..."
+          )
         } else {
           msg2("Imputing missing values using missRanger...")
         }
       }
-      x <- missRanger::missRanger(x,
+      x <- missRanger::missRanger(
+        x,
         pmm.k = impute.missRanger.params$pmm.k,
         verbose = ifelse(verbose, 1, 0)
       )
     } else if (impute.type == "micePMM") {
       dependency_check("mice")
-      if (verbose) msg2("Imputing missing values by predictive mean matching using mice...")
+      if (verbose)
+        msg2(
+          "Imputing missing values by predictive mean matching using mice..."
+        )
       x <- mice::complete(mice::mice(x, m = 1, method = "pmm"))
     } else {
       # '- mean/mode ----
       if (verbose) {
         msg20(
-          "Imputing missing values using ", deparse(substitute(impute.numeric)),
-          " and ", deparse(substitute(impute.discrete)), "..."
+          "Imputing missing values using ",
+          deparse(substitute(impute.numeric)),
+          " and ",
+          deparse(substitute(impute.discrete)),
+          "..."
         )
       }
 
@@ -526,10 +579,15 @@ preprocess <- function(x,
       if (verbose) {
         msg2(
           paste(c(sc, ce), collapse = " and "),
-          length(numeric_index), "numeric features..."
+          length(numeric_index),
+          "numeric features..."
         )
       }
-      x_num_scaled <- as.data.frame(scale(x[, numeric_index], scale = scale, center = center))
+      x_num_scaled <- as.data.frame(scale(
+        x[, numeric_index],
+        scale = scale,
+        center = center
+      ))
       # insert into original dataset
       j <- 0
       for (i in numeric_index) {

@@ -34,10 +34,13 @@
 #' auc(preds, labels, method = "pROC")
 #' auc(preds, labels, method = "auc_pairs")
 #' }
-auc <- function(preds, labels,
-                method = c("pROC", "ROCR", "auc_pairs"),
-                verbose = FALSE,
-                trace = 0) {
+auc <- function(
+  preds,
+  labels,
+  method = c("pROC", "ROCR", "auc_pairs"),
+  verbose = FALSE,
+  trace = 0
+) {
   method <- match.arg(method)
   if (length(unique(labels)) == 1) {
     return(NaN)
@@ -50,14 +53,19 @@ auc <- function(preds, labels,
   #   .auc <- try(auc_cpp(preds, labels))
   if (method == "pROC") {
     dependency_check("pROC")
-    .auc <- try(as.numeric(pROC::roc(
-      labels, preds,
-      levels = rev(levels(labels)),
-      direction = "<"
-    )$auc))
+    .auc <- try(as.numeric(
+      pROC::roc(
+        labels,
+        preds,
+        levels = rev(levels(labels)),
+        direction = "<"
+      )$auc
+    ))
   } else if (method == "ROCR") {
     dependency_check("ROCR")
-    .pred <- try(ROCR::prediction(preds, labels,
+    .pred <- try(ROCR::prediction(
+      preds,
+      labels,
       label.ordering = rev(levels(labels))
     ))
     .auc <- try(ROCR::performance(.pred, "auc")@y.values[[1]])

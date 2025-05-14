@@ -25,33 +25,36 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot3_laterality <- function(x, regionnames,
-                              main = NULL,
-                              ylab = "Left to Right",
-                              summary.fn = "median",
-                              summary.lty = 1,
-                              summary.lwd = 2.5,
-                              summary.col = NULL,
-                              arrowhead.length = .075,
-                              deltas = TRUE,
-                              line.col = theme$fg,
-                              line.alpha = .25,
-                              lty = 1,
-                              lwd = .3,
-                              ylim = NULL,
-                              theme = rtTheme,
-                              labelify = TRUE,
-                              autolabel = letters,
-                              # na.rm = TRUE,
-                              mar = NULL,
-                              oma = rep(0, 4),
-                              pty = "m",
-                              palette = rtPalette,
-                              par.reset = TRUE,
-                              pdf.width = 6,
-                              pdf.height = 6,
-                              filename = NULL, ...) {
-
+mplot3_laterality <- function(
+  x,
+  regionnames,
+  main = NULL,
+  ylab = "Left to Right",
+  summary.fn = "median",
+  summary.lty = 1,
+  summary.lwd = 2.5,
+  summary.col = NULL,
+  arrowhead.length = .075,
+  deltas = TRUE,
+  line.col = theme$fg,
+  line.alpha = .25,
+  lty = 1,
+  lwd = .3,
+  ylim = NULL,
+  theme = rtTheme,
+  labelify = TRUE,
+  autolabel = letters,
+  # na.rm = TRUE,
+  mar = NULL,
+  oma = rep(0, 4),
+  pty = "m",
+  palette = rtPalette,
+  par.reset = TRUE,
+  pdf.width = 6,
+  pdf.height = 6,
+  filename = NULL,
+  ...
+) {
   x <- as.data.table(x)
   xnames <- names(x)
   .names <- c(paste0(regionnames, "_L"), paste0(regionnames, "_R"))
@@ -77,8 +80,13 @@ mplot3_laterality <- function(x, regionnames,
   }
 
   # Plot ----
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
-                              title = "rtemis Graphics")
+  if (!is.null(filename))
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
   par.orig <- par(no.readonly = TRUE)
   if (!is.null(rtenv$rtpar)) {
     par.reset <- FALSE
@@ -88,9 +96,17 @@ mplot3_laterality <- function(x, regionnames,
   }
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-  plot(NULL, NULL, xlim = xlim, ylim = ylim, bty = "n",
-       axes = FALSE, ann = FALSE,
-       xaxs = "i", yaxs = "i")
+  plot(
+    NULL,
+    NULL,
+    xlim = xlim,
+    ylim = ylim,
+    bty = "n",
+    axes = FALSE,
+    ann = FALSE,
+    xaxs = "i",
+    yaxs = "i"
+  )
 
   # Plot bg ----
   if (theme$plot.bg != "transparent") {
@@ -99,11 +115,13 @@ mplot3_laterality <- function(x, regionnames,
 
   # Grid ----
   if (theme$grid) {
-      grid(nx = 0,
-           ny = theme$grid.ny,
-           col = colorAdjust(theme$grid.col, theme$grid.alpha),
-           lty = theme$grid.lty,
-           lwd = theme$grid.lwd)
+    grid(
+      nx = 0,
+      ny = theme$grid.ny,
+      col = colorAdjust(theme$grid.col, theme$grid.alpha),
+      lty = theme$grid.lty,
+      lwd = theme$grid.lwd
+    )
   }
 
   # lat plot ----
@@ -114,51 +132,81 @@ mplot3_laterality <- function(x, regionnames,
     vright <- x[[grep(paste0(regionnames[i], "_R$"), names(x))]]
     vleft.summary <- do.call(summary.fn, list(vleft))
     vright.summary <- do.call(summary.fn, list(vright))
-    segments(x0 = 2*i - 1.2, x1 = 2*i + .2, y0 = vleft, y1 = vright,
-             lty = lty, lwd = lwd, col = line.col)
-    arrows(x0 = 2*i - 1.2, x1 = 2*i + .2,
-            y0 = vleft.summary, y1 = vright.summary,
-           length = arrowhead.length,
-            lty = summary.lty, lwd = summary.lwd, col = summary.col[[i]])
+    segments(
+      x0 = 2 * i - 1.2,
+      x1 = 2 * i + .2,
+      y0 = vleft,
+      y1 = vright,
+      lty = lty,
+      lwd = lwd,
+      col = line.col
+    )
+    arrows(
+      x0 = 2 * i - 1.2,
+      x1 = 2 * i + .2,
+      y0 = vleft.summary,
+      y1 = vright.summary,
+      length = arrowhead.length,
+      lty = summary.lty,
+      lwd = summary.lwd,
+      col = summary.col[[i]]
+    )
     delta[i] <- vright.summary - vleft.summary
   }
 
   # y-axis ----
-  axis(side = 2,
-       las = theme$y.axis.las,
-       padj = theme$y.axis.padj,
-       hadj = theme$y.axis.hadj,
-       col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
-       col = NA, # The axis line, which we want to omit
-       col.axis = theme$tick.labels.col, # the axis numbers i.e. tick labels
-       tck = theme$tck,
-       tcl = theme$tcl,
-       cex = theme$cex,
-       family = theme$font.family)
+  axis(
+    side = 2,
+    las = theme$y.axis.las,
+    padj = theme$y.axis.padj,
+    hadj = theme$y.axis.hadj,
+    col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
+    col = NA, # The axis line, which we want to omit
+    col.axis = theme$tick.labels.col, # the axis numbers i.e. tick labels
+    tck = theme$tck,
+    tcl = theme$tcl,
+    cex = theme$cex,
+    family = theme$font.family
+  )
 
   # regionnames ----
-  mtext(text = if (labelify) labelify(regionnames) else regionnames,
-        side = 1,
-        line = 1,
-        las = 2, at = seq(regionnames)*2 - .5,
-        col = theme$labs.col)
+  mtext(
+    text = if (labelify) labelify(regionnames) else regionnames,
+    side = 1,
+    line = 1,
+    las = 2,
+    at = seq(regionnames) * 2 - .5,
+    col = theme$labs.col
+  )
 
   # ylab ----
-  if (!is.null(ylab)) mtext(ylab, side = theme$y.axis.side,
-                            line = theme$ylab.line, cex = theme$cex,
-                            # adj = ylab.adj,
-                            col = theme$labs.col,
-                            family = theme$font.family)
+  if (!is.null(ylab))
+    mtext(
+      ylab,
+      side = theme$y.axis.side,
+      line = theme$ylab.line,
+      cex = theme$cex,
+      # adj = ylab.adj,
+      col = theme$labs.col,
+      family = theme$font.family
+    )
 
   # deltas ----
   if (deltas) {
-    mtext(text = paste(summary.fn, "delta"),
-          side = 3, line = 1.1, adj = 0,
-          col = adjustcolor(theme$fg, .5))
-    mtext(text = ddSci(delta),
-          side = 3, line = .2,
-          at = seq(regionnames)*2 - .5,
-          col = unlist(summary.col))
+    mtext(
+      text = paste(summary.fn, "delta"),
+      side = 3,
+      line = 1.1,
+      adj = 0,
+      col = adjustcolor(theme$fg, .5)
+    )
+    mtext(
+      text = ddSci(delta),
+      side = 3,
+      line = .2,
+      at = seq(regionnames) * 2 - .5,
+      col = unlist(summary.col)
+    )
   }
 
   # Main Title ----
@@ -169,14 +217,19 @@ mplot3_laterality <- function(x, regionnames,
   }
 
   if (!is.null(main)) {
-    mtext(text = main, side = 3, line = theme$main.line,
-          font = theme$main.font, adj = theme$main.adj,
-          cex = theme$cex, col = theme$main.col,
-          family = theme$font.family)
+    mtext(
+      text = main,
+      side = 3,
+      line = theme$main.line,
+      font = theme$main.font,
+      adj = theme$main.adj,
+      cex = theme$cex,
+      col = theme$main.col,
+      family = theme$font.family
+    )
   }
 
   # Outro ----
   if (!is.null(filename)) dev.off()
   invisible(delta)
-
 } # rtemis::mplot3_laterality

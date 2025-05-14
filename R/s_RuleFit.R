@@ -57,33 +57,37 @@
 #' http://statweb.stanford.edu/~jhf/ftp/RuleFit.pdf
 #' @export
 
-s_RuleFit <- function(x, y = NULL,
-                      x.test = NULL, y.test = NULL,
-                      gbm.params = list(
-                        list(
-                          n.trees = 300,
-                          bag.fraction = 1,
-                          shrinkage = .1,
-                          interaction.depth = 3,
-                          ifw = TRUE
-                        )
-                      ),
-                      meta.alpha = 1,
-                      meta.lambda = NULL,
-                      meta.extra.params = list(ifw = TRUE),
-                      cases.by.rules = NULL,
-                      x.name = NULL,
-                      y.name = NULL,
-                      n.cores = rtCores,
-                      #   which.gbm = c("gbm", "gbm3"),
-                      question = NULL,
-                      print.plot = FALSE,
-                      plot.fitted = NULL,
-                      plot.predicted = NULL,
-                      plot.theme = rtTheme,
-                      outdir = NULL,
-                      save.mod = if (!is.null(outdir)) TRUE else FALSE,
-                      verbose = TRUE) {
+s_RuleFit <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  gbm.params = list(
+    list(
+      n.trees = 300,
+      bag.fraction = 1,
+      shrinkage = .1,
+      interaction.depth = 3,
+      ifw = TRUE
+    )
+  ),
+  meta.alpha = 1,
+  meta.lambda = NULL,
+  meta.extra.params = list(ifw = TRUE),
+  cases.by.rules = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  n.cores = rtCores,
+  #   which.gbm = c("gbm", "gbm3"),
+  question = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  outdir = NULL,
+  save.mod = if (!is.null(outdir)) TRUE else FALSE,
+  verbose = TRUE
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_RuleFit))
@@ -95,8 +99,12 @@ s_RuleFit <- function(x, y = NULL,
   }
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, "/", sys.calls()[[1]][[1]], ".",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -120,9 +128,7 @@ s_RuleFit <- function(x, y = NULL,
   verbose <- verbose | !is.null(logFile)
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
-    verbose = verbose
-  )
+  dt <- prepare_data(x, y, x.test, y.test, verbose = verbose)
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -131,8 +137,10 @@ s_RuleFit <- function(x, y = NULL,
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -161,7 +169,8 @@ s_RuleFit <- function(x, y = NULL,
     gbm.args <- lapply(seq_along(gbm.params), function(i) {
       c(
         list(
-          x = x, y = y,
+          x = x,
+          y = y,
           force.n.trees = gbm.params[[i]]$n.trees,
           verbose = verbose,
           print.plot = FALSE,
@@ -179,18 +188,23 @@ s_RuleFit <- function(x, y = NULL,
     gbm.list <- lapply(seq_along(mod.gbm), function(i) {
       rt.GBM2List(mod.gbm[[i]]$mod, x, which.gbm)
     })
-      
+
     # gbm.rules <- inTrees::extractRules(gbm.list,
     #   X = x, ntree = n.trees,
     #   maxdepth = gbm.params$interaction.depth
     # )
     # Can also extract rules of different depth by chaning maxdepth here
-    gbm.rules <- do.call(rbind, lapply(seq_along(mod.gbm), function(i) {
-      inTrees::extractRules(gbm.list[[i]],
-        X = x, ntree = gbm.params[[i]]$n.trees,
-        maxdepth = gbm.params[[i]]$interaction.depth
-      )
-    }))
+    gbm.rules <- do.call(
+      rbind,
+      lapply(seq_along(mod.gbm), function(i) {
+        inTrees::extractRules(
+          gbm.list[[i]],
+          X = x,
+          ntree = gbm.params[[i]]$n.trees,
+          maxdepth = gbm.params[[i]]$interaction.depth
+        )
+      })
+    )
     if (verbose) msg2("Extracted", nrow(gbm.rules), "rules...")
     gbm.rules <- unique(gbm.rules)
     n.rules.total <- length(gbm.rules)
@@ -208,7 +222,8 @@ s_RuleFit <- function(x, y = NULL,
   if (verbose) msg2("Running LASSO on GBM rules...")
   glmnet.select.args <- c(
     list(
-      x = cases.by.rules, y = y,
+      x = cases.by.rules,
+      y = y,
       alpha = meta.alpha,
       lambda = meta.lambda,
       verbose = verbose,
@@ -221,7 +236,10 @@ s_RuleFit <- function(x, y = NULL,
   rule.coefs <- data.matrix(coef(mod.glmnet.select$mod))
   intercept.coef <- rule.coefs[1, , drop = FALSE]
   colnames(intercept.coef) <- "Coefficient"
-  rule.coefs <- data.frame(Rule = gbm.rules.names, Coefficient = rule.coefs[-1, 1])
+  rule.coefs <- data.frame(
+    Rule = gbm.rules.names,
+    Coefficient = rule.coefs[-1, 1]
+  )
   nonzero.index <- which(abs(rule.coefs$Coefficient) > 0)
   n.nonzero.rules <- length(nonzero.index)
   rules.selected <- gbm.rules.names[nonzero.index]
@@ -255,7 +273,8 @@ s_RuleFit <- function(x, y = NULL,
     Empirical_Risk = empirical.risk
   )
   if (!is.null(outdir)) {
-    write.csv(rules.selected.coef.er,
+    write.csv(
+      rules.selected.coef.er,
       paste0(outdir, "Rules.selected_Coefs_Empirical.Risk.csv"),
       row.names = FALSE
     )
@@ -350,7 +369,11 @@ s_RuleFit <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_RuleFit
 
@@ -367,9 +390,7 @@ s_RuleFit <- function(x, y = NULL,
 #' @return Vector of estimated values
 #' @export
 
-predict.rulefit <- function(object,
-                            newdata = NULL,
-                            verbose = TRUE, ...) {
+predict.rulefit <- function(object, newdata = NULL, verbose = TRUE, ...) {
   # Rules ----
   # Get all rules, some have 0 coefficients
   rules <- object$gbm.rules.names
@@ -387,13 +408,15 @@ predict.rulefit <- function(object,
 
   # Predict ----
   if (object$mod.gbm[[1]]$type == "Classification") {
-    prob <- predict(object$mod.glmnet.select$mod,
+    prob <- predict(
+      object$mod.glmnet.select$mod,
       newx = data.matrix(cases.by.rules),
       type = "response"
     )[, 1]
 
     yhat <- factor(
-      predict(object$mod.glmnet.select$mod,
+      predict(
+        object$mod.glmnet.select$mod,
         newx = data.matrix(cases.by.rules),
         type = "class"
       ),
@@ -401,7 +424,8 @@ predict.rulefit <- function(object,
     )
   } else {
     prob <- NULL
-    yhat <- as.numeric(predict(object$mod.glmnet.select$mod,
+    yhat <- as.numeric(predict(
+      object$mod.glmnet.select$mod,
       newx = data.matrix(cases.by.rules)
     ))
   }
@@ -415,7 +439,8 @@ predict.rulefit <- function(object,
 
 
 rt.GBM2List <- function(gbm1, X, which.gbm = "gbm") {
-  treeList <- if (which.gbm == "gbm") list(ntree = gbm1$n.trees) else list(ntree = gbm1$params$num_trees)
+  treeList <- if (which.gbm == "gbm") list(ntree = gbm1$n.trees) else
+    list(ntree = gbm1$params$num_trees)
   treeList$list <- vector("list", treeList$ntree)
   for (i in seq(treeList$ntree)) {
     if (which.gbm == "gbm") {

@@ -34,7 +34,9 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
   setorder(expl, -AbsCoefficients)
   expl[, AbsCoefficients := NULL]
   txt <- paste(
-    bold(nrow(expl)), "out of", bold(length(mod$mod$rules_selected)),
+    bold(nrow(expl)),
+    "out of",
+    bold(length(mod$mod$rules_selected)),
     "rules apply to this case.\n"
   )
   if (is.null(top) || top > nrow(expl)) {
@@ -42,7 +44,9 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
     top <- nrow(expl)
   } else {
     txt <- paste0(
-      txt, "The top ", top,
+      txt,
+      "The top ",
+      top,
       " rules by decreasing absolute coefficient are:\n"
     )
   }
@@ -50,7 +54,8 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
   rule_coef_txt <- paste(
     sapply(expl$Coefficients[1:top], \(x) {
       if (x > 0) {
-        green(paste0("+", format(round(x, digits = digits), nsmall = digits)),
+        green(
+          paste0("+", format(round(x, digits = digits), nsmall = digits)),
           bold = TRUE
         )
       } else {
@@ -62,5 +67,4 @@ explain <- function(mod, x, digits = 2, top = NULL, trace = 0) {
   )
   txt <- paste0(txt, rule_coef_txt)
   cat(txt, "\n")
-  
 } # rtemis::explain

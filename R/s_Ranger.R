@@ -55,7 +55,7 @@
 #' This can help improve test set performance in imbalanced datasets.
 #' Default = FALSE. Note: Cannot be used with `ifw.case.weights`
 #' @param ... Additional arguments to be passed to `ranger::ranger`
-#' 
+#'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
@@ -64,52 +64,58 @@
 #' @family Ensembles
 #' @export
 
-s_Ranger <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     x.name = NULL, y.name = NULL,
-                     n.trees = 1000,
-                     weights = NULL,
-                     ifw = TRUE,
-                     ifw.type = 2,
-                     ifw.case.weights = TRUE,
-                     ifw.class.weights = FALSE,
-                     upsample = FALSE,
-                     downsample = FALSE,
-                     resample.seed = NULL,
-                     autotune = FALSE,
-                     classwt = NULL,
-                     n.trees.try = 500,
-                     stepFactor = 2,
-                     mtry = NULL,
-                     mtryStart = NULL,
-                     inbag.resample = NULL,
-                     stratify.on.y = FALSE,
-                     grid.resample.params = setup.resample("kfold", 5),
-                     gridsearch.type = c("exhaustive", "randomized"),
-                     gridsearch.randomized.p = .1,
-                     metric = NULL,
-                     maximize = NULL,
-                     probability = NULL,
-                     importance = "impurity",
-                     local.importance = FALSE,
-                     replace = TRUE,
-                     min.node.size = NULL,
-                     splitrule = NULL,
-                     strata = NULL,
-                     sampsize = if (replace) nrow(x) else ceiling(.632 * nrow(x)),
-                     tune.do.trace = FALSE,
-                     imetrics = FALSE,
-                     n.cores = rtCores,
-                     print.tune.plot = FALSE,
-                     print.plot = FALSE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = rtTheme,
-                     question = NULL,
-                     grid.verbose = verbose,
-                     verbose = TRUE,
-                     outdir = NULL,
-                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_Ranger <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  n.trees = 1000,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  ifw.case.weights = TRUE,
+  ifw.class.weights = FALSE,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  autotune = FALSE,
+  classwt = NULL,
+  n.trees.try = 500,
+  stepFactor = 2,
+  mtry = NULL,
+  mtryStart = NULL,
+  inbag.resample = NULL,
+  stratify.on.y = FALSE,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = .1,
+  metric = NULL,
+  maximize = NULL,
+  probability = NULL,
+  importance = "impurity",
+  local.importance = FALSE,
+  replace = TRUE,
+  min.node.size = NULL,
+  splitrule = NULL,
+  strata = NULL,
+  sampsize = if (replace) nrow(x) else ceiling(.632 * nrow(x)),
+  tune.do.trace = FALSE,
+  imetrics = FALSE,
+  n.cores = rtCores,
+  print.tune.plot = FALSE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  grid.verbose = verbose,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_Ranger))
@@ -120,8 +126,12 @@ s_Ranger <- function(x, y = NULL,
   }
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, "/", sys.calls()[[1]][[1]], ".",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -145,8 +155,11 @@ s_Ranger <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -214,7 +227,9 @@ s_Ranger <- function(x, y = NULL,
 
   # Grid Search ----
   if (gridCheck(mtry, min.node.size)) {
-    gs <- gridSearchLearn(x0, y0,
+    gs <- gridSearchLearn(
+      x0,
+      y0,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -263,7 +278,8 @@ s_Ranger <- function(x, y = NULL,
   if (autotune) {
     if (verbose) msg2("Tuning for mtry...")
     tuner <- try(randomForest::tuneRF(
-      x = x, y = y,
+      x = x,
+      y = y,
       mtryStart = mtryStart,
       ntreeTry = n.trees.try,
       stepFactor = stepFactor,
@@ -298,7 +314,8 @@ s_Ranger <- function(x, y = NULL,
   if (!is.null(inbag.resample)) {
     if (verbose) msg2("Creating custom subsamples...")
     # Get integer index of inbag cases
-    inbag.res <- resample(df.train$y,
+    inbag.res <- resample(
+      df.train$y,
       rtset = inbag.resample,
       verbosity = as.integer(verbose)
     )
@@ -316,9 +333,12 @@ s_Ranger <- function(x, y = NULL,
     inbag <- NULL
   }
   if (verbose) {
-    msg2("Training Random Forest (ranger)",
-      type, "with",
-      n.trees, "trees...",
+    msg2(
+      "Training Random Forest (ranger)",
+      type,
+      "with",
+      n.trees,
+      "trees...",
       newline.pre = TRUE
     )
   }
@@ -338,7 +358,8 @@ s_Ranger <- function(x, y = NULL,
     write.forest = TRUE,
     inbag = inbag,
     num.threads = n.cores,
-    verbose = verbose, ...
+    verbose = verbose,
+    ...
   )
 
   # Fitted ----
@@ -350,7 +371,8 @@ s_Ranger <- function(x, y = NULL,
       #     \(n) sum(n == 1)
       # )
       fitted.freq <- t(apply(
-        fitted.all$predictions, 1,
+        fitted.all$predictions,
+        1,
         \(i) {
           one <- factor(i, levels = seq_len(nlevels))
           as.numeric(table(one))
@@ -379,7 +401,8 @@ s_Ranger <- function(x, y = NULL,
       if (!probability) {
         predicted.all <- predict(mod, x.test, predict.all = TRUE)
         predicted.freq <- apply(
-          predicted.all$predictions, 1,
+          predicted.all$predictions,
+          1,
           function(n) sum(n == 1)
         )
         predicted.prob <- predicted.freq / n.trees
@@ -387,7 +410,8 @@ s_Ranger <- function(x, y = NULL,
       } else {
         predicted.prob <- predict(mod, x.test)$predictions
         predicted <- factor(apply(
-          as.data.frame(predicted.prob), 1,
+          as.data.frame(predicted.prob),
+          1,
           which.max
         ))
         predicted.prob <- predicted.prob[, 1]
@@ -436,7 +460,8 @@ s_Ranger <- function(x, y = NULL,
     predicted.prob = predicted.prob,
     se.prediction = NULL,
     error.test = error.test,
-    varimp = if (importance != "none") as.matrix(mod$variable.importance) else NULL,
+    varimp = if (importance != "none") as.matrix(mod$variable.importance) else
+      NULL,
     question = question,
     extra = extra
   )
@@ -454,7 +479,8 @@ s_Ranger <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

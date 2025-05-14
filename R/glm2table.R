@@ -13,14 +13,11 @@
 #'
 #' @return `data.table` with glm summaries
 #' @author E.D. Gennatas
-#' 
+#'
 #' @keywords internal
 #' @noRd
 
-glm2table <- function(x,
-                      xnames = NULL,
-                      include_anova_pvals = NA,
-                      warn = TRUE) {
+glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
   if (is.null(xnames)) {
     xnames <- if (!is.null(names(x))) {
       names(x)
@@ -92,8 +89,7 @@ glm2table <- function(x,
 #' @noRd
 #' @author E.D. Gennatas
 
-gam2table <- function(mods,
-                      modnames = NULL) {
+gam2table <- function(mods, modnames = NULL) {
   if (is.null(modnames)) {
     modnames <- if (!is.null(names(mods))) {
       names(mods)
@@ -116,7 +112,7 @@ gam2table <- function(mods,
 #' Get GAM model's p-values for parametric and spline terms
 #'
 #' @keywords internal
-#' @noRd 
+#' @noRd
 get_gam_pvals <- function(m, warn = TRUE) {
   eps <- .Machine$double.eps
   ms <- summary(m)

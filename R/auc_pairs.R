@@ -22,7 +22,6 @@
 #' }
 #' @export
 
-
 auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
   true.labels <- as.factor(true.labels)
   true.levels <- levels(true.labels)
@@ -35,7 +34,9 @@ auc_pairs <- function(estimated.score, true.labels, verbose = TRUE) {
     )
     .auc <- mean((outer.diff > 0) + .5 * (outer.diff == 0))
   } else {
-    stop("Multiclass AUC does not have a unique definition and is not yet implemented")
+    stop(
+      "Multiclass AUC does not have a unique definition and is not yet implemented"
+    )
   }
   if (verbose) {
     msg2("Positive class:", true.levels[1])

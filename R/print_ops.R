@@ -17,23 +17,22 @@
 #' @keywords internal
 #' @noRd
 
-printls <- function(x,
-                    prefix = "",
-                    pad = 3,
-                    item.format = bold,
-                    maxlength = 6,
-                    center.title = TRUE,
-                    title = NULL,
-                    title.newline = FALSE,
-                    newline.pre = FALSE,
-                    color = NULL) {
+printls <- function(
+  x,
+  prefix = "",
+  pad = 3,
+  item.format = bold,
+  maxlength = 6,
+  center.title = TRUE,
+  title = NULL,
+  title.newline = FALSE,
+  newline.pre = FALSE,
+  color = NULL
+) {
   if (newline.pre) cat("\n")
   if (is.null(x)) {
     if (!is.null(title)) {
-      boxcat(title,
-        pad = pad, newline = title.newline,
-        newline.pre = FALSE
-      )
+      boxcat(title, pad = pad, newline = title.newline, newline.pre = FALSE)
     }
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
   } else if (length(x) == 0) {
@@ -54,8 +53,10 @@ printls <- function(x,
       } else {
         0
       }
-      boxcat(title,
-        pad = title.pad, newline = title.newline,
+      boxcat(
+        title,
+        pad = title.pad,
+        newline = title.newline,
         newline.pre = FALSE
       )
     }
@@ -63,42 +64,70 @@ printls <- function(x,
       if (is.list(x[[i]])) {
         if (length(x[[i]]) == 0) {
           if (is.null(color)) {
-            cat(paste0(
-              item.format(format(paste0(
-                prefix, xnames[i]
-              ), width = lhs, justify = "right")),
-              ": (empty list)"
-            ), "\n")
+            cat(
+              paste0(
+                item.format(format(
+                  paste0(
+                    prefix,
+                    xnames[i]
+                  ),
+                  width = lhs,
+                  justify = "right"
+                )),
+                ": (empty list)"
+              ),
+              "\n"
+            )
           } else {
             cat(paste0(
-              item.format(format(paste0(prefix, xnames[i]),
-                width = lhs, justify = "right"
-              )), ": ",
-              color("(empty list)"), "\n"
+              item.format(format(
+                paste0(prefix, xnames[i]),
+                width = lhs,
+                justify = "right"
+              )),
+              ": ",
+              color("(empty list)"),
+              "\n"
             ))
           }
         } else {
-          cat(paste0(
-            item.format(format(paste0(prefix, xnames[i]),
-              width = lhs, justify = "right"
-            )), ": "
-          ), "\n")
+          cat(
+            paste0(
+              item.format(format(
+                paste0(prefix, xnames[i]),
+                width = lhs,
+                justify = "right"
+              )),
+              ": "
+            ),
+            "\n"
+          )
           printls(x[[i]], pad = lhs + 2)
         }
       } else {
         if (is.null(color)) {
-          cat(paste0(
-            item.format(format(paste0(prefix, xnames[i]),
-              width = lhs, justify = "right"
-            )), ": ",
-            headdot(x[[i]], maxlength = maxlength)
-          ), "\n")
+          cat(
+            paste0(
+              item.format(format(
+                paste0(prefix, xnames[i]),
+                width = lhs,
+                justify = "right"
+              )),
+              ": ",
+              headdot(x[[i]], maxlength = maxlength)
+            ),
+            "\n"
+          )
         } else {
           cat(paste0(
-            item.format(format(paste0(prefix, xnames[i]),
-              width = lhs, justify = "right"
-            )), ": ",
-            color(headdot(x[[i]], maxlength = maxlength)), "\n"
+            item.format(format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            )),
+            ": ",
+            color(headdot(x[[i]], maxlength = maxlength)),
+            "\n"
           ))
         }
       }
@@ -130,7 +159,10 @@ printdf1 <- function(x, pad = 2) {
   lhs <- max(nchar(xnames)) + pad
 
   for (i in seq_len(ncol(x))) {
-    cat(paste(format(xnames[i], width = lhs, justify = "right"), ":", x[1, i]), "\n")
+    cat(
+      paste(format(xnames[i], width = lhs, justify = "right"), ":", x[1, i]),
+      "\n"
+    )
   }
 } # rtemis::printdf1
 
@@ -174,19 +206,20 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @keywords internal
 #' @noRd
 
-
-printdf <- function(x,
-                    pad = 0,
-                    spacing = 1,
-                    ddSci.dp = NULL,
-                    transpose = FALSE,
-                    justify = "right",
-                    colnames = TRUE,
-                    rownames = TRUE,
-                    column.col = hilite,
-                    row.col = gray,
-                    newline.pre = FALSE,
-                    newline = FALSE) {
+printdf <- function(
+  x,
+  pad = 0,
+  spacing = 1,
+  ddSci.dp = NULL,
+  transpose = FALSE,
+  justify = "right",
+  colnames = TRUE,
+  rownames = TRUE,
+  column.col = hilite,
+  row.col = gray,
+  newline.pre = FALSE,
+  newline = FALSE
+) {
   if (transpose) x <- as.data.frame(t(x))
   xnames <- colnames(x)
   xrownames <- gsub(pattern = "\\.", replacement = " ", rownames(x))
@@ -208,7 +241,8 @@ printdf <- function(x,
     cat(paste0(rep(" ", xrownames.spacing), collapse = ""))
     if (justify == "left") cat(spacer)
     for (i in seq_len(NCOL(x))) {
-      cat(column.col(format(xnames[i],
+      cat(column.col(format(
+        xnames[i],
         width = col.char[i] + spacing,
         justify = justify
       )))
@@ -220,16 +254,15 @@ printdf <- function(x,
   if (rownames) {
     for (i in seq_len(NROW(x))) {
       # cat(row.col(cpad(xrownames[i], xrownames.spacing)))
-      cat(row.col(format(xrownames[i],
+      cat(row.col(format(
+        xrownames[i],
         width = xrownames.spacing,
         justify = "right"
       )))
       for (j in seq_len(NCOL(x))) {
-        cat(spacer,
-          paste(format(x[i, j],
-            width = col.char[j],
-            justify = justify
-          )),
+        cat(
+          spacer,
+          paste(format(x[i, j], width = col.char[j], justify = justify)),
           sep = ""
         )
       }
@@ -238,11 +271,9 @@ printdf <- function(x,
   } else {
     for (i in seq_len(NROW(x))) {
       for (j in seq_len(NCOL(x))) {
-        cat(spacer,
-          paste(format(x[i, j],
-            width = col.char[j],
-            justify = justify
-          )),
+        cat(
+          spacer,
+          paste(format(x[i, j], width = col.char[j], justify = justify)),
           sep = ""
         )
       }
@@ -268,23 +299,31 @@ printtable <- function(x, spacing = 2, pad = 2) {
   })
   lhspad <- max(nchar(class.names), nchar(dimnames[1])) + spacing + pad
   # Top dimname
-  cat(bold(format(dimnames[2],
-    width = lhspad + nchar(dimnames[2]),
-    justify = "right"
-  )), "\n")
+  cat(
+    bold(format(
+      dimnames[2],
+      width = lhspad + nchar(dimnames[2]),
+      justify = "right"
+    )),
+    "\n"
+  )
   # Left dimname
   cat(bold(format(dimnames[1], width = lhspad - spacing, justify = "right")))
   cat(paste0(rep(" ", spacing), collapse = ""))
   for (i in seq_len(n.classes)) {
-    cat(hilite(format(class.names[i],
-      width = col.width[i] + spacing, justify = "left"
+    cat(hilite(format(
+      class.names[i],
+      width = col.width[i] + spacing,
+      justify = "left"
     )))
   }
 
-  printdf(mat,
+  printdf(
+    mat,
     pad = lhspad - max(nchar(class.names)) - spacing,
     colnames = FALSE,
-    row.col = hilite, newline.pre = TRUE,
+    row.col = hilite,
+    newline.pre = TRUE,
     spacing = spacing
   )
 } # rtemis::printtable
@@ -323,40 +362,54 @@ headdot <- function(x, maxlength = 6) {
 #' }
 #' @keywords internal
 #' @noRd
-twocol2html <- function(x,
-                        font.family = "'Lato'",
-                        font.col = "#ffffff",
-                        font.size = "18px",
-                        header.bg = "#404040",
-                        table.bg = "#7F7F7F",
-                        dat.col = rep("#525252", NROW(x)), # get color grad using all tables
-                        dat.font.col = "#ffffff",
-                        height = "50px",
-                        # header
-                        head.padding = "5px",
-                        # table
-                        dat.padding = "5px") {
+twocol2html <- function(
+  x,
+  font.family = "'Lato'",
+  font.col = "#ffffff",
+  font.size = "18px",
+  header.bg = "#404040",
+  table.bg = "#7F7F7F",
+  dat.col = rep("#525252", NROW(x)), # get color grad using all tables
+  dat.font.col = "#ffffff",
+  height = "50px",
+  # header
+  head.padding = "5px",
+  # table
+  dat.padding = "5px"
+) {
   # 1. table style ----
   tablestyle <- paste0(
-    '<table style="font-family: ', font.family,
+    '<table style="font-family: ',
+    font.family,
     ", sans-serif; display: table; border-collapse: collapse; margin-left: auto; margin-right: auto; color:",
-    font.col, "; font-size: ", font.size,
+    font.col,
+    "; font-size: ",
+    font.size,
     "; padding: 0px; text-align: right; background-color: ",
-    table.bg, "; width: auto; border-top-style: none; border-bottom-style: none; overflow-y: scroll; height: ",
-    height, '; display: box">'
+    table.bg,
+    "; width: auto; border-top-style: none; border-bottom-style: none; overflow-y: scroll; height: ",
+    height,
+    '; display: box">'
   )
 
   # 2. header row ----
   header <- paste0(
-    '<tr><th style="font-weight: bold; padding: ', head.padding,
+    '<tr><th style="font-weight: bold; padding: ',
+    head.padding,
     "; text-align: center;",
-    "background-color: ", header.bg,
-    '">', colnames(x)[1], '</th>
-    <th style="font-weight: bold; padding:', head.padding,
-    "; text-align: center;",
-    "background-color: ", header.bg,
+    "background-color: ",
+    header.bg,
     '">',
-    colnames(x)[2], "</th></tr>"
+    colnames(x)[1],
+    '</th>
+    <th style="font-weight: bold; padding:',
+    head.padding,
+    "; text-align: center;",
+    "background-color: ",
+    header.bg,
+    '">',
+    colnames(x)[2],
+    "</th></tr>"
   )
 
   # 3. Data rows ----
@@ -364,12 +417,17 @@ twocol2html <- function(x,
   for (i in seq_along(tab)) {
     # first column: variable name; second column: coefficient
     tab[i] <- paste0(
-      "<tr><td>", x[i, 1],
-      '</td><td style="color: ', dat.font.col,
+      "<tr><td>",
+      x[i, 1],
+      '</td><td style="color: ',
+      dat.font.col,
       "; font-variant-numeric: tabular-nums; background-color: ",
       dat.col[i],
-      "; padding: ", dat.padding,
-      '">', ddSci(x[i, 2], 3), "</td></tr>"
+      "; padding: ",
+      dat.padding,
+      '">',
+      ddSci(x[i, 2], 3),
+      "</td></tr>"
     )
   }
 
@@ -456,24 +514,31 @@ list2text <- function(x, sep = ": ", line = "\n") {
   .names <- names(x)
   sapply(seq_along(x), \(i) {
     paste0(.names[i], sep, x[[i]], line)
-  }) |> paste0(collapse = "")
+  }) |>
+    paste0(collapse = "")
 }
 
 
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
-list2html <- function(x, sep = ": ",
-                      col = "#16A0AC",
-                      key.weight = 100,
-                      value.weight = 300,
-                      line = "<br>") {
+list2html <- function(
+  x,
+  sep = ": ",
+  col = "#16A0AC",
+  key.weight = 100,
+  value.weight = 300,
+  line = "<br>"
+) {
   .names <- names(x)
   sapply(seq_along(x), \(i) {
     paste0(
       span(.names[i], style = paste0("font-weight:", key.weight, ";")),
       sep,
-      span(x[[i]], style = paste0("color:", col, "; font-weight:", value.weight, ";")),
+      span(
+        x[[i]],
+        style = paste0("color:", col, "; font-weight:", value.weight, ";")
+      ),
       line
     )
   }) |>
@@ -489,7 +554,8 @@ printchar <- function(x, left_pad = 2) {
   target_length <- left_pad + max(nchar(x))
   for (i in x) {
     cat(
-      hilite(leftpad(i, target_length)), "\n"
+      hilite(leftpad(i, target_length)),
+      "\n"
     )
   }
 }

@@ -18,7 +18,7 @@
 #' theme. Use `themes()` to get available theme names. Theme functions are of the form
 #' `theme_<name>`.
 #' @param margin List: Plot margins
-#' 
+#'
 #' @author EDG
 #' @export
 #' @return A plotly object
@@ -32,22 +32,23 @@
 #' dplot3_conf(error)
 #' }
 dplot3_conf <- function(
-    x,
-    true.col = "#72CDF4",
-    false.col = "#FEB2E0",
-    pos.class = rtenv$binclasspos,
-    font.size = 18,
-    main = NULL,
-    main.y = 1,
-    main.yanchor = "bottom",
-    theme = rtTheme,
-    margin = list(l = 20, r = 5, b = 5, t = 20),
-    # write to file
-    filename = NULL,
-    file.width = 500,
-    file.height = 500,
-    file.scale = 1, ...) {
-  
+  x,
+  true.col = "#72CDF4",
+  false.col = "#FEB2E0",
+  pos.class = rtenv$binclasspos,
+  font.size = 18,
+  main = NULL,
+  main.y = 1,
+  main.yanchor = "bottom",
+  theme = rtTheme,
+  margin = list(l = 20, r = 5, b = 5, t = 20),
+  # write to file
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  ...
+) {
   # Input ----
   if (inherits(x, "class_error")) {
     x <- x$ConfusionMatrix
@@ -108,7 +109,14 @@ dplot3_conf <- function(
   for (i in seq_len(nclasses)) {
     for (j in seq_len(nclasses)) {
       plt <- make_plotly_conf_tile(
-        plt, x, i, j, pos_color, neg_color, font.size, theme
+        plt,
+        x,
+        i,
+        j,
+        pos_color,
+        neg_color,
+        font.size,
+        theme
       )
     }
   }
@@ -215,7 +223,10 @@ dplot3_conf <- function(
       y = c(.5, 1.5),
       text = paste0(
         c("Sensitivity\n", "Specificity\n"),
-        c(ddSci(class.sensitivity[pos.class], 3), ddSci(class.specificity[pos.class], 3))
+        c(
+          ddSci(class.sensitivity[pos.class], 3),
+          ddSci(class.specificity[pos.class], 3)
+        )
       ),
       font = f,
       showarrow = FALSE,
@@ -246,7 +257,6 @@ dplot3_conf <- function(
       font = f,
       showarrow = FALSE
     )
-
   } else {
     # PPV ----
     # Text: "PPV" at bottom left corner
@@ -301,7 +311,13 @@ dplot3_conf <- function(
     plt <- plotly::add_trace(
       plt,
       x = c(0, nclasses, nclasses, 0, 0),
-      y = c(nclasses + 0.2, nclasses + 0.2, nclasses + 0.4, nclasses + 0.4, nclasses + 0.2),
+      y = c(
+        nclasses + 0.2,
+        nclasses + 0.2,
+        nclasses + 0.4,
+        nclasses + 0.4,
+        nclasses + 0.2
+      ),
       line = list(color = "transparent"),
       fill = "toself",
       fillcolor = plotly::toRGB(theme$fg, alpha = .05),
@@ -410,7 +426,11 @@ dplot3_conf <- function(
 
   # Text: Balanced accuracy
   ba_pad <- ifelse(nclasses == 2, 0.15, 0.2)
-  ba <- ifelse(nclasses == 2, class.balancedAccuracy[pos.class], mean(class.balancedAccuracy))
+  ba <- ifelse(
+    nclasses == 2,
+    class.balancedAccuracy[pos.class],
+    mean(class.balancedAccuracy)
+  )
   plt <- plotly::add_annotations(
     plt,
     x = nclasses + ba_pad,
@@ -440,9 +460,17 @@ dplot3_conf <- function(
 } # rtemis::dplot3_conf
 
 make_plotly_conf_tile <- function(
-    p, x, i, j, pos_color, neg_color,
-    font.size, theme,
-    xref = "x", yref = "y") {
+  p,
+  x,
+  i,
+  j,
+  pos_color,
+  neg_color,
+  font.size,
+  theme,
+  xref = "x",
+  yref = "y"
+) {
   val <- x[i, j] / sum(x[i, ])
   col <- if (i == j) {
     pos_color(val)

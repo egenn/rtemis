@@ -19,59 +19,72 @@
 #' @family Interpretable models
 #' @export
 
-s_LMTree <- function(x, y = NULL,
-                     x.test = NULL, y.test = NULL,
-                     x.name = NULL, y.name = NULL,
-                     weights = NULL,
-                     offset = NULL,
-                     #  alpha = 0.05,
-                     #  bonferroni = TRUE,
-                     #  minsize = NULL,
-                     #  maxdepth = Inf,
-                     #  mtry = Inf,
-                     #  trim = 0.1,
-                     #  breakties = FALSE,
-                     #  parm = NULL,
-                     #  dfsplit = TRUE,
-                     #  prune = NULL,
-                     #  restart = TRUE,
-                     #  verbose = FALSE,
-                     #  caseweights = TRUE,
-                     #  ytype = "vector",
-                     #  xtype = "matrix",
-                     #  terminal = "object",
-                     #  inner = terminal,
-                     #  model = TRUE,
-                     #  numsplit = "left",
-                     #  catsplit = "binary",
-                     #  vcov = "opg",
-                     #  ordinal = "chisq",
-                     #  nrep = 10000,
-                     #  minsplit = minsize,
-                     #  minbucket = minsize,
-                     #  applyfun = NULL,
-                     ifw = TRUE,
-                     ifw.type = 2,
-                     upsample = FALSE,
-                     downsample = FALSE,
-                     resample.seed = NULL,
-                     na.action = na.exclude,
-                     print.plot = FALSE,
-                     plot.fitted = NULL,
-                     plot.predicted = NULL,
-                     plot.theme = rtTheme,
-                     question = NULL,
-                     verbose = TRUE,
-                     outdir = NULL,
-                     save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_LMTree <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  offset = NULL,
+  #  alpha = 0.05,
+  #  bonferroni = TRUE,
+  #  minsize = NULL,
+  #  maxdepth = Inf,
+  #  mtry = Inf,
+  #  trim = 0.1,
+  #  breakties = FALSE,
+  #  parm = NULL,
+  #  dfsplit = TRUE,
+  #  prune = NULL,
+  #  restart = TRUE,
+  #  verbose = FALSE,
+  #  caseweights = TRUE,
+  #  ytype = "vector",
+  #  xtype = "matrix",
+  #  terminal = "object",
+  #  inner = terminal,
+  #  model = TRUE,
+  #  numsplit = "left",
+  #  catsplit = "binary",
+  #  vcov = "opg",
+  #  ordinal = "chisq",
+  #  nrep = 10000,
+  #  minsplit = minsize,
+  #  minbucket = minsize,
+  #  applyfun = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  na.action = na.exclude,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LMTree))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -91,11 +104,15 @@ s_LMTree <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
-
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -116,8 +133,10 @@ s_LMTree <- function(x, y = NULL,
   if (type != "Survival") df.train <- data.frame(y = y, x)
 
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -133,7 +152,8 @@ s_LMTree <- function(x, y = NULL,
     data = df.train,
     na.action = na.action,
     weights = .weights,
-    offset = offset, ...
+    offset = offset,
+    ...
   )
 
   # Fitted ----
@@ -195,7 +215,8 @@ s_LMTree <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

@@ -27,28 +27,65 @@ rtemis.version <- packageVersion("rtemis")
   if (interactive()) {
     packageStartupMessage(paste0(
       rtasciitxt(),
-      "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]],
+      "  .:",
+      pkgname,
+      " ",
+      rtemis.version,
+      " \U1F30A",
+      " ",
+      sessionInfo()[[2]],
       bold("\n  Defaults"),
-      "\n  \u2502   ", italic(gray("Theme: ")), rtTheme,
-      "\n  \u2502    ", italic(gray("Font: ")), rtFont,
-      "\n  \u2502 ", italic(gray("Palette: ")), rtPalette,
-      "\n  \u2502    ", italic(gray("Plan: ")), rtPlan,
-      "\n  \u2514   ", italic(gray("Cores: ")), rtCores, "/", .availableCores, " available",
+      "\n  \u2502   ",
+      italic(gray("Theme: ")),
+      rtTheme,
+      "\n  \u2502    ",
+      italic(gray("Font: ")),
+      rtFont,
+      "\n  \u2502 ",
+      italic(gray("Palette: ")),
+      rtPalette,
+      "\n  \u2502    ",
+      italic(gray("Plan: ")),
+      rtPlan,
+      "\n  \u2514   ",
+      italic(gray("Cores: ")),
+      rtCores,
+      "/",
+      .availableCores,
+      " available",
       bold("\n  Resources"),
-      "\n  \u2502    ", italic(gray("Docs:")), " https://rtemis.org/rtemis",
-      "\n  \u2502 ", italic(gray("Learn R:")), " https://rtemis.org/pdsr",
-      "\n  \u2502  ", italic(gray("Themes:")), " https://rtemis.org/themes",
-      "\n  \u2514    ", italic(gray("Cite:")), ' > citation("rtemis")',
+      "\n  \u2502    ",
+      italic(gray("Docs:")),
+      " https://rtemis.org/rtemis",
+      "\n  \u2502 ",
+      italic(gray("Learn R:")),
+      " https://rtemis.org/pdsr",
+      "\n  \u2502  ",
+      italic(gray("Themes:")),
+      " https://rtemis.org/themes",
+      "\n  \u2514    ",
+      italic(gray("Cite:")),
+      ' > citation("rtemis")',
       bold("\n  Setup"),
-      "\n  \u2514 ", italic(gray("Enable progress reporting:")),
+      "\n  \u2514 ",
+      italic(gray("Enable progress reporting:")),
       " > progressr::handlers(global = TRUE)",
       '\n                               > progressr::handlers("cli")',
-      "\n\n  ", italic(bold(red("PSA: Do not throw data at algorithms. Compute responsibly!")))
+      "\n\n  ",
+      italic(bold(red(
+        "PSA: Do not throw data at algorithms. Compute responsibly!"
+      )))
     ))
   } else {
     packageStartupMessage(
       paste0(
-        "  .:", pkgname, " ", rtemis.version, " \U1F30A", " ", sessionInfo()[[2]]
+        "  .:",
+        pkgname,
+        " ",
+        rtemis.version,
+        " \U1F30A",
+        " ",
+        sessionInfo()[[2]]
       )
     )
   }
@@ -56,7 +93,7 @@ rtemis.version <- packageVersion("rtemis")
 
 
 #' \pkg{rtemis}: Machine Learning and Visualization
-#' 
+#'
 #' @description
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'

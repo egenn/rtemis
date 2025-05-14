@@ -29,23 +29,25 @@
 #'                         party = c("Democrat","Independent", "Republican"))
 #' mplot3_mosaic(party)
 #' }
-mplot3_mosaic <- function(x,
-                          main = NULL,
-                          xlab = NULL,
-                          ylab = NULL,
-                          border = FALSE,
-                          theme = rtTheme,
-                          theme.args = list(),
-                          palette = rtPalette,
-                          mar = NULL,
-                          oma = rep(0, 4),
-                          par.reset = TRUE,
-                          new = FALSE,
-                          autolabel = letters,
-                          filename = NULL,
-                          pdf.width = 5,
-                          pdf.height = 5, ...) {
-
+mplot3_mosaic <- function(
+  x,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  border = FALSE,
+  theme = rtTheme,
+  theme.args = list(),
+  palette = rtPalette,
+  mar = NULL,
+  oma = rep(0, 4),
+  par.reset = TRUE,
+  new = FALSE,
+  autolabel = letters,
+  filename = NULL,
+  pdf.width = 5,
+  pdf.height = 5,
+  ...
+) {
   # Arguments ----
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
@@ -78,19 +80,26 @@ mplot3_mosaic <- function(x,
     mar <- c(2.5, 2.5, topmar, 1)
   }
 
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height,
-                              title = "rtemis Graphics")
+  if (!is.null(filename))
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
   par.orig <- par(no.readonly = TRUE)
-  par(bg = theme$bg, 
-      fg = theme$fg, 
-      cex = theme$cex,
-      col.axis = theme$axes.col, 
-      col.lab = theme$labs.col, 
-      col.main = theme$main.col,
-      col.sub = theme$main.col,
-      mar = mar, 
-      new = new,
-      family = theme$font.family)
+  par(
+    bg = theme$bg,
+    fg = theme$fg,
+    cex = theme$cex,
+    col.axis = theme$axes.col,
+    col.lab = theme$labs.col,
+    col.main = theme$main.col,
+    col.sub = theme$main.col,
+    mar = mar,
+    new = new,
+    family = theme$font.family
+  )
   if (exists("rtpar", envir = rtenv)) {
     par.reset <- FALSE
   } else {
@@ -98,22 +107,29 @@ mplot3_mosaic <- function(x,
   }
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-  mosaicplot(x,
-             main = NULL,
-             xlab = xlab,
-             ylab = ylab,
-             color = unlist(palette),
-             border = border, 
-             cex.axis = theme$cex, ...)
+  mosaicplot(
+    x,
+    main = NULL,
+    xlab = xlab,
+    ylab = ylab,
+    color = unlist(palette),
+    border = border,
+    cex.axis = theme$cex,
+    ...
+  )
 
   if (!is.null(main)) {
-    mtext(main, line = theme$main.line,
-          font = theme$main.font, adj = theme$main.adj,
-          cex = theme$cex, col = theme$main.col,
-          family = theme$font.family)
+    mtext(
+      main,
+      line = theme$main.line,
+      font = theme$main.font,
+      adj = theme$main.adj,
+      cex = theme$cex,
+      col = theme$main.col,
+      family = theme$font.family
+    )
   }
 
   # Outro ----
   if (!is.null(filename)) dev.off()
-
 } # rtemis::mplot3_mosaic

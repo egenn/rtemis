@@ -28,60 +28,63 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot3_bar <- function(x,
-                       error = NULL,
-                       col = NULL,
-                       error.col = "white",
-                       error.lwd = 2,
-                       alpha = 1,
-                       beside = TRUE,
-                       border = NA,
-                       width = 1,
-                       space = NULL, # c(1, .2),
-                       xlim = NULL,
-                       ylim = NULL,
-                       xlab = NULL,
-                       # xlab.line = 1.5,
-                       ylab = NULL,
-                       # ylab.line = 1.5,
-                       main = NULL,
-                       las = 1.5,
-                       xnames = NULL,
-                       xnames.srt = 0,
-                       xnames.adj = ifelse(xnames.srt == 0, .5, 1),
-                       xnames.line = 0.5,
-                       xnames.font = 1,
-                       xnames.cex = 1,
-                       xnames.y.pad = .08,
-                       xnames.at = NULL,
-                       color.bygroup = FALSE,
-                       group.legend = NULL,
-                       legend.x = NULL,
-                       legend.y = NULL,
-                       # legend.side = 3,
-                       # legend.adj = 0,
-                       # legend.at = NA,
-                       group.names = NULL,
-                       # legend.position = "topright",
-                       # legend.inset = c(0, 0),
-                       legend.font = 1, # 1: regular, 2: bold
-                       bartoplabels = NULL,
-                       bartoplabels.line = 0,
-                       bartoplabels.font = 1,
-                       mar = c(2.5, 3, 2, 1),
-                       pty = "m",
-                       barplot.axes = FALSE,
-                       yaxis = TRUE,
-                       ylim.pad = .04,
-                       # y.axis.padj = 1,
-                       # tck = -.015,
-                       theme = rtTheme,
-                       palette = rtPalette,
-                       autolabel = letters,
-                       par.reset = TRUE,
-                       pdf.width = 6,
-                       pdf.height = 6,
-                       filename = NULL, ...) {
+mplot3_bar <- function(
+  x,
+  error = NULL,
+  col = NULL,
+  error.col = "white",
+  error.lwd = 2,
+  alpha = 1,
+  beside = TRUE,
+  border = NA,
+  width = 1,
+  space = NULL, # c(1, .2),
+  xlim = NULL,
+  ylim = NULL,
+  xlab = NULL,
+  # xlab.line = 1.5,
+  ylab = NULL,
+  # ylab.line = 1.5,
+  main = NULL,
+  las = 1.5,
+  xnames = NULL,
+  xnames.srt = 0,
+  xnames.adj = ifelse(xnames.srt == 0, .5, 1),
+  xnames.line = 0.5,
+  xnames.font = 1,
+  xnames.cex = 1,
+  xnames.y.pad = .08,
+  xnames.at = NULL,
+  color.bygroup = FALSE,
+  group.legend = NULL,
+  legend.x = NULL,
+  legend.y = NULL,
+  # legend.side = 3,
+  # legend.adj = 0,
+  # legend.at = NA,
+  group.names = NULL,
+  # legend.position = "topright",
+  # legend.inset = c(0, 0),
+  legend.font = 1, # 1: regular, 2: bold
+  bartoplabels = NULL,
+  bartoplabels.line = 0,
+  bartoplabels.font = 1,
+  mar = c(2.5, 3, 2, 1),
+  pty = "m",
+  barplot.axes = FALSE,
+  yaxis = TRUE,
+  ylim.pad = .04,
+  # y.axis.padj = 1,
+  # tck = -.015,
+  theme = rtTheme,
+  palette = rtPalette,
+  autolabel = letters,
+  par.reset = TRUE,
+  pdf.width = 6,
+  pdf.height = 6,
+  filename = NULL,
+  ...
+) {
   # Arguments ----
   # Compatibility with rtlayout()
   if (!is.null(rtenv$rtpar)) par.reset <- FALSE
@@ -120,7 +123,8 @@ mplot3_bar <- function(x,
 
   # Legend names
   if (is.null(group.names)) {
-    group.names <- if (!is.null(rownames(x))) rownames(x) else paste0("Case", seq_len(NROW(x)))
+    group.names <- if (!is.null(rownames(x))) rownames(x) else
+      paste0("Case", seq_len(NROW(x)))
   }
 
   cols <- colorAdjust(col, alpha = alpha)
@@ -177,7 +181,13 @@ mplot3_bar <- function(x,
   }
 
   # PLOT ----
-  if (!is.null(filename)) pdf(filename, width = pdf.width, height = pdf.height, title = "rtemis Graphics")
+  if (!is.null(filename))
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
+      title = "rtemis Graphics"
+    )
   par.orig <- par(no.readonly = TRUE)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
@@ -187,7 +197,13 @@ mplot3_bar <- function(x,
   par(mar = mar, bg = theme$bg, pty = pty, cex = theme$cex, xpd = FALSE)
 
   # XLIM & YLIM ----
-  xlim <- range(barplot(x, beside = beside, width = width, space = space, plot = FALSE))
+  xlim <- range(barplot(
+    x,
+    beside = beside,
+    width = width,
+    space = space,
+    plot = FALSE
+  ))
   xlim[1] <- xlim[1] - .5 - max(space)
   xlim[2] <- xlim[2] + .5 + max(space)
   if (is.null(ylim)) {
@@ -201,10 +217,16 @@ mplot3_bar <- function(x,
   # Add x% either side (unless zero)
   if (ylim[1] != 0) ylim[1] <- ylim[1] - ylim.pad * diff(ylim)
   ylim[2] <- ylim[2] + ylim.pad * diff(ylim)
-  plot(NULL, NULL,
-    xlim = xlim, ylim = ylim,
-    bty = "n", axes = FALSE, ann = FALSE,
-    xaxs = "i", yaxs = "i"
+  plot(
+    NULL,
+    NULL,
+    xlim = xlim,
+    ylim = ylim,
+    bty = "n",
+    axes = FALSE,
+    ann = FALSE,
+    xaxs = "i",
+    yaxs = "i"
   )
 
   # PLOT BG ----
@@ -224,26 +246,45 @@ mplot3_bar <- function(x,
   }
 
   # BARPLOT ----
-  barCenters <- barplot(x,
-    beside = beside, col = cols,
-    border = border, ylim = ylim, axes = barplot.axes,
-    cex.axis = theme$cex, cex.names = theme$cex, add = TRUE, xlab = NULL,
+  barCenters <- barplot(
+    x,
+    beside = beside,
+    col = cols,
+    border = border,
+    ylim = ylim,
+    axes = barplot.axes,
+    cex.axis = theme$cex,
+    cex.names = theme$cex,
+    add = TRUE,
+    xlab = NULL,
     axisnames = FALSE,
     las = las,
     col.axis = theme$labs.col,
-    width = width, space = space
+    width = width,
+    space = space
   )
 
   # ERROR BARS ----
   if (!is.null(error)) {
-    segments(as.vector(barCenters), as.vector(x) - as.vector(error),
-      as.vector(barCenters), as.vector(x) + as.vector(error),
-      lwd = error.lwd, col = error.col
+    segments(
+      as.vector(barCenters),
+      as.vector(x) - as.vector(error),
+      as.vector(barCenters),
+      as.vector(x) + as.vector(error),
+      lwd = error.lwd,
+      col = error.col
     )
 
-    arrows(barCenters, x - as.vector(error),
-      barCenters, x + as.vector(error),
-      lwd = error.lwd, angle = 90, code = 3, length = 0.05, col = error.col
+    arrows(
+      barCenters,
+      x - as.vector(error),
+      barCenters,
+      x + as.vector(error),
+      lwd = error.lwd,
+      angle = 90,
+      code = 3,
+      length = 0.05,
+      col = error.col
     )
   }
 
@@ -272,10 +313,13 @@ mplot3_bar <- function(x,
   }
 
   if (length(main) > 0) {
-    mtext(main,
+    mtext(
+      main,
       line = theme$main.line,
-      font = theme$main.font, adj = theme$main.adj,
-      cex = theme$cex, col = theme$main.col,
+      font = theme$main.font,
+      adj = theme$main.adj,
+      cex = theme$cex,
+      col = theme$main.col,
       family = theme$font.family
     )
   }
@@ -283,13 +327,16 @@ mplot3_bar <- function(x,
   # XNAMES ----
   if (!is.null(xnames)) {
     if (is.null(xnames.at)) {
-      xnames.at <- if (NCOL(x) == 1 || (NROW(x) > 1 && !beside)) c(barCenters) else colMeans(barCenters)
+      xnames.at <- if (NCOL(x) == 1 || (NROW(x) > 1 && !beside))
+        c(barCenters) else colMeans(barCenters)
     }
     text(
       x = xnames.at,
       y = min(ylim) - diff(ylim) * xnames.y.pad,
       labels = xnames,
-      srt = xnames.srt, adj = xnames.adj, xpd = TRUE,
+      srt = xnames.srt,
+      adj = xnames.adj,
+      xpd = TRUE,
       font = xnames.font,
       cex = 1, # multiplied by par("cex"), which is already theme$cex
       col = theme$labs.col,
@@ -300,8 +347,14 @@ mplot3_bar <- function(x,
   # GROUP LEGEND ----
   if (group.legend) {
     if (is.null(legend.x)) legend.x <- rep(xlim[2] + .01 * diff(xlim), n)
-    if (is.null(legend.y)) legend.y <- seq(ylim[2], ylim[2] - max(strheight(group.names)) * n, length.out = n)
-    text(legend.x,
+    if (is.null(legend.y))
+      legend.y <- seq(
+        ylim[2],
+        ylim[2] - max(strheight(group.names)) * n,
+        length.out = n
+      )
+    text(
+      legend.x,
       legend.y,
       group.names,
       adj = 0,
@@ -315,7 +368,9 @@ mplot3_bar <- function(x,
 
   # AXIS LABS ----
   if (!is.null(xlab)) {
-    mtext(xlab, 1,
+    mtext(
+      xlab,
+      1,
       cex = theme$cex,
       line = theme$xlab.line,
       col = theme$labs.col,
@@ -323,7 +378,9 @@ mplot3_bar <- function(x,
     )
   }
   if (!is.null(ylab)) {
-    mtext(ylab, 2,
+    mtext(
+      ylab,
+      2,
       cex = theme$cex,
       line = theme$ylab.line,
       col = theme$labs.col,
@@ -333,7 +390,9 @@ mplot3_bar <- function(x,
 
   # BARTOP LABELS ----
   if (!is.null(bartoplabels)) {
-    mtext(bartoplabels, 3,
+    mtext(
+      bartoplabels,
+      3,
       line = bartoplabels.line,
       at = barCenters,
       cex = theme$cex,

@@ -19,11 +19,14 @@
 #' @family Clustering
 #' @export
 
-c_HARDCL <- function(x,
-                     x.test = NULL,
-                     k = 2,
-                     dist = "euclidean",
-                     verbose = TRUE, ...) {
+c_HARDCL <- function(
+  x,
+  x.test = NULL,
+  k = 2,
+  dist = "euclidean",
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "HARDCL"
@@ -44,11 +47,7 @@ c_HARDCL <- function(x,
 
   # CCLUST ----
   if (verbose) msg20("Running Hard Competitive Learning with k = ", k, "...")
-  clust <- flexclust::cclust(x,
-    k = k,
-    dist = dist,
-    method = "hardcl", ...
-  )
+  clust <- flexclust::cclust(x, k = k, dist = dist, method = "hardcl", ...)
 
   # Clusters ----
   clusters.train <- flexclust::clusters(clust)

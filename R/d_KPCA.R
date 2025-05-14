@@ -28,16 +28,18 @@
 #' @family Decomposition
 #' @export
 
-d_KPCA <- function(x,
-                   x.test = NULL,
-                   k = 2,
-                   th = 0.0001,
-                   kernel = "rbfdot",
-                   kpar = NULL,
-                   center = TRUE,
-                   scale = TRUE,
-                   verbose = TRUE, ...) {
-
+d_KPCA <- function(
+  x,
+  x.test = NULL,
+  k = 2,
+  th = 0.0001,
+  kernel = "rbfdot",
+  kpar = NULL,
+  center = TRUE,
+  scale = TRUE,
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "KPCA"
@@ -76,8 +78,14 @@ d_KPCA <- function(x,
 
   # KPCA ----
   if (verbose) msg2("Running Kernel Principal Components Analysis...")
-  decom <- kernlab::kpca(x, features = k, th = th,
-                         kernel = kernel, kpar = kpar, ...)
+  decom <- kernlab::kpca(
+    x,
+    features = k,
+    th = th,
+    kernel = kernel,
+    kpar = kpar,
+    ...
+  )
   vectors <- decom@pcv
 
   # Projections ----
@@ -93,21 +101,24 @@ d_KPCA <- function(x,
 
   # Outro ----
   extra <- list(vectors = vectors)
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = projections.test,
-                    parameters = list(k = k,
-                                      th = th,
-                                      kernel = kernel,
-                                      kpar = kpar,
-                                      scale = scale,
-                                      center = center),
-                    center = .center,
-                    scale = .scale,
-                    extra = extra)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = projections.test,
+    parameters = list(
+      k = k,
+      th = th,
+      kernel = kernel,
+      kpar = kpar,
+      scale = scale,
+      center = center
+    ),
+    center = .center,
+    scale = .scale,
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_KPCA

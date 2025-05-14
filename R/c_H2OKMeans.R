@@ -4,13 +4,13 @@
 
 #' K-Means Clustering with H2O
 #'
-#' Perfomr [K-Means clustering](https://en.wikipedia.org/wiki/K-means_clustering) using 
+#' Perfomr [K-Means clustering](https://en.wikipedia.org/wiki/K-means_clustering) using
 #' `h2o::h2o.kmeans`
-#' 
+#'
 #' Check out the H2O Flow at `[ip]:[port]`, Default IP:port is "localhost:54321"
 #' e.g. if running on localhost, point your web browser to `localhost:54321`
 #' For additional information, see help on `h2o::h2o.kmeans`
-#' 
+#'
 #' @inheritParams c_KMeans
 #' @param estimate.k Logical: if TRUE, estimate k up to a maximum set by the `k` argument
 #' @param nfolds Integer: Number of cross-validation folds
@@ -25,26 +25,38 @@
 #' Default = "AUTO"
 #' @param n.cores Integer: Number of cores to use
 #' @param ... Additional arguments to pass to `h2p::h2o.kmeans`
-#' 
+#'
 #' @return `rtMod` object
 #' @author E.D. Gennatas
 #' @family Clustering
 #' @export
 
-c_H2OKMeans <- function(x, x.test = NULL,
-                        k = 2,
-                        estimate.k = FALSE,
-                        nfolds = 0,
-                        max.iterations = 10,
-                        ip = "localhost",
-                        port = 54321,
-                        n.cores = rtCores,
-                        seed = -1,
-                        init = c("Furthest", "Random", "PlusPlus", "User"),
-                        categorical.encoding = c("AUTO", "Enum", "OneHotInternal", "OneHotExplicit", "Binary",
-                        "Eigen", "LabelEncoder", "SortByResponse", "EnumLimited"),
-                        verbose = TRUE, ...) {
-
+c_H2OKMeans <- function(
+  x,
+  x.test = NULL,
+  k = 2,
+  estimate.k = FALSE,
+  nfolds = 0,
+  max.iterations = 10,
+  ip = "localhost",
+  port = 54321,
+  n.cores = rtCores,
+  seed = -1,
+  init = c("Furthest", "Random", "PlusPlus", "User"),
+  categorical.encoding = c(
+    "AUTO",
+    "Enum",
+    "OneHotInternal",
+    "OneHotExplicit",
+    "Binary",
+    "Eigen",
+    "LabelEncoder",
+    "SortByResponse",
+    "EnumLimited"
+  ),
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "H2OKMeans"
@@ -74,16 +86,28 @@ c_H2OKMeans <- function(x, x.test = NULL,
   }
 
   # H2OKMEANS ----
-  if (verbose) msg2("Performing K-Means Clustering using H2O with k = ", k, "...", sep = "")
-  clust <- h2o::h2o.kmeans(training_frame = df.train,
-                           model_id = paste0("rtemis.H2OKMEANS.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
-                           k = k,
-                           estimate_k = estimate.k,
-                           nfolds = nfolds,
-                           max_iterations = max.iterations,
-                           seed = seed,
-                           init = init,
-                           categorical_encoding = categorical.encoding, ...)
+  if (verbose)
+    msg2(
+      "Performing K-Means Clustering using H2O with k = ",
+      k,
+      "...",
+      sep = ""
+    )
+  clust <- h2o::h2o.kmeans(
+    training_frame = df.train,
+    model_id = paste0(
+      "rtemis.H2OKMEANS.",
+      format(Sys.time(), "%b%d.%H:%M:%S.%Y")
+    ),
+    k = k,
+    estimate_k = estimate.k,
+    nfolds = nfolds,
+    max_iterations = max.iterations,
+    seed = seed,
+    init = init,
+    categorical_encoding = categorical.encoding,
+    ...
+  )
 
   # Clusters ----
   clusters.train <- as.data.frame(h2o::h2o.predict(clust, df.train))[, 1] + 1
@@ -95,21 +119,24 @@ c_H2OKMeans <- function(x, x.test = NULL,
 
   # Outro ----
   extra <- list(centroids = clust@model$centers)
-  cl <- rtClust$new(clust.name = clust.name,
-                    k = k,
-                    xnames = xnames,
-                    clust = clust,
-                    clusters.train = clusters.train,
-                    clusters.test = clusters.test,
-                    parameters = list(k = k,
-                                      estimate.k = estimate.k,
-                                      nfolds = nfolds,
-                                      max.iterations = max.iterations,
-                                      seed = seed,
-                                      init = init,
-                                      categorical.encoding = categorical.encoding),
-                    extra = extra)
+  cl <- rtClust$new(
+    clust.name = clust.name,
+    k = k,
+    xnames = xnames,
+    clust = clust,
+    clusters.train = clusters.train,
+    clusters.test = clusters.test,
+    parameters = list(
+      k = k,
+      estimate.k = estimate.k,
+      nfolds = nfolds,
+      max.iterations = max.iterations,
+      seed = seed,
+      init = init,
+      categorical.encoding = categorical.encoding
+    ),
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   cl
-
 } # rtemis::c_H2OKMeans

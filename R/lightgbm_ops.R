@@ -9,8 +9,7 @@
 #' @returns A list of trees
 #' @keywords internal
 #' @noRd
-get_lgb_tree <- function(x,
-                         n_iter = -1) {
+get_lgb_tree <- function(x, n_iter = -1) {
   out <- lapply(
     jsonlite::fromJSON(
       lightgbm::lgb.dump(
@@ -42,17 +41,19 @@ get_lgb_tree <- function(x,
 #' @param right_cat_type Character: "in" or "notin": operator for right categorical
 #'
 #' @keywords internal
-preorderlgb <- function(tree,
-                        node,
-                        rule = "TRUE",
-                        left = "left_child",
-                        right = "right_child",
-                        split_feature = "split_feature",
-                        threshold = "threshold",
-                        right_cat_type = "in",
-                        xnames,
-                        factor_levels,
-                        trace = 0) {
+preorderlgb <- function(
+  tree,
+  node,
+  rule = "TRUE",
+  left = "left_child",
+  right = "right_child",
+  split_feature = "split_feature",
+  threshold = "threshold",
+  right_cat_type = "in",
+  xnames,
+  factor_levels,
+  trace = 0
+) {
   if (is.null(node[[split_feature]])) {
     names(rule) <- "leaf"
     if (trace > 0) {
@@ -88,7 +89,11 @@ preorderlgb <- function(tree,
   )
   rule_left <- preorderlgb(
     tree,
-    node[[left]], rule_left, left, right, split_feature,
+    node[[left]],
+    rule_left,
+    left,
+    right,
+    split_feature,
     threshold,
     right_cat_type = right_cat_type,
     xnames = xnames,
@@ -98,7 +103,11 @@ preorderlgb <- function(tree,
   rule <- c(rule, rule_left)
   rule_right <- preorderlgb(
     tree,
-    node[[right]], rule_right, left, right, split_feature,
+    node[[right]],
+    rule_right,
+    left,
+    right,
+    split_feature,
     threshold,
     right_cat_type = right_cat_type,
     xnames = xnames,
@@ -110,10 +119,7 @@ preorderlgb <- function(tree,
 
 
 # lgbtree2rules ----
-lgbtree2rules <- function(x,
-                          xnames,
-                          factor_levels,
-                          right_cat_type = "in") {
+lgbtree2rules <- function(x, xnames, factor_levels, right_cat_type = "in") {
   tree <- new.env()
   tree$leafs <- character()
   preorderlgb(
@@ -138,23 +144,27 @@ lgbtree2rules <- function(x,
 #' @return Character vector of rules
 #' @keywords internal
 #' @noRd
-lgb2rules <- function(Booster,
-                      n_iter = NULL,
-                      xnames,
-                      factor_levels,
-                      right_cat_type = "in",
-                      return_unique = TRUE) {
+lgb2rules <- function(
+  Booster,
+  n_iter = NULL,
+  xnames,
+  factor_levels,
+  right_cat_type = "in",
+  return_unique = TRUE
+) {
   if (is.null(n_iter)) n_iter <- length(Booster)
   trees <- get_lgb_tree(Booster, n_iter)
   rules <- lapply(
     trees,
-    \(x) lgbtree2rules(
-      x,
-      xnames,
-      factor_levels = factor_levels,
-      right_cat_type = right_cat_type
-    )
-  ) |> unlist()
+    \(x)
+      lgbtree2rules(
+        x,
+        xnames,
+        factor_levels = factor_levels,
+        right_cat_type = right_cat_type
+      )
+  ) |>
+    unlist()
   if (return_unique) unique(rules) else rules
 } # rtemis::lgb2rules
 
@@ -168,11 +178,13 @@ lgb2rules <- function(Booster,
 #' @return Character vector of rules
 #' @keywords internal
 #' @noRd
-rtlgb2rules <- function(rtmod,
-                        dat,
-                        n_iter = NULL,
-                        right_cat_type = "in",
-                        return_unique = TRUE) {
+rtlgb2rules <- function(
+  rtmod,
+  dat,
+  n_iter = NULL,
+  right_cat_type = "in",
+  return_unique = TRUE
+) {
   lgb2rules(
     Booster = rtmod$mod,
     n_iter = n_iter,
@@ -186,14 +198,12 @@ rtlgb2rules <- function(rtmod,
 
 # decision_left ----
 decision_left <- function(decision_type) {
-  switch(decision_type,
-    "<=" = " <= ",
-    "==" = " %in% "
-  )
+  switch(decision_type, "<=" = " <= ", "==" = " %in% ")
 } # rtemis::decision_left
 
 decision_right <- function(decision_type, cat_type) {
-  switch(decision_type,
+  switch(
+    decision_type,
     "<=" = " > ",
     "==" = if (cat_type == "in") " %in% " else " %notin% "
   )
@@ -210,10 +220,7 @@ decision_right <- function(decision_type, cat_type) {
 #'
 #' @keywords internal
 #' @noRd
-fmt_thresh <- function(catsplit,
-                       feature,
-                       threshold,
-                       factor_levels) {
+fmt_thresh <- function(catsplit, feature, threshold, factor_levels) {
   if (catsplit) {
     flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1 # 0- to 1-based factor level index
     flevels <- factor_levels[[feature]][flevels]
@@ -230,11 +237,13 @@ fmt_thresh <- function(catsplit,
 #' @rdname fmt_thresh
 #' @keywords internal
 #' @noRd
-fmt_thresh_right <- function(catsplit,
-                             feature,
-                             threshold,
-                             factor_levels,
-                             cat_type) {
+fmt_thresh_right <- function(
+  catsplit,
+  feature,
+  threshold,
+  factor_levels,
+  cat_type
+) {
   if (catsplit) {
     flevels <- as.integer(strsplit(threshold, "\\|\\|")[[1]]) + 1 # 0- to 1-based factor level index
     flevels <- factor_levels[[feature]][flevels]

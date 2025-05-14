@@ -21,22 +21,27 @@
 #' @family Survival Regression
 #' @export
 
-s_PSurv <- function(x, y,
-                    x.test = NULL, y.test = NULL,
-                    x.name = NULL, y.name = NULL,
-                    weights = NULL,
-                    dist = "weibull",
-                    control = survival::survreg.control(),
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    question = NULL,
-                    verbose = TRUE,
-                    trace = 0,
-                    save.mod = FALSE,
-                    outdir = NULL, ...) {
-
+s_PSurv <- function(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  dist = "weibull",
+  control = survival::survreg.control(),
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_PSurv))
@@ -44,7 +49,14 @@ s_PSurv <- function(x, y,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -55,19 +67,25 @@ s_PSurv <- function(x, y,
   dependency_check("survival")
 
   # Arguments ----
-  if (is.null(y) && NCOL(x) < 2) { print(args(s_PSurv)); stop("y is missing") }
+  if (is.null(y) && NCOL(x) < 2) {
+    print(args(s_PSurv))
+    stop("y is missing")
+  }
   if (is.null(x.name)) x.name <- getName(x, "x")
   if (is.null(y.name)) y.name <- getName(y, "y")
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   dt <- prepare_data(x, y, x.test, y.test)
@@ -87,12 +105,16 @@ s_PSurv <- function(x, y,
   .formula <- y ~ .
 
   # SURVREG ----
-  if (verbose) msg2("Training Parametric Survival Regression model...", newline.pre = TRUE)
-  mod <- survival::survreg(.formula,
-                           data = x,
-                           weights = weights,
-                           dist = dist,
-                           control = control, ...)
+  if (verbose)
+    msg2("Training Parametric Survival Regression model...", newline.pre = TRUE)
+  mod <- survival::survreg(
+    .formula,
+    data = x,
+    weights = weights,
+    dist = dist,
+    control = control,
+    ...
+  )
   if (trace > 0) print(summary(mod))
 
   # Fitted ----
@@ -103,7 +125,7 @@ s_PSurv <- function(x, y,
   # Predicted ----
   predicted <- error.test <- NULL
   if (!is.null(x.test)) {
-      predicted <- predict(mod, newdata = x.test, type = "response")
+    predicted <- predict(mod, newdata = x.test, type = "response")
     if (!is.null(y.test)) {
       error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
@@ -112,41 +134,48 @@ s_PSurv <- function(x, y,
 
   # Outro ----
   extra <- list()
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 bag.resample.params = NULL,
-                 fitted.bag = NULL,
-                 fitted = fitted,
-                 se.fit.bag = NULL,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted.bag = NULL,
-                 predicted = predicted,
-                 se.predicted.bag = NULL,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 question = question,
-                 extra = extra)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    bag.resample.params = NULL,
+    fitted.bag = NULL,
+    fitted = fitted,
+    se.fit.bag = NULL,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted.bag = NULL,
+    predicted = predicted,
+    se.predicted.bag = NULL,
+    se.prediction = NULL,
+    error.test = error.test,
+    question = question,
+    extra = extra
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_PSurv

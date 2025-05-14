@@ -33,34 +33,44 @@
 #' @family Deep Learning
 #' @export
 
-d_H2OAE <- function(x,
-                    x.test = NULL,
-                    x.valid = NULL,
-                    ip = "localhost",
-                    port = 54321,
-                    n.hidden.nodes = c(ncol(x), 3, ncol(x)),
-                    extract.layer = ceiling(length(n.hidden.nodes) / 2),
-                    epochs = 5000,
-                    activation = "Tanh",
-                    loss = "Automatic",
-                    input.dropout.ratio = 0,
-                    hidden.dropout.ratios = rep(0, length(n.hidden.nodes)),
-                    learning.rate = .005,
-                    learning.rate.annealing = 1e-06,
-                    l1 = 0,
-                    l2 = 0,
-                    stopping.rounds = 50,
-                    stopping.metric = "AUTO",
-                    scale = TRUE,
-                    center = TRUE,
-                    n.cores = rtCores,
-                    verbose = TRUE,
-                    save.mod = FALSE,
-                    outdir = NULL, ...) {
+d_H2OAE <- function(
+  x,
+  x.test = NULL,
+  x.valid = NULL,
+  ip = "localhost",
+  port = 54321,
+  n.hidden.nodes = c(ncol(x), 3, ncol(x)),
+  extract.layer = ceiling(length(n.hidden.nodes) / 2),
+  epochs = 5000,
+  activation = "Tanh",
+  loss = "Automatic",
+  input.dropout.ratio = 0,
+  hidden.dropout.ratios = rep(0, length(n.hidden.nodes)),
+  learning.rate = .005,
+  learning.rate.annealing = 1e-06,
+  l1 = 0,
+  l2 = 0,
+  stopping.rounds = 50,
+  stopping.metric = "AUTO",
+  scale = TRUE,
+  center = TRUE,
+  n.cores = rtCores,
+  verbose = TRUE,
+  save.mod = FALSE,
+  outdir = NULL,
+  ...
+) {
   # Intro ----
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -75,14 +85,16 @@ d_H2OAE <- function(x,
   # Arguments ----
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", decom.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
   x <- as.data.frame(x)
   if (!is.null(x.test)) x.test <- as.data.frame(x.test)
   n <- NROW(x)
   p <- NCOL(x)
-  if (verbose) cat("||| Input has dimensions ", n, " rows by ", p, " columns,\n", sep = "")
+  if (verbose)
+    cat("||| Input has dimensions ", n, " rows by ", p, " columns,\n", sep = "")
   if (verbose) cat("    interpreted as", n, "cases with", p, "features.\n")
   if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
   xnames <- colnames(x)
@@ -106,7 +118,8 @@ d_H2OAE <- function(x,
   # H2OAE ----
   if (verbose) msg2("Training H2O Autoencoder...")
   params <- list(
-    x = seq_len(ncol(x)), training_frame = df.train,
+    x = seq_len(ncol(x)),
+    training_frame = df.train,
     model_id = paste0("rtemis.H2OAE.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
     validation_frame = df.test,
     hidden = n.hidden.nodes,
@@ -119,9 +132,11 @@ d_H2OAE <- function(x,
     stopping_rounds = stopping.rounds,
     stopping_metric = stopping.metric,
     # nfolds = nfolds, # not supported for Autoencoder
-    autoencoder = TRUE, ...
+    autoencoder = TRUE,
+    ...
   )
-  if (sum(hidden.dropout.ratios) > 0) params$hidden_dropout_ratios <- hidden.dropout.ratios
+  if (sum(hidden.dropout.ratios) > 0)
+    params$hidden_dropout_ratios <- hidden.dropout.ratios
 
   mod <- do.call(h2o::h2o.deeplearning, params)
 
@@ -129,9 +144,17 @@ d_H2OAE <- function(x,
 
   # Projections ----
   if (verbose) msg2("Extracting Deep Features...")
-  projections.train <- as.data.frame(h2o::h2o.deepfeatures(mod, df.train, layer = extract.layer))
+  projections.train <- as.data.frame(h2o::h2o.deepfeatures(
+    mod,
+    df.train,
+    layer = extract.layer
+  ))
   if (!is.null(x.test)) {
-    projections.test <- as.data.frame(h2o::h2o.deepfeatures(mod, df.test, layer = extract.layer))
+    projections.test <- as.data.frame(h2o::h2o.deepfeatures(
+      mod,
+      df.test,
+      layer = extract.layer
+    ))
   } else {
     projections.test <- NULL
   }
@@ -163,7 +186,8 @@ d_H2OAE <- function(x,
     ),
     extra = extra
   )
-  if (verbose) msg2("Access H2O Flow at ", ip, ":", port, " in your browser", sep = "")
+  if (verbose)
+    msg2("Access H2O Flow at ", ip, ":", port, " in your browser", sep = "")
   outro(start.time, verbose = verbose)
   rt
 } # rtemis::d_H2OAE

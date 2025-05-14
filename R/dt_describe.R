@@ -50,7 +50,10 @@ dt_describe <- function(x) {
       Median = sapply(x[, index_nm], with = FALSE, median, na.rm = TRUE),
       Mean = sapply(x[, index_nm, with = FALSE], mean, na.rm = TRUE),
       SD = sapply(x[, index_nm, with = FALSE], sd, na.rm = TRUE),
-      Pct_missing = sapply(x[, index_nm, with = FALSE], \(col) sum(is.na(col)) / nrows)
+      Pct_missing = sapply(
+        x[, index_nm, with = FALSE],
+        \(col) sum(is.na(col)) / nrows
+      )
     )
   } else {
     data.table(
@@ -70,10 +73,16 @@ dt_describe <- function(x) {
   cf_summary <- if (length(index_cf) > 0) {
     data.table(
       Variable = x[, index_cf, with = FALSE] |> names(),
-      N_unique = sapply(x[, index_cf, with = FALSE], \(col) length(unique(col))),
+      N_unique = sapply(
+        x[, index_cf, with = FALSE],
+        \(col) length(unique(col))
+      ),
       Mode = sapply(x[, index_cf, with = FALSE], get_mode),
       Counts = sapply(x[, index_cf, with = FALSE], fct_describe),
-      Pct_missing = sapply(x[, index_cf, with = FALSE], \(col) sum(is.na(col)) / nrows)
+      Pct_missing = sapply(
+        x[, index_cf, with = FALSE],
+        \(col) sum(is.na(col)) / nrows
+      )
     )
   } else {
     data.table(
@@ -96,9 +105,18 @@ dt_describe <- function(x) {
       Variable = x[, index_dt, with = FALSE] |> names(),
       Min = do.call(c, lapply(x[, index_dt, with = FALSE], min, na.rm = TRUE)),
       Max = do.call(c, lapply(x[, index_dt, with = FALSE], max, na.rm = TRUE)),
-      Median = do.call(c, lapply(x[, index_dt, with = FALSE], median, na.rm = TRUE)),
-      Mean = do.call(c, lapply(x[, index_dt, with = FALSE], mean, na.rm = TRUE)),
-      Pct_missing = sapply(x[, index_dt, with = FALSE], \(col) sum(is.na(col)) / nrows)
+      Median = do.call(
+        c,
+        lapply(x[, index_dt, with = FALSE], median, na.rm = TRUE)
+      ),
+      Mean = do.call(
+        c,
+        lapply(x[, index_dt, with = FALSE], mean, na.rm = TRUE)
+      ),
+      Pct_missing = sapply(
+        x[, index_dt, with = FALSE],
+        \(col) sum(is.na(col)) / nrows
+      )
     )
   } else {
     data.table(
@@ -111,7 +129,11 @@ dt_describe <- function(x) {
     )
   }
 
-  invisible(list(Numeric = nm_summary, Categorical = cf_summary, Date = dt_summary))
+  invisible(list(
+    Numeric = nm_summary,
+    Categorical = cf_summary,
+    Date = dt_summary
+  ))
 } # rtemis::dt_describe
 
 #' Decribe factor
@@ -164,12 +186,20 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
     if (return_ordered) {
       idi <- idi[seq_len(max_n)]
       paste0(
-        "(Top ", max_n, " of ", n_unique, ") ",
+        "(Top ",
+        max_n,
+        " of ",
+        n_unique,
+        ") ",
         paste(x_levels[idi], x_freqs[idi], sep = ": ", collapse = "; ")
       )
     } else {
       paste0(
-        "(First ", max_n, " of ", n_unique, ") ",
+        "(First ",
+        max_n,
+        " of ",
+        n_unique,
+        ") ",
         paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
       )
     }

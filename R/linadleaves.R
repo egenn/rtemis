@@ -27,48 +27,53 @@
 #' @noRd
 
 # [[---1. linadleaves---]] ----
-linadleaves <- function(x, y,
-                        x.valid = NULL, y.valid = NULL,
-                        type,
-                        lookback = FALSE,
-                        weights = NULL,
-                        max.leaves = 5,
-                        gamleaves = FALSE,
-                        gamlearner = "s_GAMSEL",
-                        gam.params = list(degrees = 5),
-                        learning.rate = 1,
-                        minobsinnode.lin = 10,
-                        lin.type = "glmnet",
-                        first.lin.type = "glmnet", #
-                        first.lin.learning.rate = 1,
-                        first.lin.alpha = 1,
-                        first.lin.lambda = NULL,
-                        gamma = .01,
-                        gamma.on.lin = FALSE,
-                        select.leaves.smooth = FALSE,
-                        alpha = 1,
-                        lambda = .01,
-                        lambda.seq = NULL,
-                        cv.glmnet.nfolds = 5,
-                        which.cv.glmnet.lambda = "lambda.1se",
-                        nvmax = 2,
-                        part.minsplit = 2,
-                        part.xval = 0,
-                        part.max.depth = 1,
-                        part.cp = 0,
-                        part.minbucket = 1,
-                        .rho = TRUE,
-                        rho.max = 1000,
-                        rho.def = .1,
-                        loss.fn = NULL,
-                        verbose = TRUE,
-                        plot.tuning = TRUE,
-                        trace = 0) {
+linadleaves <- function(
+  x,
+  y,
+  x.valid = NULL,
+  y.valid = NULL,
+  type,
+  lookback = FALSE,
+  weights = NULL,
+  max.leaves = 5,
+  gamleaves = FALSE,
+  gamlearner = "s_GAMSEL",
+  gam.params = list(degrees = 5),
+  learning.rate = 1,
+  minobsinnode.lin = 10,
+  lin.type = "glmnet",
+  first.lin.type = "glmnet", #
+  first.lin.learning.rate = 1,
+  first.lin.alpha = 1,
+  first.lin.lambda = NULL,
+  gamma = .01,
+  gamma.on.lin = FALSE,
+  select.leaves.smooth = FALSE,
+  alpha = 1,
+  lambda = .01,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.1se",
+  nvmax = 2,
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 1,
+  .rho = TRUE,
+  rho.max = 1000,
+  rho.def = .1,
+  loss.fn = NULL,
+  verbose = TRUE,
+  plot.tuning = TRUE,
+  trace = 0
+) {
   # Arguments  ----
   .class <- type == "Classification"
   # .surv <- type == "Survival"
   if (is.null(loss.fn)) {
-    loss.fn <- switch(type,
+    loss.fn <- switch(
+      type,
       Regression = mse,
       Classification = class.loss
       #  Survival = surv.loss
@@ -207,8 +212,10 @@ linadleaves <- function(x, y,
     )
     args <- c(
       list(
-        x = g$x, y = g$y,
-        verbose = trace > 1, print.plot = FALSE
+        x = g$x,
+        y = g$y,
+        verbose = trace > 1,
+        print.plot = FALSE
       ),
       gam.params
     )
@@ -262,7 +269,14 @@ linadleaves <- function(x, y,
   resid <- -firstDer # n
 
   # '- Lin1 ----
-  if (verbose) msg20("Training Linear Additive Tree ", type, " (max leaves = ", max.leaves, ")...")
+  if (verbose)
+    msg20(
+      "Training Linear Additive Tree ",
+      type,
+      " (max leaves = ",
+      max.leaves,
+      ")..."
+    )
   if (trace > 0) msg2("Training first Linear Model...")
   if (is_constant(resid)) stop("First gradient is constant")
 
@@ -286,11 +300,19 @@ linadleaves <- function(x, y,
 
   if (.class && .rho && lin.type != "none") {
     # check learning.rate
-    firstDer.rho <- t((-2 * 1 / learning.rate * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
-    secDer.rho <- t((4 * 1 / learning.rate * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2) %*% weights
+    firstDer.rho <- t(
+      (-2 * 1 / learning.rate * linVal * y) / (1 + exp(2 * y * Fval))
+    ) %*%
+      weights
+    secDer.rho <- t(
+      (4 * 1 / learning.rate * linVal^2 * exp(2 * y * Fval)) /
+        (1 + exp(2 * y * Fval))^2
+    ) %*%
+      weights
     rho <- -firstDer.rho / secDer.rho
     if (trace > 1) {
-      if (any(rho > rho.max)) warning("rho values > rho.max =", rho.max, "found")
+      if (any(rho > rho.max))
+        warning("rho values > rho.max =", rho.max, "found")
     }
     rho <- c(sign(rho) * min(rho.max, rho, na.rm = TRUE))
   } else {
@@ -370,7 +392,8 @@ linadleaves <- function(x, y,
           verbose = verbose,
           trace = trace
         )
-        if (trace > 1) msg20("Node #", i, ": split.rule: ", g$tree[[paste(i)]]$split.rule)
+        if (trace > 1)
+          msg20("Node #", i, ": split.rule: ", g$tree[[paste(i)]]$split.rule)
       } else {
         if (trace > 2) msg2("Node #", i, " already processed", sep = "")
       }
@@ -397,7 +420,9 @@ linadleaves <- function(x, y,
         # 1.Error reduction for each open node
         open.loss.red <- data.frame(
           id = g$open,
-          loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[, 1] -
+          loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[,
+            1
+          ] -
             plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1]
         )
 
@@ -405,13 +430,16 @@ linadleaves <- function(x, y,
         selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
         # Did selected reduce loss
         selected.loss <- open.loss.red$loss.red[open.loss.red$id == selected]
-        selected.red <- length(selected) > 0 && !is.na(selected.loss) && selected.loss > 0
+        selected.red <- length(selected) > 0 &&
+          !is.na(selected.loss) &&
+          selected.loss > 0
         toclose <- open.loss.red$id[which(is.na(open.loss.red$loss.red))]
         if (length(toclose) > 0) {
           for (i in toclose) {
             g$open <- setdiff(g$open, i)
             g$closed <- c(g$closed, i)
-            if (trace > 1) msg20("Node id #", i, " had NA loss.red and was closed")
+            if (trace > 1)
+              msg20("Node id #", i, " had NA loss.red and was closed")
           }
         }
 
@@ -449,8 +477,12 @@ linadleaves <- function(x, y,
           g$closed <- c(g$closed, selected)
           g$open <- setdiff(g$open, selected)
           if (trace > 1) {
-            msg20("Node id #", selected, "
-                             did not reduce loss and was closed")
+            msg20(
+              "Node id #",
+              selected,
+              "
+                             did not reduce loss and was closed"
+            )
           }
         }
       }
@@ -497,14 +529,20 @@ linadleaves <- function(x, y,
   all.step.rules <- data.frame(
     id = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$id),
     rule = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$rule),
-    N = plyr::laply(all.step.leaves, function(j) length(g$tree[[paste(j)]]$index)),
+    N = plyr::laply(
+      all.step.leaves,
+      function(j) length(g$tree[[paste(j)]]$index)
+    ),
     # Value = meanValue,
     # Label = Label,
     stringsAsFactors = FALSE
   )
   if (trace > 1) print(all.step.leaves)
   if (trace > 1) msg2("Getting all.step.coefs...")
-  all.step.coefs <- plyr::ldply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)
+  all.step.coefs <- plyr::ldply(
+    all.step.leaves,
+    function(j) g$tree[[paste(j)]]$coef
+  )
   # use following for no plyr
   # all.step.coefs <- data.frame(do.call(
   #   rbind,
@@ -520,8 +558,10 @@ linadleaves <- function(x, y,
       index <- xleaf.index == i
       args <- c(
         list(
-          x = g$x[index, ], y = g$y[index],
-          verbose = trace > 1, print.plot = FALSE
+          x = g$x[index, ],
+          y = g$y[index],
+          verbose = trace > 1,
+          print.plot = FALSE
         ),
         gam.params
       )
@@ -566,8 +606,10 @@ linadleaves <- function(x, y,
     if (trace > 1) msg2("Starting lookback...", color = hilite)
     opt.leaves <- selectleaves(
       .mod,
-      x = x, y = y,
-      x.valid = x.valid, y.valid = y.valid,
+      x = x,
+      y = y,
+      x.valid = x.valid,
+      y.valid = y.valid,
       smooth = select.leaves.smooth,
       print.plot = plot.tuning,
       verbose = trace > 0,
@@ -582,18 +624,20 @@ linadleaves <- function(x, y,
 } # rtemis::linadleaves
 
 # [[---2. setNodeRC---]]----
-setNodeRC <- function(g,
-                      id,
-                      index,
-                      Fval,
-                      weights,
-                      depth,
-                      coef,
-                      terminal = TRUE,
-                      type = "terminal",
-                      condition,
-                      split.rule,
-                      rule) {
+setNodeRC <- function(
+  g,
+  id,
+  index,
+  Fval,
+  weights,
+  depth,
+  coef,
+  terminal = TRUE,
+  type = "terminal",
+  condition,
+  split.rule,
+  rule
+) {
   list(
     id = id,
     index = index,
@@ -628,27 +672,29 @@ setNodeRC <- function(g,
 #' @keywords internal
 #' @noRd
 
-splitlineRC <- function(g,
-                        type,
-                        node.index,
-                        gamma,
-                        gamma.on.lin,
-                        lin.type,
-                        alpha,
-                        lambda,
-                        lambda.seq,
-                        cv.glmnet.nfolds,
-                        which.cv.glmnet.lambda,
-                        part.minsplit,
-                        part.xval,
-                        part.max.depth,
-                        part.cp,
-                        part.minbucket,
-                        minobsinnode.lin,
-                        nvmax,
-                        rho.def = .1,
-                        verbose = TRUE,
-                        trace = 0) {
+splitlineRC <- function(
+  g,
+  type,
+  node.index,
+  gamma,
+  gamma.on.lin,
+  lin.type,
+  alpha,
+  lambda,
+  lambda.seq,
+  cv.glmnet.nfolds,
+  which.cv.glmnet.lambda,
+  part.minsplit,
+  part.xval,
+  part.max.depth,
+  part.cp,
+  part.minbucket,
+  minobsinnode.lin,
+  nvmax,
+  rho.def = .1,
+  verbose = TRUE,
+  trace = 0
+) {
   # '- Node ----
   .class <- type == "Classification"
   # .surv <- type == "Survival"
@@ -669,7 +715,9 @@ splitlineRC <- function(g,
   # '- Split  ----
   # if (trace > 0) msg2("splitLining node ", node.index, "...", sep = "")
   dat <- data.frame(g$x, resid1)
-  part <- rpart::rpart(resid1 ~ ., dat,
+  part <- rpart::rpart(
+    resid1 ~ .,
+    dat,
     weights = weights,
     control = rpart::rpart.control(
       minsplit = part.minsplit,
@@ -726,8 +774,13 @@ splitlineRC <- function(g,
         # Split was on a continuous feature
         cutFeat.point <- part$splits[1, "index"]
         if (trace > 1) {
-          msg2("Node #", node.index, ": Split Feature is \"", cutFeat.name,
-            "\"; Cut Point = ", ddSci(cutFeat.point),
+          msg2(
+            "Node #",
+            node.index,
+            ": Split Feature is \"",
+            cutFeat.name,
+            "\"; Cut Point = ",
+            ddSci(cutFeat.point),
             sep = ""
           )
         }
@@ -735,28 +788,48 @@ splitlineRC <- function(g,
         split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
       } else {
         # Split was on a categorical feature
-        cutFeat.category <- levels(g$x[[cutFeat.name]])[which(part$csplit[1, ] == 1)]
+        cutFeat.category <- levels(g$x[[cutFeat.name]])[which(
+          part$csplit[1, ] == 1
+        )]
         if (trace > 1) {
-          msg2("Node #", node.index, ": Split Feature is \"", cutFeat.name,
-            "\"; Cut Category is \"", cutFeat.category,
+          msg2(
+            "Node #",
+            node.index,
+            ": Split Feature is \"",
+            cutFeat.name,
+            "\"; Cut Category is \"",
+            cutFeat.category,
             "\"",
             sep = ""
           )
         }
         split.rule.left <- paste0(
-          cutFeat.name, " %in% ", "c(",
-          paste0("'", cutFeat.category, "'", collapse = ", "), ")"
+          cutFeat.name,
+          " %in% ",
+          "c(",
+          paste0("'", cutFeat.category, "'", collapse = ", "),
+          ")"
         )
         split.rule.right <- paste0(
-          "!", cutFeat.name, " %in% ", "c(",
-          paste0("'", cutFeat.category, "'", collapse = ", "), ")"
+          "!",
+          cutFeat.name,
+          " %in% ",
+          "c(",
+          paste0("'", cutFeat.category, "'", collapse = ", "),
+          ")"
         )
       }
       if (length(cutFeat.point) > 0) {
-        left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
+        left.index <- intersect(
+          node$index,
+          which(g$x[, cutFeat.index] < cutFeat.point)
+        )
         right.index <- intersect(node$index, seq_len(NROW(g$x))[-left.index])
       } else {
-        left.index <- intersect(node$index, which(is.element(g$x[, cutFeat.index], cutFeat.category)))
+        left.index <- intersect(
+          node$index,
+          which(is.element(g$x[, cutFeat.index], cutFeat.category))
+        )
         right.index <- intersect(node$index, seq_len(NROW(g$x))[-left.index])
       }
     } # /Split on Categorical vs Continuous feature
@@ -871,11 +944,17 @@ splitlineRC <- function(g,
     Fval[right.index] <- Fval[right.index] + nodeVal.right
 
     if (.class && trace > 1) {
-      msg2("weightedFirstDerLeft = ", weightedFirstDerLeft, "; weightedFirstDerRight = ",
+      msg2(
+        "weightedFirstDerLeft = ",
+        weightedFirstDerLeft,
+        "; weightedFirstDerRight = ",
         weightedFirstDerRight,
         sep = ""
       )
-      msg2("weightedSecDerLeft = ", weightedSecDerLeft, "; weightedSecDerRight = ",
+      msg2(
+        "weightedSecDerLeft = ",
+        weightedSecDerLeft,
+        "; weightedSecDerRight = ",
         weightedSecDerRight,
         sep = ""
       )
@@ -899,12 +978,16 @@ splitlineRC <- function(g,
 
     if (!is.null(cutFeat.name)) {
       # Node split
-      .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else resid2[left.index]
+      .resid2wleft <- if (gamma.on.lin) resid2 * weights.left else
+        resid2[left.index]
       if (length(left.index) < minobsinnode.lin || is_constant(.resid2wleft)) {
         # Too few observations to fit linear model or weighted resid constant
         if (trace > 1) {
-          msg2("Looking at Node #", node.index * 2,
-            ": ", length(left.index),
+          msg2(
+            "Looking at Node #",
+            node.index * 2,
+            ": ",
+            length(left.index),
             " cases belong to this node: Not fitting any more lines here",
             sep = ""
           )
@@ -937,8 +1020,15 @@ splitlineRC <- function(g,
 
         # Lin Updates, Left ----
         if (.class && g$.rho && lin.type != "none") {
-          firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.left)[1]
-          secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.left)[1]
+          firstDer.rho.left <- (t(
+            (-2 * linVal.left * g$y) / (1 + exp(2 * g$y * Fval))
+          ) %*%
+            weights.left)[1]
+          secDer.rho.left <- (t(
+            (4 * linVal.left^2 * exp(2 * g$y * Fval)) /
+              (1 + exp(2 * g$y * Fval))^2
+          ) %*%
+            weights.left)[1]
           rho.left <- -firstDer.rho.left / secDer.rho.left
           rho.left <- sign(rho.left) * min(g$rho.max, rho.left, na.rm = TRUE)[1]
         } else {
@@ -949,12 +1039,18 @@ splitlineRC <- function(g,
         coef.left <- coef.left + linCoef.left
       } # /if (length(left.index) < minobsinnode.lin)
 
-      .resid2wright <- if (gamma.on.lin) resid2 * weights.right else resid2[right.index]
-      if (length(right.index) < minobsinnode.lin || is_constant(.resid2wright)) {
+      .resid2wright <- if (gamma.on.lin) resid2 * weights.right else
+        resid2[right.index]
+      if (
+        length(right.index) < minobsinnode.lin || is_constant(.resid2wright)
+      ) {
         # Too few observations to fit linear model or weighted resid constant
         if (trace > 1) {
-          msg2("Looking at Node #", node.index * 2 + 1,
-            ": ", length(right.index),
+          msg2(
+            "Looking at Node #",
+            node.index * 2 + 1,
+            ": ",
+            length(right.index),
             " cases belong to this node: Not fitting any more lines here",
             sep = ""
           )
@@ -988,10 +1084,18 @@ splitlineRC <- function(g,
       } # /if (length(right.index) < minobsinnode.lin)
 
       if (.class && g$.rho) {
-        firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * Fval))) %*% weights.right)[1]
-        secDer.rho.right <- (t((4 * linVal.right^2 * exp(2 * g$y * Fval)) / (1 + exp(2 * g$y * Fval))^2) %*% weights.right)[1]
+        firstDer.rho.right <- (t(
+          (-2 * linVal.right * g$y) / (1 + exp(2 * g$y * Fval))
+        ) %*%
+          weights.right)[1]
+        secDer.rho.right <- (t(
+          (4 * linVal.right^2 * exp(2 * g$y * Fval)) /
+            (1 + exp(2 * g$y * Fval))^2
+        ) %*%
+          weights.right)[1]
         rho.right <- -firstDer.rho.right / secDer.rho.right
-        rho.right <- sign(rho.right) * min(g$rho.max, rho.right, na.rm = TRUE)[1]
+        rho.right <- sign(rho.right) *
+          min(g$rho.max, rho.right, na.rm = TRUE)[1]
       } else {
         rho.right <- 1
       }
@@ -1014,7 +1118,8 @@ splitlineRC <- function(g,
 
     # Assign loss reduction to parent
     g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval1)
-    g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
+    g$tree[[paste(node.index)]]$split.loss.red <- node$loss -
+      g$tree[[paste(node.index)]]$split.loss
 
     # Set id numbers by preorder indexing
     # Left
@@ -1074,17 +1179,23 @@ splitlineRC <- function(g,
 #' @author E.D. Gennatas
 #' @export
 
-predict.linadleaves <- function(object, newdata,
-                                type = c(
-                                  "response", "probability",
-                                  "all", "step"
-                                ),
-                                n.leaves = NULL,
-                                fixed.cxr = NULL,
-                                cxr.newdata = NULL,
-                                cxr = FALSE,
-                                cxrcoef = FALSE,
-                                verbose = FALSE, ...) {
+predict.linadleaves <- function(
+  object,
+  newdata,
+  type = c(
+    "response",
+    "probability",
+    "all",
+    "step"
+  ),
+  n.leaves = NULL,
+  fixed.cxr = NULL,
+  cxr.newdata = NULL,
+  cxr = FALSE,
+  cxrcoef = FALSE,
+  verbose = FALSE,
+  ...
+) {
   init <- object$init
   type <- match.arg(type)
   .class <- object$type == "Classification"
@@ -1127,7 +1238,10 @@ predict.linadleaves <- function(object, newdata,
       rule.ids <- object$stepindex[[paste(n.leaves)]]
       rules <- sapply(
         rule.ids,
-        \(j) object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == j]
+        \(j)
+          object$all.step.leaves$rules$rule[
+            object$all.step.leaves$rules$id == j
+          ]
       )
 
       # '---- Cases x Rules ----
@@ -1154,7 +1268,12 @@ predict.linadleaves <- function(object, newdata,
         # No gamleaves
         coefs <- lapply(
           rule.ids,
-          \(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, , drop = FALSE]
+          \(j)
+            object$all.step.leaves$coefs[
+              object$all.step.leaves$rules$id == j,
+              ,
+              drop = FALSE
+            ]
         )
         # coefs: n.leaves by n vars
         coefs <- data.matrix(do.call(rbind, coefs))
@@ -1168,9 +1287,10 @@ predict.linadleaves <- function(object, newdata,
         # yhat <- init + sapply(seq_len(NROW(newdata)), \(nr) {
         #     object$learning.rate * (newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE]))
         # })
-        yhat <- init + sapply(seq_len(NROW(newdata)), \(nr) {
-          newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE])
-        })
+        yhat <- init +
+          sapply(seq_len(NROW(newdata)), \(nr) {
+            newdata_lin[nr, ] %*% t(.cxrcoef[nr, , drop = FALSE])
+          })
       }
     } # / n.leaves > 1
 
@@ -1220,14 +1340,17 @@ predict.linadleaves <- function(object, newdata,
       if (verbose) {
         msg2(
           "Getting estimated values for each of",
-          max.leaves, "steps..."
+          max.leaves,
+          "steps..."
         )
       }
 
       # List of all stepwise rules starting with "TRUE"
       rules.l <- plyr::llply(seq(max.leaves), function(j) {
         paste(sapply(object$stepindex[[paste(j)]], function(k) {
-          c(object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == k])
+          c(object$all.step.leaves$rules$rule[
+            object$all.step.leaves$rules$id == k
+          ])
         }))
       })
 
@@ -1279,7 +1402,11 @@ predict.linadleaves <- function(object, newdata,
 
 print.linadleaves <- function(x, ...) {
   if (x$gamleaves) {
-    cat("\n  A Linear Additive GAMleaf Tree model with", x$n.leaves, "leaves\n\n")
+    cat(
+      "\n  A Linear Additive GAMleaf Tree model with",
+      x$n.leaves,
+      "leaves\n\n"
+    )
   } else {
     cat("\n  A Linear Additive Tree model with", x$n.leaves, "leaves\n\n")
   }
@@ -1315,24 +1442,30 @@ class.loss <- function(y, Fval) {
 #' @keywords internal
 #' @noRd
 
-selectleaves <- function(object,
-                         x, y,
-                         x.valid, y.valid,
-                         smooth = FALSE,
-                         print.plot = TRUE,
-                         verbose = TRUE,
-                         trace = 0) {
+selectleaves <- function(
+  object,
+  x,
+  y,
+  x.valid,
+  y.valid,
+  smooth = FALSE,
+  print.plot = TRUE,
+  verbose = TRUE,
+  trace = 0
+) {
   if (trace > 1) msg2("Running selectleaves")
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
   # .surv <- object$type == "Survival"
 
-  train.estimate.l <- predict(object,
+  train.estimate.l <- predict(
+    object,
     newdata = x,
     type = "step",
     verbose = trace > 1
   )
-  valid.estimate.l <- predict(object,
+  valid.estimate.l <- predict(
+    object,
     newdata = x.valid,
     type = "step",
     verbose = trace > 1
@@ -1362,25 +1495,29 @@ selectleaves <- function(object,
 
   valid.error.smooth <- if (smooth) {
     # valid.error.smooth <- supsmu(seq(n.leaves), valid.error)$y
-    valid.error.smooth <- suppressWarnings(loess(valid.error ~ seq(n.leaves))$fitted)
+    valid.error.smooth <- suppressWarnings(
+      loess(valid.error ~ seq(n.leaves))$fitted
+    )
   } else {
     NULL
   }
 
   if (print.plot) {
-    mplot3_xy(seq(n.leaves), list(
-      Training = train.error,
-      Validation = valid.error,
-      `Smoothed Valid.` = valid.error.smooth
-    ),
-    type = "l",
-    group.adj = .95,
-    lty = c(1, 1, 2),
-    line.col = c("#80ffff", "#FF99FF", "#2B27F1"),
-    vline = c(which.min(valid.error), which.min(valid.error.smooth)),
-    vline.col = c("#FF99FF", "#2B27F1"),
-    xlab = "N leaves",
-    ylab = ifelse(.class, "1 - Balanced Accuracy", "MSE")
+    mplot3_xy(
+      seq(n.leaves),
+      list(
+        Training = train.error,
+        Validation = valid.error,
+        `Smoothed Valid.` = valid.error.smooth
+      ),
+      type = "l",
+      group.adj = .95,
+      lty = c(1, 1, 2),
+      line.col = c("#80ffff", "#FF99FF", "#2B27F1"),
+      vline = c(which.min(valid.error), which.min(valid.error.smooth)),
+      vline.col = c("#FF99FF", "#2B27F1"),
+      xlab = "N leaves",
+      ylab = ifelse(.class, "1 - Balanced Accuracy", "MSE")
     )
   }
 
@@ -1388,7 +1525,12 @@ selectleaves <- function(object,
 
   n.leaves <- max(1, which.min(valid.error))
   if (verbose) {
-    msg2("Selected", n.leaves, "leaves of", length(valid.error), "total",
+    msg2(
+      "Selected",
+      n.leaves,
+      "leaves of",
+      length(valid.error),
+      "total",
       color = hilite
     )
   }

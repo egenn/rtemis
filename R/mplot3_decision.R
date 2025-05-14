@@ -36,20 +36,22 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot3_decision <- function(rtmod, data,
-                            vars = c(1, 2),
-                            dots.per.axis = 100,
-                            bg.cex = .5,
-                            bg.alpha = .4,
-                            bg.pch = 15,
-                            par.reset = TRUE,
-                            theme = "white",
-                            col = c("#18A3AC", "#F48024"),
-                            contour.col = "black",
-                            contour.lwd = .1,
-                            point.pch = c(3, 4),
-                            point.alpha = 1) {
-
+mplot3_decision <- function(
+  rtmod,
+  data,
+  vars = c(1, 2),
+  dots.per.axis = 100,
+  bg.cex = .5,
+  bg.alpha = .4,
+  bg.pch = 15,
+  par.reset = TRUE,
+  theme = "white",
+  col = c("#18A3AC", "#F48024"),
+  contour.col = "black",
+  contour.lwd = .1,
+  point.pch = c(3, 4),
+  point.alpha = 1
+) {
   # [ Data ] ----
   data <- as.data.frame(data)
   class.dat <- data[, ncol(data)]
@@ -64,7 +66,11 @@ mplot3_decision <- function(rtmod, data,
   names(dat) <- names(data)[vars]
   if (ncol(data) > 2) {
     col.means <- colMeans(data[, -vars, drop = FALSE])
-    dat2 <- data.frame(matrix(rep(col.means, dots.per.axis^2), dots.per.axis^2, byrow = TRUE))
+    dat2 <- data.frame(matrix(
+      rep(col.means, dots.per.axis^2),
+      dots.per.axis^2,
+      byrow = TRUE
+    ))
     names(dat2) <- names(data[, -vars, drop = FALSE])
     dat <- cbind(dat, dat2)
   }
@@ -76,39 +82,52 @@ mplot3_decision <- function(rtmod, data,
 
   # Plot ----
   # '- Background: decision surface ----
-  mplot3_xy(dat[, 1], dat[, 2], group = predicted,
-            xlab = names(data)[vars[1]],
-            ylab = names(data)[vars[2]],
-            point.cex = bg.cex,
-            marker.alpha = bg.alpha,
-            group.legend = FALSE,
-            par.reset = FALSE,
-            zerolines = FALSE,
-            theme = theme,
-            marker.col = col, xaxs = "i", yaxs = "i")
+  mplot3_xy(
+    dat[, 1],
+    dat[, 2],
+    group = predicted,
+    xlab = names(data)[vars[1]],
+    ylab = names(data)[vars[2]],
+    point.cex = bg.cex,
+    marker.alpha = bg.alpha,
+    group.legend = FALSE,
+    par.reset = FALSE,
+    zerolines = FALSE,
+    theme = theme,
+    marker.col = col,
+    xaxs = "i",
+    yaxs = "i"
+  )
 
   # '- Contour lines ----
-  contour(x, y, matrix(as.integer(predicted) - 1, dots.per.axis),
-          lwd = contour.lwd,
-          col = contour.col,
-          drawlabels = FALSE,
-          add = TRUE)
+  contour(
+    x,
+    y,
+    matrix(as.integer(predicted) - 1, dots.per.axis),
+    lwd = contour.lwd,
+    col = contour.col,
+    drawlabels = FALSE,
+    add = TRUE
+  )
 
   # '- Data points ----
-  mplot3_xy(xdat[, 1], ydat[, 1],
-            xlab = "",
-            ylab = "",
-            pch = point.pch,
-            marker.alpha = point.alpha,
-            group = class.dat,
-            group.legend = FALSE,
-            marker.col = col,
-            theme = theme,
-            xaxs = "i", yaxs = "i",
-            zerolines = FALSE,
-            axes.visible = FALSE,
-            new = TRUE)
+  mplot3_xy(
+    xdat[, 1],
+    ydat[, 1],
+    xlab = "",
+    ylab = "",
+    pch = point.pch,
+    marker.alpha = point.alpha,
+    group = class.dat,
+    group.legend = FALSE,
+    marker.col = col,
+    theme = theme,
+    xaxs = "i",
+    yaxs = "i",
+    zerolines = FALSE,
+    axes.visible = FALSE,
+    new = TRUE
+  )
 
   invisible(predicted)
-
 } # rtemis::mplot3_decision

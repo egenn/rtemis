@@ -31,17 +31,21 @@
 #' @export
 
 calibrate_cv <- function(
-    mod,
-    alg = "isotonic",
-    learn.params = list(),
-    resample.params = setup.resample(resampler = "kfold", n.resamples = 5, seed = NULL),
-    which.repeat = 1,
-    verbosity = 1,
-    debug = FALSE) {
+  mod,
+  alg = "isotonic",
+  learn.params = list(),
+  resample.params = setup.resample(
+    resampler = "kfold",
+    n.resamples = 5,
+    seed = NULL
+  ),
+  which.repeat = 1,
+  verbosity = 1,
+  debug = FALSE
+) {
   stopifnot(inherits(mod, "rtModCV"))
   # For each resample in mod, train calibration models using all other resamples'
   # predicted probabilities, then predict on the held-out resample
-
   # Args ----
   # If IFW is set, check that it is not set to TRUE
   if ("ifw" %in% names(learn.params)) {
@@ -61,7 +65,8 @@ calibrate_cv <- function(
   # Train a CV-calibration model on each of outer resample test sets.
   # `calmods` is length `n.resamples` of `mod` outer resamples
   calmods <- lapply(
-    seq_along(mod$mod[[which.repeat]]), \(i) {
+    seq_along(mod$mod[[which.repeat]]),
+    \(i) {
       if (verbosity > 0) {
         msg20("Training CV-calibration models on outer resample ", i, "...")
       }
@@ -116,9 +121,11 @@ calibrate_cv <- function(
   # -> the calibration training set labels
   # list (length n.resamples outer) of lists (length n.resamples test) of vectors
   y_caltrain <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       lapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$y.train
         }
       )
@@ -129,9 +136,11 @@ calibrate_cv <- function(
   # -> the calibration test set labels
   # list (length n.resamples outer) of lists (length n.resamples test) of vectors
   y_caltest <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       lapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$y.test
         }
       )
@@ -143,9 +152,11 @@ calibrate_cv <- function(
   # -> the calibration training set fitted probabilities
   # list (length n.resamples outer) of lists (length n.resamples test) of vectors
   prob_caltrain <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       lapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$fitted.prob
         }
       )
@@ -157,9 +168,11 @@ calibrate_cv <- function(
   # -> the calibration test set predicted probabilities
   # list (length n.resamples outer) of lists (length n.resamples test) of vectors
   prob_caltest <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       lapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$predicted.prob
         }
       )
@@ -171,9 +184,11 @@ calibrate_cv <- function(
   # Calibration training error
   # list (length n.resamples outer) of lists (length n.resamples calibration) of vectors
   error_caltrain <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       lapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$error.train
         }
       )
@@ -184,9 +199,11 @@ calibrate_cv <- function(
   # Calibration test error
   # list (length n.resamples outer) of lists (length n.resamples calibration) of vectors
   error_caltest <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       lapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$error.test
         }
       )
@@ -207,7 +224,8 @@ calibrate_cv <- function(
   # -> All uncalibrated test set Brier scores
   # list (length n.resamples outer)
   brier_test_raw <- sapply(
-    mod$mod[[which.repeat]], \(m) {
+    mod$mod[[which.repeat]],
+    \(m) {
       m$mod1$error.test$Overall$`Brier Score`
     }
   )
@@ -216,9 +234,11 @@ calibrate_cv <- function(
   # -> All calibration training set Brier scores
   # list (length n.resamples outer) of lists (length n.resamples calibration) of vectors
   brier_caltrain <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       sapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$error.train$Overall$`Brier Score`
         }
       )
@@ -226,13 +246,15 @@ calibrate_cv <- function(
   )
   names(brier_caltrain) <- names(mod$resamples[[which.repeat]])
 
-  ## brier_caltest ---- 
+  ## brier_caltest ----
   # -> All calibration test set Brier scores
   # list (length n.resamples outer) of lists (length n.resamples calibration) of vectors
   brier_caltest <- lapply(
-    seq_along(calmods), \(i) {
+    seq_along(calmods),
+    \(i) {
       sapply(
-        seq_along(calmods[[i]]$mods), \(j) {
+        seq_along(calmods[[i]]$mods),
+        \(j) {
           calmods[[i]]$mods[[j]]$mod1$error.test$Overall$`Brier Score`
         }
       )
@@ -255,7 +277,10 @@ calibrate_cv <- function(
   # Output ----
   out <- list(
     y_test = lapply(mod$mod[[which.repeat]], \(x) x$mod1$y.test), # The outer test set labels
-    predicted_prob = lapply(mod$mod[[which.repeat]], \(x) x$mod1$predicted.prob), # The raw outer test set predicted probabilities
+    predicted_prob = lapply(
+      mod$mod[[which.repeat]],
+      \(x) x$mod1$predicted.prob
+    ), # The raw outer test set predicted probabilities
     mod_cal = calmods, # The calibration models, use for prediction on probabilities output by rtModCV
     y_caltrain = y_caltrain, # Calibration training set labels
     prob_caltrain = prob_caltrain, # Calibration training set probabilities
@@ -281,15 +306,15 @@ calibrate_cv <- function(
 
 
 #' Predict using calibrated model
-#' 
+#'
 #' Predict using a calibrated model returned by [calibrate_cv]
-#' 
+#'
 #' @param object `rtModCVCalibration` object returned by [calibrate_cv]
 #' @param mod `rtModCV` object returned by [train_cv]
 #' @param newdata Data frame: New data to predict on
 #' @param ... Additional arguments - Use to define `which.repeat`, which should be an integer
 #' defining which repeat to use for prediction. Defaults to 1 if not specified.
-#' 
+#'
 #' @author EDG
 #' @export
 predict.rtModCVCalibration <- function(object, mod, newdata, ...) {
@@ -335,17 +360,17 @@ predict.rtModCVCalibration <- function(object, mod, newdata, ...) {
 #' For calibration plots, `type = "aggregate.all"` is likely the more informative one.
 #' It shows calibrations curves before and after calibration by aggregating across all
 #' outer test sets. The `type = "aggregate.by.resample"` option shows the calibration
-#' curves after calibration for each outer resample. 
-#' 
+#' curves after calibration for each outer resample.
+#'
 #' For Brier boxplots, `type = "aggregate.all"` shows 1 score per outer resample prior
-#' to calibration and multiple (equal n.resamples used in [calibrate_cv]) brier scores 
+#' to calibration and multiple (equal n.resamples used in [calibrate_cv]) brier scores
 #' per outer resample after calibration. This is for diagnostic purposes mainly.
 #' For presentation, the `type = "aggregate.by.resample"` option shows the mean Brier
 #' score per outer resample prior to calibration and after calibration and makes more
 #' sense. The uncalibrated estimates could be resampled using the calibration model
 #' resamples to produce a more comparable boxplot of Brier scores when using the
 #' `type = "aggregate.all"` option, but that seems artifactual.
-#' 
+#'
 #' More options are certainly possibly, e.g. an "aggregate.none" that would show all
 #' calibration resamples for all outer ersamples, and can be added in the future if
 #' needed.
@@ -363,11 +388,13 @@ predict.rtModCVCalibration <- function(object, mod, newdata, ...) {
 #' @export
 
 plot.rtModCVCalibration <- function(
-    x,
-    what = c("calibration", "brier"),
-    type = c("aggregate.all", "aggregate.by.resample"),
-    bin.method = c("quantile", "equidistant"),
-    filename = NULL, ...) {
+  x,
+  what = c("calibration", "brier"),
+  type = c("aggregate.all", "aggregate.by.resample"),
+  bin.method = c("quantile", "equidistant"),
+  filename = NULL,
+  ...
+) {
   stopifnot(inherits(x, "rtModCVCalibration"))
   what <- match.arg(what)
   type <- match.arg(type)
@@ -396,10 +423,14 @@ plot.rtModCVCalibration <- function(
         predicted.prob = est.prob,
         bin.method = bin.method,
         subtitle = paste(
-          "Aggregating across", length(x$y_caltest), "outer *<br>",
-          length(x$y_caltest[[1]]), "calibration resamples"
+          "Aggregating across",
+          length(x$y_caltest),
+          "outer *<br>",
+          length(x$y_caltest[[1]]),
+          "calibration resamples"
         ),
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     } else if (type == "aggregate.by.resample") {
       ## Aggregate by resample ----
@@ -411,10 +442,13 @@ plot.rtModCVCalibration <- function(
         predicted.prob = prob_caltest_agg,
         bin.method = bin.method,
         subtitle = paste(
-          "Aggregating across", length(x$y_caltest[[1]]), "calibration resamples",
+          "Aggregating across",
+          length(x$y_caltest[[1]]),
+          "calibration resamples",
           "for each outer resample"
         ),
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     }
   } else if (what == "brier") {
@@ -431,7 +465,8 @@ plot.rtModCVCalibration <- function(
         ),
         boxpoints = "all",
         annotate_meansd = TRUE,
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     } else if (type == "aggregate.by.resample") {
       ## Aggregate by resample ----
@@ -445,7 +480,8 @@ plot.rtModCVCalibration <- function(
         ),
         boxpoints = "all",
         annotate_meansd = TRUE,
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     }
   }
@@ -456,6 +492,6 @@ present.rtModCVCalibration <- function(x, ...) {
   # Check that average Brier scores of calibration test sets is lower than raw test set
   nresamples <- length(x$brier_test_raw)
   calbetter <- sum((x$brier_test_raw - x$brier_caltest_mean) > 0)
-  
+
   plot.rtModCVCalibration(x, ...)
 } # rtemis::present.rtModCVCalibration

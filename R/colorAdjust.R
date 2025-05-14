@@ -15,12 +15,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-colorAdjust <- function(color,
-                        alpha = NULL,
-                        hue = 0,
-                        sat = 0,
-                        val = 0) {
-
+colorAdjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
   # [ MAIN ] ----
   ac <- color
 
@@ -31,5 +26,4 @@ colorAdjust <- function(color,
   # [ Alpha ] ----
   if (!is.null(alpha)) ac <- adjustcolor(color, alpha.f = alpha)
   ac
-
 } # rtemis::colorAdjust

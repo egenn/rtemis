@@ -11,13 +11,12 @@
 #' @param decom Character: Decomposition name. Case insensitive. e.g. "iso" for isomap
 #' @param fn Logical: If TRUE, return function, otherwise name of function. Defaults to FALSE
 #' @param desc Logical: If TRUE, return full name of algorithm `decom`
-#' 
+#'
 #' @return Function or name of function (see param `fn`) or full name of algorithm (`desc`)
 #' @author E.D. Gennatas
 #' @export
 
 select_decom <- function(decom, fn = FALSE, desc = FALSE) {
-
   description <- list(
     # "CUR" = "CUR Matrix Approximation",
     "H2OAE" = "H2O Autoencoder",
@@ -35,10 +34,15 @@ select_decom <- function(decom, fn = FALSE, desc = FALSE) {
     "UMAP" = "Uniform Manifold Approximation and Projection"
   )
   description <- t(as.data.frame(description))
-  description <- data.frame(Name = rownames(description), Description = description)
+  description <- data.frame(
+    Name = rownames(description),
+    Description = description
+  )
 
   if (missing(decom)) {
-    cat(".:select_decom\nrtemis supports the following decomposition algorithms:\n\n")
+    cat(
+      ".:select_decom\nrtemis supports the following decomposition algorithms:\n\n"
+    )
     print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }
@@ -54,5 +58,4 @@ select_decom <- function(decom, fn = FALSE, desc = FALSE) {
 
   d_algname <- paste0("d_", name)
   if (fn) getFromNamespace(d_algname, "rtemis") else d_algname
-
 } # rtemis::select_decom

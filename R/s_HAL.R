@@ -22,33 +22,39 @@
 #' @family Supervised Learning
 #' @export
 
-s_HAL <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  family = NULL,
-                  max.degree = ifelse(ncol(x) >= 20, 2, 3),
-                  lambda = NULL,
-                  x.name = NULL, y.name = NULL,
-                  grid.resample.params = setup.resample("kfold", 5),
-                  gridsearch.type = c("exhaustive", "randomized"),
-                  gridsearch.randomized.p = .1,
-                  #  weights = NULL,
-                  #  ifw = TRUE,
-                  #  ifw.type = 2,
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  metric = NULL,
-                  maximize = NULL,
-                  .gs = FALSE,
-                  n.cores = rtCores,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_HAL <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  family = NULL,
+  max.degree = ifelse(ncol(x) >= 20, 2, 3),
+  lambda = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = .1,
+  #  weights = NULL,
+  #  ifw = TRUE,
+  #  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  metric = NULL,
+  maximize = NULL,
+  .gs = FALSE,
+  n.cores = rtCores,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_HAL))
@@ -59,8 +65,11 @@ s_HAL <- function(x, y = NULL,
   }
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, sys.calls()[[1]][[1]], ".",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -91,8 +100,11 @@ s_HAL <- function(x, y = NULL,
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     # ifw = ifw,
     # ifw.type = ifw.type,
     upsample = upsample,
@@ -128,7 +140,11 @@ s_HAL <- function(x, y = NULL,
   # if (type == "Survival") intercept <- FALSE
   if (verbose) dataSummary(x, y, x.test, y.test, type)
 
-  if (!is.null(family) && family %in% c("binomial", "multinomial") && !is.factor(y)) {
+  if (
+    !is.null(family) &&
+      family %in% c("binomial", "multinomial") &&
+      !is.factor(y)
+  ) {
     if (type == "Survival") {
       colnames(y) <- c("time", "status")
       if (!is.null(y.test)) colnames(y.test) <- c("time", "status")
@@ -173,7 +189,9 @@ s_HAL <- function(x, y = NULL,
   # do.gs <- FALSE
   # if (!.gs && do.gs) {
   if (gridCheck(max.degree)) {
-    gs <- gridSearchLearn(x, y,
+    gs <- gridSearchLearn(
+      x,
+      y,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -198,9 +216,7 @@ s_HAL <- function(x, y = NULL,
     gs <- NULL
   }
   if (verbose) {
-    parameterSummary(lambda,
-      newline.pre = TRUE
-    )
+    parameterSummary(lambda, newline.pre = TRUE)
   }
 
   # fit_hal ----

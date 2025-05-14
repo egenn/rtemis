@@ -75,56 +75,66 @@
 #' dplot3_volcano(mod$summary$`Coefficient y`, mod$summary$`p_value y`)
 #' }
 #'
-dplot3_volcano <- function(x, pvals,
-                           xnames = NULL,
-                           group = NULL,
-                           x.thresh = 0,
-                           p.thresh = .05,
-                           p.transform = \(x) -log10(x),
-                           p.adjust.method = c(
-                             "holm", "hochberg", "hommel", "bonferroni",
-                             "BH", "BY", "fdr", "none"
-                           ),
-                           legend = NULL,
-                           legend.lo = NULL,
-                           legend.hi = NULL,
-                           label.lo = "Low",
-                           label.hi = "High",
-                           main = NULL,
-                           xlab = NULL,
-                           ylab = NULL,
-                           margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                           xlim = NULL,
-                           ylim = NULL,
-                           alpha = NULL,
-                           hline = NULL,
-                           hline.col = NULL,
-                           hline.width = 1,
-                           hline.dash = "solid",
-                           hline.annotate = NULL,
-                           hline.annotation.x = 1,
-                           annotate = TRUE,
-                           annotate.col = theme$labs.col,
-                           theme = rtTheme,
-                           font.size = 16,
-                           palette = NULL,
-                           legend.x.lo = NULL,
-                           legend.x.hi = NULL,
-                           legend.y = .97,
-                           annotate.n = 7,
-                           ax.lo = NULL, # 40,
-                           ay.lo = NULL,
-                           ax.hi = NULL, # -40,
-                           ay.hi = NULL,
-                           annotate.alpha = .7,
-                           hovertext = NULL,
-                           displayModeBar = FALSE,
-                           #    mathjax = "cdn",
-                           filename = NULL,
-                           file.width = 500,
-                           file.height = 500,
-                           file.scale = 1,
-                           verbose = TRUE, ...) {
+dplot3_volcano <- function(
+  x,
+  pvals,
+  xnames = NULL,
+  group = NULL,
+  x.thresh = 0,
+  p.thresh = .05,
+  p.transform = \(x) -log10(x),
+  p.adjust.method = c(
+    "holm",
+    "hochberg",
+    "hommel",
+    "bonferroni",
+    "BH",
+    "BY",
+    "fdr",
+    "none"
+  ),
+  legend = NULL,
+  legend.lo = NULL,
+  legend.hi = NULL,
+  label.lo = "Low",
+  label.hi = "High",
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  xlim = NULL,
+  ylim = NULL,
+  alpha = NULL,
+  hline = NULL,
+  hline.col = NULL,
+  hline.width = 1,
+  hline.dash = "solid",
+  hline.annotate = NULL,
+  hline.annotation.x = 1,
+  annotate = TRUE,
+  annotate.col = theme$labs.col,
+  theme = rtTheme,
+  font.size = 16,
+  palette = NULL,
+  legend.x.lo = NULL,
+  legend.x.hi = NULL,
+  legend.y = .97,
+  annotate.n = 7,
+  ax.lo = NULL, # 40,
+  ay.lo = NULL,
+  ax.hi = NULL, # -40,
+  ay.hi = NULL,
+  annotate.alpha = .7,
+  hovertext = NULL,
+  displayModeBar = FALSE,
+  #    mathjax = "cdn",
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  verbose = TRUE,
+  ...
+) {
   xname <- deparse(substitute(x))
   p.adjust.method <- match.arg(p.adjust.method)
   filt <- !is.na(x) & !is.na(pvals)
@@ -195,7 +205,8 @@ dplot3_volcano <- function(x, pvals,
     legend = legend,
     group = group,
     palette = palette[include],
-    hovertext = hovertext, ...
+    hovertext = hovertext,
+    ...
   )
 
   # High - Low legend ----
@@ -217,35 +228,37 @@ dplot3_volcano <- function(x, pvals,
   if (autolegend.x.hi) legend.x.hi <- x.thresh + legxdiff / 2
 
   if (group.counts[1] > 0 && !is.null(legend.lo)) {
-    plt <- plt |> plotly::add_annotations(
-      x = legend.x.lo,
-      y = legend.y,
-      text = legend.lo,
-      xref = "x",
-      yref = "paper",
-      showarrow = FALSE,
-      font = list(
-        color = palette[[1]],
-        family = theme$font.family,
-        size = font.size
+    plt <- plt |>
+      plotly::add_annotations(
+        x = legend.x.lo,
+        y = legend.y,
+        text = legend.lo,
+        xref = "x",
+        yref = "paper",
+        showarrow = FALSE,
+        font = list(
+          color = palette[[1]],
+          family = theme$font.family,
+          size = font.size
+        )
       )
-    )
   }
 
   if (group.counts[3] > 0 && !is.null(legend.hi)) {
-    plt <- plt |> plotly::add_annotations(
-      x = legend.x.hi,
-      y = legend.y,
-      text = legend.hi,
-      xref = "x",
-      yref = "paper",
-      showarrow = FALSE,
-      font = list(
-        color = palette[[3]],
-        family = theme$font.family,
-        size = font.size
+    plt <- plt |>
+      plotly::add_annotations(
+        x = legend.x.hi,
+        y = legend.y,
+        text = legend.hi,
+        xref = "x",
+        yref = "paper",
+        showarrow = FALSE,
+        font = list(
+          color = palette[[3]],
+          family = theme$font.family,
+          size = font.size
+        )
       )
-    )
   }
 
   # Annotations ----
@@ -272,54 +285,61 @@ dplot3_volcano <- function(x, pvals,
         }
       }
       if (is.null(ax.lo)) ax.lo <- 5 + 5 * annotate.n_lo
-      plt <- plt |> plotly::add_annotations(
-        x = lo_x,
-        y = lo_pval,
-        text = lo_name,
-        arrowhead = 4,
-        arrowcolor = adjustcolor(theme$fg, .33),
-        arrowsize = .5,
-        arrowwidth = 1,
-        ax = ax.lo,
-        ay = ay.lo,
-        xanchor = "left",
-        font = list(
-          size = 16,
-          family = theme$font.family,
-          color = adjustcolor(theme$fg, annotate.alpha)
+      plt <- plt |>
+        plotly::add_annotations(
+          x = lo_x,
+          y = lo_pval,
+          text = lo_name,
+          arrowhead = 4,
+          arrowcolor = adjustcolor(theme$fg, .33),
+          arrowsize = .5,
+          arrowwidth = 1,
+          ax = ax.lo,
+          ay = ay.lo,
+          xanchor = "left",
+          font = list(
+            size = 16,
+            family = theme$font.family,
+            color = adjustcolor(theme$fg, annotate.alpha)
+          )
         )
-      )
     }
-
 
     # Annotate 10 most significant increasing
     if (annotate.n_hi > 0) {
       hi_ord <- order(pvals[index_ltpthresh & index_gtxthresh])
-      hi_x <- x[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
-      hi_pval <- p_transformed[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
-      hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(annotate.n_hi)]]
+      hi_x <- x[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(
+        annotate.n_hi
+      )]]
+      hi_pval <- p_transformed[
+        index_ltpthresh & index_gtxthresh
+      ][hi_ord[seq_len(annotate.n_hi)]]
+      hi_name <- xnames[index_ltpthresh & index_gtxthresh][hi_ord[seq_len(
+        annotate.n_hi
+      )]]
 
       if (is.null(ay.hi)) {
         ay.hi <- drange(order(hi_pval), 50, -50)
       }
       if (is.null(ax.hi)) ax.hi <- -5 - 5 * annotate.n_hi
-      plt <- plt |> plotly::add_annotations(
-        x = hi_x,
-        y = hi_pval,
-        text = hi_name,
-        arrowhead = 4,
-        arrowcolor = adjustcolor(theme$fg, .33),
-        arrowsize = .5,
-        arrowwidth = 1,
-        ax = ax.hi,
-        ay = ay.hi,
-        xanchor = "right",
-        font = list(
-          size = 16,
-          family = theme$font.family,
-          color = adjustcolor(theme$fg, annotate.alpha)
+      plt <- plt |>
+        plotly::add_annotations(
+          x = hi_x,
+          y = hi_pval,
+          text = hi_name,
+          arrowhead = 4,
+          arrowcolor = adjustcolor(theme$fg, .33),
+          arrowsize = .5,
+          arrowwidth = 1,
+          ax = ax.hi,
+          ay = ay.hi,
+          xanchor = "right",
+          font = list(
+            size = 16,
+            family = theme$font.family,
+            color = adjustcolor(theme$fg, annotate.alpha)
+          )
         )
-      )
     }
   }
 
@@ -332,8 +352,11 @@ dplot3_volcano <- function(x, pvals,
     hlinel <- lapply(seq_along(hline), function(i) {
       list(
         type = "line",
-        x0 = 0, x1 = 1, xref = "paper",
-        y0 = hline[i], y1 = hline[i],
+        x0 = 0,
+        x1 = 1,
+        xref = "paper",
+        y0 = hline[i],
+        y1 = hline[i],
         line = list(
           color = hline.col[i],
           width = hline.width[i],
@@ -345,28 +368,30 @@ dplot3_volcano <- function(x, pvals,
 
     # Annotate horizontal lines on the right border of the plot
     if (!is.null(hline.annotate)) {
-      plt <- plt |> plotly::add_annotations(
-        xref = "paper",
-        yref = "y",
-        xanchor = "right",
-        yanchor = "bottom",
-        x = hline.annotation.x,
-        y = hline,
-        text = hline.annotate,
-        font = list(
-          family = theme$font.family,
-          size = font.size,
-          color = annotate.col
-        ),
-        showarrow = FALSE
-      )
+      plt <- plt |>
+        plotly::add_annotations(
+          xref = "paper",
+          yref = "y",
+          xanchor = "right",
+          yanchor = "bottom",
+          x = hline.annotation.x,
+          y = hline,
+          text = hline.annotate,
+          font = list(
+            family = theme$font.family,
+            size = font.size,
+            color = annotate.col
+          ),
+          showarrow = FALSE
+        )
     }
   }
 
   plt |> plotly::config(toImageButtonOptions = list(format = "svg"))
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar
     # mathjax = mathjax
@@ -377,7 +402,8 @@ dplot3_volcano <- function(x, pvals,
     plotly::save_image(
       plt,
       file.path(filename),
-      with = file.width, height = file.height,
+      with = file.width,
+      height = file.height,
       scale = file.scale
     )
   }

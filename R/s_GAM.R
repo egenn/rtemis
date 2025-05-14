@@ -20,32 +20,38 @@
 #' @family Supervised Learning
 #' @export
 
-s_GAM <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  x.name = NULL, y.name = NULL,
-                  k = 6,
-                  family = NULL,
-                  weights = NULL,
-                  ifw = TRUE,
-                  ifw.type = 2,
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  method = "REML",
-                  select = FALSE,
-                  removeMissingLevels = TRUE,
-                  spline.index = NULL,
-                  verbose = TRUE,
-                  trace = 0,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  na.action = na.exclude,
-                  question = NULL,
-                  n.cores = rtCores,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_GAM <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  k = 6,
+  family = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  method = "REML",
+  select = FALSE,
+  removeMissingLevels = TRUE,
+  spline.index = NULL,
+  verbose = TRUE,
+  trace = 0,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  na.action = na.exclude,
+  question = NULL,
+  n.cores = rtCores,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_GAM))
@@ -53,7 +59,14 @@ s_GAM <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -76,8 +89,11 @@ s_GAM <- function(x, y = NULL,
   if (is.null(y.name)) y.name <- getName(y, "y")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -94,8 +110,10 @@ s_GAM <- function(x, y = NULL,
   if (is.null(weights) && type == "Classification" && ifw) weights <- dt$weights
   if (verbose) dataSummary(x, y, x.test, y.test, type = type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -106,7 +124,8 @@ s_GAM <- function(x, y = NULL,
       family <- gaussian()
     } else {
       K <- length(levels(y)) - 1
-      family <- if (length(levels(y)) == 2) binomial() else mgcv::multinom(K = K)
+      family <- if (length(levels(y)) == 2) binomial() else
+        mgcv::multinom(K = K)
     }
   }
 
@@ -115,7 +134,12 @@ s_GAM <- function(x, y = NULL,
   lin.index <- which(!(seq_len(NCOL(x)) %in% spline.index))
 
   ### Predictors
-  spline.features <- paste0("s(", colnames(x)[spline.index], ", k = ", k, ")",
+  spline.features <- paste0(
+    "s(",
+    colnames(x)[spline.index],
+    ", k = ",
+    k,
+    ")",
     collapse = " + "
   )
   lin.features <- if (length(lin.index) > 0) {
@@ -136,14 +160,23 @@ s_GAM <- function(x, y = NULL,
     if (removeMissingLevels) {
       index.factor <- which(sapply(x, is.factor))
       if (length(index.factor) > 0) {
-        levels.training <- lapply(x[, index.factor], function(x) levels(droplevels(x)))
+        levels.training <- lapply(
+          x[, index.factor],
+          function(x) levels(droplevels(x))
+        )
         levels.testing <- lapply(x.test[, index.factor], levels)
         # Get index of levels present in test set and not in training
-        index.missing <- lapply(seq_along(levels.training), function(i) levels.testing[[i]] %in% levels.training[[i]])
+        index.missing <- lapply(
+          seq_along(levels.training),
+          function(i) levels.testing[[i]] %in% levels.training[[i]]
+        )
         # Set levels present in testing and missing in training to NA
         which.missing <- sapply(index.missing, all)
         if (any(!which.missing)) {
-          if (verbose) msg2("Levels present in testing and not in training replaced with NA")
+          if (verbose)
+            msg2(
+              "Levels present in testing and not in training replaced with NA"
+            )
           for (i in which(!which.missing)) {
             missing.level <- levels.testing[[i]][!index.missing[[i]]]
             index.extralevel <- x.test[, index.factor][, i] == missing.level
@@ -174,7 +207,8 @@ s_GAM <- function(x, y = NULL,
 
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # GAM ----
   if (verbose) msg2("Training GAM...", newline.pre = TRUE)
@@ -232,7 +266,8 @@ s_GAM <- function(x, y = NULL,
       se.prediction <- NULL
     }
 
-    if (type == "Classification") predicted <- factor(predicted, levels = levels(y))
+    if (type == "Classification")
+      predicted <- factor(predicted, levels = levels(y))
     if (!is.null(y.test)) {
       error.test <- mod_error(y.test, predicted, predicted.prob)
       if (verbose) errorSummary(error.test, mod.name)
@@ -284,7 +319,8 @@ s_GAM <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

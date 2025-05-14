@@ -19,25 +19,29 @@
 #' @family Supervised Learning
 #' @export
 
-s_SGD <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  x.name = NULL, y.name = NULL,
-                  model = NULL,
-                  model.control = list(lambda1 = 0,
-                                       lambda2 = 0),
-                  sgd.control = list(method = "ai-sgd"),
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
-
+s_SGD <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  model = NULL,
+  model.control = list(lambda1 = 0, lambda2 = 0),
+  sgd.control = list(method = "ai-sgd"),
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_SGD))
@@ -45,7 +49,14 @@ s_SGD <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -65,15 +76,20 @@ s_SGD <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-                    x.test, y.test,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    verbose = verbose)
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -84,8 +100,10 @@ s_SGD <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (is.null(weights)) weights <- rep(1, length(y))
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -118,10 +136,14 @@ s_SGD <- function(x, y = NULL,
 
   # sgd::sgd ----
   if (verbose) msg2("Training SGD model...", newline.pre = TRUE)
-  mod <- sgd::sgd(x = x, y = y,
-                  model = model,
-                  model.control = model.control,
-                  sgd.control = sgd.control, ...)
+  mod <- sgd::sgd(
+    x = x,
+    y = y,
+    model = model,
+    model.control = model.control,
+    sgd.control = sgd.control,
+    ...
+  )
 
   # Fitted ----
   fitted <- mod$fitted.values[, 1]
@@ -156,39 +178,48 @@ s_SGD <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(rtclass = "rtMod",
-                 mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 y.train = if (type == "Classification") y0 else y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 parameters = list(model = model,
-                                   model.control = model.control,
-                                   sgd.control = sgd.control),
-                 error.test = error.test,
-                 varimp = mod$coefficients,
-                 question = question)
+  rt <- rtModSet(
+    rtclass = "rtMod",
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    y.train = if (type == "Classification") y0 else y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    parameters = list(
+      model = model,
+      model.control = model.control,
+      sgd.control = sgd.control
+    ),
+    error.test = error.test,
+    varimp = mod$coefficients,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis::s_SGD

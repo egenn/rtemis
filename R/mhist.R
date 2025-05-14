@@ -34,27 +34,30 @@
 #' @author E.D. Gennatas
 #' @export
 
-mhist <- function(x,
-                  breaks = "Sturges",
-                  measure = c("density", "counts"),
-                  lwd = 3,
-                  xlim = NULL,
-                  ylim = NULL,
-                  plot.axes = FALSE,
-                  xaxis = TRUE,
-                  yaxis = TRUE,
-                  xaxis.line = 0,
-                  yaxis.line = 0,
-                  xlab = NULL,
-                  ylab = measure,
-                  xaxs = "r",
-                  yaxs = "r",
-                  box = FALSE,
-                  grid = FALSE,
-                  col = pennCol$lighterBlue,
-                  horiz = FALSE,
-                  main = "",
-                  add = FALSE, ...) {
+mhist <- function(
+  x,
+  breaks = "Sturges",
+  measure = c("density", "counts"),
+  lwd = 3,
+  xlim = NULL,
+  ylim = NULL,
+  plot.axes = FALSE,
+  xaxis = TRUE,
+  yaxis = TRUE,
+  xaxis.line = 0,
+  yaxis.line = 0,
+  xlab = NULL,
+  ylab = measure,
+  xaxs = "r",
+  yaxs = "r",
+  box = FALSE,
+  grid = FALSE,
+  col = pennCol$lighterBlue,
+  horiz = FALSE,
+  main = "",
+  add = FALSE,
+  ...
+) {
   # [ Arguments ] ----
   measure <- match.arg(measure)
   xhist <- hist(x, breaks = breaks, plot = FALSE)
@@ -73,9 +76,18 @@ mhist <- function(x,
 
   # [ PLOT ] ----
   if (add) par(new = TRUE)
-  plot(.x, .y,
-    type = "n", xlim = .xlim, ylim = .ylim, axes = plot.axes, xaxs = .xaxs, yaxs = .yaxs,
-    xlab = xlab, ylab = ylab, ...
+  plot(
+    .x,
+    .y,
+    type = "n",
+    xlim = .xlim,
+    ylim = .ylim,
+    axes = plot.axes,
+    xaxs = .xaxs,
+    yaxs = .yaxs,
+    xlab = xlab,
+    ylab = ylab,
+    ...
   )
   if (.xaxis) axis(1, line = .xaxis.line)
   if (.yaxis) axis(2, line = .yaxis.line)

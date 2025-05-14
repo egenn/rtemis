@@ -22,36 +22,40 @@
 #' @noRd
 
 # [[---F1---]] ----
-shyoptleaves <- function(x, y,
-                         x.valid = NULL, y.valid = NULL,
-                         lookback = FALSE,
-                         weights = NULL,
-                         max.leaves = 5,
-                         learning.rate = 1,
-                         select.leaves.smooth = TRUE,
-                         # splitline
-                         gamma = .1,
-                         n.quantiles = 20,
-                         minobsinnode = round(.1 * length(y)),
-                         minbucket = round(.05 * length(y)),
-                         # --lincoef
-                         lin.type = "glmnet",
-                         alpha = 1,
-                         lambda = .1,
-                         lambda.seq = NULL,
-                         cv.glmnet.nfolds = 5,
-                         which.cv.glmnet.lambda = "lambda.min",
-                         nbest = 1,
-                         nvmax = 3,
-                         # /--lincoef
-                         # /splitline
-                         .rho = TRUE,
-                         rho.max = 1000,
-                         loss.fn = if (is.factor(y)) class.loss else mse,
-                         verbose = TRUE,
-                         plot.tuning = TRUE,
-                         trace = 0,
-                         n.cores = future::availableCores()) {
+shyoptleaves <- function(
+  x,
+  y,
+  x.valid = NULL,
+  y.valid = NULL,
+  lookback = FALSE,
+  weights = NULL,
+  max.leaves = 5,
+  learning.rate = 1,
+  select.leaves.smooth = TRUE,
+  # splitline
+  gamma = .1,
+  n.quantiles = 20,
+  minobsinnode = round(.1 * length(y)),
+  minbucket = round(.05 * length(y)),
+  # --lincoef
+  lin.type = "glmnet",
+  alpha = 1,
+  lambda = .1,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 3,
+  # /--lincoef
+  # /splitline
+  .rho = TRUE,
+  rho.max = 1000,
+  loss.fn = if (is.factor(y)) class.loss else mse,
+  verbose = TRUE,
+  plot.tuning = TRUE,
+  trace = 0,
+  n.cores = future::availableCores()
+) {
   # [ Arguments ] ----
   type <- if (is.factor(y)) "Classification" else "Regression"
   .class <- type == "Classification"
@@ -69,7 +73,9 @@ shyoptleaves <- function(x, y,
   # Changed: Specify lookback directly
   # lookback <- if (!is.null(x.valid) & !is.null(y.valid)) TRUE else FALSE
   if (lookback && is.null(x.valid)) {
-    stop("You have asked for early stopping without providing a validation set.")
+    stop(
+      "You have asked for early stopping without providing a validation set."
+    )
   }
 
   # [ Check y is not constant ] ----
@@ -134,7 +140,6 @@ shyoptleaves <- function(x, y,
   names(g$stepindex) <- paste(seq(max.leaves))
   g$stepindex$`1` <- 1
 
-
   # { LOOP } step splitLine ----
   if (.class) {
     # vector: Initial probabilities
@@ -160,15 +165,20 @@ shyoptleaves <- function(x, y,
 
   # '- Lin1 ----
   if (verbose) {
-    msg2("Training Stepwise Hybrid Tree ", type,
-      " (max leaves = ", max.leaves, ")...",
+    msg2(
+      "Training Stepwise Hybrid Tree ",
+      type,
+      " (max leaves = ",
+      max.leaves,
+      ")...",
       sep = ""
     )
   }
   if (trace > 0) msg2("Training first Linear Model...")
 
   coef <- lincoef(
-    x = g$xm[, -1, drop = FALSE], y = resid,
+    x = g$xm[, -1, drop = FALSE],
+    y = resid,
     weights = weights,
     method = lin.type,
     nvmax = nvmax,
@@ -183,7 +193,10 @@ shyoptleaves <- function(x, y,
 
   if (.class && .rho) {
     firstDer.rho <- t((-2 * linVal * y) / (1 + exp(2 * y * Fval))) %*% weights
-    secDer.rho <- t((4 * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2) %*% weights
+    secDer.rho <- t(
+      (4 * linVal^2 * exp(2 * y * Fval)) / (1 + exp(2 * y * Fval))^2
+    ) %*%
+      weights
     rho <- -firstDer.rho / secDer.rho
     rho <- c(sign(rho) * min(rho.max, rho, na.rm = TRUE))
   } else {
@@ -305,7 +318,9 @@ shyoptleaves <- function(x, y,
       # 1.Error reduction for each open node
       open.loss.red <- data.frame(
         id = g$open,
-        loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[, 1] -
+        loss.red = plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$loss)[,
+          1
+        ] -
           plyr::ldply(g$open, function(j) g$tree[[paste(j)]]$split.loss)[, 1]
       )
 
@@ -314,13 +329,16 @@ shyoptleaves <- function(x, y,
       selected <- open.loss.red$id[which.max(open.loss.red$loss.red)]
       # Did selected reduce loss
       selected.loss <- open.loss.red$loss.red[open.loss.red$id == selected]
-      selected.red <- length(selected) > 0 && !is.na(selected.loss) && selected.loss > 0
+      selected.red <- length(selected) > 0 &&
+        !is.na(selected.loss) &&
+        selected.loss > 0
       toclose <- open.loss.red$id[which(is.na(open.loss.red$loss.red))]
       if (length(toclose) > 0) {
         for (i in toclose) {
           g$open <- setdiff(g$open, i)
           g$closed <- c(g$closed, i)
-          if (trace > 1) msg20("Node id #", i, " had NA loss.red and was closed")
+          if (trace > 1)
+            msg20("Node id #", i, " had NA loss.red and was closed")
         }
       }
 
@@ -359,7 +377,8 @@ shyoptleaves <- function(x, y,
       } else {
         g$closed <- c(g$closed, selected)
         g$open <- setdiff(g$open, selected)
-        if (trace > 1) msg20("Node id #", selected, " did not reduce loss and was closed")
+        if (trace > 1)
+          msg20("Node id #", selected, " did not reduce loss and was closed")
       }
     } # /if (length(g$tree) == 3)
 
@@ -376,7 +395,8 @@ shyoptleaves <- function(x, y,
   # Add open and nosplit nodes to included
 
   # [ Purge ] ----
-  if (verbose) msg20("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
+  if (verbose)
+    msg20("Reached ", g$n.leaves, " leaves (", g$n.nodes, " nodes total)")
   if (g$n.nodes == 2) {
     g$tree[[paste(2)]]$terminal <- g$tree[[paste(3)]]$terminal <- TRUE
     g$closed <- c(1, 2, 3)
@@ -418,16 +438,21 @@ shyoptleaves <- function(x, y,
   all.step.rules <- data.frame(
     id = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$id),
     rule = plyr::laply(all.step.leaves, function(j) g$tree[[paste(j)]]$rule),
-    N = plyr::laply(all.step.leaves, function(j) length(g$tree[[paste(j)]]$index)),
+    N = plyr::laply(
+      all.step.leaves,
+      function(j) length(g$tree[[paste(j)]]$index)
+    ),
     # Value = meanValue,
     # Label = Label,
     stringsAsFactors = FALSE
   )
   if (trace > 1) print(all.step.leaves)
   if (trace > 1) msg2("Getting all.step.coefs...")
-  all.step.coefs <- plyr::ldply(all.step.leaves, function(j) g$tree[[paste(j)]]$coef)
+  all.step.coefs <- plyr::ldply(
+    all.step.leaves,
+    function(j) g$tree[[paste(j)]]$coef
+  )
   rownames(all.step.coefs) <- all.step.rules$id
-
 
   # [ MOD ] ----
   # CHECK: should be equal to g$n.leaves
@@ -463,9 +488,12 @@ shyoptleaves <- function(x, y,
 
   # change verbose
   if (lookback) {
-    opt.leaves <- selectleaves(.mod,
-      x = x, y = y,
-      x.valid = x.valid, y.valid = y.valid,
+    opt.leaves <- selectleaves(
+      .mod,
+      x = x,
+      y = y,
+      x.valid = x.valid,
+      y.valid = y.valid,
       smooth = select.leaves.smooth,
       print.plot = plot.tuning
     )
@@ -479,18 +507,20 @@ shyoptleaves <- function(x, y,
 # [[---F2---]]----
 #' @keywords internal
 #' @noRd
-setNodeRC <- function(g,
-                      id,
-                      index,
-                      Fval,
-                      weights,
-                      depth,
-                      coef,
-                      terminal = TRUE,
-                      type = "terminal",
-                      condition,
-                      split.rule,
-                      rule) {
+setNodeRC <- function(
+  g,
+  id,
+  index,
+  Fval,
+  weights,
+  depth,
+  coef,
+  terminal = TRUE,
+  type = "terminal",
+  condition,
+  split.rule,
+  rule
+) {
   list(
     id = id,
     index = index,
@@ -519,29 +549,31 @@ setNodeRC <- function(g,
 #' Fit a linear model on (x, y) and split on the gradient
 #' Input: environment holding tree and index of node
 #' Output: None; Expands tree within environment g by splitting indexed node
-#' 
+#'
 #' @keywords internal
 #' @noRd
 
-splitlin_ <- function(g,
-                      type,
-                      node.index,
-                      gamma,
-                      n.quantiles,
-                      minobsinnode,
-                      minbucket,
-                      # lincoef
-                      lin.type,
-                      alpha,
-                      lambda,
-                      lambda.seq,
-                      cv.glmnet.nfolds,
-                      which.cv.glmnet.lambda,
-                      nbest,
-                      nvmax,
-                      # /lincoef
-                      n.cores,
-                      trace) {
+splitlin_ <- function(
+  g,
+  type,
+  node.index,
+  gamma,
+  n.quantiles,
+  minobsinnode,
+  minbucket,
+  # lincoef
+  lin.type,
+  alpha,
+  lambda,
+  lambda.seq,
+  cv.glmnet.nfolds,
+  which.cv.glmnet.lambda,
+  nbest,
+  nvmax,
+  # /lincoef
+  n.cores,
+  trace
+) {
   # '- Node ----
   .class <- type == "Classification"
   node <- g$tree[[paste(node.index)]]
@@ -558,7 +590,9 @@ splitlin_ <- function(g,
   # if (trace > 0) msg2("splitLining node ", node.index, "...", sep = "")
   # dat <- data.frame(g$x, resid1)
   if (trace > 0) msg2("Running splitline...")
-  part <- splitline(g$xm[, -1, drop = FALSE], resid1,
+  part <- splitline(
+    g$xm[, -1, drop = FALSE],
+    resid1,
     caseweights = weights,
     gamma = gamma,
     n.quantiles = n.quantiles,
@@ -609,7 +643,10 @@ splitlin_ <- function(g,
     cutFeat.point <- part[[2]]
     split.rule.left <- paste(cutFeat.name, "<", cutFeat.point)
     split.rule.right <- paste(cutFeat.name, ">=", cutFeat.point)
-    left.index <- intersect(node$index, which(g$x[, cutFeat.index] < cutFeat.point))
+    left.index <- intersect(
+      node$index,
+      which(g$x[, cutFeat.index] < cutFeat.point)
+    )
     right.index <- intersect(node$index, seq_len(NROW(g$x))[-left.index])
     g$tree[[paste(node.index)]]$split.rule <- split.rule.left
     # '- Update Weights -' ----
@@ -619,7 +656,8 @@ splitlin_ <- function(g,
 
     # !! Lincoefs Left ----
     linCoef.left <- lincoef(
-      x = g$xm[, -1, drop = FALSE], y = resid1,
+      x = g$xm[, -1, drop = FALSE],
+      y = resid1,
       weights = weights.left,
       method = lin.type,
       nvmax = nvmax,
@@ -634,8 +672,15 @@ splitlin_ <- function(g,
 
     # Lin Updates, Left ----
     if (.class && g$.rho) {
-      firstDer.rho.left <- (t((-2 * linVal.left * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.left)[1]
-      secDer.rho.left <- (t((4 * linVal.left^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * node$Fval))^2) %*% weights.left)[1]
+      firstDer.rho.left <- (t(
+        (-2 * linVal.left * g$y) / (1 + exp(2 * g$y * node$Fval))
+      ) %*%
+        weights.left)[1]
+      secDer.rho.left <- (t(
+        (4 * linVal.left^2 * exp(2 * g$y * node$Fval)) /
+          (1 + exp(2 * g$y * node$Fval))^2
+      ) %*%
+        weights.left)[1]
       rho.left <- -firstDer.rho.left / secDer.rho.left
       rho.left <- sign(rho.left) * min(g$rho.max, rho.left, na.rm = TRUE)[1]
     } else {
@@ -647,7 +692,8 @@ splitlin_ <- function(g,
 
     # !! LinCoefs Right ----
     linCoef.right <- lincoef(
-      x = g$xm[, -1, drop = FALSE], y = resid1,
+      x = g$xm[, -1, drop = FALSE],
+      y = resid1,
       weights = weights.right,
       method = lin.type,
       nvmax = nvmax,
@@ -661,8 +707,15 @@ splitlin_ <- function(g,
     linVal.right <- c(g$xm %*% linCoef.right)
 
     if (.class && g$.rho) {
-      firstDer.rho.right <- (t((-2 * linVal.right * g$y) / (1 + exp(2 * g$y * node$Fval))) %*% weights.right)[1]
-      secDer.rho.right <- (t((4 * linVal.right^2 * exp(2 * g$y * node$Fval)) / (1 + exp(2 * g$y * node$Fval))^2) %*% weights.right)[1]
+      firstDer.rho.right <- (t(
+        (-2 * linVal.right * g$y) / (1 + exp(2 * g$y * node$Fval))
+      ) %*%
+        weights.right)[1]
+      secDer.rho.right <- (t(
+        (4 * linVal.right^2 * exp(2 * g$y * node$Fval)) /
+          (1 + exp(2 * g$y * node$Fval))^2
+      ) %*%
+        weights.right)[1]
       rho.right <- -firstDer.rho.right / secDer.rho.right
       rho.right <- sign(rho.right) * min(g$rho.max, rho.right, na.rm = TRUE)[1]
     } else {
@@ -679,12 +732,15 @@ splitlin_ <- function(g,
 
     # Get combined error of children
     Fval <- node$Fval
-    Fval[left.index] <- node$Fval[left.index] + g$learning.rate * rho.left * linVal.left[left.index]
-    Fval[right.index] <- node$Fval[right.index] + g$learning.rate * rho.right * linVal.right[right.index] # n
+    Fval[left.index] <- node$Fval[left.index] +
+      g$learning.rate * rho.left * linVal.left[left.index]
+    Fval[right.index] <- node$Fval[right.index] +
+      g$learning.rate * rho.right * linVal.right[right.index] # n
 
     # Assign loss reduction to parent
     g$tree[[paste(node.index)]]$split.loss <- g$loss.fn(g$y, Fval)
-    g$tree[[paste(node.index)]]$split.loss.red <- node$loss - g$tree[[paste(node.index)]]$split.loss
+    g$tree[[paste(node.index)]]$split.loss.red <- node$loss -
+      g$tree[[paste(node.index)]]$split.loss
 
     # Set id numbers by preorder indexing
     # Left
@@ -739,27 +795,32 @@ splitlin_ <- function(g,
 #' @param cxrcoef Logical: If TRUE, return cases-by-rules * coefficients matrix along with predicted values
 #' @param verbose Logical: If TRUE, print messages to console
 #' @param trace Not used
-#' 
+#'
 #' @keywords internal
 #' @noRd
 #' @author E.D. Gennatas
 
-predict.shyoptleaves <- function(object, newdata,
-                                 type = c("response", "probability", "all", "step"),
-                                 n.leaves = NULL,
-                                 n.feat = NCOL(newdata),
-                                 fixed.cxr = NULL,
-                                 cxr.newdata = NULL,
-                                 cxr = FALSE,
-                                 cxrcoef = FALSE,
-                                 verbose = FALSE,
-                                 trace = 0, ...) {
+predict.shyoptleaves <- function(
+  object,
+  newdata,
+  type = c("response", "probability", "all", "step"),
+  n.leaves = NULL,
+  n.feat = NCOL(newdata),
+  fixed.cxr = NULL,
+  cxr.newdata = NULL,
+  cxr = FALSE,
+  cxrcoef = FALSE,
+  verbose = FALSE,
+  trace = 0,
+  ...
+) {
   init <- object$init
   type <- match.arg(type)
   .class <- object$type == "Classification"
 
   # '-- Newdata ----
-  if (is.null(colnames(newdata))) colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
+  if (is.null(colnames(newdata)))
+    colnames(newdata) <- paste0("V", seq_len(NCOL(newdata)))
 
   newdata <- newdata[, seq(n.feat), drop = FALSE]
   # Add column of ones for intercept and convert factors to dummies
@@ -775,14 +836,28 @@ predict.shyoptleaves <- function(object, newdata,
       yhat <- c(init + newdata %*% t(object$leaves$coefs))
     } else {
       rule.ids <- object$stepindex[[paste(n.leaves)]]
-      rules <- sapply(rule.ids, function(j) object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == j])
+      rules <- sapply(
+        rule.ids,
+        function(j)
+          object$all.step.leaves$rules$rule[
+            object$all.step.leaves$rules$id == j
+          ]
+      )
       # Could get rules from tree, same difference?
       # rules <- sapply(rule.ids, function(i) object$tree[[paste(i)]]$rule)
       # coefs <- data.matrix(plyr::ldply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, ]))
       # ldply can't handle columns with duplicate names
       # sapply gives matrix of lists
       # coefs <- data.matrix(t(sapply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, ])))
-      coefs <- lapply(rule.ids, function(j) object$all.step.leaves$coefs[object$all.step.leaves$rules$id == j, , drop = FALSE])
+      coefs <- lapply(
+        rule.ids,
+        function(j)
+          object$all.step.leaves$coefs[
+            object$all.step.leaves$rules$id == j,
+            ,
+            drop = FALSE
+          ]
+      )
       coefs <- data.matrix(do.call(rbind, coefs))
 
       # '-- Cases x Rules ----
@@ -800,9 +875,11 @@ predict.shyoptleaves <- function(object, newdata,
 
       # '-- yhat ----
       # TODO: Update to do length(rules) matrix multiplications and add
-      yhat <- init + sapply(seq_len(NROW(newdata)), function(n) {
-        object$learning.rate * (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE]))
-      })
+      yhat <- init +
+        sapply(seq_len(NROW(newdata)), function(n) {
+          object$learning.rate *
+            (newdata[n, ] %*% t(.cxrcoef[n, , drop = FALSE]))
+        })
     }
 
     if (.class) {
@@ -843,11 +920,14 @@ predict.shyoptleaves <- function(object, newdata,
     if (max.leaves == 1) {
       yhat.l <- list(c(init + newdata %*% t(object$leaves$coefs)))
     } else {
-      if (verbose) msg2("Getting estimated values for each of", max.leaves, "steps...")
+      if (verbose)
+        msg2("Getting estimated values for each of", max.leaves, "steps...")
 
       rules.l <- plyr::llply(seq(max.leaves), function(j) {
         paste(sapply(object$stepindex[[paste(j)]], function(k) {
-          c(object$all.step.leaves$rules$rule[object$all.step.leaves$rules$id == k])
+          c(object$all.step.leaves$rules$rule[
+            object$all.step.leaves$rules$id == k
+          ])
         }))
       })
 
@@ -874,7 +954,8 @@ predict.shyoptleaves <- function(object, newdata,
 
       yhat.l <- plyr::llply(seq(max.leaves), function(j) {
         yhat <- sapply(seq_len(NROW(newdata)), function(n) {
-          object$learning.rate * (newdata[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE]))
+          object$learning.rate *
+            (newdata[n, ] %*% t(cxrcoef.l[[j]][n, , drop = FALSE]))
         })
         if (.class) {
           yhat <- sign(yhat)
@@ -893,13 +974,17 @@ predict.shyoptleaves <- function(object, newdata,
 #'
 #' @method print shyoptleaves
 #' @param x `shyoptleaves` object
-#' 
+#'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
 
 print.shyoptleaves <- function(x, ...) {
-  cat("\n  A Linear Optimized Additive Tree model with", x$n.leaves, "leaves\n\n")
+  cat(
+    "\n  A Linear Optimized Additive Tree model with",
+    x$n.leaves,
+    "leaves\n\n"
+  )
 }
 
 
@@ -918,12 +1003,16 @@ as.data.tree.shyoptleaves <- function(object) {
 
 #' @keywords internal
 #' @noRd
-shyoptree.select.leaves <- function(object,
-                                    x, y,
-                                    x.valid, y.valid,
-                                    smooth = TRUE,
-                                    print.plot = FALSE,
-                                    verbose = FALSE) {
+shyoptree.select.leaves <- function(
+  object,
+  x,
+  y,
+  x.valid,
+  y.valid,
+  smooth = TRUE,
+  print.plot = FALSE,
+  verbose = FALSE
+) {
   n.leaves <- object$n.leaves
   .class <- object$type == "Classification"
 
@@ -932,12 +1021,14 @@ shyoptree.select.leaves <- function(object,
   # dat <- complete.cases(dat)
   # }
 
-  train.estimate.l <- predict.shyoptleaves(object,
+  train.estimate.l <- predict.shyoptleaves(
+    object,
     newdata = x,
     type = "step",
     verbose = verbose
   )
-  valid.estimate.l <- predict.shyoptleaves(object,
+  valid.estimate.l <- predict.shyoptleaves(
+    object,
     newdata = x.valid,
     type = "step",
     verbose = verbose
@@ -971,16 +1062,21 @@ shyoptree.select.leaves <- function(object,
 
   if (print.plot) {
     if (verbose) msg2("Are we plotting or what?", color = red)
-    mplot3_xy(seq(n.leaves), list(
-      Training = train.error,
-      Validation = valid.error,
-      `Smoothed Valid.` = valid.error.smooth
-    ),
-    type = "l", group.adj = .95, lty = c(1, 1, 2),
-    line.col = c("#80ffff", "#FF99FF", "#453DCB"),
-    vline = c(which.min(valid.error), which.min(valid.error.smooth)),
-    vline.col = c("#FF99FF", "#453DCB"),
-    xlab = "N leaves", ylab = ifelse(.class, "1 - Balanced Accuracy", "MSE")
+    mplot3_xy(
+      seq(n.leaves),
+      list(
+        Training = train.error,
+        Validation = valid.error,
+        `Smoothed Valid.` = valid.error.smooth
+      ),
+      type = "l",
+      group.adj = .95,
+      lty = c(1, 1, 2),
+      line.col = c("#80ffff", "#FF99FF", "#453DCB"),
+      vline = c(which.min(valid.error), which.min(valid.error.smooth)),
+      vline.col = c("#FF99FF", "#453DCB"),
+      xlab = "N leaves",
+      ylab = ifelse(.class, "1 - Balanced Accuracy", "MSE")
     )
   }
 

@@ -59,47 +59,52 @@
 #' @family Interpretable models
 #' @export
 
-s_CART <- function(x, y = NULL,
-                   x.test = NULL, y.test = NULL,
-                   x.name = NULL, y.name = NULL,
-                   weights = NULL,
-                   ifw = TRUE,
-                   ifw.type = 2,
-                   upsample = FALSE,
-                   downsample = FALSE,
-                   resample.seed = NULL,
-                   method = "auto",
-                   parms = NULL,
-                   minsplit = 2,
-                   minbucket = round(minsplit / 3),
-                   cp = 0.01,
-                   maxdepth = 20,
-                   maxcompete = 0,
-                   maxsurrogate = 0,
-                   usesurrogate = 2,
-                   surrogatestyle = 0,
-                   xval = 0,
-                   cost = NULL,
-                   model = TRUE,
-                   prune.cp = NULL,
-                   use.prune.rpart.rt = TRUE,
-                   return.unpruned = FALSE,
-                   grid.resample.params = setup.resample("kfold", 5),
-                   gridsearch.type = c("exhaustive", "randomized"),
-                   gridsearch.randomized.p = .1,
-                   save.gridrun = FALSE,
-                   metric = NULL,
-                   maximize = NULL,
-                   n.cores = rtCores,
-                   print.plot = FALSE,
-                   plot.fitted = NULL,
-                   plot.predicted = NULL,
-                   plot.theme = rtTheme,
-                   question = NULL,
-                   verbose = TRUE,
-                   grid.verbose = verbose,
-                   outdir = NULL,
-                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE)) {
+s_CART <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  method = "auto",
+  parms = NULL,
+  minsplit = 2,
+  minbucket = round(minsplit / 3),
+  cp = 0.01,
+  maxdepth = 20,
+  maxcompete = 0,
+  maxsurrogate = 0,
+  usesurrogate = 2,
+  surrogatestyle = 0,
+  xval = 0,
+  cost = NULL,
+  model = TRUE,
+  prune.cp = NULL,
+  use.prune.rpart.rt = TRUE,
+  return.unpruned = FALSE,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = .1,
+  save.gridrun = FALSE,
+  metric = NULL,
+  maximize = NULL,
+  n.cores = rtCores,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  grid.verbose = verbose,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE)
+) {
   # .call <- match.call()
   tree.depth <- getFromNamespace("tree.depth", "rpart")
 
@@ -108,9 +113,16 @@ s_CART <- function(x, y = NULL,
     print(args(s_CART))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -130,12 +142,17 @@ s_CART <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name, "/")
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   gridsearch.type <- match.arg(gridsearch.type)
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -172,8 +189,10 @@ s_CART <- function(x, y = NULL,
   }
   if (is.null(cost)) cost <- rep(1, NCOL(x))
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -195,7 +214,8 @@ s_CART <- function(x, y = NULL,
   # Grid Search ----
   if (gridCheck(maxdepth, minsplit, minbucket, cp, prune.cp)) {
     gs <- gridSearchLearn(
-      x0, y0,
+      x0,
+      y0,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -329,7 +349,8 @@ s_CART <- function(x, y = NULL,
 
   # Outro ----
   varimp <- rep(NA, NCOL(x))
-  varimp.cart <- if (!is.null(mod$variable.importance)) as.matrix(mod$variable.importance) else NULL
+  varimp.cart <- if (!is.null(mod$variable.importance))
+    as.matrix(mod$variable.importance) else NULL
   varimp.index <- match(rownames(varimp.cart), colnames(x))
   varimp[varimp.index] <- varimp.cart
   varimp[is.na(varimp)] <- 0
@@ -380,7 +401,8 @@ s_CART <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

@@ -3,7 +3,7 @@
 # 2020 E.D. Gennatas rtemis.org
 
 #' Get estimated text width
-#' 
+#'
 #' @keywords internal
 #' @noRd
 # nchar 46 => 19.5
@@ -20,7 +20,7 @@ textwidth <- function(x) {
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
-#' @noRd 
+#' @noRd
 
 ylo <- function(pct_lower = .08) {
   ylo <- par("usr")[3]
@@ -37,27 +37,21 @@ ylo <- function(pct_lower = .08) {
 #' @noRd
 
 yhi <- function(pct_higher = .08) {
-
   ylo <- par("usr")[3]
   yhi <- par("usr")[4]
   yhi + pct_higher * (yhi - ylo)
-
 }
 
 xleft <- function(pct_left = .08) {
-
   xleft <- par("usr")[1]
   xright <- par("usr")[2]
   xleft - pct_left * (xright - xleft)
-
 }
 
 xright <- function(pct_right = .08) {
-
   xleft <- par("usr")[1]
   xright <- par("usr")[2]
   xright + pct_right * (xright - xleft)
-
 }
 
 ymid <- function() .5 * sum(par("usr")[3:4])
@@ -83,13 +77,14 @@ getlim <- function(x, axs = c("r", "i"), axs.r.pct = .04) {
 # ::rtemis::
 # 2022 E.D. Gennatas rtemis.org
 
-basegrid <- function(x = NULL,
-                     y = NULL,
-                     col = NULL,
-                     lty = NULL,
-                     lwd = NULL,
-                     theme = rtTheme) {
-
+basegrid <- function(
+  x = NULL,
+  y = NULL,
+  col = NULL,
+  lty = NULL,
+  lwd = NULL,
+  theme = rtTheme
+) {
   # Theme ----
   if (is.character(theme)) {
     theme <- do.call(paste0("theme_", theme), list())

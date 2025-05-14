@@ -47,37 +47,43 @@
 #' }
 #' @export
 
-s_SPLS <- function(x, y = NULL,
-                   x.test = NULL, y.test = NULL,
-                   x.name = NULL, y.name = NULL,
-                   upsample = TRUE,
-                   downsample = FALSE,
-                   resample.seed = NULL,
-                   k = 2,
-                   eta = .5,
-                   kappa = .5,
-                   select = "pls2",
-                   fit = "simpls",
-                   scale.x = TRUE,
-                   scale.y = TRUE,
-                   maxstep = 100,
-                   classifier = c("lda", "logistic"),
-                   grid.resample.params = setup.resample("kfold", 5),
-                   gridsearch.type = c("exhaustive", "randomized"),
-                   gridsearch.randomized.p = .1,
-                   metric = NULL,
-                   maximize = NULL,
-                   print.plot = FALSE,
-                   plot.fitted = NULL,
-                   plot.predicted = NULL,
-                   plot.theme = rtTheme,
-                   question = NULL,
-                   verbose = TRUE,
-                   trace = 0,
-                   grid.verbose = verbose,
-                   outdir = NULL,
-                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                   n.cores = rtCores, ...) {
+s_SPLS <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  upsample = TRUE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  k = 2,
+  eta = .5,
+  kappa = .5,
+  select = "pls2",
+  fit = "simpls",
+  scale.x = TRUE,
+  scale.y = TRUE,
+  maxstep = 100,
+  classifier = c("lda", "logistic"),
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = c("exhaustive", "randomized"),
+  gridsearch.randomized.p = .1,
+  metric = NULL,
+  maximize = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  grid.verbose = verbose,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  n.cores = rtCores,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_SPLS))
@@ -85,7 +91,14 @@ s_SPLS <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -109,15 +122,22 @@ s_SPLS <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (k > NCOL(x)) {
-    warning("k cannot exceed number of features. Setting k to NCOL(x) = ", NCOL(x))
+    warning(
+      "k cannot exceed number of features. Setting k to NCOL(x) = ",
+      NCOL(x)
+    )
     k <- NCOL(x)
   }
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -132,8 +152,10 @@ s_SPLS <- function(x, y = NULL,
   checkType(type, c("Classification", "Regression"), mod.name)
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -158,12 +180,18 @@ s_SPLS <- function(x, y = NULL,
   }
 
   if (gridCheck(k, eta, kappa, select, fit, maxstep)) {
-    gs <- gridSearchLearn(x, y,
+    gs <- gridSearchLearn(
+      x,
+      y,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
-        k = k, eta = eta, kappa = kappa,
-        select = select, fit = fit, maxstep = maxstep
+        k = k,
+        eta = eta,
+        kappa = kappa,
+        select = select,
+        fit = fit,
+        maxstep = maxstep
       ),
       search.type = gridsearch.type,
       randomized.p = gridsearch.randomized.p,
@@ -184,13 +212,18 @@ s_SPLS <- function(x, y = NULL,
 
   # spls::splsda/spls ----
   if (verbose) {
-    msg20("Training Sparse Partial Least Squares ", type, "...",
+    msg20(
+      "Training Sparse Partial Least Squares ",
+      type,
+      "...",
       newline.pre = TRUE
     )
   }
   if (type == "Classification") {
     # Cannot include select, scale.y, or trace options; see source
-    mod <- spls::splsda(data.matrix(x), y1,
+    mod <- spls::splsda(
+      data.matrix(x),
+      y1,
       K = k,
       eta = eta,
       kappa = kappa,
@@ -202,7 +235,9 @@ s_SPLS <- function(x, y = NULL,
       maxstep = maxstep
     )
   } else {
-    mod <- spls::spls(x, y,
+    mod <- spls::spls(
+      x,
+      y,
       K = k,
       eta = eta,
       kappa = kappa,
@@ -278,6 +313,10 @@ s_SPLS <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_SPLS

@@ -11,33 +11,41 @@
 #' @author E.D. Gennatas
 #' @export
 
-rt_save <- function(rtmod,
-                    outdir,
-                    file.prefix = "s_",
-                    verbose = TRUE) {
+rt_save <- function(rtmod, outdir, file.prefix = "s_", verbose = TRUE) {
   outdir <- normalizePath(outdir, mustWork = FALSE)
   if (verbose) {
     start_time <- Sys.time()
-    msg2("Writing data to ", outdir, "... ",
+    msg2(
+      "Writing data to ",
+      outdir,
+      "... ",
       sep = "",
-      caller = NA, newline = FALSE
+      caller = NA,
+      newline = FALSE
     )
   }
-  if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+  if (!dir.exists(outdir))
+    dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
   rdsPath <- file.path(outdir, paste0(file.prefix, rtmod$mod.name, ".rds"))
   try(saveRDS(rtmod, rdsPath))
   if (verbose) elapsed <- Sys.time() - start_time
   if (file.exists(rdsPath)) {
     if (verbose) {
-      yay("[", format(elapsed, digits = 2), "]",
-        gray(" [rt_save]"),
+      yay("[", format(elapsed, digits = 2), "]", gray(" [rt_save]"), sep = "")
+      msg20(italic(
+        "Reload with:",
+        "> rtmod <- readRDS('",
+        rdsPath,
+        "')",
         sep = ""
-      )
-      msg20(italic("Reload with:", "> rtmod <- readRDS('", rdsPath, "')", sep = ""))
+      ))
     }
   } else {
     if (verbose) {
-      nay("[Failed after ", format(elapsed, digits = 2), "]",
+      nay(
+        "[Failed after ",
+        format(elapsed, digits = 2),
+        "]",
         gray(" [rt_save]"),
         sep = ""
       )
@@ -55,9 +63,7 @@ rt_save <- function(rtmod,
 #' @author E.D. Gennatas
 #' @export
 
-check_files <- function(paths,
-                        verbose = TRUE,
-                        pad = 0) {
+check_files <- function(paths, verbose = TRUE, pad = 0) {
   if (verbose) msg20("Checking ", singorplu(length(paths), "file"), ":")
 
   for (f in paths) {

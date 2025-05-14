@@ -59,75 +59,85 @@
 #' @author E.D. Gennatas
 #' @export
 
-s_LINAD <- function(x, y = NULL,
-                    x.test = NULL, y.test = NULL,
-                    weights = NULL,
-                    max.leaves = 20,
-                    lookback = TRUE, # induces cross-validation with gridSearchLearn
-                    force.max.leaves = NULL,
-                    learning.rate = .5,
-                    ifw = TRUE,
-                    ifw.type = 1,
-                    upsample = FALSE,
-                    downsample = FALSE,
-                    resample.seed = NULL,
-                    leaf.model = c("line", "spline"),
-                    gamlearner = "gamsel",
-                    gam.params = list(), # use force.lambda to force gamsel over cv.gamsel
-                    nvmax = 3,
-                    gamma = .5,
-                    gamma.on.lin = FALSE,
-                    lin.type = c(
-                      "glmnet", "forwardStepwise", "cv.glmnet",
-                      "lm.ridge", "allSubsets", "backwardStepwise",
-                      "glm", "solve", "none"
-                    ),
-                    first.lin.type = "cv.glmnet",
-                    first.lin.learning.rate = 1,
-                    first.lin.alpha = 1,
-                    first.lin.lambda = NULL,
-                    cv.glmnet.nfolds = 5,
-                    which.cv.glmnet.lambda = "lambda.min",
-                    alpha = 1,
-                    lambda = .05,
-                    lambda.seq = NULL,
-                    minobsinnode.lin = 10,
-                    # rpart
-                    part.minsplit = 2,
-                    part.xval = 0,
-                    part.max.depth = 1,
-                    part.cp = 0,
-                    part.minbucket = 1,
-                    .rho = TRUE,
-                    rho.max = 1000,
-                    init = NULL,
-                    metric = "auto",
-                    maximize = NULL,
-                    grid.resample.params = setup.resample("kfold", 5),
-                    gridsearch.type = "exhaustive",
-                    save.gridrun = FALSE,
-                    select.leaves.smooth = FALSE,
-                    cluster = FALSE,
-                    keep.x = FALSE,
-                    simplify = TRUE,
-                    cxrcoef = FALSE,
-                    n.cores = rtCores,
-                    .preprocess = NULL,
-                    verbose = TRUE,
-                    grid.verbose = FALSE,
-                    plot.tuning = FALSE,
-                    verbose.predict = FALSE,
-                    trace = 1,
-                    x.name = NULL,
-                    y.name = NULL,
-                    question = NULL,
-                    outdir = NULL,
-                    print.plot = FALSE,
-                    plot.fitted = NULL,
-                    plot.predicted = NULL,
-                    plot.theme = rtTheme,
-                    save.mod = FALSE,
-                    .gs = FALSE) {
+s_LINAD <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  weights = NULL,
+  max.leaves = 20,
+  lookback = TRUE, # induces cross-validation with gridSearchLearn
+  force.max.leaves = NULL,
+  learning.rate = .5,
+  ifw = TRUE,
+  ifw.type = 1,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  leaf.model = c("line", "spline"),
+  gamlearner = "gamsel",
+  gam.params = list(), # use force.lambda to force gamsel over cv.gamsel
+  nvmax = 3,
+  gamma = .5,
+  gamma.on.lin = FALSE,
+  lin.type = c(
+    "glmnet",
+    "forwardStepwise",
+    "cv.glmnet",
+    "lm.ridge",
+    "allSubsets",
+    "backwardStepwise",
+    "glm",
+    "solve",
+    "none"
+  ),
+  first.lin.type = "cv.glmnet",
+  first.lin.learning.rate = 1,
+  first.lin.alpha = 1,
+  first.lin.lambda = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  alpha = 1,
+  lambda = .05,
+  lambda.seq = NULL,
+  minobsinnode.lin = 10,
+  # rpart
+  part.minsplit = 2,
+  part.xval = 0,
+  part.max.depth = 1,
+  part.cp = 0,
+  part.minbucket = 1,
+  .rho = TRUE,
+  rho.max = 1000,
+  init = NULL,
+  metric = "auto",
+  maximize = NULL,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  save.gridrun = FALSE,
+  select.leaves.smooth = FALSE,
+  cluster = FALSE,
+  keep.x = FALSE,
+  simplify = TRUE,
+  cxrcoef = FALSE,
+  n.cores = rtCores,
+  .preprocess = NULL,
+  verbose = TRUE,
+  grid.verbose = FALSE,
+  plot.tuning = FALSE,
+  verbose.predict = FALSE,
+  trace = 1,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  outdir = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  save.mod = FALSE,
+  .gs = FALSE
+) {
   # Intro  ----
   if (missing(x)) {
     print(args(s_LINAD))
@@ -138,8 +148,12 @@ s_LINAD <- function(x, y = NULL,
   }
   logFile <- if (!is.null(outdir)) {
     paste0(
-      outdir, "/", sys.calls()[[1]][[1]], ".",
-      format(Sys.time(), "%Y%m%d.%H%M%S"), ".log"
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
     )
   } else {
     NULL
@@ -159,8 +173,13 @@ s_LINAD <- function(x, y = NULL,
   # if (.gs && nvmax == 0) lin.type = "none"
 
   # Data  ----
-  dt <- prepare_data(x, y, x.test, y.test,
-    ifw = ifw, ifw.type = ifw.type,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -179,7 +198,8 @@ s_LINAD <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) {
-    parameterSummary(max.leaves,
+    parameterSummary(
+      max.leaves,
       learning.rate,
       gamma,
       lin.type,
@@ -239,15 +259,28 @@ s_LINAD <- function(x, y = NULL,
   if (is.null(force.max.leaves)) {
     if (lookback) {
       gc <- gridCheck(
-        learning.rate, gamma, minobsinnode.lin, lambda, nvmax,
-        part.minsplit, part.minbucket, part.cp
+        learning.rate,
+        gamma,
+        minobsinnode.lin,
+        lambda,
+        nvmax,
+        part.minsplit,
+        part.minbucket,
+        part.cp
       )
     } else {
       # not recommended to cv max.leaves - use lookback instead;
       # option likely will be removed
       gc <- gridCheck(
-        learning.rate, gamma, minobsinnode.lin, lambda, nvmax,
-        part.minsplit, part.minbucket, part.cp, max.leaves
+        learning.rate,
+        gamma,
+        minobsinnode.lin,
+        lambda,
+        nvmax,
+        part.minsplit,
+        part.minbucket,
+        part.cp,
+        max.leaves
       )
     }
   } else {
@@ -259,34 +292,41 @@ s_LINAD <- function(x, y = NULL,
 
   if ((!.gs && gc) || (!.gs && lookback && max.leaves > 1)) {
     grid.params <- if (lookback) list() else list(max.leaves = max.leaves)
-    grid.params <- c(grid.params, list(
-      learning.rate = learning.rate,
-      gamma = gamma,
-      minobsinnode.lin = minobsinnode.lin,
-      lambda = lambda,
-      nvmax = nvmax,
-      part.minsplit = part.minsplit,
-      part.minbucket = part.minbucket,
-      part.cp = part.cp
-    ))
+    grid.params <- c(
+      grid.params,
+      list(
+        learning.rate = learning.rate,
+        gamma = gamma,
+        minobsinnode.lin = minobsinnode.lin,
+        lambda = lambda,
+        nvmax = nvmax,
+        part.minsplit = part.minsplit,
+        part.minbucket = part.minbucket,
+        part.cp = part.cp
+      )
+    )
     fixed.params <- if (lookback) list(max.leaves = max.leaves) else list()
-    fixed.params <- c(fixed.params, list(
-      init = init,
-      lin.type = lin.type,
-      gamma.on.lin = gamma.on.lin,
-      cv.glmnet.nfolds = cv.glmnet.nfolds,
-      which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-      metric = metric,
-      ifw = ifw,
-      ifw.type = ifw.type,
-      upsample = upsample,
-      resample.seed = resample.seed,
-      plot.tuning = plot.tuning,
-      .gs = TRUE
-    ))
+    fixed.params <- c(
+      fixed.params,
+      list(
+        init = init,
+        lin.type = lin.type,
+        gamma.on.lin = gamma.on.lin,
+        cv.glmnet.nfolds = cv.glmnet.nfolds,
+        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+        metric = metric,
+        ifw = ifw,
+        ifw.type = ifw.type,
+        upsample = upsample,
+        resample.seed = resample.seed,
+        plot.tuning = plot.tuning,
+        .gs = TRUE
+      )
+    )
 
     gs <- gridSearchLearn(
-      x = x0, y = y0,
+      x = x0,
+      y = y0,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = grid.params,
@@ -339,8 +379,11 @@ s_LINAD <- function(x, y = NULL,
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
 
   if (length(max.leaves) == 0) max.leaves <- 1
-  mod <- linadleaves(x, y,
-    x.valid = x.valid, y.valid = y.valid,
+  mod <- linadleaves(
+    x,
+    y,
+    x.valid = x.valid,
+    y.valid = y.valid,
     type = type,
     lookback = lookback,
     max.leaves = max.leaves,
@@ -456,7 +499,9 @@ s_LINAD <- function(x, y = NULL,
   if (!is.null(x.test)) {
     if (trace > 1) msg2("Getting predicted values...")
     if (type == "Classification") {
-      .predicted <- predict(mod, x.test,
+      .predicted <- predict(
+        mod,
+        x.test,
         type = "all",
         learning.rate = learning.rate,
         trace = trace,
@@ -465,7 +510,9 @@ s_LINAD <- function(x, y = NULL,
       predicted <- .predicted$estimate
       predicted.prob <- .predicted$probability
     } else {
-      predicted <- predict(mod, x.test,
+      predicted <- predict(
+        mod,
+        x.test,
         learning.rate = learning.rate,
         trace = trace,
         verbose = verbose.predict
@@ -514,7 +561,10 @@ s_LINAD <- function(x, y = NULL,
     if (verbose) msg2("Getting clusters...")
     mod$extra$clusters.train <- indexCasesByRules(x, mod$leaves$rules$rule)
     if (!is.null(x.test)) {
-      mod$extra$clusters.test <- indexCasesByRules(x.test, mod$leaves$rules$rule)
+      mod$extra$clusters.test <- indexCasesByRules(
+        x.test,
+        mod$leaves$rules$rule
+      )
     }
   }
 
@@ -531,7 +581,8 @@ s_LINAD <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

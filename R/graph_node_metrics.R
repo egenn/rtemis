@@ -21,9 +21,7 @@
 #' graph_node_metrics(x)
 #' }
 
-graph_node_metrics <- function(x,
-                               verbose = TRUE) {
-
+graph_node_metrics <- function(x, verbose = TRUE) {
   if (!inherits(x, "igraph")) stop("Input must be igraph object")
 
   .nodes <- as.character(igraph::V(x))
@@ -46,14 +44,15 @@ graph_node_metrics <- function(x,
   .page_rank <- igraph::page_rank(x)$vector
   .authority_score <- igraph::authority_score(x)$vector
 
-  data.frame(Node = .nodes,
-             Degree = .degree,
-             Strength = .strength,
-             Betwenness = .betweenness,
-             Closeness = .closeness,
-             Eigen_Centrality = .eigen_centrality,
-             Hub_Score = .hub_score,
-             Page_Rank = .page_rank,
-             Authority_Score = .authority_score)
-
+  data.frame(
+    Node = .nodes,
+    Degree = .degree,
+    Strength = .strength,
+    Betwenness = .betweenness,
+    Closeness = .closeness,
+    Eigen_Centrality = .eigen_centrality,
+    Hub_Score = .hub_score,
+    Page_Rank = .page_rank,
+    Authority_Score = .authority_score
+  )
 } # rtemis::graph_node_metrics

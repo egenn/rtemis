@@ -57,7 +57,7 @@
 #' "scatterpolar", "scattermapbox",
 #' @param show.marginal.x Logical: If TRUE, add marginal distribution line markers on x-axis
 #' @param show.marginal.y Logical: If TRUE, add marginal distribution line markers on y-axis
-#' @param marginal.x Numeric: Data whose distribution will be shown on x-axis. Only 
+#' @param marginal.x Numeric: Data whose distribution will be shown on x-axis. Only
 #' specify if different from `x`
 #' @param marginal.y Numeric: Data whose distribution will be shown on y-axis. Only
 #' specify if different from `y`
@@ -76,107 +76,111 @@
 #' )
 #' }
 #'
-dplot3_xy <- function(x, y = NULL,
-                      fit = NULL,
-                      se.fit = FALSE,
-                      se.times = 1.96,
-                      include.fit.name = TRUE,
-                      cluster = NULL,
-                      cluster.params = list(k = 2),
-                      group = NULL,
-                      formula = NULL,
-                      rsq = TRUE,
-                      # rsq.pval = FALSE,
-                      mode = "markers",
-                      order.on.x = NULL,
-                      main = NULL,
-                      subtitle = NULL,
-                      xlab = NULL,
-                      ylab = NULL,
-                      col = NULL,
-                      alpha = NULL,
-                      # bg = NULL,
-                      # plot.bg = NULL,
-                      theme = rtTheme,
-                      palette = rtPalette,
-                      axes.square = FALSE,
-                      group.names = NULL,
-                      font.size = 16,
-                      marker.col = NULL,
-                      marker.size = 8,
-                      symbol = "circle",
-                      fit.col = NULL,
-                      fit.alpha = .8,
-                      fit.lwd = 2.5,
-                      se.col = NULL,
-                      se.alpha = .4,
-                      scatter.type = "scatter",
-                      # Marginal plots
-                      show.marginal.x = FALSE,
-                      show.marginal.y = FALSE,
-                      marginal.x = x,
-                      marginal.y = y,
-                      marginal.x.y = NULL,
-                      marginal.y.x = NULL,
-                      marginal.col = NULL,
-                      marginal.alpha = .333,
-                      marginal.size = 10,
-                      legend = NULL,
-                      legend.xy = c(0, .98),
-                      legend.xanchor = "left",
-                      legend.yanchor = "auto",
-                      legend.orientation = "v",
-                      legend.col = NULL,
-                      legend.bg = "#FFFFFF00",
-                      legend.border.col = "#FFFFFF00",
-                      legend.borderwidth = 0,
-                      legend.group.gap = 0,
-                      x.showspikes = FALSE,
-                      y.showspikes = FALSE,
-                      spikedash = "solid",
-                      spikemode = "across",
-                      spikesnap = "hovered data",
-                      spikecolor = NULL,
-                      spikethickness = 1,
-                      margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                      main.y = 1,
-                      main.yanchor = "bottom",
-                      subtitle.x = 0.02,
-                      subtitle.y = 0.99,
-                      subtitle.xref = "paper",
-                      subtitle.yref = "paper",
-                      subtitle.xanchor = "left",
-                      subtitle.yanchor = "top",
-                      automargin.x = TRUE,
-                      automargin.y = TRUE,
-                      xlim = NULL,
-                      ylim = NULL,
-                      axes.equal = FALSE,
-                      diagonal = FALSE,
-                      diagonal.col = NULL,
-                      diagonal.alpha = .2,
-                      fit.params = list(),
-                      vline = NULL,
-                      vline.col = theme$fg,
-                      vline.width = 1,
-                      vline.dash = "dot",
-                      hline = NULL,
-                      hline.col = theme$fg,
-                      hline.width = 1,
-                      hline.dash = "dot",
-                      hovertext = NULL,
-                      width = NULL,
-                      height = NULL,
-                      # config
-                      displayModeBar = TRUE,
-                      modeBar.file.format = "svg",
-                      scrollZoom = TRUE,
-                      # write to file
-                      filename = NULL,
-                      file.width = 500,
-                      file.height = 500,
-                      file.scale = 1,
-                      trace = 0, ...) {
+dplot3_xy <- function(
+  x,
+  y = NULL,
+  fit = NULL,
+  se.fit = FALSE,
+  se.times = 1.96,
+  include.fit.name = TRUE,
+  cluster = NULL,
+  cluster.params = list(k = 2),
+  group = NULL,
+  formula = NULL,
+  rsq = TRUE,
+  # rsq.pval = FALSE,
+  mode = "markers",
+  order.on.x = NULL,
+  main = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = NULL,
+  # bg = NULL,
+  # plot.bg = NULL,
+  theme = rtTheme,
+  palette = rtPalette,
+  axes.square = FALSE,
+  group.names = NULL,
+  font.size = 16,
+  marker.col = NULL,
+  marker.size = 8,
+  symbol = "circle",
+  fit.col = NULL,
+  fit.alpha = .8,
+  fit.lwd = 2.5,
+  se.col = NULL,
+  se.alpha = .4,
+  scatter.type = "scatter",
+  # Marginal plots
+  show.marginal.x = FALSE,
+  show.marginal.y = FALSE,
+  marginal.x = x,
+  marginal.y = y,
+  marginal.x.y = NULL,
+  marginal.y.x = NULL,
+  marginal.col = NULL,
+  marginal.alpha = .333,
+  marginal.size = 10,
+  legend = NULL,
+  legend.xy = c(0, .98),
+  legend.xanchor = "left",
+  legend.yanchor = "auto",
+  legend.orientation = "v",
+  legend.col = NULL,
+  legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00",
+  legend.borderwidth = 0,
+  legend.group.gap = 0,
+  x.showspikes = FALSE,
+  y.showspikes = FALSE,
+  spikedash = "solid",
+  spikemode = "across",
+  spikesnap = "hovered data",
+  spikecolor = NULL,
+  spikethickness = 1,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  main.y = 1,
+  main.yanchor = "bottom",
+  subtitle.x = 0.02,
+  subtitle.y = 0.99,
+  subtitle.xref = "paper",
+  subtitle.yref = "paper",
+  subtitle.xanchor = "left",
+  subtitle.yanchor = "top",
+  automargin.x = TRUE,
+  automargin.y = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  axes.equal = FALSE,
+  diagonal = FALSE,
+  diagonal.col = NULL,
+  diagonal.alpha = .2,
+  fit.params = list(),
+  vline = NULL,
+  vline.col = theme$fg,
+  vline.width = 1,
+  vline.dash = "dot",
+  hline = NULL,
+  hline.col = theme$fg,
+  hline.width = 1,
+  hline.dash = "dot",
+  hovertext = NULL,
+  width = NULL,
+  height = NULL,
+  # config
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  scrollZoom = TRUE,
+  # write to file
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  trace = 0,
+  ...
+) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -202,28 +206,35 @@ dplot3_xy <- function(x, y = NULL,
 
   if (se.fit) {
     if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
-      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
+      warning(paste(
+        "Standard error of the fit not available for",
+        fit,
+        "- try LM, LOESS, GAM, or NW"
+      ))
       se.fit <- FALSE
     }
   }
 
   # order.on.x ----
   if (is.null(order.on.x)) {
-    order.on.x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
+    order.on.x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else
+      FALSE
   }
 
   # Cluster ----
   if (!is.null(cluster)) {
-    group <- suppressWarnings(do.call(
-      select_clust(cluster),
-      c(
-        list(
-          x = data.frame(x, y),
-          verbose = trace > 0
-        ),
-        cluster.params
-      )
-    )$clusters.train)
+    group <- suppressWarnings(
+      do.call(
+        select_clust(cluster),
+        c(
+          list(
+            x = data.frame(x, y),
+            verbose = trace > 0
+          ),
+          cluster.params
+        )
+      )$clusters.train
+    )
     group <- paste("Cluster", group)
   }
 
@@ -280,7 +291,8 @@ dplot3_xy <- function(x, y = NULL,
     legend <- if (n.groups == 1 && is.null(fit)) FALSE else TRUE
   }
 
-  if (length(.mode) < n.groups) .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
+  if (length(.mode) < n.groups)
+    .mode <- c(.mode, rep(tail(.mode)[1], n.groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n.groups > 1
   if (is.null(.names)) {
@@ -392,7 +404,8 @@ dplot3_xy <- function(x, y = NULL,
       fitted[[i]] <- fitted(mod)
       if (se.fit) se[[i]] <- se(mod)
       if (include.fit.name) {
-        fitted.text[i] <- switch(fit,
+        fitted.text[i] <- switch(
+          fit,
           NLS = mod$extra$model,
           NLA = mod$mod$formula,
           fit
@@ -404,7 +417,8 @@ dplot3_xy <- function(x, y = NULL,
         fitted.text[i] <- paste0(
           fitted.text[i],
           if (n.groups == 1) " (" else " ",
-          "R<sup>2</sup> = ", ddSci(mod$error.train$Rsq),
+          "R<sup>2</sup> = ",
+          ddSci(mod$error.train$Rsq),
           if (n.groups == 1) ")"
         )
       }
@@ -483,7 +497,8 @@ dplot3_xy <- function(x, y = NULL,
   if (diagonal) {
     lo <- min(xlim[1], ylim[1])
     hi <- max(xlim[2], ylim[2])
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       shapes = list(
         type = "line",
         x0 = lo,
@@ -506,7 +521,8 @@ dplot3_xy <- function(x, y = NULL,
     } else {
       NULL
     }
-    plt <- plotly::add_trace(plt,
+    plt <- plotly::add_trace(
+      plt,
       x = x[[i]],
       y = y[[i]],
       type = scatter.type,
@@ -535,7 +551,8 @@ dplot3_xy <- function(x, y = NULL,
       # Extend ylim to include marginal markers
       ylim[1] <- ylim[1] - 0.02 * diff(ylim)
       for (i in seq_len(n.groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = marginal.x[[i]],
           y = rep(marginal.x.y, length(marginal.x[[i]])),
           type = "scatter",
@@ -559,7 +576,8 @@ dplot3_xy <- function(x, y = NULL,
       # Extend xlim to include marginal markers
       xlim[1] <- xlim[1] - 0.02 * diff(xlim)
       for (i in seq_len(n.groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = rep(marginal.y.x, length(marginal.y[[i]])),
           y = marginal.y[[i]],
           type = "scatter",
@@ -578,7 +596,8 @@ dplot3_xy <- function(x, y = NULL,
 
     ## { SE band } ----
     if (se.fit) {
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = x[[i]],
         y = fitted[[i]] + se.times * se[[i]],
         type = scatter.type,
@@ -589,7 +608,8 @@ dplot3_xy <- function(x, y = NULL,
         hoverinfo = "none",
         inherit = FALSE
       )
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = x[[i]],
         y = fitted[[i]] - se.times * se[[i]],
         type = scatter.type,
@@ -610,8 +630,10 @@ dplot3_xy <- function(x, y = NULL,
         color = plotly::toRGB(fit.col[[i]], alpha = fit.alpha),
         width = fit.lwd
       )
-      plt <- plotly::add_trace(plt,
-        x = x[[i]], y = fitted[[i]],
+      plt <- plotly::add_trace(
+        plt,
+        x = x[[i]],
+        y = fitted[[i]],
         type = scatter.type,
         mode = "lines",
         line = lfit,
@@ -652,7 +674,8 @@ dplot3_xy <- function(x, y = NULL,
   )
 
   zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis = list(
       title = ylab,
       showline = FALSE,
@@ -720,7 +743,8 @@ dplot3_xy <- function(x, y = NULL,
 
   ## vline ----
   if (!is.null(vline)) {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       shapes = plotly_vline(
         vline,
         color = vline.col,
@@ -732,7 +756,8 @@ dplot3_xy <- function(x, y = NULL,
 
   ## hline ----
   if (!is.null(hline)) {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       shapes = plotly_hline(
         hline,
         color = hline.col,
@@ -744,36 +769,39 @@ dplot3_xy <- function(x, y = NULL,
 
   ## square ----
   if (axes.square) {
-    plt <- plt |> plotly::layout(
-      yaxis = list(
-        scaleanchor = "x",
-        scaleratio = 1
+    plt <- plt |>
+      plotly::layout(
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
-    )
   }
 
   # Subtitle ----
   # add annotation at top left with same font as main title
   if (!is.null(subtitle)) {
-    plt <- plt |> plotly::add_annotations(
-      x = subtitle.x,
-      y = subtitle.y,
-      xref = subtitle.xref,
-      yref = subtitle.yref,
-      xanchor = subtitle.xanchor,
-      yanchor = subtitle.yanchor,
-      text = subtitle,
-      showarrow = FALSE,
-      font = list(
-        family = theme$font.family,
-        size = font.size,
-        color = main.col
+    plt <- plt |>
+      plotly::add_annotations(
+        x = subtitle.x,
+        y = subtitle.y,
+        xref = subtitle.xref,
+        yref = subtitle.yref,
+        xanchor = subtitle.xanchor,
+        yanchor = subtitle.yanchor,
+        text = subtitle,
+        showarrow = FALSE,
+        font = list(
+          family = theme$font.family,
+          size = font.size,
+          color = main.col
+        )
       )
-    )
   }
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(
@@ -811,7 +839,7 @@ dplot3_xy <- function(x, y = NULL,
 #'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' x <- rnorm(500)

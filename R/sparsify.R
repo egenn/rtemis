@@ -19,5 +19,4 @@ sparsify <- function(x, sparseness) {
   x.filtered[-include] <- 0
 
   return(x.filtered)
-
 } # rtemis:: sparsify

@@ -15,16 +15,13 @@
 #' @param x Input data
 #' @param k Integer: dimensionality of the embedding
 #' @param nn Integer: Number of neighbors.
-#' 
+#'
 #' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 
-d_LLE <- function(x,
-                  k = 2,
-                  nn = 6,
-                  verbose = TRUE) {
+d_LLE <- function(x, k = 2, nn = 6, verbose = TRUE) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "LLE"

@@ -12,10 +12,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-make_key <- function(x,
-                     code_name,
-                     description_name,
-                     filename = NULL) {
+make_key <- function(x, code_name, description_name, filename = NULL) {
   dependency_check("data.table")
 
   .key <- unique(

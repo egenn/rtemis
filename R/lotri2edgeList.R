@@ -16,7 +16,6 @@
 #' @export
 
 lotri2edgeList <- function(A, filename = NULL, verbose = TRUE) {
-
   # [ MAIN ] ----
   # Check A is a square matrix
   dim.A <- dim(A)
@@ -37,14 +36,15 @@ lotri2edgeList <- function(A, filename = NULL, verbose = TRUE) {
   out <- data.frame(NodeA = l$c, NodeB = l$r, Weight = l$w)
   gephiout <- data.frame(Source = l$c, Target = l$r, Weight = l$w)
   if (!is.null(filename)) {
-    write.table(gephiout,
-                file = filename,
-                row.names = FALSE,
-                col.names = TRUE,
-                quote = FALSE,
-                sep = ",")
+    write.table(
+      gephiout,
+      file = filename,
+      row.names = FALSE,
+      col.names = TRUE,
+      quote = FALSE,
+      sep = ","
+    )
     rtOut("Saved", filename)
   }
   invisible(out)
-
 } # rtemis::lotri2edgelist

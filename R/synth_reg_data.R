@@ -15,12 +15,14 @@
 #' @return List with elements `dat, dat.train, dat.test, resamples, w, seed`
 #' @export
 
-synth_reg_data <- function(nrow = 500,
-                         ncol = 50,
-                         noise.sd.factor = 1,
-                         resample.params = setup.resample(),
-                         seed = NULL,
-                         verbose = FALSE) {
+synth_reg_data <- function(
+  nrow = 500,
+  ncol = 50,
+  noise.sd.factor = 1,
+  resample.params = setup.resample(),
+  seed = NULL,
+  verbose = FALSE
+) {
   if (!is.null(seed)) set.seed(seed)
   x <- rnormmat(nrow, ncol)
   w <- rnorm(ncol)

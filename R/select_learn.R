@@ -29,7 +29,13 @@ rtAlgs <- data.frame(rbind(
   c("C50", "C5.0 Decision Tree", TRUE, FALSE, FALSE),
   # c("DN", "deepnet Neural Network", TRUE, TRUE, FALSE),
   # c("ET", "Extra Trees", TRUE, TRUE, FALSE), # removed from CRAN
-  c("EVTree", "Evolutionary Learning of Globally Optimal Trees", TRUE, TRUE, FALSE),
+  c(
+    "EVTree",
+    "Evolutionary Learning of Globally Optimal Trees",
+    TRUE,
+    TRUE,
+    FALSE
+  ),
   c("GAM", "Generalized Additive Model", TRUE, TRUE, FALSE),
   # c("GAMSEL", "Regularized Generalized Additive Model", TRUE, TRUE, FALSE),
   # c("GAMSELX", "GAMSEL Interaction Model", FALSE, TRUE, FALSE),
@@ -70,7 +76,13 @@ rtAlgs <- data.frame(rbind(
   c("NLS", "Nonlinear Least Squares", FALSE, TRUE, FALSE),
   c("NW", "Nadaraya-Watson Kernel Regression", FALSE, TRUE, FALSE),
   c("POLY", "Polynomial Regression", FALSE, TRUE, FALSE),
-  c("PolyMARS", "Multivariate Adaptive Polynomial Spline Regression", FALSE, TRUE, FALSE),
+  c(
+    "PolyMARS",
+    "Multivariate Adaptive Polynomial Spline Regression",
+    FALSE,
+    TRUE,
+    FALSE
+  ),
   c("POWER", "Power function using NLS", FALSE, TRUE, FALSE),
   c("PPR", "Projection Pursuit Regression", FALSE, TRUE, FALSE),
   # c("PPTree", "Projection Pursuit Tree", TRUE, FALSE, FALSE),
@@ -110,12 +122,11 @@ colnames(rtAlgs) <- c("rtemis name", "Description", "Class", "Reg", "Surv")
 #' @author E.D. Gennatas
 #' @export
 
-select_learn <- function(alg,
-                         fn = FALSE,
-                         name = FALSE,
-                         desc = FALSE) {
+select_learn <- function(alg, fn = FALSE, name = FALSE, desc = FALSE) {
   if (missing(alg)) {
-    cat(hilite("\n  rtemis supports the following algorithms for training learners:\n\n"))
+    cat(hilite(
+      "\n  rtemis supports the following algorithms for training learners:\n\n"
+    ))
     # Exclude first so many
     print(rtAlgs[-seq_len(4), ], quote = FALSE, row.names = FALSE)
     return(invisible(rtAlgs))
@@ -156,9 +167,28 @@ select_learn <- function(alg,
 
 # wip
 gsc <- c(
-  "AddTree", "CART", "DN", "GBM", "GBM0", "GBM3", "GLMNET", "GLMTree",
-  "H2OGBM", "LIHAD", "LINAD", "LINOA", "MARS", "PolyMARS", "PPR", "Ranger",
-  "RF", "SPLS", "SVM", "XGBoost", "LightGBM", "LightRF"
+  "AddTree",
+  "CART",
+  "DN",
+  "GBM",
+  "GBM0",
+  "GBM3",
+  "GLMNET",
+  "GLMTree",
+  "H2OGBM",
+  "LIHAD",
+  "LINAD",
+  "LINOA",
+  "MARS",
+  "PolyMARS",
+  "PPR",
+  "Ranger",
+  "RF",
+  "SPLS",
+  "SVM",
+  "XGBoost",
+  "LightGBM",
+  "LightRF"
 )
 
 
@@ -250,11 +280,17 @@ alg_params <- list(
 #' @author EDG
 #' @return Prints tunable hyperparameters for the specified algorithm.
 #' @export
-tunable <- function(alg = c(
-                      "glmnet", "svm", "cart",
-                      "ranger", "gbm", "xgboost",
-                      "lightgbm"
-                    )) {
+tunable <- function(
+  alg = c(
+    "glmnet",
+    "svm",
+    "cart",
+    "ranger",
+    "gbm",
+    "xgboost",
+    "lightgbm"
+  )
+) {
   algname <- rtAlgs[, 1][tolower(alg) == tolower(rtAlgs[, 1])]
   msg2(hilite(select_learn(alg, desc = TRUE)), "tunable hyperparameters:")
   printls(alg_params[[algname]])

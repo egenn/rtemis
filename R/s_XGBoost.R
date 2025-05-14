@@ -24,7 +24,7 @@
 #' @param max_depth \[gS\] Integer: Maximum tree depth.
 #' @param min_child_weight \[gS\] Numeric: Minimum sum of instance weight needed in a child.
 #' @param max_delta_step \[gS\] Numeric: Maximum delta step we allow each leaf output to
-#' be. O means no constraint. 1-10 may help control the update, especially with 
+#' be. O means no constraint. 1-10 may help control the update, especially with
 #' imbalanced outcomes.
 #' @param subsample \[gS\] Numeric: subsample ratio of the training instance
 #' @param colsample_bytree \[gS\] Numeric: subsample ratio of columns when constructing each tree
@@ -40,10 +40,10 @@
 #' "weighted": dropped trees are selected in proportion to weight.
 #' @param normalize_type Character.
 #' @param rate_drop \[gS\] Numeric: Dropout rate for `dart` booster.
-#' @param one_drop \[gS\] Integer {0, 1}: When this flag is enabled, at least one tree 
+#' @param one_drop \[gS\] Integer {0, 1}: When this flag is enabled, at least one tree
 #' is always dropped during the dropout.
-#' @param skip_drop \[gS\] Numeric \[0, 1\]: Probability of skipping the dropout 
-#' procedure during a boosting iteration. If a dropout is skipped, new trees are added 
+#' @param skip_drop \[gS\] Numeric \[0, 1\]: Probability of skipping the dropout
+#' procedure during a boosting iteration. If a dropout is skipped, new trees are added
 #' in the same manner as gbtree. Non-zero `skip_drop` has higher priority than
 #' `rate_drop` or `one_drop`.
 #' @param obj Function: Custom objective function. See `?xgboost::xgboost`
@@ -69,72 +69,86 @@
 #' @family Tree-based methods
 #' @export
 
-s_XGBoost <- function(x, y = NULL,
-                      x.test = NULL, y.test = NULL,
-                      x.name = NULL, y.name = NULL,
-                      booster = c("gbtree", "gblinear", "dart"),
-                      missing = NA,
-                      nrounds = 1000L,
-                      force.nrounds = NULL,
-                      weights = NULL,
-                      ifw = TRUE,
-                      ifw.type = 2,
-                      upsample = FALSE,
-                      downsample = FALSE,
-                      resample.seed = NULL,
-                      obj = NULL,
-                      feval = NULL,
-                      xgb.verbose = NULL,
-                      print_every_n = 100L,
-                      early_stopping_rounds = 50L,
-                      eta = .01,
-                      gamma = 0,
-                      max_depth = 2,
-                      min_child_weight = 5,
-                      max_delta_step = 0,
-                      subsample = .75,
-                      colsample_bytree = 1,
-                      colsample_bylevel = 1,
-                      lambda = 0,
-                      #   lambda_bias = 0,
-                      alpha = 0,
-                      tree_method = "auto",
-                      sketch_eps = .03,
-                      num_parallel_tree = 1,
-                      base_score = NULL,
-                      objective = NULL,
-                      sample_type = "uniform",
-                      normalize_type = "forest",
-                      rate_drop = 0, # dart
-                      one_drop = 0,
-                      skip_drop = 0,
-                      grid.resample.params = setup.resample("kfold", 5),
-                      gridsearch.type = "exhaustive",
-                      metric = NULL,
-                      maximize = NULL,
-                      importance = NULL,
-                      print.plot = FALSE,
-                      plot.fitted = NULL,
-                      plot.predicted = NULL,
-                      plot.theme = rtTheme,
-                      question = NULL,
-                      verbose = TRUE,
-                      grid.verbose = FALSE,
-                      trace = 0,
-                      save.gridrun = FALSE,
-                      n.cores = 1,
-                      nthread = rtCores,
-                      outdir = NULL,
-                      save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                      .gs = FALSE, ...) {
+s_XGBoost <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  booster = c("gbtree", "gblinear", "dart"),
+  missing = NA,
+  nrounds = 1000L,
+  force.nrounds = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  obj = NULL,
+  feval = NULL,
+  xgb.verbose = NULL,
+  print_every_n = 100L,
+  early_stopping_rounds = 50L,
+  eta = .01,
+  gamma = 0,
+  max_depth = 2,
+  min_child_weight = 5,
+  max_delta_step = 0,
+  subsample = .75,
+  colsample_bytree = 1,
+  colsample_bylevel = 1,
+  lambda = 0,
+  #   lambda_bias = 0,
+  alpha = 0,
+  tree_method = "auto",
+  sketch_eps = .03,
+  num_parallel_tree = 1,
+  base_score = NULL,
+  objective = NULL,
+  sample_type = "uniform",
+  normalize_type = "forest",
+  rate_drop = 0, # dart
+  one_drop = 0,
+  skip_drop = 0,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  metric = NULL,
+  maximize = NULL,
+  importance = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  grid.verbose = FALSE,
+  trace = 0,
+  save.gridrun = FALSE,
+  n.cores = 1,
+  nthread = rtCores,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  .gs = FALSE,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_XGBoost))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -150,7 +164,8 @@ s_XGBoost <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   #   if (n.trees > max.trees) {
   #     if (verbose) msg2("n.trees specified is greater than max.trees, setting n.trees to", max.trees)
   #     n.trees <- max.trees
@@ -161,8 +176,11 @@ s_XGBoost <- function(x, y = NULL,
   }
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -185,8 +203,10 @@ s_XGBoost <- function(x, y = NULL,
   y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -224,7 +244,8 @@ s_XGBoost <- function(x, y = NULL,
     )
   }
 
-  if (verbose) msg20("Training XGBoost (", booster, " booster)...", newline.pre = TRUE)
+  if (verbose)
+    msg20("Training XGBoost (", booster, " booster)...", newline.pre = TRUE)
 
   # Grid Search ----
   if (is.null(metric)) {
@@ -243,8 +264,13 @@ s_XGBoost <- function(x, y = NULL,
 
   if (booster != "gblinear") {
     gc <- gridCheck(
-      eta, gamma, max_depth, subsample,
-      colsample_bytree, colsample_bylevel, lambda
+      eta,
+      gamma,
+      max_depth,
+      subsample,
+      colsample_bytree,
+      colsample_bylevel,
+      lambda
     )
   } else {
     gc <- gridCheck(eta, lambda)
@@ -281,7 +307,8 @@ s_XGBoost <- function(x, y = NULL,
       )
     }
     gs <- gridSearchLearn(
-      x = x0, y = y0,
+      x = x0,
+      y = y0,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = grid.params,
@@ -373,7 +400,8 @@ s_XGBoost <- function(x, y = NULL,
     NULL
   }
   if (trace > 0) printls(parameters)
-  mod <- xgboost::xgb.train(parameters,
+  mod <- xgboost::xgb.train(
+    parameters,
     data = xg.dat.train,
     nrounds = nrounds,
     watchlist = watchlist,
@@ -382,7 +410,8 @@ s_XGBoost <- function(x, y = NULL,
     verbose = verbose,
     print_every_n = print_every_n,
     early_stopping_rounds = if (.gs) early_stopping_rounds else NULL,
-    nthread = nthread, ...
+    nthread = nthread,
+    ...
   )
 
   # Fitted ----
@@ -391,15 +420,13 @@ s_XGBoost <- function(x, y = NULL,
   if (type == "Classification") {
     if (nclass == 2) {
       fitted.prob <- 1 - fitted
-      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
+      fitted <- factor(
+        ifelse(fitted.prob >= .5, 1, 0),
         levels = c(1, 0),
         labels = levels(y)
       )
     } else {
-      fitted <- factor(fitted,
-        levels = seq(nclass) - 1,
-        labels = levels(y)
-      )
+      fitted <- factor(fitted, levels = seq(nclass) - 1, labels = levels(y))
     }
   }
 
@@ -413,12 +440,14 @@ s_XGBoost <- function(x, y = NULL,
     if (type == "Classification") {
       if (nclass == 2) {
         predicted.prob <- 1 - predicted
-        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
+        predicted <- factor(
+          ifelse(predicted.prob >= .5, 1, 0),
           levels = c(1, 0),
           labels = levels(y)
         )
       } else {
-        predicted <- factor(predicted,
+        predicted <- factor(
+          predicted,
           levels = seq(nclass) - 1,
           labels = levels(y)
         )

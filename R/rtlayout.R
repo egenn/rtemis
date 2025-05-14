@@ -15,17 +15,19 @@
 #' @param pdf.height Float: Height of PDF to save, if `filename` is provided.
 #' Default = `nrows * 4.5`
 #' @param filename String, optional: Save multiplot to file. Default = NULL
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
-rtlayout <- function(nrows = NULL, ncols = NULL,
-                     byrow = FALSE,
-                     autolabel = FALSE,
-                     pdf.width = NULL,
-                     pdf.height = NULL,
-                     filename = NULL) {
-
+rtlayout <- function(
+  nrows = NULL,
+  ncols = NULL,
+  byrow = FALSE,
+  autolabel = FALSE,
+  pdf.width = NULL,
+  pdf.height = NULL,
+  filename = NULL
+) {
   if (!is.null(nrows) || !is.null(ncols)) {
     if (is.null(nrows)) nrows <- 1
     if (is.null(ncols)) ncols <- 1
@@ -41,11 +43,11 @@ rtlayout <- function(nrows = NULL, ncols = NULL,
     }
     layout(matrix(seq(npanels), nrows, ncols, byrow = byrow))
   } else {
-    if (is.null(rtenv$rtpar)) stop("rtlayout was not previously run in this session")
+    if (is.null(rtenv$rtpar))
+      stop("rtlayout was not previously run in this session")
     par(rtenv$rtpar)
     rm(rtpar, envir = rtenv)
     if (exists("autolabel", envir = rtenv)) rm(autolabel, envir = rtenv)
     if (exists("fileOpen", envir = rtenv)) dev.off()
   }
-
 } # rtemis::rtlayout

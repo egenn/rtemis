@@ -11,10 +11,8 @@
 #' @export
 
 cols2list <- function(x) {
-
   x <- as.data.frame(x)
   lst <- lapply(seq(x), function(i) x[, i])
   if (!is.null(colnames(x))) names(lst) <- colnames(x)
   lst
-
 } # rtemis::cols2list

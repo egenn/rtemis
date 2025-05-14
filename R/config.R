@@ -6,16 +6,16 @@
 #'
 #' Defines a complete predictive modeling pipeline and saves it as a JSON file.
 #'
-#' @param data_path Character: Path to data file. Can be any file recognized by [read], commonly CSV, 
+#' @param data_path Character: Path to data file. Can be any file recognized by [read], commonly CSV,
 #' Excel, or RDS.
-#' @param target Character: Name of the target variable in the data. If not specified, the last 
+#' @param target Character: Name of the target variable in the data. If not specified, the last
 #' column of `data` will be used.
 #' @param binclass_posid Integer: Position of the positive class in a binary classification problem.
 #' @param alg Character: Algorithm to use. Any of `select_learn()`.
 #' @param train.params List: Parameters for the training algorithm.
-#' @param inner.resampling List: Resampling method for the inner loop, i.e. hyperparameter tuning, 
+#' @param inner.resampling List: Resampling method for the inner loop, i.e. hyperparameter tuning,
 #' a.k.a. model selection. Set using [setup.resample]
-#' @param outer.resampling List: Resampling method for the outer loop, i.e. testing. Set using 
+#' @param outer.resampling List: Resampling method for the outer loop, i.e. testing. Set using
 #' [setup.resample]
 #' @param config.path Character: Path to save configuration file.
 #' @param model.outdir Character: Directory to save trained model and associated files. If NULL,
@@ -48,12 +48,16 @@ create_config <- function(
   config.path <- path.expand(config.path)
   config.outdir <- dirname(config.path)
   if (file.exists(config.path) && !allow.overwrite) {
-    stop("Config file ", config.path, " already exists. Set allow.overwrite = TRUE to overwrite.")
+    stop(
+      "Config file ",
+      config.path,
+      " already exists. Set allow.overwrite = TRUE to overwrite."
+    )
   }
   if (!dir.exists(config.outdir)) {
     dir.create(config.outdir, recursive = TRUE)
   }
-  if (is.null(model.outdir))  {
+  if (is.null(model.outdir)) {
     model.outdir <- config.outdir
   }
   config <- list(
@@ -65,7 +69,13 @@ create_config <- function(
     outer.resampling = outer.resampling,
     outdir = model.outdir
   )
-  jsonlite::write_json(config, config.path, simplifyVector = TRUE, null = "null", digits = NA)
+  jsonlite::write_json(
+    config,
+    config.path,
+    simplifyVector = TRUE,
+    null = "null",
+    digits = NA
+  )
 
   if (file.exists(config.path)) {
     if (verbose) {

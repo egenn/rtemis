@@ -12,12 +12,10 @@
 #' @export
 
 timeProc <- function(..., verbose = TRUE) {
-
   expr <- as.expression(...)
   start <- proc.time()
   eval(expr)
   total <- proc.time() - start
   if (verbose) msg2("Completed in", as.numeric(total[3]), "seconds")
   return(total)
-
 } # rtemis::timeProc

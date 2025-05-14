@@ -31,26 +31,28 @@
 #' \dontrun{
 #' mplot_hsv()
 #' }
-mplot_hsv <- function(h.steps = seq(0, 1, .025),
-                      s.steps = seq(0, 1, .05),
-                      v = 1,
-                      alpha = 1,
-                      pch = 16,
-                      bg = "black",
-                      axes = TRUE,
-                      pty = "s",
-                      cex = 2,
-                      mar = c(3, 3, 2, .5),
-                      lab.col = NULL,
-                      type = c("radial", "square"),
-                      # radial
-                      line.col = "gray50",
-                      show.grid = TRUE,
-                      show.radial.grid = FALSE,
-                      show.grid.labels = 1,
-                      cex.axis = 1,
-                      cex.lab = 1,
-                      par.reset = TRUE) {
+mplot_hsv <- function(
+  h.steps = seq(0, 1, .025),
+  s.steps = seq(0, 1, .05),
+  v = 1,
+  alpha = 1,
+  pch = 16,
+  bg = "black",
+  axes = TRUE,
+  pty = "s",
+  cex = 2,
+  mar = c(3, 3, 2, .5),
+  lab.col = NULL,
+  type = c("radial", "square"),
+  # radial
+  line.col = "gray50",
+  show.grid = TRUE,
+  show.radial.grid = FALSE,
+  show.grid.labels = 1,
+  cex.axis = 1,
+  cex.lab = 1,
+  par.reset = TRUE
+) {
   # Arguments ----
   type <- match.arg(type)
 
@@ -68,7 +70,8 @@ mplot_hsv <- function(h.steps = seq(0, 1, .025),
   if (type == "square") {
     # '- Square ----
     par(bg = bg, mar = mar, pty = pty)
-    plot(grd,
+    plot(
+      grd,
       xlim = c(0, 1),
       ylim = c(0, 1),
       pch = pch,
@@ -79,17 +82,18 @@ mplot_hsv <- function(h.steps = seq(0, 1, .025),
     )
 
     if (axes) {
-      axis(1,
-        col = lab.col, col.ticks = lab.col, col.axis = lab.col
-      )
-      axis(2,
-        col = lab.col, col.ticks = lab.col, col.axis = lab.col
-      )
+      axis(1, col = lab.col, col.ticks = lab.col, col.axis = lab.col)
+      axis(2, col = lab.col, col.ticks = lab.col, col.axis = lab.col)
     }
     mtext("H", 1, col = lab.col, line = 2, font = 2)
     mtext("S", 2, col = lab.col, line = 2, font = 2)
-    mtext(paste0("HSV color (V = ", v, ")"), 3,
-      adj = 0, font = 2, line = .5, col = lab.col
+    mtext(
+      paste0("HSV color (V = ", v, ")"),
+      3,
+      adj = 0,
+      font = 2,
+      line = .5,
+      col = lab.col
     )
   } else {
     # '- Radial ----
@@ -115,7 +119,8 @@ mplot_hsv <- function(h.steps = seq(0, 1, .025),
     )
     mtext(
       paste0("HSV color (V = ", v, ")"),
-      font = 1, col = lab.col
+      font = 1,
+      col = lab.col
     )
   }
 } # rtemis::mplot_hsv

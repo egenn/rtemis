@@ -20,26 +20,28 @@
 #' @param verbose Logical: If TRUE, print messages to output
 #' @param ... Options for `Rtsne::Rtsne`
 #' @param outdir Path to output directory
-#' 
+#'
 #' @return `rtDecom` object
 #' @author E.D. Gennatas
 #' @family Decomposition
 #' @export
 
-d_TSNE <- function(x,
-                   k = 3,
-                   initial.dims = 50,
-                   perplexity = 15,
-                   theta = 0,
-                   check.duplicates = TRUE,
-                   pca = TRUE,
-                   max.iter = 1000,
-                   scale = FALSE,
-                   center = FALSE,
-                   is.distance = FALSE,
-                   verbose = TRUE,
-                   outdir = "./", ...) {
-
+d_TSNE <- function(
+  x,
+  k = 3,
+  initial.dims = 50,
+  perplexity = 15,
+  theta = 0,
+  check.duplicates = TRUE,
+  pca = TRUE,
+  max.iter = 1000,
+  scale = FALSE,
+  center = FALSE,
+  is.distance = FALSE,
+  verbose = TRUE,
+  outdir = "./",
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   if (verbose) msg2("Running t-distributed Stochastic Neighbot Embedding")
@@ -64,35 +66,41 @@ d_TSNE <- function(x,
 
   # t-SNE ----
   if (verbose) msg2("Running t-SNE...")
-  decom <- Rtsne::Rtsne(X = x,
-                        dims = k,
-                        initial_dims = initial.dims,
-                        perplexity = perplexity,
-                        theta = theta,
-                        check_duplicates = check.duplicates,
-                        pca = pca,
-                        max_iter = max.iter,
-                        verbose = verbose,
-                        is_distance = is.distance, ...)
+  decom <- Rtsne::Rtsne(
+    X = x,
+    dims = k,
+    initial_dims = initial.dims,
+    perplexity = perplexity,
+    theta = theta,
+    check_duplicates = check.duplicates,
+    pca = pca,
+    max_iter = max.iter,
+    verbose = verbose,
+    is_distance = is.distance,
+    ...
+  )
 
   # Output ----
   extra <- list()
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = decom$Y,
-                    projections.test = NULL,
-                    parameters = list(k = k,
-                                      initial.dims = initial.dims,
-                                      perplexity = perplexity,
-                                      theta = theta,
-                                      check.duplicates = check.duplicates,
-                                      pca = pca,
-                                      max.iter = max.iter,
-                                      scale = scale,
-                                      center = center),
-                    extra = extra)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = decom$Y,
+    projections.test = NULL,
+    parameters = list(
+      k = k,
+      initial.dims = initial.dims,
+      perplexity = perplexity,
+      theta = theta,
+      check.duplicates = check.duplicates,
+      pca = pca,
+      max.iter = max.iter,
+      scale = scale,
+      center = center
+    ),
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_TSNE

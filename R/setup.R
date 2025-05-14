@@ -18,14 +18,15 @@ NULL
 #' @export
 
 setup.resample <- function(
-    resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
-    n.resamples = 10,
-    stratify.var = NULL,
-    train.p = .8,
-    strat.n.bins = 4,
-    target.length = NULL,
-    id.strat = NULL,
-    seed = NULL) {
+  resampler = c("strat.sub", "strat.boot", "kfold", "bootstrap", "loocv"),
+  n.resamples = 10,
+  stratify.var = NULL,
+  train.p = .8,
+  strat.n.bins = 4,
+  target.length = NULL,
+  id.strat = NULL,
+  seed = NULL
+) {
   list(
     resampler = match.arg(resampler),
     n.resamples = n.resamples,
@@ -45,9 +46,14 @@ setup.resample <- function(
 #' @export
 
 setup.grid.resample <- function(
-    resampler = "kfold", n.resamples = 5,
-    stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-    target.length = NULL, verbosity = 1) {
+  resampler = "kfold",
+  n.resamples = 5,
+  stratify.var = NULL,
+  train.p = .75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  verbosity = 1
+) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -66,9 +72,14 @@ setup.grid.resample <- function(
 #' @export
 
 setup.bag.resample <- function(
-    resampler = "strat.sub", n.resamples = 10,
-    stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-    target.length = NULL, verbosity = 1) {
+  resampler = "strat.sub",
+  n.resamples = 10,
+  stratify.var = NULL,
+  train.p = .75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  verbosity = 1
+) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -87,9 +98,14 @@ setup.bag.resample <- function(
 #' @export
 
 setup.meta.resample <- function(
-    resampler = "strat.sub", n.resamples = 4,
-    stratify.var = NULL, train.p = .75, strat.n.bins = 4,
-    target.length = NULL, verbosity = TRUE) {
+  resampler = "strat.sub",
+  n.resamples = 4,
+  stratify.var = NULL,
+  train.p = .75,
+  strat.n.bins = 4,
+  target.length = NULL,
+  verbosity = TRUE
+) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -108,14 +124,15 @@ setup.meta.resample <- function(
 #' @export
 
 setup.cv.resample <- function(
-    resampler = "strat.sub",
-    n.resamples = 10,
-    stratify.var = NULL,
-    train.p = .8,
-    strat.n.bins = 4,
-    target.length = NULL,
-    id.strat = NULL,
-    verbosity = 1) {
+  resampler = "strat.sub",
+  n.resamples = 10,
+  stratify.var = NULL,
+  train.p = .8,
+  strat.n.bins = 4,
+  target.length = NULL,
+  id.strat = NULL,
+  verbosity = 1
+) {
   list(
     resampler = resampler,
     n.resamples = n.resamples,
@@ -139,7 +156,6 @@ setup.cv.resample <- function(
 #
 # }
 
-
 # #' \code{setup.cluster}: Set up parallel processing using forking (Linux, macOS) or PSOCK cluster (macOS, Linux, Windows)
 # #' Defaults to type = "fork", which would call \code{mclapply}
 # #' Some functions fail to work correctly with \code{mclapply}, like \code{nnet::multinom}, in those cases
@@ -160,7 +176,6 @@ setup.cv.resample <- function(
 
 # } # rtemis::setup.cluster
 
-
 #' Set [colorGrad] parameters
 #'
 #' @inheritParams colorGrad
@@ -169,20 +184,33 @@ setup.cv.resample <- function(
 #' @export
 
 setup.color <- function(
-    n = 101, colors = NULL,
-    space = "rgb",
-    lo = "#01256E",
-    lomid = NULL,
-    mid = "white",
-    midhi = NULL,
-    hi = "#95001A",
-    colorbar = FALSE,
-    cb.mar = c(1, 1, 1, 1), ...) {
-  c(list(
-    n = n, colors = colors, space = space,
-    lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi,
-    colobar = colorbar, cb.mar = cb.mar
-  ), list(...))
+  n = 101,
+  colors = NULL,
+  space = "rgb",
+  lo = "#01256E",
+  lomid = NULL,
+  mid = "white",
+  midhi = NULL,
+  hi = "#95001A",
+  colorbar = FALSE,
+  cb.mar = c(1, 1, 1, 1),
+  ...
+) {
+  c(
+    list(
+      n = n,
+      colors = colors,
+      space = space,
+      lo = lo,
+      lomid = lomid,
+      mid = mid,
+      midhi = midhi,
+      hi = hi,
+      colobar = colorbar,
+      cb.mar = cb.mar
+    ),
+    list(...)
+  )
 } # rtemis::setup.color
 
 
@@ -192,29 +220,30 @@ setup.color <- function(
 #' @export
 
 setup.preprocess <- function(
-    completeCases = FALSE,
-    removeCases.thres = NULL,
-    removeFeatures.thres = NULL,
-    impute = FALSE,
-    impute.type = "missRanger",
-    impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
-    impute.discrete = get_mode,
-    impute.numeric = mean,
-    integer2factor = FALSE,
-    integer2numeric = FALSE,
-    logical2factor = FALSE,
-    logical2numeric = FALSE,
-    numeric2factor = FALSE,
-    numeric2factor.levels = NULL,
-    numeric.cut.n = 0,
-    numeric.cut.labels = FALSE,
-    numeric.quant.n = 0,
-    character2factor = FALSE,
-    scale = FALSE,
-    center = FALSE,
-    removeConstants = TRUE,
-    oneHot = FALSE,
-    exclude = NULL) {
+  completeCases = FALSE,
+  removeCases.thres = NULL,
+  removeFeatures.thres = NULL,
+  impute = FALSE,
+  impute.type = "missRanger",
+  impute.missRanger.params = list(pmm.k = 0, maxiter = 10),
+  impute.discrete = get_mode,
+  impute.numeric = mean,
+  integer2factor = FALSE,
+  integer2numeric = FALSE,
+  logical2factor = FALSE,
+  logical2numeric = FALSE,
+  numeric2factor = FALSE,
+  numeric2factor.levels = NULL,
+  numeric.cut.n = 0,
+  numeric.cut.labels = FALSE,
+  numeric.quant.n = 0,
+  character2factor = FALSE,
+  scale = FALSE,
+  center = FALSE,
+  removeConstants = TRUE,
+  oneHot = FALSE,
+  exclude = NULL
+) {
   list(
     completeCases = completeCases,
     removeCases.thres = removeCases.thres,
@@ -249,8 +278,10 @@ setup.preprocess <- function(
 #' @export
 
 setup.decompose <- function(
-    decom = "ICA",
-    k = 2, ...) {
+  decom = "ICA",
+  k = 2,
+  ...
+) {
   c(list(decom = decom, k = k), list(...))
 } # rtemis::setup.decompose
 
@@ -260,9 +291,10 @@ setup.decompose <- function(
 #' @export
 
 setup.earlystop <- function(
-    window = 150,
-    window_decrease_pct_min = 0.01,
-    total_decrease_pct_max = NULL) {
+  window = 150,
+  window_decrease_pct_min = 0.01,
+  total_decrease_pct_max = NULL
+) {
   list(
     window = window,
     window_decrease_pct_min = window_decrease_pct_min,
@@ -278,13 +310,16 @@ setup.earlystop <- function(
 #'
 #' @export
 
-setup.LIHAD <- function(max.depth = 2,
-                        learning.rate = 1,
-                        lincoef.params = setup.lincoef("glmnet"),
-                        alpha = 0,
-                        lambda = .1,
-                        minobsinnode = 2,
-                        minobsinnode.lin = 20, ...) {
+setup.LIHAD <- function(
+  max.depth = 2,
+  learning.rate = 1,
+  lincoef.params = setup.lincoef("glmnet"),
+  alpha = 0,
+  lambda = .1,
+  minobsinnode = 2,
+  minobsinnode.lin = 20,
+  ...
+) {
   c(
     list(
       max.depth = max.depth,
@@ -307,17 +342,19 @@ setup.LIHAD <- function(max.depth = 2,
 #' @export
 
 setup.GBM <- function(
-    interaction.depth = 2,
-    shrinkage = .001,
-    max.trees = 5000,
-    min.trees = 100,
-    bag.fraction = .9,
-    n.minobsinnode = 5,
-    grid.resample.params = setup.resample("kfold", 5),
-    ifw = TRUE,
-    upsample = FALSE,
-    downsample = FALSE,
-    resample.seed = NULL, ...) {
+  interaction.depth = 2,
+  shrinkage = .001,
+  max.trees = 5000,
+  min.trees = 100,
+  bag.fraction = .9,
+  n.minobsinnode = 5,
+  grid.resample.params = setup.resample("kfold", 5),
+  ifw = TRUE,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  ...
+) {
   c(
     list(
       interaction.depth = interaction.depth,
@@ -342,14 +379,17 @@ setup.GBM <- function(
 #' @inheritParams s_Ranger
 #' @export
 
-setup.Ranger <- function(n.trees = 1000,
-                         min.node.size = 1,
-                         mtry = NULL,
-                         grid.resample.params = setup.resample("kfold", 5),
-                         ifw = TRUE,
-                         upsample = FALSE,
-                         downsample = FALSE,
-                         resample.seed = NULL, ...) {
+setup.Ranger <- function(
+  n.trees = 1000,
+  min.node.size = 1,
+  mtry = NULL,
+  grid.resample.params = setup.resample("kfold", 5),
+  ifw = TRUE,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  ...
+) {
   c(
     list(
       n.trees = n.trees,
@@ -415,37 +455,37 @@ setup.Ranger <- function(n.trees = 1000,
 #
 # } # rtemis::setup.MXN
 
-
 #' Set [lincoef] parameters
 #'
 #' @inheritParams lincoef
 #' @export
 
 setup.lincoef <- function(
-    method = c(
-      "glmnet",
-      "cv.glmnet",
-      "lm.ridge",
-      "allSubsets",
-      "forwardStepwise",
-      "backwardStepwise",
-      "glm",
-      "sgd",
-      "solve"
-    ),
-    alpha = 0,
-    lambda = .01,
-    lambda.seq = NULL,
-    cv.glmnet.nfolds = 5,
-    which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
-    nbest = 1,
-    nvmax = 8,
-    sgd.model = "glm",
-    sgd.model.control = list(
-      lambda1 = 0,
-      lambda2 = 0
-    ),
-    sgd.control = list(method = "ai-sgd")) {
+  method = c(
+    "glmnet",
+    "cv.glmnet",
+    "lm.ridge",
+    "allSubsets",
+    "forwardStepwise",
+    "backwardStepwise",
+    "glm",
+    "sgd",
+    "solve"
+  ),
+  alpha = 0,
+  lambda = .01,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
+  nbest = 1,
+  nvmax = 8,
+  sgd.model = "glm",
+  sgd.model.control = list(
+    lambda1 = 0,
+    lambda2 = 0
+  ),
+  sgd.control = list(method = "ai-sgd")
+) {
   list(
     method = match.arg(method),
     alpha = alpha,
@@ -468,16 +508,18 @@ setup.lincoef <- function(
 #' @export
 
 setup.MARS <- function(
-    hidden = 1,
-    activation = NULL,
-    learning.rate = .8,
-    momentum = .5,
-    learningrate_scale = 1,
-    output = NULL,
-    numepochs = 100,
-    batchsize = NULL,
-    hidden_dropout = 0,
-    visible_dropout = 0, ...) {
+  hidden = 1,
+  activation = NULL,
+  learning.rate = .8,
+  momentum = .5,
+  learningrate_scale = 1,
+  output = NULL,
+  numepochs = 100,
+  batchsize = NULL,
+  hidden_dropout = 0,
+  visible_dropout = 0,
+  ...
+) {
   c(
     list(
       hidden = hidden,
@@ -510,23 +552,24 @@ setup.MARS <- function(
 #' @export
 
 setup.LightRuleFit <- function(
-    n_trees = 200,
-    num_leaves = 32L,
-    max_depth = 3,
-    learning_rate = .1,
-    subsample = .666,
-    subsample_freq = 1L,
-    lambda_l1 = 0,
-    lambda_l2 = 0,
-    objective = NULL,
-    extra.lgbm.params = NULL,
-    lightgbm.ifw = TRUE,
-    lightgbm.resample.params = setup.resample("kfold", 5),
-    glmnet.ifw = TRUE,
-    importance = FALSE,
-    alpha = 1,
-    lambda = NULL,
-    glmnet.resample.params = setup.resample("kfold", 5)) {
+  n_trees = 200,
+  num_leaves = 32L,
+  max_depth = 3,
+  learning_rate = .1,
+  subsample = .666,
+  subsample_freq = 1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  objective = NULL,
+  extra.lgbm.params = NULL,
+  lightgbm.ifw = TRUE,
+  lightgbm.resample.params = setup.resample("kfold", 5),
+  glmnet.ifw = TRUE,
+  importance = FALSE,
+  alpha = 1,
+  lambda = NULL,
+  glmnet.resample.params = setup.resample("kfold", 5)
+) {
   list(
     lgbm.params = c(
       list(

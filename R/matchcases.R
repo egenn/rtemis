@@ -47,16 +47,19 @@
 #' )
 #'
 #' mc <- matchcases(cases, controls, 2, "PID", "CID")
-matchcases <- function(target, pool,
-                       n.matches = 1,
-                       target.id = NULL,
-                       pool.id = NULL,
-                       exactmatch.factors = TRUE,
-                       exactmatch.cols = NULL,
-                       distmatch.cols = NULL,
-                       norepeats = TRUE,
-                       ignore.na = FALSE,
-                       verbose = TRUE) {
+matchcases <- function(
+  target,
+  pool,
+  n.matches = 1,
+  target.id = NULL,
+  pool.id = NULL,
+  exactmatch.factors = TRUE,
+  exactmatch.cols = NULL,
+  distmatch.cols = NULL,
+  norepeats = TRUE,
+  ignore.na = FALSE,
+  verbose = TRUE
+) {
   ntarget <- nrow(target)
   npool <- nrow(pool)
 
@@ -88,9 +91,13 @@ matchcases <- function(target, pool,
   distmatch.cols <- distmatch.cols[distmatch.cols %in% colnames(pool)]
 
   # Remove unused columns, if any
-  .remove <- colnames(target)[!colnames(target) %in% c(exactmatch.cols, distmatch.cols)]
+  .remove <- colnames(target)[
+    !colnames(target) %in% c(exactmatch.cols, distmatch.cols)
+  ]
   target[, .remove] <- NULL
-  .remove <- colnames(pool)[!colnames(pool) %in% c(exactmatch.cols, distmatch.cols)]
+  .remove <- colnames(pool)[
+    !colnames(pool) %in% c(exactmatch.cols, distmatch.cols)
+  ]
   pool[, .remove] <- NULL
 
   # Convert all non-exact-matching to numeric
@@ -120,7 +127,10 @@ matchcases <- function(target, pool,
       subpool <- pool_s
     } else {
       ind <- sapply(seq_len(nrow(pool_s)), function(j) {
-        all(target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols], na.rm = ignore.na)
+        all(
+          target_s[i, exactmatch.cols] == pool_s[j, exactmatch.cols],
+          na.rm = ignore.na
+        )
       })
       subpool <- pool_s[ind, , drop = FALSE]
     }
@@ -129,7 +139,8 @@ matchcases <- function(target, pool,
     distord <- order(sapply(
       seq_len(nrow(subpool)),
       function(j) {
-        mse(unlist(target_s[i, distmatch.cols]),
+        mse(
+          unlist(target_s[i, distmatch.cols]),
           unlist(subpool[j, distmatch.cols]),
           na.rm = ignore.na
         )
@@ -137,7 +148,8 @@ matchcases <- function(target, pool,
     ))
     n_matched <- min(n.matches, nrow(subpool))
     mc[i, 2:(n_matched + 1)] <- subpool[, 1][distord[seq(n_matched)]]
-    if (norepeats) pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n.matches + 1)], ]
+    if (norepeats)
+      pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n.matches + 1)], ]
   }
 
   mc

@@ -60,59 +60,73 @@
 #' @family Ensembles
 #' @export
 
-s_RF <- function(x, y = NULL,
-                 x.test = NULL, y.test = NULL,
-                 x.name = NULL, y.name = NULL,
-                 n.trees = 1000,
-                 autotune = FALSE,
-                 n.trees.try = 1000,
-                 stepFactor = 1.5,
-                 mtry = NULL,
-                 nodesize = NULL,
-                 maxnodes = NULL,
-                 mtryStart = mtry,
-                 grid.resample.params = setup.resample("kfold", 5),
-                 metric = NULL,
-                 maximize = NULL,
-                 classwt = NULL,
-                 ifw = TRUE,
-                 ifw.type = 2,
-                 upsample = FALSE,
-                 downsample = FALSE,
-                 resample.seed = NULL,
-                 importance = TRUE,
-                 proximity = FALSE,
-                 replace = TRUE,
-                 strata = NULL,
-                 sampsize = if (replace) nrow(x) else ceiling(.632 * nrow(x)),
-                 sampsize.ratio = NULL,
-                 do.trace = NULL,
-                 tune.do.trace = FALSE,
-                 imetrics = FALSE,
-                 n.cores = rtCores,
-                 print.tune.plot = FALSE,
-                 print.plot = FALSE,
-                 plot.fitted = NULL,
-                 plot.predicted = NULL,
-                 plot.theme = rtTheme,
-                 proximity.tsne = FALSE,
-                 discard.forest = FALSE,
-                 tsne.perplexity = 5,
-                 plot.tsne.train = FALSE,
-                 plot.tsne.test = FALSE,
-                 question = NULL,
-                 verbose = TRUE,
-                 grid.verbose = verbose,
-                 outdir = NULL,
-                 save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_RF <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  n.trees = 1000,
+  autotune = FALSE,
+  n.trees.try = 1000,
+  stepFactor = 1.5,
+  mtry = NULL,
+  nodesize = NULL,
+  maxnodes = NULL,
+  mtryStart = mtry,
+  grid.resample.params = setup.resample("kfold", 5),
+  metric = NULL,
+  maximize = NULL,
+  classwt = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  importance = TRUE,
+  proximity = FALSE,
+  replace = TRUE,
+  strata = NULL,
+  sampsize = if (replace) nrow(x) else ceiling(.632 * nrow(x)),
+  sampsize.ratio = NULL,
+  do.trace = NULL,
+  tune.do.trace = FALSE,
+  imetrics = FALSE,
+  n.cores = rtCores,
+  print.tune.plot = FALSE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  proximity.tsne = FALSE,
+  discard.forest = FALSE,
+  tsne.perplexity = 5,
+  plot.tsne.train = FALSE,
+  plot.tsne.test = FALSE,
+  question = NULL,
+  verbose = TRUE,
+  grid.verbose = verbose,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro  ----
   if (missing(x)) {
     print(args(s_RF))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -136,8 +150,11 @@ s_RF <- function(x, y = NULL,
   if (proximity.tsne) proximity <- TRUE
 
   # Data  ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     upsample = upsample,
     downsample = downsample,
@@ -157,8 +174,10 @@ s_RF <- function(x, y = NULL,
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (verbose) parameterSummary(n.trees, mtry, pad = 4, newline.pre = TRUE)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -191,7 +210,9 @@ s_RF <- function(x, y = NULL,
 
   # Grid Search  ----
   if (gridCheck(mtry, nodesize, maxnodes, sampsize.ratio)) {
-    gs <- gridSearchLearn(x0, y0,
+    gs <- gridSearchLearn(
+      x0,
+      y0,
       mod.name,
       resample.params = grid.resample.params,
       grid.params = list(
@@ -226,7 +247,8 @@ s_RF <- function(x, y = NULL,
   # In case tuning fails, use defaults
   if (length(mtry) == 0) {
     warning("Tuning failed; setting mtry to default")
-    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else max(floor(NCOL(x) / 3), 1)
+    mtry <- if (type == "Classification") floor(sqrt(NCOL(x))) else
+      max(floor(NCOL(x) / 3), 1)
   }
 
   if (length(nodesize) == 0) {
@@ -251,7 +273,8 @@ s_RF <- function(x, y = NULL,
   if (autotune) {
     if (verbose) msg2("Tuning for mtry...")
     tuner <- randomForest::tuneRF(
-      x = x, y = y,
+      x = x,
+      y = y,
       mtryStart = mtryStart,
       ntreeTry = n.trees.try,
       stepFactor = stepFactor,
@@ -267,12 +290,18 @@ s_RF <- function(x, y = NULL,
 
   # RF  ----
   if (verbose) {
-    msg2("Training Random Forest", type, "with", n.trees, "trees...",
+    msg2(
+      "Training Random Forest",
+      type,
+      "with",
+      n.trees,
+      "trees...",
       newline.pre = TRUE
     )
   }
   mod <- randomForest::randomForest(
-    x = x, y = y,
+    x = x,
+    y = y,
     ntree = n.trees,
     mtry = mtry,
     classwt = .classwt,
@@ -312,7 +341,8 @@ s_RF <- function(x, y = NULL,
       proximity.test <- NULL
     }
     if (type == "Regression") predicted <- as.numeric(predicted)
-    predicted.prob <- if (type == "Classification") predict(mod, x.test, "prob") else NULL
+    predicted.prob <- if (type == "Classification")
+      predict(mod, x.test, "prob") else NULL
     if (!is.null(y.test)) {
       error.test <- mod_error(y.test, predicted)
       if (verbose) errorSummary(error.test, mod.name)
@@ -341,28 +371,39 @@ s_RF <- function(x, y = NULL,
     par(pty = "s")
     if (plot.tsne.train) {
       plot(
-        x = rf.tsne.train$Y[, 1], y = rf.tsne.train$Y[, 2],
-        cex = 1.5, asp = 1,
+        x = rf.tsne.train$Y[, 1],
+        y = rf.tsne.train$Y[, 2],
+        cex = 1.5,
+        asp = 1,
         col = c("red", "green", "blue")[as.numeric(y)],
         main = "t-SNE of Proximity Based on Random Forest\n(training set)",
-        xlab = "t-SNE projection #1", ylab = "t-SNE projection #2"
+        xlab = "t-SNE projection #1",
+        ylab = "t-SNE projection #2"
       )
     }
 
     if (!is.null(x.test)) {
       rf.tsne.test <- Rtsne::Rtsne(
-        X = 1 - proximity.test, is_distance = TRUE, dims = 2, verbose = TRUE,
+        X = 1 - proximity.test,
+        is_distance = TRUE,
+        dims = 2,
+        verbose = TRUE,
         perplexity = tsne.perplexity
       )
       proximity.tsne.test <- rf.tsne.test
       par(pty = "s")
       if (plot.tsne.test) {
         plot(
-          x = rf.tsne.test$Y[, 1], y = rf.tsne.test$Y[, 2],
-          cex = 1.5, asp = 1,
-          col = c("red", "green", "blue", "orange", "purple")[as.numeric(y.test)],
+          x = rf.tsne.test$Y[, 1],
+          y = rf.tsne.test$Y[, 2],
+          cex = 1.5,
+          asp = 1,
+          col = c("red", "green", "blue", "orange", "purple")[as.numeric(
+            y.test
+          )],
           main = "t-SNE of Proximity Based on Random Forest\n(testing set)",
-          xlab = "t-SNE projection #1", ylab = "t-SNE projection #2"
+          xlab = "t-SNE projection #1",
+          ylab = "t-SNE projection #2"
         )
       }
     }
@@ -379,10 +420,18 @@ s_RF <- function(x, y = NULL,
   )
   if (!is.null(proximity.train)) extra$proximity.train <- proximity.train
   if (!is.null(proximity.test)) extra$proximity.test <- proximity.test
-  if (!is.null(proximity.tsne.train)) extra$proximity.tsne.train <- proximity.tsne.train
-  if (!is.null(proximity.tsne.test)) extra$proximity.tsne.test <- proximity.tsne.test
+  if (!is.null(proximity.tsne.train))
+    extra$proximity.tsne.train <- proximity.tsne.train
+  if (!is.null(proximity.tsne.test))
+    extra$proximity.tsne.test <- proximity.tsne.test
   if (imetrics) {
-    n.nodes <- sum(sapply(seq(n.trees), function(i) NROW(randomForest::getTree(mod, k = i))) * 2)
+    n.nodes <- sum(
+      sapply(
+        seq(n.trees),
+        function(i) NROW(randomForest::getTree(mod, k = i))
+      ) *
+        2
+    )
     extra$imetrics <- list(n.trees = n.trees, n.nodes = n.nodes)
   }
   rt <- rtModSet(
@@ -430,6 +479,10 @@ s_RF <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_RF

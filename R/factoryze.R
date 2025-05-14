@@ -45,28 +45,30 @@
 #' @param do.hclust Logical: If TRUE, perform hierarchical cluster analysis. Default = TRUE
 #' @param verbose Logical: If TRUE, print messages to output. Default = TRUE
 #' @param ... Additional arguments to pass to `psych::fa`
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
-factoryze <- function(x,
-                      n.factors = NULL,
-                      method = "minres",
-                      rotation = "oblimin",
-                      scores = "regression",
-                      cor = "cor",
-                      fa.n.iter = 100,
-                      omega.method = "minres",
-                      omega.rotation = c("oblimin", "simplimax", "promax", "cluster", "target"),
-                      omega.n.iter = 1,
-                      x.name = NULL,
-                      print.plot = TRUE,
-                      do.pa = TRUE,
-                      do.fa = TRUE,
-                      do.bifactor = TRUE,
-                      do.hclust = FALSE,
-                      verbose = TRUE, ...) {
-
+factoryze <- function(
+  x,
+  n.factors = NULL,
+  method = "minres",
+  rotation = "oblimin",
+  scores = "regression",
+  cor = "cor",
+  fa.n.iter = 100,
+  omega.method = "minres",
+  omega.rotation = c("oblimin", "simplimax", "promax", "cluster", "target"),
+  omega.n.iter = 1,
+  x.name = NULL,
+  print.plot = TRUE,
+  do.pa = TRUE,
+  do.fa = TRUE,
+  do.bifactor = TRUE,
+  do.hclust = FALSE,
+  verbose = TRUE,
+  ...
+) {
   # Dependencies ----
   dependency_check("psych")
 
@@ -78,8 +80,11 @@ factoryze <- function(x,
   # Parallel Analysis - Estimate Number of Factors ----
   if (do.pa) {
     if (verbose) msg2("Running Parallel Analysis...")
-    parallel.analysis <- psych::fa.parallel(x, fm = method,
-                                            main = "Parallel Analysis Scree Plot")
+    parallel.analysis <- psych::fa.parallel(
+      x,
+      fm = method,
+      main = "Parallel Analysis Scree Plot"
+    )
     if (is.null(n.factors)) {
       n.factors <- parallel.analysis$nfact
       if (n.factors == 0) {
@@ -89,8 +94,10 @@ factoryze <- function(x,
     } else {
       if (n.factors != parallel.analysis$nfact) {
         msg2(
-          n.factors, "requested; Parallel analysis suggests",
-          parallel.analysis$nfact, "factors."
+          n.factors,
+          "requested; Parallel analysis suggests",
+          parallel.analysis$nfact,
+          "factors."
         )
         msg2("Check scree plot")
       }
@@ -103,17 +110,18 @@ factoryze <- function(x,
   # Factor Analysis ----
   if (do.fa) {
     if (verbose) msg2("Running Exploratory Factor Analysis...")
-    x.fa <- psych::fa(x, nfactors = n.factors,
-                      fm = method,
-                      rotate = rotation,
-                      scores = scores,
-                      cor = cor,
-                      n.iter = fa.n.iter)
+    x.fa <- psych::fa(
+      x,
+      nfactors = n.factors,
+      fm = method,
+      rotate = rotation,
+      scores = scores,
+      cor = cor,
+      n.iter = fa.n.iter
+    )
     # Plot factors
     if (print.plot) {
-      psych::fa.diagram(x.fa,
-        main = paste(x.name, "Factor Analysis")
-      )
+      psych::fa.diagram(x.fa, main = paste(x.name, "Factor Analysis"))
     }
     # Get factor scores
     fa.scores <- x.fa$scores
@@ -124,7 +132,8 @@ factoryze <- function(x,
   # Bifactor Analysis ----
   if (do.bifactor) {
     if (verbose) msg2("Running Bifactor Analysis...")
-    x.omega <- psych::omegaSem(x,
+    x.omega <- psych::omegaSem(
+      x,
       nfactors = n.factors,
       fm = omega.method,
       n.iter = omega.n.iter,
@@ -148,12 +157,13 @@ factoryze <- function(x,
   }
 
   # Output ----
-  s.out <- list(parallel.analysis = parallel.analysis,
-                factor.analysis = x.fa,
-                factor.scores = fa.scores,
-                bifactor.analysis = x.omega,
-                bifactor.scores = bifactor.scores,
-                hclust = x.pvclust)
+  s.out <- list(
+    parallel.analysis = parallel.analysis,
+    factor.analysis = x.fa,
+    factor.scores = fa.scores,
+    bifactor.analysis = x.omega,
+    bifactor.scores = bifactor.scores,
+    hclust = x.pvclust
+  )
   s.out
-
 } # rtemis::factoryze

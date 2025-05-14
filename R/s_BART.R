@@ -13,7 +13,7 @@
 #' @inheritParams s_GLM
 #' @param save.mod Logical: if TRUE, sets `bartMachine`'s `serialize` to TRUE and saves model to `outdir`
 #' @param ... Additional arguments to be passed to `bartMachine::bartMachine`
-#' 
+#'
 #' @return Object of class \pkg{rtemis}
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
@@ -21,29 +21,35 @@
 #' @family Tree-based methods
 #' @export
 
-s_BART <- function(x, y = NULL,
-                   x.test = NULL, y.test = NULL,
-                   x.name = NULL, y.name = NULL,
-                   n.trees = c(100, 200),
-                   k_cvs = c(2, 3),
-                   nu_q_cvs = list(c(3, 0.9), c(10, 0.75)),
-                   k_folds = 5,
-                   n.burnin = 250,
-                   n.iter = 1000,
-                   n.cores = rtCores,
-                   upsample = FALSE,
-                   downsample = FALSE,
-                   resample.seed = NULL,
-                   print.plot = FALSE,
-                   plot.fitted = NULL,
-                   plot.predicted = NULL,
-                   plot.theme = rtTheme,
-                   question = NULL,
-                   verbose = TRUE,
-                   trace = 0,
-                   outdir = NULL,
-                   save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
-                   java.mem.size = 12, ...) {
+s_BART <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  n.trees = c(100, 200),
+  k_cvs = c(2, 3),
+  nu_q_cvs = list(c(3, 0.9), c(10, 0.75)),
+  k_folds = 5,
+  n.burnin = 250,
+  n.iter = 1000,
+  n.cores = rtCores,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  java.mem.size = 12,
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_BART))
@@ -51,7 +57,14 @@ s_BART <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -75,11 +88,15 @@ s_BART <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     upsample = upsample,
     downsample = downsample,
     resample.seed = resample.seed,
@@ -93,8 +110,10 @@ s_BART <- function(x, y = NULL,
   type <- dt$type
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -118,7 +137,9 @@ s_BART <- function(x, y = NULL,
   if (verbose) {
     msg2("Training Bayesian Additive Regression Trees...", newline.pre = TRUE)
   }
-  mod <- bartMachine::bartMachineCV(x, y.train,
+  mod <- bartMachine::bartMachineCV(
+    x,
+    y.train,
     num_tree_cvs = n.trees,
     k_cvs = k_cvs,
     nu_q_cvs = nu_q_cvs,
@@ -126,7 +147,8 @@ s_BART <- function(x, y = NULL,
     num_burn_in = n.burnin,
     num_iterations_after_burn_in = n.iter,
     serialize = save.mod,
-    verbose = trace > 0, ...
+    verbose = trace > 0,
+    ...
   )
   if (trace > 0) summary(mod)
 
@@ -145,7 +167,10 @@ s_BART <- function(x, y = NULL,
   if (!is.null(x.test) && !is.null(y.test)) {
     if (type == "Classification") {
       predicted.prob <- predict(mod, x.test, type = "prob")
-      predicted <- factor(levels(y)[round(predicted.prob) + 1], levels = levels(y))
+      predicted <- factor(
+        levels(y)[round(predicted.prob) + 1],
+        levels = levels(y)
+      )
     } else {
       predicted.prob <- NULL
       predicted <- as.numeric(predict(mod, x.test))
@@ -191,6 +216,10 @@ s_BART <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_BART

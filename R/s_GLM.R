@@ -80,33 +80,39 @@
 #' @family Interpretable models
 #' @export
 
-s_GLM <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  x.name = NULL, y.name = NULL,
-                  family = NULL,
-                  interactions = NULL,
-                  class.method = NULL,
-                  weights = NULL,
-                  ifw = TRUE,
-                  ifw.type = 2,
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  intercept = TRUE,
-                  polynomial = FALSE,
-                  poly.d = 3,
-                  poly.raw = FALSE,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  na.action = na.exclude,
-                  removeMissingLevels = TRUE,
-                  question = NULL,
-                  verbose = TRUE,
-                  trace = 0,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_GLM <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  family = NULL,
+  interactions = NULL,
+  class.method = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  intercept = TRUE,
+  polynomial = FALSE,
+  poly.d = 3,
+  poly.raw = FALSE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  na.action = na.exclude,
+  removeMissingLevels = TRUE,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_GLM))
@@ -114,7 +120,14 @@ s_GLM <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -130,12 +143,16 @@ s_GLM <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   if (trace > 0) verbose <- TRUE
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -150,7 +167,11 @@ s_GLM <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
 
-  if (!is.null(family) && family %in% c("binomial", "multinomial") && type != "Classification") {
+  if (
+    !is.null(family) &&
+      family %in% c("binomial", "multinomial") &&
+      type != "Classification"
+  ) {
     y <- factor(y)
     if (!is.null(y.test)) y.test <- factor(y.test)
     type <- "Classification"
@@ -173,8 +194,10 @@ s_GLM <- function(x, y = NULL,
   }
   checkType(type, c("Classification", "Regression"), mod.name)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -187,15 +210,25 @@ s_GLM <- function(x, y = NULL,
   if (!polynomial) {
     .formula <- paste(y.name, "~ .")
   } else {
-    features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
-      collapse = " + poly("
-    ))
+    features <- paste0(
+      "poly(",
+      paste0(
+        xnames,
+        ", degree = ",
+        poly.d,
+        ", raw = ",
+        poly.raw,
+        ")",
+        collapse = " + poly("
+      )
+    )
     .formula <- paste0(y.name, " ~ ", features)
   }
 
   if (!is.null(interactions)) {
     .formula <- paste(
-      .formula, " + ",
+      .formula,
+      " + ",
       lapply(interactions, \(i) paste(i, collapse = ":")) |>
         paste(collapse = " + ")
     )
@@ -209,20 +242,28 @@ s_GLM <- function(x, y = NULL,
   if (trace > 0) msg2("Using formula:", .formula)
   if (mod.name != "MULTINOM") {
     if (verbose) msg2("Training GLM...", newline.pre = TRUE)
-    mod <- glm(.formula,
-      family = family, data = df.train,
-      weights = .weights, na.action = na.action, ...
+    mod <- glm(
+      .formula,
+      family = family,
+      data = df.train,
+      weights = .weights,
+      na.action = na.action,
+      ...
     )
   } else {
     dependency_check("nnet")
     if (verbose) {
-      msg2("Training multinomial logistic regression model...",
+      msg2(
+        "Training multinomial logistic regression model...",
         newline.pre = TRUE
       )
     }
-    mod <- nnet::multinom(.formula,
+    mod <- nnet::multinom(
+      .formula,
       data = df.train,
-      weights = .weights, na.action = na.action, ...
+      weights = .weights,
+      na.action = na.action,
+      ...
     )
   }
   if (trace > 0) print(summary(mod))
@@ -255,18 +296,28 @@ s_GLM <- function(x, y = NULL,
       index.factor <- which(sapply(x, is.factor))
       if (length(index.factor) > 0) {
         levels.training <- lapply(x[, index.factor], \(z) levels(droplevels(z)))
-        levels.testing <- lapply(x.test[, index.factor], \(z) levels(droplevels(z)))
+        levels.testing <- lapply(
+          x.test[, index.factor],
+          \(z) levels(droplevels(z))
+        )
         # Get index of levels present in test set and not in training
-        index.missing <- lapply(seq(levels.training), function(i) !levels.testing[[i]] %in% levels.training[[i]])
+        index.missing <- lapply(
+          seq(levels.training),
+          function(i) !levels.testing[[i]] %in% levels.training[[i]]
+        )
         # Set levels present in testing but missing in training to NA
         train.missing <- sapply(index.missing, any)
         if (any(train.missing)) {
           featnames <- names(index.factor)[train.missing]
-          if (verbose) msg2("Levels present in testing and not in training will be replaced with NA")
+          if (verbose)
+            msg2(
+              "Levels present in testing and not in training will be replaced with NA"
+            )
           for (i in which(train.missing)) {
             missing.level <- levels.testing[[i]][index.missing[[i]]]
             index.extralevel <- which(x.test[[featnames[i]]] == missing.level)
-            if (length(index.extralevel) > 0) x.test[index.extralevel, featnames[i]] <- NA
+            if (length(index.extralevel) > 0)
+              x.test[index.extralevel, featnames[i]] <- NA
           }
         }
       }
@@ -280,7 +331,10 @@ s_GLM <- function(x, y = NULL,
     } else {
       if (mod.name == "Logistic") {
         predicted.prob <- as.numeric(predict(mod, x.test, type = "response"))
-        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0), levels = c(1, 0))
+        predicted <- factor(
+          ifelse(predicted.prob >= .5, 1, 0),
+          levels = c(1, 0)
+        )
         levels(predicted) <- levels(y)
       } else {
         predicted.prob <- as.numeric(predict(mod, x.test, type = "probs"))
@@ -336,7 +390,8 @@ s_GLM <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )
@@ -349,8 +404,14 @@ s_GLM <- function(x, y = NULL,
 #' Convenience alias for `s_GLM(family = binomial(link = "logit"))`.
 #' @inheritParams s_GLM
 #' @export
-s_Logistic <- function(x, y, x.test = NULL, y.test = NULL,
-                       family = binomial(link = "logit"), ...) {
+s_Logistic <- function(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  family = binomial(link = "logit"),
+  ...
+) {
   s_GLM(x, y, x.test = x.test, y.test = y.test, family = family, ...)
 } # rtemis::s_Logistic
 
@@ -360,9 +421,22 @@ s_Logistic <- function(x, y, x.test = NULL, y.test = NULL,
 #' Convenience alias for `s_GLM(class.method = "multinom")`.
 #' @inheritParams s_GLM
 #' @export
-s_MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
-                       class.method = "multinom", ...) {
-  s_GLM(x, y, x.test = x.test, y.test = y.test, class.method = class.method, ...)
+s_MULTINOM <- function(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  class.method = "multinom",
+  ...
+) {
+  s_GLM(
+    x,
+    y,
+    x.test = x.test,
+    y.test = y.test,
+    class.method = class.method,
+    ...
+  )
 } # rtemis::s_MULTINOM
 
 
@@ -376,9 +450,23 @@ s_MULTINOM <- function(x, y, x.test = NULL, y.test = NULL,
 #'   orthogonal polynomials. See `stats::poly`
 #' @export
 
-s_POLY <- function(x, y, x.test = NULL, y.test = NULL, poly.d = 3, poly.raw = FALSE, ...) {
-  s_GLM(x, y,
-    x.test = x.test, y.test = y.test,
-    polynomial = TRUE, poly.d = poly.d, poly.raw = poly.raw, ...
+s_POLY <- function(
+  x,
+  y,
+  x.test = NULL,
+  y.test = NULL,
+  poly.d = 3,
+  poly.raw = FALSE,
+  ...
+) {
+  s_GLM(
+    x,
+    y,
+    x.test = x.test,
+    y.test = y.test,
+    polynomial = TRUE,
+    poly.d = poly.d,
+    poly.raw = poly.raw,
+    ...
   )
 } # rtemis::s_POLY

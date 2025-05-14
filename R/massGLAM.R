@@ -52,21 +52,24 @@
 #' plot(massmod, what = "volcano")
 #' }
 #'
-massGLAM <- function(x, y,
-                     scale.x = FALSE,
-                     scale.y = FALSE,
-                     mod = c("glm", "gam"),
-                     type = NULL,
-                     xnames = NULL,
-                     ynames = NULL,
-                     spline.index = NULL,
-                     gam.k = 6,
-                     save.mods = TRUE,
-                     print.plot = FALSE,
-                     include_anova_pvals = NA,
-                     verbose = TRUE,
-                     trace = 0,
-                     n.cores = 1) {
+massGLAM <- function(
+  x,
+  y,
+  scale.x = FALSE,
+  scale.y = FALSE,
+  mod = c("glm", "gam"),
+  type = NULL,
+  xnames = NULL,
+  ynames = NULL,
+  spline.index = NULL,
+  gam.k = 6,
+  save.mods = TRUE,
+  print.plot = FALSE,
+  include_anova_pvals = NA,
+  verbose = TRUE,
+  trace = 0,
+  n.cores = 1
+) {
   # Intro ----
   .call <- match.call()
   .call[2] <- list(str2lang("dat"))
@@ -81,10 +84,12 @@ massGLAM <- function(x, y,
   if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
   if (trace > 0) msg20('massGLAM type is "', type, '"')
   if (type == "massx") {
-    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
+    if (is.null(colnames(x)))
+      colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
     nmods <- NCOL(x)
   } else {
-    if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
+    if (is.null(colnames(y)))
+      colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
     nmods <- NCOL(y)
   }
 
@@ -113,7 +118,11 @@ massGLAM <- function(x, y,
       .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
       glm(.formula, family = .family, data = dat)
     } else {
-      .formula <- as.formula(paste(ynames[index], "~", paste(xnames, collapse = " + ")))
+      .formula <- as.formula(paste(
+        ynames[index],
+        "~",
+        paste(xnames, collapse = " + ")
+      ))
       .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
       glm(.formula, family = .family, data = dat)
     }
@@ -122,15 +131,19 @@ massGLAM <- function(x, y,
   mod1_gam <- function(index, dat, type) {
     if (type == "massx") {
       .formula <- gam_formula(
-        xnames[index], ynames,
-        spline.index = spline.index, k = gam.k
+        xnames[index],
+        ynames,
+        spline.index = spline.index,
+        k = gam.k
       )
       .family <- if (is.factor(dat[[ynames]])) "binomial" else "gaussian"
       glm(.formula, family = .family, data = dat)
     } else {
       .formula <- gam_formula(
-        xnames, ynames[index],
-        spline.index = spline.index, k = gam.k
+        xnames,
+        ynames[index],
+        spline.index = spline.index,
+        k = gam.k
       )
       .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
       mgcv::gam(.formula, family = .family, data = dat)
@@ -181,7 +194,7 @@ massGLAM <- function(x, y,
 #' @method print massGAM
 #' @param x [massGAM] object
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
@@ -189,9 +202,12 @@ print.massGAM <- function(x, ...) {
   nx <- length(x$xnames)
   ny <- length(x$ynames)
   .text <- paste(
-    "Mass-univariate GAM analysis with", nx,
+    "Mass-univariate GAM analysis with",
+    nx,
     ngettext(nx, "predictor", "predictors"),
-    "and", ny, ngettext(ny, "outcome", "outcomes\n")
+    "and",
+    ny,
+    ngettext(ny, "outcome", "outcomes\n")
   )
   cat(.text)
   invisible(x)
@@ -221,41 +237,44 @@ summary.massGAM <- function(object, ...) {
 #' @author E.D. Gennatas
 #' @export
 
-plot.massGAM <- function(x,
-                         predictor = NULL,
-                         main = NULL,
-                         # what = c("coefs", "pvals", "volcano"),
-                         what = "pvals",
-                         p.adjust.method = "none",
-                         p.transform = \(x) -log10(x),
-                         show = c("all", "signif"),
-                         pval.hline = c(.05, .001),
-                         hline.col = NULL,
-                         hline.dash = "dash",
-                         hline.annotate = as.character(pval.hline),
-                         ylim = NULL,
-                         xlab = NULL,
-                         ylab = NULL,
-                         group = NULL,
-                         grouped.nonsig.alpha = .5,
-                         order.by.group = TRUE,
-                         palette = rtPalette,
-                         col.sig = "#43A4AC",
-                         #  col.neg = "#43A4AC",
-                         #  col.pos = "#FA9860",
-                         col.ns = "#7f7f7f",
-                         theme = rtTheme,
-                         alpha = NULL,
-                         #  volcano.annotate = TRUE,
-                         #  volcano.annotate.n = 7,
-                         #  volcano.hline = NULL,
-                         #  volcano.hline.dash = "dot",
-                         #  volcano.hline.annotate = NULL,
-                         #  volcano.p.transform = \(x) -log10(x),
-                         margin = NULL,
-                         displayModeBar = FALSE,
-                         trace = 0,
-                         filename = NULL, ...) {
+plot.massGAM <- function(
+  x,
+  predictor = NULL,
+  main = NULL,
+  # what = c("coefs", "pvals", "volcano"),
+  what = "pvals",
+  p.adjust.method = "none",
+  p.transform = \(x) -log10(x),
+  show = c("all", "signif"),
+  pval.hline = c(.05, .001),
+  hline.col = NULL,
+  hline.dash = "dash",
+  hline.annotate = as.character(pval.hline),
+  ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  group = NULL,
+  grouped.nonsig.alpha = .5,
+  order.by.group = TRUE,
+  palette = rtPalette,
+  col.sig = "#43A4AC",
+  #  col.neg = "#43A4AC",
+  #  col.pos = "#FA9860",
+  col.ns = "#7f7f7f",
+  theme = rtTheme,
+  alpha = NULL,
+  #  volcano.annotate = TRUE,
+  #  volcano.annotate.n = 7,
+  #  volcano.hline = NULL,
+  #  volcano.hline.dash = "dot",
+  #  volcano.hline.annotate = NULL,
+  #  volcano.p.transform = \(x) -log10(x),
+  margin = NULL,
+  displayModeBar = FALSE,
+  trace = 0,
+  filename = NULL,
+  ...
+) {
   # Arguments ----
   what <- match.arg(what)
   show <- match.arg(show)
@@ -274,8 +293,14 @@ plot.massGAM <- function(x,
     pval_name <- grep(predictor, names(x$summary), value = TRUE)
     if (length(pval_name) > 1) {
       warning(
-        "Search for ", predictor, "; returned", length(pval_name), "matches:",
-        pval_name, "; using", pval_name[1]
+        "Search for ",
+        predictor,
+        "; returned",
+        length(pval_name),
+        "matches:",
+        pval_name,
+        "; using",
+        pval_name[1]
       )
       pval_name <- pval_name[1]
     }
@@ -300,7 +325,9 @@ plot.massGAM <- function(x,
         ylab <- paste(
           # print_transform(deparse(p.transform)[2]),
           print_fn(p.transform),
-          what, .name, "p-value"
+          what,
+          .name,
+          "p-value"
         )
       }
       if (!is.null(group) && order.by.group) {
@@ -323,7 +350,8 @@ plot.massGAM <- function(x,
         theme = theme,
         margin = margin,
         displayModeBar = displayModeBar,
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     } else if (what == "coefs") {
       # # Coefficients ----
@@ -335,7 +363,6 @@ plot.massGAM <- function(x,
       # .cols <- rep(col.ns, length(x$summary[[.coefname]]))
       # .cols[x$summary[[.coefname]] < 0 & .pvals < .05] <- col.neg
       # .cols[x$summary[[.coefname]] > 0 & .pvals < .05] <- col.pos
-
       # dplot3_bar(x$summary[[coef_idi]],
       #     # group.names = if (x$type == "massy") x$ynames else x$xnames,
       #     group.names = x$ynames,
@@ -395,7 +422,11 @@ gam_formula <- function(xnames, yname, spline.index, k = 6) {
   lin.index <- which(!(seq_along(xnames) %in% spline.index))
 
   spline.features <- paste0(
-    "s(", xnames[spline.index], ", k = ", k, ")",
+    "s(",
+    xnames[spline.index],
+    ", k = ",
+    k,
+    ")",
     collapse = " + "
   )
 

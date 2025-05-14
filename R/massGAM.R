@@ -31,21 +31,25 @@
 #' @author E.D. Gennatas
 #' @export
 
-massGAM <- function(x, y,
-                    covariates = NULL,
-                    x.name = NULL, y.name = NULL,
-                    k = NULL,
-                    family = gaussian(),
-                    weights = NULL,
-                    method = "REML",
-                    n.cores = rtCores,
-                    save.mods = FALSE,
-                    save.summary = TRUE,
-                    print.plots = FALSE,
-                    outdir = NULL,
-                    # labeledNifti = NULL,
-                    save.plots = FALSE,
-                    new.x.breaks = 9) {
+massGAM <- function(
+  x,
+  y,
+  covariates = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  k = NULL,
+  family = gaussian(),
+  weights = NULL,
+  method = "REML",
+  n.cores = rtCores,
+  save.mods = FALSE,
+  save.summary = TRUE,
+  print.plots = FALSE,
+  outdir = NULL,
+  # labeledNifti = NULL,
+  save.plots = FALSE,
+  new.x.breaks = 9
+) {
   # Dependencies ----
   dependency_check("mgcv")
 
@@ -86,37 +90,60 @@ massGAM <- function(x, y,
   if (!is.null(k)) {
     features <- paste0("s(", colnames(x), ", k = ", k, ")", collapse = " + ")
   } else {
-    warning("k was not specified: I recommend you check results and rerun with specified k if necessary.")
+    warning(
+      "k was not specified: I recommend you check results and rerun with specified k if necessary."
+    )
     features <- paste0("s(", colnames(x), ")", collapse = " + ")
   }
 
   ### Covariates: ordered factors -- currently works with one main predictor
   if (!is.null(covariates)) {
     covs <- covariates
-    if (is.null(names(covs))) names(covs) <- paste0("Covariate.", seq_along(covs))
+    if (is.null(names(covs)))
+      names(covs) <- paste0("Covariate.", seq_along(covs))
     covariates <- ""
     for (j in seq_along(covs)) {
       if (is.null(k)) {
-        covariates <- paste(covariates, paste0(
-          names(covs)[j], " + s(", colnames(x)[1],
-          ", by = ", names(covs)[j], ")"
-        ), sep = " + ")
+        covariates <- paste(
+          covariates,
+          paste0(
+            names(covs)[j],
+            " + s(",
+            colnames(x)[1],
+            ", by = ",
+            names(covs)[j],
+            ")"
+          ),
+          sep = " + "
+        )
       } else {
-        covariates <- paste(covariates, paste0(
-          names(covs)[j], " + s(", colnames(x)[1],
-          ", by = ", names(covs)[j], ", k = ", k, ")"
-        ), sep = " + ")
+        covariates <- paste(
+          covariates,
+          paste0(
+            names(covs)[j],
+            " + s(",
+            colnames(x)[1],
+            ", by = ",
+            names(covs)[j],
+            ", k = ",
+            k,
+            ")"
+          ),
+          sep = " + "
+        )
       }
     }
   }
 
   ### Data frame
-  if (is.null(covariates)) df.train <- data.frame(y, x) else df.train <- data.frame(y, x, covs)
+  if (is.null(covariates)) df.train <- data.frame(y, x) else
+    df.train <- data.frame(y, x, covs)
 
   ### Formulae
   formulae <- lapply(
     seq_len(NCOL(y)),
-    function(index) as.formula(paste0(colnames(y)[index], " ~ ", features, covariates))
+    function(index)
+      as.formula(paste0(colnames(y)[index], " ~ ", features, covariates))
   )
 
   ### Output
@@ -125,21 +152,26 @@ massGAM <- function(x, y,
   # GAM ----
   # use na.exclude so that NAs give NAs when resid() is used. $residuals will still be shorter, don't use
   cat(
-    ">>> I will regress", NCOL(y), "outcomes on the following features:\n",
-    paste0(features, covariates), "\n"
+    ">>> I will regress",
+    NCOL(y),
+    "outcomes on the following features:\n",
+    paste0(features, covariates),
+    "\n"
   )
   cat(">>> Running", length(formulae), "GAMs on", n.cores, "cores...\n")
-  mod.gam <- pbapply::pblapply(formulae, function(f) {
-    mgcv::gam(
-      formula = f,
-      family = family,
-      data = df.train,
-      weights = weights,
-      na.action = na.exclude,
-      method = method
-    )
-  },
-  cl = n.cores
+  mod.gam <- pbapply::pblapply(
+    formulae,
+    function(f) {
+      mgcv::gam(
+        formula = f,
+        family = family,
+        data = df.train,
+        weights = weights,
+        na.action = na.exclude,
+        method = method
+      )
+    },
+    cl = n.cores
   )
   names(mod.gam) <- names(y)
 
@@ -153,7 +185,10 @@ massGAM <- function(x, y,
   mod.summary <- lapply(mod.gam, summary)
   if (save.summary) s.out$summary <- mod.summary
   # R squared
-  s.out$r.sq <- data.frame(matrix(sapply(mod.summary, function(mod) c(mod$r.sq)), nrow = 1))
+  s.out$r.sq <- data.frame(matrix(
+    sapply(mod.summary, function(mod) c(mod$r.sq)),
+    nrow = 1
+  ))
   colnames(s.out$r.sq) <- colnames(y)
   # P values - parameters
   s.out$p.table <- lapply(mod.summary, function(mod) {
@@ -164,9 +199,12 @@ massGAM <- function(x, y,
     return(mod$s.table)
   })
   # P values - first smooth
-  s.out$s.pv <- data.frame(matrix(sapply(mod.summary, function(mod) {
-    return(mod$s.pv[1])
-  }), nrow = 1))
+  s.out$s.pv <- data.frame(matrix(
+    sapply(mod.summary, function(mod) {
+      return(mod$s.pv[1])
+    }),
+    nrow = 1
+  ))
   colnames(s.out$s.pv) <- colnames(y)
   # Holm-corrected P values of first smooth
   s.out$s.pv.holm <- p.adjust(s.out$s.pv, method = "holm")

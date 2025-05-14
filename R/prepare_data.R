@@ -29,19 +29,25 @@
 #' @noRd
 #' @author E.D. Gennatas
 
-prepare_data <- function(x, y = NULL,
-                         x.test = NULL, y.test = NULL,
-                         x.valid = NULL, y.valid = NULL,
-                         filter.y.na = FALSE,
-                         ifw = FALSE,
-                         ifw.type = 2,
-                         upsample = FALSE,
-                         downsample = FALSE,
-                         resample.seed = NULL,
-                         removeDots = FALSE,
-                         .preprocess = NULL,
-                         verbose = FALSE) {
-  if (upsample && downsample) stop("Only one of upsample and downsample can be TRUE")
+prepare_data <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.valid = NULL,
+  y.valid = NULL,
+  filter.y.na = FALSE,
+  ifw = FALSE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  removeDots = FALSE,
+  .preprocess = NULL,
+  verbose = FALSE
+) {
+  if (upsample && downsample)
+    stop("Only one of upsample and downsample can be TRUE")
 
   if (class(x)[1] != "list") {
     x <- as.data.frame(x)
@@ -61,7 +67,14 @@ prepare_data <- function(x, y = NULL,
   # x/y, train/test ----
 
   # '- (x = x.train_y, y = x.test_y) ----
-  if (!is.null(y) && NCOL(y) > 1 && !inherits(y, "Surv") && NCOL(y) == ncol.x && is.null(x.test) && is.null(y.test)) {
+  if (
+    !is.null(y) &&
+      NCOL(y) > 1 &&
+      !inherits(y, "Surv") &&
+      NCOL(y) == ncol.x &&
+      is.null(x.test) &&
+      is.null(y.test)
+  ) {
     y <- as.data.frame(y)
     y.test <- y[, ncol.x]
     x.test <- y[, -ncol.x]
@@ -99,7 +112,8 @@ prepare_data <- function(x, y = NULL,
 
   if (!(is.numeric(y) || is.factor(y))) {
     stop(
-      "Outcome is class ", class(y),
+      "Outcome is class ",
+      class(y),
       " but must be either numeric (for regression) or a factor (for classification)."
     )
   }
@@ -126,14 +140,17 @@ prepare_data <- function(x, y = NULL,
     # Test that dimensions match
     for (i in seq_along(x)) {
       if (NROW(x[[i]]) != NROW(y)) {
-        stop("Training set features and outcome do not contain same number of cases")
+        stop(
+          "Training set features and outcome do not contain same number of cases"
+        )
       }
     }
     if (!is.null(x.test)) {
       for (i in seq_along(x)) {
         if (NCOL(x[[i]]) != NCOL(x.test[[i]])) {
           stop(
-            "Feature set #", i,
+            "Feature set #",
+            i,
             ": Training and testing sets do not contain same number of features"
           )
         }
@@ -143,7 +160,8 @@ prepare_data <- function(x, y = NULL,
       for (i in seq_along(x)) {
         if (NROW(x.test[[i]]) != NROW(y.test)) {
           stop(
-            "Feature set #", i,
+            "Feature set #",
+            i,
             ": Testing set features and outcome do not contain same number of cases"
           )
         }
@@ -154,7 +172,9 @@ prepare_data <- function(x, y = NULL,
     # x is not list
     # '- Test dimensions match ----
     if (NROW(x) != NROW(y)) {
-      stop("Training set features and outcome do not contain same number of cases")
+      stop(
+        "Training set features and outcome do not contain same number of cases"
+      )
     }
     if (!is.null(x.test)) {
       if (NCOL(x) != NCOL(x.test)) {
@@ -163,7 +183,9 @@ prepare_data <- function(x, y = NULL,
     }
     if (!is.null(y.test)) {
       if (NROW(x.test) != NROW(y.test)) {
-        stop("Testing set features and outcome do not contain same number of cases")
+        stop(
+          "Testing set features and outcome do not contain same number of cases"
+        )
       }
     }
 
@@ -189,7 +211,8 @@ prepare_data <- function(x, y = NULL,
 
   # Type ----
   if (!is.null(dim(y)) && !inherits(y, "Surv")) y <- as.vector(y)
-  type <- switch(class(y)[1],
+  type <- switch(
+    class(y)[1],
     factor = "Classification",
     Surv = "Survival",
     "Regression"
@@ -202,14 +225,19 @@ prepare_data <- function(x, y = NULL,
     maxfreq.i <- which.max(freq$Freq)
     if (verbose) {
       msg2("Upsampling to create balanced set...", newline.pre = TRUE)
-      msg2(levels(y)[maxfreq.i], "is majority outcome with length =", max(freq$Freq))
+      msg2(
+        levels(y)[maxfreq.i],
+        "is majority outcome with length =",
+        max(freq$Freq)
+      )
     }
     y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
     to.upsample <- setdiff(seq_along(levels(y)), maxfreq.i)
     y.upsampled.classIndex.list <- y.classIndex.list
     target.length <- length(y.classIndex.list[[maxfreq.i]])
     for (i in to.upsample) {
-      do.replace <- length(y.classIndex.list[[i]]) * 2 < length(y.classIndex.list[[maxfreq.i]])
+      do.replace <- length(y.classIndex.list[[i]]) * 2 <
+        length(y.classIndex.list[[maxfreq.i]])
       y.upsampled.classIndex.list[[i]] <- c(
         y.classIndex.list[[i]],
         sample(
@@ -235,14 +263,22 @@ prepare_data <- function(x, y = NULL,
     minfreq.i <- which.min(freq$Freq)
     if (verbose) {
       msg2("Downsampling to balance outcome classes...", newline.pre = TRUE)
-      msg2(levels(y)[minfreq.i], "is the minority outcome with", min(freq$Freq), "cases")
+      msg2(
+        levels(y)[minfreq.i],
+        "is the minority outcome with",
+        min(freq$Freq),
+        "cases"
+      )
     }
     y.classIndex.list <- lapply(levels(y), function(x) which(y == x))
     to.downsample <- setdiff(seq_along(levels(y)), minfreq.i)
     y.downsampled.classIndex.list <- y.classIndex.list
     target.length <- length(y.classIndex.list[[minfreq.i]])
     for (i in to.downsample) {
-      y.downsampled.classIndex.list[[i]] <- sample(y.classIndex.list[[i]], target.length)
+      y.downsampled.classIndex.list[[i]] <- sample(
+        y.classIndex.list[[i]],
+        target.length
+      )
     }
     downsample.index <- unlist(y.downsampled.classIndex.list)
     x0 <- x
@@ -268,7 +304,8 @@ prepare_data <- function(x, y = NULL,
         weights <- class.weights / max(class.weights)
       }
       if (verbose) {
-        msg2("Imbalanced classes: using Inverse Frequency Weighting",
+        msg2(
+          "Imbalanced classes: using Inverse Frequency Weighting",
           newline.pre = TRUE
         )
       }
@@ -283,11 +320,17 @@ prepare_data <- function(x, y = NULL,
 
   # Outro ----
   list(
-    x = x, y = y,
-    x.test = x.test, y.test = y.test,
-    x.valid = x.valid, y.valid = y.valid,
-    x0 = x0, y0 = y0,
-    xnames = xnames, type = type,
-    class.weights = class.weights, weights = weights
+    x = x,
+    y = y,
+    x.test = x.test,
+    y.test = y.test,
+    x.valid = x.valid,
+    y.valid = y.valid,
+    x0 = x0,
+    y0 = y0,
+    xnames = xnames,
+    type = type,
+    class.weights = class.weights,
+    weights = weights
   )
 } # rtemis::prepare_data

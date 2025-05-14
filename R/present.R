@@ -19,26 +19,28 @@
 #' @author E.D. Gennatas
 #' @export
 
-present <- function(...,
-                    mod.names = NULL,
-                    which.repeat = 1,
-                    metric = NULL,
-                    plot.train = TRUE,
-                    plot.test = TRUE,
-                    boxpoints = "all",
-                    annotate_meansd = TRUE,
-                    main = NULL,
-                    ylim = NULL,
-                    htest = "none",
-                    htest.annotate.y = NULL,
-                    col = NULL,
-                    theme = rtTheme,
-                    margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
-                    subplot.margin = .0666,
-                    filename = NULL,
-                    file.width = 500,
-                    file.height = 550,
-                    file.scale = 1) {
+present <- function(
+  ...,
+  mod.names = NULL,
+  which.repeat = 1,
+  metric = NULL,
+  plot.train = TRUE,
+  plot.test = TRUE,
+  boxpoints = "all",
+  annotate_meansd = TRUE,
+  main = NULL,
+  ylim = NULL,
+  htest = "none",
+  htest.annotate.y = NULL,
+  col = NULL,
+  theme = rtTheme,
+  margin = list(b = 65, l = 100, t = 60, r = 18, pad = 0),
+  subplot.margin = .0666,
+  filename = NULL,
+  file.width = 500,
+  file.height = 550,
+  file.scale = 1
+) {
   mods <- list(...)
   if (is.null(htest.annotate.y)) {
     htest.annotate.y <- if ((plot.train && plot.test)) {
@@ -104,7 +106,8 @@ present <- function(...,
 
   if (plot.train && plot.test) {
     plt <- plotly::subplot(
-      plot_train, plot_test,
+      plot_train,
+      plot_test,
       nrows = 2,
       shareX = TRUE,
       titleY = TRUE,

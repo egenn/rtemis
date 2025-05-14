@@ -21,7 +21,9 @@ dependency_check <- function(..., verbose = FALSE) {
   err <- !sapply(ns, \(i) requireNamespace(i, quietly = TRUE))
   if (any(err)) {
     stop(
-      "Please install the following ", ngettext(sum(err), "dependency", "dependencies"), ":\n",
+      "Please install the following ",
+      ngettext(sum(err), "dependency", "dependencies"),
+      ":\n",
       pastels(ns[err], bullet = "    -")
     )
   } else {

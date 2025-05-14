@@ -10,15 +10,16 @@
 #' @param ID_col Integer: The column position of the ID variable
 #' @param time_col Integer: The column position of the time variable
 #' @param n_patterns Integer: The number of patterns to display
-#' 
+#'
 #' @author EDG
 #' @export
 
 xtdescribe <- function(
-    x,
-    ID_col = 1,
-    time_col = 2,
-    n_patterns = 9) {
+  x,
+  ID_col = 1,
+  time_col = 2,
+  n_patterns = 9
+) {
   id_name <- names(x)[ID_col]
   time_name <- names(x)[time_col]
   # Print vec_describe of ID, with n = number of unique IDs
@@ -29,36 +30,62 @@ xtdescribe <- function(
   time_max <- max(time_us)
   leftwidth <- max(nchar(id_name), nchar(time_name))
   cat(
-    pad(id_name, leftwidth), ": ", vec_describe(id_us),
-    "                         n = ", length(id_us), "\n",
+    pad(id_name, leftwidth),
+    ": ",
+    vec_describe(id_us),
+    "                         n = ",
+    length(id_us),
+    "\n",
     sep = ""
   )
   cat(
-    pad(time_name, leftwidth), ": ", vec_describe(time_us),
-    "                         T = ", length(time_us), "\n",
+    pad(time_name, leftwidth),
+    ": ",
+    vec_describe(time_us),
+    "                         T = ",
+    length(time_us),
+    "\n",
     sep = ""
   )
   # Calculate delta for time variable
   # ?is this minimum delta?
   delta <- min(diff(time_us))
   cat(
-    rep(" ", leftwidth), "  Delta (", time_name, ") = ", delta, " unit\n",
+    rep(" ", leftwidth),
+    "  Delta (",
+    time_name,
+    ") = ",
+    delta,
+    " unit\n",
     sep = ""
   )
   span <- ((max(time_us) - min(time_us)) / delta) + 1
   cat(
-    rep(" ", leftwidth), "  Span (", time_name, ") = ", span, " periods\n",
+    rep(" ", leftwidth),
+    "  Span (",
+    time_name,
+    ") = ",
+    span,
+    " periods\n",
     sep = ""
   )
   #  Does id * time have unique values?
-  id_time_unique <- length(unique(interaction(x[[id_name]], x[[time_name]]))) == nrow(x)
+  id_time_unique <- length(unique(interaction(x[[id_name]], x[[time_name]]))) ==
+    nrow(x)
   uid <- if (id_time_unique) {
     "uniquely identifies"
   } else {
     "does not uniquely identify"
   }
   cat(
-    rep(" ", leftwidth), "  (", id_name, "*", time_name, " ", uid, " each observation)\n",
+    rep(" ", leftwidth),
+    "  (",
+    id_name,
+    "*",
+    time_name,
+    " ",
+    uid,
+    " each observation)\n",
     sep = ""
   )
   # Distribution of T_i at min, 5%, 25%, 50%, 75%, 95%, max
@@ -72,7 +99,8 @@ xtdescribe <- function(
   cat(
     rep(" ", 20),
     "\t",
-    paste(id_freq_quant, collapse = "\t"), "\n",
+    paste(id_freq_quant, collapse = "\t"),
+    "\n",
     sep = ""
   )
 
@@ -83,7 +111,11 @@ xtdescribe <- function(
   # id_time_freq <- cbind(id_time_freq, matrix(0, nrow = nrow(id_time_freq), ncol = span - ncol(id_time_freq)))
   # Add column names for missing time points
   missing_time_points <- setdiff(seq(time_min, time_max, by = delta), time_us)
-  missing <- matrix(0, nrow = nrow(id_time_freq), ncol = length(missing_time_points))
+  missing <- matrix(
+    0,
+    nrow = nrow(id_time_freq),
+    ncol = length(missing_time_points)
+  )
   colnames(missing) <- missing_time_points
   id_time_freq <- cbind(id_time_freq, missing)
   # Re order columns by name
@@ -92,25 +124,39 @@ xtdescribe <- function(
   # Convert to pattern matrix by pasting all columns by row
   # id_time_freq_char <- as.matrix(id_time_freq)
   # id_time_freq_char[id_time_freq_char == 0] <- "."
-  id_time_freq_char <- matrix(as.character(id_time_freq), nrow = nrow(id_time_freq))
+  id_time_freq_char <- matrix(
+    as.character(id_time_freq),
+    nrow = nrow(id_time_freq)
+  )
   id_time_freq_char[id_time_freq_char == "0"] <- "."
   id_time_freq_pattern <- apply(id_time_freq_char, 1, paste, collapse = "")
   id_time_freq_pattern_freq <- table(id_time_freq_pattern)
-  id_time_freq_pattern_sorted <- sort(id_time_freq_pattern_freq, decreasing = TRUE)
+  id_time_freq_pattern_sorted <- sort(
+    id_time_freq_pattern_freq,
+    decreasing = TRUE
+  )
 
   # Make data.frame with Frequency, Percent, Cumulative Percent of top n_patterns and rest
   pattern_summary <- data.frame(
     `Freq.` = as.numeric(id_time_freq_pattern_sorted)[seq_len(n_patterns)]
   )
-  pattern_summary$Percent <- round((pattern_summary$`Freq.` / n_ids) * 100, digits = 2)
+  pattern_summary$Percent <- round(
+    (pattern_summary$`Freq.` / n_ids) * 100,
+    digits = 2
+  )
   pattern_summary$`Cum.` <- cumsum(pattern_summary$Percent)
-  pattern_summary$Pattern <- names(id_time_freq_pattern_sorted)[seq_len(n_patterns)]
+  pattern_summary$Pattern <- names(id_time_freq_pattern_sorted)[seq_len(
+    n_patterns
+  )]
   # Add Freq, Percent, Cumulative Percent of rest
   pattern_summary <- rbind(
     pattern_summary,
     data.frame(
       `Freq.` = sum(id_time_freq_pattern_sorted[-seq_len(n_patterns)]),
-      Percent = round((sum(id_time_freq_pattern_sorted[-seq_len(n_patterns)]) / n_ids) * 100, digits = 2),
+      Percent = round(
+        (sum(id_time_freq_pattern_sorted[-seq_len(n_patterns)]) / n_ids) * 100,
+        digits = 2
+      ),
       `Cum.` = "100.00",
       Pattern = "(other patterns)"
     )

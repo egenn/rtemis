@@ -7,9 +7,9 @@
 #' Convenience function to perform any \pkg{rtemis} clustering
 #'
 #' @param x Numeric matrix / data frame: Input data
-#' @param clust Character: Decomposition algorithm name, e.g. "nmf" 
+#' @param clust Character: Decomposition algorithm name, e.g. "nmf"
 #' (case-insensitive)
-#' @param x.test Numeric matrix / Data frame: Testing set data if supported by 
+#' @param x.test Numeric matrix / Data frame: Testing set data if supported by
 #' `clust`
 #' @param verbose Logical: if TRUE, print messages to screen
 #' @param ... Additional arguments to be passed to clusterer `clust`
@@ -17,11 +17,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-clust <- function(x,
-                  clust = "kmeans",
-                  x.test = NULL,
-                  verbose = TRUE, ...) {
-
+clust <- function(x, clust = "kmeans", x.test = NULL, verbose = TRUE, ...) {
   if (missing(x)) {
     cat('Usage:\n  clust(x, "nmf", ...)\n\n')
     return(select_clust())
@@ -31,12 +27,14 @@ clust <- function(x,
   clusterer <- select_clust(clust, fn = FALSE)
 
   # DECOMPOSER ----
-  clust <- R.utils::doCall(clusterer,
-                           x = x,
-                           x.test = x.test,
-                           verbose = verbose, ...)
+  clust <- R.utils::doCall(
+    clusterer,
+    x = x,
+    x.test = x.test,
+    verbose = verbose,
+    ...
+  )
 
   # Outro ----
   clust
-
 } # rtemis::clust

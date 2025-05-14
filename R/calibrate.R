@@ -38,12 +38,14 @@
 #'   pos.class = 2
 #' )
 #' }
-calibrate <- function(true.labels,
-                      predicted.prob,
-                      pos.class = NULL,
-                      alg = "isotonic",
-                      learn.params = list(),
-                      verbose = TRUE) {
+calibrate <- function(
+  true.labels,
+  predicted.prob,
+  pos.class = NULL,
+  alg = "isotonic",
+  learn.params = list(),
+  verbose = TRUE
+) {
   # Check positive class
   if (is.null(pos.class)) {
     pos.class <- rtenv$binclasspos
@@ -60,5 +62,4 @@ calibrate <- function(true.labels,
     learner,
     c(list(x = predicted.prob, y = true.labels), learn.params)
   )
-
 } # rtemis::calibrate

@@ -43,30 +43,32 @@
 #' @family Decomposition
 #' @export
 
-d_H2OGLRM <- function(x,
-                      x.test = NULL,
-                      x.valid = NULL,
-                      k = 3,
-                      ip = "localhost",
-                      port = 54321,
-                      transform = "NONE",
-                      loss = "Quadratic",
-                      regularization.x = "None",
-                      regularization.y = "None",
-                      gamma.x = 0,
-                      gamma.y = 0,
-                      max_iterations = 1000,
-                      max_updates = 2 * max_iterations,
-                      init_step_size = 1,
-                      min_step_size  = .0001,
-                      seed = -1,
-                      init = "PlusPlus",
-                      svd.method = "Randomized",
-                      verbose = TRUE,
-                      print.plot = TRUE,
-                      plot.theme = rtTheme,
-                      n.cores = rtCores, ...) {
-
+d_H2OGLRM <- function(
+  x,
+  x.test = NULL,
+  x.valid = NULL,
+  k = 3,
+  ip = "localhost",
+  port = 54321,
+  transform = "NONE",
+  loss = "Quadratic",
+  regularization.x = "None",
+  regularization.y = "None",
+  gamma.x = 0,
+  gamma.y = 0,
+  max_iterations = 1000,
+  max_updates = 2 * max_iterations,
+  init_step_size = 1,
+  min_step_size = .0001,
+  seed = -1,
+  init = "PlusPlus",
+  svd.method = "Randomized",
+  verbose = TRUE,
+  print.plot = TRUE,
+  plot.theme = rtTheme,
+  n.cores = rtCores,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   decom.name <- "H2OGLRM"
@@ -100,61 +102,77 @@ d_H2OGLRM <- function(x,
 
   # GLRM ----
   if (verbose) msg2("Performing Generalized Low Rank Decomposition...")
-  decom <- h2o::h2o.glrm(training_frame = df.train,
-                         model_id = paste0("rtemis.H2OGLRM.", format(Sys.time(), "%b%d.%H:%M:%S.%Y")),
-                         validation_frame = df.valid,
-                         k = k,
-                         transform = transform,
-                         loss = loss,
-                         regularization_x = regularization.x,
-                         regularization_y = regularization.y,
-                         gamma_x = gamma.x,
-                         gamma_y = gamma.y,
-                         max_iterations = max_iterations,
-                         max_updates = max_updates,
-                         init_step_size = init_step_size,
-                         min_step_size = min_step_size,
-                         seed = seed,
-                         init = init,
-                         svd_method = svd.method, ...)
+  decom <- h2o::h2o.glrm(
+    training_frame = df.train,
+    model_id = paste0(
+      "rtemis.H2OGLRM.",
+      format(Sys.time(), "%b%d.%H:%M:%S.%Y")
+    ),
+    validation_frame = df.valid,
+    k = k,
+    transform = transform,
+    loss = loss,
+    regularization_x = regularization.x,
+    regularization_y = regularization.y,
+    gamma_x = gamma.x,
+    gamma_y = gamma.y,
+    max_iterations = max_iterations,
+    max_updates = max_updates,
+    init_step_size = init_step_size,
+    min_step_size = min_step_size,
+    seed = seed,
+    init = init,
+    svd_method = svd.method,
+    ...
+  )
 
-  if (print.plot) mplot3_xy(decom@model$scoring_history$iteration, decom@model$scoring_history$objective,
-                            type = "l", zerolines = FALSE,
-                            xlab = "Iteration", ylab = "Objective",
-                            main = "Objective Function Value per Iteration",
-                            theme = plot.theme)
+  if (print.plot)
+    mplot3_xy(
+      decom@model$scoring_history$iteration,
+      decom@model$scoring_history$objective,
+      type = "l",
+      zerolines = FALSE,
+      xlab = "Iteration",
+      ylab = "Objective",
+      main = "Objective Function Value per Iteration",
+      theme = plot.theme
+    )
 
   # Projections ----
   projections.train <- data.matrix(x) %*% t(data.matrix(decom@model$archetypes))
   if (!is.null(x.test)) {
-    projections.test <- data.matrix(x.test) %*% t(data.matrix(decom@model$archetypes))
+    projections.test <- data.matrix(x.test) %*%
+      t(data.matrix(decom@model$archetypes))
   } else {
     projections.test <- NULL
   }
 
   # Outro ----
   extra <- list()
-  rt <- rtDecom$new(decom.name = decom.name,
-                    decom = decom,
-                    xnames = xnames,
-                    projections.train = projections.train,
-                    projections.test = projections.test,
-                    parameters = list(k = k,
-                                      transform = transform,
-                                      loss = loss,
-                                      regularization.x = regularization.x,
-                                      regularization.y = regularization.y,
-                                      gamma.x = gamma.x,
-                                      gamma.y = gamma.y,
-                                      max_iterations = max_iterations,
-                                      max_updates = max_updates,
-                                      init_step_size = init_step_size,
-                                      min_step_size  = min_step_size,
-                                      seed = seed,
-                                      init = init,
-                                      svd.method = svd.method),
-                    extra = extra)
+  rt <- rtDecom$new(
+    decom.name = decom.name,
+    decom = decom,
+    xnames = xnames,
+    projections.train = projections.train,
+    projections.test = projections.test,
+    parameters = list(
+      k = k,
+      transform = transform,
+      loss = loss,
+      regularization.x = regularization.x,
+      regularization.y = regularization.y,
+      gamma.x = gamma.x,
+      gamma.y = gamma.y,
+      max_iterations = max_iterations,
+      max_updates = max_updates,
+      init_step_size = init_step_size,
+      min_step_size = min_step_size,
+      seed = seed,
+      init = init,
+      svd.method = svd.method
+    ),
+    extra = extra
+  )
   outro(start.time, verbose = verbose)
   rt
-
 } # rtemis::d_H2OGLRM

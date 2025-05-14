@@ -56,52 +56,66 @@
 #' dat <- data.frame(x, y)
 #' mod <- s_LightGBM(dat)
 #' }
-s_LightCART <- function(x, y = NULL,
-                        x.test = NULL, y.test = NULL,
-                        x.name = NULL, y.name = NULL,
-                        weights = NULL,
-                        ifw = TRUE,
-                        ifw.type = 2,
-                        upsample = FALSE,
-                        downsample = FALSE,
-                        resample.seed = NULL,
-                        objective = NULL,
-                        num_leaves = 32L,
-                        max_depth = -1L,
-                        lambda_l1 = 0,
-                        lambda_l2 = 0,
-                        max_cat_threshold = 32L,
-                        min_data_per_group = 32L,
-                        linear_tree = FALSE,
-                        .gs = FALSE,
-                        grid.resample.params = setup.resample("kfold", 5),
-                        gridsearch.type = "exhaustive",
-                        metric = NULL,
-                        maximize = NULL,
-                        importance = TRUE,
-                        print.plot = FALSE,
-                        plot.fitted = NULL,
-                        plot.predicted = NULL,
-                        plot.theme = rtTheme,
-                        question = NULL,
-                        verbose = TRUE,
-                        grid.verbose = FALSE,
-                        lightgbm_verbose = -1,
-                        save.gridrun = FALSE,
-                        n.cores = 1,
-                        n_threads = 0,
-                        force_col_wise = FALSE,
-                        force_row_wise = FALSE,
-                        outdir = NULL,
-                        save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_LightCART <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  objective = NULL,
+  num_leaves = 32L,
+  max_depth = -1L,
+  lambda_l1 = 0,
+  lambda_l2 = 0,
+  max_cat_threshold = 32L,
+  min_data_per_group = 32L,
+  linear_tree = FALSE,
+  .gs = FALSE,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  metric = NULL,
+  maximize = NULL,
+  importance = TRUE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  grid.verbose = FALSE,
+  lightgbm_verbose = -1,
+  save.gridrun = FALSE,
+  n.cores = 1,
+  n_threads = 0,
+  force_col_wise = FALSE,
+  force_row_wise = FALSE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LightCART))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -123,8 +137,11 @@ s_LightCART <- function(x, y = NULL,
   }
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -141,12 +158,10 @@ s_LightCART <- function(x, y = NULL,
   .weights <- if (is.null(weights) && ifw) dt$weights else weights
   if (any(sapply(x, is.factor))) {
     factor_index <- xnames[which(sapply(x, is.factor))]
-    x <- preprocess(x,
-      factor2integer = TRUE,
-      factor2integer_startat0 = TRUE
-    )
+    x <- preprocess(x, factor2integer = TRUE, factor2integer_startat0 = TRUE)
     if (!is.null(x.test)) {
-      x.test <- preprocess(x.test,
+      x.test <- preprocess(
+        x.test,
         factor2integer = TRUE,
         factor2integer_startat0 = TRUE
       )
@@ -158,8 +173,10 @@ s_LightCART <- function(x, y = NULL,
   y0 <- if (upsample || downsample) dt$y0 else y
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -212,7 +229,8 @@ s_LightCART <- function(x, y = NULL,
         lambda_l2 = lambda_l2
       )
     gs <- gridSearchLearn(
-      x = x0, y = y0,
+      x = x0,
+      y = y0,
       mod = mod.name,
       resample.params = grid.resample.params,
       grid.params = grid.params,
@@ -280,7 +298,9 @@ s_LightCART <- function(x, y = NULL,
   if (verbose) {
     if (tuned) {
       msg2(
-        "Training", mod.name, type,
+        "Training",
+        mod.name,
+        type,
         "with tuned hyperparameters...",
         newline.pre = TRUE
       )
@@ -308,13 +328,15 @@ s_LightCART <- function(x, y = NULL,
   if (type == "Classification") {
     if (nclass == 2) {
       fitted.prob <- 1 - fitted
-      fitted <- factor(ifelse(fitted.prob >= .5, 1, 0),
+      fitted <- factor(
+        ifelse(fitted.prob >= .5, 1, 0),
         levels = c(1, 0),
         labels = levels(y)
       )
     } else {
       fitted.prob <- fitted
-      fitted <- factor(max.col(fitted),
+      fitted <- factor(
+        max.col(fitted),
         levels = seq(nclass),
         labels = levels(y)
       )
@@ -331,12 +353,14 @@ s_LightCART <- function(x, y = NULL,
     if (type == "Classification") {
       if (nclass == 2) {
         predicted.prob <- 1 - predicted
-        predicted <- factor(ifelse(predicted.prob >= .5, 1, 0),
+        predicted <- factor(
+          ifelse(predicted.prob >= .5, 1, 0),
           levels = c(1, 0),
           labels = levels(y)
         )
       } else {
-        predicted <- factor(max.col(predicted),
+        predicted <- factor(
+          max.col(predicted),
           levels = seq(nclass),
           labels = levels(y)
         )
@@ -395,7 +419,8 @@ s_LightCART <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time,
+  outro(
+    start.time,
     verbose = verbose,
     sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
   )

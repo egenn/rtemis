@@ -48,31 +48,37 @@
 #' mod <- s_LM(x, y)
 #' @export
 
-s_LM <- function(x, y = NULL,
-                 x.test = NULL, y.test = NULL,
-                 x.name = NULL, y.name = NULL,
-                 weights = NULL,
-                 ifw = TRUE,
-                 ifw.type = 2,
-                 upsample = FALSE,
-                 downsample = FALSE,
-                 resample.seed = NULL,
-                 intercept = TRUE,
-                 robust = FALSE,
-                 gls = FALSE,
-                 polynomial = FALSE,
-                 poly.d = 3,
-                 poly.raw = FALSE,
-                 print.plot = FALSE,
-                 plot.fitted = NULL,
-                 plot.predicted = NULL,
-                 plot.theme = rtTheme,
-                 na.action = na.exclude,
-                 question = NULL,
-                 verbose = TRUE,
-                 trace = 0,
-                 outdir = NULL,
-                 save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_LM <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  x.name = NULL,
+  y.name = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  intercept = TRUE,
+  robust = FALSE,
+  gls = FALSE,
+  polynomial = FALSE,
+  poly.d = 3,
+  poly.raw = FALSE,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  na.action = na.exclude,
+  question = NULL,
+  verbose = TRUE,
+  trace = 0,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LM))
@@ -80,7 +86,14 @@ s_LM <- function(x, y = NULL,
   }
   if (!is.null(outdir)) outdir <- normalizePath(outdir, mustWork = FALSE)
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -116,11 +129,15 @@ s_LM <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
 
   # Data ----
-  dt <- prepare_data(x, y,
-    x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -136,8 +153,10 @@ s_LM <- function(x, y = NULL,
   # .weights <- if (is.null(weights) & ifw) dt$weights else weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -148,9 +167,18 @@ s_LM <- function(x, y = NULL,
     features <- paste(xnames, collapse = " + ")
     formula.str <- paste0(y.name, " ~ ", features)
   } else {
-    features <- paste0("poly(", paste0(xnames, ", degree = ", poly.d, ", raw = ", poly.raw, ")",
-      collapse = " + poly("
-    ))
+    features <- paste0(
+      "poly(",
+      paste0(
+        xnames,
+        ", degree = ",
+        poly.d,
+        ", raw = ",
+        poly.raw,
+        ")",
+        collapse = " + poly("
+      )
+    )
     formula.str <- paste0(y.name, " ~ ", features)
   }
   # Intercept
@@ -160,28 +188,35 @@ s_LM <- function(x, y = NULL,
   # LM & POLY ----
   if (!robust && !gls) {
     if (verbose) msg2("Training linear model...", newline.pre = TRUE)
-    mod <- lm(myformula,
+    mod <- lm(
+      myformula,
       data = df.train,
       weights = weights,
-      na.action = na.action, ...
+      na.action = na.action,
+      ...
     )
   }
   # RLM
   if (robust) {
     if (verbose) msg2("Training robust linear model...", newline.pre = TRUE)
-    mod <- MASS::rlm(myformula,
+    mod <- MASS::rlm(
+      myformula,
       data = df.train,
       weights = weights,
-      na.action = na.action, ...
+      na.action = na.action,
+      ...
     )
   }
   # GLS
   if (gls) {
-    if (verbose) msg2("Training generalized least squares...", newline.pre = TRUE)
-    mod <- nlme::gls(myformula,
+    if (verbose)
+      msg2("Training generalized least squares...", newline.pre = TRUE)
+    mod <- nlme::gls(
+      myformula,
       data = df.train,
       weights = weights,
-      na.action = na.action, ...
+      na.action = na.action,
+      ...
     )
   }
 
@@ -252,7 +287,11 @@ s_LM <- function(x, y = NULL,
     plot.theme
   )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_LM
 

@@ -90,47 +90,50 @@
 #' # stacked
 #' dplot3_bar(b, barmode = "stack")
 #' }
-dplot3_bar <- function(x,
-                       main = NULL,
-                       xlab = NULL,
-                       ylab = NULL,
-                       col = NULL,
-                       alpha = 1,
-                       horizontal = FALSE,
-                       theme = rtTheme,
-                       palette = rtPalette,
-                       barmode = c("group", "relative", "stack", "overlay"),
-                       group.names = NULL,
-                       order.by.val = FALSE,
-                       ylim = NULL,
-                       hovernames = NULL,
-                       feature.names = NULL,
-                       font.size = 16,
-                       annotate = FALSE,
-                       annotate.col = theme$labs.col,
-                       legend = NULL,
-                       legend.col = NULL,
-                       legend.xy = c(1, 1),
-                       legend.orientation = "v",
-                       legend.xanchor = "left",
-                       legend.yanchor = "auto",
-                       hline = NULL,
-                       hline.col = NULL,
-                       hline.width = 1,
-                       hline.dash = "solid",
-                       hline.annotate = NULL,
-                       hline.annotation.x = 1,
-                       margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                       automargin.x = TRUE,
-                       automargin.y = TRUE,
-                       padding = 0,
-                       displayModeBar = TRUE,
-                       modeBar.file.format = "svg",
-                       filename = NULL,
-                       file.width = 500,
-                       file.height = 500,
-                       file.scale = 1,
-                       trace = 0, ...) {
+dplot3_bar <- function(
+  x,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = 1,
+  horizontal = FALSE,
+  theme = rtTheme,
+  palette = rtPalette,
+  barmode = c("group", "relative", "stack", "overlay"),
+  group.names = NULL,
+  order.by.val = FALSE,
+  ylim = NULL,
+  hovernames = NULL,
+  feature.names = NULL,
+  font.size = 16,
+  annotate = FALSE,
+  annotate.col = theme$labs.col,
+  legend = NULL,
+  legend.col = NULL,
+  legend.xy = c(1, 1),
+  legend.orientation = "v",
+  legend.xanchor = "left",
+  legend.yanchor = "auto",
+  hline = NULL,
+  hline.col = NULL,
+  hline.width = 1,
+  hline.dash = "solid",
+  hline.annotate = NULL,
+  hline.annotation.x = 1,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  automargin.x = TRUE,
+  automargin.y = TRUE,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  trace = 0,
+  ...
+) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -225,7 +228,8 @@ dplot3_bar <- function(x,
   )
   if (p > 1) {
     for (i in seq_len(p)[-1]) {
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = if (horizontal) dat[[i]] else .group.names,
         y = if (horizontal) .group.names else dat[[i]],
         name = .feature.names[i],
@@ -241,33 +245,37 @@ dplot3_bar <- function(x,
     } else {
       if (horizontal) {
         for (i in seq_len(ncol(dat))) {
-          plt <- plt |> plotly::add_annotations(
-            xref = "x", yref = "y",
-            x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i] / 2,
-            y = seq_len(nrow(dat)) - 1,
-            text = paste(dat[, i]),
-            font = list(
-              family = theme$font.family,
-              size = font.size,
-              color = annotate.col
-            ),
-            showarrow = FALSE
-          )
+          plt <- plt |>
+            plotly::add_annotations(
+              xref = "x",
+              yref = "y",
+              x = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i] / 2,
+              y = seq_len(nrow(dat)) - 1,
+              text = paste(dat[, i]),
+              font = list(
+                family = theme$font.family,
+                size = font.size,
+                color = annotate.col
+              ),
+              showarrow = FALSE
+            )
         }
       } else {
         for (i in seq_len(ncol(dat))) {
-          plt <- plt |> plotly::add_annotations(
-            xref = "x", yref = "y",
-            x = seq_len(nrow(dat)) - 1,
-            y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i] / 2,
-            text = paste(signif(dat[, i], 2)),
-            font = list(
-              family = theme$font.family,
-              size = font.size,
-              color = annotate.col
-            ),
-            showarrow = FALSE
-          )
+          plt <- plt |>
+            plotly::add_annotations(
+              xref = "x",
+              yref = "y",
+              x = seq_len(nrow(dat)) - 1,
+              y = rowSums(dat[, seq_len(i - 1), drop = F]) + dat[, i] / 2,
+              text = paste(signif(dat[, i], 2)),
+              font = list(
+                family = theme$font.family,
+                size = font.size,
+                color = annotate.col
+              ),
+              showarrow = FALSE
+            )
         }
       }
     }
@@ -298,7 +306,8 @@ dplot3_bar <- function(x,
     orientation = legend.orientation
   )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis = list(
       title = ylab,
       # showline = axes.visible,
@@ -352,8 +361,11 @@ dplot3_bar <- function(x,
     hlinel <- lapply(seq_along(hline), function(i) {
       list(
         type = "line",
-        x0 = 0, x1 = 1, xref = "paper",
-        y0 = hline[i], y1 = hline[i],
+        x0 = 0,
+        x1 = 1,
+        xref = "paper",
+        y0 = hline[i],
+        y1 = hline[i],
         line = list(
           color = hline.col[i],
           width = hline.width[i],
@@ -365,21 +377,22 @@ dplot3_bar <- function(x,
 
     # Annotate horizontal lines on the right border of the plot
     if (!is.null(hline.annotate)) {
-      plt <- plt |> plotly::add_annotations(
-        xref = "paper",
-        yref = "y",
-        xanchor = "right",
-        yanchor = "bottom",
-        x = hline.annotation.x,
-        y = hline,
-        text = hline.annotate,
-        font = list(
-          family = theme$font.family,
-          size = font.size,
-          color = annotate.col
-        ),
-        showarrow = FALSE
-      )
+      plt <- plt |>
+        plotly::add_annotations(
+          xref = "paper",
+          yref = "y",
+          xanchor = "right",
+          yanchor = "bottom",
+          x = hline.annotation.x,
+          y = hline,
+          text = hline.annotate,
+          font = list(
+            family = theme$font.family,
+            size = font.size,
+            color = annotate.col
+          ),
+          showarrow = FALSE
+        )
     }
   }
 
@@ -387,7 +400,8 @@ dplot3_bar <- function(x,
   plt$sizingPolicy$padding <- padding
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

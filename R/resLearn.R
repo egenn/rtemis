@@ -23,26 +23,30 @@
 #' Use with [train_cv] when training a large number of resamples. Default = TRUE
 #' @param outdir Character: Path to save output. Default = NULL
 #' @param n.workers Integer: Number of cores to use.
-#' @param use.future Logical: If TRUE, use future.apply for parallel processing, 
+#' @param use.future Logical: If TRUE, use future.apply for parallel processing,
 #' otherwise use base R with no parallel processing. Set to FALSE for easier debugging.
 #'
 #' @author E.D. Gennatas
 #' @keywords internal
 #' @noRd
 
-resLearn <- function(x, y, alg,
-                     resample.params = setup.cv.resample(),
-                     weights = NULL,
-                     params = list(),
-                     mtry = NULL,
-                     .preprocess = NULL,
-                     verbose = TRUE,
-                     res.verbose = FALSE,
-                     trace = 0,
-                     save.mods = TRUE,
-                     outdir = NULL,
-                     n.workers = 1,
-                     use.future = TRUE) {
+resLearn <- function(
+  x,
+  y,
+  alg,
+  resample.params = setup.cv.resample(),
+  weights = NULL,
+  params = list(),
+  mtry = NULL,
+  .preprocess = NULL,
+  verbose = TRUE,
+  res.verbose = FALSE,
+  trace = 0,
+  save.mods = TRUE,
+  outdir = NULL,
+  n.workers = 1,
+  use.future = TRUE
+) {
   # Dependencies ----
   dependency_check("future.apply")
 
@@ -64,11 +68,7 @@ resLearn <- function(x, y, alg,
   if (!is.null(outdir)) {
     outdir <- normalizePath(outdir, mustWork = FALSE)
     if (!dir.exists(outdir)) {
-      dir.create(outdir,
-        showWarnings = TRUE,
-        recursive = TRUE,
-        mode = "0777"
-      )
+      dir.create(outdir, showWarnings = TRUE, recursive = TRUE, mode = "0777")
     }
   }
 
@@ -91,25 +91,32 @@ resLearn <- function(x, y, alg,
     future::plan(list(rtPlan, "sequential"), workers = n.workers)
     if (verbose) {
       msg2(magenta(
-        "Outer resampling: Future plan set to", bold(rtPlan),
-        "with", bold(n.workers), "workers"
+        "Outer resampling: Future plan set to",
+        bold(rtPlan),
+        "with",
+        bold(n.workers),
+        "workers"
       ))
     }
   }
 
   # learner1 ----
   p <- progressr::progressor(along = res)
-  learner1 <- function(index, learner,
-                       x, y,
-                       weights = NULL,
-                       mtry,
-                       res,
-                       params,
-                       .preprocess,
-                       verbose,
-                       outdir,
-                       save.mods,
-                       nres) {
+  learner1 <- function(
+    index,
+    learner,
+    x,
+    y,
+    weights = NULL,
+    mtry,
+    res,
+    params,
+    .preprocess,
+    verbose,
+    outdir,
+    save.mods,
+    nres
+  ) {
     if (verbose) msg2("Running resample #", index, sep = "")
     res1 <- res[[index]]
     if (is.null(mtry)) {
@@ -122,7 +129,9 @@ resLearn <- function(x, y, alg,
     # If Classification & there are no positive or negative cases in the resample, skip
     if (is.factor(y) && length(unique(y.train1)) < 2) {
       stop(
-        "Reample", index, "has only one class! Skipping.",
+        "Reample",
+        index,
+        "has only one class! Skipping.",
         "Consider different resampling scheme."
       )
       return(NA)
@@ -157,14 +166,18 @@ resLearn <- function(x, y, alg,
     if (!is.null(weights)) params$weights <- weights
 
     args <- list(
-      x = x.train1, y = y.train1,
-      x.test = x.test1, y.test = y.test1,
+      x = x.train1,
+      y = y.train1,
+      x.test = x.test1,
+      y.test = y.test1,
       print.plot = FALSE,
       verbose = res.verbose,
       outdir = outdir1
     )
     ## Get id.strat for resample
-    if (!is.null(attr(res, "id.strat")) && !is.null(params$grid.resample.params)) {
+    if (
+      !is.null(attr(res, "id.strat")) && !is.null(params$grid.resample.params)
+    ) {
       params$grid.resample.params$id.strat <- attr(res, "id.strat")[res1]
     }
     args <- c(args, params)
@@ -181,7 +194,8 @@ resLearn <- function(x, y, alg,
 
   # Res run ----
   if (trace > 0) {
-    desc <- switch(resampler,
+    desc <- switch(
+      resampler,
       kfold = "independent folds",
       strat.sub = "stratified subsamples",
       strat.boot = "stratified bootstraps",
@@ -189,17 +203,25 @@ resLearn <- function(x, y, alg,
       loocv = "independent folds (LOOCV)",
       "custom resamples"
     )
-    msg20("Training ", select_learn(alg, desc = TRUE), " on ",
-      length(res), " ", desc, "...",
+    msg20(
+      "Training ",
+      select_learn(alg, desc = TRUE),
+      " on ",
+      length(res),
+      " ",
+      desc,
+      "...",
       newline.pre = FALSE
     )
   }
 
   res.run <- if (use.future) {
     future.apply::future_lapply(
-      seq_along(res), learner1,
+      seq_along(res),
+      learner1,
       learner,
-      x, y,
+      x,
+      y,
       weights,
       mtry,
       res,
@@ -213,9 +235,11 @@ resLearn <- function(x, y, alg,
     )
   } else {
     lapply(
-      seq_along(res), learner1,
+      seq_along(res),
+      learner1,
       learner,
-      x, y,
+      x,
+      y,
       weights,
       mtry,
       res,
@@ -227,13 +251,15 @@ resLearn <- function(x, y, alg,
       length(res)
     )
   }
-  
+
   names(res.run) <- paste0(toupper(alg), seq(res))
   if (res.verbose) cat("\n")
 
   # Check for errors ----
   if (any(sapply(res.run, is.na))) {
-    warning("Some resamples failed because only one class was available. Check resampling scheme.")
+    warning(
+      "Some resamples failed because only one class was available. Check resampling scheme."
+    )
   }
 
   # Outro ----

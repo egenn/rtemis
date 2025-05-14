@@ -23,16 +23,19 @@
 #' @family Clustering
 #' @export
 
-c_CMeans <- function(x,
-                     k = 2,
-                     iter.max = 100,
-                     dist = "euclidean",
-                     method = "cmeans",
-                     m = 2,
-                     rate.par = NULL,
-                     weights = 1,
-                     control = list(),
-                     verbose = TRUE, ...) {
+c_CMeans <- function(
+  x,
+  k = 2,
+  iter.max = 100,
+  dist = "euclidean",
+  method = "cmeans",
+  m = 2,
+  rate.par = NULL,
+  weights = 1,
+  control = list(),
+  verbose = TRUE,
+  ...
+) {
   # Intro ----
   start.time <- intro(verbose = verbose)
   clust.name <- "CMeans"
@@ -51,14 +54,17 @@ c_CMeans <- function(x,
 
   # CMeans ----
   if (verbose) msg20("Running Fuzzy C-means clustering with k = ", k, "...")
-  clust <- e1071::cmeans(x,
-    centers = k, iter.max = iter.max,
+  clust <- e1071::cmeans(
+    x,
+    centers = k,
+    iter.max = iter.max,
     dist = dist,
     method = "cmeans",
     m = m,
     rate.par = rate.par,
     weights = weights,
-    control = control, ...
+    control = control,
+    ...
   )
 
   # Clusters ----

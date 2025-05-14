@@ -9,11 +9,11 @@
 #' @export
 
 get_loaded_pkg_version <- function() {
-
   loaded_ <- loadedNamespaces()
 
-  data.frame(Package_Name = loaded_,
-             Version = sapply(loaded_, function(i) as.character(packageVersion(i))),
-             row.names = seq(loaded_))
-
+  data.frame(
+    Package_Name = loaded_,
+    Version = sapply(loaded_, function(i) as.character(packageVersion(i))),
+    row.names = seq(loaded_)
+  )
 } # rtemis::get_loaded_pkg_version

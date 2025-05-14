@@ -26,73 +26,92 @@
 #' @author E.D. Gennatas
 #' @export
 
-s_LINOA <- function(x, y = NULL,
-                        x.test = NULL, y.test = NULL,
-                        weights = NULL,
-                        ifw = TRUE,
-                        ifw.type = 2,
-                        upsample = FALSE,
-                        downsample = FALSE,
-                        resample.seed = NULL,
-                        max.leaves = 8,
-                        learning.rate = .5,
-                        select.leaves.smooth = TRUE,
-                        force.max.leaves = NULL,
-                        lookback = TRUE,
-                        # splitline
-                        gamma = 0,
-                        n.quantiles = 20,
-                        minobsinnode = NULL, # set based on y
-                        minbucket = NULL, # set based on y
-                        lin.type = c("forwardStepwise", "glmnet", "cv.glmnet", "lm.ridge", "allSubsets",
-                                     "backwardStepwise", "glm",
-                                     "solve", "none"),
-                        alpha = 1,
-                        lambda = .05,
-                        lambda.seq = NULL,
-                        cv.glmnet.nfolds = 5,
-                        which.cv.glmnet.lambda = "lambda.min",
-                        nbest = 1,
-                        nvmax = 3,
-                        # /splitline
-                        .rho = TRUE,
-                        rho.max = 1000,
-                        init = NULL,
-                        metric = "auto",
-                        maximize = NULL,
-                        grid.resample.params = setup.resample("kfold", 5),
-                        gridsearch.type = "exhaustive",
-                        save.gridrun = FALSE,
-                        grid.verbose = verbose,
-                        keep.x = FALSE,
-                        simplify = TRUE,
-                        cxrcoef = FALSE,
-                        n.cores = rtCores, # for gridSearchLearn
-                        splitline.cores = 1, # for splitline, i.e. searching for cutpoints
-                        .preprocess = NULL,
-                        plot.tuning = TRUE,
-                        verbose.predict = FALSE,
-                        x.name = NULL,
-                        y.name = NULL,
-                        question = NULL,
-                        outdir = NULL,
-                        print.plot = FALSE,
-                        plot.fitted = NULL,
-                        plot.predicted = NULL,
-                        plot.theme = rtTheme,
-                        save.mod = FALSE,
-                        .gs = FALSE,
-                        verbose = TRUE,
-                        trace = 1) {
-
+s_LINOA <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  max.leaves = 8,
+  learning.rate = .5,
+  select.leaves.smooth = TRUE,
+  force.max.leaves = NULL,
+  lookback = TRUE,
+  # splitline
+  gamma = 0,
+  n.quantiles = 20,
+  minobsinnode = NULL, # set based on y
+  minbucket = NULL, # set based on y
+  lin.type = c(
+    "forwardStepwise",
+    "glmnet",
+    "cv.glmnet",
+    "lm.ridge",
+    "allSubsets",
+    "backwardStepwise",
+    "glm",
+    "solve",
+    "none"
+  ),
+  alpha = 1,
+  lambda = .05,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = "lambda.min",
+  nbest = 1,
+  nvmax = 3,
+  # /splitline
+  .rho = TRUE,
+  rho.max = 1000,
+  init = NULL,
+  metric = "auto",
+  maximize = NULL,
+  grid.resample.params = setup.resample("kfold", 5),
+  gridsearch.type = "exhaustive",
+  save.gridrun = FALSE,
+  grid.verbose = verbose,
+  keep.x = FALSE,
+  simplify = TRUE,
+  cxrcoef = FALSE,
+  n.cores = rtCores, # for gridSearchLearn
+  splitline.cores = 1, # for splitline, i.e. searching for cutpoints
+  .preprocess = NULL,
+  plot.tuning = TRUE,
+  verbose.predict = FALSE,
+  x.name = NULL,
+  y.name = NULL,
+  question = NULL,
+  outdir = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  save.mod = FALSE,
+  .gs = FALSE,
+  verbose = TRUE,
+  trace = 1
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_LINOA))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -112,13 +131,19 @@ s_LINOA <- function(x, y = NULL,
   # if (.gs && nvmax == 0) lin.type = "none"
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
-                    ifw = ifw, ifw.type = ifw.type,
-                    upsample = upsample,
-                    downsample = downsample,
-                    resample.seed = resample.seed,
-                    .preprocess = .preprocess,
-                    verbose = verbose)
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
+    ifw = ifw,
+    ifw.type = ifw.type,
+    upsample = upsample,
+    downsample = downsample,
+    resample.seed = resample.seed,
+    .preprocess = .preprocess,
+    verbose = verbose
+  )
   x <- dt$x
   y <- dt$y
   x.test <- dt$x.test
@@ -130,12 +155,21 @@ s_LINOA <- function(x, y = NULL,
   y0 <- if (upsample) dt$y0 else y
   # .classwt <- if (is.null(classwt) & ifw) dt$class.weights else classwt
   if (verbose) dataSummary(x, y, x.test, y.test, type)
-  if (verbose) parameterSummary(gamma, lambda, minobsinnode,
-                                learning.rate, max.leaves, nvmax,
-                                newline.pre = TRUE)
+  if (verbose)
+    parameterSummary(
+      gamma,
+      lambda,
+      minobsinnode,
+      learning.rate,
+      max.leaves,
+      nvmax,
+      newline.pre = TRUE
+    )
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -176,56 +210,83 @@ s_LINOA <- function(x, y = NULL,
   # .final <- FALSE
   if (is.null(force.max.leaves)) {
     if (lookback) {
-      gc <- gridCheck(gamma, lambda, learning.rate, nvmax, minobsinnode, minbucket)
+      gc <- gridCheck(
+        gamma,
+        lambda,
+        learning.rate,
+        nvmax,
+        minobsinnode,
+        minbucket
+      )
     } else {
-      gc <- gridCheck(gamma, lambda, learning.rate, max.leaves, nvmax, minobsinnode, minbucket)
+      gc <- gridCheck(
+        gamma,
+        lambda,
+        learning.rate,
+        max.leaves,
+        nvmax,
+        minobsinnode,
+        minbucket
+      )
     }
   } else {
     gc <- FALSE
   }
-
 
   # Must turn off plotting during parallel grid search or else it may hang
   if (!.gs && n.cores > 1) plot.tuning <- FALSE
 
   if ((!.gs && gc) || (!.gs && lookback && max.leaves > 1)) {
     grid.params <- if (lookback) list() else list(max.leaves = max.leaves)
-    grid.params <- c(grid.params, list(nvmax = nvmax,
-                                       gamma = gamma,
-                                       lambda = lambda,
-                                       learning.rate = learning.rate,
-                                       minobsinnode = minobsinnode,
-                                       minbucket = minbucket))
+    grid.params <- c(
+      grid.params,
+      list(
+        nvmax = nvmax,
+        gamma = gamma,
+        lambda = lambda,
+        learning.rate = learning.rate,
+        minobsinnode = minobsinnode,
+        minbucket = minbucket
+      )
+    )
     fixed.params <- if (lookback) list(max.leaves = max.leaves) else list()
-    fixed.params <- c(fixed.params, list(init = init,
-                                         n.quantiles = n.quantiles,
-                                         lin.type = lin.type,
-                                         lambda.seq = lambda.seq,
-                                         cv.glmnet.nfolds = cv.glmnet.nfolds,
-                                         which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-                                         nbest = nbest,
-                                         metric = metric,
-                                         ifw = ifw,
-                                         ifw.type = ifw.type,
-                                         upsample = upsample,
-                                         resample.seed = resample.seed,
-                                         plot.tuning = plot.tuning,
-                                         n.cores = splitline.cores,
-                                         .gs = TRUE))
+    fixed.params <- c(
+      fixed.params,
+      list(
+        init = init,
+        n.quantiles = n.quantiles,
+        lin.type = lin.type,
+        lambda.seq = lambda.seq,
+        cv.glmnet.nfolds = cv.glmnet.nfolds,
+        which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+        nbest = nbest,
+        metric = metric,
+        ifw = ifw,
+        ifw.type = ifw.type,
+        upsample = upsample,
+        resample.seed = resample.seed,
+        plot.tuning = plot.tuning,
+        n.cores = splitline.cores,
+        .gs = TRUE
+      )
+    )
 
-    gs <- gridSearchLearn(x = x0, y = y0,
-                          mod = mod.name,
-                          resample.params = grid.resample.params,
-                          grid.params = grid.params,
-                          fixed.params = fixed.params,
-                          search.type = gridsearch.type,
-                          weights = weights,
-                          metric = metric,
-                          maximize = maximize,
-                          save.mod = save.gridrun,
-                          verbose = verbose,
-                          grid.verbose = grid.verbose,
-                          n.cores = n.cores)
+    gs <- gridSearchLearn(
+      x = x0,
+      y = y0,
+      mod = mod.name,
+      resample.params = grid.resample.params,
+      grid.params = grid.params,
+      fixed.params = fixed.params,
+      search.type = gridsearch.type,
+      weights = weights,
+      metric = metric,
+      maximize = maximize,
+      save.mod = save.gridrun,
+      verbose = verbose,
+      grid.verbose = grid.verbose,
+      n.cores = n.cores
+    )
 
     # lambda, minobsinnode, learning.rate, part.cp
     gamma <- gs$best.tune$gamma
@@ -269,48 +330,54 @@ s_LINOA <- function(x, y = NULL,
   }
 
   if (length(nvmax) == 1 && nvmax == 0) lin.type <- "none"
-  mod <- shyoptleaves(x, y,
-                      x.valid = x.valid, y.valid = y.valid,
-                      lookback = lookback,
-                      weights = .weights,
-                      max.leaves = max.leaves,
-                      learning.rate = learning.rate,
-                      select.leaves.smooth = select.leaves.smooth,
-                      gamma = gamma,
-                      n.quantiles = n.quantiles,
-                      minobsinnode = minobsinnode,
-                      minbucket = minbucket,
-                      # --lincoef
-                      lin.type = lin.type,
-                      alpha = alpha,
-                      lambda = lambda,
-                      lambda.seq = lambda.seq,
-                      cv.glmnet.nfolds = cv.glmnet.nfolds,
-                      which.cv.glmnet.lambda = which.cv.glmnet.lambda,
-                      nbest = nbest,
-                      nvmax = nvmax,
-                      # /--lincoef
-                      .rho = .rho,
-                      rho.max = rho.max,
-                      loss.fn = loss.fn,
-                      verbose = verbose,
-                      plot.tuning = plot.tuning,
-                      trace = trace,
-                      n.cores = n.cores)
+  mod <- shyoptleaves(
+    x,
+    y,
+    x.valid = x.valid,
+    y.valid = y.valid,
+    lookback = lookback,
+    weights = .weights,
+    max.leaves = max.leaves,
+    learning.rate = learning.rate,
+    select.leaves.smooth = select.leaves.smooth,
+    gamma = gamma,
+    n.quantiles = n.quantiles,
+    minobsinnode = minobsinnode,
+    minbucket = minbucket,
+    # --lincoef
+    lin.type = lin.type,
+    alpha = alpha,
+    lambda = lambda,
+    lambda.seq = lambda.seq,
+    cv.glmnet.nfolds = cv.glmnet.nfolds,
+    which.cv.glmnet.lambda = which.cv.glmnet.lambda,
+    nbest = nbest,
+    nvmax = nvmax,
+    # /--lincoef
+    .rho = .rho,
+    rho.max = rho.max,
+    loss.fn = loss.fn,
+    verbose = verbose,
+    plot.tuning = plot.tuning,
+    trace = trace,
+    n.cores = n.cores
+  )
 
-  parameters <- list(max.leaves = max.leaves,
-                     n.leaves = mod$n.leaves,
-                     alpha = alpha,
-                     lambda = lambda,
-                     lambda.seq = lambda.seq,
-                     learning.rate = learning.rate,
-                     minobsinnode = minobsinnode,
-                     minbucket = minbucket,
-                     weights = .weights,
-                     init = init,
-                     lin.type = lin.type,
-                     cv.glmnet.nfolds = cv.glmnet.nfolds,
-                     which.cv.glmnet.lambda = which.cv.glmnet.lambda)
+  parameters <- list(
+    max.leaves = max.leaves,
+    n.leaves = mod$n.leaves,
+    alpha = alpha,
+    lambda = lambda,
+    lambda.seq = lambda.seq,
+    learning.rate = learning.rate,
+    minobsinnode = minobsinnode,
+    minbucket = minbucket,
+    weights = .weights,
+    init = init,
+    lin.type = lin.type,
+    cv.glmnet.nfolds = cv.glmnet.nfolds,
+    which.cv.glmnet.lambda = which.cv.glmnet.lambda
+  )
 
   # Fitted ----
   if (type == "Classification") {
@@ -328,18 +395,24 @@ s_LINOA <- function(x, y = NULL,
   predicted <- predicted.prob <- error.test <- NULL
   if (!is.null(x.test)) {
     if (type == "Classification") {
-      .predicted <- predict.shyoptleaves(mod, x.test,
-                                         type = "all",
-                                         learning.rate = learning.rate,
-                                         trace = trace,
-                                         verbose = verbose.predict)
+      .predicted <- predict.shyoptleaves(
+        mod,
+        x.test,
+        type = "all",
+        learning.rate = learning.rate,
+        trace = trace,
+        verbose = verbose.predict
+      )
       predicted <- .predicted$estimate
       predicted.prob <- .predicted$probability
     } else {
-      predicted <- predict.shyoptleaves(mod, x.test,
-                                        learning.rate = learning.rate,
-                                        trace = trace,
-                                        verbose = verbose.predict)
+      predicted <- predict.shyoptleaves(
+        mod,
+        x.test,
+        learning.rate = learning.rate,
+        trace = trace,
+        verbose = verbose.predict
+      )
       predicted.prob <- NULL
     }
 
@@ -350,41 +423,48 @@ s_LINOA <- function(x, y = NULL,
   }
 
   # Outro ----
-  rt <- rtModSet(mod = mod,
-                 mod.name = mod.name,
-                 type = type,
-                 gridsearch = gs,
-                 parameters = parameters,
-                 y.train = y,
-                 y.test = y.test,
-                 x.name = x.name,
-                 y.name = y.name,
-                 xnames = xnames,
-                 fitted = fitted,
-                 fitted.prob = fitted.prob,
-                 se.fit = NULL,
-                 error.train = error.train,
-                 predicted = predicted,
-                 predicted.prob = predicted.prob,
-                 se.prediction = NULL,
-                 error.test = error.test,
-                 varimp = NULL,
-                 question = question)
+  rt <- rtModSet(
+    mod = mod,
+    mod.name = mod.name,
+    type = type,
+    gridsearch = gs,
+    parameters = parameters,
+    y.train = y,
+    y.test = y.test,
+    x.name = x.name,
+    y.name = y.name,
+    xnames = xnames,
+    fitted = fitted,
+    fitted.prob = fitted.prob,
+    se.fit = NULL,
+    error.train = error.train,
+    predicted = predicted,
+    predicted.prob = predicted.prob,
+    se.prediction = NULL,
+    error.test = error.test,
+    varimp = NULL,
+    question = question
+  )
 
-  rtMod.out(rt,
-            print.plot,
-            plot.fitted,
-            plot.predicted,
-            y.test,
-            mod.name,
-            outdir,
-            save.mod,
-            verbose,
-            plot.theme)
+  rtMod.out(
+    rt,
+    print.plot,
+    plot.fitted,
+    plot.predicted,
+    y.test,
+    mod.name,
+    outdir,
+    save.mod,
+    verbose,
+    plot.theme
+  )
 
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
-
 } # rtemis:: s_LINOA
 
 # Unfinished

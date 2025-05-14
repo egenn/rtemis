@@ -8,7 +8,7 @@
 #' @param x `rtMod` object trained using [s_LINAD]
 #' @param main Character: Title.
 #' @param bg Background color.
-#' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle", 
+#' @param shape Character: Node shape; one of: "square", "triangle", "box", "circle",
 #' "dot", "star", "ellipse", "database", "text", "diamond".
 #' @param nodelabels Logical: If TRUE, inlcude node labels.
 #' @param ncases.inlabels Logical: If TRUE, include number of cases with the
@@ -47,7 +47,7 @@
 #' @param table.font.size Character: Font size for html coefficient on-hover
 #' tables.
 #' @param table.dat.padding Ignore, has no visible effect. Otherwise,
-#' Character: html table padding. 
+#' Character: html table padding.
 #' @param table.lo.col Color for lowest coefficient values (negative)
 #' @param table.hi.col Color for highest coefficient values (positive).
 #' @param dragNodes Logical: If TRUE, allow dragging nodes.
@@ -64,49 +64,51 @@
 #' @author E.D. Gennatas
 #' @export
 
-dplot3_linad <- function(x,
-                         main = NULL,
-                         bg = "#FFFFFF",
-                         shape = "box",
-                         nodelabels = TRUE,
-                         ncases.inlabels = TRUE,
-                         rules.on.edges = FALSE,
-                         top = NULL,
-                         root.col = "#202020",
-                         node.col = "#5a5a5a",
-                         leaf.col = "#178CCB",
-                         edge.col = "#848484",
-                         edge.width = 4,
-                         arrow.scale = .7,
-                         arrow.middle = FALSE,
-                         col.highlight = "#FE4AA3",
-                         # theme = # merge devel first,
-                         node.font.col = NULL,
-                         edge.font.col = "#000000",
-                         sort.coefs = FALSE,
-                         height = NULL,
-                         width = NULL,
-                         levelSeparation = 100,
-                         tree.font.size = 22,
-                         edgethickness.by.ncases = FALSE,
-                         font.family = "Lato",
-                         # Coef tables
-                         uselog = FALSE,
-                         tooltip.coefs = TRUE,
-                         tooltip.delay = 50,
-                         table.font.size = "16px",
-                         table.dat.padding = "0px",
-                         table.lo.col = "#0290EE",
-                         table.hi.col = "#FE4AA3",
-                         # visNetwork
-                         dragNodes = FALSE,
-                         zoomView = FALSE,
-                         nodeSpacing = 150,
-                         blockShifting = TRUE,
-                         edgeMinimization = TRUE,
-                         parentCentralization = TRUE,
-                         direction = "UD",
-                         trace = 0) {
+dplot3_linad <- function(
+  x,
+  main = NULL,
+  bg = "#FFFFFF",
+  shape = "box",
+  nodelabels = TRUE,
+  ncases.inlabels = TRUE,
+  rules.on.edges = FALSE,
+  top = NULL,
+  root.col = "#202020",
+  node.col = "#5a5a5a",
+  leaf.col = "#178CCB",
+  edge.col = "#848484",
+  edge.width = 4,
+  arrow.scale = .7,
+  arrow.middle = FALSE,
+  col.highlight = "#FE4AA3",
+  # theme = # merge devel first,
+  node.font.col = NULL,
+  edge.font.col = "#000000",
+  sort.coefs = FALSE,
+  height = NULL,
+  width = NULL,
+  levelSeparation = 100,
+  tree.font.size = 22,
+  edgethickness.by.ncases = FALSE,
+  font.family = "Lato",
+  # Coef tables
+  uselog = FALSE,
+  tooltip.coefs = TRUE,
+  tooltip.delay = 50,
+  table.font.size = "16px",
+  table.dat.padding = "0px",
+  table.lo.col = "#0290EE",
+  table.hi.col = "#FE4AA3",
+  # visNetwork
+  dragNodes = FALSE,
+  zoomView = FALSE,
+  nodeSpacing = 150,
+  blockShifting = TRUE,
+  edgeMinimization = TRUE,
+  parentCentralization = TRUE,
+  direction = "UD",
+  trace = 0
+) {
   # Dependencies ----
   dependency_check("visNetwork")
 
@@ -177,7 +179,8 @@ dplot3_linad <- function(x,
       unlist(lapply(coefsl, function(i) i[-1, 2]))
     }
     dat.colm <- matrix(
-      colorgradient.x(val,
+      colorgradient.x(
+        val,
         symmetric = TRUE,
         lo.col = table.lo.col,
         hi.col = table.hi.col
@@ -186,7 +189,8 @@ dplot3_linad <- function(x,
     )
 
     coefs.html <- lapply(seq(coefsl), function(i) {
-      twocol2html(coefsl[[i]],
+      twocol2html(
+        coefsl[[i]],
         font.family = font.family,
         dat.col = c("#333333", dat.colm[, i]),
         font.size = table.font.size,
@@ -247,7 +251,9 @@ dplot3_linad <- function(x,
   }
   if (trace > 0) msg2("Drawing graph with visNetwork...")
   # '- visNetwork ----
-  visNetwork::visNetwork(nodes, edges,
+  visNetwork::visNetwork(
+    nodes,
+    edges,
     width = width,
     height = height,
     main = main,
@@ -257,7 +263,8 @@ dplot3_linad <- function(x,
     visNetwork::visHierarchicalLayout(
       levelSeparation = levelSeparation,
       nodeSpacing = nodeSpacing,
-      blockShifting, blockShifting,
+      blockShifting,
+      blockShifting,
       edgeMinimization = edgeMinimization,
       parentCentralization = parentCentralization,
       direction = direction

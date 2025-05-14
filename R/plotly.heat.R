@@ -18,15 +18,17 @@
 #' @author E.D. Gennatas
 #' @export
 
-plotly.heat <- function(z,
-                        x = NULL,
-                        y = NULL,
-                        title = NULL,
-                        col = penn.heat(21),
-                        xlab = NULL,
-                        ylab = NULL,
-                        zlab = NULL,
-                        transpose = TRUE) {
+plotly.heat <- function(
+  z,
+  x = NULL,
+  y = NULL,
+  title = NULL,
+  col = penn.heat(21),
+  xlab = NULL,
+  ylab = NULL,
+  zlab = NULL,
+  transpose = TRUE
+) {
   # NS ----
   requireNamespace("plotly")
 
@@ -61,7 +63,9 @@ plotly.heat <- function(z,
 
   # plotly ----
   p <- plotly::plot_ly(
-    z = z, x = x, y = y,
+    z = z,
+    x = x,
+    y = y,
     transpose = transpose,
     type = "heatmap",
     colors = col,

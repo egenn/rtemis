@@ -17,13 +17,18 @@
 #'
 #' @author E.D. Gennatas
 #' @export
-bias_variance <- function(x, y, mod,
-                          res1_train.p = .7,
-                          params = list(),
-                          resample.params = setup.resample(n.resamples = 100),
-                          seed = NULL,
-                          verbose = TRUE,
-                          res.verbose = FALSE, ...) {
+bias_variance <- function(
+  x,
+  y,
+  mod,
+  res1_train.p = .7,
+  params = list(),
+  resample.params = setup.resample(n.resamples = 100),
+  seed = NULL,
+  verbose = TRUE,
+  res.verbose = FALSE,
+  ...
+) {
   if (missing(y)) {
     if (NCOL(x) == 1) stop("Need at least one predictor and one outcome")
     y <- x[, NCOL(x)]
@@ -31,7 +36,8 @@ bias_variance <- function(x, y, mod,
   }
   # Create single testing, multiple training sets
   # 1. Test - train
-  res1 <- resample(y,
+  res1 <- resample(
+    y,
     n.resamples = 1,
     resampler = "strat.sub",
     train.p = res1_train.p,
@@ -83,13 +89,13 @@ bias_variance <- function(x, y, mod,
 } # rtemis::bias_variance
 
 #' Print method for [bias_variance]
-#' 
+#'
 #' @param x Output of [bias_variance]
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
-#' 
+#'
 
 print.rtBiasVariance <- function(x, ...) {
   cat(".:rtBiasVariance\n")

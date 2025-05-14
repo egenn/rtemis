@@ -48,81 +48,109 @@
 #' column means and standard deviation will be saved in `rtMod$extra` field to allow
 #' scaling ahead of prediction on new data
 #' @param ... Additional parameters
-#' 
+#'
 #' @author E.D. Gennatas
 #' @seealso [train_cv] for external cross-validation
 #' @family Supervised Learning
 #' @family Deep Learning
 #' @export
 
-s_TFN <- function(x, y = NULL,
-                  x.test = NULL, y.test = NULL,
-                  # x.valid = NULL, y.valid = NULL,
-                  class.weights = NULL,
-                  ifw = TRUE,
-                  ifw.type = 2,
-                  upsample = FALSE,
-                  downsample = FALSE,
-                  resample.seed = NULL,
-                  net = NULL,
-                  n.hidden.nodes = NULL,
-                  initializer = c(
-                    "glorot_uniform", "glorot_normal",
-                    "he_uniform", "he_normal",
-                    "lecun_uniform", "lecun_normal",
-                    "random_uniform", "random_normal",
-                    "variance_scaling", "truncated_normal",
-                    "orthogonal", "zeros",
-                    "ones", "constant"
-                  ),
-                  initializer.seed = NULL,
-                  dropout = 0,
-                  activation = c(
-                    "relu", "selu",
-                    "elu", "sigmoid",
-                    "hard_sigmoid", "tanh",
-                    "exponential", "linear",
-                    "softmax", "softplus",
-                    "softsign"
-                  ),
-                  kernel_l1 = .1,
-                  kernel_l2 = 0,
-                  activation_l1 = 0,
-                  activation_l2 = 0,
-                  batch.normalization = TRUE,
-                  output = NULL,
-                  loss = NULL,
-                  optimizer = c(
-                    "rmsprop", "adadelta",
-                    "adagrad", "adam",
-                    "adamax", "nadam",
-                    "sgd"
-                  ),
-                  learning.rate = NULL,
-                  metric = NULL,
-                  epochs = 100,
-                  batch.size = NULL,
-                  validation.split = .2,
-                  callback = keras::callback_early_stopping(patience = 150),
-                  scale = TRUE,
-                  x.name = NULL,
-                  y.name = NULL,
-                  print.plot = FALSE,
-                  plot.fitted = NULL,
-                  plot.predicted = NULL,
-                  plot.theme = rtTheme,
-                  question = NULL,
-                  verbose = TRUE,
-                  outdir = NULL,
-                  save.mod = ifelse(!is.null(outdir), TRUE, FALSE), ...) {
+s_TFN <- function(
+  x,
+  y = NULL,
+  x.test = NULL,
+  y.test = NULL,
+  # x.valid = NULL, y.valid = NULL,
+  class.weights = NULL,
+  ifw = TRUE,
+  ifw.type = 2,
+  upsample = FALSE,
+  downsample = FALSE,
+  resample.seed = NULL,
+  net = NULL,
+  n.hidden.nodes = NULL,
+  initializer = c(
+    "glorot_uniform",
+    "glorot_normal",
+    "he_uniform",
+    "he_normal",
+    "lecun_uniform",
+    "lecun_normal",
+    "random_uniform",
+    "random_normal",
+    "variance_scaling",
+    "truncated_normal",
+    "orthogonal",
+    "zeros",
+    "ones",
+    "constant"
+  ),
+  initializer.seed = NULL,
+  dropout = 0,
+  activation = c(
+    "relu",
+    "selu",
+    "elu",
+    "sigmoid",
+    "hard_sigmoid",
+    "tanh",
+    "exponential",
+    "linear",
+    "softmax",
+    "softplus",
+    "softsign"
+  ),
+  kernel_l1 = .1,
+  kernel_l2 = 0,
+  activation_l1 = 0,
+  activation_l2 = 0,
+  batch.normalization = TRUE,
+  output = NULL,
+  loss = NULL,
+  optimizer = c(
+    "rmsprop",
+    "adadelta",
+    "adagrad",
+    "adam",
+    "adamax",
+    "nadam",
+    "sgd"
+  ),
+  learning.rate = NULL,
+  metric = NULL,
+  epochs = 100,
+  batch.size = NULL,
+  validation.split = .2,
+  callback = keras::callback_early_stopping(patience = 150),
+  scale = TRUE,
+  x.name = NULL,
+  y.name = NULL,
+  print.plot = FALSE,
+  plot.fitted = NULL,
+  plot.predicted = NULL,
+  plot.theme = rtTheme,
+  question = NULL,
+  verbose = TRUE,
+  outdir = NULL,
+  save.mod = ifelse(!is.null(outdir), TRUE, FALSE),
+  ...
+) {
   # Intro ----
   if (missing(x)) {
     print(args(s_TFN))
     return(invisible(9))
   }
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   logFile <- if (!is.null(outdir)) {
-    paste0(outdir, "/", sys.calls()[[1]][[1]], ".", format(Sys.time(), "%Y%m%d.%H%M%S"), ".log")
+    paste0(
+      outdir,
+      "/",
+      sys.calls()[[1]][[1]],
+      ".",
+      format(Sys.time(), "%Y%m%d.%H%M%S"),
+      ".log"
+    )
   } else {
     NULL
   }
@@ -138,14 +166,16 @@ s_TFN <- function(x, y = NULL,
   if (!verbose) print.plot <- FALSE
   verbose <- verbose | !is.null(logFile)
   if (save.mod && is.null(outdir)) outdir <- paste0("./s.", mod.name)
-  if (!is.null(outdir)) outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
+  if (!is.null(outdir))
+    outdir <- paste0(normalizePath(outdir, mustWork = FALSE), "/")
   initializer <- match.arg(initializer)
   initializer <- paste0("initializer_", initializer)
   initializer <- getFromNamespace(initializer, "keras")
 
   optimizer <- match.arg(optimizer)
   if (is.null(learning.rate)) {
-    learning.rate <- switch(optimizer,
+    learning.rate <- switch(
+      optimizer,
       rmsprop = .01,
       adadelta = 1,
       adagrad = .01,
@@ -159,7 +189,11 @@ s_TFN <- function(x, y = NULL,
   optimizer <- getFromNamespace(optimizer, "keras")
 
   # Data ----
-  dt <- prepare_data(x, y, x.test, y.test,
+  dt <- prepare_data(
+    x,
+    y,
+    x.test,
+    y.test,
     ifw = ifw,
     ifw.type = ifw.type,
     upsample = upsample,
@@ -176,7 +210,8 @@ s_TFN <- function(x, y = NULL,
   xnames <- dt$xnames
   type <- dt$type
   checkType(type, c("Classification", "Regression"), mod.name)
-  .class.weights <- if (is.null(class.weights) && ifw) dt$class.weights else class.weights
+  .class.weights <- if (is.null(class.weights) && ifw) dt$class.weights else
+    class.weights
   if (verbose) dataSummary(x, y, x.test, y.test, type)
   x.dm <- data.matrix(x)
   n.features <- NCOL(x)
@@ -201,16 +236,20 @@ s_TFN <- function(x, y = NULL,
   # Loss
   if (is.null(loss)) {
     if (type == "Classification") {
-      loss <- if (n.classes == 2) "binary_crossentropy" else "sparse_categorical_crossentropy"
+      loss <- if (n.classes == 2) "binary_crossentropy" else
+        "sparse_categorical_crossentropy"
     } else {
       loss <- "mean_squared_error"
     }
   }
-  if (type == "Classification" && loss == "categorical_crossentropy") y <- keras::to_categorical(y)
+  if (type == "Classification" && loss == "categorical_crossentropy")
+    y <- keras::to_categorical(y)
 
   if (print.plot) {
-    if (is.null(plot.fitted)) plot.fitted <- if (is.null(y.test)) TRUE else FALSE
-    if (is.null(plot.predicted)) plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.fitted))
+      plot.fitted <- if (is.null(y.test)) TRUE else FALSE
+    if (is.null(plot.predicted))
+      plot.predicted <- if (!is.null(y.test)) TRUE else FALSE
   } else {
     plot.fitted <- plot.predicted <- FALSE
   }
@@ -222,7 +261,11 @@ s_TFN <- function(x, y = NULL,
     col_means_train <- attr(x.dm, "scaled:center")
     col_stddevs_train <- attr(x.dm, "scaled:scale")
     if (!is.null(x.test)) {
-      x.test <- scale(x.test, center = col_means_train, scale = col_stddevs_train)
+      x.test <- scale(
+        x.test,
+        center = col_means_train,
+        scale = col_stddevs_train
+      )
     }
   }
 
@@ -250,7 +293,8 @@ s_TFN <- function(x, y = NULL,
     n.hnodes <- n.hidden.nodes
     n.hlayers <- length(n.hidden.nodes)
   }
-  if (length(dropout) < n.hlayers) dropout <- rep(dropout, length.out = n.hlayers)
+  if (length(dropout) < n.hlayers)
+    dropout <- rep(dropout, length.out = n.hlayers)
 
   ### Init ----
   if (is.null(net)) {
@@ -259,7 +303,8 @@ s_TFN <- function(x, y = NULL,
     ### Hidden layers ----
     if (n.hlayers > 0) {
       for (i in seq(n.hlayers)) {
-        keras::layer_dense(net,
+        keras::layer_dense(
+          net,
           units = n.hnodes[i],
           activation = activation,
           input_shape = n.features,
@@ -271,7 +316,8 @@ s_TFN <- function(x, y = NULL,
           name = paste0("rt_Dense_", i)
         )
         if (activation_l1 != 0 || activation_l2 != 0) {
-          keras::layer_activity_regularization(net,
+          keras::layer_activity_regularization(
+            net,
             l1 = activation_l1,
             l2 = activation_l2,
             name = paste0("rt_Reg_", i)
@@ -280,7 +326,8 @@ s_TFN <- function(x, y = NULL,
         if (batch.normalization) {
           keras::layer_batch_normalization(net, name = paste0("rt_BN_", i))
         }
-        keras::layer_dropout(net,
+        keras::layer_dropout(
+          net,
           rate = dropout[i],
           name = paste0("rt_Dropout_", i)
         )
@@ -298,7 +345,8 @@ s_TFN <- function(x, y = NULL,
       }
     }
 
-    keras::layer_dense(net,
+    keras::layer_dense(
+      net,
       units = n.outputs,
       activation = output,
       name = "rt_Output"
@@ -315,7 +363,8 @@ s_TFN <- function(x, y = NULL,
       metric = metric
     )
     if (verbose) {
-      printls(parameters,
+      printls(
+        parameters,
         title = "ANN parameters",
         center.title = TRUE,
         pad = 0,
@@ -325,19 +374,25 @@ s_TFN <- function(x, y = NULL,
 
     # TF ----
     if (verbose) {
-      msg20("Training Neural Network ", type, " with ",
-        n.hlayers, " hidden ", ifelse(n.hlayers == 1, "layer", "layers"),
+      msg20(
+        "Training Neural Network ",
+        type,
+        " with ",
+        n.hlayers,
+        " hidden ",
+        ifelse(n.hlayers == 1, "layer", "layers"),
         "...\n",
         newline.pre = TRUE
       )
     }
 
     # Compile ----
-    net |> keras::compile(
-      loss = loss,
-      optimizer = optimizer(lr = learning.rate),
-      metrics = metric
-    )
+    net |>
+      keras::compile(
+        loss = loss,
+        optimizer = optimizer(lr = learning.rate),
+        metrics = metric
+      )
   } else {
     if (verbose) msg2("Training pre-built Network for", type, "...")
   }
@@ -345,7 +400,8 @@ s_TFN <- function(x, y = NULL,
   # Fit ----
   net |>
     keras::fit(
-      x.dm, y,
+      x.dm,
+      y,
       epochs = epochs,
       batch_size = batch.size,
       validation_split = validation.split,
@@ -422,7 +478,12 @@ s_TFN <- function(x, y = NULL,
     plot.theme
   )
 
-  if (save.mod) keras::save_model_hdf5(net, filepath = paste0(outdir, "rt_kerasTF"))
-  outro(start.time, verbose = verbose, sinkOff = ifelse(is.null(logFile), FALSE, TRUE))
+  if (save.mod)
+    keras::save_model_hdf5(net, filepath = paste0(outdir, "rt_kerasTF"))
+  outro(
+    start.time,
+    verbose = verbose,
+    sinkOff = ifelse(is.null(logFile), FALSE, TRUE)
+  )
   rt
 } # rtemis::s_TFN

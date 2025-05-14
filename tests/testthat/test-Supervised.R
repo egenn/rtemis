@@ -52,7 +52,7 @@ test_that("GAM Regression succeeds", {
 })
 
 test_that("GAM Binary Classification succeeds", {
-  # Suppress warning for Newton step 
+  # Suppress warning for Newton step
   # "Fitting terminated with step failure - check results carefully"
   suppressWarnings(mod_c <- s_GAM(datc2_train, datc2_test))
   expect_s3_class(mod_c, "rtModClass")

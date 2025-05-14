@@ -42,22 +42,26 @@
 #' @keywords internal
 #' @noRd
 
-gridSearchLearn <- function(x, y, mod,
-                            grid.params,
-                            fixed.params = NULL,
-                            search.type = c("exhaustive", "randomized"),
-                            resample.params = setup.resample(),
-                            randomized.p = .05,
-                            weights = NULL,
-                            error.aggregate.fn = mean,
-                            metric = NULL,
-                            maximize = NULL,
-                            save.mod = FALSE,
-                            verbose = TRUE,
-                            trace = 0,
-                            call.depth = 1,
-                            grid.verbose = FALSE,
-                            n.cores = rtCores) {
+gridSearchLearn <- function(
+  x,
+  y,
+  mod,
+  grid.params,
+  fixed.params = NULL,
+  search.type = c("exhaustive", "randomized"),
+  resample.params = setup.resample(),
+  randomized.p = .05,
+  weights = NULL,
+  error.aggregate.fn = mean,
+  metric = NULL,
+  maximize = NULL,
+  save.mod = FALSE,
+  verbose = TRUE,
+  trace = 0,
+  call.depth = 1,
+  grid.verbose = FALSE,
+  n.cores = rtCores
+) {
   # Dependencies ----
   dependency_check(c("future", "future.apply"))
 
@@ -92,16 +96,22 @@ gridSearchLearn <- function(x, y, mod,
     future::plan(list("sequential", future::tweak(rtPlan, workers = n.cores)))
     if (trace > 0) {
       msg2(magenta(
-        "Inner resampling: Future plan set to", bold(rtPlan),
-        "with", bold(n.cores), "workers"
+        "Inner resampling: Future plan set to",
+        bold(rtPlan),
+        "with",
+        bold(n.cores),
+        "workers"
       ))
     }
   } else {
     future::plan(rtPlan, workers = n.cores)
     if (trace > 0) {
       msg2(magenta(
-        "Inner resampling plan set to", bold(rtPlan),
-        "with", bold(n.cores), "workers"
+        "Inner resampling plan set to",
+        bold(rtPlan),
+        "with",
+        bold(n.cores),
+        "workers"
       ))
     }
   }
@@ -115,7 +125,8 @@ gridSearchLearn <- function(x, y, mod,
   # elements will result in NULL,
   # as required. This is needed for functions with parameters that can take NULL value
   grid.params <- Filter(Negate(is.null), grid.params)
-  param.grid <- expand.grid(c(list(res.id = seq(n.resamples)), grid.params),
+  param.grid <- expand.grid(
+    c(list(res.id = seq(n.resamples)), grid.params),
     stringsAsFactors = FALSE
   )
   n.param.combs <- NROW(param.grid) / n.resamples
@@ -127,7 +138,11 @@ gridSearchLearn <- function(x, y, mod,
     param.grid <- param.grid[rep(index.per.resample, n.resamples), ]
   }
   learner <- select_learn(mod, fn = FALSE)
-  res <- resample(y = y, rtset = resample.params, verbosity = as.integer(verbose))
+  res <- resample(
+    y = y,
+    rtset = resample.params,
+    verbosity = as.integer(verbose)
+  )
 
   if (!is.null(resample.params$id.colname)) {
     x <- x[, -(names(x) == resample.params$id.colname)]
@@ -138,33 +153,47 @@ gridSearchLearn <- function(x, y, mod,
     parameterSummary(grid.params, fixed.params, title = "Search parameters")
     msg2(
       hilite(
-        "Tuning", select_learn(mod, desc = TRUE), "by",
-        search.type, "grid search."
+        "Tuning",
+        select_learn(mod, desc = TRUE),
+        "by",
+        search.type,
+        "grid search."
       )
     )
     msg20(
-      n.resamples, " inner resamples; ",
+      n.resamples,
+      " inner resamples; ",
       NROW(param.grid),
       " models total; running on ",
       singorplu(n.cores, "worker"),
-      " (", Sys.getenv("R_PLATFORM"), ")"
+      " (",
+      Sys.getenv("R_PLATFORM"),
+      ")"
     )
   }
 
   # learner1 ----
   p <- progressr::progressor(steps = NROW(param.grid))
-  learner1 <- function(index, learner,
-                       x, y,
-                       res,
-                       param.grid,
-                       fixed.params,
-                       weights,
-                       verbose,
-                       save.mod,
-                       nres) {
+  learner1 <- function(
+    index,
+    learner,
+    x,
+    y,
+    res,
+    param.grid,
+    fixed.params,
+    weights,
+    verbose,
+    save.mod,
+    nres
+  ) {
     if (verbose) {
-      msg2("Running grid line #", index, " of ",
-        NROW(param.grid), "...",
+      msg2(
+        "Running grid line #",
+        index,
+        " of ",
+        NROW(param.grid),
+        "...",
         sep = ""
       )
     }
@@ -177,10 +206,13 @@ gridSearchLearn <- function(x, y, mod,
 
     args <- c(
       list(
-        x = x.train1, y = y.train1,
-        x.test = x.test1, y.test = y.test1,
+        x = x.train1,
+        y = y.train1,
+        x.test = x.test1,
+        y.test = y.test1,
         weights = weights1,
-        print.plot = FALSE, verbose = verbose
+        print.plot = FALSE,
+        verbose = verbose
       ),
       as.list(param.grid[index, 2:NCOL(param.grid), drop = FALSE]),
       fixed.params
@@ -234,7 +266,8 @@ gridSearchLearn <- function(x, y, mod,
     seq_len(nres),
     learner1,
     learner,
-    x, y,
+    x,
+    y,
     res,
     param.grid,
     fixed.params,
@@ -258,9 +291,12 @@ gridSearchLearn <- function(x, y, mod,
   }
 
   if (is.null(maximize)) {
-    maximize <- metric %in% c(
-      "Accuracy", "Balanced Accuracy", "Concordance"
-    )
+    maximize <- metric %in%
+      c(
+        "Accuracy",
+        "Balanced Accuracy",
+        "Concordance"
+      )
   }
   select.fn <- if (maximize) which.max else which.min
   verb <- if (maximize) "maximize" else "minimize"
@@ -292,13 +328,16 @@ gridSearchLearn <- function(x, y, mod,
 
   # '- GBM, H2OGBM ----
   if (learner %in% c("s_H2OGBM", "s_GBM", "s_GBM3")) {
-    est.n.trees.all <- data.frame(n.trees = plyr::laply(
-      grid_run,
-      function(x) x$est.n.trees
-    ))
+    est.n.trees.all <- data.frame(
+      n.trees = plyr::laply(
+        grid_run,
+        function(x) x$est.n.trees
+      )
+    )
     est.n.trees.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.trees.by.param.id <- aggregate(
-      n.trees ~ param.id, est.n.trees.all,
+      n.trees ~ param.id,
+      est.n.trees.all,
       error.aggregate.fn
     )
     tune.results <- cbind(
@@ -316,11 +355,10 @@ gridSearchLearn <- function(x, y, mod,
     est.nrounds.all <- data.frame(
       nrounds = plyr::laply(grid_run, \(m) m$best_iter)
     )
-    est.nrounds.all$param.id <- rep(seq_len(n.param.combs),
-      each = n.resamples
-    )
+    est.nrounds.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.nrounds.by.param.id <- aggregate(
-      nrounds ~ param.id, est.nrounds.all,
+      nrounds ~ param.id,
+      est.nrounds.all,
       error.aggregate.fn
     )
     tune.results <- cbind(
@@ -335,15 +373,16 @@ gridSearchLearn <- function(x, y, mod,
     if (verbose) {
       msg2(hilite("Extracting best N of iterations from XGBoost models..."))
     }
-    est.nrounds.all <- data.frame(nrounds = plyr::laply(
-      grid_run,
-      \(m) m$best_iteration
-    ))
-    est.nrounds.all$param.id <- rep(seq_len(n.param.combs),
-      each = n.resamples
+    est.nrounds.all <- data.frame(
+      nrounds = plyr::laply(
+        grid_run,
+        \(m) m$best_iteration
+      )
     )
+    est.nrounds.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.nrounds.by.param.id <- aggregate(
-      nrounds ~ param.id, est.nrounds.all,
+      nrounds ~ param.id,
+      est.nrounds.all,
       error.aggregate.fn
     )
     tune.results <- cbind(
@@ -360,10 +399,13 @@ gridSearchLearn <- function(x, y, mod,
     }
     if (is.null(grid.params$lambda)) {
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-      lambda.all <- data.frame(lambda = plyr::laply(grid_run, \(x) x[[fixed.params$which.cv.lambda]]))
+      lambda.all <- data.frame(
+        lambda = plyr::laply(grid_run, \(x) x[[fixed.params$which.cv.lambda]])
+      )
       lambda.all$param.id <- rep(1:n.param.combs, each = n.resamples)
       lambda.by.param.id <- aggregate(
-        lambda ~ param.id, lambda.all,
+        lambda ~ param.id,
+        lambda.all,
         error.aggregate.fn
       )
       tune.results <- cbind(lambda = lambda.by.param.id$lambda, tune.results)
@@ -376,20 +418,21 @@ gridSearchLearn <- function(x, y, mod,
     if (verbose) {
       msg2(hilite("Extracting best N leaves from LINAD models..."))
     }
-    est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
-      grid_run,
-      \(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
-    ))
-    est.n.leaves.all$param.id <- rep(seq_len(n.param.combs),
-      each = n.resamples
+    est.n.leaves.all <- data.frame(
+      n.leaves = plyr::laply(
+        grid_run,
+        \(x) ifelse(length(x$est.n.leaves) == 0, 1, x$est.n.leaves)
+      )
     )
+    est.n.leaves.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.leaves.by.param.id <- aggregate(
-      n.leaves ~ param.id, est.n.leaves.all,
+      n.leaves ~ param.id,
+      est.n.leaves.all,
       error.aggregate.fn
     )
     tune.results <- cbind(
-      n.leaves =
-        round(est.n.leaves.by.param.id$n.leaves), tune.results
+      n.leaves = round(est.n.leaves.by.param.id$n.leaves),
+      tune.results
     )
     n.params <- n.params + 1
   }
@@ -399,15 +442,16 @@ gridSearchLearn <- function(x, y, mod,
     if (verbose) {
       msg2(hilite("Extracting best N steps from LIHADBoost models..."))
     }
-    est.n.steps.all <- data.frame(n.steps = plyr::laply(
-      grid_run,
-      \(x) x$sel.n.steps
-    ))
-    est.n.steps.all$param.id <- rep(seq_len(n.param.combs),
-      each = n.resamples
+    est.n.steps.all <- data.frame(
+      n.steps = plyr::laply(
+        grid_run,
+        \(x) x$sel.n.steps
+      )
     )
+    est.n.steps.all$param.id <- rep(seq_len(n.param.combs), each = n.resamples)
     est.n.steps.by.param.id <- aggregate(
-      n.steps ~ param.id, est.n.steps.all,
+      n.steps ~ param.id,
+      est.n.steps.all,
       error.aggregate.fn
     )
     tune.results <- cbind(
@@ -420,7 +464,8 @@ gridSearchLearn <- function(x, y, mod,
   # Consider explicitly ordering hyperparam values in increasing order,
   # so that in case of tie, lowest value is chosen -
   # if that makes sense, e.g. n.leaves, etc.
-  best.tune <- tune.results[select.fn(tune.results[[metric]]),
+  best.tune <- tune.results[
+    select.fn(tune.results[[metric]]),
     seq_len(n.params),
     drop = FALSE
   ]
@@ -501,12 +546,19 @@ print.gridSearch <- function(x, ...) {
   } else if (x$resample.params$resample == "strat.boot") {
     "stratified bootstraps"
   }
-  cat(type, " was performed using ", x$resample.params$n.resamples, " ",
-    resamples, ".\n",
+  cat(
+    type,
+    " was performed using ",
+    x$resample.params$n.resamples,
+    " ",
+    resamples,
+    ".\n",
     sep = ""
   )
   cat(
-    x$metric, "was", ifelse(x$maximize, "maximized", "minimized"),
+    x$metric,
+    "was",
+    ifelse(x$maximize, "maximized", "minimized"),
     "with the following parameters:\n"
   )
   printls(x$best.tune)

@@ -18,9 +18,7 @@
 #' @author E.D. Gennatas
 #' @export
 
-select_clust <- function(clust,
-                         fn = FALSE,
-                         desc = FALSE) {
+select_clust <- function(clust, fn = FALSE, desc = FALSE) {
   description <- list(
     "CMeans" = "Fuzzy C-means Clustering",
     "DBSCAN" = "Density-based spatial clustering of applications with noise",
@@ -36,10 +34,15 @@ select_clust <- function(clust,
     "SPEC" = "Spectral Clustering"
   )
   description <- t(as.data.frame(description))
-  description <- data.frame(Name = rownames(description), Description = description)
+  description <- data.frame(
+    Name = rownames(description),
+    Description = description
+  )
 
   if (missing(clust)) {
-    cat(".:select_clust\nrtemis supports the following clustering algorithms:\n\n")
+    cat(
+      ".:select_clust\nrtemis supports the following clustering algorithms:\n\n"
+    )
     print(description, quote = FALSE, row.names = FALSE)
     return(invisible(9))
   }

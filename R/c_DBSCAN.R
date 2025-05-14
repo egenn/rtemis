@@ -27,13 +27,17 @@
 #' @family Clustering
 #' @export
 
-c_DBSCAN <- function(x, x.test = NULL,
-                     eps = 1,
-                     minPts = NCOL(x) + 1,
-                     weights = NULL,
-                     borderPoints = TRUE,
-                     search = c("kdtree", "linear", "dist"),
-                     verbose = TRUE, ...) {
+c_DBSCAN <- function(
+  x,
+  x.test = NULL,
+  eps = 1,
+  minPts = NCOL(x) + 1,
+  weights = NULL,
+  borderPoints = TRUE,
+  search = c("kdtree", "linear", "dist"),
+  verbose = TRUE,
+  ...
+) {
   # Dependencies ----
   dependency_check("flexclust")
 
@@ -59,21 +63,20 @@ c_DBSCAN <- function(x, x.test = NULL,
 
   # DBSCAN ----
   if (verbose) msg2("Performing DBSCAN Clustering...")
-  clust <- dbscan::dbscan(x,
+  clust <- dbscan::dbscan(
+    x,
     eps = eps,
     minPts = minPts,
     weights = weights,
     borderPoints = borderPoints,
-    search = search, ...
+    search = search,
+    ...
   )
 
   # Clusters ----
   clusters.train <- clust$cluster
   if (!is.null(x.test)) {
-    clusters.test <- predict(clust,
-      newdata = as.matrix(x.test),
-      data = x
-    )
+    clusters.test <- predict(clust, newdata = as.matrix(x.test), data = x)
   } else {
     clusters.test <- NULL
   }

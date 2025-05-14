@@ -41,13 +41,15 @@ nunique_perfeat <- function(x, excludeNA = FALSE) {
 #' )
 #' dt_keybin_reshape(x, id_name = "ID", key_name = "Dx")
 #' }
-dt_keybin_reshape <- function(x,
-                              id_name,
-                              key_name,
-                              positive = 1,
-                              negative = 0,
-                              xname = NULL,
-                              verbose = TRUE) {
+dt_keybin_reshape <- function(
+  x,
+  id_name,
+  key_name,
+  positive = 1,
+  negative = 0,
+  xname = NULL,
+  verbose = TRUE
+) {
   if (is.null(xname)) {
     xname <- deparse(substitute(x))
   }
@@ -60,7 +62,8 @@ dt_keybin_reshape <- function(x,
 
   .formula <- as.formula(paste(
     paste(id_name, collapse = " + "),
-    "~", key_name
+    "~",
+    key_name
   ))
   if (verbose) {
     msg2("Reshaping", hilite(xname), "to wide format...")
@@ -101,23 +104,27 @@ dt_keybin_reshape <- function(x,
 #' @author E.D. Gennatas
 #' @export
 
-dt_merge <- function(left,
-                     right,
-                     on = NULL,
-                     left_on = NULL,
-                     right_on = NULL,
-                     how = "left",
-                     left_name = NULL,
-                     right_name = NULL,
-                     left_suffix = NULL,
-                     right_suffix = NULL,
-                     verbose = TRUE, ...) {
+dt_merge <- function(
+  left,
+  right,
+  on = NULL,
+  left_on = NULL,
+  right_on = NULL,
+  how = "left",
+  left_name = NULL,
+  right_name = NULL,
+  left_suffix = NULL,
+  right_suffix = NULL,
+  verbose = TRUE,
+  ...
+) {
   if (is.null(left_name)) left_name <- deparse(substitute(left))
   if (is.null(right_name)) right_name <- deparse(substitute(right))
   if (is.null(left_on)) left_on <- on
   if (is.null(right_on)) right_on <- on
   if (verbose) {
-    icon <- switch(how,
+    icon <- switch(
+      how,
       inner = "\u2A1D",
       left = "\u27D5",
       right = "\u27D6",
@@ -125,13 +132,27 @@ dt_merge <- function(left,
     )
     if (left_on == right_on) {
       msg20(
-        bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
-        " on ", hilite(left_on), "..."
+        bold(green(icon)),
+        " Merging ",
+        hilite(left_name),
+        " & ",
+        hilite(right_name),
+        " on ",
+        hilite(left_on),
+        "..."
       )
     } else {
       msg20(
-        bold(green(icon)), " Merging ", hilite(left_name), " & ", hilite(right_name),
-        " on ", hilite(left_on), " & ", hilite(right_on), "..."
+        bold(green(icon)),
+        " Merging ",
+        hilite(left_name),
+        " & ",
+        hilite(right_name),
+        " on ",
+        hilite(left_on),
+        " & ",
+        hilite(right_on),
+        "..."
       )
     }
 
@@ -159,9 +180,14 @@ dt_merge <- function(left,
     right_names <- setdiff(names(right), right_on)
     setnames(right, right_names, paste0(right_names, right_suffix))
   }
-  dat <- merge(left, right,
-    by.x = left_on, by.y = right_on,
-    all.x = all.x, all.y = all.y, ...
+  dat <- merge(
+    left,
+    right,
+    by.x = left_on,
+    by.y = right_on,
+    all.x = all.x,
+    all.y = all.y,
+    ...
   )
   if (verbose) {
     catsize(dat, "Merged")
@@ -192,9 +218,12 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
   stopifnot(inherits(x, "data.table"))
   idi <- names(x)[sapply(x, is.factor)]
   for (i in idi) {
-    x[, (i) := factor(x[[i]],
-      labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
-    )]
+    x[,
+      (i) := factor(
+        x[[i]],
+        labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+      )
+    ]
   }
 } # rtemis::dt_set_cleanfactorlevels
 
@@ -252,10 +281,13 @@ dt_index_attr <- function(x, name, value) {
 #' @author E.D. Gennatas
 #' @export
 dt_pctmatch <- function(
-    x, y,
-    on = NULL,
-    left_on = NULL,
-    right_on = NULL, verbose = TRUE) {
+  x,
+  y,
+  on = NULL,
+  left_on = NULL,
+  right_on = NULL,
+  verbose = TRUE
+) {
   if (is.null(left_on)) left_on <- on
   if (is.null(right_on)) right_on <- on
   xv <- unique(x[[left_on]])
@@ -266,8 +298,15 @@ dt_pctmatch <- function(
   if (verbose) {
     by_final <- paste(unique(c(left_on, right_on)), collapse = ", ")
     msg20(
-      "Matched ", hilite(nmatch), "/", hilite(n), " on ", bold(by_final),
-      " (", hilite(ddSci(matchpct)), "%)"
+      "Matched ",
+      hilite(nmatch),
+      "/",
+      hilite(n),
+      " on ",
+      bold(by_final),
+      " (",
+      hilite(ddSci(matchpct)),
+      "%)"
     )
   }
   invisible(list(nmatch = nmatch, matchpct = matchpct))
@@ -327,11 +366,12 @@ dt_pctmissing <- function(x, verbose = TRUE) {
 #' str(z)
 #' }
 dt_set_logical2factor <- function(
-    x,
-    cols = NULL,
-    labels = c("False", "True"),
-    maintain_attributes = TRUE,
-    fillNA = NULL) {
+  x,
+  cols = NULL,
+  labels = c("False", "True"),
+  maintain_attributes = TRUE,
+  fillNA = NULL
+) {
   if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
   for (i in cols) {
     if (maintain_attributes) .attr <- attributes(x[[i]])
@@ -355,7 +395,8 @@ dt_set_logical2factor <- function(
 #' @export
 dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
   attrs <- sapply(x, \(i) {
-    if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else attr(i, attr, exact = TRUE)
+    if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else
+      attr(i, attr, exact = TRUE)
   })
   table(attrs, useNA = useNA)
 }
@@ -389,7 +430,13 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 #' z <- c("mango", "banana", "tangerine", NA)
 #' inspect_type(z)
 #' }
-inspect_type <- function(x, xname = NULL, verbose = TRUE, thresh = .5, na.omit = TRUE) {
+inspect_type <- function(
+  x,
+  xname = NULL,
+  verbose = TRUE,
+  thresh = .5,
+  na.omit = TRUE
+) {
   if (is.null(xname)) xname <- deparse(substitute(x))
   if (na.omit) x <- na.omit(x)
   xclass <- class(x)[1]
@@ -406,13 +453,18 @@ inspect_type <- function(x, xname = NULL, verbose = TRUE, thresh = .5, na.omit =
   })
   if (raw_na == xlen) {
     "NA"
-  } else if (xclass %in% c("character", "factor") && (num_na / n_non_na) < thresh) {
+  } else if (
+    xclass %in% c("character", "factor") && (num_na / n_non_na) < thresh
+  ) {
     if (verbose) {
       msg20(
-        "Possible type error: ", hilite(xname),
-        " is a ", bold(xclass),
+        "Possible type error: ",
+        hilite(xname),
+        " is a ",
+        bold(xclass),
         ", but perhaps should be ",
-        bold("numeric"), "."
+        bold("numeric"),
+        "."
       )
     }
     "numeric"
@@ -482,8 +534,12 @@ dt_set_autotypes <- function(x, cols = NULL, verbose = TRUE) {
 #'
 #' @author E.D. Gennatas
 #' @export
-dt_names_by_class <- function(x, sorted = TRUE,
-                              item.format = hilite, maxlength = 24) {
+dt_names_by_class <- function(
+  x,
+  sorted = TRUE,
+  item.format = hilite,
+  maxlength = 24
+) {
   classes <- sapply(x, class)
   vals <- unique(classes)
   out <- if (sorted) {
@@ -537,9 +593,12 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
   data.table::setnames(x, names(x), clean_colnames(x))
   idi <- names(x)[sapply(x, is.factor)]
   for (i in idi) {
-    x[, (i) := factor(x[[i]],
-      labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
-    )]
+    x[,
+      (i) := factor(
+        x[[i]],
+        labels = clean_names(levels(x[[i]]), prefix_digits = prefix_digits)
+      )
+    ]
   }
 } # rtemis::dt_set_clean_all
 

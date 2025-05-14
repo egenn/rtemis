@@ -62,41 +62,43 @@
 #' @author E.D. Gennatas
 #' @export
 
-colorGrad <- function(n = 21,
-                      colors = NULL,
-                      space = c("rgb", "Lab"),
-                      lo = "#18A3AC",
-                      lomid = NULL,
-                      mid = NULL,
-                      midhi = NULL,
-                      hi = "#F48024",
-                      preview = FALSE,
-                      colorbar = FALSE,
-                      cb.n = 21,
-                      cb.mar = c(1, 1, 1, 1),
-                      cb.add = FALSE,
-                      cb.add.mar = c(5, 0, 2, 5),
-                      cb.axis.pos = 1.1,
-                      cb.axis.las = 1,
-                      cb.axis.hadj = 0,
-                      cb.cex = 6,
-                      bar.min = -1,
-                      bar.mid = 0,
-                      bar.max = 1,
-                      cex = 1.2,
-                      filename = NULL,
-                      pdf.width = 3,
-                      pdf.height = 7,
-                      theme = getOption("rt.theme", "light"),
-                      bg = NULL,
-                      col.text = NULL,
-                      plotlycb = FALSE,
-                      plotly.width = 80,
-                      plotly.height = 500,
-                      rtrn.plotly = FALSE,
-                      margins = c(0, 0, 0, 0),
-                      pad = 0,
-                      par.reset = TRUE) {
+colorGrad <- function(
+  n = 21,
+  colors = NULL,
+  space = c("rgb", "Lab"),
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  preview = FALSE,
+  colorbar = FALSE,
+  cb.n = 21,
+  cb.mar = c(1, 1, 1, 1),
+  cb.add = FALSE,
+  cb.add.mar = c(5, 0, 2, 5),
+  cb.axis.pos = 1.1,
+  cb.axis.las = 1,
+  cb.axis.hadj = 0,
+  cb.cex = 6,
+  bar.min = -1,
+  bar.mid = 0,
+  bar.max = 1,
+  cex = 1.2,
+  filename = NULL,
+  pdf.width = 3,
+  pdf.height = 7,
+  theme = getOption("rt.theme", "light"),
+  bg = NULL,
+  col.text = NULL,
+  plotlycb = FALSE,
+  plotly.width = 80,
+  plotly.height = 500,
+  rtrn.plotly = FALSE,
+  margins = c(0, 0, 0, 0),
+  pad = 0,
+  par.reset = TRUE
+) {
   # [ Arguments ] ----
   n <- as.integer(n)
   if (n %% 2 != 1) n <- n + 1
@@ -172,12 +174,23 @@ colorGrad <- function(n = 21,
 
   # [ Preview ] ----
   if (preview) {
-    plot(rep(1, n),
-      col = grad, pch = 19, cex = 6,
-      xlim = c(0.5, n + .5), ylim = c(.8, 1.2),
-      ann = FALSE, axes = FALSE
+    plot(
+      rep(1, n),
+      col = grad,
+      pch = 19,
+      cex = 6,
+      xlim = c(0.5, n + .5),
+      ylim = c(.8, 1.2),
+      ann = FALSE,
+      axes = FALSE
     )
-    text(x = 0.25, y = 1.05, labels = paste0("Color gradient (n = ", n, ")"), adj = 0, cex = 1.5)
+    text(
+      x = 0.25,
+      y = 1.05,
+      labels = paste0("Color gradient (n = ", n, ")"),
+      adj = 0,
+      cex = 1.5
+    )
     segments(midpoint, .95, midpoint, 1.05, lwd = 2, lty = 2, col = NA)
   }
 
@@ -207,10 +220,16 @@ colorGrad <- function(n = 21,
         title = "rtemis Graphics"
       )
     }
-    plot(rep(1, cb.n), 1:cb.n,
-      col = cb.grad, pch = 19, cex = cb.cex,
-      xlim = c(.5, 1.5), ylim = c(.5, cb.n + .5),
-      ann = FALSE, axes = FALSE
+    plot(
+      rep(1, cb.n),
+      1:cb.n,
+      col = cb.grad,
+      pch = 19,
+      cex = cb.cex,
+      xlim = c(.5, 1.5),
+      ylim = c(.5, cb.n + .5),
+      ann = FALSE,
+      axes = FALSE
     )
     # box() # to visualize position
     # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
@@ -277,10 +296,17 @@ colorGrad <- function(n = 21,
 
     hovtext <- ddSci(seq(bar.min, bar.max, (bar.max - bar.min) / (n - 1)))
 
-    margin <- list(b = margins[1], l = margins[2], t = margins[3], r = margins[4], pad = pad)
+    margin <- list(
+      b = margins[1],
+      l = margins[2],
+      t = margins[3],
+      r = margins[4],
+      pad = pad
+    )
 
     p <- plotly::plot_ly(
-      x = rep(1, n), y = 1:n,
+      x = rep(1, n),
+      y = 1:n,
       type = "scatter",
       mode = "markers",
       marker = m,
@@ -288,7 +314,8 @@ colorGrad <- function(n = 21,
       text = hovtext
     ) |>
       plotly::layout(
-        xaxis = x.ax, yaxis = y.ax,
+        xaxis = x.ax,
+        yaxis = y.ax,
         width = plotly.width,
         height = plotly.height,
         annotations = a,
@@ -328,8 +355,14 @@ colorvec <- function(cols) {
   coldf <- data.frame(
     abbr = c("wht", "red", "grn", "blu", "blk", "yel", "rng", "prl"),
     name = c(
-      "white", "red", "green", "blue",
-      "black", "yellow", "orange", "purple"
+      "white",
+      "red",
+      "green",
+      "blue",
+      "black",
+      "yellow",
+      "orange",
+      "purple"
     ),
     stringsAsFactors = FALSE
   )

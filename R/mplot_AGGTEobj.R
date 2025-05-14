@@ -8,24 +8,26 @@
 #' @author E.D. Gennatas
 #' @export
 
-mplot_AGGTEobj <- function(x,
-                           x.factor = 1,
-                           y.factor = 1,
-                           error = c("se", "95%ci"),
-                           main = "Average Effect by Length of Exposure",
-                           legend.title = "",
-                           group.names = c("Pre", "Post"),
-                           xlab = NULL,
-                           ylab = NULL,
-                           mar = c(2.5, 3.5, 2, 7),
-                           theme = rtTheme,
-                           font.family = "Helvetica",
-                           col = c("#EC1848", "#18A3AC"),
-                           filename = NULL,
-                           file.width = 6.5,
-                           file.height = 5.5,
-                           par.reset = TRUE, ...) {
-
+mplot_AGGTEobj <- function(
+  x,
+  x.factor = 1,
+  y.factor = 1,
+  error = c("se", "95%ci"),
+  main = "Average Effect by Length of Exposure",
+  legend.title = "",
+  group.names = c("Pre", "Post"),
+  xlab = NULL,
+  ylab = NULL,
+  mar = c(2.5, 3.5, 2, 7),
+  theme = rtTheme,
+  font.family = "Helvetica",
+  col = c("#EC1848", "#18A3AC"),
+  filename = NULL,
+  file.width = 6.5,
+  file.height = 5.5,
+  par.reset = TRUE,
+  ...
+) {
   error <- match.arg(error)
 
   if (par.reset) {
@@ -47,20 +49,28 @@ mplot_AGGTEobj <- function(x,
 
   group <- as.integer(x$egt >= 0) + 1
 
-  lim <- mplot3_xy(split(x$egt * x.factor, group),
-                   split(x$att.egt * y.factor, group),
-                   error.y = split(errory, group),
-                   theme = theme,
-                   marker.col = col,
-                   group.legend = FALSE,
-                   par.reset = FALSE,
-                   mar = mar,
-                   main = main,
-                   xlab = xlab,
-                   ylab = ylab, ...)
-  mlegend(lim, title = legend.title, group.names = group.names,
-          col = col, footer = footer, font.family = font.family)
+  lim <- mplot3_xy(
+    split(x$egt * x.factor, group),
+    split(x$att.egt * y.factor, group),
+    error.y = split(errory, group),
+    theme = theme,
+    marker.col = col,
+    group.legend = FALSE,
+    par.reset = FALSE,
+    mar = mar,
+    main = main,
+    xlab = xlab,
+    ylab = ylab,
+    ...
+  )
+  mlegend(
+    lim,
+    title = legend.title,
+    group.names = group.names,
+    col = col,
+    footer = footer,
+    font.family = font.family
+  )
 
   if (!is.null(filename)) dev.off()
-
 } # rtemis::mplot_AGGTEobj

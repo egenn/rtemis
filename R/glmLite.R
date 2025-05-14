@@ -13,33 +13,37 @@
 #' @author E.D. Gennatas
 #' @export
 
-glmLite <- function(x, y,
-                    weights = NULL,
-                    method = c(
-                      "glmnet",
-                      "cv.glmnet",
-                      "lm.ridge",
-                      "allSubsets",
-                      "forwardStepwise",
-                      "backwardStepwise",
-                      "glm",
-                      "sgd",
-                      "solve"
-                    ),
-                    alpha = 0,
-                    lambda = .01,
-                    lambda.seq = NULL,
-                    cv.glmnet.nfolds = 5,
-                    which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
-                    nbest = 1,
-                    nvmax = 8,
-                    sgd.model = "glm",
-                    sgd.model.control = list(
-                      lambda1 = 0,
-                      lambda2 = 0
-                    ),
-                    sgd.control = list(method = "ai-sgd"),
-                    save.fitted = FALSE, ...) {
+glmLite <- function(
+  x,
+  y,
+  weights = NULL,
+  method = c(
+    "glmnet",
+    "cv.glmnet",
+    "lm.ridge",
+    "allSubsets",
+    "forwardStepwise",
+    "backwardStepwise",
+    "glm",
+    "sgd",
+    "solve"
+  ),
+  alpha = 0,
+  lambda = .01,
+  lambda.seq = NULL,
+  cv.glmnet.nfolds = 5,
+  which.cv.glmnet.lambda = c("lambda.min", "lambda.1se"),
+  nbest = 1,
+  nvmax = 8,
+  sgd.model = "glm",
+  sgd.model.control = list(
+    lambda1 = 0,
+    lambda2 = 0
+  ),
+  sgd.control = list(method = "ai-sgd"),
+  save.fitted = FALSE,
+  ...
+) {
   # Arguments ----
   method <- match.arg(method)
   which.cv.glmnet.lambda <- match.arg(which.cv.glmnet.lambda)
@@ -79,7 +83,7 @@ glmLite <- function(x, y,
 #' @param newdata Data frame of predictors
 #' @param verbose Logical: If TRUE, print messages to console. Default = FALSE
 #' @param ... Unused
-#' 
+#'
 #' @method predict glmLite
 #' @author E.D. Gennatas
 #' @export

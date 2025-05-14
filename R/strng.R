@@ -23,7 +23,14 @@ underline <- function(...) {
 
 #' @rdname strng
 hilite <- function(..., col = "69;1", bold = TRUE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;", col, "m", paste(...), "\033[0m")
+  paste0(
+    ifelse(bold, "\033[1m", ""),
+    "\033[38;5;",
+    col,
+    "m",
+    paste(...),
+    "\033[0m"
+  )
 }
 
 #' @rdname strng
@@ -61,7 +68,12 @@ magenta <- function(..., bold = FALSE) {
 #' @rdname strng
 #' @param sep Character: Separator
 gray <- function(..., bold = FALSE, sep = " ") {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[90m", paste(..., sep = sep), "\033[0m")
+  paste0(
+    ifelse(bold, "\033[1m", ""),
+    "\033[90m",
+    paste(..., sep = sep),
+    "\033[0m"
+  )
 }
 
 #' @rdname strng
@@ -78,7 +90,11 @@ rtaart <- local({
   lines <- NULL
   function() {
     if (is.null(lines)) {
-      file <- system.file(package = .packageName, "resources", "rtemis_logo.utf8")
+      file <- system.file(
+        package = .packageName,
+        "resources",
+        "rtemis_logo.utf8"
+      )
       bfr <- readLines(file)
       cols <- c(92, 128, 196, 208, 27)
       lines <<- mapply(bfr, cols, FUN = col256)
@@ -97,7 +113,13 @@ rtasciitxt <- function() {
 
 
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
-  cat(rep(" ", pad), bold(green("\u2713 ")), paste(..., sep = sep), end, sep = "")
+  cat(
+    rep(" ", pad),
+    bold(green("\u2713 ")),
+    paste(..., sep = sep),
+    end,
+    sep = ""
+  )
 }
 
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
@@ -126,13 +148,15 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #' @author E.D. Gennatas
 #' @export
 
-labelify <- function(x,
-                     underscoresToSpaces = TRUE,
-                     dotsToSpaces = TRUE,
-                     toLower = FALSE,
-                     toTitleCase = TRUE,
-                     capitalize.strings = c("id"),
-                     stringsToSpaces = c("\\$", "`")) {
+labelify <- function(
+  x,
+  underscoresToSpaces = TRUE,
+  dotsToSpaces = TRUE,
+  toLower = FALSE,
+  toTitleCase = TRUE,
+  capitalize.strings = c("id"),
+  stringsToSpaces = c("\\$", "`")
+) {
   if (is.null(x)) {
     return(NULL)
   }
@@ -154,7 +178,6 @@ labelify <- function(x,
   xf <- gsub("\\[\\[.*\\]\\]", "", xf)
 
   return(xf)
-
 } # rtemis::labelify
 
 

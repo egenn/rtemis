@@ -16,9 +16,11 @@
 #' \dontrun{
 #' mapt <- uniprot_get("Q9UMX9")
 #' }
-uniprot_get <- function(accession = "Q9UMX9",
-                        baseURL = "https://rest.uniprot.org/uniprotkb",
-                        verbosity = 1) {
+uniprot_get <- function(
+  accession = "Q9UMX9",
+  baseURL = "https://rest.uniprot.org/uniprotkb",
+  verbosity = 1
+) {
   path <- paste0(baseURL, "/", accession, ".fasta")
   dat <- seqinr::read.fasta(path, seqtype = "AA")
   Annotation <- attr(dat[[1]], "Annot")

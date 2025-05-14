@@ -9,7 +9,7 @@
 #' Draw interactive univariate plots using `plotly`
 #'
 #' If input is data.frame, non-numeric variables will be removed
-#' 
+#'
 #' @inheritParams dplot3_bar
 #' @param x Numeric, vector / data.frame /list: Input. If not a vector, each
 #' column of or each element
@@ -77,7 +77,7 @@
 #' is set.
 #' @param file.scale Numeric: If saving to file, scale plot by this number
 #' @param ... Additional arguments passed to theme function.
-#' 
+#'
 #' @return A plotly object
 #'
 #' @author E.D. Gennatas
@@ -88,64 +88,70 @@
 #' dplot3_x(split(iris$Sepal.Length, iris$Species), xlab = "Sepal Length")
 #' }
 #'
-dplot3_x <- function(x,
-                     type = c("density", "histogram"),
-                     mode = c("overlap", "ridge"),
-                     group = NULL,
-                     main = NULL,
-                     xlab = NULL,
-                     ylab = NULL,
-                     col = NULL,
-                     alpha = .75,
-                     plot.bg = NULL,
-                     theme = rtTheme,
-                     palette = rtPalette,
-                     axes.square = FALSE,
-                     group.names = NULL,
-                     font.size = 16,
-                     font.alpha = .8,
-                     legend = NULL,
-                     legend.xy = c(0, 1),
-                     legend.col = NULL,
-                     legend.bg = "#FFFFFF00",
-                     legend.border.col = "#FFFFFF00",
-                     bargap = .05,
-                     vline = NULL,
-                     vline.col = theme$fg,
-                     vline.width = 1,
-                     vline.dash = "dot",
-                     text = NULL,
-                     text.x = 1,
-                     text.xref = "paper",
-                     text.xanchor = "left",
-                     text.y = 1,
-                     text.yref = "paper",
-                     text.yanchor = "top",
-                     text.col = theme$fg,
-                     margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                     automargin.x = TRUE,
-                     automargin.y = TRUE,
-                     zerolines = FALSE,
-                     density.kernel = "gaussian",
-                     density.bw = "SJ",
-                     histnorm = c(
-                       "", "density", "percent",
-                       "probability", "probability density"
-                     ),
-                     histfunc = c("count", "sum", "avg", "min", "max"),
-                     hist.n.bins = 20,
-                     barmode = "overlay", # TODO: alternatives
-                     ridge.sharex = TRUE,
-                     ridge.y.labs = FALSE,
-                     ridge.order.on.mean = TRUE,
-                     displayModeBar = TRUE,
-                     modeBar.file.format = "svg",
-                     width = NULL,
-                     height = NULL,
-                     filename = NULL,
-                     file.width = 500,
-                     file.height = 500,
-                     file.scale = 1, ...) {
+dplot3_x <- function(
+  x,
+  type = c("density", "histogram"),
+  mode = c("overlap", "ridge"),
+  group = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = .75,
+  plot.bg = NULL,
+  theme = rtTheme,
+  palette = rtPalette,
+  axes.square = FALSE,
+  group.names = NULL,
+  font.size = 16,
+  font.alpha = .8,
+  legend = NULL,
+  legend.xy = c(0, 1),
+  legend.col = NULL,
+  legend.bg = "#FFFFFF00",
+  legend.border.col = "#FFFFFF00",
+  bargap = .05,
+  vline = NULL,
+  vline.col = theme$fg,
+  vline.width = 1,
+  vline.dash = "dot",
+  text = NULL,
+  text.x = 1,
+  text.xref = "paper",
+  text.xanchor = "left",
+  text.y = 1,
+  text.yref = "paper",
+  text.yanchor = "top",
+  text.col = theme$fg,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  automargin.x = TRUE,
+  automargin.y = TRUE,
+  zerolines = FALSE,
+  density.kernel = "gaussian",
+  density.bw = "SJ",
+  histnorm = c(
+    "",
+    "density",
+    "percent",
+    "probability",
+    "probability density"
+  ),
+  histfunc = c("count", "sum", "avg", "min", "max"),
+  hist.n.bins = 20,
+  barmode = "overlay", # TODO: alternatives
+  ridge.sharex = TRUE,
+  ridge.y.labs = FALSE,
+  ridge.order.on.mean = TRUE,
+  displayModeBar = TRUE,
+  modeBar.file.format = "svg",
+  width = NULL,
+  height = NULL,
+  filename = NULL,
+  file.width = 500,
+  file.height = 500,
+  file.scale = 1,
+  ...
+) {
   # Dependencies ----
   dependency_check("plotly")
 
@@ -217,7 +223,6 @@ dplot3_x <- function(x,
   main.col <- plotly::toRGB(theme$main.col)
   if (!theme$axes.visible) tick.col <- labs.col <- "transparent"
 
-
   # '- Axis font ----
   f <- list(
     family = theme$font.family,
@@ -252,7 +257,8 @@ dplot3_x <- function(x,
       tickfont = tickfont,
       zeroline = zerolines
     )
-    ridge.groups <- if (ridge.order.on.mean) order(sapply(x, mean), decreasing = TRUE) else seq_len(n.groups)
+    ridge.groups <- if (ridge.order.on.mean)
+      order(sapply(x, mean), decreasing = TRUE) else seq_len(n.groups)
   }
 
   # plotly ----
@@ -261,15 +267,19 @@ dplot3_x <- function(x,
 
   .text <- lapply(x, function(i) {
     paste(
-      "mean =", ddSci(mean(i, na.rm = TRUE)),
-      "\nsd =", ddSci(sd(i, na.rm = TRUE))
+      "mean =",
+      ddSci(mean(i, na.rm = TRUE)),
+      "\nsd =",
+      ddSci(sd(i, na.rm = TRUE))
     )
   })
 
   # '- { Density } ----
   if (type == "density") {
     if (is.null(ylab)) ylab <- "Density"
-    xl.density <- lapply(x, density,
+    xl.density <- lapply(
+      x,
+      density,
       na.rm = TRUE,
       kernel = density.kernel,
       bw = density.bw
@@ -282,7 +292,8 @@ dplot3_x <- function(x,
         height = height
       )
       for (i in seq_len(n.groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = xl.density[[i]]$x,
           y = xl.density[[i]]$y,
           type = "scatter",
@@ -315,10 +326,12 @@ dplot3_x <- function(x,
           plotly::layout(
             xaxis = axis,
             yaxis = c(
-              list(title = list(
-                text = .names[i],
-                font = f
-              )),
+              list(
+                title = list(
+                  text = .names[i],
+                  font = f
+                )
+              ),
               axis
             )
           )
@@ -341,7 +354,8 @@ dplot3_x <- function(x,
         height = height
       )
       for (i in seq_len(n.groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = x[[i]],
           type = "histogram",
           marker = list(color = plotly::toRGB(col[i], alpha)),
@@ -355,10 +369,7 @@ dplot3_x <- function(x,
           bingroup = bingroup
         )
       }
-      plt <- plotly::layout(plt,
-        barmode = barmode,
-        bargap = bargap
-      )
+      plt <- plotly::layout(plt, barmode = barmode, bargap = bargap)
     } else {
       # '- Histogram ridge ----
       plt <- lapply(ridge.groups, function(i) {
@@ -380,10 +391,12 @@ dplot3_x <- function(x,
           plotly::layout(
             xaxis = axis,
             yaxis = c(
-              list(title = list(
-                text = .names[i],
-                font = f
-              )),
+              list(
+                title = list(
+                  text = .names[i],
+                  font = f
+                )
+              ),
               axis
             ),
             bargap = bargap
@@ -393,7 +406,8 @@ dplot3_x <- function(x,
   }
 
   if (mode == "ridge") {
-    plt <- plotly::subplot(plt,
+    plt <- plotly::subplot(
+      plt,
       nrows = n.groups,
       shareX = ridge.sharex,
       # shareY = ridge.sharey,
@@ -416,7 +430,8 @@ dplot3_x <- function(x,
     bordercolor = legend.border.col
   )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     xaxis = list(
       title = list(
         text = xlab,
@@ -450,7 +465,8 @@ dplot3_x <- function(x,
   )
 
   if (mode == "overlap") {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       yaxis = list(
         title = list(
           text = ylab,
@@ -473,16 +489,21 @@ dplot3_x <- function(x,
 
   # vline ----
   if (!is.null(vline)) {
-    plt <- plotly::layout(plt, shapes = plotly_vline(vline,
-      color = vline.col,
-      width = vline.width,
-      dash = vline.dash
-    ))
+    plt <- plotly::layout(
+      plt,
+      shapes = plotly_vline(
+        vline,
+        color = vline.col,
+        width = vline.width,
+        dash = vline.dash
+      )
+    )
   }
 
   # text ----
   if (!is.null(text)) {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       annotations = list(
         text = text,
         x = text.x,
@@ -502,7 +523,8 @@ dplot3_x <- function(x,
   }
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

@@ -16,12 +16,16 @@
 #' @export
 #' @author E.D. Gennatas
 
-savePMML <- function(x, filename,
-                     transforms = NULL,
-                     model_name = NULL,
-                     model_version = NULL,
-                     description = NULL,
-                     copyright = NULL, ...) {
+savePMML <- function(
+  x,
+  filename,
+  transforms = NULL,
+  model_name = NULL,
+  model_version = NULL,
+  description = NULL,
+  copyright = NULL,
+  ...
+) {
   # Dependencies ----
   dependency_check("pmml")
 
@@ -35,7 +39,8 @@ savePMML <- function(x, filename,
     description = description,
     copyright = copyright,
     model_version = model_version,
-    transforms = transforms, ...
+    transforms = transforms,
+    ...
   )
 
   pmml::save_pmml(mod_pmml, name = filename)

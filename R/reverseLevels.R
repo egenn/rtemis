@@ -11,11 +11,9 @@
 #' @author E.D. Gennatas
 
 reverseLevels <- function(x) {
-
   if (!is.factor(x)) {
     x
   } else {
     factor(x, levels = rev(levels(x)))
   }
-
 } # rtemis::reverseLevels

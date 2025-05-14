@@ -131,7 +131,7 @@
 #' @param vline.lty Integer: Line type for vertical lines
 #' @param diagonal Logical: If TRUE, draw diagonal line.
 #' @param diagonal.inv Logical: If TRUE, draw inverse diagonal line. Will use
-#' `diagonal.lwd`, `diagonal.lty`, `diagonal.col`, `diagonal.alpha` (Note: it only 
+#' `diagonal.lwd`, `diagonal.lty`, `diagonal.col`, `diagonal.alpha` (Note: it only
 #' makes sense to use only one of `diagonal` or `diagonal.inv`)
 #' @param diagonal.lwd Float: Line width for `diagonal`.
 #' @param diagonal.lty Integer: Line type for `diagonal`.
@@ -177,117 +177,120 @@
 #' }
 #' @export
 
-
-mplot3_xy <- function(x, y = NULL,
-                      fit = NULL,
-                      formula = NULL,
-                      se.fit = FALSE,
-                      fit.params = NULL,
-                      error.x = NULL,
-                      error.y = NULL,
-                      cluster = NULL,
-                      cluster.params = list(),
-                      data = NULL,
-                      type = "p",
-                      group = NULL,
-                      xlab = NULL,
-                      ylab = NULL,
-                      main = NULL,
-                      xlim = NULL,
-                      ylim = NULL,
-                      xpd = TRUE,
-                      xaxs = "r",
-                      yaxs = "r",
-                      log = "",
-                      rsq = NULL,
-                      rsq.pval = FALSE,
-                      rsq.side = 1,
-                      rsq.adj = .98,
-                      rsq.col = NULL,
-                      rsq.line = NULL,
-                      fit.error = FALSE,
-                      fit.error.side = 1,
-                      fit.error.padj = NA,
-                      xaxp = NULL,
-                      yaxp = NULL,
-                      scatter = TRUE,
-                      axes.equal = FALSE,
-                      pty = "m", # "s" square, "m" maximal plot region
-                      annotation = NULL,
-                      annotation.col = NULL,
-                      x.axis.at = NULL,
-                      x.axis.labs = TRUE,
-                      y.axis.at = NULL,
-                      y.axis.labs = TRUE,
-                      xlab.adj = .5,
-                      ylab.adj = .5,
-                      mar = NULL,
-                      oma = rep(0, 4),
-                      point.cex = 1,
-                      point.bg.col = NULL,
-                      pch = ifelse(is.null(point.bg.col), 16, 21),
-                      line.col = NULL,
-                      line.alpha = .66,
-                      lwd = 1,
-                      lty = 1,
-                      marker.col = NULL,
-                      marker.alpha = NULL,
-                      error.x.col = NULL,
-                      error.y.col = NULL,
-                      error.x.lty = 1,
-                      error.y.lty = 1,
-                      error.x.lwd = 1,
-                      error.y.lwd = 1,
-                      error.arrow.code = 3,
-                      fit.col = NULL,
-                      fit.lwd = 2.5,
-                      fit.alpha = 1,
-                      fit.legend = ifelse(is.null(fit), FALSE, TRUE),
-                      se.lty = "poly",
-                      se.lwd = 1,
-                      se.col = NULL,
-                      se.alpha = .5,
-                      se.times = 1.96,
-                      se.border = FALSE,
-                      se.density = NULL,
-                      hline = NULL,
-                      hline.col = NULL,
-                      hline.lwd = 1.5,
-                      hline.lty = 3,
-                      vline = NULL,
-                      vline.lwd = 1.5,
-                      vline.col = "blue",
-                      vline.lty = 3,
-                      diagonal = FALSE,
-                      diagonal.inv = FALSE,
-                      diagonal.lwd = 1.5,
-                      diagonal.lty = 1,
-                      diagonal.col = "gray50",
-                      diagonal.alpha = 1,
-                      group.legend = NULL,
-                      group.title = NULL,
-                      group.names = NULL,
-                      group.side = 3,
-                      group.adj = .02,
-                      group.padj = 2,
-                      group.at = NA,
-                      fit.legend.col = NULL,
-                      fit.legend.side = 3,
-                      fit.legend.adj = .02,
-                      fit.legend.padj = 2,
-                      fit.legend.at = NA,
-                      rm.na = TRUE,
-                      theme = rtTheme,
-                      palette = rtPalette,
-                      order.on.x = NULL,
-                      autolabel = letters,
-                      new = FALSE,
-                      par.reset = TRUE,
-                      return.lims = FALSE,
-                      pdf.width = 6,
-                      pdf.height = 6,
-                      trace = 0,
-                      filename = NULL, ...) {
+mplot3_xy <- function(
+  x,
+  y = NULL,
+  fit = NULL,
+  formula = NULL,
+  se.fit = FALSE,
+  fit.params = NULL,
+  error.x = NULL,
+  error.y = NULL,
+  cluster = NULL,
+  cluster.params = list(),
+  data = NULL,
+  type = "p",
+  group = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  main = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  xpd = TRUE,
+  xaxs = "r",
+  yaxs = "r",
+  log = "",
+  rsq = NULL,
+  rsq.pval = FALSE,
+  rsq.side = 1,
+  rsq.adj = .98,
+  rsq.col = NULL,
+  rsq.line = NULL,
+  fit.error = FALSE,
+  fit.error.side = 1,
+  fit.error.padj = NA,
+  xaxp = NULL,
+  yaxp = NULL,
+  scatter = TRUE,
+  axes.equal = FALSE,
+  pty = "m", # "s" square, "m" maximal plot region
+  annotation = NULL,
+  annotation.col = NULL,
+  x.axis.at = NULL,
+  x.axis.labs = TRUE,
+  y.axis.at = NULL,
+  y.axis.labs = TRUE,
+  xlab.adj = .5,
+  ylab.adj = .5,
+  mar = NULL,
+  oma = rep(0, 4),
+  point.cex = 1,
+  point.bg.col = NULL,
+  pch = ifelse(is.null(point.bg.col), 16, 21),
+  line.col = NULL,
+  line.alpha = .66,
+  lwd = 1,
+  lty = 1,
+  marker.col = NULL,
+  marker.alpha = NULL,
+  error.x.col = NULL,
+  error.y.col = NULL,
+  error.x.lty = 1,
+  error.y.lty = 1,
+  error.x.lwd = 1,
+  error.y.lwd = 1,
+  error.arrow.code = 3,
+  fit.col = NULL,
+  fit.lwd = 2.5,
+  fit.alpha = 1,
+  fit.legend = ifelse(is.null(fit), FALSE, TRUE),
+  se.lty = "poly",
+  se.lwd = 1,
+  se.col = NULL,
+  se.alpha = .5,
+  se.times = 1.96,
+  se.border = FALSE,
+  se.density = NULL,
+  hline = NULL,
+  hline.col = NULL,
+  hline.lwd = 1.5,
+  hline.lty = 3,
+  vline = NULL,
+  vline.lwd = 1.5,
+  vline.col = "blue",
+  vline.lty = 3,
+  diagonal = FALSE,
+  diagonal.inv = FALSE,
+  diagonal.lwd = 1.5,
+  diagonal.lty = 1,
+  diagonal.col = "gray50",
+  diagonal.alpha = 1,
+  group.legend = NULL,
+  group.title = NULL,
+  group.names = NULL,
+  group.side = 3,
+  group.adj = .02,
+  group.padj = 2,
+  group.at = NA,
+  fit.legend.col = NULL,
+  fit.legend.side = 3,
+  fit.legend.adj = .02,
+  fit.legend.padj = 2,
+  fit.legend.at = NA,
+  rm.na = TRUE,
+  theme = rtTheme,
+  palette = rtPalette,
+  order.on.x = NULL,
+  autolabel = letters,
+  new = FALSE,
+  par.reset = TRUE,
+  return.lims = FALSE,
+  pdf.width = 6,
+  pdf.height = 6,
+  trace = 0,
+  filename = NULL,
+  ...
+) {
   # Arguments ----
   if (is.null(y) && NCOL(x) > 1) {
     if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
@@ -352,16 +355,22 @@ mplot3_xy <- function(x, y = NULL,
   # xlab & ylab
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
-    if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+    if (is.list(x)) xlab <- "x" else
+      xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   }
   if (!is.null(y) && is.null(ylab)) {
-    if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
+    if (is.list(y)) ylab <- "y" else
+      ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   }
 
   # S.E. available only for LM, LOESS, GAM, and NW
   if (se.fit) {
     if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
-      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
+      warning(paste(
+        "Standard error of the fit not available for",
+        fit,
+        "- try LM, LOESS, GAM, or NW"
+      ))
       se.fit <- FALSE
     }
   }
@@ -396,16 +405,18 @@ mplot3_xy <- function(x, y = NULL,
 
   # Cluster ----
   if (!is.null(cluster)) {
-    group <- suppressWarnings(do.call(
-      select_clust(cluster),
-      c(
-        list(
-          x = data.frame(x, y),
-          verbose = trace > 0
-        ),
-        cluster.params
-      )
-    )$clusters.train)
+    group <- suppressWarnings(
+      do.call(
+        select_clust(cluster),
+        c(
+          list(
+            x = data.frame(x, y),
+            verbose = trace > 0
+          ),
+          cluster.params
+        )
+      )$clusters.train
+    )
     group <- paste("Cluster", group)
   }
 
@@ -437,7 +448,10 @@ mplot3_xy <- function(x, y = NULL,
   Nygroups <- length(yl)
 
   if (rm.na) {
-    indexl <- lapply(seq(xl), function(i) complete.cases(cbind(xl[[i]], yl[[i]])))
+    indexl <- lapply(
+      seq(xl),
+      function(i) complete.cases(cbind(xl[[i]], yl[[i]]))
+    )
     xl <- lapply(seq_along(xl), function(i) xl[[i]][indexl[[i]]])
     yl <- lapply(seq_along(yl), function(i) yl[[i]][indexl[[i]]])
   }
@@ -451,7 +465,8 @@ mplot3_xy <- function(x, y = NULL,
   xl <- lapply(seq(xl), function(i) xl[[i]][index[[i]]])
   yl <- lapply(seq(xl), function(i) yl[[i]][index[[i]]])
 
-  if (length(type) < Nygroups) type <- as.list(rep(type, Nygroups / length(type)))
+  if (length(type) < Nygroups)
+    type <- as.list(rep(type, Nygroups / length(type)))
 
   # Group names
   if (!is.null(group.names)) {
@@ -469,12 +484,14 @@ mplot3_xy <- function(x, y = NULL,
   # Error ----
   if (!is.null(error.x)) {
     if (!is.list(error.x)) error.x <- list(error.x)
-    if (length(error.x) < Nxgroups) stop("error.x list is not same length as input data")
+    if (length(error.x) < Nxgroups)
+      stop("error.x list is not same length as input data")
     error.x <- lapply(seq(error.x), function(i) error.x[[i]][index[[i]]])
   }
   if (!is.null(error.y)) {
     if (!is.list(error.y)) error.y <- list(error.y)
-    if (length(error.y) < Nxgroups) stop("error.y list is not same length as input data")
+    if (length(error.y) < Nxgroups)
+      stop("error.y list is not same length as input data")
     error.y <- lapply(seq(error.y), function(i) error.y[[i]][index[[i]]])
   }
 
@@ -518,7 +535,10 @@ mplot3_xy <- function(x, y = NULL,
         } else {
           point.bg.col <- as.list(point.bg.col)
           if (length(point.bg.col) < Nxgroups) {
-            point.bg.col <- as.list(rep(point.bg.col, Nxgroups / length(point.bg.col)))
+            point.bg.col <- as.list(rep(
+              point.bg.col,
+              Nxgroups / length(point.bg.col)
+            ))
           }
         }
       }
@@ -541,8 +561,12 @@ mplot3_xy <- function(x, y = NULL,
   } else {
     # MIXED POINTS AND LINE TYPES
     if (is.null(marker.col)) marker.col <- palette
-    if (length(marker.alpha) < Nxgroups) marker.alpha <- rep(marker.alpha, Nxgroups / length(marker.alpha))
-    marker.col <- lapply(seq(Nxgroups), function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]]))
+    if (length(marker.alpha) < Nxgroups)
+      marker.alpha <- rep(marker.alpha, Nxgroups / length(marker.alpha))
+    marker.col <- lapply(
+      seq(Nxgroups),
+      function(i) adjustcolor(marker.col[[i]], marker.alpha[[i]])
+    )
   }
 
   ### Fit & SE color
@@ -607,13 +631,17 @@ mplot3_xy <- function(x, y = NULL,
       if (rsq.pval) {
         if (fit %in% c("LM", "GLM")) {
           rsqpl[[i]] <- paste0(
-            ddSci(mod$error.train$Rsq), " (",
-            ddSci(summary(mod$mod)$coefficients[2, 4]), ")"
+            ddSci(mod$error.train$Rsq),
+            " (",
+            ddSci(summary(mod$mod)$coefficients[2, 4]),
+            ")"
           )
         } else if (fit == "GAM") {
           rsqpl[[i]] <- paste0(
-            ddSci(mod$error.train$Rsq), " (",
-            ddSci(summary(mod$mod)$s.pv), ")"
+            ddSci(mod$error.train$Rsq),
+            " (",
+            ddSci(summary(mod$mod)$s.pv),
+            ")"
           )
         }
       }
@@ -639,13 +667,15 @@ mplot3_xy <- function(x, y = NULL,
     if (is.list(sel)) {
       ylim.hi <- max(unlist(lapply(
         seq_along(fitted),
-        \(i) as.data.frame(fitted[[i]]) +
-          se.times * as.data.frame(sel[[i]])
+        \(i)
+          as.data.frame(fitted[[i]]) +
+            se.times * as.data.frame(sel[[i]])
       )))
       ylim.lo <- min(unlist(lapply(
         seq_along(fitted),
-        \(i) as.data.frame(fitted[[i]]) -
-          se.times * as.data.frame(sel[[i]])
+        \(i)
+          as.data.frame(fitted[[i]]) -
+            se.times * as.data.frame(sel[[i]])
       )))
       ylim <- range(ylim.lo, ylim.hi, yl)
     }
@@ -659,8 +689,10 @@ mplot3_xy <- function(x, y = NULL,
 
   # Plot ----
   if (!is.null(filename)) {
-    pdf(filename,
-      width = pdf.width, height = pdf.height,
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
       title = "rtemis Graphics"
     )
   }
@@ -668,21 +700,32 @@ mplot3_xy <- function(x, y = NULL,
   if (!is.null(rtenv$rtpar)) {
     par.reset <- FALSE
     par(
-      mar = mar, bg = theme$bg, fg = theme$fg,
-      pty = pty, cex = theme$cex, new = new,
+      mar = mar,
+      bg = theme$bg,
+      fg = theme$fg,
+      pty = pty,
+      cex = theme$cex,
+      new = new,
       family = theme$font.family
     )
   } else {
     par(
-      mar = mar, oma = oma, bg = theme$bg, fg = theme$fg,
-      pty = pty, cex = theme$cex,
-      new = new, family = theme$font.family
+      mar = mar,
+      oma = oma,
+      bg = theme$bg,
+      fg = theme$fg,
+      pty = pty,
+      cex = theme$cex,
+      new = new,
+      family = theme$font.family
     )
   }
   par(family = theme$font.family)
   if (par.reset) on.exit(suppressWarnings(par(par.orig)))
 
-  plot(NULL, NULL,
+  plot(
+    NULL,
+    NULL,
     xlim = xlim,
     ylim = ylim,
     ann = FALSE,
@@ -695,8 +738,16 @@ mplot3_xy <- function(x, y = NULL,
   )
 
   # For rect only: must be AFTER plot(): Adjusted xlim if xaxs = "r"
-  if (xaxs == "r") xlim <- c(min(xlim) - .04 * diff(range(xlim)), max(xlim) + .04 * diff(range(xlim)))
-  if (yaxs == "r") ylim <- c(min(ylim) - .04 * diff(range(ylim)), max(ylim) + .04 * diff(range(ylim)))
+  if (xaxs == "r")
+    xlim <- c(
+      min(xlim) - .04 * diff(range(xlim)),
+      max(xlim) + .04 * diff(range(xlim))
+    )
+  if (yaxs == "r")
+    ylim <- c(
+      min(ylim) - .04 * diff(range(ylim)),
+      max(ylim) + .04 * diff(range(ylim))
+    )
 
   # Plot bg ----
   if (theme$plot.bg != "transparent") {
@@ -712,7 +763,8 @@ mplot3_xy <- function(x, y = NULL,
       side = theme$x.axis.side,
       line = theme$x.axis.line,
       at = x.axis.at,
-      labels = x.axis.labs, col = theme$axes.col,
+      labels = x.axis.labs,
+      col = theme$axes.col,
       col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
       col.axis = theme$tick.labels.col,
       las = theme$x.axis.las,
@@ -727,7 +779,8 @@ mplot3_xy <- function(x, y = NULL,
       side = theme$y.axis.side,
       line = theme$y.axis.line,
       at = y.axis.at,
-      labels = y.axis.labs, col = theme$axes.col,
+      labels = y.axis.labs,
+      col = theme$axes.col,
       col.ticks = adjustcolor(theme$tick.col, theme$tick.alpha),
       col.axis = theme$tick.labels.col,
       las = theme$y.axis.las,
@@ -738,18 +791,22 @@ mplot3_xy <- function(x, y = NULL,
       cex = theme$cex,
       family = theme$font.family
     )
-    mtext(xlab,
+    mtext(
+      xlab,
       side = theme$x.axis.side,
       line = theme$xlab.line,
       cex = theme$cex,
-      adj = xlab.adj, col = theme$labs.col,
+      adj = xlab.adj,
+      col = theme$labs.col,
       family = theme$font.family
     )
-    mtext(ylab,
+    mtext(
+      ylab,
       side = theme$y.axis.side,
       line = theme$ylab.line,
       cex = theme$cex,
-      adj = ylab.adj, col = theme$labs.col,
+      adj = ylab.adj,
+      col = theme$labs.col,
       family = theme$font.family
     )
   }
@@ -794,29 +851,43 @@ mplot3_xy <- function(x, y = NULL,
   if (theme$zerolines) {
     zerocol <- adjustcolor(theme$zerolines.col, theme$zerolines.alpha)
     if (ylim[1] <= 0 && 0 <= ylim[2]) {
-      lines(c(xlim[1], xlim[2]), c(0, 0),
+      lines(
+        c(xlim[1], xlim[2]),
+        c(0, 0),
         lwd = theme$zerolines.lwd,
-        col = zerocol, lty = theme$zerolines.lty, xpd = TRUE
+        col = zerocol,
+        lty = theme$zerolines.lty,
+        xpd = TRUE
       )
     }
     if (xlim[1] <= 0 && 0 <= xlim[2]) {
-      lines(c(0, 0), c(ylim[1], ylim[2]),
+      lines(
+        c(0, 0),
+        c(ylim[1], ylim[2]),
         lwd = theme$zerolines.lwd,
-        col = zerocol, lty = theme$zerolines.lty, xpd = TRUE
+        col = zerocol,
+        lty = theme$zerolines.lty,
+        xpd = TRUE
       )
     }
   }
 
   # Diagonal ----
   if (diagonal) {
-    abline(0, 1,
-      lwd = diagonal.lwd, lty = diagonal.lty,
+    abline(
+      0,
+      1,
+      lwd = diagonal.lwd,
+      lty = diagonal.lty,
       col = adjustcolor(diagonal.col, diagonal.alpha)
     )
   }
   if (diagonal.inv) {
-    abline(1, -1,
-      lwd = diagonal.lwd, lty = diagonal.lty,
+    abline(
+      1,
+      -1,
+      lwd = diagonal.lwd,
+      lty = diagonal.lty,
       col = adjustcolor(diagonal.col, diagonal.alpha)
     )
   }
@@ -825,7 +896,9 @@ mplot3_xy <- function(x, y = NULL,
   if (theme$bty != "n") {
     box(
       col = adjustcolor(theme$box.col, theme$box.alpha),
-      lty = theme$box.lty, lwd = theme$box.lwd, bty = theme$bty
+      lty = theme$box.lty,
+      lwd = theme$box.lwd,
+      bty = theme$bty
     )
   }
 
@@ -841,28 +914,43 @@ mplot3_xy <- function(x, y = NULL,
   if (scatter) {
     if (!is.null(error.y)) {
       for (i in seq(error.y)) {
-        suppressWarnings(arrows(xl[[i]], yl[[i]] - error.y[[i]],
-          xl[[i]], yl[[i]] + error.y[[i]],
+        suppressWarnings(arrows(
+          xl[[i]],
+          yl[[i]] - error.y[[i]],
+          xl[[i]],
+          yl[[i]] + error.y[[i]],
           lty = error.y.lty,
-          lwd = error.y.lwd, angle = 90, code = error.arrow.code,
-          length = 0.05, col = error.y.col[[i]]
+          lwd = error.y.lwd,
+          angle = 90,
+          code = error.arrow.code,
+          length = 0.05,
+          col = error.y.col[[i]]
         ))
       }
     }
 
     if (!is.null(error.x)) {
       for (i in seq(error.x)) {
-        suppressWarnings(arrows(xl[[i]] - error.x[[i]], yl[[i]],
-          xl[[i]] + error.x[[i]], yl[[i]],
+        suppressWarnings(arrows(
+          xl[[i]] - error.x[[i]],
+          yl[[i]],
+          xl[[i]] + error.x[[i]],
+          yl[[i]],
           lty = error.x.lty,
-          lwd = error.x.lwd, angle = 90, code = error.arrow.code,
-          length = 0.05, col = error.x.col[[i]]
+          lwd = error.x.lwd,
+          angle = 90,
+          code = error.arrow.code,
+          length = 0.05,
+          col = error.x.col[[i]]
         ))
       }
     }
 
     if (length(marker.alpha) < length(marker.col)) {
-      marker.alpha <- rep(marker.alpha, ceiling(length(marker.col) / length(marker.alpha)))
+      marker.alpha <- rep(
+        marker.alpha,
+        ceiling(length(marker.col) / length(marker.alpha))
+      )
     }
     marker.col.alpha <- lapply(
       seq_along(marker.col),
@@ -871,7 +959,9 @@ mplot3_xy <- function(x, y = NULL,
     marker.col.alpha <- recycle(marker.col.alpha, xl)
     lwd <- recycle(lwd, xl)
     for (i in 1:Nxgroups) {
-      points(xl[[i]], yl[[i]],
+      points(
+        xl[[i]],
+        yl[[i]],
         type = type[[i]],
         col = marker.col.alpha[[i]],
         bg = point.bg.col[[i]],
@@ -879,7 +969,8 @@ mplot3_xy <- function(x, y = NULL,
         lwd = lwd[[i]],
         pch = pch[[i]],
         cex = point.cex,
-        lty = lty[[i]], xpd = xpd
+        lty = lty[[i]],
+        xpd = xpd
       ) # delta
     }
   }
@@ -892,10 +983,13 @@ mplot3_xy <- function(x, y = NULL,
   }
 
   if (length(main) > 0) {
-    mtext(main,
+    mtext(
+      main,
       line = theme$main.line,
-      font = theme$main.font, adj = theme$main.adj,
-      cex = theme$cex, col = theme$main.col,
+      font = theme$main.font,
+      adj = theme$main.adj,
+      cex = theme$cex,
+      col = theme$main.col,
       family = theme$font.family
     )
   }
@@ -904,19 +998,30 @@ mplot3_xy <- function(x, y = NULL,
   if (se.fit && is.list(sel)) {
     for (i in seq_len(Nxgroups)) {
       if (se.lty == "poly") {
-        try(polygon(c(xl[[i]], rev(xl[[i]])),
-          c(fitted[[i]] + se.times * sel[[i]], rev(fitted[[i]] - se.times * sel[[i]])),
+        try(polygon(
+          c(xl[[i]], rev(xl[[i]])),
+          c(
+            fitted[[i]] + se.times * sel[[i]],
+            rev(fitted[[i]] - se.times * sel[[i]])
+          ),
           col = se.col[[i]],
-          density = se.density, border = se.border
+          density = se.density,
+          border = se.border
         ))
       } else {
-        try(lines(xl[[i]], fitted[[i]] + se.times * sel[[i]],
+        try(lines(
+          xl[[i]],
+          fitted[[i]] + se.times * sel[[i]],
           lty = se.lty,
-          col = se.col[[i]], lwd = se.lwd
+          col = se.col[[i]],
+          lwd = se.lwd
         ))
-        try(lines(xl[[i]], fitted[[i]] - se.times * sel[[i]],
+        try(lines(
+          xl[[i]],
+          fitted[[i]] - se.times * sel[[i]],
           lty = se.lty,
-          col = se.col[[i]], lwd = se.lwd
+          col = se.col[[i]],
+          lwd = se.lwd
         ))
       }
     }
@@ -928,7 +1033,13 @@ mplot3_xy <- function(x, y = NULL,
 
   if (!is.null(fit)) {
     for (i in seq_len(Nxgroups)) {
-      lines(xl[[i]], fitted[[i]], col = fit.col[[i]], lwd = fit.lwd, lty = lty[[i]])
+      lines(
+        xl[[i]],
+        fitted[[i]],
+        col = fit.col[[i]],
+        lwd = fit.lwd,
+        lty = lty[[i]]
+      )
     }
   }
 
@@ -943,11 +1054,15 @@ mplot3_xy <- function(x, y = NULL,
     } else {
       fit.text <- fit
     }
-    mtext(fit.text,
+    mtext(
+      fit.text,
       col = fit.legend.col,
-      side = fit.legend.side, adj = fit.legend.adj,
-      at = fit.legend.at, cex = theme$cex,
-      padj = fit.legend.padj, family = theme$font.family
+      side = fit.legend.side,
+      adj = fit.legend.adj,
+      at = fit.legend.at,
+      cex = theme$cex,
+      padj = fit.legend.padj,
+      family = theme$font.family
     )
     fit.legend.n <- 1
   }
@@ -960,10 +1075,13 @@ mplot3_xy <- function(x, y = NULL,
       group.col <- colorAdjust(unlist(marker.col)[seq_len(Nxgroups)], 100)
     }
     if (!is.null(group.title)) group.col <- c(theme$fg, group.col)
-    mtext(group.names,
+    mtext(
+      group.names,
       col = group.col,
-      side = group.side, adj = group.adj,
-      at = group.at, cex = theme$cex,
+      side = group.side,
+      adj = group.adj,
+      at = group.at,
+      cex = theme$cex,
       xpd = xpd,
       padj = seq(group.padj, group.padj + 1.5 * (length(group.names) - 1), 1.5),
       family = theme$font.family
@@ -985,31 +1103,53 @@ mplot3_xy <- function(x, y = NULL,
       annot.mse <- paste0("MSE = ", ddSci(myerror[[1]]$MSE))
       annot.Rsq <- paste("R\U00B2", ddSci(myerror[[1]]$Rsq))
       # annot.Rsq <- bquote("R"^"2" ~ "=" ~ .(ddSci(myerror[[1]]$Rsq)))
-      mtext(annot.n, fit.error.side,
-        line = -3.3, adj = .98,
-        padj = fit.error.padj, cex = theme$cex,
-        col = theme$fg, family = theme$font.family
+      mtext(
+        annot.n,
+        fit.error.side,
+        line = -3.3,
+        adj = .98,
+        padj = fit.error.padj,
+        cex = theme$cex,
+        col = theme$fg,
+        family = theme$font.family
       )
-      mtext(annot.Rsq, fit.error.side,
-        line = -2.2, adj = .98,
-        padj = fit.error.padj, cex = theme$cex,
-        col = theme$fg, family = theme$font.family
+      mtext(
+        annot.Rsq,
+        fit.error.side,
+        line = -2.2,
+        adj = .98,
+        padj = fit.error.padj,
+        cex = theme$cex,
+        col = theme$fg,
+        family = theme$font.family
       )
-      mtext(annot.mse, fit.error.side,
-        line = -1.1, adj = .98,
-        padj = fit.error.padj, cex = theme$cex,
-        col = theme$fg, family = theme$font.family
+      mtext(
+        annot.mse,
+        fit.error.side,
+        line = -1.1,
+        adj = .98,
+        padj = fit.error.padj,
+        cex = theme$cex,
+        col = theme$fg,
+        family = theme$font.family
       )
     } else {
-      error.annot <- sapply(seq(Nxgroups), \(i) paste0(
-        ddSci(myerror[[i]]$MSE),
-        " (", ddSci(myerror[[i]]$Rsq), ")"
-      ))
+      error.annot <- sapply(
+        seq(Nxgroups),
+        \(i)
+          paste0(
+            ddSci(myerror[[i]]$MSE),
+            " (",
+            ddSci(myerror[[i]]$Rsq),
+            ")"
+          )
+      )
       mtext(
         # c(expression(paste("MSE (", R^2, ")", sep = "")), error.annot),
         c("MSE (R\U00B2)", error.annot),
         fit.error.side,
-        adj = .98, cex = theme$cex,
+        adj = .98,
+        cex = theme$cex,
         col = c(theme$fg, unlist(fit.col[seq(Nxgroups)])),
         line = rev(seq(-1.1, -Nxgroups * 1.1 - 1.1, -1.1)),
         family = theme$font.family
@@ -1019,7 +1159,8 @@ mplot3_xy <- function(x, y = NULL,
 
   # R-squared ----
   if (rsq) {
-    if (is.null(rsq.col)) rsq.col <- c(unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
+    if (is.null(rsq.col))
+      rsq.col <- c(unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- ddSci(unlist(rsql))
     if (is.null(rsq.line)) {
       if (rsq.side == 3) {
@@ -1028,7 +1169,8 @@ mplot3_xy <- function(x, y = NULL,
         rsq.line <- c(-1 - Nxgroups, seq(-Nxgroups, -1, 1))
       }
     }
-    mtext(c(expression("R"^2), annot.rsq),
+    mtext(
+      c(expression("R"^2), annot.rsq),
       side = rsq.side,
       adj = rsq.adj,
       line = rsq.line,
@@ -1038,9 +1180,11 @@ mplot3_xy <- function(x, y = NULL,
   }
 
   if (rsq.pval) {
-    if (is.null(rsq.col)) rsq.col <- c(theme$fg, unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
+    if (is.null(rsq.col))
+      rsq.col <- c(theme$fg, unlist(adjustcolor(fit.col[seq(Nxgroups)], 2)))
     annot.rsq <- c("R-sq (p-val)", unlist(rsqpl))
-    mtext(rev(annot.rsq),
+    mtext(
+      rev(annot.rsq),
       side = rsq.side,
       adj = .98,
       padj = seq(-2.2, -2.2 - 1.5 * length(rsqpl), -1.5),
@@ -1053,9 +1197,13 @@ mplot3_xy <- function(x, y = NULL,
   # Annotation ----
   if (!is.null(annotation)) {
     if (is.null(annotation.col)) annotation.col <- col[[1]]
-    mtext(annotation, 1, -1.5,
+    mtext(
+      annotation,
+      1,
+      -1.5,
       adj = .97,
-      cex = theme$cex, col = annotation.col,
+      cex = theme$cex,
+      col = annotation.col,
       family = theme$font.family
     )
   }
@@ -1075,22 +1223,26 @@ mplot3_xy <- function(x, y = NULL,
 #' @param y Numeric vector: Predicted values
 #' @param pty Character: "s" for square plot, "m" to fill device. Default = "s"
 #' @param ... Additional argument to be passed to [mplot3_conf] (classification) or [mplot3_xy] (regression)
-#' 
+#'
 #' @author EDG
 #' @export
 
-mplot3_fit <- function(x, y,
-                       fit = "lm",
-                       se.fit = TRUE,
-                       fit.error = TRUE,
-                       axes.equal = TRUE,
-                       diagonal = TRUE,
-                       theme = rtTheme,
-                       marker.col = NULL,
-                       fit.col = NULL,
-                       pty = "s",
-                       fit.legend = FALSE,
-                       mar = NULL, ...) {
+mplot3_fit <- function(
+  x,
+  y,
+  fit = "lm",
+  se.fit = TRUE,
+  fit.error = TRUE,
+  axes.equal = TRUE,
+  diagonal = TRUE,
+  theme = rtTheme,
+  marker.col = NULL,
+  fit.col = NULL,
+  pty = "s",
+  fit.legend = FALSE,
+  mar = NULL,
+  ...
+) {
   type <- if (is.factor(y)) {
     "Classification"
   } else if (survival::is.Surv(y)) {
@@ -1103,14 +1255,21 @@ mplot3_fit <- function(x, y,
   } else if (type == "Survival") {
     msg2("Not currently supported")
   } else {
-    mplot3_xy(x, y,
-      fit = fit, se.fit = se.fit, fit.error = fit.error,
-      axes.equal = axes.equal, diagonal = diagonal,
+    mplot3_xy(
+      x,
+      y,
+      fit = fit,
+      se.fit = se.fit,
+      fit.error = fit.error,
+      axes.equal = axes.equal,
+      diagonal = diagonal,
       theme = theme,
-      marker.col = marker.col, fit.col = fit.col,
+      marker.col = marker.col,
+      fit.col = fit.col,
       pty = pty,
       fit.legend = fit.legend,
-      mar = mar, ...
+      mar = mar,
+      ...
     )
   }
 } # rtemis::mplot3_fit

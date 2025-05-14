@@ -46,18 +46,21 @@
 #' plot(massmod, what = "volcano")
 #' }
 #'
-massGLM <- function(x, y,
-                    scale.x = FALSE,
-                    scale.y = FALSE,
-                    type = NULL,
-                    xnames = NULL,
-                    ynames = NULL,
-                    coerce.y.numeric = FALSE,
-                    save.mods = FALSE,
-                    print.plot = FALSE,
-                    include_anova_pvals = NA,
-                    verbose = TRUE,
-                    trace = 0) {
+massGLM <- function(
+  x,
+  y,
+  scale.x = FALSE,
+  scale.y = FALSE,
+  type = NULL,
+  xnames = NULL,
+  ynames = NULL,
+  coerce.y.numeric = FALSE,
+  save.mods = FALSE,
+  print.plot = FALSE,
+  include_anova_pvals = NA,
+  verbose = TRUE,
+  trace = 0
+) {
   # Intro ----
   .call <- match.call()
   .call[2] <- list(str2lang("dat"))
@@ -68,10 +71,12 @@ massGLM <- function(x, y,
   if (is.null(type)) type <- if (NCOL(x) > NCOL(y)) "massx" else "massy"
   if (trace > 0) msg20('massGLM type is "', type, '"')
   if (type == "massx") {
-    if (is.null(colnames(x))) colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
+    if (is.null(colnames(x)))
+      colnames(x) <- paste0("Feature_", seq_len(NCOL(x)))
     nmods <- NCOL(x)
   } else {
-    if (is.null(colnames(y))) colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
+    if (is.null(colnames(y)))
+      colnames(y) <- paste0("Outcome_", seq_len(NCOL(y)))
     nmods <- NCOL(y)
   }
 
@@ -110,7 +115,11 @@ massGLM <- function(x, y,
       p()
       out
     } else {
-      .formula <- as.formula(paste(ynames[index], "~", paste(xnames, collapse = " + ")))
+      .formula <- as.formula(paste(
+        ynames[index],
+        "~",
+        paste(xnames, collapse = " + ")
+      ))
       .family <- if (is.factor(dat[[ynames[index]]])) "binomial" else "gaussian"
       out <- glm(.formula, family = .family, data = dat)
       p()
@@ -160,9 +169,12 @@ print.massGLM <- function(x, ...) {
   nx <- length(x$xnames)
   ny <- length(x$ynames)
   .text <- paste(
-    "Mass-univariate GLM analysis with", nx,
+    "Mass-univariate GLM analysis with",
+    nx,
     ngettext(nx, "predictor", "predictors"),
-    "and", ny, ngettext(ny, "outcome", "outcomes\n")
+    "and",
+    ny,
+    ngettext(ny, "outcome", "outcomes\n")
   )
   cat(.text)
   invisible(.text)
@@ -192,38 +204,41 @@ summary.massGLM <- function(object, ...) {
 #' @author E.D. Gennatas
 #' @export
 
-plot.massGLM <- function(x,
-                         predictor = NULL,
-                         main = NULL,
-                         what = c("volcano", "coefs", "pvals"),
-                         # which_pvals = c("glm", "anova2", "anova3"),
-                         p.adjust.method = "holm",
-                         p.transform = \(x) -log10(x),
-                         show = c("all", "signif"),
-                         xnames = NULL,
-                         pval.hline = c(.05, .001),
-                         hline.col = "#ffffff",
-                         hline.dash = "dash",
-                         hline.annotate = as.character(pval.hline),
-                         ylim = NULL,
-                         xlab = NULL,
-                         ylab = NULL,
-                         group = NULL,
-                         col.neg = "#43A4AC",
-                         col.pos = "#FA9860",
-                         col.ns = "#7f7f7f",
-                         theme = rtTheme,
-                         alpha = NULL,
-                         volcano.annotate = TRUE,
-                         volcano.annotate.n = 7,
-                         volcano.hline = NULL,
-                         volcano.hline.dash = "dot",
-                         volcano.hline.annotate = NULL,
-                         volcano.p.transform = \(x) -log10(x),
-                         margin = NULL,
-                         displayModeBar = TRUE,
-                         trace = 0,
-                         filename = NULL, ...) {
+plot.massGLM <- function(
+  x,
+  predictor = NULL,
+  main = NULL,
+  what = c("volcano", "coefs", "pvals"),
+  # which_pvals = c("glm", "anova2", "anova3"),
+  p.adjust.method = "holm",
+  p.transform = \(x) -log10(x),
+  show = c("all", "signif"),
+  xnames = NULL,
+  pval.hline = c(.05, .001),
+  hline.col = "#ffffff",
+  hline.dash = "dash",
+  hline.annotate = as.character(pval.hline),
+  ylim = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  group = NULL,
+  col.neg = "#43A4AC",
+  col.pos = "#FA9860",
+  col.ns = "#7f7f7f",
+  theme = rtTheme,
+  alpha = NULL,
+  volcano.annotate = TRUE,
+  volcano.annotate.n = 7,
+  volcano.hline = NULL,
+  volcano.hline.dash = "dot",
+  volcano.hline.annotate = NULL,
+  volcano.p.transform = \(x) -log10(x),
+  margin = NULL,
+  displayModeBar = TRUE,
+  trace = 0,
+  filename = NULL,
+  ...
+) {
   what <- match.arg(what)
   # which_pvals <- match.arg(which_pvals)
   which_pvals <- "glm"
@@ -260,7 +275,9 @@ plot.massGLM <- function(x,
         ylab <- paste(
           # print_transform(deparse(p.transform)[2]),
           print_fn(p.transform),
-          what, .name, "p-value"
+          what,
+          .name,
+          "p-value"
         )
       }
       if (is.null(xnames)) {
@@ -282,7 +299,8 @@ plot.massGLM <- function(x,
         theme = theme,
         margin = margin,
         displayModeBar = displayModeBar,
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     } else if (what == "coefs") {
       # Coefficients ----
@@ -306,7 +324,8 @@ plot.massGLM <- function(x,
         theme = theme,
         margin = margin,
         displayModeBar = displayModeBar,
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     } else {
       # Volcano ----
@@ -334,7 +353,8 @@ plot.massGLM <- function(x,
         alpha = alpha,
         displayModeBar = displayModeBar,
         verbose = trace > 0,
-        filename = filename, ...
+        filename = filename,
+        ...
       )
     }
   } else {

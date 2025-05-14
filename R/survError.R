@@ -6,12 +6,11 @@
 #'
 #' @param true Vector, numeric: True survival times
 #' @param estimated Vector, numeric: Estimated survival times
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
 surv_error <- function(true, estimated) {
-
   # Dependencies ----
   dependency_check("survival")
 
@@ -20,7 +19,6 @@ surv_error <- function(true, estimated) {
   names(out) <- labelify(names(out), capitalize.strings = "n")
   class(out) <- c("surv_error", "survConcordance")
   out
-
 } # rtemis::surv_error
 
 
@@ -29,12 +27,11 @@ surv_error <- function(true, estimated) {
 #' @param x Object of type [surv_error]
 #' @param decimal.places Integer: Number of decimal places to print. Default = 4
 #' @param ... Not used
-#' 
+#'
 #' @author E.D. Gennatas
 #' @export
 
 print.surv_error <- function(x, decimal.places = 4, ...) {
-
   # printdf1(data.frame(N = x$n,
   #                     N_Corcordant = x$stats[1] |> null2na(),
   #                     N_Discordant = x$stats[2] |> null2na(),

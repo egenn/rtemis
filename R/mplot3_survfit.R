@@ -70,53 +70,56 @@
 #' # with N at risk table
 #' mplot3_survfit(sf2, nrisk.table = TRUE)
 #' }
-mplot3_survfit <- function(x,
-                           lty = 1,
-                           lwd = 1.5,
-                           alpha = 1,
-                           col = NULL,
-                           plot.median = FALSE,
-                           group.median = FALSE,
-                           median.lty = 3,
-                           median.lwd = 2,
-                           median.col = theme$fg,
-                           median.alpha = .5,
-                           censor.mark = TRUE,
-                           censor.col = NULL,
-                           censor.alpha = .4,
-                           censor.pch = "I",
-                           censor.cex = .8,
-                           mark.censored = FALSE,
-                           nrisk.table = FALSE,
-                           nrisk.pos = "below",
-                           nrisk.spacing = .9,
-                           table.font = 1,
-                           time.at = NULL,
-                           time.by = NULL,
-                           xlim = NULL,
-                           ylim = NULL,
-                           xlab = "Time",
-                           ylab = "Survival",
-                           main = "", # "Kaplan-Meier Estimate"
-                           theme = rtTheme,
-                           palette = rtPalette,
-                           plot.error = FALSE,
-                           # error.lty = 2,
-                           error.alpha = .33,
-                           autonames = TRUE,
-                           group.legend = NULL,
-                           group.legend.type = c("legend", "mtext"),
-                           group.names = NULL,
-                           group.title = NULL,
-                           group.line = NULL,
-                           group.side = NULL, # for group.legend.type "mtext"
-                           legend.x = NULL, # for group.legend.type "legend"
-                           mar = c(2.5, 3, 2, 1),
-                           oma = NULL,
-                           par.reset = TRUE,
-                           pdf.width = 6,
-                           pdf.height = 6,
-                           filename = NULL, ...) {
+mplot3_survfit <- function(
+  x,
+  lty = 1,
+  lwd = 1.5,
+  alpha = 1,
+  col = NULL,
+  plot.median = FALSE,
+  group.median = FALSE,
+  median.lty = 3,
+  median.lwd = 2,
+  median.col = theme$fg,
+  median.alpha = .5,
+  censor.mark = TRUE,
+  censor.col = NULL,
+  censor.alpha = .4,
+  censor.pch = "I",
+  censor.cex = .8,
+  mark.censored = FALSE,
+  nrisk.table = FALSE,
+  nrisk.pos = "below",
+  nrisk.spacing = .9,
+  table.font = 1,
+  time.at = NULL,
+  time.by = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  xlab = "Time",
+  ylab = "Survival",
+  main = "", # "Kaplan-Meier Estimate"
+  theme = rtTheme,
+  palette = rtPalette,
+  plot.error = FALSE,
+  # error.lty = 2,
+  error.alpha = .33,
+  autonames = TRUE,
+  group.legend = NULL,
+  group.legend.type = c("legend", "mtext"),
+  group.names = NULL,
+  group.title = NULL,
+  group.line = NULL,
+  group.side = NULL, # for group.legend.type "mtext"
+  legend.x = NULL, # for group.legend.type "legend"
+  mar = c(2.5, 3, 2, 1),
+  oma = NULL,
+  par.reset = TRUE,
+  pdf.width = 6,
+  pdf.height = 6,
+  filename = NULL,
+  ...
+) {
   group.legend.type <- match.arg(group.legend.type)
 
   # Data ----
@@ -172,8 +175,10 @@ mplot3_survfit <- function(x,
 
   # Plot ----
   if (!is.null(filename)) {
-    pdf(filename,
-      width = pdf.width, height = pdf.height,
+    pdf(
+      filename,
+      width = pdf.width,
+      height = pdf.height,
       title = "rtemis Graphics"
     )
   }
@@ -207,7 +212,8 @@ mplot3_survfit <- function(x,
     marker.col = col,
     line.alpha = 1,
     main = main,
-    xlab = xlab, ylab = ylab,
+    xlab = xlab,
+    ylab = ylab,
     group.legend = FALSE,
     zerolines = FALSE,
     mar = mar,
@@ -215,7 +221,8 @@ mplot3_survfit <- function(x,
     par.reset = FALSE
   )
 
-  lines(x,
+  lines(
+    x,
     mark.time = mark.censored,
     col = unlist(palette),
     lwd = lwd,
@@ -226,7 +233,9 @@ mplot3_survfit <- function(x,
   if (censor.mark) {
     if (is.null(censor.col)) censor.col <- adjustcolor(theme$fg, censor.alpha)
     .index <- x$n.censor == 1
-    points(x$time[.index], x$surv[.index],
+    points(
+      x$time[.index],
+      x$surv[.index],
       pch = censor.pch,
       col = censor.col,
       cex = censor.cex
@@ -243,14 +252,16 @@ mplot3_survfit <- function(x,
     }
     for (i in .median) {
       lines(
-        x = c(i, i), y = c(.5, 0),
+        x = c(i, i),
+        y = c(.5, 0),
         lty = median.lty,
         lwd = median.lwd,
         col = adjustcolor(median.col, median.alpha)
       )
     }
     lines(
-      x = c(0, max(.median)), y = c(.5, .5),
+      x = c(0, max(.median)),
+      y = c(.5, .5),
       lty = median.lty,
       lwd = median.lwd,
       col = adjustcolor(median.col, median.alpha)
@@ -279,7 +290,8 @@ mplot3_survfit <- function(x,
       .upper1 <- .upper[[i]][!.exclude]
       .lower1 <- .lower[[i]][!.exclude]
       revlower <- rev(.lower1)
-      polygon(c(.time1, xlim[2], xlim[2], rev(.time1)),
+      polygon(
+        c(.time1, xlim[2], xlim[2], rev(.time1)),
         c(.upper1, rev(.upper1)[1], revlower[1], revlower),
         col = colorAdjust(col[[i]], error.alpha),
         border = NA
@@ -292,7 +304,8 @@ mplot3_survfit <- function(x,
     if (is.null(group.title)) {
       group.title <- paste(
         sub(
-          "=.*", "",
+          "=.*",
+          "",
           strsplit(names(x$strata)[1], ", ")[[1]]
         ),
         collapse = ", "
@@ -300,12 +313,15 @@ mplot3_survfit <- function(x,
     }
     if (is.null(group.names)) {
       group.names <- unlist(
-        lapply(strsplit(
-          gsub(" *", "", names(x$strata)),
-          ","
-        ), function(i) {
-          paste(sub(".*?=", "", i), collapse = ", ")
-        })
+        lapply(
+          strsplit(
+            gsub(" *", "", names(x$strata)),
+            ","
+          ),
+          function(i) {
+            paste(sub(".*?=", "", i), collapse = ", ")
+          }
+        )
       )
     }
   }
@@ -363,7 +379,8 @@ mplot3_survfit <- function(x,
         family = theme$font.family
       )
     } else {
-      legend("topright",
+      legend(
+        "topright",
         title = group.title,
         legend = group.names,
         text.col = theme$labs.col,
@@ -393,7 +410,8 @@ mplot3_survfit <- function(x,
     colnames(nriskmat) <- time.at
 
     if (nrisk.pos == "above") {
-      mtext("Number at risk   ",
+      mtext(
+        "Number at risk   ",
         side = 3,
         line = (nstrata + 1) * nrisk.spacing + .1,
         # outer = TRUE,
@@ -416,7 +434,8 @@ mplot3_survfit <- function(x,
         )
       }
     } else {
-      mtext("Number at risk",
+      mtext(
+        "Number at risk",
         side = 1,
         line = 2.1,
         # outer = TRUE,
@@ -424,7 +443,8 @@ mplot3_survfit <- function(x,
         # at = 0,
         adj = 0,
         cex = theme$cex,
-        family = theme$font.family, xpd = TRUE
+        family = theme$font.family,
+        xpd = TRUE
       )
       for (i in seq_len(nstrata)) {
         mtext(

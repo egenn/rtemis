@@ -12,12 +12,13 @@
 #' @author E.D. Gennatas
 #' @export
 
-getnames <- function(x,
-                     pattern = NULL, 
-                     starts_with = NULL, 
-                     ends_with = NULL,
-                     ignore.case = TRUE) {
-
+getnames <- function(
+  x,
+  pattern = NULL,
+  starts_with = NULL,
+  ends_with = NULL,
+  ignore.case = TRUE
+) {
   .names <- if (is.character(x)) {
     x
   } else {
@@ -45,17 +46,24 @@ getnames <- function(x,
 #' @author E.D. Gennatas
 #' @export
 
-mgetnames <- function(x,
-                      pattern = NULL,
-                      starts_with = NULL,
-                      ends_with = NULL,
-                      ignore.case = TRUE,
-                      return.index = FALSE) {
-
+mgetnames <- function(
+  x,
+  pattern = NULL,
+  starts_with = NULL,
+  ends_with = NULL,
+  ignore.case = TRUE,
+  return.index = FALSE
+) {
   .names <- if (is.character(x)) x else names(x)
   idi <- numeric()
   if (!is.null(pattern)) {
-    idi <- c(idi, unlist(lapply(pattern, function(p) grep(p, .names, ignore.case = ignore.case))))
+    idi <- c(
+      idi,
+      unlist(lapply(
+        pattern,
+        function(p) grep(p, .names, ignore.case = ignore.case)
+      ))
+    )
   }
   if (!is.null(starts_with)) {
     idi <- c(idi, which(startsWith(.names, starts_with)))
@@ -69,7 +77,6 @@ mgetnames <- function(x,
   } else {
     .names[idi]
   }
-
 }
 
 #' Get factor/numeric/logical/character names from data.frame/data.table
@@ -96,7 +103,10 @@ getcharacternames <- function(x) names(x)[sapply(x, is.character)]
 #' @rdname getnames
 #' @export
 getdatenames <- function(x) {
-  date_id <- sapply(x, \(v) class(v)[1] %in% c("Date", "IDate", "POSIXct", "POSIXlt"))
+  date_id <- sapply(
+    x,
+    \(v) class(v)[1] %in% c("Date", "IDate", "POSIXct", "POSIXlt")
+  )
   names(x)[date_id]
 }
 
@@ -112,31 +122,31 @@ getnamesandtypes <- function(x) {
   attr(xnames, "type") <- sapply(x, class)
   xnames
 } # rtemis::namesandtypes
-  
 
-  #' Unique values per feature
-  #'
-  #' Get number of unique values per features
-  #'
-  #' @param x matrix or data frame input
-  #' @param excludeNA Logical: If TRUE, exclude NA values from unique count.
-  #' 
-  #' @return Vector, integer of length `NCOL(x)` with number of unique 
-  #' values per column/feature
-  #' @export
-  #' @author E.D. Gennatas
-  #' @examples
-  #' \dontrun{
-  #' uniquevalsperfeat(iris)
-  #' }
 
-  uniquevalsperfeat <- function(x, excludeNA = FALSE) {
-    if (excludeNA) {
-      apply(x, 2, function(i) length(unique(na.exclude(i))))
-    } else {
-      apply(x, 2, function(i) length(unique(i)))
-    }
-  } # rtemis::uniquevalsperfeat
+#' Unique values per feature
+#'
+#' Get number of unique values per features
+#'
+#' @param x matrix or data frame input
+#' @param excludeNA Logical: If TRUE, exclude NA values from unique count.
+#'
+#' @return Vector, integer of length `NCOL(x)` with number of unique
+#' values per column/feature
+#' @export
+#' @author E.D. Gennatas
+#' @examples
+#' \dontrun{
+#' uniquevalsperfeat(iris)
+#' }
+
+uniquevalsperfeat <- function(x, excludeNA = FALSE) {
+  if (excludeNA) {
+    apply(x, 2, function(i) length(unique(na.exclude(i))))
+  } else {
+    apply(x, 2, function(i) length(unique(i)))
+  }
+} # rtemis::uniquevalsperfeat
 
 
 # df_movecolumn.R
