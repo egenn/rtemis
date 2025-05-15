@@ -334,6 +334,11 @@ method(print, Preprocessor) <- function(x, pad = 0L, ...) {
   invisible(x)
 } # /rtemis::print.Preprocessor
 
+# `names(Preprocessor)` ----
+method(names, Preprocessor) <- function(x) {
+  names(props(x))
+}
+
 # Make props `$`-accessible ----
 method(`$`, Preprocessor) <- function(x, name) {
   props(x)[[name]]
@@ -345,7 +350,12 @@ method(`.DollarNames`, Preprocessor) <- function(x, pattern = "") {
   grep(pattern, all_names, value = TRUE)
 }
 
-# Make proprs `[[`-accessible ----
+# Make props `[`-accessible ----
+method(`[`, Preprocessor) <- function(x, name) {
+  props(x)[[name]]
+}
+
+# Make props `[[`-accessible ----
 method(`[[`, Preprocessor) <- function(x, name) {
   props(x)[[name]]
 }
