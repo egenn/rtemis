@@ -5,7 +5,7 @@
 \title{Setup LightGBM Hyperparameters}
 \usage{
 setup_LightGBM(
-  max_nrounds = 1000L,
+  max_nrounds = 500L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   num_leaves = 8L,
@@ -19,8 +19,9 @@ setup_LightGBM(
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
   objective = NULL,
-  ifw = FALSE
+  force_col_wise = TRUE
 )
 }
 \arguments{
@@ -52,9 +53,9 @@ setup_LightGBM(
 
 \item{linear_tree}{Logical: If TRUE, use linear trees.}
 
-\item{objective}{Character: Objective function.}
-
 \item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
+
+\item{objective}{Character: Objective function.}
 }
 \description{
 Setup hyperparameters for LightGBM training.

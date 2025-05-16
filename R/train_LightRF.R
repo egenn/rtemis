@@ -57,7 +57,9 @@ train_LightRF <- function(
       }
     }
   }
-  factor_index <- names(x)[which(sapply(features(x), is.factor))]
+
+  ## Preprocess ----
+  factor_index <- names(x)[which(sapply(x, is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
       x,
@@ -77,7 +79,13 @@ train_LightRF <- function(
   } else {
     factor_index <- NULL
   }
-  lgb_x <- lightgbm::lgb.Dataset(
+  if (type == "Classification") {
+    # remove outcomes from factor_index
+    # will be character(0) if only outcome was factor, but that works
+    factor_index <- factor_index[seq_len(length(factor_index) - 1)]
+  }
+
+  x <- lightgbm::lgb.Dataset(
     data = as.matrix(features(x)),
     categorical_feature = factor_index,
     label = outcome(x),
@@ -99,15 +107,15 @@ train_LightRF <- function(
 
   model <- lightgbm::lgb.train(
     params = params,
-    data = lgb_x,
+    data = x,
     nrounds = hyperparameters[["nrounds"]],
     valids = if (!is.null(dat_validation)) {
-      list(training = lgb_x, validation = dat_validation)
+      list(training = x, validation = dat_validation)
     } else {
-      list(training = lgb_x)
+      list(training = x)
     },
     early_stopping_rounds = hyperparameters[["early_stopping_rounds"]],
-    verbose = verbosity - 2L
+    verbose = verbosity - 1L
   )
   check_inherits(model, "lgb.Booster")
   model

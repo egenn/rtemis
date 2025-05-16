@@ -742,7 +742,8 @@ LightRF_fixed <- c(
   "boosting_type",
   "learning_rate",
   "subsample_freq",
-  "early_stopping_rounds"
+  "early_stopping_rounds",
+  "force_col_wise"
 )
 
 #' @title LightRFHyperparameters
@@ -898,7 +899,8 @@ LightGBM_fixed <- c(
   "max_nrounds",
   "force_nrounds",
   "early_stopping_rounds",
-  "objective"
+  "objective",
+  "force_col_wise"
 )
 
 #' @title LightGBMHyperparameters
@@ -929,7 +931,8 @@ LightGBMHyperparameters <- new_class(
     min_data_per_group = NULL,
     linear_tree = NULL,
     ifw = NULL,
-    objective = NULL
+    objective = NULL,
+    force_col_wise = NULL
   ) {
     nrounds <- if (!is.null(force_nrounds)) {
       force_nrounds
@@ -955,7 +958,8 @@ LightGBMHyperparameters <- new_class(
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
           ifw = ifw,
-          objective = objective
+          objective = objective,
+          force_col_wise = force_col_wise
         ),
         tunable_hyperparameters = LightGBM_tunable,
         fixed_hyperparameters = LightGBM_fixed
@@ -1022,7 +1026,7 @@ method(update, LightGBMHyperparameters) <- function(
 setup_LightGBM <- function(
   # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
   # using early_stopping_rounds.
-  max_nrounds = 1000L,
+  max_nrounds = 500L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   # tunable
@@ -1037,8 +1041,9 @@ setup_LightGBM <- function(
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
   objective = NULL,
-  ifw = FALSE
+  force_col_wise = TRUE
 ) {
   max_nrounds <- clean_posint(max_nrounds)
   force_nrounds <- clean_posint(force_nrounds)
@@ -1070,7 +1075,8 @@ setup_LightGBM <- function(
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
     ifw = ifw,
-    objective = objective
+    objective = objective,
+    force_col_wise = force_col_wise
   )
 } # /rtemis::setupLightGBM
 

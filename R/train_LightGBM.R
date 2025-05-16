@@ -50,7 +50,7 @@ train_LightGBM <- function(
   type <- supervised_type(x)
   ## Objective ----
   if (type == "Classification") {
-    nclasses <- length(levels(x[[ncol(x)]]))
+    nclasses <- length(levels(outcome(x)))
   } else {
     nclasses <- NA
   }
@@ -69,7 +69,7 @@ train_LightGBM <- function(
   }
 
   ## Preprocess ----
-  factor_index <- names(x)[which(sapply(exc(x, ncol(x)), is.factor))]
+  factor_index <- names(x)[which(sapply(x, is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
       x,
@@ -89,6 +89,11 @@ train_LightGBM <- function(
   } else {
     factor_index <- NULL
   }
+  if (type == "Classification") {
+    # remove outcomes from factor_index
+    # will be character(0) if only outcome was factor, but that works
+    factor_index <- factor_index[seq_len(length(factor_index) - 1)]
+  }
 
   x <- lightgbm::lgb.Dataset(
     data = as.matrix(exc(x, ncol(x))),
@@ -106,8 +111,12 @@ train_LightGBM <- function(
   }
 
   # Train ----
+  params <- hyperparameters@hyperparameters
+  params[["max_nrounds"]] <- NULL
+  params[["force_nrounds"]] <- NULL
+  params[["ifw"]] <- NULL
   model <- lightgbm::lgb.train(
-    params = hyperparameters@hyperparameters, # ?need get_lgb.train_params
+    params = params,
     data = x,
     nrounds = hyperparameters[["nrounds"]],
     valids = if (!is.null(dat_validation)) {
@@ -116,7 +125,7 @@ train_LightGBM <- function(
       list(training = x)
     },
     early_stopping_rounds = hyperparameters[["early_stopping_rounds"]],
-    verbose = verbosity - 2L
+    verbose = verbosity - 1L
   )
   check_inherits(model, "lgb.Booster")
   model
