@@ -726,7 +726,7 @@ setup_LightCART <- function(
 LightRF_tunable <- c(
   "nrounds",
   "num_leaves",
-  "maxdepth",
+  "max_depth",
   "feature_fraction",
   "subsample",
   "lambda_l1",
@@ -760,7 +760,7 @@ LightRFHyperparameters <- new_class(
   constructor = function(
     nrounds = NULL,
     num_leaves = NULL,
-    maxdepth = NULL,
+    max_depth = NULL,
     feature_fraction = NULL,
     subsample = NULL,
     lambda_l1 = NULL,
@@ -780,7 +780,7 @@ LightRFHyperparameters <- new_class(
         hyperparameters = list(
           nrounds = nrounds,
           num_leaves = num_leaves,
-          maxdepth = maxdepth,
+          max_depth = max_depth,
           feature_fraction = feature_fraction,
           subsample = subsample,
           lambda_l1 = lambda_l1,
@@ -817,7 +817,7 @@ LightRFHyperparameters <- new_class(
 #'
 #' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
 #' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
-#' @param maxdepth (Tunable) Integer: Maximum depth of trees.
+#' @param max_depth (Tunable) Integer: Maximum depth of trees.
 #' @param feature_fraction (Tunable) Numeric: Fraction of features to use.
 #' @param subsample (Tunable) Numeric: Fraction of data to use.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
@@ -833,7 +833,7 @@ LightRFHyperparameters <- new_class(
 setup_LightRF <- function(
   nrounds = 500L,
   num_leaves = 4096L,
-  maxdepth = -1L,
+  max_depth = -1L,
   feature_fraction = 0.7,
   subsample = .623, # a.k.a. bagging_fraction
   lambda_l1 = 0,
@@ -849,7 +849,7 @@ setup_LightRF <- function(
 ) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
-  maxdepth <- clean_int(maxdepth)
+  max_depth <- clean_int(max_depth)
   check_float01inc(feature_fraction)
   check_float01inc(subsample)
   check_float01inc(lambda_l1)
@@ -860,7 +860,7 @@ setup_LightRF <- function(
   LightRFHyperparameters(
     nrounds = nrounds,
     num_leaves = num_leaves,
-    maxdepth = maxdepth,
+    max_depth = max_depth,
     feature_fraction = feature_fraction,
     subsample = subsample,
     lambda_l1 = lambda_l1,

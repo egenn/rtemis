@@ -7,7 +7,7 @@
 setup_LightRF(
   nrounds = 500L,
   num_leaves = 4096L,
-  maxdepth = -1L,
+  max_depth = -1L,
   feature_fraction = 0.7,
   subsample = 0.623,
   lambda_l1 = 0,
@@ -26,7 +26,7 @@ setup_LightRF(
 
 \item{num_leaves}{(Tunable) Positive integer: Maximum number of leaves in one tree.}
 
-\item{maxdepth}{(Tunable) Integer: Maximum depth of trees.}
+\item{max_depth}{(Tunable) Integer: Maximum depth of trees.}
 
 \item{feature_fraction}{(Tunable) Numeric: Fraction of features to use.}
 
