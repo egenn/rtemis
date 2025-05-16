@@ -258,11 +258,11 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
     for (i in index_char) x[, i] <- as.factor(x[, i])
   }
 
-  # len2factor ----
-  if (parameters@len2factor > 1) {
+  # unique_len2factor ----
+  if (parameters@unique_len2factor > 1) {
     index_len <- which(sapply(
       x,
-      \(i) length(unique(i)) <= parameters@len2factor
+      \(i) length(unique(i)) <= parameters@unique_len2factor
     ))
     # Exclude factors
     index_factor <- which(sapply(x, is.factor))
@@ -273,13 +273,13 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
           "Converting",
           singorplu(length(index_len), "feature"),
           "with <=",
-          parameters@len2factor,
+          parameters@unique_len2factor,
           "unique values to factors..."
         )
       } else {
         msg2(
           "No features with <=",
-          parameters@len2factor,
+          parameters@unique_len2factor,
           "unique values found."
         )
       }

@@ -36,7 +36,7 @@ PreprocessorParameters <- new_class(
     numeric_cut_labels = class_logical,
     numeric_quant_n = class_numeric,
     numeric_quant_NAonly = class_logical,
-    len2factor = class_numeric,
+    unique_len2factor = class_numeric,
     character2factor = class_logical,
     factorNA2missing = class_logical,
     factorNA2missing_level = class_character,
@@ -140,10 +140,10 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' produced using `stats::quantile`.
 #' @param numeric_quant_NAonly Logical: If TRUE, only bin numeric variables with
 #' missing values.
-#' @param len2factor Integer (>=2): Convert all variables with less
+#' @param unique_len2factor Integer (>=2): Convert all variables with less
 #' than or equal to this number of unique values to factors.
 #' For example, if binary variables are encoded with 1, 2, you could use
-#' `len2factor = 2` to convert them to factors.
+#' `unique_len2factor = 2` to convert them to factors.
 #' @param character2factor Logical: If TRUE, convert all character variables to
 #' factors.
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
@@ -206,7 +206,7 @@ setup_Preprocessor <- function(
   numeric_cut_labels = FALSE,
   numeric_quant_n = 0,
   numeric_quant_NAonly = FALSE,
-  len2factor = 0,
+  unique_len2factor = 0,
   character2factor = FALSE,
   factorNA2missing = FALSE,
   factorNA2missing_level = "missing",
@@ -252,7 +252,7 @@ setup_Preprocessor <- function(
     numeric_cut_labels = numeric_cut_labels,
     numeric_quant_n = numeric_quant_n,
     numeric_quant_NAonly = numeric_quant_NAonly,
-    len2factor = len2factor,
+    unique_len2factor = unique_len2factor,
     character2factor = character2factor,
     factorNA2missing = factorNA2missing,
     factorNA2missing_level = factorNA2missing_level,

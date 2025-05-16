@@ -24,7 +24,7 @@ setup_Preprocessor(
   numeric_cut_labels = FALSE,
   numeric_quant_n = 0,
   numeric_quant_NAonly = FALSE,
-  len2factor = 0,
+  unique_len2factor = 0,
   character2factor = FALSE,
   factorNA2missing = FALSE,
   factorNA2missing_level = "missing",
@@ -109,10 +109,10 @@ produced using \code{stats::quantile}.}
 \item{numeric_quant_NAonly}{Logical: If TRUE, only bin numeric variables with
 missing values.}
 
-\item{len2factor}{Integer (>=2): Convert all variables with less
+\item{unique_len2factor}{Integer (>=2): Convert all variables with less
 than or equal to this number of unique values to factors.
 For example, if binary variables are encoded with 1, 2, you could use
-\code{len2factor = 2} to convert them to factors.}
+\code{unique_len2factor = 2} to convert them to factors.}
 
 \item{character2factor}{Logical: If TRUE, convert all character variables to
 factors.}
