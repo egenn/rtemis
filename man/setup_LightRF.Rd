@@ -8,7 +8,7 @@ setup_LightRF(
   nrounds = 500L,
   num_leaves = 4096L,
   maxdepth = -1L,
-  feature_fraction = 0.333,
+  feature_fraction = 0.7,
   subsample = 0.623,
   lambda_l1 = 0,
   lambda_l2 = 0,
@@ -49,7 +49,7 @@ Setup hyperparameters for LightRF training.
 }
 \details{
 Get more information from \link[lightgbm:lgb.train]{lightgbm::lgb.train}.
-Note that hyperparameters subsample_freq, early_stopping_rounds, and tree_learner are fixed,
+Note that hyperparameters subsample_freq and early_stopping_rounds are fixed,
 and cannot be set because they are what makes \code{lightgbm} train a random forest.
 These can all be set when training gradient boosting with LightGBM.
 }

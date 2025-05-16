@@ -95,8 +95,6 @@ train_LightRF <- function(
   # Train ----
   params <- hyperparameters@hyperparameters
   params[["ifw"]] <- NULL
-  params[["boosting"]] <- "rf"
-  params[["learning_rate"]] <- 1
   params[["early_stopping_rounds"]] <- NULL
 
   model <- lightgbm::lgb.train(

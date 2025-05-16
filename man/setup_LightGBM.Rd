@@ -12,7 +12,7 @@ setup_LightGBM(
   max_depth = -1L,
   learning_rate = 0.01,
   feature_fraction = 1,
-  subsample = 0.623,
+  subsample = 1,
   subsample_freq = 1L,
   lambda_l1 = 0,
   lambda_l2 = 0,

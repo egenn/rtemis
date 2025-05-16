@@ -765,11 +765,12 @@ LightRFHyperparameters <- new_class(
     min_data_per_group = NULL,
     linear_tree = NULL,
     ifw = NULL,
-    # fixed LightGBM params for RF
-    subsample_freq = 1L,
-    early_stopping_rounds = -1L,
-    tree_learner = "data_parallel",
-    objective = NULL
+    objective = NULL,
+    # unsettable: LightGBM params for RF
+    boosting_type = "rf",
+    learning_rate = 1, # no effect? in boosting_type 'rf', but set for clarity
+    subsample_freq = 1L, # a.k.a. bagging_freq
+    early_stopping_rounds = -1L
   ) {
     new_object(
       Hyperparameters(
@@ -786,10 +787,12 @@ LightRFHyperparameters <- new_class(
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
           ifw = ifw,
-          subsample_freq = subsample_freq,
-          early_stopping_rounds = early_stopping_rounds,
-          tree_learner = tree_learner,
-          objective = objective
+          objective = objective,
+          # unsettable: LightGBM params for RF
+          boosting_type = boosting_type,
+          learning_rate = learning_rate,
+          subsample_freq = subsample_freq, # a.k.a. bagging_freq
+          early_stopping_rounds = early_stopping_rounds
         ),
         tunable_hyperparameters = LightRF_tunable,
         fixed_hyperparameters = LightRF_fixed
@@ -803,7 +806,7 @@ LightRFHyperparameters <- new_class(
 #' Setup hyperparameters for LightRF training.
 #'
 #' Get more information from [lightgbm::lgb.train].
-#' Note that hyperparameters subsample_freq, early_stopping_rounds, and tree_learner are fixed,
+#' Note that hyperparameters subsample_freq and early_stopping_rounds are fixed,
 #' and cannot be set because they are what makes `lightgbm` train a random forest.
 #' These can all be set when training gradient boosting with LightGBM.
 #'
@@ -826,8 +829,8 @@ setup_LightRF <- function(
   nrounds = 500L,
   num_leaves = 4096L,
   maxdepth = -1L,
-  feature_fraction = 0.333,
-  subsample = .623,
+  feature_fraction = 0.7,
+  subsample = .623, # a.k.a. bagging_fraction
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
@@ -1018,7 +1021,7 @@ setup_LightGBM <- function(
   max_depth = -1L,
   learning_rate = 0.01,
   feature_fraction = 1.0,
-  subsample = .623,
+  subsample = 1.0, # a.k.a. bagging_fraction {check:hyper}
   subsample_freq = 1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
