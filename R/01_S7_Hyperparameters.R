@@ -736,10 +736,13 @@ LightRF_tunable <- c(
   "ifw"
 )
 LightRF_fixed <- c(
-  "subsample_freq",
-  "early_stopping_rounds",
+  "objective",
+  "device_type",
   "tree_learner",
-  "objective"
+  "boosting_type",
+  "learning_rate",
+  "subsample_freq",
+  "early_stopping_rounds"
 )
 
 #' @title LightRFHyperparameters
@@ -765,12 +768,10 @@ LightRFHyperparameters <- new_class(
     min_data_per_group = NULL,
     linear_tree = NULL,
     ifw = NULL,
+    # fixed
     objective = NULL,
-    # unsettable: LightGBM params for RF
-    boosting_type = "rf",
-    learning_rate = 1, # no effect? in boosting_type 'rf', but set for clarity
-    subsample_freq = 1L, # a.k.a. bagging_freq
-    early_stopping_rounds = -1L
+    device_type = NULL,
+    tree_learner = NULL
   ) {
     new_object(
       Hyperparameters(
@@ -787,12 +788,15 @@ LightRFHyperparameters <- new_class(
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
           ifw = ifw,
+          # fixed
           objective = objective,
+          device_type = device_type,
+          tree_learner = tree_learner,
           # unsettable: LightGBM params for RF
-          boosting_type = boosting_type,
-          learning_rate = learning_rate,
-          subsample_freq = subsample_freq, # a.k.a. bagging_freq
-          early_stopping_rounds = early_stopping_rounds
+          boosting_type = "rf",
+          learning_rate = 1, # no effect? in boosting_type 'rf', but set for clarity
+          subsample_freq = 1L, # a.k.a. bagging_freq
+          early_stopping_rounds = -1L
         ),
         tunable_hyperparameters = LightRF_tunable,
         fixed_hyperparameters = LightRF_fixed
@@ -836,8 +840,11 @@ setup_LightRF <- function(
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
+  # fixed
   objective = NULL,
-  ifw = FALSE
+  device_type = "cpu",
+  tree_learner = "serial"
 ) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
@@ -861,7 +868,9 @@ setup_LightRF <- function(
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
     ifw = ifw,
-    objective = objective
+    objective = objective,
+    device_type = device_type,
+    tree_learner = tree_learner
   )
 } # /rtemis::setupLightRF
 

@@ -15,8 +15,10 @@ setup_LightRF(
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
   objective = NULL,
-  ifw = FALSE
+  device_type = "cpu",
+  tree_learner = "serial"
 )
 }
 \arguments{
@@ -40,9 +42,9 @@ setup_LightRF(
 
 \item{linear_tree}{Logical: If TRUE, use linear trees.}
 
-\item{objective}{Character: Objective function.}
-
 \item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
+
+\item{objective}{Character: Objective function.}
 }
 \description{
 Setup hyperparameters for LightRF training.
