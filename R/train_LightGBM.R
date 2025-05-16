@@ -93,11 +93,7 @@ train_LightGBM <- function(
   x <- lightgbm::lgb.Dataset(
     data = as.matrix(exc(x, ncol(x))),
     categorical_feature = factor_index,
-    label = if (type == "Classification") {
-      as.integer(x[[ncol(x)]]) - 1
-    } else {
-      x[[ncol(x)]]
-    },
+    label = outcome(x),
     weight = weights
   )
 
@@ -105,11 +101,7 @@ train_LightGBM <- function(
     dat_validation <- lightgbm::lgb.Dataset(
       data = as.matrix(features(dat_validation)),
       categorical_feature = factor_index,
-      label = if (type == "Classification") {
-        as.integer(outcome(dat_validation)) - 1
-      } else {
-        outcome(dat_validation)
-      }
+      label = outcome(dat_validation)
     )
   }
 

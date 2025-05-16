@@ -77,14 +77,10 @@ train_LightRF <- function(
   } else {
     factor_index <- NULL
   }
-  x <- lightgbm::lgb.Dataset(
+  lgb_x <- lightgbm::lgb.Dataset(
     data = as.matrix(features(x)),
     categorical_feature = factor_index,
-    label = if (type == "Classification") {
-      as.integer(outcome(x)) - 1
-    } else {
-      outcome(x)
-    },
+    label = outcome(x),
     weight = weights
   )
 
@@ -92,23 +88,25 @@ train_LightRF <- function(
     dat_validation <- lightgbm::lgb.Dataset(
       data = as.matrix(features(dat_validation)),
       categorical_feature = factor_index,
-      label = if (type == "Classification") {
-        as.integer(outcome(dat_validation)) - 1
-      } else {
-        outcome(dat_validation)
-      }
+      label = outcome(dat_validation)
     )
   }
 
   # Train ----
+  params <- hyperparameters@hyperparameters
+  params[["ifw"]] <- NULL
+  params[["boosting"]] <- "rf"
+  params[["learning_rate"]] <- 1
+  params[["early_stopping_rounds"]] <- NULL
+
   model <- lightgbm::lgb.train(
-    params = hyperparameters@hyperparameters, # ?need get_lgb.train_params
-    data = x,
+    params = params,
+    data = lgb_x,
     nrounds = hyperparameters[["nrounds"]],
     valids = if (!is.null(dat_validation)) {
-      list(training = x, validation = dat_validation)
+      list(training = lgb_x, validation = dat_validation)
     } else {
-      list(training = x)
+      list(training = lgb_x)
     },
     early_stopping_rounds = hyperparameters[["early_stopping_rounds"]],
     verbose = verbosity - 2L
