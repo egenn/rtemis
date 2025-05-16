@@ -235,7 +235,7 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
 } # rtemis::dt_set_cleanfactorlevels
 
 
-#' Check if all levels in a column are unique
+#' Check if all rows in a column are unique
 #'
 #' @param x data.frame or data.table
 #' @param on Integer or character: column to check
@@ -444,8 +444,12 @@ inspect_type <- function(
   thresh = .5,
   na.omit = TRUE
 ) {
-  if (is.null(xname)) xname <- deparse(substitute(x))
-  if (na.omit) x <- na.omit(x)
+  if (is.null(xname)) {
+    xname <- deparse(substitute(x))
+  }
+  if (na.omit) {
+    x <- na.omit(x)
+  }
   xclass <- class(x)[1]
   xlen <- length(x)
   raw_na <- sum(is.na(x))
