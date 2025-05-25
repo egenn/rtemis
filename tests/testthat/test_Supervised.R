@@ -5,6 +5,7 @@
 # Setup progressr ----
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
+# library(testthat)
 library(data.table)
 
 # Data ----
@@ -353,9 +354,10 @@ test_that("train() LightCART Regression with linear_tree succeeds", {
 mod_r_lightrf <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "lightrf"
+  algorithm = "lightrf",
+  hyperparameters = setup_LightRF(num_threads = 8L)
 )
-test_that("train() LightRF Regression succeeds", {
+qtest_that("train() LightRF Regression succeeds", {
   expect_s7_class(mod_r_lightrf, Regression)
 })
 

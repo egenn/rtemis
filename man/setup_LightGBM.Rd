@@ -21,7 +21,10 @@ setup_LightGBM(
   linear_tree = FALSE,
   ifw = FALSE,
   objective = NULL,
-  force_col_wise = TRUE
+  device_type = "cpu",
+  tree_learner = "serial",
+  force_col_wise = TRUE,
+  num_threads = 0L
 )
 }
 \arguments{
@@ -56,6 +59,14 @@ setup_LightGBM(
 \item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
 
 \item{objective}{Character: Objective function.}
+
+\item{device_type}{Character: "cpu" or "gpu".}
+
+\item{tree_learner}{Character: "serial", "feature", "data", or "voting".}
+
+\item{force_col_wise}{Logical: Use only with CPU - If TRUE, force col-wise histogram building}
+
+\item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
 }
 \description{
 Setup hyperparameters for LightGBM training.

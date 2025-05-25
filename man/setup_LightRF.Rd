@@ -18,7 +18,9 @@ setup_LightRF(
   ifw = FALSE,
   objective = NULL,
   device_type = "cpu",
-  tree_learner = "serial"
+  tree_learner = "serial",
+  force_col_wise = TRUE,
+  num_threads = 0L
 )
 }
 \arguments{
@@ -45,6 +47,10 @@ setup_LightRF(
 \item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
 
 \item{objective}{Character: Objective function.}
+
+\item{device_type}{Character: "cpu" or "gpu".}
+
+\item{tree_learner}{Character: "serial", "feature", "data", or "voting".}
 }
 \description{
 Setup hyperparameters for LightRF training.
