@@ -13,7 +13,7 @@ setup_Preprocessor(
   impute_type = c("missRanger", "micePMM", "meanMode"),
   impute_missRanger_params = list(pmm.k = 3, maxiter = 10, num.trees = 500),
   impute_discrete = "get_mode",
-  impute_numeric = "mean",
+  impute_continuous = "mean",
   integer2factor = FALSE,
   integer2numeric = FALSE,
   logical2factor = FALSE,
@@ -59,7 +59,7 @@ of missing features.}
 feature with missing values, indicating which cases were missing data.}
 
 \item{impute}{Logical: If TRUE, impute missing cases. See \code{impute_discrete} and
-\code{impute_numeric}.}
+\code{impute_continuous}.}
 
 \item{impute_type}{Character: Package to use for imputation.}
 
@@ -73,7 +73,7 @@ disable predictive mean matching.}
 \item{impute_discrete}{Character: Name of function that returns single value: How to impute
 discrete variables for \code{impute_type = "meanMode"}.}
 
-\item{impute_numeric}{Character: Name of function that returns single value: How to impute
+\item{impute_continuous}{Character: Name of function that returns single value: How to impute
 continuous variables for \code{impute_type = "meanMode"}.}
 
 \item{integer2factor}{Logical: If TRUE, convert all integers to factors. This includes
