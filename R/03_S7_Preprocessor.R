@@ -25,7 +25,7 @@ PreprocessorParameters <- new_class(
     impute_type = class_character,
     impute_missRanger_params = class_list,
     impute_discrete = class_character,
-    impute_numeric = class_character,
+    impute_continuous = class_character,
     integer2factor = class_logical,
     integer2numeric = class_logical,
     logical2factor = class_logical,
@@ -105,7 +105,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param missingness Logical: If TRUE, generate new boolean columns for each
 #' feature with missing values, indicating which cases were missing data.
 #' @param impute Logical: If TRUE, impute missing cases. See `impute_discrete` and
-#' `impute_numeric`.
+#' `impute_continuous`.
 #' @param impute_type Character: Package to use for imputation.
 #' @param impute_missRanger_params Named list with elements "pmm.k" and
 #' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
@@ -115,7 +115,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' disable predictive mean matching.
 #' @param impute_discrete Character: Name of function that returns single value: How to impute
 #' discrete variables for `impute_type = "meanMode"`.
-#' @param impute_numeric Character: Name of function that returns single value: How to impute
+#' @param impute_continuous Character: Name of function that returns single value: How to impute
 #' continuous variables for `impute_type = "meanMode"`.
 #' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
 #' `bit64::integer64` columns.
@@ -195,7 +195,7 @@ setup_Preprocessor <- function(
     num.trees = 500
   ),
   impute_discrete = "get_mode",
-  impute_numeric = "mean",
+  impute_continuous = "mean",
   integer2factor = FALSE,
   integer2numeric = FALSE,
   logical2factor = FALSE,
@@ -241,7 +241,7 @@ setup_Preprocessor <- function(
     impute_type = impute_type,
     impute_missRanger_params = impute_missRanger_params,
     impute_discrete = impute_discrete,
-    impute_numeric = impute_numeric,
+    impute_continuous = impute_continuous,
     integer2factor = integer2factor,
     integer2numeric = integer2numeric,
     logical2factor = logical2factor,
