@@ -115,7 +115,7 @@ train_LightRF <- function(
       list(training = x)
     },
     early_stopping_rounds = hyperparameters[["early_stopping_rounds"]],
-    verbosity = verbosity - 1L
+    verbose = verbosity - 2L
   )
   check_inherits(model, "lgb.Booster")
   model
