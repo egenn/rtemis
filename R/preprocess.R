@@ -457,10 +457,10 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
       if (verbosity > 0L) {
         msg2(
           "Imputing missing values using",
-          parameters@impute_numeric,
-          "(numeric) and",
           parameters@impute_discrete,
-          "(discrete)..."
+          "(discrete) and",
+          parameters@impute_continuous,
+          "(continuous)..."
         )
       }
 
@@ -468,16 +468,10 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
       if (length(index_discrete) > 0) {
         for (i in index_discrete) {
           index <- which(is.na(x[, i]))
-          imputed <- parameters@impute_discrete(x[, i])
-          x[index, i] <- imputed
-        }
-      }
-
-      index_integer <- which(sapply(x, function(i) is.integer(i) && anyNA(i)))
-      if (length(index_integer) > 0) {
-        for (i in index_integer) {
-          index <- which(is.na(x[, i]))
-          imputed <- parameters@impute_discrete(x[, i])
+          imputed <- do_call(
+            parameters@impute_discrete,
+            list(x[[i]], na.rm = TRUE)
+          )
           x[index, i] <- imputed
         }
       }
@@ -486,7 +480,10 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
       if (length(index_numeric) > 0) {
         for (i in index_numeric) {
           index <- which(is.na(x[, i]))
-          imputed <- parameters@impute_numeric(x[, i], na.rm = TRUE)
+          imputed <- do_call(
+            parameters@impute_continuous,
+            list(x[[i]], na.rm = TRUE)
+          )
           x[index, i] <- imputed
         }
       }
