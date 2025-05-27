@@ -131,10 +131,10 @@ getName <- function(x, alt = "x", max.nchar = 20) {
 #'
 #' Returns the mode of a factor or integer
 #'
-#' @param x Vector, factor or integer: Input data
-#' @param na.exclude Logical: If TRUE, exclude NAs
-#' @param getlast Logical: If TRUE, get
-#' @param retain.class Logical: If TRUE, output is always same class as input
+#' @param x Vector, factor or integer: Input data.
+#' @param na.exclude Logical: If TRUE, exclude NAs.
+#' @param getlast Logical: If TRUE, get the last value in case of ties.
+#' @param retain_class Logical: If TRUE, output is always same class as input.
 #'
 #' @return The mode of `x`
 #' @author EDG
@@ -150,12 +150,12 @@ getName <- function(x, alt = "x", max.nchar = 20) {
 #' }
 get_mode <- function(
   x,
-  na.exclude = TRUE,
+  na.rm = TRUE,
   getlast = TRUE,
-  retain.class = TRUE
+  retain_class = TRUE
 ) {
-  if (retain.class) .class <- class(x)
-  if (na.exclude) x <- na.exclude(x)
+  if (retain_class) .class <- class(x)
+  if (na.rm) x <- na.exclude(x)
   freq <- table(x)
   if (sum(freq) > 0) {
     if (getlast) {
@@ -171,7 +171,7 @@ get_mode <- function(
     out <- NA
   }
 
-  if (retain.class) {
+  if (retain_class) {
     if (is.factor(x)) {
       out <- factor(out, levels = levels(x))
     } else {
@@ -644,7 +644,9 @@ iflengthy <- function(x) {
 #' Are you tired of getting NULL when you run dim() on a vector?
 #'
 #' @param x Vector or matrix input
-#' @return Integer vector of length 2: c(Nrow, Ncols)
+#' @param verbosity Integer: Verbosity level. If > 0, print size to console
+#'
+#' @return Integer vector of length 2: c(Nrow, Ncols), invisibly
 #'
 #' @author EDG
 #' @export
@@ -659,8 +661,14 @@ iflengthy <- function(x) {
 #' # 20  5
 #' }
 
-size <- function(x) {
-  c(NROW(x), NCOL(x))
+size <- function(x, verbosity = 1L) {
+  z <- c(NROW(x), NCOL(x))
+  if (verbosity > 0L) {
+    # Format to add "," for thousands
+    z_formatted <- format(z, trim = TRUE, big.mark = ",", scientific = FALSE)
+    cat(bold(z_formatted[1]), thin("x"), bold(z_formatted[2]), "\n")
+  }
+  invisible(z)
 } # /rtemis::size
 
 
