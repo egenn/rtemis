@@ -6,15 +6,20 @@
 #'
 #' @param x data.table
 #' @param excludeNA Logical: If TRUE, exclude NA values.
+#' @param verbosity Integer: If > 0, print output to console.
 #'
-#' @return Integer vector of length `NCOL(x)` with number of unique values per column/feature.
+#' @return Named integer vector of length `NCOL(x)` with number of unique values per column/feature, invisibly.
 #'
 #' @author EDG
 #' @export
-nunique_perfeat <- function(x, excludeNA = FALSE) {
+dt_nunique_perfeat <- function(x, excludeNA = FALSE, verbosity = 1L) {
   check_inherits(x, "data.table")
-  sapply(x, \(i) data.table::uniqueN(i, na.rm = excludeNA))
-} # /rtemis::nunique_perfeat
+  nupf <- sapply(x, \(i) data.table::uniqueN(i, na.rm = excludeNA))
+  if (verbosity > 0L) {
+    printls(nupf, item_format = thin, print_class = FALSE)
+  }
+  invisible(nupf)
+} # /rtemis::dt_nunique_perfeat
 
 
 #' Long to wide key-value reshaping
