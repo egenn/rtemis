@@ -335,7 +335,7 @@ GAMHyperparameters <- new_class(
 #' @export
 setup_GAM <- function(k = 5L, ifw = FALSE) {
   k <- clean_posint(k)
-  GAMHyperparameters(k = k)
+  GAMHyperparameters(k = k, ifw = ifw)
 } # /rtemis::setup_GAM
 
 
