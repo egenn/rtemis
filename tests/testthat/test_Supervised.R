@@ -357,7 +357,7 @@ mod_r_lightrf <- train(
   algorithm = "lightrf",
   hyperparameters = setup_LightRF(num_threads = 8L)
 )
-qtest_that("train() LightRF Regression succeeds", {
+test_that("train() LightRF Regression succeeds", {
   expect_s7_class(mod_r_lightrf, Regression)
 })
 
