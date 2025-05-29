@@ -51,6 +51,10 @@ setup_LightRF(
 \item{device_type}{Character: "cpu" or "gpu".}
 
 \item{tree_learner}{Character: "serial", "feature", "data", or "voting".}
+
+\item{force_col_wise}{Logical: Use only with CPU - If TRUE, force col-wise histogram building}
+
+\item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
 }
 \description{
 Setup hyperparameters for LightRF training.

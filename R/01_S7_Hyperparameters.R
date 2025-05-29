@@ -834,6 +834,8 @@ LightRFHyperparameters <- new_class(
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #' @param device_type Character: "cpu" or "gpu".
 #' @param tree_learner Character: "serial", "feature", "data", or "voting".
+#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
+#' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
 #'
 #' @author EDG
 #' @export
