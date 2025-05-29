@@ -9,11 +9,11 @@ get_mode(x, na.rm = TRUE, getlast = TRUE, retain_class = TRUE)
 \arguments{
 \item{x}{Vector, factor or integer: Input data.}
 
+\item{na.rm}{Logical: If TRUE, exclude NAs (using \code{na.exclude(x)}).}
+
 \item{getlast}{Logical: If TRUE, get the last value in case of ties.}
 
 \item{retain_class}{Logical: If TRUE, output is always same class as input.}
-
-\item{na.exclude}{Logical: If TRUE, exclude NAs.}
 }
 \value{
 The mode of \code{x}

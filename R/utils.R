@@ -132,7 +132,7 @@ getName <- function(x, alt = "x", max.nchar = 20) {
 #' Returns the mode of a factor or integer
 #'
 #' @param x Vector, factor or integer: Input data.
-#' @param na.exclude Logical: If TRUE, exclude NAs.
+#' @param na.rm Logical: If TRUE, exclude NAs (using `na.exclude(x)`).
 #' @param getlast Logical: If TRUE, get the last value in case of ties.
 #' @param retain_class Logical: If TRUE, output is always same class as input.
 #'
