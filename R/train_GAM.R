@@ -18,10 +18,11 @@
 #' @noRd
 
 train_GAM <- function(
-    x,
-    weights = NULL,
-    hyperparameters = NULL,
-    verbosity = 1L) {
+  x,
+  weights = NULL,
+  hyperparameters = NULL,
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("mgcv")
 
@@ -53,7 +54,11 @@ train_GAM <- function(
   index_numeric <- which(sapply(features(x), is.numeric))
   spline_features <- if (length(index_numeric) > 0) {
     paste0(
-      "s(", colnames(x)[index_numeric], ", k = ", hyperparameters[["k"]], ")",
+      "s(",
+      colnames(x)[index_numeric],
+      ", k = ",
+      hyperparameters[["k"]],
+      ")",
       collapse = " + "
     )
   } else {
@@ -73,8 +78,13 @@ train_GAM <- function(
       " \\+ $",
       "",
       paste(
-        outcome_name(x), "~",
-        gsub("^ \\+ ", "", paste(spline_features, categorical_features, sep = " + "))
+        outcome_name(x),
+        "~",
+        gsub(
+          "^ \\+ ",
+          "",
+          paste(spline_features, categorical_features, sep = " + ")
+        )
       )
     )
   )
@@ -128,7 +138,10 @@ varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
     # Get parametric and smooth term p-values
     summary_ <- summary(model)
     # Exclude intercept
-    -log10(c(summary_[["s.table"]][, "p-value"], summary_[["p.table"]][, ncol(summary_[["p.table"]])][-1]))
+    -log10(c(
+      summary_[["s.table"]][, "p-value"],
+      summary_[["p.table"]][, ncol(summary_[["p.table"]])][-1]
+    ))
   } else if (type == "coefficients") {
     coef(model)
   } else if (type == "edf") {
@@ -139,7 +152,7 @@ varimp_GAM <- function(model, type = c("p-value", "coefficients", "edf")) {
 #' Get Standard Errors from GAM model
 #'
 #' @param model mgcv gam model.
-#' 
+#'
 #' @keywords internal
 #' @noRd
 se_GAM <- function(model, newdata) {

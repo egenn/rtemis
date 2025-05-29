@@ -62,7 +62,8 @@ method(print, ResamplerParameters) <- function(x, pad = 0L, ...) {
 
 # desc ResamplerParameters ----
 method(desc, ResamplerParameters) <- function(x) {
-  switch(x@type,
+  switch(
+    x@type,
     KFold = paste0(x@n, "-fold crossvalidation"),
     StratSub = paste0(x@n, " stratified subsamples"),
     StratBoot = paste0(x@n, " stratified bootstraps"),
@@ -121,8 +122,14 @@ StratSubParams <- new_class(
     id_strat = class_vector | NULL,
     seed = scalar_int_pos
   ),
-  constructor = function(n, train_p, stratify_var,
-                         strat_n_bins, id_strat, seed) {
+  constructor = function(
+    n,
+    train_p,
+    stratify_var,
+    strat_n_bins,
+    id_strat,
+    seed
+  ) {
     new_object(
       ResamplerParameters(
         type = "StratSub",
@@ -156,8 +163,15 @@ StratBootParams <- new_class(
     id_strat = class_vector | NULL,
     seed = scalar_int_pos
   ),
-  constructor = function(n, stratify_var, train_p,
-                         strat_n_bins, target_length, id_strat, seed) {
+  constructor = function(
+    n,
+    stratify_var,
+    train_p,
+    strat_n_bins,
+    target_length,
+    id_strat,
+    seed
+  ) {
     new_object(
       ResamplerParameters(
         type = "StratBoot",
@@ -256,26 +270,33 @@ CustomParams <- new_class(
 #' each case can only be present in the training or test set, but not both.
 #' @param seed Integer: Random seed.
 #' @param verbosity Integer: Verbosity level.
-#' 
+#'
 #' @return ResamplerParameters object.
 #'
 #' @author EDG
 #' @export
-setup_Resampler <- function(n_resamples = 10L,
-                            type = c("KFold", "StratSub", "StratBoot", "Bootstrap", "LOOCV"),
-                            # index = NULL,
-                            # group = NULL,
-                            stratify_var = NULL,
-                            train_p = .75,
-                            strat_n_bins = 4L,
-                            target_length = NULL,
-                            id_strat = NULL,
-                            seed = NULL,
-                            verbosity = 1L) {
+setup_Resampler <- function(
+  n_resamples = 10L,
+  type = c("KFold", "StratSub", "StratBoot", "Bootstrap", "LOOCV"),
+  # index = NULL,
+  # group = NULL,
+  stratify_var = NULL,
+  train_p = .75,
+  strat_n_bins = 4L,
+  target_length = NULL,
+  id_strat = NULL,
+  seed = NULL,
+  verbosity = 1L
+) {
   # Arguments
-  type <- match_arg(type, c("KFold", "StratSub", "StratBoot", "Bootstrap", "LOOCV"))
+  type <- match_arg(
+    type,
+    c("KFold", "StratSub", "StratBoot", "Bootstrap", "LOOCV")
+  )
   if (length(type) == 0) {
-    stop("Invalid resampler type. Must be one of: 'StratSub', 'StratBoot', 'KFold', 'Bootstrap', 'LOOCV'")
+    stop(
+      "Invalid resampler type. Must be one of: 'StratSub', 'StratBoot', 'KFold', 'Bootstrap', 'LOOCV'"
+    )
   }
   seed <- clean_int(seed)
 
@@ -318,7 +339,9 @@ setup_Resampler <- function(n_resamples = 10L,
     )
   } else {
     stop(paste(
-      "Resampler'", type, "'is not supported.",
+      "Resampler'",
+      type,
+      "'is not supported.",
       "Supported types are: 'KFold', 'StratSub', 'StratBoot', 'Bootstrap', 'LOOCV'."
     ))
   }

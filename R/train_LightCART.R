@@ -11,10 +11,11 @@
 #' @noRd
 
 train_LightCART <- function(
-    x,
-    weights = NULL,
-    hyperparameters = setup_LightCART(),
-    verbosity = 1L) {
+  x,
+  weights = NULL,
+  hyperparameters = setup_LightCART(),
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("lightgbm")
 
@@ -40,7 +41,9 @@ train_LightCART <- function(
     nclasses <- NA
   }
   if (is.null(hyperparameters[["objective"]])) {
-    hyperparameters@hyperparameters[["objective"]] <- if (type == "Regression") {
+    hyperparameters@hyperparameters[["objective"]] <- if (
+      type == "Regression"
+    ) {
       "regression"
     } else {
       if (nclasses == 2) {

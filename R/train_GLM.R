@@ -23,10 +23,11 @@
 #' @noRd
 
 train_GLM <- function(
-    x,
-    weights = NULL,
-    hyperparameters = NULL,
-    verbosity = 1L) {
+  x,
+  weights = NULL,
+  hyperparameters = NULL,
+  verbosity = 1L
+) {
   # Checks ----
   check_is_S7(hyperparameters, GLMHyperparameters)
 
@@ -54,7 +55,8 @@ train_GLM <- function(
   # Formula ----
   formula <- as.formula(
     paste(
-      names(x)[ncol(x)], "~",
+      names(x)[ncol(x)],
+      "~",
       paste(names(x)[-ncol(x)], collapse = " + ")
     )
   )

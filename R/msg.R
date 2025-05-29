@@ -21,7 +21,9 @@ warn <- function(...) {
 
 rtOut <- function(...) {
   message <- paste(...)
-  cat(bold(gray("[")), green("+++", bold(green(message))),
+  cat(
+    bold(gray("[")),
+    green("+++", bold(green(message))),
     bold(gray("]")),
     sep = ""
   )
@@ -63,15 +65,17 @@ suggest <- function(...) {
 #' @author EDG
 #' @keywords internal
 #' @noRd
-msg2 <- function(...,
-                 date = rtemis_date,
-                 caller = NULL,
-                 call_depth = 1,
-                 caller_id = 1,
-                 newline_pre = FALSE,
-                 newline = TRUE,
-                 format_fn = plain,
-                 sep = " ") {
+msg2 <- function(
+  ...,
+  date = rtemis_date,
+  caller = NULL,
+  call_depth = 1,
+  caller_id = 1,
+  newline_pre = FALSE,
+  newline = TRUE,
+  format_fn = plain,
+  sep = " "
+) {
   if (is.null(caller)) {
     callStack.list <- as.list(sys.calls())
     stack.length <- length(callStack.list)
@@ -80,10 +84,13 @@ msg2 <- function(...,
     } else {
       call_depth <- call_depth + caller_id
       if (call_depth > stack.length) call_depth <- stack.length
-      caller <- paste(lapply(
-        rev(seq(call_depth)[-seq(caller_id)]),
-        function(i) rev(callStack.list)[[i]][[1]]
-      ), collapse = ">>")
+      caller <- paste(
+        lapply(
+          rev(seq(call_depth)[-seq(caller_id)]),
+          function(i) rev(callStack.list)[[i]][[1]]
+        ),
+        collapse = ">>"
+      )
     }
     # do.call and similar will change the call stack, it will contain the full
     # function definition instead of the name alone
@@ -106,14 +113,16 @@ msg2 <- function(...,
 } # rtemis::msg2
 
 
-msg20 <- function(...,
-                  caller = NULL,
-                  call_depth = 1,
-                  caller_id = 1,
-                  newline_pre = FALSE,
-                  newline = TRUE,
-                  format_fn = plain,
-                  sep = "") {
+msg20 <- function(
+  ...,
+  caller = NULL,
+  call_depth = 1,
+  caller_id = 1,
+  newline_pre = FALSE,
+  newline = TRUE,
+  format_fn = plain,
+  sep = ""
+) {
   if (is.null(caller)) {
     callStack.list <- as.list(sys.calls())
     stack.length <- length(callStack.list)
@@ -122,10 +131,13 @@ msg20 <- function(...,
     } else {
       call_depth <- call_depth + caller_id
       if (call_depth > stack.length) call_depth <- stack.length
-      caller <- paste(lapply(
-        rev(seq(call_depth)[-seq(caller_id)]),
-        function(i) rev(callStack.list)[[i]][[1]]
-      ), collapse = ">>")
+      caller <- paste(
+        lapply(
+          rev(seq(call_depth)[-seq(caller_id)]),
+          function(i) rev(callStack.list)[[i]][[1]]
+        ),
+        collapse = ">>"
+      )
     }
     # do.call and similar will change the call stack, it will contain the full
     # function definition instead of the name alone
@@ -167,7 +179,8 @@ pcat <- function(left, right, pad = 17, newline = TRUE) {
 pad <- function(x, target = 17, char = " ") {
   lpad <- max(0, target - max(0, nchar(x)))
   paste0(
-    paste(rep(char, lpad), collapse = ""), x
+    paste(rep(char, lpad), collapse = ""),
+    x
   )
 }
 
@@ -178,14 +191,16 @@ pad <- function(x, target = 17, char = " ") {
 #'
 #' @keywords internal
 #' @noRd
-msg2start <- function(...,
-                      #  date = TRUE,
-                      #  newline = TRUE,
-                      #  extraline = FALSE,
-                      newline_pre = FALSE,
-                      #  as.message = FALSE,
-                      #  color = NULL,
-                      sep = " ") {
+msg2start <- function(
+  ...,
+  #  date = TRUE,
+  #  newline = TRUE,
+  #  extraline = FALSE,
+  newline_pre = FALSE,
+  #  as.message = FALSE,
+  #  color = NULL,
+  sep = " "
+) {
   txt <- Filter(Negate(is.null), list(...))
   .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
   if (newline_pre) cat("\n")
@@ -200,10 +215,7 @@ msg2start <- function(...,
 #'
 #' @keywords internal
 #' @noRd
-msg2done <- function(caller = NULL,
-                     call_depth = 1,
-                     caller_id = 1,
-                     sep = " ") {
+msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
   if (is.null(caller)) {
     callStack.list <- as.list(sys.calls())
     stack.length <- length(callStack.list)
@@ -212,10 +224,13 @@ msg2done <- function(caller = NULL,
     } else {
       call_depth <- call_depth + caller_id
       if (call_depth > stack.length) call_depth <- stack.length
-      caller <- paste(lapply(
-        rev(seq(call_depth)[-seq(caller_id)]),
-        function(i) rev(callStack.list)[[i]][[1]]
-      ), collapse = ">>")
+      caller <- paste(
+        lapply(
+          rev(seq(call_depth)[-seq(caller_id)]),
+          function(i) rev(callStack.list)[[i]][[1]]
+        ),
+        collapse = ">>"
+      )
     }
     if (is.function(caller)) caller <- NULL
     if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL

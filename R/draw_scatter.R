@@ -114,101 +114,105 @@
 #'   fit = "gam", se_fit = TRUE, group = iris$Species
 #' )
 #' }
-draw_scatter <- function(x, y = NULL,
-                         fit = NULL,
-                         se_fit = FALSE,
-                         se_times = 1.96,
-                         include_fit_name = TRUE,
-                         cluster = NULL,
-                         cluster_params = list(k = 2),
-                         group = NULL,
-                         formula = NULL,
-                         rsq = TRUE,
-                         mode = "markers",
-                         order_on_x = NULL,
-                         main = NULL,
-                         subtitle = NULL,
-                         xlab = NULL,
-                         ylab = NULL,
-                         col = NULL,
-                         alpha = NULL,
-                         theme = rtemis_theme,
-                         palette = rtemis_palette,
-                         axes_square = FALSE,
-                         group_names = NULL,
-                         font_size = 16,
-                         marker_col = NULL,
-                         marker_size = 8,
-                         symbol = "circle",
-                         fit_col = NULL,
-                         fit_alpha = .8,
-                         fit_lwd = 2.5,
-                         se_col = NULL,
-                         se_alpha = .4,
-                         scatter_type = "scatter",
-                         show_marginal_x = FALSE,
-                         show_marginal_y = FALSE,
-                         marginal_x = x,
-                         marginal_y = y,
-                         marginal_x_y = NULL,
-                         marginal_y_x = NULL,
-                         marginal_col = NULL,
-                         marginal_alpha = .333,
-                         marginal_size = 10,
-                         legend = NULL,
-                         legend_xy = c(0, .98),
-                         legend_xanchor = "left",
-                         legend_yanchor = "auto",
-                         legend_orientation = "v",
-                         legend_col = NULL,
-                         legend_bg = "#FFFFFF00",
-                         legend_border_col = "#FFFFFF00",
-                         legend_borderwidth = 0,
-                         legend_group_gap = 0,
-                         x_showspikes = FALSE,
-                         y_showspikes = FALSE,
-                         spikedash = "solid",
-                         spikemode = "across",
-                         spikesnap = "hovered data",
-                         spikecolor = NULL,
-                         spikethickness = 1,
-                         margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
-                         main_y = 1,
-                         main_yanchor = "bottom",
-                         subtitle_x = 0.02,
-                         subtitle_y = 0.99,
-                         subtitle_xref = "paper",
-                         subtitle_yref = "paper",
-                         subtitle_xanchor = "left",
-                         subtitle_yanchor = "top",
-                         automargin_x = TRUE,
-                         automargin_y = TRUE,
-                         xlim = NULL,
-                         ylim = NULL,
-                         axes_equal = FALSE,
-                         diagonal = FALSE,
-                         diagonal_col = NULL,
-                         diagonal_alpha = .66,
-                         fit_params = list(),
-                         vline = NULL,
-                         vline_col = theme[["fg"]],
-                         vline_width = 1,
-                         vline_dash = "dot",
-                         hline = NULL,
-                         hline_col = theme[["fg"]],
-                         hline_width = 1,
-                         hline_dash = "dot",
-                         hovertext = NULL,
-                         width = NULL,
-                         height = NULL,
-                         displayModeBar = TRUE,
-                         modeBar_file_format = "svg",
-                         scrollZoom = TRUE,
-                         filename = NULL,
-                         file_width = 500,
-                         file_height = 500,
-                         file_scale = 1,
-                         verbosity = 0L, ...) {
+draw_scatter <- function(
+  x,
+  y = NULL,
+  fit = NULL,
+  se_fit = FALSE,
+  se_times = 1.96,
+  include_fit_name = TRUE,
+  cluster = NULL,
+  cluster_params = list(k = 2),
+  group = NULL,
+  formula = NULL,
+  rsq = TRUE,
+  mode = "markers",
+  order_on_x = NULL,
+  main = NULL,
+  subtitle = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  col = NULL,
+  alpha = NULL,
+  theme = rtemis_theme,
+  palette = rtemis_palette,
+  axes_square = FALSE,
+  group_names = NULL,
+  font_size = 16,
+  marker_col = NULL,
+  marker_size = 8,
+  symbol = "circle",
+  fit_col = NULL,
+  fit_alpha = .8,
+  fit_lwd = 2.5,
+  se_col = NULL,
+  se_alpha = .4,
+  scatter_type = "scatter",
+  show_marginal_x = FALSE,
+  show_marginal_y = FALSE,
+  marginal_x = x,
+  marginal_y = y,
+  marginal_x_y = NULL,
+  marginal_y_x = NULL,
+  marginal_col = NULL,
+  marginal_alpha = .333,
+  marginal_size = 10,
+  legend = NULL,
+  legend_xy = c(0, .98),
+  legend_xanchor = "left",
+  legend_yanchor = "auto",
+  legend_orientation = "v",
+  legend_col = NULL,
+  legend_bg = "#FFFFFF00",
+  legend_border_col = "#FFFFFF00",
+  legend_borderwidth = 0,
+  legend_group_gap = 0,
+  x_showspikes = FALSE,
+  y_showspikes = FALSE,
+  spikedash = "solid",
+  spikemode = "across",
+  spikesnap = "hovered data",
+  spikecolor = NULL,
+  spikethickness = 1,
+  margin = list(b = 65, l = 65, t = 50, r = 10, pad = 0),
+  main_y = 1,
+  main_yanchor = "bottom",
+  subtitle_x = 0.02,
+  subtitle_y = 0.99,
+  subtitle_xref = "paper",
+  subtitle_yref = "paper",
+  subtitle_xanchor = "left",
+  subtitle_yanchor = "top",
+  automargin_x = TRUE,
+  automargin_y = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  axes_equal = FALSE,
+  diagonal = FALSE,
+  diagonal_col = NULL,
+  diagonal_alpha = .66,
+  fit_params = list(),
+  vline = NULL,
+  vline_col = theme[["fg"]],
+  vline_width = 1,
+  vline_dash = "dot",
+  hline = NULL,
+  hline_col = theme[["fg"]],
+  hline_width = 1,
+  hline_dash = "dot",
+  hovertext = NULL,
+  width = NULL,
+  height = NULL,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  scrollZoom = TRUE,
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  verbosity = 0L,
+  ...
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -234,28 +238,35 @@ draw_scatter <- function(x, y = NULL,
 
   if (se_fit) {
     if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
-      warning(paste("Standard error of the fit not available for", fit, "- try LM, LOESS, GAM, or NW"))
+      warning(paste(
+        "Standard error of the fit not available for",
+        fit,
+        "- try LM, LOESS, GAM, or NW"
+      ))
       se_fit <- FALSE
     }
   }
 
   # order_on_x ----
   if (is.null(order_on_x)) {
-    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
+    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else
+      FALSE
   }
 
   # Cluster ----
   if (!is.null(cluster)) {
-    group <- suppressWarnings(do_call(
-      get_clust_fn(cluster),
-      c(
-        list(
-          x = data.frame(x, y),
-          verbosity = verbosity - 1L
-        ),
-        cluster_params
-      )
-    )@clusters)
+    group <- suppressWarnings(
+      do_call(
+        get_clust_fn(cluster),
+        c(
+          list(
+            x = data.frame(x, y),
+            verbosity = verbosity - 1L
+          ),
+          cluster_params
+        )
+      )@clusters
+    )
     group <- paste("Cluster", group)
   }
 
@@ -312,7 +323,8 @@ draw_scatter <- function(x, y = NULL,
     legend <- if (n_groups == 1 && is.null(fit)) FALSE else TRUE
   }
 
-  if (length(.mode) < n_groups) .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
+  if (length(.mode) < n_groups)
+    .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n_groups > 1
   if (is.null(.names)) {
@@ -442,7 +454,8 @@ draw_scatter <- function(x, y = NULL,
         fitted_text[i] <- paste0(
           fitted_text[i],
           if (n_groups == 1) " (" else " ",
-          "R<sup>2</sup> = ", ddSci(mod@metrics_training[["Rsq"]]),
+          "R<sup>2</sup> = ",
+          ddSci(mod@metrics_training[["Rsq"]]),
           if (n_groups == 1) ")"
         )
       }
@@ -521,7 +534,8 @@ draw_scatter <- function(x, y = NULL,
   if (diagonal) {
     lo <- min(xlim[1], ylim[1])
     hi <- max(xlim[2], ylim[2])
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       shapes = list(
         type = "line",
         x0 = lo,
@@ -544,7 +558,8 @@ draw_scatter <- function(x, y = NULL,
     } else {
       NULL
     }
-    plt <- plotly::add_trace(plt,
+    plt <- plotly::add_trace(
+      plt,
       x = x[[i]],
       y = y[[i]],
       type = scatter_type,
@@ -573,7 +588,8 @@ draw_scatter <- function(x, y = NULL,
       # Extend ylim to include marginal markers
       ylim[1] <- ylim[1] - 0.02 * diff(ylim)
       for (i in seq_len(n_groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = marginal_x[[i]],
           y = rep(marginal_x_y, length(marginal_x[[i]])),
           type = "scatter",
@@ -597,7 +613,8 @@ draw_scatter <- function(x, y = NULL,
       # Extend xlim to include marginal markers
       xlim[1] <- xlim[1] - 0.02 * diff(xlim)
       for (i in seq_len(n_groups)) {
-        plt <- plotly::add_trace(plt,
+        plt <- plotly::add_trace(
+          plt,
           x = rep(marginal_y_x, length(marginal_y[[i]])),
           y = marginal_y[[i]],
           type = "scatter",
@@ -616,7 +633,8 @@ draw_scatter <- function(x, y = NULL,
 
     ## { SE band } ----
     if (se_fit) {
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = x[[i]],
         y = fitted[[i]] + se_times * se[[i]],
         type = scatter_type,
@@ -627,7 +645,8 @@ draw_scatter <- function(x, y = NULL,
         hoverinfo = "none",
         inherit = FALSE
       )
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = x[[i]],
         y = fitted[[i]] - se_times * se[[i]],
         type = scatter_type,
@@ -648,8 +667,10 @@ draw_scatter <- function(x, y = NULL,
         color = plotly::toRGB(fit_col[[i]], alpha = fit_alpha),
         width = fit_lwd
       )
-      plt <- plotly::add_trace(plt,
-        x = x[[i]], y = fitted[[i]],
+      plt <- plotly::add_trace(
+        plt,
+        x = x[[i]],
+        y = fitted[[i]],
         type = scatter_type,
         mode = "lines",
         line = lfit,
@@ -690,7 +711,8 @@ draw_scatter <- function(x, y = NULL,
   )
 
   zerocol <- adjustcolor(theme[["zerolines_col"]], theme[["zerolines_alpha"]])
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis = list(
       title = ylab,
       showline = FALSE,
@@ -758,7 +780,8 @@ draw_scatter <- function(x, y = NULL,
 
   ## vline ----
   if (!is.null(vline)) {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       shapes = plotly_vline(
         vline,
         color = vline_col,
@@ -770,7 +793,8 @@ draw_scatter <- function(x, y = NULL,
 
   ## hline ----
   if (!is.null(hline)) {
-    plt <- plotly::layout(plt,
+    plt <- plotly::layout(
+      plt,
       shapes = plotly_hline(
         hline,
         color = hline_col,
@@ -782,36 +806,39 @@ draw_scatter <- function(x, y = NULL,
 
   ## square ----
   if (axes_square) {
-    plt <- plt |> plotly::layout(
-      yaxis = list(
-        scaleanchor = "x",
-        scaleratio = 1
+    plt <- plt |>
+      plotly::layout(
+        yaxis = list(
+          scaleanchor = "x",
+          scaleratio = 1
+        )
       )
-    )
   }
 
   # Subtitle ----
   # add annotation at top left with same font as main title
   if (!is.null(subtitle)) {
-    plt <- plt |> plotly::add_annotations(
-      x = subtitle_x,
-      y = subtitle_y,
-      xref = subtitle_xref,
-      yref = subtitle_yref,
-      xanchor = subtitle_xanchor,
-      yanchor = subtitle_yanchor,
-      text = subtitle,
-      showarrow = FALSE,
-      font = list(
-        family = theme[["font_family"]],
-        size = font_size,
-        color = main_col
+    plt <- plt |>
+      plotly::add_annotations(
+        x = subtitle_x,
+        y = subtitle_y,
+        xref = subtitle_xref,
+        yref = subtitle_yref,
+        xanchor = subtitle_xanchor,
+        yanchor = subtitle_yanchor,
+        text = subtitle,
+        showarrow = FALSE,
+        font = list(
+          family = theme[["font_family"]],
+          size = font_size,
+          color = main_col
+        )
       )
-    )
   }
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(
@@ -856,6 +883,22 @@ draw_scatter <- function(x, y = NULL,
 #' y <- x + rnorm(500)
 #' draw_fit(x, y)
 #' }
-draw_fit <- function(x, y, fit = "gam", se_fit = TRUE, axes_square = TRUE, diagonal = TRUE, ...) {
-  draw_scatter(x, y, fit = fit, se_fit = se_fit, axes_equal = axes_square, diagonal = diagonal, ...)
+draw_fit <- function(
+  x,
+  y,
+  fit = "gam",
+  se_fit = TRUE,
+  axes_square = TRUE,
+  diagonal = TRUE,
+  ...
+) {
+  draw_scatter(
+    x,
+    y,
+    fit = fit,
+    se_fit = se_fit,
+    axes_equal = axes_square,
+    diagonal = diagonal,
+    ...
+  )
 } # /rtemis::draw_fit

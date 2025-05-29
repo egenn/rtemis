@@ -71,57 +71,62 @@
 #' \dontrun{
 #' draw_3Dscatter(iris, group = iris$Species, theme = "darkgrid")
 #' }
-draw_3Dscatter <- function(x, y = NULL, z = NULL,
-                           fit = NULL,
-                           cluster = NULL,
-                           cluster_params = list(k = 2),
-                           group = NULL,
-                           formula = NULL,
-                           rsq = TRUE,
-                           mode = "markers",
-                           order_on_x = NULL,
-                           main = NULL,
-                           xlab = NULL,
-                           ylab = NULL,
-                           zlab = NULL,
-                           col = NULL,
-                           alpha = .8,
-                           bg = NULL,
-                           plot_bg = NULL,
-                           theme = rtemis_theme,
-                           palette = rtemis_palette,
-                           axes_square = FALSE,
-                           group_names = NULL,
-                           font_size = 16,
-                           marker_col = NULL,
-                           marker_size = 8,
-                           fit_col = NULL,
-                           fit_alpha = .7,
-                           fit_lwd = 2.5,
-                           tick_font_size = 12,
-                           spike_col = NULL,
-                           legend = NULL,
-                           legend_xy = c(0, 1),
-                           legend_xanchor = "left",
-                           legend_yanchor = "auto",
-                           legend_orientation = "v",
-                           legend_col = NULL,
-                           legend_bg = "#FFFFFF00",
-                           legend_border_col = "#FFFFFF00",
-                           legend_borderwidth = 0,
-                           legend_group_gap = 0,
-                           margin = list(t = 30, b = 0, l = 0, r = 0),
-                           fit_params = list(),
-                           width = NULL,
-                           height = NULL,
-                           padding = 0,
-                           displayModeBar = TRUE,
-                           modeBar_file_format = "svg",
-                           verbosity = 0L,
-                           filename = NULL,
-                           file_width = 500,
-                           file_height = 500,
-                           file_scale = 1, ...) {
+draw_3Dscatter <- function(
+  x,
+  y = NULL,
+  z = NULL,
+  fit = NULL,
+  cluster = NULL,
+  cluster_params = list(k = 2),
+  group = NULL,
+  formula = NULL,
+  rsq = TRUE,
+  mode = "markers",
+  order_on_x = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  zlab = NULL,
+  col = NULL,
+  alpha = .8,
+  bg = NULL,
+  plot_bg = NULL,
+  theme = rtemis_theme,
+  palette = rtemis_palette,
+  axes_square = FALSE,
+  group_names = NULL,
+  font_size = 16,
+  marker_col = NULL,
+  marker_size = 8,
+  fit_col = NULL,
+  fit_alpha = .7,
+  fit_lwd = 2.5,
+  tick_font_size = 12,
+  spike_col = NULL,
+  legend = NULL,
+  legend_xy = c(0, 1),
+  legend_xanchor = "left",
+  legend_yanchor = "auto",
+  legend_orientation = "v",
+  legend_col = NULL,
+  legend_bg = "#FFFFFF00",
+  legend_border_col = "#FFFFFF00",
+  legend_borderwidth = 0,
+  legend_group_gap = 0,
+  margin = list(t = 30, b = 0, l = 0, r = 0),
+  fit_params = list(),
+  width = NULL,
+  height = NULL,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  verbosity = 0L,
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -143,21 +148,24 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
 
   # order_on_x ----
   if (is.null(order_on_x)) {
-    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else FALSE
+    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else
+      FALSE
   }
 
   # CLUSTER ----
   if (!is.null(cluster)) {
-    group <- suppressWarnings(do.call(
-      get_clust_fn(cluster),
-      c(
-        list(
-          x = data.frame(x, y),
-          verbosity = verbosity > 0L
-        ),
-        cluster_params
-      )
-    )@clusters)
+    group <- suppressWarnings(
+      do.call(
+        get_clust_fn(cluster),
+        c(
+          list(
+            x = data.frame(x, y),
+            verbosity = verbosity > 0L
+          ),
+          cluster_params
+        )
+      )@clusters
+    )
     group <- paste("Cluster", group)
   }
 
@@ -165,13 +173,16 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   # xlab, ylab ----
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
-    if (is.list(x)) xlab <- "x" else xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+    if (is.list(x)) xlab <- "x" else
+      xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   }
   if (!is.null(y) && is.null(ylab)) {
-    if (is.list(y)) ylab <- "y" else ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
+    if (is.list(y)) ylab <- "y" else
+      ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   }
   if (!is.null(z) && is.null(zlab)) {
-    if (is.list(z)) zlab <- "z" else zlab <- labelify(gsub(".*\\$", "", deparse(substitute(z))))
+    if (is.list(z)) zlab <- "z" else
+      zlab <- labelify(gsub(".*\\$", "", deparse(substitute(z))))
   }
 
   # '- Group ----
@@ -216,7 +227,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   # legend <- if (is.null(legend) & n_groups == 1 & is.null(fit)) FALSE else TRUE
   legend <- if (is.null(legend) && n_groups == 1) FALSE else TRUE
 
-  if (length(.mode) < n_groups) .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
+  if (length(.mode) < n_groups)
+    .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
 
   # if (is.null(legend)) legend <- n_groups > 1
   if (is.null(.names)) {
@@ -276,7 +288,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
 
   # marker_col, se_col ----
   if (is.null(marker_col)) {
-    marker_col <- if (!is.null(fit) && n_groups == 1) as.list(rep(theme[["fg"]], n_groups)) else col
+    marker_col <- if (!is.null(fit) && n_groups == 1)
+      as.list(rep(theme[["fg"]], n_groups)) else col
   }
 
   if (!is.null(fit)) {
@@ -327,7 +340,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         fitted_text[i] <- paste0(
           fitted_text[i],
           if (n_groups == 1) " (" else " ",
-          "R<sup>2</sup> = ", ddSci(mod@metrics_training[["Rsq"]]),
+          "R<sup>2</sup> = ",
+          ddSci(mod@metrics_training[["Rsq"]]),
           if (n_groups == 1) ")"
         )
       }
@@ -349,7 +363,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     } else {
       NULL
     }
-    plt <- plotly::add_trace(plt,
+    plt <- plotly::add_trace(
+      plt,
       x = x[[i]],
       y = y[[i]],
       z = z[[i]],
@@ -362,7 +377,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
       # hoverinfo = "text",
       # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
       marker = marker,
-      line = if (grepl("lines", .mode[i])) list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
+      line = if (grepl("lines", .mode[i]))
+        list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
       legendgroup = if (n_groups > 1) .names[i] else "Raw",
       showlegend = legend
     )
@@ -394,7 +410,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
 
     if (!is.null(fit)) {
       # '- { Fitted mesh } ----
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = x[[i]],
         y = y[[i]],
         z = fitted[[i]],
@@ -406,7 +423,10 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
         inherit = FALSE,
         showscale = FALSE,
         intensity = 1,
-        colorscale = list(c(0, plotly::toRGB(fit_col[[i]])), c(1, plotly::toRGB(fit_col[[i]])))
+        colorscale = list(
+          c(0, plotly::toRGB(fit_col[[i]])),
+          c(1, plotly::toRGB(fit_col[[i]]))
+        )
       )
     }
   }
@@ -439,7 +459,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
     tracegroupgap = legend_group_gap
   )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     scene = list(
       yaxis = list(
         title = ylab,
@@ -500,7 +521,8 @@ draw_3Dscatter <- function(x, y = NULL, z = NULL,
   # Padding
   plt[["sizingPolicy"]][["padding"]] <- padding
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

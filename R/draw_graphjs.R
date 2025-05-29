@@ -37,40 +37,50 @@
 #' @param ... Extra arguments to pass to `igraph::plot.igraph()`.
 #'
 #' @return A threejs graph object.
-#' 
+#'
 #' @author EDG
 #' @export
-draw_graphjs <- function(net,
-                         vertex_size = 1,
-                         vertex_col = NULL,
-                         vertex_label_col = NULL,
-                         vertex_label_alpha = .66,
-                         vertex_frame_col = NA,
-                         vertex_label = NULL,
-                         vertex_shape = "circle",
-                         edge_col = NULL,
-                         edge_alpha = .5,
-                         edge_curved = .35,
-                         edge_width = 2,
-                         layout = c(
-                           "fr", "dh", "drl", "gem", "graphopt",
-                           "kk", "lgl", "mds", "sugiyama"
-                         ),
-                         coords = NULL,
-                         layout_params = list(),
-                         cluster = NULL,
-                         groups = NULL,
-                         cluster_params = list(),
-                         cluster_mark_groups = TRUE,
-                         cluster_color_vertices = FALSE,
-                         main = "",
-                         theme = rtemis_theme,
-                         theme_extra_args = list(),
-                         palette = rtemis_palette,
-                         mar = rep(0, 4),
-                         par_reset = TRUE,
-                         filename = NULL,
-                         verbosity = 1L, ...) {
+draw_graphjs <- function(
+  net,
+  vertex_size = 1,
+  vertex_col = NULL,
+  vertex_label_col = NULL,
+  vertex_label_alpha = .66,
+  vertex_frame_col = NA,
+  vertex_label = NULL,
+  vertex_shape = "circle",
+  edge_col = NULL,
+  edge_alpha = .5,
+  edge_curved = .35,
+  edge_width = 2,
+  layout = c(
+    "fr",
+    "dh",
+    "drl",
+    "gem",
+    "graphopt",
+    "kk",
+    "lgl",
+    "mds",
+    "sugiyama"
+  ),
+  coords = NULL,
+  layout_params = list(),
+  cluster = NULL,
+  groups = NULL,
+  cluster_params = list(),
+  cluster_mark_groups = TRUE,
+  cluster_color_vertices = FALSE,
+  main = "",
+  theme = rtemis_theme,
+  theme_extra_args = list(),
+  palette = rtemis_palette,
+  mar = rep(0, 4),
+  par_reset = TRUE,
+  filename = NULL,
+  verbosity = 1L,
+  ...
+) {
   # Dependencies ----
   check_dependencies("igraph", "threejs")
 
@@ -126,7 +136,8 @@ draw_graphjs <- function(net,
   }
 
   # Plot ----
-  threejs::graphjs(net,
+  threejs::graphjs(
+    net,
     layout = coords,
     vertex.color = vertex_col,
     vertex.size = vertex_size,
@@ -143,6 +154,7 @@ draw_graphjs <- function(net,
     vertex.label.family = theme[["font_family"]],
     font.main = theme[["font_family"]],
     stroke = NULL,
-    verbosity = verbosity, ...
+    verbosity = verbosity,
+    ...
   )
 } # rtemis::draw_graphjs

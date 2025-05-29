@@ -9,13 +9,17 @@
 #' @param dates Date vector.
 #' @param features Character vector: features to extract.
 #' @param drop_dates Logical: If TRUE, drop original date column.
-#' 
+#'
 #' @return data.table with extracted features
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
-dates2features <- function(dates, features = c("weekday", "month", "year"), drop_dates = TRUE) {
+dates2features <- function(
+  dates,
+  features = c("weekday", "month", "year"),
+  drop_dates = TRUE
+) {
   # appease R CMD check
   weekday <- NULL
   # to factors: dow, month
@@ -42,22 +46,37 @@ dates2features <- function(dates, features = c("weekday", "month", "year"), drop
 #' @param holidays Character vector: holidays to extract
 #'
 #' @return Factor of length `length(dates)` with levels "Not Holiday", "Holiday"
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
-get_holidays <- function(dates,
-                         holidays = c("LaborDay", "NewYearsDay", "ChristmasDay")) {
+get_holidays <- function(
+  dates,
+  holidays = c("LaborDay", "NewYearsDay", "ChristmasDay")
+) {
   # Get years from dates
   years <- unique(data.table::year(dates))
   # Get all holidays in all years
-  .holidays <- do.call("c", lapply(years, function(year) {
-    do.call("c", lapply(holidays, function(holiday) {
-      timeDate::as.Date.timeDate(timeDate::holiday(year = year, Holiday = holiday))
-    }))
-  }))
+  .holidays <- do.call(
+    "c",
+    lapply(years, function(year) {
+      do.call(
+        "c",
+        lapply(holidays, function(holiday) {
+          timeDate::as.Date.timeDate(timeDate::holiday(
+            year = year,
+            Holiday = holiday
+          ))
+        })
+      )
+    })
+  )
   # Return intersection of dates and holidays
-  holidays_fct <- factor(rep(0, length(dates)), levels = c(0, 1), labels = c("Not Holiday", "Holiday"))
+  holidays_fct <- factor(
+    rep(0, length(dates)),
+    levels = c(0, 1),
+    labels = c("Not Holiday", "Holiday")
+  )
   holidays_fct[dates %in% .holidays] <- "Holiday"
   holidays_fct
 } # rtemis::get_holidays
@@ -83,7 +102,7 @@ get_holidays <- function(dates,
 #' @author EDG
 #' @keywords internal
 #' @noRd
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' library(data.table)
@@ -99,11 +118,13 @@ get_holidays <- function(dates,
 #' date2factor(x, time_bin = "quarter", make_bins = "present")
 #' date2factor(x, time_bin = "quarter", make_bins = "range")
 #' }
-date2factor <- function(x,
-                        time_bin = c("year", "quarter", "month", "day"),
-                        make_bins = c("range", "present"),
-                        bin_range = range(x, na.rm = TRUE),
-                        ordered = FALSE) {
+date2factor <- function(
+  x,
+  time_bin = c("year", "quarter", "month", "day"),
+  make_bins = c("range", "present"),
+  bin_range = range(x, na.rm = TRUE),
+  ordered = FALSE
+) {
   time_bin <- match.arg(time_bin)
   make_bins <- match.arg(make_bins)
 
@@ -112,19 +133,29 @@ date2factor <- function(x,
       factor(data.table::year(x), ordered = ordered)
     } else {
       out <- as.character(data.table::year(x))
-      factor(out,
-        levels = as.character(seq(data.table::year(bin_range[1]), data.table::year(bin_range[2]))),
+      factor(
+        out,
+        levels = as.character(seq(
+          data.table::year(bin_range[1]),
+          data.table::year(bin_range[2])
+        )),
         ordered = ordered
       )
     }
   } else if (time_bin == "quarter") {
     if (make_bins == "present") {
-      factor(paste0(data.table::year(x), " Q", data.table::quarter(x)),
+      factor(
+        paste0(data.table::year(x), " Q", data.table::quarter(x)),
         ordered = ordered
       )
     } else {
-      factor(paste0(data.table::year(x), " Q", data.table::quarter(x)),
-        levels = levels(date2yq(seq(bin_range[1], bin_range[2], by = "quarter"))),
+      factor(
+        paste0(data.table::year(x), " Q", data.table::quarter(x)),
+        levels = levels(date2yq(seq(
+          bin_range[1],
+          bin_range[2],
+          by = "quarter"
+        ))),
         ordered = ordered
       )
     }
@@ -134,7 +165,8 @@ date2factor <- function(x,
       .levels <- unique(ym[order(x)])
       factor(ym, levels = .levels, ordered = ordered)
     } else {
-      factor(ym,
+      factor(
+        ym,
         levels = levels(date2ym(seq(bin_range[1], bin_range[2], by = "month"))),
         ordered = ordered
       )
@@ -143,7 +175,8 @@ date2factor <- function(x,
     if (make_bins == "present") {
       factor(x, levels = as.character(unique(x[order(x)])), ordered = ordered)
     } else {
-      factor(x,
+      factor(
+        x,
         levels = as.character(seq(bin_range[1], bin_range[2], by = 1)),
         ordered = ordered
       )
@@ -161,7 +194,8 @@ date2factor <- function(x,
 #' @keywords internal
 #' @noRd
 date2yq <- function(x, ordered = FALSE) {
-  factor(paste0(data.table::year(x), " Q", data.table::quarter(x)),
+  factor(
+    paste0(data.table::year(x), " Q", data.table::quarter(x)),
     ordered = ordered
   )
 } # /rtemis::date2yq

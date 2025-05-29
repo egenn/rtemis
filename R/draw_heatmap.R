@@ -57,45 +57,48 @@
 #' xcor <- cor(x)
 #' draw_heatmap(xcor)
 #' }
-draw_heatmap <- function(x,
-                         Rowv = TRUE,
-                         Colv = TRUE,
-                         cluster = FALSE,
-                         symm = FALSE,
-                         cellnote = NULL,
-                         colorgrad_n = 101,
-                         colors = NULL,
-                         space = "rgb",
-                         lo = "#18A3AC",
-                         lomid = NULL,
-                         mid = NULL,
-                         midhi = NULL,
-                         hi = "#F48024",
-                         k_row = 1,
-                         k_col = 1,
-                         grid_gap = 0,
-                         limits = NULL,
-                         margins = NULL,
-                         main = NULL,
-                         xlab = NULL,
-                         ylab = NULL,
-                         key_title = NULL,
-                         showticklabels = NULL,
-                         colorbar_len = .7,
-                         plot_method = "plotly",
-                         theme = rtemis_theme,
-                         row_side_colors = NULL,
-                         row_side_palette = NULL,
-                         col_side_colors = NULL,
-                         col_side_palette = NULL,
-                         font_size = NULL,
-                         padding = 0,
-                         displayModeBar = TRUE,
-                         modeBar_file_format = "svg",
-                         filename = NULL,
-                         file_width = 500,
-                         file_height = 500,
-                         file_scale = 1, ...) {
+draw_heatmap <- function(
+  x,
+  Rowv = TRUE,
+  Colv = TRUE,
+  cluster = FALSE,
+  symm = FALSE,
+  cellnote = NULL,
+  colorgrad_n = 101,
+  colors = NULL,
+  space = "rgb",
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  k_row = 1,
+  k_col = 1,
+  grid_gap = 0,
+  limits = NULL,
+  margins = NULL,
+  main = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  key_title = NULL,
+  showticklabels = NULL,
+  colorbar_len = .7,
+  plot_method = "plotly",
+  theme = rtemis_theme,
+  row_side_colors = NULL,
+  row_side_palette = NULL,
+  col_side_colors = NULL,
+  col_side_palette = NULL,
+  font_size = NULL,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Dependencies ----
   check_dependencies("heatmaply")
 
@@ -213,8 +216,10 @@ draw_heatmap <- function(x,
     dendextend::set("branches_col", theme[["fg"]]) |>
     dendextend::ladderize()
 
-  plt <- suppressWarnings(heatmaply::heatmaply(x,
-    Rowv = Rowv, Colv = Colv,
+  plt <- suppressWarnings(heatmaply::heatmaply(
+    x,
+    Rowv = Rowv,
+    Colv = Colv,
     symm = symm,
     cellnote = cellnote,
     colors = colors,
@@ -251,13 +256,16 @@ draw_heatmap <- function(x,
     size = font_size,
     color = tick_labels_col
   )
-  .legend <- list(font = list(
-    family = theme[["font_family"]],
-    size = font_size,
-    color = bg
-  ))
+  .legend <- list(
+    font = list(
+      family = theme[["font_family"]],
+      size = font_size,
+      color = bg
+    )
+  )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis2 = list(
       title = list(
         # text = ylab,
@@ -308,14 +316,17 @@ draw_heatmap <- function(x,
   # plt[["x"]][["layoutAttrs"]][[2]][["xaxis"]][["tickfont"]][["color"]] <- "rgba(255, 0, 0, 1)"
 
   ## edge lines must be invisible
-  plt[["x"]][["layout"]][["yaxis"]][["linecolor"]] <- plt[["x"]][["layout"]][["xaxis2"]][["linecolor"]] <- theme[["bg"]]
+  plt[["x"]][["layout"]][["yaxis"]][["linecolor"]] <- plt[["x"]][["layout"]][[
+    "xaxis2"
+  ]][["linecolor"]] <- theme[["bg"]]
 
   # Manual layout ----
   # Set padding
   plt[["sizingPolicy"]][["padding"]] <- padding
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

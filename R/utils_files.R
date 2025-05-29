@@ -8,7 +8,7 @@
 #' @param expand_path Logical: If TRUE, expand concatenated path using [path.expand].
 #'
 #' @return Character: Path.
-#' 
+#'
 #' @author EDG
 #' @export
 make_path <- function(..., expand_path = TRUE) {

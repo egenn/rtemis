@@ -3,5 +3,7 @@ get_macos_appearance <- function() {
 }
 
 macos_toggle_dark_mode <- function() {
-  system('osascript -e \'tell application "System Events" to tell appearance preferences to set dark mode to not dark mode\'')
+  system(
+    'osascript -e \'tell application "System Events" to tell appearance preferences to set dark mode to not dark mode\''
+  )
 }

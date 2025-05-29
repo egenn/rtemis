@@ -12,9 +12,11 @@
 
 zip2longlat <- function(x, zipdt) {
   data.table::setorder(
-    merge(data.table(ID = seq_along(x), zip = x, key = "ID"),
+    merge(
+      data.table(ID = seq_along(x), zip = x, key = "ID"),
       zipdt[zip %in% x],
-      by = "zip", all.x = TRUE
+      by = "zip",
+      all.x = TRUE
     ),
     "ID"
   )[, -"ID"]

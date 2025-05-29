@@ -16,12 +16,14 @@
 #' @return List with elements `dat, dat_training, dat_test, resamples, w, seed`
 #' @export
 
-synth_reg_data <- function(nrow = 500,
-                           ncol = 50,
-                           noise_sd_factor = 1,
-                           resampler_parameters = setup_Resampler(),
-                           seed = NULL,
-                           verbosity = 0L) {
+synth_reg_data <- function(
+  nrow = 500,
+  ncol = 50,
+  noise_sd_factor = 1,
+  resampler_parameters = setup_Resampler(),
+  seed = NULL,
+  verbosity = 0L
+) {
   if (!is.null(seed)) set.seed(seed)
   x <- rnormmat(nrow, ncol)
   w <- rnorm(ncol)
@@ -96,21 +98,23 @@ synth_reg_data <- function(nrow = 500,
 #'   seed = 2019
 #' )
 #' }
-synth_multimodal <- function(n.cases = 10000,
-                             init.fn = "runifmat",
-                             init.fn.params = list(min = -10, max = 10),
-                             n.groups = 4,
-                             n.feat.per.group = round(seq(10, 300, length.out = n.groups)),
-                             contrib.p = .33,
-                             linear.p = .66,
-                             square.p = .1,
-                             atan.p = .1,
-                             pair.multiply.p = .05,
-                             pair.square.p = .05,
-                             pair.atan.p = .05,
-                             verbosity = 1L,
-                             seed = NULL,
-                             filename = NULL) {
+synth_multimodal <- function(
+  n.cases = 10000,
+  init.fn = "runifmat",
+  init.fn.params = list(min = -10, max = 10),
+  n.groups = 4,
+  n.feat.per.group = round(seq(10, 300, length.out = n.groups)),
+  contrib.p = .33,
+  linear.p = .66,
+  square.p = .1,
+  atan.p = .1,
+  pair.multiply.p = .05,
+  pair.square.p = .05,
+  pair.atan.p = .05,
+  verbosity = 1L,
+  seed = NULL,
+  filename = NULL
+) {
   if (!is.null(seed)) set.seed(seed)
 
   # Synth features ----
@@ -207,9 +211,15 @@ synth_multimodal <- function(n.cases = 10000,
   # '- linear, squares & atans ----
   if (verbosity > 0L) cat("  Adding linear, square and atan terms...")
   y1 <- lapply(seq(n.groups), function(i) {
-    matrixStats::rowSums2(rnorm(1) * x[[i]][, index.linear[[i]], drop = FALSE]) +
-      matrixStats::rowSums2(rnorm(1) * x[[i]][, index.square[[i]], drop = FALSE]^2) +
-      matrixStats::rowSums2(rnorm(1) * atan(x[[i]][, index.atan[[i]], drop = FALSE]))
+    matrixStats::rowSums2(
+      rnorm(1) * x[[i]][, index.linear[[i]], drop = FALSE]
+    ) +
+      matrixStats::rowSums2(
+        rnorm(1) * x[[i]][, index.square[[i]], drop = FALSE]^2
+      ) +
+      matrixStats::rowSums2(
+        rnorm(1) * atan(x[[i]][, index.atan[[i]], drop = FALSE])
+      )
   })
   names(y1) <- names(x)
   if (verbosity > 0L) cat(" Done\n")
@@ -220,9 +230,14 @@ synth_multimodal <- function(n.cases = 10000,
   names(y2) <- names(x)
   for (i in seq_len(n.groups)) {
     y2[[i]] <- if (!is.null(index.pair.multiply[[i]])) {
-      matrixStats::rowSums2(sapply(seq_len(NROW(index.pair.multiply[[i]])), function(k) {
-        matrixStats::rowProds(rnorm(1) * x[[i]][, index.pair.multiply[[i]][k, ]])^2
-      }))
+      matrixStats::rowSums2(sapply(
+        seq_len(NROW(index.pair.multiply[[i]])),
+        function(k) {
+          matrixStats::rowProds(
+            rnorm(1) * x[[i]][, index.pair.multiply[[i]][k, ]]
+          )^2
+        }
+      ))
     } else {
       rep(0, n.cases)
     }
@@ -235,9 +250,14 @@ synth_multimodal <- function(n.cases = 10000,
   names(y3) <- names(x)
   for (i in seq_len(n.groups)) {
     y3[[i]] <- if (!is.null(index.pair.square[[i]])) {
-      matrixStats::rowSums2(sapply(seq_len(NROW(index.pair.square[[i]])), function(k) {
-        matrixStats::rowProds(rnorm(1) * x[[i]][, index.pair.square[[i]][k, ]])^2
-      }))
+      matrixStats::rowSums2(sapply(
+        seq_len(NROW(index.pair.square[[i]])),
+        function(k) {
+          matrixStats::rowProds(
+            rnorm(1) * x[[i]][, index.pair.square[[i]][k, ]]
+          )^2
+        }
+      ))
     } else {
       rep(0, n.cases)
     }
@@ -250,16 +270,24 @@ synth_multimodal <- function(n.cases = 10000,
   names(y4) <- names(x)
   for (i in seq_len(n.groups)) {
     y4[[i]] <- if (!is.null(index.pair.atan[[i]])) {
-      matrixStats::rowSums2(sapply(seq_len(NROW(index.pair.atan[[i]])), function(k) {
-        matrixStats::rowProds(rnorm(1) * x[[i]][, index.pair.atan[[i]][k, ]])^2
-      }))
+      matrixStats::rowSums2(sapply(
+        seq_len(NROW(index.pair.atan[[i]])),
+        function(k) {
+          matrixStats::rowProds(
+            rnorm(1) * x[[i]][, index.pair.atan[[i]][k, ]]
+          )^2
+        }
+      ))
     } else {
       rep(0, n.cases)
     }
   }
   if (verbosity > 0L) cat(" Done\n")
 
-  y <- lapply(seq_len(n.groups), function(i) y1[[i]] + y2[[i]] + y3[[i]] + y4[[i]])
+  y <- lapply(
+    seq_len(n.groups),
+    function(i) y1[[i]] + y2[[i]] + y3[[i]] + y4[[i]]
+  )
   names(y) <- names(x)
 
   out <- list(

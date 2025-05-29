@@ -5,6 +5,7 @@
 # Setup progressr ----
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
+# library(testthat)
 library(data.table)
 
 # Data ----
@@ -25,6 +26,11 @@ datc2$Species <- factor(datc2$Species)
 resc2 <- resample(datc2)
 datc2_train <- datc2[resc2$Fold_1, ]
 datc2_test <- datc2[-resc2$Fold_1, ]
+# data(Sonar, package = "mlbench")
+# datc2 <- Sonar
+# resc2 <- resample(datc2)
+# datc2_train <- datc2[resc2$Fold_1, ]
+# datc2_test <- datc2[-resc2$Fold_1, ]
 
 ### Synthetic binary data where positive class is 10% of the data ----
 # set.seed(2025)
@@ -348,7 +354,8 @@ test_that("train() LightCART Regression with linear_tree succeeds", {
 mod_r_lightrf <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "lightrf"
+  algorithm = "lightrf",
+  hyperparameters = setup_LightRF(num_threads = 8L)
 )
 test_that("train() LightRF Regression succeeds", {
   expect_s7_class(mod_r_lightrf, Regression)
@@ -563,7 +570,16 @@ test_that("train() LightRF Classification with crossvalidation succeeds", {
 mod_c_lightgbm <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  algorithm = "lightgbm"
+  algorithm = "lightgbm",
+  # hyperparameters = setup_LightGBM(
+  #   force_nrounds = 100L
+  # ),
+  tuner_parameters = setup_GridSearch(
+    resampler_parameters = setup_Resampler(
+      n_resamples = 3L,
+      type = "KFold"
+    )
+  )
 )
 test_that("train() LightGBM Classification succeeds", {
   expect_s7_class(mod_c_lightgbm, Classification)

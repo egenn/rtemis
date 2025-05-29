@@ -24,13 +24,15 @@
 #' @author EDG
 #' @keywords internal
 #' @noRd
-tune_GridSearch <- function(x,
-                            hyperparameters,
-                            tuner_parameters,
-                            weights = NULL,
-                            save_mods = FALSE,
-                            verbosity = 1L,
-                            parallel_type = "none") {
+tune_GridSearch <- function(
+  x,
+  hyperparameters,
+  tuner_parameters,
+  weights = NULL,
+  save_mods = FALSE,
+  verbosity = 1L,
+  parallel_type = "none"
+) {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
@@ -82,18 +84,24 @@ tune_GridSearch <- function(x,
   if (parallel_type != "mirai") {
     ptn <- progressr::progressor(steps = NROW(res_param_grid))
   }
-  learner1 <- function(index,
-                       x,
-                       res,
-                       res_param_grid,
-                       hyperparameters,
-                       weights,
-                       verbosity,
-                       save_mods,
-                       n_res_x_comb) {
+  learner1 <- function(
+    index,
+    x,
+    res,
+    res_param_grid,
+    hyperparameters,
+    weights,
+    verbosity,
+    save_mods,
+    n_res_x_comb
+  ) {
     if (verbosity > 0L) {
-      msg2("Running grid line #", hilite(index), "/",
-        NROW(res_param_grid), "...",
+      msg2(
+        "Running grid line #",
+        hilite(index),
+        "/",
+        NROW(res_param_grid),
+        "...",
         caller = "tune_GridSearch",
         sep = ""
       )
@@ -133,14 +141,22 @@ tune_GridSearch <- function(x,
     # Algorithm-specific params ----
     # => add to hyperparameters
     if (algorithm == "GLMNET") {
-      out1[["hyperparameters"]]@hyperparameters[["lambda.min"]] <- mod1@model[["lambda.min"]]
-      out1[["hyperparameters"]]@hyperparameters[["lambda.1se"]] <- mod1@model[["lambda.1se"]]
+      out1[["hyperparameters"]]@hyperparameters[["lambda.min"]] <- mod1@model[[
+        "lambda.min"
+      ]]
+      out1[["hyperparameters"]]@hyperparameters[["lambda.1se"]] <- mod1@model[[
+        "lambda.1se"
+      ]]
     }
     if (algorithm == "LightGBM") {
       # Check best_iter is meaningful, otherwise issue message and set to 100L
       best_iter <- mod1@model[["best_iter"]]
       if (is.null(best_iter) || best_iter == -1 || best_iter == 0) {
-        info(bold(italic("best_iter returned from lightgbm:", best_iter, " - setting to 100L")))
+        info(bold(italic(
+          "best_iter returned from lightgbm:",
+          best_iter,
+          " - setting to 100L"
+        )))
         best_iter <- 100L
       }
       out1[["hyperparameters"]]@hyperparameters[["best_iter"]] <- best_iter
@@ -164,13 +180,21 @@ tune_GridSearch <- function(x,
       hilite("Tuning", algorithm, "by", search_type, "grid search.")
     )
     msg20(
-      hilite(n_param_combinations), 
-      ngettext(n_param_combinations, " parameter combination x ", " parameter combinations x "),
-      hilite(n_resamples), " resamples: ",
-      hilite(n_res_x_comb), " models total",
+      hilite(n_param_combinations),
+      ngettext(
+        n_param_combinations,
+        " parameter combination x ",
+        " parameter combinations x "
+      ),
+      hilite(n_resamples),
+      " resamples: ",
+      hilite(n_res_x_comb),
+      " models total",
       # hilite(n_res_x_comb), " models total running on ",
       # singorplu(n_workers, "worker"),
-      " (", Sys.getenv("R_PLATFORM"), ")."
+      " (",
+      Sys.getenv("R_PLATFORM"),
+      ")."
     )
   }
 
@@ -187,7 +211,7 @@ tune_GridSearch <- function(x,
       save_mods = save_mods,
       n_res_x_comb = n_res_x_comb
     )
-  } else  if (parallel_type == "future") {
+  } else if (parallel_type == "future") {
     grid_run <- future.apply::future_lapply(
       X = seq_len(n_res_x_comb),
       FUN = learner1,
@@ -234,7 +258,8 @@ tune_GridSearch <- function(x,
     tuner_parameters@parameters[["metric"]] <- metric
   }
   if (is.null(maximize)) {
-    maximize <- metric %in% c("Accuracy", "Balanced_Accuracy", "Concordance", "Rsq", "r")
+    maximize <- metric %in%
+      c("Accuracy", "Balanced_Accuracy", "Concordance", "Rsq", "r")
     tuner_parameters@parameters[["maximize"]] <- maximize
   }
   select_fn <- if (maximize) which.max else which.min
@@ -268,15 +293,23 @@ tune_GridSearch <- function(x,
       function(r) unlist(r[["metrics_validation"]]@metrics[["Overall"]])
     )))
   }
-  metrics_validation_all[["param_combo_id"]] <- rep(seq_len(n_param_combinations), each = n_resamples)
-  metrics_training_all[["param_combo_id"]] <- rep(seq_len(n_param_combinations), each = n_resamples)
+  metrics_validation_all[["param_combo_id"]] <- rep(
+    seq_len(n_param_combinations),
+    each = n_resamples
+  )
+  metrics_training_all[["param_combo_id"]] <- rep(
+    seq_len(n_param_combinations),
+    each = n_resamples
+  )
   metrics_training_by_combo_id <- aggregate(
     . ~ param_combo_id,
-    data = metrics_training_all, FUN = tuner_parameters[["metrics_aggregate_fn"]]
+    data = metrics_training_all,
+    FUN = tuner_parameters[["metrics_aggregate_fn"]]
   )
   metrics_validation_by_combo_id <- aggregate(
     . ~ param_combo_id,
-    data = metrics_validation_all, FUN = tuner_parameters[["metrics_aggregate_fn"]]
+    data = metrics_validation_all,
+    FUN = tuner_parameters[["metrics_aggregate_fn"]]
   )
 
   tune_results <- list(
@@ -297,16 +330,28 @@ tune_GridSearch <- function(x,
         info("Extracting best lambda from GLMNET models...")
       }
       lambda_cv2 <- data.frame(
-        lambda = sapply(grid_run, \(x) x[["hyperparameters"]][[x[["hyperparameters"]][["which.cv.lambda"]]]])
+        lambda = sapply(
+          grid_run,
+          \(x)
+            x[["hyperparameters"]][[x[["hyperparameters"]][[
+              "which.cv.lambda"
+            ]]]]
+        )
       )
-      lambda_cv2[["param_combo_id"]] <- rep(1:n_param_combinations, each = n_resamples)
+      lambda_cv2[["param_combo_id"]] <- rep(
+        1:n_param_combinations,
+        each = n_resamples
+      )
       lambda_by_param_combo_id <- aggregate(
-        lambda ~ param_combo_id, lambda_cv2,
+        lambda ~ param_combo_id,
+        lambda_cv2,
         tuner_parameters[["metrics_aggregate_fn"]]
       )
       # Replace NULL lambda in tune_results$param_grid with average value of CV-squared lambda
       stopifnot(tune_results[["param_grid"]][["lambda"]] == "null")
-      param_grid[["lambda"]] <- tune_results[["param_grid"]][["lambda"]] <- lambda_by_param_combo_id[["lambda"]]
+      param_grid[["lambda"]] <- tune_results[["param_grid"]][[
+        "lambda"
+      ]] <- lambda_by_param_combo_id[["lambda"]]
     }
   } # /GLMNET
 
@@ -319,9 +364,13 @@ tune_GridSearch <- function(x,
       nrounds_cv <- data.frame(
         nrounds = sapply(grid_run, \(x) x[["hyperparameters"]][["best_iter"]])
       )
-      nrounds_cv[["param_combo_id"]] <- rep(seq_len(n_param_combinations), each = n_resamples)
+      nrounds_cv[["param_combo_id"]] <- rep(
+        seq_len(n_param_combinations),
+        each = n_resamples
+      )
       nrounds_by_param_combo_id <- aggregate(
-        nrounds ~ param_combo_id, nrounds_cv,
+        nrounds ~ param_combo_id,
+        nrounds_cv,
         tuner_parameters[["metrics_aggregate_fn"]]
       )
       # Replace NULL nrounds in tune_results$param_grid with average value of CV nrounds
@@ -422,7 +471,10 @@ tune_GridSearch <- function(x,
   # so that in case of tie, lowest value is chosen -
   # if that makes sense, e.g. n.leaves, etc.
   best_param_combo_id <- as.integer(
-    tune_results[["metrics_validation"]][select_fn(tune_results[["metrics_validation"]][[metric]]), 1]
+    tune_results[["metrics_validation"]][
+      select_fn(tune_results[["metrics_validation"]][[metric]]),
+      1
+    ]
   )
   best_param_combo <- as.list(param_grid[best_param_combo_id, -1, drop = FALSE])
   if (verbosity > 0L) {

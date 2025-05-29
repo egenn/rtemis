@@ -92,7 +92,13 @@ method(print, RegressionMetrics) <- function(x, ...) {
 ClassificationMetrics <- new_class(
   name = "ClassificationMetrics",
   parent = Metrics,
-  constructor = function(Confusion_Matrix, Overall, Class, Positive_Class, sample = character()) {
+  constructor = function(
+    Confusion_Matrix,
+    Overall,
+    Class,
+    Positive_Class,
+    sample = character()
+  ) {
     new_object(
       Metrics(
         sample = sample,
@@ -116,7 +122,8 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3, ...) {
   }
   tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9)
   printtable(x[["Confusion_Matrix"]], pad = tblpad)
-  printdf(x@metrics[["Overall"]],
+  printdf(
+    x@metrics[["Overall"]],
     transpose = TRUE,
     ddSci_dp = decimal_places,
     justify = "left",
@@ -126,7 +133,8 @@ method(print, ClassificationMetrics) <- function(x, decimal_places = 3, ...) {
     row_col = reset
   )
   if (is.na(x@metrics[["Positive_Class"]])) {
-    printdf(x@metrics[["Class"]],
+    printdf(
+      x@metrics[["Class"]],
       transpose = TRUE,
       ddSci_dp = decimal_places,
       justify = "left",
@@ -169,7 +177,8 @@ MetricsCV <- new_class(
 #' @author EDG
 #' @noRd
 print.MetricsCV <- function(x, decimal_places = 3L, ...) {
-  type <- if (inherits(x, "RegressionMetricsCV")) "Regression" else "Classification"
+  type <- if (inherits(x, "RegressionMetricsCV")) "Regression" else
+    "Classification"
   objcat(paste("  Crossvalidated", type, x@sample, "Metrics"))
   cat(italic("  Showing mean (sd) across resamples.\n\n"))
   # Create list with mean_metrics (sd_metrics)
@@ -219,10 +228,19 @@ ClassificationMetricsCV <- new_class(
         sample = sample,
         cv_metrics = cv_metrics,
         mean_metrics = vec2df(
-          colMeans(do.call(rbind, lapply(cv_metrics, function(x) x@metrics[["Overall"]])))
+          colMeans(do.call(
+            rbind,
+            lapply(cv_metrics, function(x) x@metrics[["Overall"]])
+          ))
         ),
         sd_metrics = vec2df(
-          sapply(do.call(rbind, lapply(cv_metrics, function(x) x@metrics[["Overall"]])), sd)
+          sapply(
+            do.call(
+              rbind,
+              lapply(cv_metrics, function(x) x@metrics[["Overall"]])
+            ),
+            sd
+          )
         )
       )
     )

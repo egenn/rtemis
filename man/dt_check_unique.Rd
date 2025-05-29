@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_data.table.R
 \name{dt_check_unique}
 \alias{dt_check_unique}
-\title{Check if all levels in a column are unique}
+\title{Check if all rows in a column are unique}
 \usage{
 dt_check_unique(x, on)
 }
@@ -12,7 +12,7 @@ dt_check_unique(x, on)
 \item{on}{Integer or character: column to check}
 }
 \description{
-Check if all levels in a column are unique
+Check if all rows in a column are unique
 }
 \author{
 EDG

@@ -15,10 +15,12 @@
 #'
 #' @author EDG
 #' @export
-cluster <- function(x,
-                    algorithm = "KMeans",
-                    parameters = NULL,
-                    verbosity = 1L) {
+cluster <- function(
+  x,
+  algorithm = "KMeans",
+  parameters = NULL,
+  verbosity = 1L
+) {
   # Checks ----
   if (is.null(parameters)) {
     parameters <- get_default_clusterparams(algorithm)

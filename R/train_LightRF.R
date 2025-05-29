@@ -13,11 +13,12 @@
 #' @keywords internal
 #' @noRd
 train_LightRF <- function(
-    x,
-    dat_validation = NULL,
-    weights = NULL,
-    hyperparameters = setup_LightRF(),
-    verbosity = 1L) {
+  x,
+  dat_validation = NULL,
+  weights = NULL,
+  hyperparameters = setup_LightRF(),
+  verbosity = 1L
+) {
   # Dependencies ----
   check_dependencies("lightgbm")
 
@@ -44,7 +45,9 @@ train_LightRF <- function(
     nclasses <- NA
   }
   if (is.null(hyperparameters[["objective"]])) {
-    hyperparameters@hyperparameters[["objective"]] <- if (type == "Regression") {
+    hyperparameters@hyperparameters[["objective"]] <- if (
+      type == "Regression"
+    ) {
       "regression"
     } else {
       if (nclasses == 2) {
@@ -54,7 +57,9 @@ train_LightRF <- function(
       }
     }
   }
-  factor_index <- names(x)[which(sapply(features(x), is.factor))]
+
+  ## Preprocess ----
+  factor_index <- names(x)[which(sapply(x, is.factor))]
   if (length(factor_index) > 0) {
     prp <- preprocess(
       x,
@@ -74,14 +79,16 @@ train_LightRF <- function(
   } else {
     factor_index <- NULL
   }
+  if (type == "Classification") {
+    # remove outcomes from factor_index
+    # will be character(0) if only outcome was factor, but that works
+    factor_index <- factor_index[seq_len(length(factor_index) - 1)]
+  }
+
   x <- lightgbm::lgb.Dataset(
     data = as.matrix(features(x)),
     categorical_feature = factor_index,
-    label = if (type == "Classification") {
-      as.integer(outcome(x)) - 1
-    } else {
-      outcome(x)
-    },
+    label = outcome(x),
     weight = weights
   )
 
@@ -89,17 +96,17 @@ train_LightRF <- function(
     dat_validation <- lightgbm::lgb.Dataset(
       data = as.matrix(features(dat_validation)),
       categorical_feature = factor_index,
-      label = if (type == "Classification") {
-        as.integer(outcome(dat_validation)) - 1
-      } else {
-        outcome(dat_validation)
-      }
+      label = outcome(dat_validation)
     )
   }
 
   # Train ----
+  params <- hyperparameters@hyperparameters
+  params[["ifw"]] <- NULL
+  params[["early_stopping_rounds"]] <- NULL
+
   model <- lightgbm::lgb.train(
-    params = hyperparameters@hyperparameters, # ?need get_lgb.train_params
+    params = params,
     data = x,
     nrounds = hyperparameters[["nrounds"]],
     valids = if (!is.null(dat_validation)) {
@@ -168,9 +175,11 @@ varimp_LightRF <- function(model) {
 #' @keywords internal
 #' @noRd
 explain_LightRF <- function(
-    model,
-    x,
-    verbosity = 0L, ...) {
+  model,
+  x,
+  verbosity = 0L,
+  ...
+) {
   explain_LightGBM(
     model = model,
     x = x,

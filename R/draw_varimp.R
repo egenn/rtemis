@@ -49,29 +49,31 @@
 #' draw_varimp(x)
 #' draw_varimp(x, orientation = "v")
 #' }
-draw_varimp <- function(x,
-                        names = NULL,
-                        main = NULL,
-                        type = c("bar", "line"),
-                        xlab = NULL,
-                        ylab = NULL,
-                        plot_top = 1, # 1 or less means plot this percent
-                        orientation = "v",
-                        line_width = 12,
-                        labelify = TRUE,
-                        col = NULL,
-                        alpha = 1,
-                        palette = rtemis_palette,
-                        mar = NULL,
-                        font_size = 16,
-                        axis_font_size = 14,
-                        theme = rtemis_theme,
-                        showlegend = TRUE,
-                        filename = NULL,
-                        file_width = 500,
-                        file_height = 500,
-                        file_scale = 1,
-                        ...) {
+draw_varimp <- function(
+  x,
+  names = NULL,
+  main = NULL,
+  type = c("bar", "line"),
+  xlab = NULL,
+  ylab = NULL,
+  plot_top = 1, # 1 or less means plot this percent
+  orientation = "v",
+  line_width = 12,
+  labelify = TRUE,
+  col = NULL,
+  alpha = 1,
+  palette = rtemis_palette,
+  mar = NULL,
+  font_size = 16,
+  axis_font_size = 14,
+  theme = rtemis_theme,
+  showlegend = TRUE,
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -180,7 +182,8 @@ draw_varimp <- function(x,
     # Plot each x[i] value as a line segment from 0 to x[i]
     plt <- plotly::plot_ly()
     for (i in seq_along(x)) {
-      plt <- plotly::add_trace(plt,
+      plt <- plotly::add_trace(
+        plt,
         x = if (orientation == "h") c(0, x[i]) else c(y[i], y[i]),
         y = if (orientation == "h") c(y[i], y[i]) else c(0, x[i]),
         type = "scatter",
@@ -202,7 +205,8 @@ draw_varimp <- function(x,
   if (is.null(ylab)) {
     ylab <- if (orientation == "h") "" else "Variable Importance"
   }
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     margin = list(
       b = mar[1],
       l = mar[2],

@@ -25,7 +25,7 @@ PreprocessorParameters <- new_class(
     impute_type = class_character,
     impute_missRanger_params = class_list,
     impute_discrete = class_character,
-    impute_numeric = class_character,
+    impute_continuous = class_character,
     integer2factor = class_logical,
     integer2numeric = class_logical,
     logical2factor = class_logical,
@@ -36,7 +36,7 @@ PreprocessorParameters <- new_class(
     numeric_cut_labels = class_logical,
     numeric_quant_n = class_numeric,
     numeric_quant_NAonly = class_logical,
-    len2factor = class_numeric,
+    unique_len2factor = class_numeric,
     character2factor = class_logical,
     factorNA2missing = class_logical,
     factorNA2missing_level = class_character,
@@ -105,7 +105,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @param missingness Logical: If TRUE, generate new boolean columns for each
 #' feature with missing values, indicating which cases were missing data.
 #' @param impute Logical: If TRUE, impute missing cases. See `impute_discrete` and
-#' `impute_numeric`.
+#' `impute_continuous`.
 #' @param impute_type Character: Package to use for imputation.
 #' @param impute_missRanger_params Named list with elements "pmm.k" and
 #' "maxiter", which are passed to `missRanger::missRanger`. `pmm.k`
@@ -115,7 +115,7 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' disable predictive mean matching.
 #' @param impute_discrete Character: Name of function that returns single value: How to impute
 #' discrete variables for `impute_type = "meanMode"`.
-#' @param impute_numeric Character: Name of function that returns single value: How to impute
+#' @param impute_continuous Character: Name of function that returns single value: How to impute
 #' continuous variables for `impute_type = "meanMode"`.
 #' @param integer2factor Logical: If TRUE, convert all integers to factors. This includes
 #' `bit64::integer64` columns.
@@ -140,10 +140,10 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' produced using `stats::quantile`.
 #' @param numeric_quant_NAonly Logical: If TRUE, only bin numeric variables with
 #' missing values.
-#' @param len2factor Integer (>=2): Convert all variables with less
+#' @param unique_len2factor Integer (>=2): Convert all variables with less
 #' than or equal to this number of unique values to factors.
 #' For example, if binary variables are encoded with 1, 2, you could use
-#' `len2factor = 2` to convert them to factors.
+#' `unique_len2factor = 2` to convert them to factors.
 #' @param character2factor Logical: If TRUE, convert all character variables to
 #' factors.
 #' @param factorNA2missing Logical: If TRUE, make NA values in factors be of
@@ -179,55 +179,58 @@ method(print, PreprocessorParameters) <- function(x, ...) {
 #' @author EDG
 #' @export
 setup_Preprocessor <- function(
-    complete_cases = FALSE,
-    remove_features_thres = NULL,
-    remove_cases_thres = NULL,
-    missingness = FALSE,
-    impute = FALSE,
-    impute_type = c(
-      "missRanger",
-      "micePMM",
-      "meanMode"
-    ),
-    impute_missRanger_params = list(
-      pmm.k = 3,
-      maxiter = 10,
-      num.trees = 500
-    ),
-    impute_discrete = "get_mode",
-    impute_numeric = "mean",
-    integer2factor = FALSE,
-    integer2numeric = FALSE,
-    logical2factor = FALSE,
-    logical2numeric = FALSE,
-    numeric2factor = FALSE,
-    numeric2factor_levels = NULL,
-    numeric_cut_n = 0,
-    numeric_cut_labels = FALSE,
-    numeric_quant_n = 0,
-    numeric_quant_NAonly = FALSE,
-    len2factor = 0,
-    character2factor = FALSE,
-    factorNA2missing = FALSE,
-    factorNA2missing_level = "missing",
-    #    nonzeroFactors = FALSE,
-    factor2integer = FALSE,
-    factor2integer_startat0 = TRUE,
-    scale = FALSE,
-    center = scale,
-    scale_centers = NULL,
-    scale_coefficients = NULL,
-    remove_constants = FALSE,
-    remove_constants_skip_missing = TRUE,
-    remove_features = NULL,
-    remove_duplicates = FALSE,
-    one_hot = FALSE,
-    one_hot_levels = NULL,
-    #    cleanfactorlevels = FALSE,
-    add_date_features = FALSE,
-    date_features = c("weekday", "month", "year"),
-    add_holidays = FALSE,
-    exclude = NULL) {
+  complete_cases = FALSE,
+  remove_features_thres = NULL,
+  remove_cases_thres = NULL,
+  missingness = FALSE,
+  impute = FALSE,
+  impute_type = c(
+    "missRanger",
+    "micePMM",
+    "meanMode"
+  ),
+  impute_missRanger_params = list(
+    pmm.k = 3,
+    maxiter = 10,
+    num.trees = 500
+  ),
+  impute_discrete = "get_mode",
+  impute_continuous = "mean",
+  integer2factor = FALSE,
+  integer2numeric = FALSE,
+  logical2factor = FALSE,
+  logical2numeric = FALSE,
+  numeric2factor = FALSE,
+  numeric2factor_levels = NULL,
+  numeric_cut_n = 0,
+  numeric_cut_labels = FALSE,
+  numeric_quant_n = 0,
+  numeric_quant_NAonly = FALSE,
+  unique_len2factor = 0,
+  character2factor = FALSE,
+  factorNA2missing = FALSE,
+  factorNA2missing_level = "missing",
+  #    nonzeroFactors = FALSE,
+  factor2integer = FALSE,
+  factor2integer_startat0 = TRUE,
+  scale = FALSE,
+  center = scale,
+  scale_centers = NULL,
+  scale_coefficients = NULL,
+  remove_constants = FALSE,
+  remove_constants_skip_missing = TRUE,
+  remove_features = NULL,
+  remove_duplicates = FALSE,
+  one_hot = FALSE,
+  one_hot_levels = NULL,
+  #    cleanfactorlevels = FALSE,
+  add_date_features = FALSE,
+  date_features = c("weekday", "month", "year"),
+  add_holidays = FALSE,
+  exclude = NULL
+) {
+  # Match args
+  impute_type <- match.arg(impute_type)
   # Checks performed in the `PreprocessorParameters` constructor
   PreprocessorParameters(
     complete_cases = complete_cases,
@@ -238,7 +241,7 @@ setup_Preprocessor <- function(
     impute_type = impute_type,
     impute_missRanger_params = impute_missRanger_params,
     impute_discrete = impute_discrete,
-    impute_numeric = impute_numeric,
+    impute_continuous = impute_continuous,
     integer2factor = integer2factor,
     integer2numeric = integer2numeric,
     logical2factor = logical2factor,
@@ -249,7 +252,7 @@ setup_Preprocessor <- function(
     numeric_cut_labels = numeric_cut_labels,
     numeric_quant_n = numeric_quant_n,
     numeric_quant_NAonly = numeric_quant_NAonly,
-    len2factor = len2factor,
+    unique_len2factor = unique_len2factor,
     character2factor = character2factor,
     factorNA2missing = factorNA2missing,
     factorNA2missing_level = factorNA2missing_level,
@@ -303,12 +306,13 @@ Preprocessor <- new_class(
     values = class_list
   ),
   constructor = function(
-      parameters,
-      preprocessed,
-      scale_centers = NULL,
-      scale_coefficients = NULL,
-      one_hot_levels = NULL,
-      remove_features = NULL) {
+    parameters,
+    preprocessed,
+    scale_centers = NULL,
+    scale_coefficients = NULL,
+    one_hot_levels = NULL,
+    remove_features = NULL
+  ) {
     new_object(
       S7_object(),
       parameters = parameters,
@@ -330,6 +334,11 @@ method(print, Preprocessor) <- function(x, pad = 0L, ...) {
   invisible(x)
 } # /rtemis::print.Preprocessor
 
+# `names(Preprocessor)` ----
+method(names, Preprocessor) <- function(x) {
+  names(props(x))
+}
+
 # Make props `$`-accessible ----
 method(`$`, Preprocessor) <- function(x, name) {
   props(x)[[name]]
@@ -341,7 +350,12 @@ method(`.DollarNames`, Preprocessor) <- function(x, pattern = "") {
   grep(pattern, all_names, value = TRUE)
 }
 
-# Make proprs `[[`-accessible ----
+# Make props `[`-accessible ----
+method(`[`, Preprocessor) <- function(x, name) {
+  props(x)[[name]]
+}
+
+# Make props `[[`-accessible ----
 method(`[[`, Preprocessor) <- function(x, name) {
   props(x)[[name]]
 }

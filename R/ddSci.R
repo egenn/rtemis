@@ -31,10 +31,7 @@
 #' }
 #' @export
 
-ddSci <- function(x,
-                  decimal_places = 2,
-                  hi = 1e06,
-                  as_numeric = FALSE) {
+ddSci <- function(x, decimal_places = 2, hi = 1e06, as_numeric = FALSE) {
   if (is.null(x)) {
     if (as_numeric) {
       return(NULL)
@@ -64,12 +61,15 @@ ddSci <- function(x,
       xf[[i]] <- NA
     } else {
       # if (decs & x[[i]] == 0) { # x[[i]] is zero but others have decimals
-      if (x[[i]] == 0) { # always give requested decimal places
+      if (x[[i]] == 0) {
+        # always give requested decimal places
         xf[[i]] <- format(0, nsmall = decimal_places)
       } else {
         if (abs(x[[i]]) >= hi) {
-          xf[[i]] <- format(round(x[[i]], decimal_places),
-            scientific = TRUE, digits = decimal_places,
+          xf[[i]] <- format(
+            round(x[[i]], decimal_places),
+            scientific = TRUE,
+            digits = decimal_places,
             nsmall = decimal_places
           )
         } else {
@@ -81,7 +81,8 @@ ddSci <- function(x,
           # } else {
           #   xf[[i]] <- as.character(x[[i]])
           # }
-          xf[[i]] <- ifelse(round(x[[i]], 2) != 0,
+          xf[[i]] <- ifelse(
+            round(x[[i]], 2) != 0,
             format(round(x[[i]], decimal_places), nsmall = decimal_places),
             format(x[[i]], scientific = TRUE, digits = 2)
           )

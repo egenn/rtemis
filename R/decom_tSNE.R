@@ -3,7 +3,7 @@
 # 2025 EDG rtemis.org
 
 #' tSNE Decomposition
-#' 
+#'
 #' @keywords internal
 #' @noRd
 decom_tSNE <- function(x, parameters, verbosity = 1L) {
@@ -16,10 +16,12 @@ decom_tSNE <- function(x, parameters, verbosity = 1L) {
   args <- c(list(X = x, dims = parameters[["k"]]), parameters@parameters)
   args[["k"]] <- NULL
   decom <- do_call(
-    Rtsne::Rtsne, args,
-    error_pattern_suggestion = list("Remove duplicates" = "Remove duplicates using `preprocess()")
+    Rtsne::Rtsne,
+    args,
+    error_pattern_suggestion = list(
+      "Remove duplicates" = "Remove duplicates using `preprocess()"
+    )
   )
   check_inherits(decom, "Rtsne")
   list(decom = decom, transformed = decom[["Y"]])
-
 } # /rtemis::decom_tSNE

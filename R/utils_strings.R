@@ -62,22 +62,38 @@ hilite <- function(..., col = hilite_col) {
 # blue for light and dark background: "69;1"
 # green: "49;1"
 hilite1 <- function(..., col = hilite1_col, bold = TRUE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;", col, "m", paste(...), "\033[0m")
+  paste0(
+    ifelse(bold, "\033[1m", ""),
+    "\033[38;5;",
+    col,
+    "m",
+    paste(...),
+    "\033[0m"
+  )
 }
 
 
-hilite2 <- function(..., col = hilite2_col, bold = FALSE, italic = FALSE, sep = "") {
+hilite2 <- function(
+  ...,
+  col = hilite2_col,
+  bold = FALSE,
+  italic = FALSE,
+  sep = ""
+) {
   paste0(
-    ifelse(bold, "\033[1m", ""), 
-    ifelse(italic, "\033[3m", ""), 
-    "\033[38;5;", hilite2_col, "m",
-    paste(..., sep = sep), "\033[0m"
+    ifelse(bold, "\033[1m", ""),
+    ifelse(italic, "\033[3m", ""),
+    "\033[38;5;",
+    hilite2_col,
+    "m",
+    paste(..., sep = sep),
+    "\033[0m"
   )
 }
 
 
 #' @param x Numeric: Input
-#' 
+#'
 #' @keywords internal
 #' @noRd
 hilitebig <- function(x) {
@@ -92,7 +108,14 @@ red <- function(..., bold = FALSE) {
 
 # og green: "92m"
 green <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;", rt_green, "m", paste(...), "\033[0m")
+  paste0(
+    ifelse(bold, "\033[1m", ""),
+    "\033[38;5;",
+    rt_green,
+    "m",
+    paste(...),
+    "\033[0m"
+  )
 }
 
 blue <- function(..., bold = FALSE) {
@@ -116,7 +139,12 @@ magenta <- function(..., bold = FALSE) {
 
 
 gray <- function(..., bold = FALSE, sep = " ") {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[90m", paste(..., sep = sep), "\033[0m")
+  paste0(
+    ifelse(bold, "\033[1m", ""),
+    "\033[90m",
+    paste(..., sep = sep),
+    "\033[0m"
+  )
 }
 
 
@@ -135,7 +163,11 @@ rtaart <- local({
   lines <- NULL
   function() {
     if (is.null(lines)) {
-      file <- system.file(package = .packageName, "resources", "rtemis_logo.utf8")
+      file <- system.file(
+        package = .packageName,
+        "resources",
+        "rtemis_logo.utf8"
+      )
       bfr <- readLines(file)
       cols <- c(92, 128, 196, 208, 27)
       lines <<- mapply(bfr, cols, FUN = col256)
@@ -146,10 +178,15 @@ rtaart <- local({
 
 ## rtemis_logo.utf8
 rtlogo <- local({
-  paste0("  ",
+  paste0(
+    "  ",
     mapply(
       col256,
-      readLines(system.file(package = .packageName, "resources", "rtemis_logo.utf8")),
+      readLines(system.file(
+        package = .packageName,
+        "resources",
+        "rtemis_logo.utf8"
+      )),
       c(92, 128, 196, 208, 27)
     ),
     collapse = "\n"
@@ -166,7 +203,13 @@ rtasciitxt <- function() {
 }
 
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
-  cat(rep(" ", pad), bold(green("\u2713 ")), paste(..., sep = sep), end, sep = "")
+  cat(
+    rep(" ", pad),
+    bold(green("\u2713 ")),
+    paste(..., sep = sep),
+    end,
+    sep = ""
+  )
 }
 
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
@@ -194,13 +237,15 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #'
 #' @author EDG
 #' @export
-labelify <- function(x,
-                     underscoresToSpaces = TRUE,
-                     dotsToSpaces = TRUE,
-                     toLower = FALSE,
-                     toTitleCase = TRUE,
-                     capitalize.strings = c("id"),
-                     stringsToSpaces = c("\\$", "`")) {
+labelify <- function(
+  x,
+  underscoresToSpaces = TRUE,
+  dotsToSpaces = TRUE,
+  toLower = FALSE,
+  toTitleCase = TRUE,
+  capitalize.strings = c("id"),
+  stringsToSpaces = c("\\$", "`")
+) {
   if (is.null(x)) {
     return(NULL)
   }
@@ -233,12 +278,12 @@ labelify <- function(x,
 #' @param x Character vector.
 #' @param prefix_digits Character: prefix to add to names beginning with a
 #' digit. Set to NA to skip.
-#' 
+#'
 #' @return Character vector.
 #'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' x <- c("Patient ID", "_Date-of-Birth", "SBP (mmHg)")
@@ -260,12 +305,12 @@ clean_names <- function(x, prefix_digits = "V_") {
 #' Clean column names by replacing all spaces and punctuation with a single underscore
 #'
 #' @param x Character vector.
-#' 
+#'
 #' @return Character vector.
 #'
 #' @author EDG
 #' @export
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' clean_colnames(iris)
@@ -290,9 +335,9 @@ leftpad <- function(x, target_length, pad_char = " ") {
 #' Force plain text when using `message()`
 #'
 #' @param x Character: Text to be output to console.
-#' 
+#'
 #' @return Character: Text with ANSI escape codes removed.
-#' 
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -303,7 +348,11 @@ plain <- function(x) {
 oxfordcomma <- function(..., format_fn = identity) {
   x <- unlist(list(...))
   if (length(x) > 2) {
-    paste0(paste(sapply(x[-length(x)], format_fn), collapse = ", "), ", and ", format_fn(x[length(x)]))
+    paste0(
+      paste(sapply(x[-length(x)], format_fn), collapse = ", "),
+      ", and ",
+      format_fn(x[length(x)])
+    )
   } else if (length(x) == 2) {
     paste(format_fn(x), collapse = " and ")
   } else {
@@ -323,12 +372,14 @@ oxfordcomma <- function(..., format_fn = identity) {
 #' @author EDG
 #' @keywords internal
 #' @noRd
-padcat <- function(x,
-                   format_fn = hilite,
-                   col = NULL,
-                   newline_pre = TRUE,
-                   newline = FALSE,
-                   pad = 2) {
+padcat <- function(
+  x,
+  format_fn = hilite,
+  col = NULL,
+  newline_pre = TRUE,
+  newline = FALSE,
+  pad = 2
+) {
   x <- as.character(x)
   if (!is.null(format_fn)) {
     x <- format_fn(x)
@@ -362,7 +413,8 @@ pastebox <- function(x, pad = 0) {
 objcat <- function(x, format_fn = hilite1, pad = 0) {
   cat(
     paste0(rep(" ", pad), collapse = ""),
-    format_fn(x), "\n",
+    format_fn(x),
+    "\n",
     sep = ""
   )
 } # rtemis::objcat

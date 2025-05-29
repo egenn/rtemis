@@ -2,6 +2,8 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+# library(testthat)
+
 # PreprocessorParameters ----
 prp <- setup_Preprocessor()
 prp
@@ -48,4 +50,19 @@ test_that("preprocess(x, PreprocessorParameters) succeeds", {
 
 test_that("preprocess(x, PreprocessorParameters) and preprocess(x, Preprocessor) give same test set", {
   expect_equal(iris_Pre_too@preprocessed$test, iris_test_Pre@preprocessed)
+})
+
+# impute meanMode ----
+x <- iris
+# Continuous
+x[10:15, 1] <- NA
+# Categorical
+x[20:25, 5] <- NA
+xp <- preprocess(
+  x,
+  setup_Preprocessor(impute = TRUE, impute_type = "meanMode")
+)[["preprocessed"]]
+
+test_that("impute meanMode works", {
+  expect_false(anyNA(xp))
 })

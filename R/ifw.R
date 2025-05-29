@@ -20,12 +20,19 @@ ifw <- function(y, type = c("case_weights", "class_weights"), verbosity = 1L) {
   stopifnot(is.factor(y))
   type <- match.arg(type)
   if (verbosity > 0L) {
-    msg20("Using Inverse Frequency Weighting to calculate ", sub("_", " ", type), ".")
+    msg20(
+      "Using Inverse Frequency Weighting to calculate ",
+      sub("_", " ", type),
+      "."
+    )
   }
 
   # Class weights ----
   inverse_proportions <- 1 / (table(y) / NROW(y))
-  class_weights <- structure(inverse_proportions / min(inverse_proportions), names = levels(y))
+  class_weights <- structure(
+    inverse_proportions / min(inverse_proportions),
+    names = levels(y)
+  )
 
   if (type == "class_weights") {
     out <- class_weights

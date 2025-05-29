@@ -88,14 +88,16 @@ method(`[[`, TunerParameters) <- function(x, name) {
 GridSearchParams <- new_class(
   name = "GridSearchParams",
   parent = TunerParameters,
-  constructor = function(resampler_parameters = NULL,
-                         search_type = NULL,
-                         randomize_p = NULL,
-                         metrics_aggregate_fn = NULL,
-                         metric = NULL,
-                         maximize = NULL,
-                         parallel_type = NULL,
-                         n_workers = NULL) {
+  constructor = function(
+    resampler_parameters = NULL,
+    search_type = NULL,
+    randomize_p = NULL,
+    metrics_aggregate_fn = NULL,
+    metric = NULL,
+    maximize = NULL,
+    parallel_type = NULL,
+    n_workers = NULL
+  ) {
     check_is_S7(resampler_parameters, ResamplerParameters)
     check_inherits(search_type, "character")
     check_float01exc(randomize_p)
@@ -149,14 +151,15 @@ GridSearchParams <- new_class(
 #' @author EDG
 #' @export
 setup_GridSearch <- function(
-    resampler_parameters = setup_Resampler(n_resamples = 5L, type = "KFold"),
-    search_type = "exhaustive",
-    randomize_p = NULL,
-    metrics_aggregate_fn = "mean",
-    metric = NULL,
-    maximize = NULL,
-    parallel_type = "mirai",
-    n_workers = rtemis_workers) {
+  resampler_parameters = setup_Resampler(n_resamples = 5L, type = "KFold"),
+  search_type = "exhaustive",
+  randomize_p = NULL,
+  metrics_aggregate_fn = "mean",
+  metric = NULL,
+  maximize = NULL,
+  parallel_type = "mirai",
+  n_workers = rtemis_workers
+) {
   # Arguments ----
   check_is_S7(resampler_parameters, ResamplerParameters)
   check_inherits(search_type, "character")
@@ -221,10 +224,12 @@ method(desc, Tuner) <- function(x) {
 GridSearch <- new_class(
   name = "GridSearch",
   parent = Tuner,
-  constructor = function(hyperparameters,
-                         tuner_parameters,
-                         tuning_results,
-                         best_hyperparameters) {
+  constructor = function(
+    hyperparameters,
+    tuner_parameters,
+    tuning_results,
+    best_hyperparameters
+  ) {
     type <- "GridSearch"
     new_object(
       Tuner(
@@ -254,16 +259,25 @@ method(print, GridSearch) <- function(x, header = TRUE, ...) {
   type <- if (x@tuner_parameters[["search_type"]] == "exhaustive") {
     "An exhaustive grid search"
   } else {
-    paste0("A randomized grid search (p = ", x@tuner_parameters[["randomize_p"]], ")")
+    paste0(
+      "A randomized grid search (p = ",
+      x@tuner_parameters[["randomize_p"]],
+      ")"
+    )
   }
   n_param_combs <- NROW(x@tuning_results[["param_grid"]])
-  cat(type, " of ",
+  cat(
+    type,
+    " of ",
     singorplu(n_param_combs, " parameter combination"),
-    " was performed using ", desc(x@tuner_parameters[["resampler_parameters"]]), ".\n",
+    " was performed using ",
+    desc(x@tuner_parameters[["resampler_parameters"]]),
+    ".\n",
     sep = ""
   )
   cat(
-    x@tuner_parameters[["metric"]], "was",
+    x@tuner_parameters[["metric"]],
+    "was",
     ifelse(x@tuner_parameters[["maximize"]], "maximized", "minimized"),
     "with the following parameters:\n"
   )

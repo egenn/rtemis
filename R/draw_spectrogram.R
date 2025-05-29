@@ -60,47 +60,52 @@
 #' @author EDG
 #' @export
 
-draw_spectrogram <- function(x, y, z,
-                             colorgrad_n = 101,
-                             colors = NULL,
-                             xlab = "Time",
-                             ylab = "Frequency",
-                             zlab = "Power",
-                             hover_xlab = xlab,
-                             hover_ylab = ylab,
-                             hover_zlab = zlab,
-                             zmin = NULL,
-                             zmax = NULL,
-                             zauto = TRUE,
-                             hoverlabel_align = "right",
-                             colorscale = "Jet",
-                             colorbar_y = .5,
-                             colorbar_yanchor = "middle",
-                             colorbar_xpad = 0,
-                             colorbar_ypad = 0,
-                             colorbar_len = .75,
-                             colorbar_title_side = "bottom",
-                             showgrid = FALSE,
-                             space = "rgb",
-                             lo = "#18A3AC",
-                             lomid = NULL,
-                             mid = NULL,
-                             midhi = NULL,
-                             hi = "#F48024",
-                             grid_gap = 0,
-                             limits = NULL,
-                             main = NULL,
-                             key_title = NULL,
-                             showticklabels = NULL,
-                             theme = rtemis_theme,
-                             font_size = NULL,
-                             padding = 0,
-                             displayModeBar = TRUE,
-                             modeBar_file_format = "svg",
-                             filename = NULL,
-                             file_width = 500,
-                             file_height = 500,
-                             file_scale = 1, ...) {
+draw_spectrogram <- function(
+  x,
+  y,
+  z,
+  colorgrad_n = 101,
+  colors = NULL,
+  xlab = "Time",
+  ylab = "Frequency",
+  zlab = "Power",
+  hover_xlab = xlab,
+  hover_ylab = ylab,
+  hover_zlab = zlab,
+  zmin = NULL,
+  zmax = NULL,
+  zauto = TRUE,
+  hoverlabel_align = "right",
+  colorscale = "Jet",
+  colorbar_y = .5,
+  colorbar_yanchor = "middle",
+  colorbar_xpad = 0,
+  colorbar_ypad = 0,
+  colorbar_len = .75,
+  colorbar_title_side = "bottom",
+  showgrid = FALSE,
+  space = "rgb",
+  lo = "#18A3AC",
+  lomid = NULL,
+  mid = NULL,
+  midhi = NULL,
+  hi = "#F48024",
+  grid_gap = 0,
+  limits = NULL,
+  main = NULL,
+  key_title = NULL,
+  showticklabels = NULL,
+  theme = rtemis_theme,
+  font_size = NULL,
+  padding = 0,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -156,21 +161,27 @@ draw_spectrogram <- function(x, y, z,
 
   # Plot ----
   plt <- plotly::plot_ly()
-  plt <- plt |> plotly::add_trace(
-    x = x, y = y, z = z,
-    type = "heatmap",
-    zauto = zauto,
-    zmin = zmin,
-    zmax = zmax,
-    colorscale = colorscale,
-    colors = colors,
-    hovertemplate = paste0(
-      hover_xlab, ":<b> %{x:.3f}</b><br>",
-      hover_ylab, ":<b> %{y:.3f}</b><br>",
-      hover_zlab, ":<b> %{z:.3f}</b><extra></extra>"
-    ),
-    showlegend = FALSE
-  )
+  plt <- plt |>
+    plotly::add_trace(
+      x = x,
+      y = y,
+      z = z,
+      type = "heatmap",
+      zauto = zauto,
+      zmin = zmin,
+      zmax = zmax,
+      colorscale = colorscale,
+      colors = colors,
+      hovertemplate = paste0(
+        hover_xlab,
+        ":<b> %{x:.3f}</b><br>",
+        hover_ylab,
+        ":<b> %{y:.3f}</b><br>",
+        hover_zlab,
+        ":<b> %{z:.3f}</b><extra></extra>"
+      ),
+      showlegend = FALSE
+    )
 
   # Layout ----
   # '- layout ----
@@ -184,13 +195,16 @@ draw_spectrogram <- function(x, y, z,
     size = font_size,
     color = tick_labels_col
   )
-  .legend <- list(font = list(
-    family = theme[["font_family"]],
-    size = font_size,
-    color = bg
-  ))
+  .legend <- list(
+    font = list(
+      family = theme[["font_family"]],
+      size = font_size,
+      color = bg
+    )
+  )
 
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     yaxis = list(
       title = list(
         text = ylab,
@@ -240,7 +254,9 @@ draw_spectrogram <- function(x, y, z,
   ## x axis tick label colors
   # plt[["x"]][["layoutAttrs"]][[2]][["xaxis"]][["tickfont"]][["color"]] <- "rgba(255, 0, 0, 1)"
   ## edge lines must be invisible
-  plt[["x"]][["layout"]][["yaxis"]][["linecolor"]] <- plt[["x"]][["layout"]][["xaxis2"]][["linecolor"]] <- theme[["bg"]]
+  plt[["x"]][["layout"]][["yaxis"]][["linecolor"]] <- plt[["x"]][["layout"]][[
+    "xaxis2"
+  ]][["linecolor"]] <- theme[["bg"]]
 
   # Manual layout ----
   # Set padding
@@ -264,7 +280,8 @@ draw_spectrogram <- function(x, y, z,
     )
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

@@ -17,6 +17,11 @@ test_that("`tuned` is set correctly", {
   expect_identical(hpr@tuned, 0L)
 })
 
+# CARTHyperparameters ----
+test_that("CARTHyperparameters() errors", {
+  expect_error(CARTHyperparameters())
+})
+
 # get_params_need_tuning ----
 test_that("get_params_need_tuning() succeeds", {
   expect_type(get_params_need_tuning(hpr), "list")
@@ -33,14 +38,10 @@ setup_CART(
 )
 
 # CARTHyperparameters ----
-cart_hpr <- CARTHyperparameters()
-test_that("CARTHyperparameters succeeds", {
-  expect_s7_class(cart_hpr, CARTHyperparameters)
-})
-
 # setup_CART ----
+cart_hpr <- setup_CART()
 test_that("setup_CART() succeeds", {
-  expect_s7_class(setup_CART(), CARTHyperparameters)
+  expect_s7_class(cart_hpr, CARTHyperparameters)
 })
 
 # needs_tuning ----
@@ -49,13 +50,18 @@ test_that("needs_tuning() succeeds", {
 })
 
 # GLMNETHyperparameters ----
-test_that("GLMNETHyperparameters succeeds", {
-  expect_s7_class(GLMNETHyperparameters(), GLMNETHyperparameters)
+test_that("GLMNETHyperparameters() errors", {
+  expect_error(GLMNETHyperparameters())
 })
 
 # setup_GLMNET ----
 test_that("setup_GLMNET() succeeds", {
   expect_s7_class(setup_GLMNET(), GLMNETHyperparameters)
+})
+
+# LightCARTHyperparameters ----
+test_that("LightCARTHyperparameters() errors", {
+  expect_error(LightCARTHyperparameters())
 })
 
 # setup_LightCART ----
@@ -64,8 +70,8 @@ test_that("setup_LightCART() succeeds", {
 })
 
 # LightRFHyperparameters ----
-test_that("LightRFHyperparameters succeeds", {
-  expect_s7_class(LightRFHyperparameters(), LightRFHyperparameters)
+test_that("LightRFHyperparameters() errors", {
+  expect_error(LightRFHyperparameters())
 })
 
 # setup_LightRF ----
@@ -73,6 +79,11 @@ lrf_hpr <- setup_LightRF()
 lrf_hpr
 test_that("setup_LightRF() succeeds", {
   expect_s7_class(setup_LightRF(), LightRFHyperparameters)
+})
+
+# LightGBMHyperparameters ----
+test_that("LightGBMHyperparameters() errors", {
+  expect_error(LightGBMHyperparameters())
 })
 
 # setup_LightGBM ----
@@ -84,6 +95,11 @@ test_that("setup_LightGBM() succeeds", {
   expect_s7_class(setup_LightGBM(), LightGBMHyperparameters)
 })
 
+# LightRuleFitHyperparameters ----
+test_that("LightRuleFitHyperparameters() errors", {
+  expect_error(LightRuleFitHyperparameters())
+})
+
 # setup_LightRuleFit ----
 lrft_hpr <- setup_LightRuleFit()
 lrft_hpr
@@ -91,9 +107,19 @@ test_that("setup_LightRuleFit() succeeds", {
   expect_s7_class(setup_LightRuleFit(), LightRuleFitHyperparameters)
 })
 
+# IsotonicHyperparameters ----
+test_that("IsotonicHyperparameters() errors", {
+  expect_error(IsotonicHyperparameters())
+})
+
 # setup_Isotonic ----
 test_that("setup_Isotonic() succeeds", {
   expect_s7_class(setup_Isotonic(), IsotonicHyperparameters)
+})
+
+# RadialSVMHyperparameters ----
+test_that("RadialSVMHyperparameters() errors", {
+  expect_error(RadialSVMHyperparameters())
 })
 
 # setup_RadialSVM ----
@@ -101,6 +127,11 @@ rsvm_hpr <- setup_RadialSVM()
 test_that("setup_RadialSVM() succeeds", {
   expect_s7_class(rsvm_hpr, RadialSVMHyperparameters)
   expect_s7_class(rsvm_hpr, SVMHyperparameters)
+})
+
+# TabNetHyperparameters ----
+test_that("TabNetHyperparameters() errors", {
+  expect_error(TabNetHyperparameters())
 })
 
 # setup_TabNet ----

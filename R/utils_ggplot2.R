@@ -13,9 +13,7 @@
 #'
 #' @author EDG
 #' @export
-multigplot <- function(plots = NULL,
-                       nrows = NULL,
-                       byrow = TRUE) {
+multigplot <- function(plots = NULL, nrows = NULL, byrow = TRUE) {
   nplots <- length(plots)
   if (is.null(nrows)) nrows <- ceiling(nplots / 2)
   ncols <- ceiling(nplots / nrows)
@@ -26,10 +24,13 @@ multigplot <- function(plots = NULL,
 
   for (i in seq(nplots)) {
     id <- which(layout == i, arr.ind = TRUE)
-    print(plots[[i]], vp = grid::viewport(
-      layout.pos.row = id[1],
-      layout.pos.col = id[2]
-    ))
+    print(
+      plots[[i]],
+      vp = grid::viewport(
+        layout.pos.row = id[1],
+        layout.pos.col = id[2]
+      )
+    )
   }
 } # rtemis::multigplot
 
@@ -57,15 +58,17 @@ multigplot <- function(plots = NULL,
 #'   geom_point() +
 #'   ggtheme_light())
 #' }
-ggtheme_light <- function(base_size = 14,
-                          base_family = "Helvetica Neue",
-                          base_line_size = base_size / 22,
-                          base_rect_size = base_size / 22,
-                          axis.text.size.rel = 1,
-                          legend.key.fill = NA,
-                          legend.text.size.rel = 1,
-                          legend.position = "right",
-                          strip.background.fill = "grey85") {
+ggtheme_light <- function(
+  base_size = 14,
+  base_family = "Helvetica Neue",
+  base_line_size = base_size / 22,
+  base_rect_size = base_size / 22,
+  axis.text.size.rel = 1,
+  legend.key.fill = NA,
+  legend.text.size.rel = 1,
+  legend.position = "right",
+  strip.background.fill = "grey85"
+) {
   half_line <- base_size / 2
 
   ggplot2::theme(
@@ -154,7 +157,9 @@ ggtheme_light <- function(base_size = 14,
     legend.key.size = ggplot2::unit(1.2, "lines"),
     legend.key.height = NULL,
     legend.key.width = NULL,
-    legend.text = ggplot2::element_text(size = ggplot2::rel(legend.text.size.rel)), # delta
+    legend.text = ggplot2::element_text(
+      size = ggplot2::rel(legend.text.size.rel)
+    ), # delta
     legend.text.align = NULL,
     legend.title = ggplot2::element_text(hjust = 0),
     legend.title.align = NULL,
@@ -183,7 +188,12 @@ ggtheme_light <- function(base_size = 14,
     strip.text = ggplot2::element_text(
       colour = "grey10",
       size = ggplot2::rel(0.8),
-      margin = ggplot2::margin(0.8 * half_line, 0.8 * half_line, 0.8 * half_line, 0.8 * half_line)
+      margin = ggplot2::margin(
+        0.8 * half_line,
+        0.8 * half_line,
+        0.8 * half_line,
+        0.8 * half_line
+      )
     ),
     strip.text.x = NULL,
     strip.text.y = ggplot2::element_text(angle = -90),
@@ -233,15 +243,17 @@ ggtheme_light <- function(base_size = 14,
 #'   geom_point() +
 #'   ggtheme_light())
 #' }
-ggtheme_dark <- function(base_size = 14,
-                         base_family = "Helvetica Neue",
-                         base_line_size = base_size / 22,
-                         base_rect_size = base_size / 22,
-                         axis.text.size.rel = 1,
-                         legend.key.fill = NA,
-                         legend.text.size.rel = 1,
-                         legend.position = "right",
-                         strip.background.fill = "gray25") {
+ggtheme_dark <- function(
+  base_size = 14,
+  base_family = "Helvetica Neue",
+  base_line_size = base_size / 22,
+  base_rect_size = base_size / 22,
+  axis.text.size.rel = 1,
+  legend.key.fill = NA,
+  legend.text.size.rel = 1,
+  legend.position = "right",
+  strip.background.fill = "gray25"
+) {
   half_line <- base_size / 2
 
   ggplot2::theme(
@@ -330,7 +342,9 @@ ggtheme_dark <- function(base_size = 14,
     legend.key.size = ggplot2::unit(1.2, "lines"),
     legend.key.height = NULL,
     legend.key.width = NULL,
-    legend.text = ggplot2::element_text(size = ggplot2::rel(legend.text.size.rel)), # delta
+    legend.text = ggplot2::element_text(
+      size = ggplot2::rel(legend.text.size.rel)
+    ), # delta
     legend.text.align = NULL,
     legend.title = ggplot2::element_text(hjust = 0),
     legend.title.align = NULL,
@@ -359,7 +373,12 @@ ggtheme_dark <- function(base_size = 14,
     strip.text = ggplot2::element_text(
       colour = "gray90",
       size = ggplot2::rel(0.8),
-      margin = ggplot2::margin(0.8 * half_line, 0.8 * half_line, 0.8 * half_line, 0.8 * half_line)
+      margin = ggplot2::margin(
+        0.8 * half_line,
+        0.8 * half_line,
+        0.8 * half_line,
+        0.8 * half_line
+      )
     ),
     strip.text.x = NULL,
     strip.text.y = ggplot2::element_text(angle = -90),

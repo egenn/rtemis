@@ -17,18 +17,20 @@
 #' @param transpose Logical: If TRUE, transpose matrix.
 #'
 #' @return A plotly heatmap object.
-#' 
+#'
 #' @author EDG
 #' @export
-draw_heat <- function(z,
-                      x = NULL,
-                      y = NULL,
-                      title = NULL,
-                      col = penn_heat(21),
-                      xlab = NULL,
-                      ylab = NULL,
-                      zlab = NULL,
-                      transpose = TRUE) {
+draw_heat <- function(
+  z,
+  x = NULL,
+  y = NULL,
+  title = NULL,
+  col = penn_heat(21),
+  xlab = NULL,
+  ylab = NULL,
+  zlab = NULL,
+  transpose = TRUE
+) {
   # NS ----
   requireNamespace("plotly")
 
@@ -63,7 +65,9 @@ draw_heat <- function(z,
 
   # plotly ----
   p <- plotly::plot_ly(
-    z = z, x = x, y = y,
+    z = z,
+    x = x,
+    y = y,
     transpose = transpose,
     type = "heatmap",
     colors = col,

@@ -154,13 +154,14 @@ ICAParameters <- new_class(
 #' @author EDG
 #' @export
 setup_ICA <- function(
-    k = 3L,
-    type = c("parallel", "deflation"),
-    fun = c("logcosh", "exp"),
-    alpha = 1.0,
-    row.norm = TRUE,
-    maxit = 100L,
-    tol = 1e-04) {
+  k = 3L,
+  type = c("parallel", "deflation"),
+  fun = c("logcosh", "exp"),
+  alpha = 1.0,
+  row.norm = TRUE,
+  maxit = 100L,
+  tol = 1e-04
+) {
   k <- clean_posint(k)
   type <- match.arg(type)
   fun <- match.arg(fun)
@@ -169,7 +170,13 @@ setup_ICA <- function(
   maxit <- clean_posint(maxit)
   check_inherits(tol, "numeric")
   ICAParameters(
-    k = k, type = type, fun = fun, alpha = alpha, row.norm = row.norm, maxit = maxit, tol = tol
+    k = k,
+    type = type,
+    fun = fun,
+    alpha = alpha,
+    row.norm = row.norm,
+    maxit = maxit,
+    tol = tol
   )
 } # /rtemis::setup_ICA
 
@@ -185,7 +192,15 @@ setup_ICA <- function(
 UMAPParameters <- new_class(
   name = "UMAPParameters",
   parent = DecompositionParameters,
-  constructor = function(k, n_neighbors, init, metric, n_epochs, learning_rate, scale) {
+  constructor = function(
+    k,
+    n_neighbors,
+    init,
+    metric,
+    n_epochs,
+    learning_rate,
+    scale
+  ) {
     k <- clean_posint(k)
     n_neighbors <- clean_posint(n_neighbors)
     check_inherits(init, "character")
@@ -232,13 +247,14 @@ UMAPParameters <- new_class(
 #' @author EDG
 #' @export
 setup_UMAP <- function(
-    k = 2L,
-    n_neighbors = 15L,
-    init = "spectral",
-    metric = c("euclidean", "cosine", "manhattan", "hamming", "categorical"),
-    n_epochs = NULL,
-    learning_rate = 1.0,
-    scale = TRUE) {
+  k = 2L,
+  n_neighbors = 15L,
+  init = "spectral",
+  metric = c("euclidean", "cosine", "manhattan", "hamming", "categorical"),
+  n_epochs = NULL,
+  learning_rate = 1.0,
+  scale = TRUE
+) {
   k <- clean_posint(k)
   n_neighbors <- clean_posint(n_neighbors)
   init <- match.arg(init)
@@ -268,27 +284,29 @@ setup_UMAP <- function(
 tSNEParameters <- new_class(
   name = "tSNEParameters",
   parent = DecompositionParameters,
-  constructor = function(k = NULL,
-                         initial_dims = NULL,
-                         perplexity = NULL,
-                         theta = NULL,
-                         check_duplicates = NULL,
-                         pca = NULL,
-                         partial_pca = NULL,
-                         max_iter = NULL,
-                         verbose = NULL,
-                         is_distance = NULL,
-                         Y_init = NULL,
-                         pca_center = NULL,
-                         pca_scale = NULL,
-                         normalize = NULL,
-                         stop_lying_iter = NULL,
-                         mom_switch_iter = NULL,
-                         momentum = NULL,
-                         final_momentum = NULL,
-                         eta = NULL,
-                         exaggeration_factor = NULL,
-                         num_threads = NULL) {
+  constructor = function(
+    k = NULL,
+    initial_dims = NULL,
+    perplexity = NULL,
+    theta = NULL,
+    check_duplicates = NULL,
+    pca = NULL,
+    partial_pca = NULL,
+    max_iter = NULL,
+    verbose = NULL,
+    is_distance = NULL,
+    Y_init = NULL,
+    pca_center = NULL,
+    pca_scale = NULL,
+    normalize = NULL,
+    stop_lying_iter = NULL,
+    mom_switch_iter = NULL,
+    momentum = NULL,
+    final_momentum = NULL,
+    eta = NULL,
+    exaggeration_factor = NULL,
+    num_threads = NULL
+  ) {
     k <- clean_posint(k)
     initial_dims <- clean_posint(initial_dims)
     check_logical(check_duplicates)
@@ -369,27 +387,28 @@ tSNEParameters <- new_class(
 #' @author EDG
 #' @export
 setup_tSNE <- function(
-    k = 2L,
-    initial_dims = 50L,
-    perplexity = 30,
-    theta = 0.5,
-    check_duplicates = TRUE,
-    pca = TRUE,
-    partial_pca = FALSE,
-    max_iter = 1000L,
-    verbose = getOption("verbose", FALSE),
-    is_distance = FALSE,
-    Y_init = NULL,
-    pca_center = TRUE,
-    pca_scale = FALSE,
-    normalize = TRUE,
-    stop_lying_iter = ifelse(is.null(Y_init), 250L, 0L),
-    mom_switch_iter = ifelse(is.null(Y_init), 250L, 0L),
-    momentum = 0.5,
-    final_momentum = 0.8,
-    eta = 200,
-    exaggeration_factor = 12,
-    num_threads = 1L) {
+  k = 2L,
+  initial_dims = 50L,
+  perplexity = 30,
+  theta = 0.5,
+  check_duplicates = TRUE,
+  pca = TRUE,
+  partial_pca = FALSE,
+  max_iter = 1000L,
+  verbose = getOption("verbose", FALSE),
+  is_distance = FALSE,
+  Y_init = NULL,
+  pca_center = TRUE,
+  pca_scale = FALSE,
+  normalize = TRUE,
+  stop_lying_iter = ifelse(is.null(Y_init), 250L, 0L),
+  mom_switch_iter = ifelse(is.null(Y_init), 250L, 0L),
+  momentum = 0.5,
+  final_momentum = 0.8,
+  eta = 200,
+  exaggeration_factor = 12,
+  num_threads = 1L
+) {
   tSNEParameters(
     k = k,
     initial_dims = initial_dims,

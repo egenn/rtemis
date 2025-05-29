@@ -34,11 +34,14 @@ html_success <- function(..., bold = TRUE) {
   }
 }
 
-rtreactable <- function(x,
-                        pagination = TRUE,
-                        searchable = TRUE,
-                        bordered = TRUE,
-                        lightsout = FALSE, ...) {
+rtreactable <- function(
+  x,
+  pagination = TRUE,
+  searchable = TRUE,
+  bordered = TRUE,
+  lightsout = FALSE,
+  ...
+) {
   theme <- if (lightsout) {
     reactable::reactableTheme(
       color = "#fff",
@@ -54,7 +57,9 @@ rtreactable <- function(x,
         background = "hsl(0, 0%, 65%)",
         color = "#000",
         "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 20%)"),
-        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 25%)"),
+        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(
+          background = "hsl(0, 0%, 25%)"
+        ),
         borderColor = "#00000000"
       )
     )
@@ -65,12 +70,15 @@ rtreactable <- function(x,
         background = "hsl(0, 0%, 55%)",
         color = "#fff",
         "&:hover[aria-sort]" = list(background = "hsl(0, 0%, 60%)"),
-        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(background = "hsl(0, 0%, 65%)"),
+        "&[aria-sort='ascending'], &[aria-sort='descending']" = list(
+          background = "hsl(0, 0%, 65%)"
+        ),
         borderColor = "#ffffff00"
       )
     )
   }
-  reactable::reactable(x,
+  reactable::reactable(
+    x,
     searchable = searchable,
     pagination = pagination,
     bordered = bordered,
@@ -83,6 +91,7 @@ rtreactable <- function(x,
       align = "right",
       headerStyle = list(background = "#707070", color = "#fff")
     ),
-    theme = theme, ...
+    theme = theme,
+    ...
   )
 }

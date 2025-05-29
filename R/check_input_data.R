@@ -12,17 +12,23 @@ method(check_factor_levels, class_data.frame) <- function(x, y, z) {
     x_levels <- lapply(x[, index_factor, drop = FALSE], levels)
     if (!is.null(y)) {
       y_levels <- lapply(y[, index_factor, drop = FALSE], levels)
-      if (!all(sapply(seq_along(x_levels), function(i) {
-        identical(x_levels[[i]], y_levels[[i]])
-      }))) {
-        cli::cli_abort("Training and validation set factor levels do not match.")
+      if (
+        !all(sapply(seq_along(x_levels), function(i) {
+          identical(x_levels[[i]], y_levels[[i]])
+        }))
+      ) {
+        cli::cli_abort(
+          "Training and validation set factor levels do not match."
+        )
       }
     }
     if (!is.null(z)) {
       z_levels <- lapply(z[, index_factor, drop = FALSE], levels)
-      if (!all(sapply(seq_along(x_levels), function(i) {
-        identical(x_levels[[i]], z_levels[[i]])
-      }))) {
+      if (
+        !all(sapply(seq_along(x_levels), function(i) {
+          identical(x_levels[[i]], z_levels[[i]])
+        }))
+      ) {
         cli::cli_abort("Training and test set factor levels do not match.")
       }
     }
@@ -36,17 +42,23 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
     x_levels <- lapply(x[, .SD, .SDcols = index_factor], levels)
     if (!is.null(y)) {
       y_levels <- lapply(y[, .SD, .SDcols = index_factor], levels)
-      if (!all(sapply(seq_along(x_levels), function(i) {
-        identical(x_levels[[i]], y_levels[[i]])
-      }))) {
-        cli::cli_abort("Training and validation set factor levels do not match.")
+      if (
+        !all(sapply(seq_along(x_levels), function(i) {
+          identical(x_levels[[i]], y_levels[[i]])
+        }))
+      ) {
+        cli::cli_abort(
+          "Training and validation set factor levels do not match."
+        )
       }
     }
     if (!is.null(z)) {
       z_levels <- lapply(z[, .SD, .SDcols = index_factor], levels)
-      if (!all(sapply(seq_along(x_levels), function(i) {
-        identical(x_levels[[i]], z_levels[[i]])
-      }))) {
+      if (
+        !all(sapply(seq_along(x_levels), function(i) {
+          identical(x_levels[[i]], z_levels[[i]])
+        }))
+      ) {
         cli::cli_abort("Training and test set factor levels do not match.")
       }
     }
@@ -71,11 +83,13 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
 #' \dontrun{
 #' check_supervised_data(training_data, validation_data, test_data)
 #' }
-check_supervised_data <- function(x,
-                                  dat_validation = NULL,
-                                  dat_test = NULL,
-                                  allow_missing = TRUE,
-                                  verbosity = 1L) {
+check_supervised_data <- function(
+  x,
+  dat_validation = NULL,
+  dat_test = NULL,
+  allow_missing = TRUE,
+  verbosity = 1L
+) {
   # if (upsample && downsample) cli::cli_abort("Only one of upsample and downsample can be TRUE")
 
   if (verbosity > 0L) {
@@ -99,12 +113,16 @@ check_supervised_data <- function(x,
   }
   if (!is.null(dat_validation)) {
     if (NCOL(dat_validation) != ncols) {
-      cli::cli_abort("\nValidation set must contain same number of columns as training set.")
+      cli::cli_abort(
+        "\nValidation set must contain same number of columns as training set."
+      )
     }
   }
   if (!is.null(dat_test)) {
     if (NCOL(dat_test) != ncols) {
-      cli::cli_abort("Test set must contain same number of columns as training set.")
+      cli::cli_abort(
+        "Test set must contain same number of columns as training set."
+      )
     }
   }
 

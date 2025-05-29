@@ -16,7 +16,7 @@
 #' @param ... Additional arguments passed to [draw_bar].
 #'
 #' @return A plotly object.
-#' 
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -25,17 +25,21 @@
 #' }
 #' @author EDG
 
-draw_pvals <- function(x,
-                       xnames = NULL,
-                       yname = NULL,
-                       p_adjust_method = "none",
-                       pval_hline = .05,
-                       hline_col = "#FE4AA3",
-                       hline_dash = "dash", ...) {
+draw_pvals <- function(
+  x,
+  xnames = NULL,
+  yname = NULL,
+  p_adjust_method = "none",
+  pval_hline = .05,
+  hline_col = "#FE4AA3",
+  hline_dash = "dash",
+  ...
+) {
   if (is.null(xnames)) xnames <- names(x)
   if (is.null(yname)) yname <- deparse(substitute(x))
 
-  draw_bar(1 - p.adjust(x, method = p_adjust_method),
+  draw_bar(
+    1 - p.adjust(x, method = p_adjust_method),
     group.names = xnames,
     legend = FALSE,
     ylab = if (p_adjust_method == "none") {
@@ -45,6 +49,7 @@ draw_pvals <- function(x,
     },
     hline = 1 - pval_hline,
     hline_col = hline_col,
-    hline_dash = hline_dash, ...
+    hline_dash = hline_dash,
+    ...
   )
 } # rtemis::draw_pvals

@@ -7,16 +7,20 @@
 setup_LightRF(
   nrounds = 500L,
   num_leaves = 4096L,
-  maxdepth = -1L,
-  feature_fraction = 0.333,
+  max_depth = -1L,
+  feature_fraction = 0.7,
   subsample = 0.623,
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
   objective = NULL,
-  ifw = FALSE
+  device_type = "cpu",
+  tree_learner = "serial",
+  force_col_wise = TRUE,
+  num_threads = 0L
 )
 }
 \arguments{
@@ -24,7 +28,7 @@ setup_LightRF(
 
 \item{num_leaves}{(Tunable) Positive integer: Maximum number of leaves in one tree.}
 
-\item{maxdepth}{(Tunable) Integer: Maximum depth of trees.}
+\item{max_depth}{(Tunable) Integer: Maximum depth of trees.}
 
 \item{feature_fraction}{(Tunable) Numeric: Fraction of features to use.}
 
@@ -40,16 +44,24 @@ setup_LightRF(
 
 \item{linear_tree}{Logical: If TRUE, use linear trees.}
 
+\item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
+
 \item{objective}{Character: Objective function.}
 
-\item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
+\item{device_type}{Character: "cpu" or "gpu".}
+
+\item{tree_learner}{Character: "serial", "feature", "data", or "voting".}
+
+\item{force_col_wise}{Logical: Use only with CPU - If TRUE, force col-wise histogram building}
+
+\item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
 }
 \description{
 Setup hyperparameters for LightRF training.
 }
 \details{
 Get more information from \link[lightgbm:lgb.train]{lightgbm::lgb.train}.
-Note that hyperparameters subsample_freq, early_stopping_rounds, and tree_learner are fixed,
+Note that hyperparameters subsample_freq and early_stopping_rounds are fixed,
 and cannot be set because they are what makes \code{lightgbm} train a random forest.
 These can all be set when training gradient boosting with LightGBM.
 }

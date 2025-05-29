@@ -9,16 +9,18 @@
 #' @param starts_with Character: pattern to match in the beginning of names of x.
 #' @param ends_with Character: pattern to match at the end of names of x.
 #' @param ignore.case Logical: If TRUE, well, ignore case.
-#' 
+#'
 #' @return Character vector of matched names.
-#' 
+#'
 #' @author EDG
 #' @export
-getnames <- function(x,
-                     pattern = NULL,
-                     starts_with = NULL,
-                     ends_with = NULL,
-                     ignore.case = TRUE) {
+getnames <- function(
+  x,
+  pattern = NULL,
+  starts_with = NULL,
+  ends_with = NULL,
+  ignore.case = TRUE
+) {
   .names <- if (is.character(x)) {
     x
   } else {
@@ -43,19 +45,27 @@ getnames <- function(x,
 #' @param return.index Logical: If TRUE, return integer index of matches instead of names.
 #'
 #' @return Character vector of matched names or integer index.
-#' 
+#'
 #' @author EDG
 #' @export
-mgetnames <- function(x,
-                      pattern = NULL,
-                      starts_with = NULL,
-                      ends_with = NULL,
-                      ignore.case = TRUE,
-                      return.index = FALSE) {
+mgetnames <- function(
+  x,
+  pattern = NULL,
+  starts_with = NULL,
+  ends_with = NULL,
+  ignore.case = TRUE,
+  return.index = FALSE
+) {
   .names <- if (is.character(x)) x else names(x)
   idi <- numeric()
   if (!is.null(pattern)) {
-    idi <- c(idi, unlist(lapply(pattern, function(p) grep(p, .names, ignore.case = ignore.case))))
+    idi <- c(
+      idi,
+      unlist(lapply(
+        pattern,
+        function(p) grep(p, .names, ignore.case = ignore.case)
+      ))
+    )
   }
   if (!is.null(starts_with)) {
     idi <- c(idi, which(startsWith(.names, starts_with)))
@@ -75,9 +85,9 @@ mgetnames <- function(x,
 #'
 #' @name get-names
 #' @param x data.frame or data.table (or data.frame-compatible object)
-#' 
+#'
 #' @return Character vector of column names of x with the specified class.
-#' 
+#'
 #' @author EDG
 #' @export
 getfactornames <- function(x) names(x)[sapply(x, is.factor)]
@@ -97,7 +107,10 @@ getcharacternames <- function(x) names(x)[sapply(x, is.character)]
 #' @rdname getnames
 #' @export
 getdatenames <- function(x) {
-  date_id <- sapply(x, \(v) class(v)[1] %in% c("Date", "IDate", "POSIXct", "POSIXlt"))
+  date_id <- sapply(
+    x,
+    \(v) class(v)[1] %in% c("Date", "IDate", "POSIXct", "POSIXlt")
+  )
   names(x)[date_id]
 }
 
@@ -106,7 +119,7 @@ getdatenames <- function(x) {
 #' @param x data.frame / data.table or similar
 #' @return character vector of column names with attribute "type" holding the class of each
 #' column
-#' 
+#'
 #' @export
 getnamesandtypes <- function(x) {
   xnames <- names(x)
@@ -124,7 +137,7 @@ getnamesandtypes <- function(x) {
 #'
 #' @return Vector, integer of length `NCOL(x)` with number of unique
 #' values per column/feature
-#' 
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -188,9 +201,9 @@ df_movecolumn <- function(x, from, to = ncol(x)) {
 #'
 #' @param x Vector.
 #' @param col_names Character: Name of the vector.
-#' 
+#'
 #' @return data.frame.
-#' 
+#'
 #' @author EDG
 #' @export
 vec2df <- function(x, col_names = NULL) {

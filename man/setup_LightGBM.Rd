@@ -5,22 +5,26 @@
 \title{Setup LightGBM Hyperparameters}
 \usage{
 setup_LightGBM(
-  max_nrounds = 1000L,
+  max_nrounds = 500L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   num_leaves = 8L,
   max_depth = -1L,
   learning_rate = 0.01,
   feature_fraction = 1,
-  subsample = 0.623,
+  subsample = 1,
   subsample_freq = 1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
   objective = NULL,
-  ifw = FALSE
+  device_type = "cpu",
+  tree_learner = "serial",
+  force_col_wise = TRUE,
+  num_threads = 0L
 )
 }
 \arguments{
@@ -52,9 +56,17 @@ setup_LightGBM(
 
 \item{linear_tree}{Logical: If TRUE, use linear trees.}
 
+\item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
+
 \item{objective}{Character: Objective function.}
 
-\item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
+\item{device_type}{Character: "cpu" or "gpu".}
+
+\item{tree_learner}{Character: "serial", "feature", "data", or "voting".}
+
+\item{force_col_wise}{Logical: Use only with CPU - If TRUE, force col-wise histogram building}
+
+\item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
 }
 \description{
 Setup hyperparameters for LightGBM training.

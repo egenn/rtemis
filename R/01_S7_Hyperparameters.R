@@ -6,7 +6,7 @@
 # S7
 # https://github.com/RConsortium/S7
 # https://rconsortium.github.io/S7/
-# LightGBM
+# LightGBM parameters
 # https://lightgbm.readthedocs.io/en/latest/Parameters.html
 
 # `tuned` values ----
@@ -271,7 +271,7 @@ method(get_params, list(Hyperparameters, class_character)) <- function(
 GLMHyperparameters <- new_class(
   name = "GLMHyperparameters",
   parent = Hyperparameters,
-  constructor = function(ifw = NULL) {
+  constructor = function(ifw) {
     new_object(
       Hyperparameters(
         algorithm = "GLM",
@@ -307,7 +307,7 @@ GAM_fixed <- character()
 GAMHyperparameters <- new_class(
   name = "GAMHyperparameters",
   parent = Hyperparameters,
-  constructor = function(k = NULL, ifw = FALSE) {
+  constructor = function(k, ifw) {
     new_object(
       Hyperparameters(
         algorithm = "GAM",
@@ -335,7 +335,7 @@ GAMHyperparameters <- new_class(
 #' @export
 setup_GAM <- function(k = 5L, ifw = FALSE) {
   k <- clean_posint(k)
-  GAMHyperparameters(k = k)
+  GAMHyperparameters(k = k, ifw = ifw)
 } # /rtemis::setup_GAM
 
 
@@ -364,20 +364,20 @@ CARTHyperparameters <- new_class(
   name = "CARTHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    cp = NULL,
-    maxdepth = NULL,
-    minsplit = NULL,
-    minbucket = NULL,
-    prune.cp = NULL,
-    method = NULL,
-    model = NULL,
-    maxcompete = NULL,
-    maxsurrogate = NULL,
-    usesurrogate = NULL,
-    surrogatestyle = NULL,
-    xval = NULL,
-    cost = NULL,
-    ifw = NULL
+    cp,
+    maxdepth,
+    minsplit,
+    minbucket,
+    prune.cp,
+    method,
+    model,
+    maxcompete,
+    maxsurrogate,
+    usesurrogate,
+    surrogatestyle,
+    xval,
+    cost,
+    ifw
   ) {
     new_object(
       Hyperparameters(
@@ -506,16 +506,16 @@ GLMNETHyperparameters <- new_class(
   name = "GLMNETHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    alpha = NULL,
-    family = NULL,
-    offset = NULL,
-    which.cv.lambda = NULL,
-    nlambda = NULL,
-    lambda = NULL,
-    penalty.factor = NULL,
-    standardize = NULL,
-    intercept = TRUE,
-    ifw = NULL
+    alpha,
+    family,
+    offset,
+    which.cv.lambda,
+    nlambda,
+    lambda,
+    penalty.factor,
+    standardize,
+    intercept,
+    ifw
   ) {
     check_float01inc(alpha)
     check_inherits(which.cv.lambda, "character")
@@ -639,15 +639,15 @@ LightCARTHyperparameters <- new_class(
   name = "LightCARTHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    num_leaves = NULL,
-    max_depth = NULL,
-    lambda_l1 = NULL,
-    lambda_l2 = NULL,
-    max_cat_threshold = NULL,
-    min_data_per_group = NULL,
-    linear_tree = NULL,
-    objective = NULL,
-    ifw = FALSE
+    num_leaves,
+    max_depth,
+    lambda_l1,
+    lambda_l2,
+    max_cat_threshold,
+    min_data_per_group,
+    linear_tree,
+    objective,
+    ifw
   ) {
     new_object(
       Hyperparameters(
@@ -726,7 +726,7 @@ setup_LightCART <- function(
 LightRF_tunable <- c(
   "nrounds",
   "num_leaves",
-  "maxdepth",
+  "max_depth",
   "feature_fraction",
   "subsample",
   "lambda_l1",
@@ -736,10 +736,15 @@ LightRF_tunable <- c(
   "ifw"
 )
 LightRF_fixed <- c(
+  "objective",
+  "device_type",
+  "tree_learner",
+  "boosting_type",
+  "learning_rate",
   "subsample_freq",
   "early_stopping_rounds",
-  "tree_learner",
-  "objective"
+  "force_col_wise",
+  "num_threads"
 )
 
 #' @title LightRFHyperparameters
@@ -754,22 +759,23 @@ LightRFHyperparameters <- new_class(
   name = "LightRFHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    nrounds = NULL,
-    num_leaves = NULL,
-    maxdepth = NULL,
-    feature_fraction = NULL,
-    subsample = NULL,
-    lambda_l1 = NULL,
-    lambda_l2 = NULL,
-    max_cat_threshold = NULL,
-    min_data_per_group = NULL,
-    linear_tree = NULL,
-    ifw = NULL,
-    # fixed LightGBM params for RF
-    subsample_freq = 1L,
-    early_stopping_rounds = -1L,
-    tree_learner = "data_parallel",
-    objective = NULL
+    nrounds,
+    num_leaves,
+    max_depth,
+    feature_fraction,
+    subsample,
+    lambda_l1,
+    lambda_l2,
+    max_cat_threshold,
+    min_data_per_group,
+    linear_tree,
+    ifw,
+    # fixed
+    objective,
+    device_type,
+    tree_learner,
+    force_col_wise,
+    num_threads
   ) {
     new_object(
       Hyperparameters(
@@ -777,7 +783,7 @@ LightRFHyperparameters <- new_class(
         hyperparameters = list(
           nrounds = nrounds,
           num_leaves = num_leaves,
-          maxdepth = maxdepth,
+          max_depth = max_depth,
           feature_fraction = feature_fraction,
           subsample = subsample,
           lambda_l1 = lambda_l1,
@@ -786,10 +792,17 @@ LightRFHyperparameters <- new_class(
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
           ifw = ifw,
-          subsample_freq = subsample_freq,
-          early_stopping_rounds = early_stopping_rounds,
+          # fixed
+          objective = objective,
+          device_type = device_type,
           tree_learner = tree_learner,
-          objective = objective
+          force_col_wise = force_col_wise,
+          num_threads = num_threads,
+          # unsettable: LightGBM params for RF
+          boosting_type = "rf",
+          learning_rate = 1, # no effect? in boosting_type 'rf', but set for clarity
+          subsample_freq = 1L, # a.k.a. bagging_freq
+          early_stopping_rounds = -1L
         ),
         tunable_hyperparameters = LightRF_tunable,
         fixed_hyperparameters = LightRF_fixed
@@ -803,13 +816,13 @@ LightRFHyperparameters <- new_class(
 #' Setup hyperparameters for LightRF training.
 #'
 #' Get more information from [lightgbm::lgb.train].
-#' Note that hyperparameters subsample_freq, early_stopping_rounds, and tree_learner are fixed,
+#' Note that hyperparameters subsample_freq and early_stopping_rounds are fixed,
 #' and cannot be set because they are what makes `lightgbm` train a random forest.
 #' These can all be set when training gradient boosting with LightGBM.
 #'
 #' @param nrounds (Tunable) Positive integer: Number of boosting rounds.
 #' @param num_leaves (Tunable) Positive integer: Maximum number of leaves in one tree.
-#' @param maxdepth (Tunable) Integer: Maximum depth of trees.
+#' @param max_depth (Tunable) Integer: Maximum depth of trees.
 #' @param feature_fraction (Tunable) Numeric: Fraction of features to use.
 #' @param subsample (Tunable) Numeric: Fraction of data to use.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
@@ -819,26 +832,35 @@ LightRFHyperparameters <- new_class(
 #' @param linear_tree Logical: If TRUE, use linear trees.
 #' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#' @param device_type Character: "cpu" or "gpu".
+#' @param tree_learner Character: "serial", "feature", "data", or "voting".
+#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
+#' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
 #'
 #' @author EDG
 #' @export
 setup_LightRF <- function(
   nrounds = 500L,
   num_leaves = 4096L,
-  maxdepth = -1L,
-  feature_fraction = 0.333,
-  subsample = .623,
+  max_depth = -1L,
+  feature_fraction = 0.7,
+  subsample = .623, # a.k.a. bagging_fraction
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
+  # fixed
   objective = NULL,
-  ifw = FALSE
+  device_type = "cpu",
+  tree_learner = "serial",
+  force_col_wise = TRUE,
+  num_threads = 0L # 0 means default number of threads in OpenMP
 ) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
-  maxdepth <- clean_int(maxdepth)
+  max_depth <- clean_int(max_depth)
   check_float01inc(feature_fraction)
   check_float01inc(subsample)
   check_float01inc(lambda_l1)
@@ -846,10 +868,11 @@ setup_LightRF <- function(
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
   check_logical(linear_tree)
+  num_threads <- clean_int(num_threads)
   LightRFHyperparameters(
     nrounds = nrounds,
     num_leaves = num_leaves,
-    maxdepth = maxdepth,
+    max_depth = max_depth,
     feature_fraction = feature_fraction,
     subsample = subsample,
     lambda_l1 = lambda_l1,
@@ -858,7 +881,11 @@ setup_LightRF <- function(
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
     ifw = ifw,
-    objective = objective
+    objective = objective,
+    device_type = device_type,
+    tree_learner = tree_learner,
+    force_col_wise = force_col_wise,
+    num_threads = num_threads
   )
 } # /rtemis::setupLightRF
 
@@ -886,7 +913,11 @@ LightGBM_fixed <- c(
   "max_nrounds",
   "force_nrounds",
   "early_stopping_rounds",
-  "objective"
+  "objective",
+  "device_type",
+  "tree_learner",
+  "force_col_wise",
+  "num_threads"
 )
 
 #' @title LightGBMHyperparameters
@@ -901,23 +932,27 @@ LightGBMHyperparameters <- new_class(
   name = "LightGBMHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    max_nrounds = NULL,
-    force_nrounds = NULL,
-    early_stopping_rounds = NULL,
+    max_nrounds,
+    force_nrounds,
+    early_stopping_rounds,
     # tunable
-    num_leaves = NULL,
-    max_depth = NULL,
-    learning_rate = NULL,
-    feature_fraction = NULL,
-    subsample = NULL,
-    subsample_freq = NULL,
-    lambda_l1 = NULL,
-    lambda_l2 = NULL,
-    max_cat_threshold = NULL,
-    min_data_per_group = NULL,
-    linear_tree = NULL,
-    ifw = NULL,
-    objective = NULL
+    num_leaves,
+    max_depth,
+    learning_rate,
+    feature_fraction,
+    subsample,
+    subsample_freq,
+    lambda_l1,
+    lambda_l2,
+    max_cat_threshold,
+    min_data_per_group,
+    linear_tree,
+    ifw,
+    objective,
+    device_type,
+    tree_learner,
+    force_col_wise,
+    num_threads
   ) {
     nrounds <- if (!is.null(force_nrounds)) {
       force_nrounds
@@ -943,7 +978,11 @@ LightGBMHyperparameters <- new_class(
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
           ifw = ifw,
-          objective = objective
+          objective = objective,
+          device_type = device_type,
+          tree_learner = tree_learner,
+          force_col_wise = force_col_wise,
+          num_threads = num_threads
         ),
         tunable_hyperparameters = LightGBM_tunable,
         fixed_hyperparameters = LightGBM_fixed
@@ -1004,13 +1043,17 @@ method(update, LightGBMHyperparameters) <- function(
 #' @param linear_tree Logical: If TRUE, use linear trees.
 #' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#' @param device_type Character: "cpu" or "gpu".
+#' @param tree_learner Character: "serial", "feature", "data", or "voting".
+#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
+#' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
 #'
 #' @author EDG
 #' @export
 setup_LightGBM <- function(
   # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
   # using early_stopping_rounds.
-  max_nrounds = 1000L,
+  max_nrounds = 500L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   # tunable
@@ -1018,15 +1061,19 @@ setup_LightGBM <- function(
   max_depth = -1L,
   learning_rate = 0.01,
   feature_fraction = 1.0,
-  subsample = .623,
+  subsample = 1.0, # a.k.a. bagging_fraction {check:hyper}
   subsample_freq = 1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
   max_cat_threshold = 32L,
   min_data_per_group = 32L,
   linear_tree = FALSE,
+  ifw = FALSE,
   objective = NULL,
-  ifw = FALSE
+  device_type = "cpu",
+  tree_learner = "serial",
+  force_col_wise = TRUE,
+  num_threads = 0L # 0 means default number of threads in OpenMP
 ) {
   max_nrounds <- clean_posint(max_nrounds)
   force_nrounds <- clean_posint(force_nrounds)
@@ -1058,7 +1105,11 @@ setup_LightGBM <- function(
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
     ifw = ifw,
-    objective = objective
+    objective = objective,
+    device_type = device_type,
+    tree_learner = tree_learner,
+    force_col_wise = force_col_wise,
+    num_threads = num_threads
   )
 } # /rtemis::setupLightGBM
 
@@ -1119,22 +1170,22 @@ LightRuleFitHyperparameters <- new_class(
   name = "LightRuleFitHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    nrounds = NULL,
-    num_leaves = NULL,
-    max_depth = NULL,
-    learning_rate = NULL,
-    subsample = NULL,
-    subsample_freq = NULL,
-    lambda_l1 = NULL,
-    lambda_l2 = NULL,
-    objective = NULL,
-    ifw_lightgbm = NULL,
+    nrounds,
+    num_leaves,
+    max_depth,
+    learning_rate,
+    subsample,
+    subsample_freq,
+    lambda_l1,
+    lambda_l2,
+    objective,
+    ifw_lightgbm,
     # GLMNET
-    alpha = NULL,
-    lambda = NULL,
-    ifw_glmnet = NULL,
+    alpha,
+    lambda,
+    ifw_glmnet,
     # IFW
-    ifw = NULL
+    ifw
   ) {
     new_object(
       Hyperparameters(
@@ -1239,6 +1290,7 @@ setup_LightRuleFit <- function(
     subsample_freq = subsample_freq,
     lambda_l1 = lambda_l1,
     lambda_l2 = lambda_l2,
+    objective = objective,
     ifw_lightgbm = ifw_lightgbm,
     alpha = alpha,
     lambda = lambda,
@@ -1263,7 +1315,7 @@ Isotonic_fixed <- character()
 IsotonicHyperparameters <- new_class(
   name = "IsotonicHyperparameters",
   parent = Hyperparameters,
-  constructor = function(ifw = NULL) {
+  constructor = function(ifw) {
     new_object(
       Hyperparameters(
         algorithm = "Isotonic",
@@ -1312,9 +1364,9 @@ SVMHyperparameters <- new_class(
   name = "SVMHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    hyperparameters = list(),
-    tunable_hyperparameters = character(),
-    fixed_hyperparameters = character()
+    hyperparameters,
+    tunable_hyperparameters,
+    fixed_hyperparameters
   ) {
     new_object(
       Hyperparameters(
@@ -1340,7 +1392,7 @@ SVMHyperparameters <- new_class(
 RadialSVMHyperparameters <- new_class(
   name = "RadialSVMHyperparameters",
   parent = SVMHyperparameters,
-  constructor = function(cost = NULL, gamma = NULL, ifw = NULL) {
+  constructor = function(cost, gamma, ifw) {
     new_object(
       SVMHyperparameters(
         hyperparameters = list(
@@ -1440,40 +1492,40 @@ TabNetHyperparameters <- new_class(
   name = "TabNetHyperparameters",
   parent = Hyperparameters,
   constructor = function(
-    batch_size = NULL,
-    penalty = NULL,
-    clip_value = NULL,
-    loss = NULL,
-    epochs = NULL,
-    drop_last = NULL,
-    decision_width = NULL,
-    attention_width = NULL,
-    num_steps = NULL,
-    feature_reusage = NULL,
-    mask_type = NULL,
-    virtual_batch_size = NULL,
-    valid_split = NULL,
-    learn_rate = NULL,
-    optimizer = NULL,
-    lr_scheduler = NULL,
-    lr_decay = NULL,
-    step_size = NULL,
-    checkpoint_epochs = NULL,
-    cat_emb_dim = NULL,
-    num_independent = NULL,
-    num_shared = NULL,
-    num_independent_decoder = NULL,
-    num_shared_decoder = NULL,
-    momentum = NULL,
-    pretraining_ratio = NULL,
-    device = NULL,
-    importance_sample_size = NULL,
-    early_stopping_monitor = NULL,
-    early_stopping_tolerance = NULL,
-    early_stopping_patience = NULL,
-    num_workers = NULL,
-    skip_importance = NULL,
-    ifw = NULL
+    batch_size,
+    penalty,
+    clip_value,
+    loss,
+    epochs,
+    drop_last,
+    decision_width,
+    attention_width,
+    num_steps,
+    feature_reusage,
+    mask_type,
+    virtual_batch_size,
+    valid_split,
+    learn_rate,
+    optimizer,
+    lr_scheduler,
+    lr_decay,
+    step_size,
+    checkpoint_epochs,
+    cat_emb_dim,
+    num_independent,
+    num_shared,
+    num_independent_decoder,
+    num_shared_decoder,
+    momentum,
+    pretraining_ratio,
+    device,
+    importance_sample_size,
+    early_stopping_monitor,
+    early_stopping_tolerance,
+    early_stopping_patience,
+    num_workers,
+    skip_importance,
+    ifw
   ) {
     new_object(
       Hyperparameters(

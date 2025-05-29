@@ -4,16 +4,16 @@
 \alias{get_mode}
 \title{Get the mode of a factor or integer}
 \usage{
-get_mode(x, na.exclude = TRUE, getlast = TRUE, retain.class = TRUE)
+get_mode(x, na.rm = TRUE, getlast = TRUE, retain_class = TRUE)
 }
 \arguments{
-\item{x}{Vector, factor or integer: Input data}
+\item{x}{Vector, factor or integer: Input data.}
 
-\item{na.exclude}{Logical: If TRUE, exclude NAs}
+\item{na.rm}{Logical: If TRUE, exclude NAs (using \code{na.exclude(x)}).}
 
-\item{getlast}{Logical: If TRUE, get}
+\item{getlast}{Logical: If TRUE, get the last value in case of ties.}
 
-\item{retain.class}{Logical: If TRUE, output is always same class as input}
+\item{retain_class}{Logical: If TRUE, output is always same class as input.}
 }
 \value{
 The mode of \code{x}

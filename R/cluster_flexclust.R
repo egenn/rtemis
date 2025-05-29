@@ -29,7 +29,7 @@ cluster_KMeans <- function(x, parameters, verbosity = 1L) {
 
 
 #' Hard Competitive Learning Clustering
-#' 
+#'
 #' @keywords internal
 #' @noRd
 cluster_HardCL <- function(x, parameters, verbosity = 1L) {
@@ -55,7 +55,7 @@ cluster_HardCL <- function(x, parameters, verbosity = 1L) {
 
 
 #' Neural Gas Clustering
-#' 
+#'
 #' @keywords internal
 #' @noRd
 cluster_NeuralGas <- function(x, parameters, verbosity = 1L) {
@@ -80,7 +80,10 @@ cluster_NeuralGas <- function(x, parameters, verbosity = 1L) {
 } # /rtemis::cluster_NeuralGas
 
 
-clustpredict_KMeans <- clustpredict_HardCL <- clustpredict_NeuralGas <- function(clust, newdata = NULL) {
+clustpredict_KMeans <- clustpredict_HardCL <- clustpredict_NeuralGas <- function(
+  clust,
+  newdata = NULL
+) {
   check_inherits(clust, "kcca")
   flexclust::clusters(clust, newdata = newdata)
 } # /rtemis::clustpredict_{KMeans,HardCL,NeuralGas}

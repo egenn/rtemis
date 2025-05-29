@@ -70,37 +70,41 @@
 #' draw_ts(x, time, 7, group)
 #' }
 #'
-draw_ts <- function(x, time,
-                    window = 7L,
-                    group = NULL,
-                    roll_fn = c("mean", "median", "max", "none"),
-                    roll_col = NULL,
-                    roll_alpha = 1,
-                    roll_lwd = 2,
-                    roll_name = NULL,
-                    alpha = NULL,
-                    align = "center",
-                    group_names = NULL,
-                    xlab = "Time",
-                    n_xticks = 12,
-                    #   tickmode = "array",
-                    scatter_type = "scatter",
-                    legend = TRUE,
-                    x_showspikes = TRUE,
-                    y_showspikes = FALSE,
-                    spikedash = "solid",
-                    spikemode = "across",
-                    spikesnap = "hovered data",
-                    spikecolor = NULL,
-                    spikethickness = 1,
-                    displayModeBar = TRUE,
-                    modeBar_file_format = "svg",
-                    theme = rtemis_theme,
-                    palette = rtemis_palette,
-                    filename = NULL,
-                    file_width = 500,
-                    file_height = 500,
-                    file_scale = 1, ...) {
+draw_ts <- function(
+  x,
+  time,
+  window = 7L,
+  group = NULL,
+  roll_fn = c("mean", "median", "max", "none"),
+  roll_col = NULL,
+  roll_alpha = 1,
+  roll_lwd = 2,
+  roll_name = NULL,
+  alpha = NULL,
+  align = "center",
+  group_names = NULL,
+  xlab = "Time",
+  n_xticks = 12,
+  #   tickmode = "array",
+  scatter_type = "scatter",
+  legend = TRUE,
+  x_showspikes = TRUE,
+  y_showspikes = FALSE,
+  spikedash = "solid",
+  spikemode = "across",
+  spikesnap = "hovered data",
+  spikecolor = NULL,
+  spikethickness = 1,
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  theme = rtemis_theme,
+  palette = rtemis_palette,
+  filename = NULL,
+  file_width = 500,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Arguments ----
   roll_fn <- match.arg(roll_fn)
   if (roll_fn == "none") window <- NULL
@@ -145,10 +149,20 @@ draw_ts <- function(x, time,
   # xtl <- lapply(seq_along(x), \(i) zoo::zoo(x[[i]], time[[i]]))
 
   if (!is.null(window) && window > 0) {
-    avg_line <- switch(roll_fn,
-      mean = lapply(x, \(xt) data.table::frollmean(xt, n = window, align = align)),
-      median = lapply(x, \(xt) data.table::frollapply(xt, n = window, median, align = align)),
-      max = lapply(x, \(xt) data.table::frollapply(xt, n = window, max, align = align)),
+    avg_line <- switch(
+      roll_fn,
+      mean = lapply(
+        x,
+        \(xt) data.table::frollmean(xt, n = window, align = align)
+      ),
+      median = lapply(
+        x,
+        \(xt) data.table::frollapply(xt, n = window, median, align = align)
+      ),
+      max = lapply(
+        x,
+        \(xt) data.table::frollapply(xt, n = window, max, align = align)
+      ),
       sum = lapply(x, \(xt) data.table::frollsum(xt, n = window, align = align))
     )
   }
@@ -158,7 +172,9 @@ draw_ts <- function(x, time,
   if (is.null(roll_col)) roll_col <- palette[seq_along(x)]
 
   # draw_scatter ----
-  plt <- draw_scatter(time, x,
+  plt <- draw_scatter(
+    time,
+    x,
     xlab = xlab,
     theme = theme,
     palette = palette,
@@ -172,7 +188,8 @@ draw_ts <- function(x, time,
     spikemode = spikemode,
     spikesnap = spikesnap,
     spikecolor = spikecolor,
-    spikethickness = spikethickness, ...
+    spikethickness = spikethickness,
+    ...
   )
 
   # Rolling function line ----
@@ -182,21 +199,24 @@ draw_ts <- function(x, time,
 
   if (!is.null(window)) {
     for (i in seq_along(x)) {
-      plt <- plt |> plotly::add_trace(
-        x = time[[i]], y = avg_line[[i]],
-        type = "scatter",
-        mode = "lines",
-        line = list(
-          color = plotly::toRGB(roll_col[[i]], alpha = roll_alpha),
-          width = roll_lwd
-        ),
-        name = roll_name
-      )
+      plt <- plt |>
+        plotly::add_trace(
+          x = time[[i]],
+          y = avg_line[[i]],
+          type = "scatter",
+          mode = "lines",
+          line = list(
+            color = plotly::toRGB(roll_col[[i]], alpha = roll_alpha),
+            width = roll_lwd
+          ),
+          name = roll_name
+        )
     }
   }
 
   # Config
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(

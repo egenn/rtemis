@@ -30,11 +30,13 @@
 #' # 100 stratified bootstraps
 #' res <- resample(y, 100, "StratBoot")
 #' }
-resample <- function(x,
-                     parameters = setup_Resampler(),
-                     #  index = NULL,
-                     #  group = NULL,
-                     verbosity = 1L) {
+resample <- function(
+  x,
+  parameters = setup_Resampler(),
+  #  index = NULL,
+  #  group = NULL,
+  verbosity = 1L
+) {
   check_is_S7(parameters, ResamplerParameters)
   # Input ----
   type <- parameters@type
@@ -43,7 +45,8 @@ resample <- function(x,
       if (verbosity > 0L) msg2("Survival object will be stratified on time.")
       y <- x[, 1]
     } else {
-      if (verbosity > 0L) msg2("Input contains more than one column; will stratify on last.")
+      if (verbosity > 0L)
+        msg2("Input contains more than one column; will stratify on last.")
       y <- x[[NCOL(x)]]
     }
   }
@@ -57,11 +60,13 @@ resample <- function(x,
   }
 
   if (type == "StratBoot") {
-    target_length <- if (is.null(parameters@target_length)) NROW(y) else parameters@target_length
+    target_length <- if (is.null(parameters@target_length)) NROW(y) else
+      parameters@target_length
   }
 
   # resample ----
-  .stratify_var <- if (is.null(parameters@stratify_var)) y else parameters@stratify_var
+  .stratify_var <- if (is.null(parameters@stratify_var)) y else
+    parameters@stratify_var
   # stratify_var is for printing with parameter_summary
   # stratify_var <- if (is.null(parameters@stratify_var)) {
   #   getName(x, "x")
@@ -128,7 +133,10 @@ resample <- function(x,
     if (actual_n_bins != parameters@strat_n_bins) {
       if (verbosity > 0L) {
         msg20(
-          "Updated strat_n_bins from ", parameters@strat_n_bins, " to ", actual_n_bins,
+          "Updated strat_n_bins from ",
+          parameters@strat_n_bins,
+          " to ",
+          actual_n_bins,
           " in ResamplerParameters object."
         )
       }
@@ -158,15 +166,17 @@ resample <- function(x,
 #'
 #' @keywords internal
 #' @noRd
-bootstrap <- function(x, n_resamples = 10,
-                      seed = NULL) {
+bootstrap <- function(x, n_resamples = 10, seed = NULL) {
   if (!is.null(seed)) set.seed(seed)
 
   ids <- seq_along(x)
   .length <- length(x)
   if (!is.null(seed)) set.seed(seed)
 
-  res <- lapply(seq(n_resamples), function(i) sort(sample(ids, .length, replace = TRUE)))
+  res <- lapply(
+    seq(n_resamples),
+    function(i) sort(sample(ids, .length, replace = TRUE))
+  )
   names(res) <- paste0("Bootsrap_", seq(n_resamples))
   res
 } # rtemis::bootstrap
@@ -182,11 +192,14 @@ bootstrap <- function(x, n_resamples = 10,
 #'
 #' @keywords internal
 #' @noRd
-kfold <- function(x, k = 10,
-                  stratify_var = NULL,
-                  strat_n_bins = 4,
-                  seed = NULL,
-                  verbosity = TRUE) {
+kfold <- function(
+  x,
+  k = 10,
+  stratify_var = NULL,
+  strat_n_bins = 4,
+  seed = NULL,
+  verbosity = TRUE
+) {
   if (!is.null(seed)) set.seed(seed)
 
   if (is.null(stratify_var)) stratify_var <- x
@@ -217,7 +230,11 @@ kfold <- function(x, k = 10,
     idl.k[[i]] <- lapply(seq(k), function(j) idl[[i]][cut1 == j])
   }
 
-  res <- lapply(seq(k), \(i) seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), \(j) idl.k[[j]][[i]])))])
+  res <- lapply(
+    seq(k),
+    \(i)
+      seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), \(j) idl.k[[j]][[i]])))]
+  )
 
   names(res) <- paste0("Fold_", seq(k))
   attr(res, "strat_n_bins") <- strat_n_bins
@@ -234,13 +251,15 @@ kfold <- function(x, k = 10,
 #'
 #' @keywords internal
 #' @noRd
-strat.sub <- function(x,
-                      n_resamples = 10,
-                      train_p = .75,
-                      stratify_var = NULL,
-                      strat_n_bins = 4,
-                      seed = NULL,
-                      verbosity = TRUE) {
+strat.sub <- function(
+  x,
+  n_resamples = 10,
+  train_p = .75,
+  stratify_var = NULL,
+  strat_n_bins = 4,
+  seed = NULL,
+  verbosity = TRUE
+) {
   if (!is.null(seed)) set.seed(seed)
   if (is.null(stratify_var)) stratify_var <- x
   stratify_var <- as.numeric(stratify_var)
@@ -274,17 +293,21 @@ strat.sub <- function(x,
 #'
 #' @keywords internal
 #' @noRd
-strat.boot <- function(x, n_resamples = 10,
-                       train_p = .75,
-                       stratify_var = NULL,
-                       strat_n_bins = 4,
-                       target_length = NULL,
-                       seed = NULL,
-                       verbosity = TRUE) {
+strat.boot <- function(
+  x,
+  n_resamples = 10,
+  train_p = .75,
+  stratify_var = NULL,
+  strat_n_bins = 4,
+  target_length = NULL,
+  seed = NULL,
+  verbosity = TRUE
+) {
   if (!is.null(seed)) set.seed(seed)
 
   res.part1 <- strat.sub(
-    x = x, n_resamples = n_resamples,
+    x = x,
+    n_resamples = n_resamples,
     train_p = train_p,
     stratify_var = stratify_var,
     strat_n_bins = strat_n_bins,
@@ -299,7 +322,10 @@ strat.boot <- function(x, n_resamples = 10,
   # Add back this many cases
   add.length <- target_length - res.length
   doreplace <- ifelse(add.length > res.length, 1, 0)
-  res.part2 <- lapply(res.part1, function(i) sample(i, add.length, replace = doreplace))
+  res.part2 <- lapply(
+    res.part1,
+    function(i) sample(i, add.length, replace = doreplace)
+  )
   res <- mapply(c, res.part1, res.part2, SIMPLIFY = FALSE)
   res <- lapply(res, sort)
   names(res) <- paste0("StratBoot_", seq(n_resamples))

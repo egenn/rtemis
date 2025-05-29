@@ -28,26 +28,30 @@
 #' @author EDG
 #' @export
 
-draw_table <- function(x,
-                       .ddSci = TRUE,
-                       main = NULL,
-                       main_col = "black",
-                       main_x = 0,
-                       main_xanchor = "auto",
-                       fill_col = "#18A3AC",
-                       table_bg = "white",
-                       bg = "white",
-                       line_col = "white",
-                       lwd = 1,
-                       header_font_col = "white",
-                       table_font_col = "gray20",
-                       font_size = 14,
-                       font_family = "Helvetica Neue",
-                       margin = list(
-                         l = 0, r = 5,
-                         t = 30, b = 0,
-                         pad = 0
-                       )) {
+draw_table <- function(
+  x,
+  .ddSci = TRUE,
+  main = NULL,
+  main_col = "black",
+  main_x = 0,
+  main_xanchor = "auto",
+  fill_col = "#18A3AC",
+  table_bg = "white",
+  bg = "white",
+  line_col = "white",
+  lwd = 1,
+  header_font_col = "white",
+  table_font_col = "gray20",
+  font_size = 14,
+  font_family = "Helvetica Neue",
+  margin = list(
+    l = 0,
+    r = 5,
+    t = 30,
+    b = 0,
+    pad = 0
+  )
+) {
   # Dependencies ----
   check_dependencies("plotly")
 
@@ -68,7 +72,8 @@ draw_table <- function(x,
   # plotly ----
 
   plt <- plotly::plot_ly(x)
-  plt <- plotly::add_table(plt,
+  plt <- plotly::add_table(
+    plt,
     header = list(
       line = list(
         width = lwd,
@@ -77,10 +82,12 @@ draw_table <- function(x,
           plotly::toRGB(line_col)
         )
       ),
-      fill = list(color = c(
-        "rgba(255,255,255,0)",
-        plotly::toRGB(fill_col)
-      )),
+      fill = list(
+        color = c(
+          "rgba(255,255,255,0)",
+          plotly::toRGB(fill_col)
+        )
+      ),
       align = c("right", "center"),
       font = list(
         color = plotly::toRGB(header_font_col),
@@ -96,10 +103,12 @@ draw_table <- function(x,
           plotly::toRGB(fill_col)
         )
       ),
-      fill = list(color = c(
-        plotly::toRGB(fill_col),
-        plotly::toRGB(table_bg)
-      )),
+      fill = list(
+        color = c(
+          plotly::toRGB(fill_col),
+          plotly::toRGB(table_bg)
+        )
+      ),
       align = c("right", "center"),
       font = list(
         color = c(
@@ -114,7 +123,8 @@ draw_table <- function(x,
 
   # layout ----
   main <- paste0("<b>", main, "</b>")
-  plt <- plotly::layout(plt,
+  plt <- plotly::layout(
+    plt,
     title = list(
       text = main,
       font = list(

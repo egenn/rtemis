@@ -103,76 +103,80 @@
 #' @author EDG
 #' @export
 draw_xt <- function(
-    x, y = NULL,
-    x2 = NULL, y2 = NULL,
-    which_xy = NULL,
-    which_xy2 = NULL,
-    # Shade intervals
-    shade_bin = NULL,
-    shade_interval = NULL,
-    shade_col = NULL,
-    shade_x = NULL,
-    shade_name = "",
-    shade_showlegend = FALSE,
-    ynames = NULL,
-    y2names = NULL,
-    xlab = NULL,
-    ylab = NULL,
-    y2lab = NULL,
-    xunits = NULL,
-    yunits = NULL,
-    y2units = NULL,
-    yunits_col = NULL,
-    y2units_col = NULL,
-    zt = NULL,
-    show_zt = TRUE,
-    show_zt_every = NULL,
-    zt_nticks = 18L,
-    main = NULL,
-    main_y = 1,
-    main_yanchor = "bottom",
-    x_nticks = 0,
-    y_nticks = 0,
-    show_rangeslider = NULL,
-    slider_start = NULL,
-    slider_end = NULL,
-    theme = rtemis_theme,
-    palette = rtpalette(rtemis_palette),
-    font_size = 16,
-    yfill = "none",
-    y2fill = "none",
-    fill_alpha = .2,
-    yline_width = 2,
-    y2line_width = 2,
-    x_showspikes = TRUE,
-    spike_dash = "solid",
-    spike_col = NULL,
-    x_spike_thickness = -2,
-    tickfont_size = 16,
-    x_tickmode = "auto",
-    x_tickvals = NULL,
-    x_ticktext = NULL,
-    x_tickangle = NULL,
-    # legend
-    legend_x = 0,
-    legend_y = 1.1,
-    legend_xanchor = "left",
-    legend_yanchor = "top",
-    legend_orientation = "h",
-    margin = list(l = 75, r = 75, b = 75, t = 75),
-    # axis labels
-    x_standoff = 20L,
-    y_standoff = 20L,
-    y2_standoff = 20L,
-    hovermode = "x",
-    # config
-    displayModeBar = TRUE,
-    modeBar_file_format = "svg",
-    scrollZoom = TRUE,
-    filename = NULL,
-    file_width = 960,
-    file_height = 500,
-    file_scale = 1, ...) {
+  x,
+  y = NULL,
+  x2 = NULL,
+  y2 = NULL,
+  which_xy = NULL,
+  which_xy2 = NULL,
+  # Shade intervals
+  shade_bin = NULL,
+  shade_interval = NULL,
+  shade_col = NULL,
+  shade_x = NULL,
+  shade_name = "",
+  shade_showlegend = FALSE,
+  ynames = NULL,
+  y2names = NULL,
+  xlab = NULL,
+  ylab = NULL,
+  y2lab = NULL,
+  xunits = NULL,
+  yunits = NULL,
+  y2units = NULL,
+  yunits_col = NULL,
+  y2units_col = NULL,
+  zt = NULL,
+  show_zt = TRUE,
+  show_zt_every = NULL,
+  zt_nticks = 18L,
+  main = NULL,
+  main_y = 1,
+  main_yanchor = "bottom",
+  x_nticks = 0,
+  y_nticks = 0,
+  show_rangeslider = NULL,
+  slider_start = NULL,
+  slider_end = NULL,
+  theme = rtemis_theme,
+  palette = rtpalette(rtemis_palette),
+  font_size = 16,
+  yfill = "none",
+  y2fill = "none",
+  fill_alpha = .2,
+  yline_width = 2,
+  y2line_width = 2,
+  x_showspikes = TRUE,
+  spike_dash = "solid",
+  spike_col = NULL,
+  x_spike_thickness = -2,
+  tickfont_size = 16,
+  x_tickmode = "auto",
+  x_tickvals = NULL,
+  x_ticktext = NULL,
+  x_tickangle = NULL,
+  # legend
+  legend_x = 0,
+  legend_y = 1.1,
+  legend_xanchor = "left",
+  legend_yanchor = "top",
+  legend_orientation = "h",
+  margin = list(l = 75, r = 75, b = 75, t = 75),
+  # axis labels
+  x_standoff = 20L,
+  y_standoff = 20L,
+  y2_standoff = 20L,
+  hovermode = "x",
+  # config
+  displayModeBar = TRUE,
+  modeBar_file_format = "svg",
+  scrollZoom = TRUE,
+  filename = NULL,
+  file_width = 960,
+  file_height = 500,
+  file_scale = 1,
+  ...
+) {
   # Names ----
   .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   .x2name <- labelify(gsub(".*\\$", "", deparse(substitute(x2))))
@@ -181,7 +185,7 @@ draw_xt <- function(
   }
   .yname <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   .y2name <- labelify(gsub(".*\\$", "", deparse(substitute(y2))))
-  
+
   # Data ----
   if (inherits(x, "xt")) {
     y <- x[["y"]]
@@ -293,7 +297,11 @@ draw_xt <- function(
     }
     yunits <- paste0(
       "(",
-      '<span style="color:', yunits_col, ';">', yunits, "</span>",
+      '<span style="color:',
+      yunits_col,
+      ';">',
+      yunits,
+      "</span>",
       ")"
     )
     ynames <- paste(ynames, yunits)
@@ -308,7 +316,11 @@ draw_xt <- function(
     }
     y2units <- paste0(
       "(",
-      '<span style="color:', y2units_col, ';">', y2units, "</span>",
+      '<span style="color:',
+      y2units_col,
+      ';">',
+      y2units,
+      "</span>",
       ")"
     )
     y2names <- paste(y2names, y2units)
@@ -397,7 +409,10 @@ draw_xt <- function(
       while (diff_idi0 %% sze_high != 0) {
         sze_high <- sze_high + 1
       }
-      show_zt_every <- c(sze_low, sze_high)[which.min(abs(c(sze - sze_low, sze - sze_high)))]
+      show_zt_every <- c(sze_low, sze_high)[which.min(abs(c(
+        sze - sze_low,
+        sze - sze_high
+      )))]
     }
     idi <- seq(1, length(zt), by = show_zt_every)
     # Make sure 0 is included
@@ -606,7 +621,8 @@ draw_xt <- function(
   } # /yaxis2 layout
 
   # Config ----
-  plt <- plotly::config(plt,
+  plt <- plotly::config(
+    plt,
     displaylogo = FALSE,
     displayModeBar = displayModeBar,
     toImageButtonOptions = list(
