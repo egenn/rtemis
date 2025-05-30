@@ -14,6 +14,9 @@
 #' @param center_title Logical: If TRUE, autopad title for centering, if present.
 #' @param format_fn Formatting function.
 #' @param print_class Logical: If TRUE, print abbreviated class of object.
+#' @param abbrev_class_n Integer: Number of characters to abbreviate class names to.
+#' @param print_df Logical: If TRUE, print data frame contents, otherwise print n rows and columns.
+#' @param print_S4 Logical: If TRUE, print S4 object contents, otherwise print class name.
 #'
 #' @author EDG
 #' @keywords internal
@@ -32,6 +35,7 @@ printls <- function(
   format_fn_rhs = ddSci,
   print_class = TRUE,
   abbrev_class_n = 3L,
+  print_df = FALSE,
   print_S4 = FALSE
 ) {
   # Arguments ----
@@ -43,6 +47,14 @@ printls <- function(
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
   } else if (length(x) == 0) {
     cat(class(x), "of length 0.\n")
+  } else if (is.data.frame(x) && !print_df) {
+    cat(
+      "data.frame with ",
+      NROW(x),
+      "rows and",
+      NCOL(x),
+      "columns.\n"
+    )
   } else {
     x <- as.list(x)
     # Get class of each element
@@ -125,6 +137,19 @@ printls <- function(
         )
         # Print S7 object
         print(x[[i]], pad = lhs + 2)
+      } else if (is.data.frame(x[[i]])) {
+        cat(paste0(
+          item_format(format(
+            paste0(prefix, xnames[i]),
+            width = lhs,
+            justify = "right"
+          )),
+          ": ",
+          if (print_class)
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
+          headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
+          "\n"
+        ))
       } else if (isS4(x[[i]])) {
         cat(paste0(
           item_format(format(
