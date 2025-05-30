@@ -82,7 +82,12 @@ set_outcome <- function(dat, outcome_column) {
     stop('Column "', outcome_column, '" not found in data.')
   }
   # Reorder columns
-  dat[, c(setdiff(seq_len(NCOL(dat)), id), id)]
+  # => Make S7 generic
+  if (is.data.table(dat)) {
+    dat[, c(setdiff(seq_len(NCOL(dat)), id), id), with = FALSE]
+  } else {
+    dat[, c(setdiff(seq_len(NCOL(dat)), id), id)]
+  }
 } # rtemis::set_outcome
 
 
