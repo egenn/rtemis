@@ -10,7 +10,7 @@ read(
   make_unique = TRUE,
   character2factor = FALSE,
   clean_colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
+  delim_reader = c("data.table", "vroom", "duckdb", "arrow"),
   xlsx_sheet = 1,
   sep = NULL,
   quote = "\\"",
@@ -38,19 +38,19 @@ factors}
 \item{clean_colnames}{Logical: If TRUE, clean columns names using
 \link{clean_colnames}}
 
-\item{delim.reader}{Character: package to use for reading delimited data}
+\item{delim_reader}{Character: package to use for reading delimited data}
 
 \item{xlsx_sheet}{Integer or character: Name or number of XLSX sheet to read}
 
-\item{sep}{Single character: field separator. If \code{delim.reader = "fread"}
+\item{sep}{Single character: field separator. If \code{delim_reader = "fread"}
 and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 
 \item{quote}{Single character: quote character}
 
 \item{na_strings}{Character vector: Strings to be interpreted as NA values.
-For \code{delim.reader = "duckdb"}, this must be a single string.}
+For \code{delim_reader = "duckdb"}, this must be a single string.}
 
-\item{output}{Character: "default" or "data.table", If default, return the delim.reader's
+\item{output}{Character: "default" or "data.table", If default, return the delim_reader's
 default data structure, otherwise convert to data.table}
 
 \item{attr}{Character: Attribute to set (Optional)}

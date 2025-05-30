@@ -31,17 +31,17 @@
 #' factors
 #' @param clean_colnames Logical: If TRUE, clean columns names using
 #' [clean_colnames]
-#' @param delim.reader Character: package to use for reading delimited data
+#' @param delim_reader Character: package to use for reading delimited data
 #' @param xlsx_sheet Integer or character: Name or number of XLSX sheet to read
-#' @param sep Single character: field separator. If `delim.reader = "fread"`
+#' @param sep Single character: field separator. If `delim_reader = "fread"`
 #' and `sep = NULL`, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
 #' @param na_strings Character vector: Strings to be interpreted as NA values.
-#' For `delim.reader = "duckdb"`, this must be a single string.
-# For `delim.reader = "polars"`, this must be a single string, otherwise, if an
+#' For `delim_reader = "duckdb"`, this must be a single string.
+# For `delim_reader = "polars"`, this must be a single string, otherwise, if an
 # unnamed character vector, it maps each string to each column. If named, the names
 # should match columns. See `?polars::csv_reader` for more details.
-#' @param output Character: "default" or "data.table", If default, return the delim.reader's
+#' @param output Character: "default" or "data.table", If default, return the delim_reader's
 #' default data structure, otherwise convert to data.table
 #' @param attr Character: Attribute to set (Optional)
 #' @param value Character: Value to set (if `attr` is not NULL)
@@ -65,7 +65,7 @@ read <- function(
   make_unique = TRUE,
   character2factor = FALSE,
   clean_colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
+  delim_reader = c("data.table", "vroom", "duckdb", "arrow"),
   xlsx_sheet = 1,
   sep = NULL,
   quote = "\"",
@@ -84,7 +84,7 @@ read <- function(
 ) {
   check_dependencies("data.table")
   if (timed) start_time <- intro(verbosity = 0L)
-  delim.reader <- match.arg(delim.reader)
+  delim_reader <- match.arg(delim_reader)
   output <- match.arg(output)
   ext <- tools::file_ext(filename)
   path <- if (is.null(datadir)) {
@@ -173,11 +173,11 @@ read <- function(
         " Reading ",
         hilite(basename(path)),
         " using ",
-        delim.reader,
+        delim_reader,
         "..."
       )
     }
-    if (delim.reader == "data.table") {
+    if (delim_reader == "data.table") {
       if (is.null(sep)) sep <- "auto"
       .dat <- data.table::fread(
         path,
@@ -187,7 +187,7 @@ read <- function(
         verbose = fread_verbosity > 0L,
         ...
       )
-    } else if (delim.reader == "duckdb") {
+    } else if (delim_reader == "duckdb") {
       check_dependencies("DBI", "duckdb")
       if (is.null(sep)) sep <- ","
       if (length(na_strings) > 1) {
@@ -215,7 +215,7 @@ read <- function(
       #     sep = sep, quote = quote, ...
       # )
       if (output == "data.table") setDT(.dat)
-    } else if (delim.reader == "arrow") {
+    } else if (delim_reader == "arrow") {
       check_dependencies("arrow")
       if (is.null(sep)) sep <- ","
       .dat <- arrow::read_delim_arrow(
@@ -226,7 +226,7 @@ read <- function(
         ...
       )
       if (output == "data.table") setDT(.dat)
-      # } else if (delim.reader == "polars") {
+      # } else if (delim_reader == "polars") {
       #   check_dependencies("polars")
       #   attachNamespace("polars")
       #   if (is.null(sep)) sep <- ","
