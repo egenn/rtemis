@@ -36,7 +36,8 @@ printls <- function(
   print_class = TRUE,
   abbrev_class_n = 3L,
   print_df = FALSE,
-  print_S4 = FALSE
+  print_S4 = FALSE,
+  limit_iter = 12L
 ) {
   # Arguments ----
   if (newline_pre) cat("\n")
@@ -62,8 +63,9 @@ printls <- function(
     # Remove closures that will cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
-      for (i in is_fn)
+      for (i in is_fn) {
         x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
+      }
     }
     # Remove NULLs
     null_index <- sapply(x, is.null)
@@ -83,7 +85,28 @@ printls <- function(
         newline_pre = FALSE
       )
     }
+    counter <- 0L
+    # Print each item up to limit_iter items
+    if (length(x) > limit_iter) {
+      cat(italic(thin(
+        "  Showing first",
+        limit_iter,
+        "of",
+        length(x),
+        "items.\n"
+      )))
+    }
     for (i in seq_along(x)) {
+      counter <- counter + 1L
+      if (counter > limit_iter) {
+        cat(italic(thin(
+          "  ...",
+          length(x) - limit_iter,
+          "more items not shown.\n"
+        )))
+        break
+      }
+      # Print item
       if (is.list(x[[i]])) {
         if (length(x[[i]]) == 0) {
           cat(paste0(
@@ -118,8 +141,9 @@ printls <- function(
             justify = "right"
           )),
           ": ",
-          if (print_class)
-            thin(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
+          if (print_class) {
+            thin(paste0("<", abbreviate("logical", abbrev_class_n), "> "))
+          },
           ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"),
           "\n"
         ))
@@ -145,8 +169,9 @@ printls <- function(
             justify = "right"
           )),
           ": ",
-          if (print_class)
-            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
+          if (print_class) {
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "))
+          },
           headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
           "\n"
         ))
@@ -174,8 +199,9 @@ printls <- function(
             justify = "right"
           )),
           ": ",
-          if (print_class)
-            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
+          if (print_class) {
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "))
+          },
           headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
           "\n"
         ))
