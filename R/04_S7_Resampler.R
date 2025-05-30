@@ -335,7 +335,7 @@ setup_Resampler <- function(
     )
   } else if (type == "LOOCV") {
     LOOCVParams(
-      n = n_resamples
+      n = 0L
     )
   } else {
     stop(paste(

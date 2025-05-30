@@ -52,7 +52,12 @@ resample <- function(
   }
 
   # Stratify on case IDs ----
-  id_strat <- parameters@id_strat
+  id_strat <- if (type != "LOOCV") {
+    parameters@id_strat
+  } else {
+    NULL
+  }
+
   if (!is.null(id_strat)) {
     # Only keep unique IDs
     idl <- !duplicated(id_strat)
@@ -65,8 +70,11 @@ resample <- function(
   }
 
   # resample ----
-  .stratify_var <- if (is.null(parameters@stratify_var)) x else
-    parameters@stratify_var
+  if (!type %in% c("Bootstrap", "LOOCV")) {
+    .stratify_var <- if (is.null(parameters@stratify_var)) x else
+      parameters@stratify_var
+  }
+
   # stratify_var is for printing with parameter_summary
   # stratify_var <- if (is.null(parameters@stratify_var)) {
   #   getName(x, "x")
@@ -84,7 +92,7 @@ resample <- function(
   # Make resamples ----
   if (type == "StratSub") {
     ## StratSub ----
-    res.part <- strat.sub(
+    res_part <- strat.sub(
       x = x,
       n_resamples = n_resamples,
       train_p = parameters@train_p,
@@ -95,14 +103,14 @@ resample <- function(
     )
   } else if (type == "Bootstrap") {
     ## Bootstrap ----
-    res.part <- bootstrap(
+    res_part <- bootstrap(
       x = x,
       n_resamples = n_resamples,
       seed = parameters@seed
     )
   } else if (type == "KFold") {
     ## KFold ----
-    res.part <- kfold(
+    res_part <- kfold(
       x = x,
       k = n_resamples,
       stratify_var = .stratify_var,
@@ -110,12 +118,14 @@ resample <- function(
       seed = parameters@seed,
       verbosity = verbosity
     )
-  } else if (type == "loocv") {
+  } else if (type == "LOOCV") {
     ## LOOCV ----
-    res.part <- loocv(x = x)
+    res_part <- loocv(x = x)
+    # Get number of resamples
+    parameters@n <- length(res_part)
   } else if (type == "StratBoot") {
     ## StratBoot ----
-    res.part <- strat.boot(
+    res_part <- strat.boot(
       x = x,
       n_resamples = n_resamples,
       train_p = parameters@train_p,
@@ -129,7 +139,7 @@ resample <- function(
 
   # Update strat_n_bins ----
   if (type == "StratSub" || type == "StratBoot") {
-    actual_n_bins <- attr(res.part, "strat_n_bins")
+    actual_n_bins <- attr(res_part, "strat_n_bins")
     if (actual_n_bins != parameters@strat_n_bins) {
       if (verbosity > 0L) {
         msg20(
@@ -146,13 +156,13 @@ resample <- function(
 
   if (!is.null(id_strat)) {
     ### Get ID by resample ----
-    id_by_res <- lapply(res.part, \(x) id_strat[idl][x])
+    id_by_res <- lapply(res_part, \(x) id_strat[idl][x])
     ### Get resamples on original data with replicates ----
-    res.part <- lapply(id_by_res, \(x) which(id_strat %in% x))
+    res_part <- lapply(id_by_res, \(x) which(id_strat %in% x))
   }
 
   # Output ----
-  Resampler(type, res.part, parameters)
+  Resampler(type, res_part, parameters)
 } # rtemis::resample
 
 
@@ -305,7 +315,7 @@ strat.boot <- function(
 ) {
   if (!is.null(seed)) set.seed(seed)
 
-  res.part1 <- strat.sub(
+  res_part1 <- strat.sub(
     x = x,
     n_resamples = n_resamples,
     train_p = train_p,
@@ -315,18 +325,18 @@ strat.boot <- function(
   )
 
   # Make sure target_length was not too short by accident
-  res.length <- length(res.part1[[1]])
+  res.length <- length(res_part1[[1]])
   if (is.null(target_length)) target_length <- length(x)
   if (target_length < res.length) target_length <- length(x)
 
   # Add back this many cases
   add.length <- target_length - res.length
   doreplace <- ifelse(add.length > res.length, 1, 0)
-  res.part2 <- lapply(
-    res.part1,
+  res_part2 <- lapply(
+    res_part1,
     function(i) sample(i, add.length, replace = doreplace)
   )
-  res <- mapply(c, res.part1, res.part2, SIMPLIFY = FALSE)
+  res <- mapply(c, res_part1, res_part2, SIMPLIFY = FALSE)
   res <- lapply(res, sort)
   names(res) <- paste0("StratBoot_", seq(n_resamples))
   attr(res, "strat_n_bins") <- strat_n_bins
