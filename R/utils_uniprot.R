@@ -29,7 +29,7 @@ uniprot_get <- function(
   dat <- seqinr::read.fasta(path, seqtype = "AA")
   Annotation <- attr(dat[[1]], "Annot")
   Identifier <- gsub(" .*", "", Annotation)
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     msg2("Got:", hilite(Annotation))
   }
 

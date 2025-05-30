@@ -52,7 +52,7 @@ train_GLMNET <- function(
   # penalty.factor must be of length = N features.
   if (is.null(hyperparameters[["penalty.factor"]])) {
     hyperparameters@hyperparameters[["penalty.factor"]] <- rep(1, NCOL(x) - 1)
-    if (verbosity > 1) {
+    if (verbosity > 1L) {
       info('Updated hyperparameters[["penalty.factor"]] to all 1s.')
     }
   } else {
