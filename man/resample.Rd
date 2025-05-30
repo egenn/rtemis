@@ -7,7 +7,7 @@
 resample(x, parameters = setup_Resampler(), verbosity = 1L)
 }
 \arguments{
-\item{x}{Vector or data.frame: Usually the outcome; \code{NROW(y)} defines sample size}
+\item{x}{Vector or data.frame: Usually the outcome; \code{NROW(x)} defines the sample size.}
 
 \item{parameters}{Resampler object created by \link{setup_Resampler}.}
 

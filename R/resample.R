@@ -14,7 +14,7 @@
 #' operations which rely on equal-length vectors. For example, you can't place resamples in a
 #' data.frame, but must use a list instead.
 #'
-#' @param x Vector or data.frame: Usually the outcome; `NROW(y)` defines sample size
+#' @param x Vector or data.frame: Usually the outcome; `NROW(x)` defines the sample size.
 #' @param parameters Resampler object created by [setup_Resampler].
 #' @param verbosity Integer: Verbosity level.
 #'
@@ -43,11 +43,11 @@ resample <- function(
   if (NCOL(x) > 1) {
     if (survival::is.Surv(x)) {
       if (verbosity > 0L) msg2("Survival object will be stratified on time.")
-      y <- x[, 1]
+      x <- x[, 1]
     } else {
       if (verbosity > 0L)
         msg2("Input contains more than one column; will stratify on last.")
-      y <- x[[NCOL(x)]]
+      x <- x[[NCOL(x)]]
     }
   }
 
@@ -60,12 +60,12 @@ resample <- function(
   }
 
   if (type == "StratBoot") {
-    target_length <- if (is.null(parameters@target_length)) NROW(y) else
+    target_length <- if (is.null(parameters@target_length)) NROW(x) else
       parameters@target_length
   }
 
   # resample ----
-  .stratify_var <- if (is.null(parameters@stratify_var)) y else
+  .stratify_var <- if (is.null(parameters@stratify_var)) x else
     parameters@stratify_var
   # stratify_var is for printing with parameter_summary
   # stratify_var <- if (is.null(parameters@stratify_var)) {
@@ -74,7 +74,7 @@ resample <- function(
   #   deparse(substitute(stratify_var))
   # }
 
-  n_resamples <- if (type == "LOOCV") length(y) else parameters@n
+  n_resamples <- if (type == "LOOCV") length(x) else parameters@n
 
   # Print parameters ----
   if (verbosity > 1L) {
@@ -85,7 +85,7 @@ resample <- function(
   if (type == "StratSub") {
     ## StratSub ----
     res.part <- strat.sub(
-      x = y,
+      x = x,
       n_resamples = n_resamples,
       train_p = parameters@train_p,
       stratify_var = .stratify_var,
@@ -96,14 +96,14 @@ resample <- function(
   } else if (type == "Bootstrap") {
     ## Bootstrap ----
     res.part <- bootstrap(
-      x = y,
+      x = x,
       n_resamples = n_resamples,
       seed = parameters@seed
     )
   } else if (type == "KFold") {
     ## KFold ----
     res.part <- kfold(
-      x = y,
+      x = x,
       k = n_resamples,
       stratify_var = .stratify_var,
       strat_n_bins = parameters@strat_n_bins,
@@ -112,11 +112,11 @@ resample <- function(
     )
   } else if (type == "loocv") {
     ## LOOCV ----
-    res.part <- loocv(x = y)
+    res.part <- loocv(x = x)
   } else if (type == "StratBoot") {
     ## StratBoot ----
     res.part <- strat.boot(
-      x = y,
+      x = x,
       n_resamples = n_resamples,
       train_p = parameters@train_p,
       stratify_var = .stratify_var,
