@@ -304,7 +304,7 @@ clean_names <- function(x, prefix_digits = "V_") {
 #'
 #' Clean column names by replacing all spaces and punctuation with a single underscore
 #'
-#' @param x Character vector.
+#' @param x Character vector or matrix with colnames or any object with `names()` method.
 #'
 #' @return Character vector.
 #'

@@ -7,7 +7,7 @@
 clean_colnames(x)
 }
 \arguments{
-\item{x}{Character vector.}
+\item{x}{Character vector or matrix with colnames or any object with \code{names()} method.}
 }
 \value{
 Character vector.
