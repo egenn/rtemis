@@ -124,8 +124,20 @@ test_that("Resampler() succeeds", {
   expect_s7_class(res, Resampler)
 })
 
-# resample() ----
-test_that("resample() succeeds", {
+# resample() vector ----
+test_that("resample() vector succeeds", {
+  res <- resample(iris[[1]], setup_Resampler())
+  expect_s7_class(res, Resampler)
+})
+
+# resample() data.frame ----
+test_that("resample() data.frame succeeds", {
   res <- resample(iris, setup_Resampler())
+  expect_s7_class(res, Resampler)
+})
+
+# resample() data.table ----
+test_that("resample() data.table succeeds", {
+  res <- resample(as.data.table(iris), setup_Resampler())
   expect_s7_class(res, Resampler)
 })
