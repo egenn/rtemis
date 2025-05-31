@@ -6,5 +6,7 @@ Advanced Machine Learning &amp; Visualization.
 
 This is the new version of the [rtemis package](https://github.com/egenn/rtemis).
 
-A complete rewrite of the backend was undertaken using the new 
-[S7 class system](https://github.com/RConsortium/S7).
+A near-complete rewrite was undertaken using the new [S7 class system](https://github.com/RConsortium/S7).
+
+![](https://www.rtemis.org/_ipx/_/rtemis-aiml-cover.webp)
+
