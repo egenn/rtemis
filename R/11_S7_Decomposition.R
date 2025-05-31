@@ -40,9 +40,9 @@ method(`.DollarNames`, Decomposition) <- function(x, pattern = "") {
   grep(pattern, prop_names, value = TRUE)
 }
 
-# Make Decomposition@decom `[[`-accessible
+# Make Decomposition@transformed `[[`-accessible
 method(`[[`, Decomposition) <- function(x, index) {
-  props(x, "decom")[[index]]
+  props(x, "transformed")[[index]]
 }
 
 # Print Decomposition ----
