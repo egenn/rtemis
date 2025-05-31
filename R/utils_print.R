@@ -14,6 +14,9 @@
 #' @param center_title Logical: If TRUE, autopad title for centering, if present.
 #' @param format_fn Formatting function.
 #' @param print_class Logical: If TRUE, print abbreviated class of object.
+#' @param abbrev_class_n Integer: Number of characters to abbreviate class names to.
+#' @param print_df Logical: If TRUE, print data frame contents, otherwise print n rows and columns.
+#' @param print_S4 Logical: If TRUE, print S4 object contents, otherwise print class name.
 #'
 #' @author EDG
 #' @keywords internal
@@ -32,7 +35,9 @@ printls <- function(
   format_fn_rhs = ddSci,
   print_class = TRUE,
   abbrev_class_n = 3L,
-  print_S4 = FALSE
+  print_df = FALSE,
+  print_S4 = FALSE,
+  limit_iter = 12L
 ) {
   # Arguments ----
   if (newline_pre) cat("\n")
@@ -43,6 +48,14 @@ printls <- function(
     cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
   } else if (length(x) == 0) {
     cat(class(x), "of length 0.\n")
+  } else if (is.data.frame(x) && !print_df) {
+    cat(
+      "data.frame with ",
+      NROW(x),
+      "rows and",
+      NCOL(x),
+      "columns.\n"
+    )
   } else {
     x <- as.list(x)
     # Get class of each element
@@ -50,8 +63,9 @@ printls <- function(
     # Remove closures that will cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
-      for (i in is_fn)
+      for (i in is_fn) {
         x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
+      }
     }
     # Remove NULLs
     null_index <- sapply(x, is.null)
@@ -71,7 +85,28 @@ printls <- function(
         newline_pre = FALSE
       )
     }
+    counter <- 0L
+    # Print each item up to limit_iter items
+    if (length(x) > limit_iter) {
+      cat(italic(thin(
+        "  Showing first",
+        limit_iter,
+        "of",
+        length(x),
+        "items.\n"
+      )))
+    }
     for (i in seq_along(x)) {
+      counter <- counter + 1L
+      if (counter > limit_iter) {
+        cat(italic(thin(
+          "  ...",
+          length(x) - limit_iter,
+          "more items not shown.\n"
+        )))
+        break
+      }
+      # Print item
       if (is.list(x[[i]])) {
         if (length(x[[i]]) == 0) {
           cat(paste0(
@@ -106,8 +141,9 @@ printls <- function(
             justify = "right"
           )),
           ": ",
-          if (print_class)
-            thin(paste0("<", abbreviate("logical", abbrev_class_n), "> ")),
+          if (print_class) {
+            thin(paste0("<", abbreviate("logical", abbrev_class_n), "> "))
+          },
           ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"),
           "\n"
         ))
@@ -125,6 +161,20 @@ printls <- function(
         )
         # Print S7 object
         print(x[[i]], pad = lhs + 2)
+      } else if (is.data.frame(x[[i]])) {
+        cat(paste0(
+          item_format(format(
+            paste0(prefix, xnames[i]),
+            width = lhs,
+            justify = "right"
+          )),
+          ": ",
+          if (print_class) {
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "))
+          },
+          headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
+          "\n"
+        ))
       } else if (isS4(x[[i]])) {
         cat(paste0(
           item_format(format(
@@ -149,8 +199,9 @@ printls <- function(
             justify = "right"
           )),
           ": ",
-          if (print_class)
-            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> ")),
+          if (print_class) {
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "))
+          },
           headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
           "\n"
         ))

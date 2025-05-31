@@ -86,9 +86,9 @@ method(`[[`, PreprocessorParameters) <- function(x, name) {
 #' @param ... Ignored.
 #'
 #' @noRd
-print.PreprocessorParameters <- function(x, ...) {
-  objcat("PreprocessorParameters")
-  printls(props(x))
+print.PreprocessorParameters <- function(x, pad = 0L, ...) {
+  objcat("PreprocessorParameters", pad = pad)
+  printls(props(x), pad = pad + 2L, ...)
 }
 method(print, PreprocessorParameters) <- function(x, ...) {
   print.PreprocessorParameters(x, ...)
@@ -330,7 +330,7 @@ Preprocessor <- new_class(
 # Print Preprocessor ----
 method(print, Preprocessor) <- function(x, pad = 0L, ...) {
   objcat("Preprocessor", pad = pad)
-  printls(props(x), pad = pad + 2L)
+  printls(props(x), pad = pad + 2L, print_df = FALSE)
   invisible(x)
 } # /rtemis::print.Preprocessor
 

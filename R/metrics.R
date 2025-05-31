@@ -447,7 +447,7 @@ classification_metrics <- function(
 
   # Levels already set so that the first level is the positive class
   Positive_Class <- if (n_classes == 2) true_levels[1] else NA
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     if (n_classes == 2) {
       msg2(
         "There are two outcome classes:",

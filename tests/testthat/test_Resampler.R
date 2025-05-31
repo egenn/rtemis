@@ -2,6 +2,8 @@
 # ::rtemis::
 # EDG rtemis.org
 
+# library(testthat)
+
 # ResamplerParameters ----
 test_that("ResamplerParameters succeeds", {
   expect_s7_class(ResamplerParameters(n = 10L), ResamplerParameters)
@@ -124,8 +126,45 @@ test_that("Resampler() succeeds", {
   expect_s7_class(res, Resampler)
 })
 
-# resample() ----
-test_that("resample() succeeds", {
+# resample() vector ----
+## KFold ----
+test_that("resample() vector succeeds", {
+  res <- resample(iris[[1]], setup_Resampler(type = "KFold"))
+  expect_s7_class(res, Resampler)
+})
+
+## StratSub ----
+test_that("resample() vector succeeds with StratSub", {
+  res <- resample(iris[[1]], setup_Resampler(type = "StratSub"))
+  expect_s7_class(res, Resampler)
+})
+
+## StratBoot ----
+test_that("resample() vector succeeds with StratBoot", {
+  res <- resample(iris[[1]], setup_Resampler(type = "StratBoot"))
+  expect_s7_class(res, Resampler)
+})
+
+## Bootstrap ----
+test_that("resample() vector succeeds with Bootstrap", {
+  res <- resample(iris[[1]], setup_Resampler(type = "Bootstrap"))
+  expect_s7_class(res, Resampler)
+})
+
+## LOOCV ----
+test_that("resample() vector succeeds with LOOCV", {
+  res <- resample(iris[[1]], setup_Resampler(type = "LOOCV"))
+  expect_s7_class(res, Resampler)
+})
+
+# resample() data.frame ----
+test_that("resample() data.frame succeeds", {
   res <- resample(iris, setup_Resampler())
+  expect_s7_class(res, Resampler)
+})
+
+# resample() data.table ----
+test_that("resample() data.table succeeds", {
+  res <- resample(as.data.table(iris), setup_Resampler())
   expect_s7_class(res, Resampler)
 })

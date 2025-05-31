@@ -326,7 +326,7 @@ tune_GridSearch <- function(
     if (is.null(grid_params[["lambda"]])) {
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
       # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which.cv.lambda]]
-      if (verbosity > 1) {
+      if (verbosity > 1L) {
         info("Extracting best lambda from GLMNET models...")
       }
       lambda_cv2 <- data.frame(
@@ -358,7 +358,7 @@ tune_GridSearch <- function(
   ## LightGBM ----
   if (algorithm == "LightGBM") {
     if (is.null(grid_params[["nrounds"]])) {
-      if (verbosity > 1) {
+      if (verbosity > 1L) {
         info("Extracting best N of iterations from LightGBM models...")
       }
       nrounds_cv <- data.frame(
@@ -400,7 +400,7 @@ tune_GridSearch <- function(
 
   ## XGBoost ----
   # if (algorithm == "XGBoost") {
-  #   if (verbosity > 1) {
+  #   if (verbosity > 1L) {
   #     msg2(hilite("Extracting best N of iterations from XGBoost models..."))
   #   }
   #   est.nrounds.all <- data.frame(nrounds = plyr::laply(
@@ -423,7 +423,7 @@ tune_GridSearch <- function(
 
   ## LINAD ----
   # if (algorithm %in% c("LINAD", "LINOA")) {
-  #   if (verbosity > 1) {
+  #   if (verbosity > 1L) {
   #     info("Extracting best N leaves from LINAD models...")
   #   }
   #   est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
@@ -446,7 +446,7 @@ tune_GridSearch <- function(
 
   ## LIHADBoost ----
   # if (algorithm == "LIHADBoost") {
-  #   if (verbosity > 1) {
+  #   if (verbosity > 1L) {
   #     msg2(hilite("Extracting best N steps from LIHADBoost models..."))
   #   }
   #   est.n.steps.all <- data.frame(n.steps = plyr::laply(

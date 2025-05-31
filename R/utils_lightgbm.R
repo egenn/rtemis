@@ -156,7 +156,7 @@ lgb2rules <- function(
   return_unique = TRUE,
   verbosity = 1L
 ) {
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     msg2start("Extracting LightGBM rules...")
   }
   if (is.null(n_iter)) n_iter <- length(Booster)
@@ -170,7 +170,7 @@ lgb2rules <- function(
     )
   }) |>
     unlist()
-  if (verbosity > 0) msg2done()
+  if (verbosity > 0L) msg2done()
   if (return_unique) unique(rules) else rules
 } # rtemis::lgb2rules
 
@@ -183,7 +183,7 @@ method(extract_rules, class_lgb.Booster) <- function(
   return_unique = TRUE,
   verbosity = 1L
 ) {
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     msg2start("Extracting LightGBM rules...")
   }
   if (is.null(n_iter)) n_iter <- length(x)
@@ -203,7 +203,7 @@ method(extract_rules, class_lgb.Booster) <- function(
   } else {
     rules
   }
-  if (verbosity > 0) {
+  if (verbosity > 0L) {
     msg2done()
     msg20(
       "Extracted ",
