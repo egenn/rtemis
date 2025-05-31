@@ -48,7 +48,7 @@ Run \link{available_clustering} to get a list of available algorithms.
 
 \section{Decomposition}{
 
-Decomposition is performed using \code{decompose()}.
+Decomposition is performed using \code{decomp()}.
 Run \link{available_decomposition} to get a list of available algorithms.
 }
 

@@ -1,4 +1,4 @@
-# decompose.R
+# decomp.R
 # ::rtemis::
 # 2025 EDG rtemis.org
 
@@ -15,7 +15,7 @@
 #'
 #' @author EDG
 #' @export
-decompose <- function(x, algorithm = "ICA", parameters = NULL, verbosity = 1L) {
+decomp <- function(x, algorithm = "ICA", parameters = NULL, verbosity = 1L) {
   # Checks ----
   if (is.null(parameters)) {
     parameters <- get_default_decomparams(algorithm)
@@ -51,4 +51,4 @@ decompose <- function(x, algorithm = "ICA", parameters = NULL, verbosity = 1L) {
     decom = decom[["decom"]],
     transformed = decom[["transformed"]]
   )
-} # /rtemis::decompose
+} # /rtemis::decomp
