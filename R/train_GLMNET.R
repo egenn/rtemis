@@ -48,20 +48,6 @@ train_GLMNET <- function(
   if (needs_tuning(hyperparameters)) {
     stop("Hyperparameters must be fixed - use train() instead.")
   }
-  # Check data-specific hyperparameter values
-  # penalty.factor must be of length = N features.
-  if (is.null(hyperparameters[["penalty.factor"]])) {
-    hyperparameters@hyperparameters[["penalty.factor"]] <- rep(1, NCOL(x) - 1)
-    if (verbosity > 1L) {
-      info('Updated hyperparameters[["penalty.factor"]] to all 1s.')
-    }
-  } else {
-    if (length(hyperparameters[["penalty.factor"]]) != NCOL(x) - 1) {
-      stop(
-        "Length of penalty.factor must be equal to the number of predictors."
-      )
-    }
-  }
 
   # Convert "null" lambda to NULL
   if (hyperparameters[["lambda"]] == "null") {
@@ -98,12 +84,31 @@ train_GLMNET <- function(
   }
 
   # Train ----
+  # Create xm so that the correct NCOL is used for penalty.factor,
+  # since factors are converted to dummy variables.
+  xm <- as.matrix(
+    model.matrix(~., exc(x, NCOL(x)))[, -1]
+  )
+  # Check data-specific hyperparameter values
+  # penalty.factor must be of length = N features.
+  if (is.null(hyperparameters[["penalty.factor"]])) {
+    hyperparameters@hyperparameters[["penalty.factor"]] <- rep(1, NCOL(xm))
+    if (verbosity > 1L) {
+      info("NCOL(xm) is: ", NCOL(xm))
+      info("names(xm) is:", paste(names(xm), collapse = ", "))
+      info('Updated hyperparameters[["penalty.factor"]] to all 1s.')
+    }
+  } else {
+    if (length(hyperparameters[["penalty.factor"]]) != NCOL(xm)) {
+      stop(
+        "Length of penalty.factor must be equal to the number of predictors."
+      )
+    }
+  }
   # if lambda is NULL, use cv.glmnet to find optimal lambda
   if (is.null(hyperparameters[["lambda"]])) {
     model <- glmnet::cv.glmnet(
-      x = as.matrix(
-        model.matrix(~., exc(x, ncol(x)))[, -1]
-      ),
+      x = xm,
       y = outcome(x),
       family = family,
       weights = weights,
@@ -117,9 +122,7 @@ train_GLMNET <- function(
     check_inherits(model, "cv.glmnet")
   } else {
     model <- glmnet::glmnet(
-      x = as.matrix(
-        model.matrix(~., exc(x, ncol(x)))[, -1]
-      ),
+      x = xm,
       y = outcome(x),
       family = family,
       weights = weights,
