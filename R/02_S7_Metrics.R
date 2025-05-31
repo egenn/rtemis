@@ -76,7 +76,7 @@ method(print, RegressionMetrics) <- function(x, ...) {
   } else {
     objcat("  Regression Metrics\n")
   }
-  printls(x@metrics, print_class = FALSE)
+  printls(x@metrics, print_class = FALSE, print_df = TRUE)
   invisible(x)
 } # /rtemis::print.RegressionMetrics
 
@@ -189,7 +189,7 @@ print.MetricsCV <- function(x, decimal_places = 3L, ...) {
     )
   })
   names(out) <- names(x@mean_metrics)
-  printls(out, print_class = FALSE)
+  printls(out, print_class = FALSE, print_df = TRUE)
   invisible(x)
 }
 method(print, MetricsCV) <- function(x, decimal_places = 3, ...) {
