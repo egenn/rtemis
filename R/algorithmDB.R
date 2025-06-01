@@ -157,6 +157,13 @@ get_varimp_fn <- function(algorithm) {
   paste0("varimp_", get_alg_name(algorithm))
 }
 
+# use e.g. in draw_scatter
+setup_alg <- function(algorithm, ...) {
+  alg_name <- get_alg_name(algorithm)
+  setup_fn <- get_alg_setup(algorithm)
+  do_call(setup_fn, list(...))
+} # /rtemis::setup_alg
+
 # Clustering ----
 clust_algorithms <- data.frame(rbind(
   c("CMeans", "Fuzzy C-means Clustering"),
@@ -281,6 +288,7 @@ available_supervised <- function() {
 }
 
 #' @rdname available_algorithms
+#' @export
 available_clustering <- function() {
   algs <- structure(
     clust_algorithms[, 2],
@@ -291,6 +299,7 @@ available_clustering <- function() {
 }
 
 #' @rdname available_algorithms
+#' @export
 available_decomposition <- function() {
   algs <- structure(
     decom_algorithms[, 2],
