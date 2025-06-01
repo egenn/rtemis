@@ -11,7 +11,7 @@ setup_GridSearch(
   metrics_aggregate_fn = "mean",
   metric = NULL,
   maximize = NULL,
-  parallel_type = "mirai",
+  parallel_type = "future",
   n_workers = rtemis_workers
 )
 }
