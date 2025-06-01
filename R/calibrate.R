@@ -155,7 +155,7 @@ calibrate.ClassificationCV <- function(
         dat,
         algorithm = algorithm,
         hyperparameters = hyperparameters,
-        crossvalidation_parameters = resampler_parameters
+        outer_resampling = resampler_parameters
       )
     }
   )
