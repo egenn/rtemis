@@ -2,6 +2,28 @@
 # ::rtemis::
 # 2016-23 EDG rtemis.org
 
+is_common_struct <- function(x) {
+  class(x)[1] %in%
+    c(
+      "numeric",
+      "integer",
+      "character",
+      "logical",
+      "factor",
+      "Date",
+      "POSIXct",
+      "POSIXlt",
+      "list",
+      "data.frame",
+      "matrix",
+      "array",
+      "table",
+      "ts",
+      "tbl_df",
+      "data.table"
+    )
+}
+
 #' Pretty print list
 #'
 #' Pretty print a list (or data frame) recursively
@@ -25,7 +47,7 @@
 printls <- function(
   x,
   prefix = "",
-  pad = 2,
+  pad = 2L,
   item_format = bold,
   maxlength = 4L,
   center_title = TRUE,
@@ -56,6 +78,8 @@ printls <- function(
       NCOL(x),
       "columns.\n"
     )
+  } else if (!is_common_struct(x)) {
+    cat("object of class:", class(x), "\n")
   } else {
     x <- as.list(x)
     # Get class of each element
@@ -84,7 +108,7 @@ printls <- function(
         newline = title_newline,
         newline_pre = FALSE
       )
-    }
+    } # /title
     counter <- 0L
     # Print each item up to limit_iter items
     if (length(x) > limit_iter) {
@@ -128,10 +152,16 @@ printls <- function(
                 justify = "right"
               )),
               ": "
-            ),
-            "\n"
+            )
           )
-          printls(x[[i]], pad = lhs + 2)
+          if (is_common_struct(x[[i]])) {
+            printls(x[[i]], pad = lhs + 2, newline_pre = TRUE)
+          } else {
+            cat(
+              italic("object of class:", class(x[[i]])),
+              "\n"
+            )
+          }
         }
       } else if (is.logical(x[[i]])) {
         cat(paste0(
@@ -191,6 +221,20 @@ printls <- function(
         } else {
           cat("(S4 object of class: '", class(x[[i]]), "')\n", sep = "")
         }
+      } else if (!is_common_struct(x[[i]])) {
+        cat(paste0(
+          item_format(format(
+            paste0(prefix, xnames[i]),
+            width = lhs,
+            justify = "right"
+          )),
+          ": ",
+          if (print_class) {
+            gray(paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "))
+          },
+          italic("object of class:", class(x[[i]])),
+          "\n"
+        ))
       } else {
         cat(paste0(
           item_format(format(
