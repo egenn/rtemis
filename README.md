@@ -10,3 +10,16 @@ A near-complete rewrite was undertaken using the new [S7 class system](https://g
 
 ![](https://www.rtemis.org/_ipx/_/rtemis-aiml-cover.webp)
 
+## Installation
+
+Using `pak`:
+
+```r
+pak::pkg_install("rtemis-org/rtemis")
+```
+
+## Documentation
+
+The documentation is available at [rdocs.rtemis.org](https://rdocs.rtemis.org).
+
+[![](https://rdocs.rtemis.org/assets/rtemis-mlv-cover.webp)](https://rdocs.rtemis.org)
