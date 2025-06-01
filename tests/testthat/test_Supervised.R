@@ -137,7 +137,7 @@ cvmod_r_glmnet <- train(
   dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0.5, 1)),
-  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() CV-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
   expect_s7_class(cvmod_r_glmnet, RegressionCV)
@@ -194,7 +194,7 @@ test_that("predict() GAM Regression succeeds", {
 cvmod_r_gam <- train(
   x = datr,
   algorithm = "gam",
-  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 
 ## Test ... args to train ---
@@ -235,7 +235,7 @@ test_that("train() SVM Regression with tuning succeeds", {
 cvmod_r_svmr <- train(
   x = datr,
   algorithm = "svm",
-  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() CV SVM Regression succeeds", {
   expect_s7_class(cvmod_r_svmr, RegressionCV)
@@ -246,7 +246,7 @@ cvtmod_r_svmr <- train(
   x = datr,
   algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10)),
-  crossvalidation_parameters = setup_Resampler(n_resamples = 3L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() CV SVM Regression with tuning succeeds", {
   expect_s7_class(cvtmod_r_svmr, RegressionCV)
@@ -299,7 +299,7 @@ test_that("tuned is set correctly", {
 cvmod_r_cart <- train(
   x = datr,
   hyperparameters = setup_CART(),
-  crossvalidation_parameters = setup_Resampler(3L)
+  outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {
   expect_s7_class(cvmod_r_cart, RegressionCV)
@@ -309,7 +309,7 @@ test_that("train() Regression with crossvalidation succeeds", {
 cvtmod_r_cart <- train(
   x = datr,
   hyperparameters = setup_CART(maxdepth = c(1, 2)),
-  crossvalidation_parameters = setup_Resampler(3L)
+  outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {
   expect_s7_class(cvtmod_r_cart, RegressionCV)
@@ -318,7 +318,7 @@ test_that("train() Regression with crossvalidation succeeds", {
 cvmod_r_cart <- train(
   x = datr,
   hyperparameters = setup_CART(prune.cp = c(.001, .01)),
-  crossvalidation_parameters = setup_Resampler(3L)
+  outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {
   expect_s7_class(cvmod_r_cart, RegressionCV)
@@ -417,7 +417,7 @@ cvtmod_r_lightgbm <- train(
   dat_test = datr_test,
   algorithm = "lightgbm",
   hyperparameters = setup_LightGBM(max_nrounds = 50L),
-  crossvalidation_parameters = setup_Resampler(n_resamples = 3L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() CV LightGBM Regression with autotune nrounds succeeds", {
   expect_s7_class(cvtmod_r_lightgbm, RegressionCV)
@@ -560,7 +560,7 @@ test_that("train() LightRF Classification succeeds", {
 mod_c_lightrf_cv <- train(
   x = datc2,
   algorithm = "lightrf",
-  crossvalidation_parameters = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() LightRF Classification with crossvalidation succeeds", {
   expect_s7_class(mod_c_lightrf_cv, ClassificationCV)

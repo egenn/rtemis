@@ -12,7 +12,7 @@
 \alias{theme_whiteigrid}
 \alias{theme_lightgraygrid}
 \alias{theme_mediumgraygrid}
-\title{Themes for \code{mplot3} and \code{draw} functions}
+\title{Themes for \verb{draw_*} functions}
 \usage{
 theme_black(
   bg = "#000000",
@@ -677,5 +677,5 @@ title.}
 \item{font_family}{Character: Font to be used throughout plot.}
 }
 \description{
-Themes for \code{mplot3} and \code{draw} functions
+Themes for \verb{draw_*} functions
 }

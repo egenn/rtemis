@@ -2,7 +2,7 @@
 % Please edit documentation in R/draw_3Dscatter.R
 \name{draw_3Dscatter}
 \alias{draw_3Dscatter}
-\title{Interactive 3D Plots}
+\title{Interactive 3D Scatter Plots}
 \usage{
 draw_3Dscatter(
   x,
@@ -47,7 +47,7 @@ draw_3Dscatter(
   legend_borderwidth = 0,
   legend_group_gap = 0,
   margin = list(t = 30, b = 0, l = 0, r = 0),
-  fit_params = list(),
+  fit_params = NULL,
   width = NULL,
   height = NULL,
   padding = 0,
@@ -146,7 +146,7 @@ draw_3Dscatter(
 
 \item{margin}{Numeric, named list: Margins for top, bottom, left, right.}
 
-\item{fit_params}{List: Parameters for fit.}
+\item{fit_params}{Hyperparameters: Parameters for fit.}
 
 \item{width}{Numeric: Width of plot.}
 
@@ -168,7 +168,7 @@ draw_3Dscatter(
 
 \item{file_scale}{Numeric: Scale of saved file.}
 
-\item{...}{Additional arguments passed to \code{plotly::plot_ly}.}
+\item{...}{Additional arguments passed to the theme function.}
 }
 \value{
 A \code{plotly} object.

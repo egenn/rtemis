@@ -81,7 +81,7 @@ draw_scatter(
   diagonal = FALSE,
   diagonal_col = NULL,
   diagonal_alpha = 0.66,
-  fit_params = list(),
+  fit_params = NULL,
   vline = NULL,
   vline_col = theme[["fg"]],
   vline_width = 1,
@@ -257,7 +257,7 @@ draw_scatter(
 
 \item{diagonal_alpha}{Numeric: Alpha for diagonal line.}
 
-\item{fit_params}{List: Parameters for fit.}
+\item{fit_params}{Hyperparameters: Parameters for fit.}
 
 \item{vline}{Numeric: X position for vertical line.}
 
@@ -297,7 +297,7 @@ draw_scatter(
 
 \item{verbosity}{Integer: Verbosity level.}
 
-\item{...}{Additional arguments passed to \code{plotly::plot_ly}.}
+\item{...}{Additional arguments passed to the theme function.}
 }
 \value{
 A \code{plotly} object.

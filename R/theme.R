@@ -2,7 +2,8 @@
 # ::rtemis::
 # EDG rtemis.org
 
-#' Themes for `mplot3` and `draw` functions
+# Black ----
+#' Themes for `draw_*` functions
 #'
 #' @param bg Color: Figure background.
 #' @param plot_bg Color: Plot region background.
@@ -296,6 +297,7 @@ theme_blackgrid <- function(
 
 #' @rdname theme
 #' @export
+
 theme_blackigrid <- function(
   bg = "#000000",
   plot_bg = "#1A1A1A",
@@ -1239,61 +1241,61 @@ theme_lightgraygrid <- function(
 
 #' @rdname theme
 #' @export
+
 theme_mediumgraygrid <- function(
-  bg = "#b3b3b3",
-  plot_bg = "transparent",
-  fg = "#000000",
-  pch = 16,
-  cex = 1,
-  lwd = 2,
-  # box --
-  bty = "n",
-  box_col = fg,
-  box_alpha = 1,
-  box_lty = 1,
-  box_lwd = .5,
-  # grid --
-  grid = TRUE,
-  grid_nx = NULL,
-  grid_ny = NULL,
-  grid_col = "#d0d0d0",
-  grid_alpha = 1,
-  grid_lty = 1,
-  grid_lwd = 1,
-  # axes --
-  axes_visible = TRUE,
-  axes_col = "transparent",
-  tick_col = "#00000000",
-  tick_alpha = 1,
-  tick_labels_col = fg,
-  tck = -0.01,
-  tcl = NA,
-  x_axis_side = 1,
-  y_axis_side = 2,
-  labs_col = fg,
-  x_axis_line = 0,
-  x_axis_las = 0,
-  x_axis_padj = -1.1,
-  x_axis_hadj = .5,
-  y_axis_line = 0,
-  y_axis_las = 1,
-  y_axis_padj = .5,
-  y_axis_hadj = .5,
-  xlab_line = 1.4,
-  ylab_line = 2,
-  # zerolines --
-  zerolines = TRUE,
-  zerolines_col = fg,
-  zerolines_alpha = .5,
-  zerolines_lty = 1,
-  zerolines_lwd = 1,
-  # title --
-  main_line = .25,
-  main_adj = 0,
-  main_font = 2,
-  main_col = fg,
-  font_family = "Helvetica"
-) {
+    bg = "#b3b3b3",
+    plot_bg = "transparent",
+    fg = "#000000",
+    pch = 16,
+    cex = 1,
+    lwd = 2,
+    # box --
+    bty = "n",
+    box_col = fg,
+    box_alpha = 1,
+    box_lty = 1,
+    box_lwd = .5,
+    # grid --
+    grid = TRUE,
+    grid_nx = NULL,
+    grid_ny = NULL,
+    grid_col = "#d0d0d0",
+    grid_alpha = 1,
+    grid_lty = 1,
+    grid_lwd = 1,
+    # axes --
+    axes_visible = TRUE,
+    axes_col = "transparent",
+    tick_col = "#00000000",
+    tick_alpha = 1,
+    tick_labels_col = fg,
+    tck = -0.01,
+    tcl = NA,
+    x_axis_side = 1,
+    y_axis_side = 2,
+    labs_col = fg,
+    x_axis_line = 0,
+    x_axis_las = 0,
+    x_axis_padj = -1.1,
+    x_axis_hadj = .5,
+    y_axis_line = 0,
+    y_axis_las = 1,
+    y_axis_padj = .5,
+    y_axis_hadj = .5,
+    xlab_line = 1.4,
+    ylab_line = 2,
+    # zerolines --
+    zerolines = TRUE,
+    zerolines_col = fg,
+    zerolines_alpha = .5,
+    zerolines_lty = 1,
+    zerolines_lwd = 1,
+    # title --
+    main_line = .25,
+    main_adj = 0,
+    main_font = 2,
+    main_col = fg,
+    font_family = "Helvetica") {
   Theme(
     name = "mediumgraygrid",
     parameters = list(
@@ -1354,10 +1356,10 @@ theme_mediumgraygrid <- function(
   )
 } # /rtemis::theme_mediumdgray
 
-#' Print available rtemis themes
+#' Print available \pkg{rtemis} themes
 #'
 #' @export
-themes <- function() {
+available_themes <- function() {
   cat(hilite("  Available themes:\n"))
   cat('    "white", "whitegrid", "whiteigrid,\n')
   cat('    "black", "blackgrid", "blackigrid",\n')
