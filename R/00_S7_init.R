@@ -11,7 +11,20 @@ se <- new_generic("se", "x")
 # Short description for inline printing.
 desc <- new_generic("desc", "x")
 # Full description for multi-line printing.
+
+#' Describe rtemis object
+#'
+#' @description
+#' This generic is used to provide a description of an rtemis object in plain language.
+#'
+#' @param x An rtemis object.
+#'
+#' @return A character string describing the object.
+#'
+#' @author EDG
+#' @export
 describe <- new_generic("describe", "x")
+
 # Get parameters that need tuning.
 get_params_need_tuning <- new_generic("get_params_need_tuning", "x")
 # Get parameters.
@@ -175,15 +188,23 @@ method(outcome_name, class_data.frame) <- function(x) {
 #'
 #' @param x data.frame or similar.
 #'
-#' @return Last column as a vector.
+#' @return Vector containing the last column of `x`.
 #'
-#' @keywords internal
-#' @noRd
+#' @author EDG
+#' @export
 outcome <- new_generic("outcome", "x")
 method(outcome, class_data.frame) <- function(x) {
   x[[NCOL(x)]]
 }
 
+#' Get features (all columns except the last one)
+#'
+#' @param x data.frame or similar.
+#'
+#' @return object same as input, after removing the last column.
+#'
+#' @author EDG
+#' @export
 features <- new_generic("features", "x")
 method(features, class_data.frame) <- function(x) {
   stopifnot(NCOL(x) > 1)
