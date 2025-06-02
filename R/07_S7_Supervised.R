@@ -786,8 +786,9 @@ Regression <- new_class(
 plot.Regression <- function(
   x,
   what = "all",
-  fit = "gam",
-  theme = "darkgraygrid",
+  fit = "glm",
+  theme = rtemis_theme,
+  labelify = TRUE,
   ...
 ) {
   if (length(what) == 1 && what == "all") {
@@ -803,11 +804,13 @@ plot.Regression <- function(
     Negate(is.null),
     sapply(predicted, function(z) prop(x, z))
   )
+  if (labelify) {
+    names(predicted_l) <- labelify(names(predicted_l))
+  }
   draw_fit(
     x = true_l,
     y = predicted_l,
-    # fit = fit, # change when GAM is available
-    fit = "none",
+    fit = fit,
     theme = theme,
     ...
   )
@@ -816,8 +819,8 @@ plot.Regression <- function(
 method(plot, Regression) <- function(
   x,
   what = "all",
-  fit = "gam",
-  theme = "darkgraygrid",
+  fit = "glm",
+  theme = rtemis_theme,
   ...
 ) {
   plot.Regression(
@@ -980,6 +983,68 @@ write_Supervised <- function(
     rt_save(rt, outdir, verbosity = verbosity)
   }
 } # /write_Supervised
+
+# Present Supervised ----
+# present method for Supervised objects
+# Plot training + validation + test metrics if available in separate rows using `plotly::subplot()`
+# + run `describe()` on the object
+method(present, Supervised) <- function(
+  x,
+  what = c("training", "test"),
+  theme = rtemis_theme,
+  col = rtpalette(rtemis_palette)[1:2],
+  filename = NULL
+) {
+  # Training set plot
+  if ("training" %in% what) {
+    plot_training <- plot(
+      x,
+      what = "training",
+      ylab = "Predicted Training",
+      theme = theme,
+      col = col[1],
+      group_names = "Training",
+      legend_trace = FALSE
+    )
+  } else {
+    plot_training <- NULL
+  }
+  # Test set plot
+  if ("test" %in% what && !is.null(x@y_test)) {
+    plot_test <- plot(
+      x,
+      what = "test",
+      ylab = "Predicted Test",
+      theme = theme,
+      col = col[2],
+      group_names = "Test",
+      legend_trace = FALSE
+    )
+  } else {
+    plot_test <- NULL
+  }
+
+  # Describe the model
+  describe(x)
+
+  # Combined plot
+  # regression: scatter plots left to right; classification: boxplots top to bottom
+  n_rows <- if (x@type == "Regression") {
+    1L
+  } else {
+    length(what)
+  }
+  plotly::subplot(
+    plot_training,
+    plot_test,
+    nrows = n_rows,
+    shareX = n_rows == 2L,
+    shareY = FALSE,
+    titleX = TRUE,
+    titleY = TRUE,
+    margin = 0.05
+  )
+} # /rtemis::present.Supervised
 
 # SupervisedCV ----
 # fields metrics_training/metrics_validation/metrics_test
