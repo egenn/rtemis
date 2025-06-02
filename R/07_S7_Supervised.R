@@ -236,7 +236,7 @@ method(plot_varimp, Supervised) <- function(
 # Describe Supervised ----
 method(describe, Supervised) <- function(x) {
   type <- x@type
-  algorithm <- get_alg_name(x@algorithm, desc = TRUE)
+  algorithm <- get_alg_desc(x@algorithm)
   cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
   desc <- paste0(algorithm, " was used for ", tolower(type), ".")
 
