@@ -15,7 +15,7 @@
 #' @param cluster Character: Clustering method.
 #' @param cluster_params List: Parameters for clustering.
 #' @param group Factor: Grouping variable.
-#' @param formula Formula: Formula for non-linear least squares fit.
+# @param formula Formula: Formula for non-linear least squares fit.
 #' @param rsq Logical: If TRUE, print R-squared values in legend if `fit` is set.
 #' @param mode Character, vector: "markers", "lines", "markers+lines".
 #' @param order_on_x Logical: If TRUE, order `x` and `y` on `x`.
@@ -49,6 +49,7 @@
 #' @param marginal_alpha Numeric: Alpha for marginal markers.
 #' @param marginal_size Numeric: Size of marginal markers.
 #' @param legend Logical: If TRUE, draw legend.
+#' @param legend_trace Logical: If TRUE, draw legend trace. (For when you have `fit` and don't want a trace for the markers.)
 #' @param legend_xy Numeric: Position of legend.
 #' @param legend_xanchor Character: X anchor for legend.
 #' @param legend_yanchor Character: Y anchor for legend.
@@ -124,7 +125,7 @@ draw_scatter <- function(
   cluster = NULL,
   cluster_params = list(k = 2),
   group = NULL,
-  formula = NULL,
+  # formula = NULL,
   rsq = TRUE,
   mode = "markers",
   order_on_x = NULL,
@@ -158,6 +159,7 @@ draw_scatter <- function(
   marginal_alpha = .333,
   marginal_size = 10,
   legend = NULL,
+  legend_trace = TRUE,
   legend_xy = c(0, .98),
   legend_xanchor = "left",
   legend_yanchor = "auto",
@@ -234,7 +236,7 @@ draw_scatter <- function(
   .names <- group_names
 
   # fit & formula
-  if (!is.null(formula)) fit <- "NLS"
+  # if (!is.null(formula)) fit <- "NLS"
 
   if (se_fit) {
     if (!fit %in% c("GLM", "LM", "LOESS", "GAM", "NW")) {
@@ -560,8 +562,9 @@ draw_scatter <- function(
       } else {
         NULL
       },
-      legendgroup = .names[i],
-      showlegend = legend
+      legendgroup = if (legend_trace) .names[i] else
+        paste0(.names[i], "_marker"),
+      showlegend = legend && legend_trace
     )
     # Marginal plots ----
     # Add marginal plots by plotting short vertical markers on the x and y axes
@@ -871,7 +874,9 @@ draw_scatter <- function(
 draw_fit <- function(
   x,
   y,
-  fit = "gam",
+  xlab = "True",
+  ylab = "Predicted",
+  fit = "glm",
   se_fit = TRUE,
   axes_square = TRUE,
   diagonal = TRUE,
@@ -880,6 +885,8 @@ draw_fit <- function(
   draw_scatter(
     x,
     y,
+    xlab = xlab,
+    ylab = ylab,
     fit = fit,
     se_fit = se_fit,
     axes_equal = axes_square,
