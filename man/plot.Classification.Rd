@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Classification object.}
 
-\item{what}{Character vector: What to plot. Can include "training", "validation", "test"}
+\item{what}{Character vector: What to plot. "training", "validation", "test"}
 
 \item{theme}{Character or Theme: Theme to use for the plot.}
 

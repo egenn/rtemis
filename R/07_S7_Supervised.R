@@ -833,7 +833,7 @@ method(plot, Regression) <- function(
 #' Plot Classification
 #'
 #' @param x Classification object.
-#' @param what Character vector: What to plot. Can include "training", "validation", "test"
+#' @param what Character vector: What to plot. "training", "validation", "test"
 #' @param theme Character or Theme: Theme to use for the plot.
 #' @param ... Additional arguments passed to the plotting function.
 #'
