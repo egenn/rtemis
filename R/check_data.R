@@ -140,6 +140,7 @@ check_data <- function(
     # Get N of NAs in last column
     n_na_last_col <- sum(is.na(x[[n_cols]]))
   } else {
+    n_na_last_col <- 0
     classes_na <- NULL
     na_feature_pct <- na_case_pct <- rep(0, n_cols)
   }
