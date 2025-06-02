@@ -26,6 +26,20 @@ desc <- new_generic("desc", "x")
 #' @export
 describe <- new_generic("describe", "x")
 
+#' Present rtemis object
+#'
+#' @description
+#' This generic is used to present an rtemis object using plots and text.
+#'
+#' @param x An rtemis object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return A plotly object along with console output.
+#'
+#' @author EDG
+#' @export
+present <- new_generic("present", "x")
+
 # Get parameters that need tuning.
 get_params_need_tuning <- new_generic("get_params_need_tuning", "x")
 # Get parameters.
