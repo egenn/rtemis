@@ -8,6 +8,8 @@ describe(x, ...)
 }
 \arguments{
 \item{x}{An rtemis object.}
+
+\item{...}{Not used.}
 }
 \value{
 A character string describing the object.

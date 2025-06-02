@@ -8,6 +8,8 @@ features(x, ...)
 }
 \arguments{
 \item{x}{data.frame or similar.}
+
+\item{...}{Not used.}
 }
 \value{
 object same as input, after removing the last column.
