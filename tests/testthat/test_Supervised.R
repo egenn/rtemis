@@ -677,3 +677,15 @@ mod_c_lightrf_cv_cal <- calibrate(mod_c_lightrf_cv)
 test_that("calibrate() succeeds on ClassificationCV", {
   expect_s7_class(mod_c_lightrf_cv_cal, CalibratedClassificationCV)
 })
+
+# Plot Supervised ----
+test_that("plot.Supervised creates a plotly object", {
+  p <- plot(mod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Present Supervised ----
+test_that("present.Supervised creates a plotly object", {
+  p <- present(mod_r_glm)
+  expect_s3_class(p, "plotly")
+})
