@@ -14,7 +14,6 @@ draw_scatter(
   cluster = NULL,
   cluster_params = list(k = 2),
   group = NULL,
-  formula = NULL,
   rsq = TRUE,
   mode = "markers",
   order_on_x = NULL,
@@ -48,6 +47,7 @@ draw_scatter(
   marginal_alpha = 0.333,
   marginal_size = 10,
   legend = NULL,
+  legend_trace = TRUE,
   legend_xy = c(0, 0.98),
   legend_xanchor = "left",
   legend_yanchor = "auto",
@@ -123,8 +123,6 @@ draw_scatter(
 
 \item{group}{Factor: Grouping variable.}
 
-\item{formula}{Formula: Formula for non-linear least squares fit.}
-
 \item{rsq}{Logical: If TRUE, print R-squared values in legend if \code{fit} is set.}
 
 \item{mode}{Character, vector: "markers", "lines", "markers+lines".}
@@ -190,6 +188,8 @@ draw_scatter(
 \item{marginal_size}{Numeric: Size of marginal markers.}
 
 \item{legend}{Logical: If TRUE, draw legend.}
+
+\item{legend_trace}{Logical: If TRUE, draw legend trace. (For when you have \code{fit} and don't want a trace for the markers.)}
 
 \item{legend_xy}{Numeric: Position of legend.}
 
