@@ -3,11 +3,20 @@
 \name{plot.Regression}
 \alias{plot.Regression}
 \title{Plot Regression}
+\usage{
+\method{plot}{Regression}(x, what = "all", fit = "gam", theme = "darkgraygrid", ...)
+}
 \arguments{
 \item{x}{Regression object.}
 
 \item{what}{Character vector: What to plot. Can include "training", "validation", "test", or
-"all", which will plot all available of the above.}
+"all", which will plot all available.}
+
+\item{fit}{Character: Algorithm to use to draw fit line.}
+
+\item{theme}{Character or Theme: Theme to use for the plot.}
+
+\item{...}{Additional arguments passed to the plotting function.}
 }
 \description{
 Plot Regression
