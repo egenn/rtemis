@@ -307,7 +307,7 @@ print.CheckData <- function(
         out <- paste(
           out,
           bold(orange(paste(
-            "  * Consider imputing missing values or use complete cases only"
+            "  * Consider imputing missing values or using algorithms that can handle missingness"
           ))),
           sep = "\n"
         )
