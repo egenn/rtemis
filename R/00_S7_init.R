@@ -18,6 +18,7 @@ desc <- new_generic("desc", "x")
 #' This generic is used to provide a description of an rtemis object in plain language.
 #'
 #' @param x An rtemis object.
+#' @param ... Not used.
 #'
 #' @return A character string describing the object.
 #'
@@ -187,6 +188,7 @@ method(outcome_name, class_data.frame) <- function(x) {
 #' Get last column as a vector
 #'
 #' @param x data.frame or similar.
+#' @param ... Not used.
 #'
 #' @return Vector containing the last column of `x`.
 #'
@@ -200,6 +202,7 @@ method(outcome, class_data.frame) <- function(x) {
 #' Get features (all columns except the last one)
 #'
 #' @param x data.frame or similar.
+#' @param ... Not used.
 #'
 #' @return object same as input, after removing the last column.
 #'
