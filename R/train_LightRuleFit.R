@@ -59,7 +59,7 @@ train_LightRuleFit <- function(
     weights = lightgbm_weights,
     hyperparameters = lgbm_parameters,
     # tuner_parameters = tuner_parameters, # ? add tuner_parameters to LightRuleFitHyperparameters
-    crossvalidation_parameters = NULL,
+    outer_resampling = NULL,
     verbosity = verbosity
   )
 

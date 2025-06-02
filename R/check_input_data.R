@@ -127,6 +127,9 @@ check_supervised_data <- function(
   }
 
   # Missing values ----
+  if (anyNA(outcome(x))) {
+    cli::cli_abort("Training set outcome cannot contain any missing values.")
+  }
   if (!allow_missing && anyNA(x)) {
     cli::cli_abort("Data should not contain missing values.")
   }

@@ -76,10 +76,10 @@ rtemis_version <- packageVersion("rtemis")
       bold("\n  Resources"),
       "\n  \u2502    ",
       italic(gray("Docs:")),
-      " https://rtemis.org/rtemis",
+      " https://rdocs.rtemis.org",
       "\n  \u2502 ",
       italic(gray("Learn R:")),
-      " https://rtemis.org/pdsr",
+      " https://pdsr.rtemis.org",
       "\n  \u2502  ",
       italic(gray("Themes:")),
       " https://rtemis.org/themes",
@@ -138,7 +138,7 @@ rtemis_version <- packageVersion("rtemis")
 #' Clustering is performed using `cluster()`.
 #' Run [available_clustering] to get a list of available algorithms.
 #' @section Decomposition:
-#' Decomposition is performed using `decompose()`.
+#' Decomposition is performed using `decomp()`.
 #' Run [available_decomposition] to get a list of available algorithms.
 #'
 #' @section Notes:

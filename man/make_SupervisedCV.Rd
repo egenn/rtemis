@@ -11,7 +11,7 @@ make_SupervisedCV(
   preprocessor,
   hyperparameters,
   tuner_parameters,
-  crossvalidation_resampler,
+  outer_resampler,
   y_training,
   y_test,
   predicted_training,

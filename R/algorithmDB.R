@@ -106,7 +106,7 @@ get_alg_name <- function(algorithm) {
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
   ]
   if (length(algname) == 0) {
-    stop(algorithm, ": Incorrect algorithm specified")
+    stop(algorithm, "Incorrect algorithm specified")
   }
   algname
 }
@@ -120,7 +120,7 @@ get_alg_desc <- function(algorithm) {
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
   ]
   if (length(algdesc) == 0) {
-    stop(algorithm, ": Incorrect algorithm specified")
+    stop(algorithm, "Incorrect algorithm specified")
   }
   algdesc
 }
@@ -157,6 +157,13 @@ get_varimp_fn <- function(algorithm) {
   paste0("varimp_", get_alg_name(algorithm))
 }
 
+# use e.g. in draw_scatter
+setup_alg <- function(algorithm, ...) {
+  alg_name <- get_alg_name(algorithm)
+  setup_fn <- get_alg_setup(algorithm)
+  do_call(setup_fn, list(...))
+} # /rtemis::setup_alg
+
 # Clustering ----
 clust_algorithms <- data.frame(rbind(
   c("CMeans", "Fuzzy C-means Clustering"),
@@ -178,7 +185,7 @@ get_clust_name <- function(algorithm) {
     tolower(algorithm) == tolower(clust_algorithms[, 1])
   ]
   if (length(clustname) == 0) {
-    stop(algorithm, ": Incorrect clustering algorithm specified")
+    stop(algorithm, "Incorrect clustering algorithm specified")
   }
   clustname
 } # /rtemis::get_clust_name
@@ -188,7 +195,7 @@ get_clust_desc <- function(algorithm) {
     tolower(algorithm) == tolower(clust_algorithms[, 1])
   ]
   if (length(clustdesc) == 0) {
-    stop(algorithm, ": Incorrect clustering algorithm specified")
+    stop(algorithm, "Incorrect clustering algorithm specified")
   }
   clustdesc
 } # /rtemis::get_clust_desc
@@ -232,7 +239,7 @@ get_decom_name <- function(algorithm) {
     tolower(algorithm) == tolower(decom_algorithms[, 1])
   ]
   if (length(decomname) == 0) {
-    stop(algorithm, ": Incorrect decomposition algorithm specified")
+    stop(algorithm, "Incorrect decomposition algorithm specified")
   }
   decomname
 } # /rtemis::get_decom_name
@@ -242,7 +249,7 @@ get_decom_desc <- function(algorithm) {
     tolower(algorithm) == tolower(decom_algorithms[, 1])
   ]
   if (length(decomdesc) == 0) {
-    stop(algorithm, ": Incorrect decomposition algorithm specified")
+    stop(algorithm, "Incorrect decomposition algorithm specified")
   }
   decomdesc
 } # /rtemis::get_decom_desc
@@ -281,6 +288,7 @@ available_supervised <- function() {
 }
 
 #' @rdname available_algorithms
+#' @export
 available_clustering <- function() {
   algs <- structure(
     clust_algorithms[, 2],
@@ -291,6 +299,7 @@ available_clustering <- function() {
 }
 
 #' @rdname available_algorithms
+#' @export
 available_decomposition <- function() {
   algs <- structure(
     decom_algorithms[, 2],

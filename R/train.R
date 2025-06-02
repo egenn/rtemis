@@ -24,7 +24,10 @@
 #' @param preprocessor_parameters PreprocessorParameters object or NULL: Setup using [setup_Preprocessor].
 #' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
 #' @param tuner_parameters TunerParameters object: Setup using [setup_GridSearch].
-#' @param crossvalidation_parameters ResamplerParameters object or NULL: Setup using [setup_Resampler].
+#' @param outer_resampling ResamplerParameters object or NULL: Setup using [setup_Resampler]. This
+#' defines the outer resampling method, i.e. the splitting into training and test sets for the
+#' purpose of assessing model performance. If NULL, no outer resampling is performed, in which case
+#' you might want to use a `dat_test` dataset to assess model performance on a single test set.
 #' @param weights Optional vector of case weights.
 #' @param question Optional character string defining the question that the model is trying to
 #' answer.
@@ -48,7 +51,7 @@ train <- function(
   preprocessor_parameters = NULL, # PreprocessorParameters
   hyperparameters = NULL, # Hyperparameters
   tuner_parameters = NULL, # TunerParameters
-  crossvalidation_parameters = NULL, # ResamplerParameters
+  outer_resampling = NULL, # ResamplerParameters
   weights = NULL,
   question = NULL,
   outdir = NULL,
@@ -86,10 +89,10 @@ train <- function(
   }
 
   ## Arguments ----
-  if (!is.null(crossvalidation_parameters)) {
-    check_is_S7(crossvalidation_parameters, ResamplerParameters)
-    if (!is.null(crossvalidation_parameters[["id_strat"]])) {
-      stopifnot(length(crossvalidation_parameters[["id_strat"]]) == NROW(x))
+  if (!is.null(outer_resampling)) {
+    check_is_S7(outer_resampling, ResamplerParameters)
+    if (!is.null(outer_resampling[["id_strat"]])) {
+      stopifnot(length(outer_resampling[["id_strat"]]) == NROW(x))
     }
   }
 
@@ -162,41 +165,41 @@ train <- function(
   # if crossvallidation is set, this function calls itself
   # on multiple outer resamples (training-test sets), each of which may call itself
   # on multiple inner resamples (training-validation set) for hyperparameter tuning.
-  if (!is.null(crossvalidation_parameters)) {
+  if (!is.null(outer_resampling)) {
     if (verbosity > 0L) {
       msg2("Training", hilite(algorithm, type), "by cross-validation...")
     }
-    crossvalidation_resampler <- resample(
+    outer_resampler <- resample(
       x,
-      parameters = crossvalidation_parameters,
+      parameters = outer_resampling,
       verbosity = verbosity
     )
-    pcv <- progressr::progressor(crossvalidation_resampler@parameters@n)
+    pcv <- progressr::progressor(outer_resampler@parameters@n)
     models <- lapply(
-      seq_len(crossvalidation_resampler@parameters@n),
+      seq_len(outer_resampler@parameters@n),
       function(i) {
         pcv(
           message = sprintf(
             "Crossvalidation %i/%i",
             i,
-            crossvalidation_resampler@parameters@n
+            outer_resampler@parameters@n
           )
         )
         train(
-          x = x[crossvalidation_resampler[[i]], ],
-          dat_test = x[-crossvalidation_resampler[[i]], ],
+          x = x[outer_resampler[[i]], ],
+          dat_test = x[-outer_resampler[[i]], ],
           algorithm = algorithm,
           preprocessor_parameters = preprocessor_parameters,
           hyperparameters = hyperparameters,
           tuner_parameters = tuner_parameters,
-          crossvalidation_parameters = NULL,
+          outer_resampling = NULL,
           weights = weights,
           question = question,
           verbosity = verbosity - 1L
         )
       }
     )
-    names(models) <- names(crossvalidation_resampler@resamples)
+    names(models) <- names(outer_resampler@resamples)
     hyperparameters@crossvalidated <- 1L
     msg2("Crossvalidation done.")
   } # /Crossvalidation
@@ -411,7 +414,7 @@ train <- function(
       preprocessor = preprocessor,
       hyperparameters = hyperparameters,
       tuner_parameters = tuner_parameters,
-      crossvalidation_resampler = crossvalidation_resampler,
+      outer_resampler = outer_resampler,
       y_training = y_training,
       y_test = y_test,
       predicted_training = predicted_training,

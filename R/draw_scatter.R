@@ -82,7 +82,7 @@
 #' @param diagonal Logical: If TRUE, add diagonal line.
 #' @param diagonal_col Color for diagonal line.
 #' @param diagonal_alpha Numeric: Alpha for diagonal line.
-#' @param fit_params List: Parameters for fit.
+#' @param fit_params Hyperparameters: Parameters for fit.
 #' @param vline Numeric: X position for vertical line.
 #' @param vline_col Color for vertical line.
 #' @param vline_width Numeric: Width for vertical line.
@@ -102,7 +102,7 @@
 #' @param file_height Numeric: Height of saved file.
 #' @param file_scale Numeric: Scale of saved file.
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Additional arguments passed to `plotly::plot_ly`.
+#' @param ... Additional arguments passed to the theme function.
 #'
 #' @return A `plotly` object.
 #'
@@ -191,7 +191,7 @@ draw_scatter <- function(
   diagonal = FALSE,
   diagonal_col = NULL,
   diagonal_alpha = .66,
-  fit_params = list(),
+  fit_params = NULL,
   vline = NULL,
   vline_col = theme[["fg"]],
   vline_width = 1,
@@ -256,13 +256,11 @@ draw_scatter <- function(
   # Cluster ----
   if (!is.null(cluster)) {
     group <- suppressWarnings(
-      do_call(
-        get_clust_fn(cluster),
-        c(
-          list(
-            x = data.frame(x, y),
-            verbosity = verbosity - 1L
-          ),
+      cluster(
+        x = data.frame(x, y),
+        algorithm = cluster,
+        parameters = do_call(
+          get_clust_setup_fn(cluster),
           cluster_params
         )
       )@clusters
@@ -415,29 +413,16 @@ draw_scatter <- function(
   if (rsq) .rsq <- list() else .rsq <- NULL
   # if (rsq_pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
-    algorithm <- get_alg_name(fit)
+    # algorithm <- get_alg_name(fit)
     fitted <- list()
     fitted_text <- character()
-    hyperparameters <- if (S7_inherits(fit_params, Hyperparameters)) {
-      fit_params
-    } else {
-      do_call(get_alg_setup(fit), fit_params)
-    }
-
     for (i in seq_len(n_groups)) {
-      train_args <- list(
-        algorithm = algorithm,
+      mod <- train(
         x = data.frame(x = x[[i]], y = y[[i]]),
-        verbosity = verbosity - 1L,
-        hyperparameters = hyperparameters
+        algorithm = fit,
+        hyperparameters = fit_params,
+        verbosity = verbosity - 1L
       )
-      # if (fit == "NLS") {
-      #   train_args <- c(
-      #     train_args,
-      #     list(formula = formula, save.func = TRUE)
-      #   )
-      # }
-      mod <- do_call("train", train_args)
       fitted[[i]] <- fitted(mod)
       if (se_fit) se[[i]] <- se(mod)
       if (include_fit_name) {

@@ -1,8 +1,8 @@
 # draw_3Dscatter.R
 # ::rtemis::
-# 2019 EDG rtemis.org
+# 2019- EDG rtemis.org
 
-#' Interactive 3D Plots
+#' Interactive 3D Scatter Plots
 #'
 #' Draw interactive 3D scatter plots using `plotly`.
 #'
@@ -50,7 +50,7 @@
 #' @param legend_borderwidth Numeric: Border width for legend.
 #' @param legend_group_gap Numeric: Gap between legend groups.
 #' @param margin Numeric, named list: Margins for top, bottom, left, right.
-#' @param fit_params List: Parameters for fit.
+#' @param fit_params Hyperparameters: Parameters for fit.
 #' @param width Numeric: Width of plot.
 #' @param height Numeric: Height of plot.
 #' @param padding Numeric: Graph padding.
@@ -61,7 +61,7 @@
 #' @param file_width Numeric: Width of saved file.
 #' @param file_height Numeric: Height of saved file.
 #' @param file_scale Numeric: Scale of saved file.
-#' @param ... Additional arguments passed to `plotly::plot_ly`.
+#' @param ... Additional arguments passed to the theme function.
 #'
 #' @return A `plotly` object.
 #'
@@ -114,7 +114,7 @@ draw_3Dscatter <- function(
   legend_borderwidth = 0,
   legend_group_gap = 0,
   margin = list(t = 30, b = 0, l = 0, r = 0),
-  fit_params = list(),
+  fit_params = NULL,
   width = NULL,
   height = NULL,
   padding = 0,
@@ -152,16 +152,14 @@ draw_3Dscatter <- function(
       FALSE
   }
 
-  # CLUSTER ----
+  # Cluster ----
   if (!is.null(cluster)) {
     group <- suppressWarnings(
-      do.call(
-        get_clust_fn(cluster),
-        c(
-          list(
-            x = data.frame(x, y),
-            verbosity = verbosity > 0L
-          ),
+      cluster(
+        x = data.frame(x, y),
+        algorithm = cluster,
+        parameters = do_call(
+          get_clust_setup_fn(cluster),
           cluster_params
         )
       )@clusters
@@ -308,33 +306,20 @@ draw_3Dscatter <- function(
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
   if (se_fit) se <- list() else se <- NULL
   if (rsq) .rsq <- list() else .rsq <- NULL
-  # if (rsq.pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
-    learner <- get_train_fn(fit)
+    # learner <- get_train_fn(fit)
     fitted <- list()
     fitted_text <- character()
     for (i in seq_len(n_groups)) {
-      feat1 <- data.frame(x[[i]], y[[i]])
-      y1 <- z[[i]]
-      learner_args <- c(
-        list(x = feat1, y = y1, verbosity = verbosity),
-        fit_params,
-        list(...)
+      df1 <- data.frame(x[[i]], y[[i]], z[[i]])
+      mod <- train(
+        df1,
+        algorithm = fit,
+        hyperparameters = fit_params,
+        verbosity = verbosity
       )
-      # if (fit == "NLS") {
-      #   learner_args <- c(
-      #     learner_args,
-      #     list(formula = formula, save.func = TRUE)
-      #   )
-      # }
-      mod <- do.call(learner, learner_args)
       fitted[[i]] <- fitted(mod)
       if (se_fit) se[[i]] <- se(mod)
-      # fitted_text[i] <- switch(fit,
-      #   NLS = mod$extra$model,
-      #   NLA = mod$mod$formula,
-      #   fit
-      # )
       fitted_text[i] <- fit
       if (rsq) {
         fitted_text[i] <- paste0(

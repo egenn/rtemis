@@ -219,6 +219,18 @@ method(print, Supervised) <- function(x, ...) {
 }
 
 # Plot Variable Importance ----
+#' Plot Variable Importance
+#'
+#' @description
+#' Plot Variable Importance for Supervised objects.
+#'
+#' @param x Supervised object.
+# @param theme Theme to use for the plot.
+# @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
 plot_varimp <- new_generic("plot_varimp", "x")
 method(plot_varimp, Supervised) <- function(
   x,
@@ -236,7 +248,7 @@ method(plot_varimp, Supervised) <- function(
 # Describe Supervised ----
 method(describe, Supervised) <- function(x) {
   type <- x@type
-  algorithm <- get_alg_name(x@algorithm, desc = TRUE)
+  algorithm <- get_alg_desc(x@algorithm)
   cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
   desc <- paste0(algorithm, " was used for ", tolower(type), ".")
 
@@ -286,7 +298,7 @@ method(describe, Supervised) <- function(x) {
       ddSci(x@metrics_training[["Rsq"]]),
       "on the training set"
     )
-    if (!is.null(x@metrics_test[["Balanced_Accuracy"]])) {
+    if (!is.null(x@metrics_test[["Rsq"]])) {
       cat(
         " and",
         ddSci(x@metrics_test[["Rsq"]]),
@@ -760,16 +772,18 @@ Regression <- new_class(
 ) # /Regression
 
 # Plot Regression ----
-#' @name plot.Regression
-#'
-#' @title Plot Regression
+#' Plot Regression
 #'
 #' @param x Regression object.
 #' @param what Character vector: What to plot. Can include "training", "validation", "test", or
-#' "all", which will plot all available of the above.
+#' "all", which will plot all available.
+#' @param fit Character: Algorithm to use to draw fit line.
+#' @param theme Character or Theme: Theme to use for the plot.
+#' @param ... Additional arguments passed to the plotting function.
 #'
 #' @author EDG
-method(plot, Regression) <- function(
+#' @export
+plot.Regression <- function(
   x,
   what = "all",
   fit = "gam",
@@ -798,6 +812,69 @@ method(plot, Regression) <- function(
     ...
   )
 } # /rtemis::plot.Regression
+
+method(plot, Regression) <- function(
+  x,
+  what = "all",
+  fit = "gam",
+  theme = "darkgraygrid",
+  ...
+) {
+  plot.Regression(
+    x = x,
+    what = what,
+    fit = fit,
+    theme = theme,
+    ...
+  )
+}
+
+# Plot Classification ----
+#' Plot Classification
+#'
+#' @param x Classification object.
+#' @param what Character vector: What to plot. Can include "training", "validation", "test"
+#' @param theme Character or Theme: Theme to use for the plot.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
+plot.Classification <- function(x, what = NULL, theme = "darkgraygrid", ...) {
+  if (is.null(what)) {
+    if (!is.null(x@metrics_test)) {
+      what <- "test"
+    } else if (!is.null(x@metrics_validation)) {
+      what <- "validation"
+    } else {
+      what <- "training"
+    }
+  }
+  .confmat <- if (what == "training") {
+    x@metrics_training
+  } else if (what == "validation") {
+    x@metrics_validation
+  } else if (what == "test") {
+    x@metrics_test
+  }
+  draw_conf(
+    .confmat,
+    theme = theme,
+    ...
+  )
+}
+method(plot, Classification) <- function(
+  x,
+  what = NULL,
+  theme = "darkgraygrid",
+  ...
+) {
+  plot.Classification(
+    x = x,
+    what = what,
+    theme = theme,
+    ...
+  )
+}
 
 # make_Supervised() ----
 make_Supervised <- function(
@@ -923,7 +1000,7 @@ SupervisedCV <- new_class(
     preprocessor = Preprocessor | NULL,
     hyperparameters = Hyperparameters | NULL,
     tuner_parameters = TunerParameters | NULL,
-    crossvalidation_resampler = Resampler,
+    outer_resampler = Resampler,
     y_training = class_any,
     y_test = class_any,
     predicted_training = class_any,
@@ -943,7 +1020,7 @@ SupervisedCV <- new_class(
     preprocessor,
     hyperparameters,
     tuner_parameters,
-    crossvalidation_resampler,
+    outer_resampler,
     y_training,
     y_test,
     predicted_training,
@@ -964,7 +1041,7 @@ SupervisedCV <- new_class(
       type = models[[1]]@type,
       hyperparameters = hyperparameters,
       tuner_parameters = tuner_parameters,
-      crossvalidation_resampler = crossvalidation_resampler,
+      outer_resampler = outer_resampler,
       y_training = y_training,
       y_test = y_test,
       predicted_training = predicted_training,
@@ -998,7 +1075,7 @@ method(print, SupervisedCV) <- function(x, ...) {
     "  ",
     orange("\U27F3", bold = TRUE),
     " Tested using ",
-    desc(x@crossvalidation_resampler),
+    desc(x@outer_resampler),
     ".\n",
     sep = ""
   )
@@ -1094,7 +1171,7 @@ ClassificationCV <- new_class(
     preprocessor,
     hyperparameters,
     tuner_parameters,
-    crossvalidation_resampler,
+    outer_resampler,
     y_training,
     y_validation = NULL,
     y_test = NULL,
@@ -1123,7 +1200,7 @@ ClassificationCV <- new_class(
         preprocessor = preprocessor,
         hyperparameters = hyperparameters,
         tuner_parameters = tuner_parameters,
-        crossvalidation_resampler = crossvalidation_resampler,
+        outer_resampler = outer_resampler,
         y_training = y_training,
         y_test = y_test,
         predicted_training = predicted_training,
@@ -1227,7 +1304,7 @@ method(print, CalibratedClassificationCV) <- function(x, ...) {
     "  ",
     orange("\U27F3", bold = TRUE),
     " Tested using ",
-    desc(x@crossvalidation_resampler),
+    desc(x@outer_resampler),
     ".\n",
     sep = ""
   )
@@ -1247,7 +1324,7 @@ method(print, CalibratedClassificationCV) <- function(x, ...) {
     " Calibrated using ",
     get_alg_desc(x@calibration_models[[1]]@algorithm),
     " with ",
-    desc(x@calibration_models[[1]]@crossvalidation_resampler@parameters),
+    desc(x@calibration_models[[1]]@outer_resampler@parameters),
     ".\n\n",
     sep = ""
   )
@@ -1295,7 +1372,7 @@ RegressionCV <- new_class(
     preprocessor,
     hyperparameters,
     tuner_parameters,
-    crossvalidation_resampler,
+    outer_resampler,
     y_training,
     y_validation = NULL,
     y_test = NULL,
@@ -1329,7 +1406,7 @@ RegressionCV <- new_class(
         preprocessor = preprocessor,
         hyperparameters = hyperparameters,
         tuner_parameters = tuner_parameters,
-        crossvalidation_resampler = crossvalidation_resampler,
+        outer_resampler = outer_resampler,
         y_training = y_training,
         y_test = y_test,
         predicted_training = predicted_training,
@@ -1370,7 +1447,7 @@ make_SupervisedCV <- function(
   preprocessor,
   hyperparameters,
   tuner_parameters,
-  crossvalidation_resampler,
+  outer_resampler,
   y_training,
   y_test,
   predicted_training,
@@ -1392,7 +1469,7 @@ make_SupervisedCV <- function(
       preprocessor = preprocessor,
       hyperparameters = hyperparameters,
       tuner_parameters = tuner_parameters,
-      crossvalidation_resampler = crossvalidation_resampler,
+      outer_resampler = outer_resampler,
       y_training = y_training,
       y_test = y_test,
       predicted_training = predicted_training,
@@ -1411,7 +1488,7 @@ make_SupervisedCV <- function(
       preprocessor = preprocessor,
       hyperparameters = hyperparameters,
       tuner_parameters = tuner_parameters,
-      crossvalidation_resampler = crossvalidation_resampler,
+      outer_resampler = outer_resampler,
       y_training = y_training,
       y_test = y_test,
       predicted_training = predicted_training,

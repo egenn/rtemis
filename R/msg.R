@@ -2,6 +2,11 @@
 # ::rtemis::
 # 2016- EDG rtemis.org
 
+msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
+  .dt <- format(Sys.time(), datetime_format)
+  message(gray(paste0(.dt, gray(" "))), appendLF = FALSE)
+}
+
 stopQuietly <- function() {
   opt <- options(show.error.messages = FALSE)
   on.exit(options(opt))
@@ -101,8 +106,7 @@ msg2 <- function(
   txt <- Filter(Negate(is.null), list(...))
   if (newline_pre) message("")
   if (date) {
-    .dt <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
-    message(gray(paste0(.dt, gray(" "))), appendLF = FALSE)
+    msgdatetime()
   }
   message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
@@ -146,9 +150,8 @@ msg20 <- function(
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  .dt <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
   if (newline_pre) message("")
-  message(gray(paste0(.dt, gray(" "))), appendLF = FALSE)
+  msgdatetime()
   message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
     message(gray(" [", caller, "]", sep = ""))
@@ -202,10 +205,9 @@ msg2start <- function(
   sep = " "
 ) {
   txt <- Filter(Negate(is.null), list(...))
-  .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
   if (newline_pre) cat("\n")
-  cat(gray(paste0(.dt, gray(" "))))
-  cat(paste(txt, collapse = sep))
+  msgdatetime()
+  message(paste(txt, collapse = sep), appendLF = FALSE)
 } # rtemis::msg2start
 
 
@@ -235,7 +237,7 @@ msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
     if (is.function(caller)) caller <- NULL
     if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
   }
-  cat(" ")
+  message(" ", appendLF = FALSE)
   yay(end = "")
-  cat(gray("[", caller, "]\n", sep = ""), sep = "")
+  message(gray("[", caller, "]\n", sep = ""), appendLF = FALSE)
 } # rtemis::msg2done

@@ -203,17 +203,23 @@ rtasciitxt <- function() {
 }
 
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
-  cat(
+  message(
     rep(" ", pad),
     bold(green("\u2713 ")),
     paste(..., sep = sep),
     end,
-    sep = ""
+    appendLF = FALSE
   )
 }
 
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
-  cat(rep(" ", pad), bold(red("\u2715 ")), paste(..., sep = sep), end, sep = "")
+  message(
+    rep(" ", pad),
+    bold(red("\u2715 ")),
+    paste(..., sep = sep),
+    end,
+    appendLF = FALSE
+  )
 }
 
 

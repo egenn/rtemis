@@ -24,7 +24,8 @@ CheckData <- new_class(
     n_na = class_integer,
     classes_na = class_any | NULL,
     na_feature_pct = class_double | NULL,
-    na_case_pct = class_double | NULL
+    na_case_pct = class_double | NULL,
+    n_na_last_col = class_integer | NULL
   ),
   constructor = function(
     object_class,
@@ -43,7 +44,8 @@ CheckData <- new_class(
     n_na,
     classes_na = NULL,
     na_feature_pct = NULL,
-    na_case_pct = NULL
+    na_case_pct = NULL,
+    n_na_last_col = NULL
   ) {
     n_rows <- clean_int(n_rows)
     n_cols <- clean_int(n_cols)
@@ -57,6 +59,8 @@ CheckData <- new_class(
     n_duplicates <- clean_int(n_duplicates)
     n_cols_anyna <- clean_int(n_cols_anyna)
     n_na <- clean_int(n_na)
+    check_float01inc(na_case_pct)
+    n_na_last_col <- clean_int(n_na_last_col)
     new_object(
       S7_object(),
       object_class = object_class,
@@ -75,7 +79,8 @@ CheckData <- new_class(
       n_na = n_na,
       classes_na = classes_na,
       na_feature_pct = na_feature_pct,
-      na_case_pct = na_case_pct
+      na_case_pct = na_case_pct,
+      n_na_last_col = n_na_last_col
     )
   }
 ) # /rtemis::CheckData
@@ -142,6 +147,7 @@ print.CheckData <- function(
   n_na <- x[["n_na"]]
   na_feature_pct <- x[["na_feature_pct"]]
   na_case_pct <- x[["na_case_pct"]]
+  n_na_last_col <- x[["n_na_last_col"]]
 
   if (type == "plaintext") {
     # plaintext out ----
@@ -246,7 +252,7 @@ print.CheckData <- function(
     nas <- if (n_cols_anyna > 0) {
       classes_na <- x[["classes_na"]]
       .col <- if (n_cols_anyna > 0) orange else I
-      paste(
+      out_nas <- paste(
         bold(.col(n_cols_anyna)),
         ngettext(n_cols_anyna, "feature includes", "features include"),
         "'NA' values;",
@@ -261,9 +267,21 @@ print.CheckData <- function(
               tolower(names(classes_na)[i])
             )
           }),
-          collapse = "\n    * "
+          collapse = "; "
         )
       )
+      if (n_na_last_col > 0) {
+        out_nas <- paste(
+          out_nas,
+          paste0(
+            "\n    * ",
+            bold(.col(n_na_last_col)),
+            ngettext(n_na_last_col, " missing value", " missing values"),
+            " in the last column"
+          )
+        )
+      }
+      out_nas
     } else {
       paste(bold("0"), "missing values")
     }
@@ -276,7 +294,7 @@ print.CheckData <- function(
         out <- paste(
           out,
           bold(orange(
-            "  * Consider converting character features to factors or excluding them"
+            "  * Consider converting character features to factors or excluding them."
           )),
           sep = "\n"
         )
@@ -286,7 +304,7 @@ print.CheckData <- function(
           out,
           bold(red(paste(
             "  * Remove the constant",
-            ngettext(n_constant, "feature", "features")
+            ngettext(n_constant, "feature.", "features.")
           ))),
           sep = "\n"
         )
@@ -297,7 +315,7 @@ print.CheckData <- function(
           out,
           bold(orange(paste(
             "  * Consider removing the duplicate",
-            ngettext(n_duplicates, "case", "cases")
+            ngettext(n_duplicates, "case.", "cases.")
           ))),
           sep = "\n"
         )
@@ -307,10 +325,19 @@ print.CheckData <- function(
         out <- paste(
           out,
           bold(orange(paste(
-            "  * Consider imputing missing values or use complete cases only"
+            "  * Consider imputing missing values or using algorithms that can handle missingness."
           ))),
           sep = "\n"
         )
+        # Note regarding missing values in last column
+        if (n_na_last_col > 0) {
+          out <- paste(
+            out,
+            bold(orange(
+              "\n  * Filter cases with missing values in the last column if using dataset for supervised learning.\n"
+            ))
+          )
+        }
       }
       if (check_integers && n_integer > 0) {
         out <- paste(
@@ -344,7 +371,7 @@ print.CheckData <- function(
     )
   }
   invisible(x)
-} # print.CheckData
+} # /rtemis::print.CheckData
 method(print, CheckData) <- function(x, ...) {
   print.CheckData(x)
 } # /rtemis::print.CheckData
