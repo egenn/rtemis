@@ -10,7 +10,7 @@
 #'
 #' If input is data.frame, non-numeric variables will be removed.
 #'
-#' @param x Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element.
+#' @param x Numeric vector / data.frame / list: Input. If not a vector, each column / each element is drawn.
 #' @param type Character: "density" or "histogram".
 #' @param mode Character: "overlap", "ridge". How to plot different groups; on the same axes ("overlap"), or on separate plots with the same x-axis ("ridge").
 #' @param group Vector: Will be converted to factor; levels define group members.
@@ -166,18 +166,21 @@ draw_dist <- function(
     names(x) <- .names <- group_names
   }
 
-  if (!is.list(x)) x <- list(x)
-
-  if (!is.list(x)) x <- list(x)
+  if (!is.list(x)) {
+    x <- list(x)
+  }
   n_groups <- length(x)
-
   if (n_groups == 1 && is.null(xlab)) {
     xlab <- .xname
   }
 
   # Remove non-numeric vectors
   which_nonnum <- which(sapply(x, function(i) !is.numeric(i)))
-  if (length(which_nonnum) > 0) x[[which_nonnum]] <- NULL
+  if (length(which_nonnum) > 0) {
+    for (i in rev(which_nonnum)) {
+      x[[i]] <- NULL
+    }
+  }
 
   if (is.null(legend)) legend <- length(x) > 1
   if (!is.null(group_names)) {
@@ -185,14 +188,22 @@ draw_dist <- function(
   } else {
     .names <- labelify(names(x))
   }
-  if (is.null(.names)) .names <- paste("Feature", seq_along(x))
+  if (is.null(.names)) {
+    .names <- paste("Feature", seq_along(x))
+  }
 
   # Colors ----
-  if (is.character(palette)) palette <- rtpalette(palette)
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
   n_groups <- length(x)
-  if (is.null(col)) col <- recycle(palette, seq(n_groups))[seq(n_groups)]
+  if (is.null(col)) {
+    col <- recycle(palette, seq(n_groups))[seq(n_groups)]
+  }
 
-  if (length(col) < n_groups) col <- rep(col, n_groups / length(col))
+  if (length(col) < n_groups) {
+    col <- rep(col, n_groups / length(col))
+  }
 
   # Theme ----
   extraargs <- list(...)
@@ -210,7 +221,9 @@ draw_dist <- function(
   tick_col <- plotly::toRGB(theme[["tick_col"]])
   labs_col <- plotly::toRGB(theme[["labs_col"]])
   main_col <- plotly::toRGB(theme[["main_col"]])
-  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
+  if (!theme[["axes_visible"]]) {
+    tick_col <- labs_col <- "transparent"
+  }
 
   # '- Axis font ----
   f <- list(
@@ -227,7 +240,9 @@ draw_dist <- function(
   )
 
   # Derived
-  if (is.null(legend_col)) legend_col <- labs_col
+  if (is.null(legend_col)) {
+    legend_col <- labs_col
+  }
 
   # Size ----
   if (axes_square) {
@@ -246,8 +261,11 @@ draw_dist <- function(
       tickfont = tickfont,
       zeroline = zerolines
     )
-    ridge_groups <- if (ridge_order_on_mean)
-      order(sapply(x, mean), decreasing = TRUE) else seq_len(n_groups)
+    ridge_groups <- if (ridge_order_on_mean) {
+      order(sapply(x, mean), decreasing = TRUE)
+    } else {
+      seq_len(n_groups)
+    }
   }
 
   # plotly ----

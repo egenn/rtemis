@@ -64,7 +64,7 @@ draw_dist(
 )
 }
 \arguments{
-\item{x}{Numeric, vector / data.frame /list: Input. If not a vector, each column of or each element.}
+\item{x}{Numeric vector / data.frame / list: Input. If not a vector, each column / each element is drawn.}
 
 \item{type}{Character: "density" or "histogram".}
 
