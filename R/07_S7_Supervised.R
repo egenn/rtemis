@@ -225,8 +225,8 @@ method(print, Supervised) <- function(x, ...) {
 #' Plot Variable Importance for Supervised objects.
 #'
 #' @param x Supervised object.
-#' @param theme Theme to use for the plot.
-#' @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
+# @param theme Theme to use for the plot.
+# @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
 #' @param ... Additional arguments passed to the plotting function.
 #'
 #' @author EDG

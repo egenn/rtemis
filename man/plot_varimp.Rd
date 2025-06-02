@@ -10,10 +10,6 @@ plot_varimp(x, ...)
 \item{x}{Supervised object.}
 
 \item{...}{Additional arguments passed to the plotting function.}
-
-\item{theme}{Theme to use for the plot.}
-
-\item{filename}{Character: Filename to save the plot to. If NULL, the plot is not saved.}
 }
 \description{
 Plot Variable Importance for Supervised objects.
