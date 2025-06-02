@@ -136,6 +136,9 @@ check_data <- function(
 
     # Get types of features with NA
     classes_na <- table(classes[cols_anyna])
+
+    # Get N of NAs in last column
+    n_na_last_col <- sum(is.na(x[[n_cols]]))
   } else {
     classes_na <- NULL
     na_feature_pct <- na_case_pct <- rep(0, n_cols)
@@ -159,7 +162,8 @@ check_data <- function(
     n_na = n_na,
     classes_na = classes_na,
     na_feature_pct = na_feature_pct,
-    na_case_pct = na_case_pct
+    na_case_pct = na_case_pct,
+    n_na_last_col = n_na_last_col
   )
 } # rtemis::check_data
 
