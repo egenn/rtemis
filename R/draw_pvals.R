@@ -40,7 +40,7 @@ draw_pvals <- function(
 
   draw_bar(
     1 - p.adjust(x, method = p_adjust_method),
-    group.names = xnames,
+    group_names = xnames,
     legend = FALSE,
     ylab = if (p_adjust_method == "none") {
       "1 - p-value"
