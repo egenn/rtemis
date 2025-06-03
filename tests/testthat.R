@@ -1,4 +1,4 @@
 library(testthat)
 library(rtemisalpha)
 
-test_check("rtemis")
+test_check("rtemisalpha")
