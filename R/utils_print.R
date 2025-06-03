@@ -72,7 +72,7 @@ printls <- function(
     cat(class(x), "of length 0.\n")
   } else if (is.data.frame(x) && !print_df) {
     cat(
-      "data.frame with ",
+      "data.frame with",
       NROW(x),
       "rows and",
       NCOL(x),
