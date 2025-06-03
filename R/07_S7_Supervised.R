@@ -860,7 +860,7 @@ plot.Classification <- function(x, what = NULL, theme = "darkgraygrid", ...) {
   } else if (what == "test") {
     x@metrics_test
   }
-  draw_conf(
+  draw_confusion(
     .confmat,
     theme = theme,
     ylab = labelify(paste("Predicted", what)),
