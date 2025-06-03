@@ -889,6 +889,7 @@ draw_fit <- function(
   fit = "glm",
   se_fit = TRUE,
   axes_square = TRUE,
+  axes_equal = TRUE,
   diagonal = TRUE,
   ...
 ) {
@@ -899,7 +900,8 @@ draw_fit <- function(
     ylab = ylab,
     fit = fit,
     se_fit = se_fit,
-    axes_equal = axes_square,
+    axes_square = axes_square,
+    axes_equal = axes_equal,
     diagonal = diagonal,
     ...
   )

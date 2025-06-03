@@ -11,13 +11,15 @@ draw_roc(
   theme = rtemis_theme,
   col = rtpalette(rtemis_palette),
   legend = TRUE,
+  legend_title = "Group (AUC)",
   legend_xy = c(1, 0),
   legend_xanchor = "right",
   legend_yanchor = "bottom",
+  auc_dp = 3L,
   xlim = c(0, 1),
   ylim = c(0, 1),
   diagonal = TRUE,
-  diagonal_col = "#808080",
+  diagonal_col = NULL,
   axes_square = TRUE,
   filename = NULL,
   ...
@@ -36,11 +38,15 @@ draw_roc(
 
 \item{legend}{Logical: If TRUE, draw legend.}
 
+\item{legend_title}{Character: Title for the legend.}
+
 \item{legend_xy}{Numeric vector: Position of the legend in the form c(x, y).}
 
 \item{legend_xanchor}{Character: X anchor for the legend.}
 
 \item{legend_yanchor}{Character: Y anchor for the legend.}
+
+\item{auc_dp}{Integer: Number of decimal places for AUC values.}
 
 \item{xlim}{Numeric vector: Limits for the x-axis.}
 

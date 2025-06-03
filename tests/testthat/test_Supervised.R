@@ -693,27 +693,39 @@ test_that("present.Supervised creates a plotly object", {
   expect_s3_class(p, "plotly")
 })
 
+# Describe Classification ----
+test_that("describe.Classification returns character", {
+  desc <- describe(mod_c_glm)
+  expect_type(desc, "character")
+})
+
 # Plot Classification ----
 test_that("plot.Supervised creates a plotly object", {
   p <- plot(mod_c_glm)
   expect_s3_class(p, "plotly")
 })
 
-# Present Classification ----
-test_that("present.Supervised creates a plotly object", {
-  p <- present(mod_c_glm)
-  expect_s3_class(p, "plotly")
-})
-
 # Plot ROC Classification ----
 test_that("draw_roc creates a plotly object", {
   p <- draw_roc(
-    true_labels = mod_c_glm@y_training,
-    predicted_prob = mod_c_glm@predicted_prob_training
+    true_labels = list(
+      Training = mod_c_glm@y_training,
+      Test = mod_c_glm@y_test
+    ),
+    predicted_prob = list(
+      Training = mod_c_glm@predicted_prob_training,
+      Test = mod_c_glm@predicted_prob_test
+    )
   )
   expect_s3_class(p, "plotly")
 })
 test_that("plot_roc.Classification creates a plotly object", {
   p <- plot_roc(mod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Present Classification ----
+test_that("present.Supervised creates a plotly object", {
+  p <- present(mod_c_glm)
   expect_s3_class(p, "plotly")
 })

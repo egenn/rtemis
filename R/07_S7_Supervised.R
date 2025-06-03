@@ -886,6 +886,7 @@ method(plot_roc, Classification) <- function(
   x,
   what = NULL,
   theme = rtemis_theme,
+  col = rtpalette(rtemis_palette)[1:2],
   filename = NULL,
   ...
 ) {
@@ -895,7 +896,7 @@ method(plot_roc, Classification) <- function(
   }
   if (is.null(what)) {
     what <- if (!is.null(x@metrics_test)) {
-      c("train", "test")
+      c("training", "test")
     } else {
       "training"
     }
@@ -903,18 +904,19 @@ method(plot_roc, Classification) <- function(
   labelsl <- probl <- list()
 
   if ("training" %in% what) {
-    labelsl[["training"]] <- x@y_training
-    probl[["training"]] <- x@predicted_prob_training
+    labelsl[["Training"]] <- x@y_training
+    probl[["Training"]] <- x@predicted_prob_training
   }
   if ("test" %in% what && !is.null(x@predicted_prob_test)) {
-    labelsl[["test"]] <- x@y_test
-    probl[["test"]] <- x@predicted_prob_test
+    labelsl[["Test"]] <- x@y_test
+    probl[["Test"]] <- x@predicted_prob_test
   }
 
   draw_roc(
     true_labels = labelsl,
     predicted_prob = probl,
     theme = theme,
+    col = col,
     filename = filename,
     ...
   )
@@ -1036,6 +1038,8 @@ method(present, Regression) <- function(
   col = rtpalette(rtemis_palette)[1:2],
   filename = NULL
 ) {
+  # Describe the model
+  describe(x)
   # Training set plot
   if ("training" %in% what) {
     plot_training <- plot(
@@ -1065,9 +1069,6 @@ method(present, Regression) <- function(
     plot_test <- NULL
   }
 
-  # Describe the model
-  describe(x)
-
   # Combined plot
   # regression: scatter plots left to right
   plotly::subplot(
@@ -1088,47 +1089,61 @@ method(present, Regression) <- function(
 method(present, Classification) <- function(
   x,
   what = c("training", "test"),
+  type = c("ROC", "confusion"),
   theme = rtemis_theme,
+  col = rtpalette(rtemis_palette)[1:2],
   filename = NULL
 ) {
-  # Training set plot
-  if ("training" %in% what) {
-    plot_training <- plot(
-      x,
-      what = "training",
-      theme = theme,
-      xlab = "Predicted Training"
-    )
-  } else {
-    plot_training <- NULL
-  }
-  # Test set plot
-  if ("test" %in% what && !is.null(x@y_test)) {
-    plot_test <- plot(
-      x,
-      what = "test",
-      theme = theme,
-      xlab = "Predicted Test"
-    )
-  } else {
-    plot_test <- NULL
-  }
+  type <- match.arg(type)
 
   # Describe the model
   describe(x)
 
-  # Combined plot
-  # classification: confusion matrices side by side
-  plotly::subplot(
-    plot_training,
-    plot_test,
-    nrows = 1L,
-    shareX = FALSE,
-    shareY = FALSE,
-    titleX = TRUE,
-    titleY = TRUE,
-    margin = 0.01
-  )
+  if (type == "ROC") {
+    plot_roc(
+      x,
+      what = what,
+      theme = theme,
+      col = col,
+      filename = filename
+    )
+  } else if (type == "confusion") {
+    # Training set plot
+    if ("training" %in% what) {
+      plot_training <- plot(
+        x,
+        what = "training",
+        theme = theme,
+        xlab = "Predicted Training"
+      )
+    } else {
+      plot_training <- NULL
+    }
+    # Test set plot
+    if ("test" %in% what && !is.null(x@y_test)) {
+      plot_test <- plot(
+        x,
+        what = "test",
+        theme = theme,
+        xlab = "Predicted Test"
+      )
+    } else {
+      plot_test <- NULL
+    }
+
+    # Combined plot
+    # classification: confusion matrices side by side
+    plotly::subplot(
+      plot_training,
+      plot_test,
+      nrows = 1L,
+      shareX = FALSE,
+      shareY = FALSE,
+      titleX = TRUE,
+      titleY = TRUE,
+      margin = 0.01
+    )
+  }
 } # /rtemis::present.Classification
 
 # SupervisedCV ----
