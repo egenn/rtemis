@@ -49,6 +49,7 @@
 #' @param marginal_alpha Numeric: Alpha for marginal markers.
 #' @param marginal_size Numeric: Size of marginal markers.
 #' @param legend Logical: If TRUE, draw legend.
+#' @param legend_title Character: Title for legend.
 #' @param legend_trace Logical: If TRUE, draw legend trace. (For when you have `fit` and don't want a trace for the markers.)
 #' @param legend_xy Numeric: Position of legend.
 #' @param legend_xanchor Character: X anchor for legend.
@@ -82,6 +83,7 @@
 #' @param axes_equal Logical: If TRUE, set equal scaling for axes.
 #' @param diagonal Logical: If TRUE, add diagonal line.
 #' @param diagonal_col Color for diagonal line.
+#' @param diagonal_dash Character: "solid", "dash", "dot", "dashdot", "longdash", "longdashdot". Dash type for diagonal line.
 #' @param diagonal_alpha Numeric: Alpha for diagonal line.
 #' @param fit_params Hyperparameters: Parameters for fit.
 #' @param vline Numeric: X position for vertical line.
@@ -159,6 +161,7 @@ draw_scatter <- function(
   marginal_alpha = .333,
   marginal_size = 10,
   legend = NULL,
+  legend_title = NULL,
   legend_trace = TRUE,
   legend_xy = c(0, .98),
   legend_xanchor = "left",
@@ -192,6 +195,7 @@ draw_scatter <- function(
   axes_equal = FALSE,
   diagonal = FALSE,
   diagonal_col = NULL,
+  diagonal_dash = "dot",
   diagonal_alpha = .66,
   fit_params = NULL,
   vline = NULL,
@@ -529,7 +533,10 @@ draw_scatter <- function(
         x1 = hi,
         y0 = lo,
         y1 = hi,
-        line = list(color = diagonal_col)
+        line = list(
+          color = diagonal_col,
+          dash = diagonal_dash
+        )
       )
     )
   }
@@ -682,6 +689,9 @@ draw_scatter <- function(
     color = theme[["tick_labels_col"]]
   )
   .legend <- list(
+    title = list(
+      text = legend_title
+    ),
     x = legend_xy[1],
     xanchor = legend_xanchor,
     y = legend_xy[2],

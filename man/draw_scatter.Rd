@@ -47,6 +47,7 @@ draw_scatter(
   marginal_alpha = 0.333,
   marginal_size = 10,
   legend = NULL,
+  legend_title = NULL,
   legend_trace = TRUE,
   legend_xy = c(0, 0.98),
   legend_xanchor = "left",
@@ -80,6 +81,7 @@ draw_scatter(
   axes_equal = FALSE,
   diagonal = FALSE,
   diagonal_col = NULL,
+  diagonal_dash = "dot",
   diagonal_alpha = 0.66,
   fit_params = NULL,
   vline = NULL,
@@ -189,6 +191,8 @@ draw_scatter(
 
 \item{legend}{Logical: If TRUE, draw legend.}
 
+\item{legend_title}{Character: Title for legend.}
+
 \item{legend_trace}{Logical: If TRUE, draw legend trace. (For when you have \code{fit} and don't want a trace for the markers.)}
 
 \item{legend_xy}{Numeric: Position of legend.}
@@ -254,6 +258,8 @@ draw_scatter(
 \item{diagonal}{Logical: If TRUE, add diagonal line.}
 
 \item{diagonal_col}{Color for diagonal line.}
+
+\item{diagonal_dash}{Character: "solid", "dash", "dot", "dashdot", "longdash", "longdashdot". Dash type for diagonal line.}
 
 \item{diagonal_alpha}{Numeric: Alpha for diagonal line.}
 
