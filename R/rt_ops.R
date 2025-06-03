@@ -480,7 +480,7 @@ null2na <- function(x) {
 #' @export
 rtversion <- function() {
   out <- c(
-    list(rtemis_version = as.character(packageVersion("rtemis"))),
+    list(rtemis_version = as.character(packageVersion("rtemisalpha"))),
     as.list(Sys.info())
   )
   printls(out)

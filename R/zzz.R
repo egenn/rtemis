@@ -4,7 +4,7 @@
 
 rtenv <- new.env()
 rtenv$binclasspos <- 1
-rtemis.version <- packageVersion("rtemis")
+rtemisalpha_version <- packageVersion("rtemisalpha")
 .availableCores <- future::availableCores()
 
 .onLoad <- function(libname, pkgname) {
@@ -30,7 +30,7 @@ rtemis.version <- packageVersion("rtemis")
       "  .:",
       pkgname,
       " ",
-      rtemis.version,
+      rtemisalpha_version,
       " \U1F30A",
       " ",
       sessionInfo()[[2]],
@@ -65,7 +65,7 @@ rtemis.version <- packageVersion("rtemis")
       " https://rtemis.org/themes",
       "\n  \u2514    ",
       italic(gray("Cite:")),
-      ' > citation("rtemis")',
+      ' > citation("rtemisalpha")',
       bold("\n  Setup"),
       "\n  \u2514 ",
       italic(gray("Enable progress reporting:")),
@@ -82,7 +82,7 @@ rtemis.version <- packageVersion("rtemis")
         "  .:",
         pkgname,
         " ",
-        rtemis.version,
+        rtemisalpha_version,
         " \U1F30A",
         " ",
         sessionInfo()[[2]]
