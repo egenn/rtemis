@@ -2,7 +2,8 @@
 % Please edit documentation in R/zzz.R
 \docType{package}
 \name{rtemis-package}
-\alias{rtemis}
+\alias{rtemisalpha}
+\alias{rtemisalpha-package}
 \alias{rtemis-package}
 \title{\pkg{rtemis}: Machine Learning and Visualization}
 \description{
@@ -83,8 +84,8 @@ the positive class may not be set correctly.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://rtemis.org}
-  \item Report bugs at \url{https://github.com/egenn/rtemis/issues}
+  \item \url{https://www.rtemis.org}
+  \item Report bugs at \url{https://github.com/rtemis-org/rtemis-legacy/issues}
 }
 
 }
