@@ -1,4 +1,4 @@
-# draw_conf.R
+# draw_confusion.R
 # ::rtemis::
 # 2024 EDG rtemis.org
 
@@ -37,9 +37,9 @@
 #' predicted_labels <- factor(c("a", "b", "a", "b", "b", "a", "b", "b", "b", "a"))
 #' predicted_prob <- c(0.3, 0.55, 0.45, 0.75, 0.57, 0.3, 0.8, 0.63, 0.62, 0.39)
 #' metrics <- classification_metrics(true_labels, predicted_labels, predicted_prob)
-#' draw_conf(metrics)
+#' draw_confusion(metrics)
 #' }
-draw_conf <- function(
+draw_confusion <- function(
   x,
   xlab = "Predicted",
   ylab = "Reference",
@@ -467,7 +467,7 @@ draw_conf <- function(
   }
 
   return(plt)
-} # /rtemis::draw_conf
+} # /rtemis::draw_confusion
 
 make_plotly_conf_tile <- function(
   p,
