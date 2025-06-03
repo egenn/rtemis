@@ -12,6 +12,7 @@ draw_fit(
   fit = "glm",
   se_fit = TRUE,
   axes_square = TRUE,
+  axes_equal = TRUE,
   diagonal = TRUE,
   ...
 )
@@ -31,6 +32,8 @@ draw_fit(
 \item{se_fit}{Logical: If TRUE, include standard error of the fit.}
 
 \item{axes_square}{Logical: If TRUE, draw a square plot.}
+
+\item{axes_equal}{Logical: If TRUE, set equal scaling for axes.}
 
 \item{diagonal}{Logical: If TRUE, add diagonal line.}
 

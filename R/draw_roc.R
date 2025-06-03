@@ -10,9 +10,11 @@
 #' @param theme Theme object.
 #' @param col Color vector.
 #' @param legend Logical: If TRUE, draw legend.
+#' @param legend_title Character: Title for the legend.
 #' @param legend_xy Numeric vector: Position of the legend in the form c(x, y).
 #' @param legend_xanchor Character: X anchor for the legend.
 #' @param legend_yanchor Character: Y anchor for the legend.
+#' @param auc_dp Integer: Number of decimal places for AUC values.
 #' @param xlim Numeric vector: Limits for the x-axis.
 #' @param ylim Numeric vector: Limits for the y-axis.
 #' @param diagonal Logical: If TRUE, draw diagonal line.
@@ -33,13 +35,15 @@ draw_roc <- function(
   theme = rtemis_theme,
   col = rtpalette(rtemis_palette),
   legend = TRUE,
+  legend_title = "Group (AUC)",
   legend_xy = c(1, 0),
   legend_xanchor = "right",
   legend_yanchor = "bottom",
+  auc_dp = 3L,
   xlim = c(0, 1),
   ylim = c(0, 1),
   diagonal = TRUE,
-  diagonal_col = "#808080",
+  diagonal_col = NULL,
   axes_square = TRUE,
   filename = NULL,
   ...
@@ -93,9 +97,9 @@ draw_roc <- function(
     theme = theme,
     col = col,
     mode = "lines",
-    group_names = paste0(.names, ": ", round(unlist(AUC), 3)),
+    group_names = paste0(.names, " (", ddSci(unlist(AUC), auc_dp), ")"),
     legend = legend,
-    legend_title = "AUC",
+    legend_title = legend_title,
     legend_xy = legend_xy,
     legend_xanchor = legend_xanchor,
     legend_yanchor = legend_yanchor,
@@ -103,6 +107,7 @@ draw_roc <- function(
     ylim = ylim,
     diagonal = diagonal,
     diagonal_col = diagonal_col,
+    zerolines = FALSE,
     axes_square = axes_square,
     order_on_x = FALSE,
     filename = filename,
