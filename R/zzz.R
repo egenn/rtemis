@@ -98,7 +98,7 @@ rtemisalpha_version <- packageVersion("rtemisalpha")
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
-#' <https://rtemis.org>
+#' <https://www.rtemis.org>
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
@@ -144,9 +144,9 @@ rtemisalpha_version <- packageVersion("rtemisalpha")
 #' factors, where by default the levels are set alphabetically and therefore
 #' the positive class may not be set correctly.
 #'
-# @useDynLib rtemis, .registration = TRUE
+# @useDynLib rtemisalpha, .registration = TRUE
 # @importFrom Rcpp evalCpp
-#' @name rtemis-package
+#' @name rtemisalpha-package
 #' @import graphics grDevices methods stats utils data.table R6 future htmltools
 "_PACKAGE"
 
