@@ -308,3 +308,48 @@ available_decomposition <- function() {
   )
   printls(algs, print_class = FALSE)
 }
+
+# Draw ----
+draw_fns <- data.frame(
+  rbind(
+    c("draw_3DScatter", "3D Scatter Plot"),
+    c("draw_bar", "Bar Plot"),
+    c("draw_box", "Box Plot"),
+    c("draw_calibration", "Calibration Plot"),
+    c("draw_confusion", "Confusion Matrix"),
+    c("draw_dist", "Density and Histogram Plots"),
+    c("draw_fit", "Scatter Plot with Fit Line alias"),
+    c("draw_graphD3", "Network Graph using networkD3"),
+    c("draw_graphjs", "Network Graph using graphjs"),
+    c("draw_heat", "Heatmap using plotly"),
+    c("draw_heatmap", "Heatmap using heatmaply"),
+    c("draw_leafleat", "Choropleth Map using leaflet"),
+    c("draw_pie", "Pie Chart"),
+    c("draw_protein", "Amino Acid Annotation Plot"),
+    c("draw_roc", "ROC Curve"),
+    c("draw_scatter", "Scatter Plot"),
+    c("draw_spectrogram", "Spectrogram"),
+    c("draw_table", "Table using plotly"),
+    c("draw_ts", "Time Series Plot"),
+    c("draw_varimp", "Barplot for Variable Importance alias"),
+    c("draw_volcano", "Volcano Plot"),
+    c("draw_xt", "Time Series Line Plot")
+  )
+)
+colnames(draw_fns) <- c("Function Name", "Description")
+
+#' Available Draw Functions
+#'
+#' Print available draw functions for visualization.
+#'
+#' @author EDG
+#' @export
+available_draw <- function() {
+  fns <- structure(
+    draw_fns[, 2],
+    names = draw_fns[, 1],
+    class = "list"
+  )
+  cat("Available draw functions:\n")
+  printls(fns, print_class = FALSE, limit_iter = length(fns))
+} # rtemis::available_draw
