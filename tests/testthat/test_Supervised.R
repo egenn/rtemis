@@ -478,6 +478,9 @@ mod_c_glm <- train(
   dat_test = datc2_test,
   algorithm = "glm"
 )
+test_that("train() GLM Classification succeeds", {
+  expect_s7_class(mod_c_glm, Classification)
+})
 
 ## GAM Classification ----
 mod_c_gam <- train(
@@ -678,14 +681,39 @@ test_that("calibrate() succeeds on ClassificationCV", {
   expect_s7_class(mod_c_lightrf_cv_cal, CalibratedClassificationCV)
 })
 
-# Plot Supervised ----
+# Plot Regression ----
 test_that("plot.Supervised creates a plotly object", {
   p <- plot(mod_r_glm)
   expect_s3_class(p, "plotly")
 })
 
-# Present Supervised ----
+# Present Regression ----
 test_that("present.Supervised creates a plotly object", {
   p <- present(mod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Plot Classification ----
+test_that("plot.Supervised creates a plotly object", {
+  p <- plot(mod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Present Classification ----
+test_that("present.Supervised creates a plotly object", {
+  p <- present(mod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Plot ROC Classification ----
+test_that("draw_roc creates a plotly object", {
+  p <- draw_roc(
+    true_labels = mod_c_glm@y_training,
+    predicted_prob = mod_c_glm@predicted_prob_training
+  )
+  expect_s3_class(p, "plotly")
+})
+test_that("plot_roc.Classification creates a plotly object", {
+  p <- plot_roc(mod_c_glm)
   expect_s3_class(p, "plotly")
 })

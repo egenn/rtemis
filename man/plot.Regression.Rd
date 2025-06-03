@@ -16,6 +16,8 @@
 
 \item{theme}{Character or Theme: Theme to use for the plot.}
 
+\item{labelify}{Logical: If TRUE, labelify the axis labels.}
+
 \item{...}{Additional arguments passed to the plotting function.}
 }
 \description{
