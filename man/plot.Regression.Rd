@@ -4,7 +4,7 @@
 \alias{plot.Regression}
 \title{Plot Regression}
 \usage{
-\method{plot}{Regression}(x, what = "all", fit = "gam", theme = "darkgraygrid", ...)
+\method{plot}{Regression}(x, what = "all", fit = "glm", theme = rtemis_theme, labelify = TRUE, ...)
 }
 \arguments{
 \item{x}{Regression object.}
@@ -15,6 +15,8 @@
 \item{fit}{Character: Algorithm to use to draw fit line.}
 
 \item{theme}{Character or Theme: Theme to use for the plot.}
+
+\item{labelify}{Logical: If TRUE, labelify the axis labels.}
 
 \item{...}{Additional arguments passed to the plotting function.}
 }

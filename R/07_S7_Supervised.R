@@ -779,6 +779,7 @@ Regression <- new_class(
 #' "all", which will plot all available.
 #' @param fit Character: Algorithm to use to draw fit line.
 #' @param theme Character or Theme: Theme to use for the plot.
+#' @param labelify Logical: If TRUE, labelify the axis labels.
 #' @param ... Additional arguments passed to the plotting function.
 #'
 #' @author EDG
@@ -786,8 +787,9 @@ Regression <- new_class(
 plot.Regression <- function(
   x,
   what = "all",
-  fit = "gam",
-  theme = "darkgraygrid",
+  fit = "glm",
+  theme = rtemis_theme,
+  labelify = TRUE,
   ...
 ) {
   if (length(what) == 1 && what == "all") {
@@ -803,11 +805,13 @@ plot.Regression <- function(
     Negate(is.null),
     sapply(predicted, function(z) prop(x, z))
   )
+  if (labelify) {
+    names(predicted_l) <- labelify(names(predicted_l))
+  }
   draw_fit(
     x = true_l,
     y = predicted_l,
-    # fit = fit, # change when GAM is available
-    fit = "none",
+    fit = fit,
     theme = theme,
     ...
   )
@@ -816,8 +820,8 @@ plot.Regression <- function(
 method(plot, Regression) <- function(
   x,
   what = "all",
-  fit = "gam",
-  theme = "darkgraygrid",
+  fit = "glm",
+  theme = rtemis_theme,
   ...
 ) {
   plot.Regression(
@@ -833,7 +837,7 @@ method(plot, Regression) <- function(
 #' Plot Classification
 #'
 #' @param x Classification object.
-#' @param what Character vector: What to plot. Can include "training", "validation", "test"
+#' @param what Character vector: What to plot. "training", "validation", "test"
 #' @param theme Character or Theme: Theme to use for the plot.
 #' @param ... Additional arguments passed to the plotting function.
 #'
@@ -859,6 +863,7 @@ plot.Classification <- function(x, what = NULL, theme = "darkgraygrid", ...) {
   draw_conf(
     .confmat,
     theme = theme,
+    ylab = labelify(paste("Predicted", what)),
     ...
   )
 }
@@ -875,6 +880,45 @@ method(plot, Classification) <- function(
     ...
   )
 }
+
+# plot_ROC Classification ----
+method(plot_roc, Classification) <- function(
+  x,
+  what = NULL,
+  theme = rtemis_theme,
+  filename = NULL,
+  ...
+) {
+  if (is.null(x@predicted_prob_training)) {
+    msg2(hilite2("No predicted probabilities available."))
+    return(invisible(NULL))
+  }
+  if (is.null(what)) {
+    what <- if (!is.null(x@metrics_test)) {
+      c("train", "test")
+    } else {
+      "training"
+    }
+  }
+  labelsl <- probl <- list()
+
+  if ("training" %in% what) {
+    labelsl[["training"]] <- x@y_training
+    probl[["training"]] <- x@predicted_prob_training
+  }
+  if ("test" %in% what && !is.null(x@predicted_prob_test)) {
+    labelsl[["test"]] <- x@y_test
+    probl[["test"]] <- x@predicted_prob_test
+  }
+
+  draw_roc(
+    true_labels = labelsl,
+    predicted_prob = probl,
+    theme = theme,
+    filename = filename,
+    ...
+  )
+} # /plot_ROC.Classification
 
 # make_Supervised() ----
 make_Supervised <- function(
@@ -980,6 +1024,112 @@ write_Supervised <- function(
     rt_save(rt, outdir, verbosity = verbosity)
   }
 } # /write_Supervised
+
+# Present Regression ----
+# present method for Regression objects
+# Plot training + test metrics, if available, side by side using `plotly::subplot()`
+# + run `describe()` on the object
+method(present, Regression) <- function(
+  x,
+  what = c("training", "test"),
+  theme = rtemis_theme,
+  col = rtpalette(rtemis_palette)[1:2],
+  filename = NULL
+) {
+  # Training set plot
+  if ("training" %in% what) {
+    plot_training <- plot(
+      x,
+      what = "training",
+      ylab = "Predicted Training",
+      theme = theme,
+      col = col[1],
+      group_names = "Training",
+      legend_trace = FALSE
+    )
+  } else {
+    plot_training <- NULL
+  }
+  # Test set plot
+  if ("test" %in% what && !is.null(x@y_test)) {
+    plot_test <- plot(
+      x,
+      what = "test",
+      ylab = "Predicted Test",
+      theme = theme,
+      col = col[2],
+      group_names = "Test",
+      legend_trace = FALSE
+    )
+  } else {
+    plot_test <- NULL
+  }
+
+  # Describe the model
+  describe(x)
+
+  # Combined plot
+  # regression: scatter plots left to right
+  plotly::subplot(
+    plot_training,
+    plot_test,
+    nrows = 1L,
+    shareX = FALSE,
+    shareY = TRUE,
+    titleX = TRUE,
+    titleY = TRUE,
+    margin = 0.05
+  )
+} # /rtemis::present.Regression
+
+# Present Classification ----
+# present method for Classification objects
+# Plot training + test metrics if available, side by side
+method(present, Classification) <- function(
+  x,
+  what = c("training", "test"),
+  theme = rtemis_theme,
+  filename = NULL
+) {
+  # Training set plot
+  if ("training" %in% what) {
+    plot_training <- plot(
+      x,
+      what = "training",
+      theme = theme,
+      xlab = "Predicted Training"
+    )
+  } else {
+    plot_training <- NULL
+  }
+  # Test set plot
+  if ("test" %in% what && !is.null(x@y_test)) {
+    plot_test <- plot(
+      x,
+      what = "test",
+      theme = theme,
+      xlab = "Predicted Test"
+    )
+  } else {
+    plot_test <- NULL
+  }
+
+  # Describe the model
+  describe(x)
+
+  # Combined plot
+  # classification: confusion matrices side by side
+  plotly::subplot(
+    plot_training,
+    plot_test,
+    nrows = 1L,
+    shareX = FALSE,
+    shareY = FALSE,
+    titleX = TRUE,
+    titleY = TRUE,
+    margin = 0.01
+  )
+} # /rtemis::present.Classification
 
 # SupervisedCV ----
 # fields metrics_training/metrics_validation/metrics_test

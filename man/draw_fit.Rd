@@ -7,7 +7,9 @@
 draw_fit(
   x,
   y,
-  fit = "gam",
+  xlab = "True",
+  ylab = "Predicted",
+  fit = "glm",
   se_fit = TRUE,
   axes_square = TRUE,
   diagonal = TRUE,
@@ -19,6 +21,10 @@ draw_fit(
 \code{NCOL(x) > 1}, first two columns used as \code{x} and \code{y}, respectively}
 
 \item{y}{Numeric, vector/data.frame/list: Predicted values}
+
+\item{xlab}{Character: x-axis label.}
+
+\item{ylab}{Character: y-axis label.}
 
 \item{fit}{Character: Fit method.}
 

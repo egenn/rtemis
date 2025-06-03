@@ -1,14 +1,17 @@
 [![R-CMD-check](https://github.com/rtemis-org/rtemis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rtemis-org/rtemis/actions/workflows/R-CMD-check.yaml)
 
-# rtemis
+# rtemis: Advanced Machine Learning &amp; Visualization.
 
-Advanced Machine Learning &amp; Visualization.
+This is the new version of the rtemis R package and it is under active 
+The original package is [here](https://github.com/egenn/rtemis).
 
-This is the new version of the [rtemis package](https://github.com/egenn/rtemis).
+The new verion (0.99+) features:
 
-A near-complete rewrite was undertaken using the new [S7 class system](https://github.com/RConsortium/S7).
-
-![](https://www.rtemis.org/_ipx/_/rtemis-aiml-cover.webp)
+- Backend: A near-complete rewrite using the new [**S7** class system](https://github.com/RConsortium/S7), replacing all previous use of R6 and S3 classes.
+- API: **Functional user-facing API**, to maintain a consistent, user-friendly interface.
+- Expanded use of `**setup_()**` functions, to offer increased transparency & clear separation of parameters.
+- Strict **type checking** and **condition validation** throughout to minimize user error and provide highly focused error messages & suggestions.
+- Expanded transparent messaging through each step.
 
 ## Installation
 

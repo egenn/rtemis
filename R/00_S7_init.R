@@ -26,6 +26,34 @@ desc <- new_generic("desc", "x")
 #' @export
 describe <- new_generic("describe", "x")
 
+#' Present rtemis object
+#'
+#' @description
+#' This generic is used to present an rtemis object using plots and text.
+#'
+#' @param x An rtemis object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return A plotly object along with console output.
+#'
+#' @author EDG
+#' @export
+present <- new_generic("present", "x")
+
+#' Plot ROC curve
+#'
+#' @description
+#' This generic is used to plot the ROC curve for a model.
+#'
+#' @param x Classification or ClassificationCV object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return A plotly object containing the ROC curve.
+#'
+#' @author EDG
+#' @export
+plot_roc <- new_generic("plot_roc", "x")
+
 # Get parameters that need tuning.
 get_params_need_tuning <- new_generic("get_params_need_tuning", "x")
 # Get parameters.
