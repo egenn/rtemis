@@ -5,7 +5,7 @@
 #' Draw ROC curve
 #'
 #' @param true_labels Factor: True outcome labels.
-#' @param predicted_prob Numeric vector [0, 1]: Predicted probabilities for the positive class (i.e. second level of outcome).
+#' @param predicted_prob Numeric vector \[0, 1\]: Predicted probabilities for the positive class (i.e. second level of outcome).
 #' @param main Character: Main title for the plot.
 #' @param theme Theme object.
 #' @param col Color vector.
@@ -57,16 +57,16 @@ draw_roc <- function(
   }
   # Check N sets
   if (length(probl) != length(labelsl)) {
-    cli::cli_abort(c(
-      "You must have the same N of sets of `predicted_prob` and `true_labels`.",
-    ))
+    cli::cli_abort(
+      "You must have the same N of sets of `predicted_prob` and `true_labels`."
+    )
   }
   # Check lengths of corresponding sets
   for (i in seq_along(probl)) {
     if (length(probl[[i]]) != length(labelsl[[i]])) {
-      cli::cli_abort(c(
-        "You must have the same N of `predicted_prob` and `true_labels`.",
-      ))
+      cli::cli_abort(
+        "You must have the same N of `predicted_prob` and `true_labels`."
+      )
     }
   }
 

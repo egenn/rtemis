@@ -26,7 +26,7 @@ draw_roc(
 \arguments{
 \item{true_labels}{Factor: True outcome labels.}
 
-\item{predicted_prob}{Numeric vector \link{0, 1}: Predicted probabilities for the positive class (i.e. second level of outcome).}
+\item{predicted_prob}{Numeric vector [0, 1]: Predicted probabilities for the positive class (i.e. second level of outcome).}
 
 \item{main}{Character: Main title for the plot.}
 
