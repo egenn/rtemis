@@ -1,6 +1,8 @@
 [![R-CMD-check](https://github.com/egenn/rtemis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/egenn/rtemis/actions/workflows/R-CMD-check.yaml)
 [![rtemis status badge](https://egenn.r-universe.dev/badges/rtemis)](https://egenn.r-universe.dev/rtemis)
 
+**NEW VERSION HAS MOVED TO [RTEMIS-ORG/RTEMIS](https://github.com/rtemis-org/rtemis)***
+
 # **_rtemis_** Machine Learning and Visualization
 
 A platform for advanced Machine Learning research and applications.  
