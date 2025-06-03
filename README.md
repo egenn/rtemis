@@ -101,7 +101,7 @@ install.packages(packages[.add])
 Get cross-validated random forest performance on the iris dataset:
 
 ```r
-library(rtemis)
+library(rtemisalpha)
 mod <- train_cv(iris)
 ```
 

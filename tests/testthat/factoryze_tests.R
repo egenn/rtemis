@@ -10,7 +10,7 @@ if (
     requireNamespace("lavaan", quietly = TRUE)
 ) {
   # Library ----
-  library(rtemis)
+  library(rtemisalpha)
 
   # Data ----
   set.seed(2019)

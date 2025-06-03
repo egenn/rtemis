@@ -3,7 +3,7 @@
 # 2019- EDG rtemis.org
 
 options(rt.font = "sans")
-library(rtemis)
+library(rtemisalpha)
 
 # Regression Data ----
 x <- rnormmat(200, 2, seed = 2018)

@@ -3,7 +3,7 @@
 # 2019- EDG rtemis.org
 
 options(rt.font = "sans")
-library(rtemis)
+library(rtemisalpha)
 
 if (requireNamespace("plotly", quietly = TRUE)) {
   dplot3_bar(VADeaths)

@@ -5,7 +5,7 @@
 options(rt.font = "sans")
 
 # Packages ----
-library(rtemis)
+library(rtemisalpha)
 
 # Data ----
 x <- rnormmat(100, 50, seed = 2019)

@@ -5,7 +5,7 @@
 options(rt.font = "sans")
 
 # Library  ----
-library(rtemis)
+library(rtemisalpha)
 
 # Var ----
 dat <- as.data.frame(rnormmat(50, 2))

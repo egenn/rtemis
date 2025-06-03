@@ -3,7 +3,7 @@
 # 2018- EDG rtemis.org
 
 options(rt.font = "sans")
-library(rtemis)
+library(rtemisalpha)
 
 # Synth data ----
 x <- rnorm(50)
