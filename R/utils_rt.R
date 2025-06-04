@@ -80,7 +80,7 @@ outro <- function(
     if (newline_pre) cat("\n")
     msg20(
       gray(paste0(
-        "Completed in ",
+        "Done in ",
         ddSci(elapsed[3] / 60),
         " minutes (",
         "Real: ",
@@ -322,7 +322,6 @@ check_type <- function(type, allowed.types, algorithm) {
 #' Initialize parallel processing and progress reporting
 #'
 #' @keywords internal
-
 rtemis_init <- function(n_cores = 1, context = NULL, verbosity = 1L) {
   # Progress handlers
   if (is.null(live[["handlers_set"]])) {
