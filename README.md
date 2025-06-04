@@ -24,7 +24,10 @@ pak::pkg_install("rtemis-org/rtemis")
 Using `install.packages` from `r-universe`:
 
 ```r
-install.packages('rtemis', repos = c('https://egenn.r-universe.dev', 'https://cloud.r-project.org'))
+install.packages(
+  'rtemis',
+  repos = c('https://egenn.r-universe.dev', 'https://cloud.r-project.org')
+)
 ```
 
 Using `pak` from `r-universe`:
