@@ -5,7 +5,7 @@ Date: 2025-06-02
 Authors@R: person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
 Description: Advanced Machine Learning and Visualization for all.
 License: GPL (>= 3)
-URL: https://www.rtemis.org
+URL: https://www.rtemis.org, https://rdocs.rtemis.org
 BugReports: https://github.com/rtemis-org/rtemis/issues
 ByteCompile: yes
 Depends:
