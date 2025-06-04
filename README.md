@@ -2,8 +2,7 @@
 
 # rtemis: Advanced Machine Learning &amp; Visualization.
 
-This is the new version of the rtemis R package and it is under active 
-The original package is [here](https://github.com/egenn/rtemis).
+This is the new version of the rtemis R package and remains under active development.
 
 The new version (0.99+) features:
 
