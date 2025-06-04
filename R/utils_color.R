@@ -15,6 +15,7 @@
 #' averaging only
 #'
 #' @return Color
+#'
 #' @author EDG
 #' @export
 
@@ -332,7 +333,7 @@ color_fade <- function(x, to = "#000000", pct = .5) {
 #' @examples
 #' \dontrun{
 #' color <- c("red", "green", "blue")
-#' color.p <- desaturate(color)
+#' color_p <- desaturate(color)
 #' }
 desaturate <- function(color, s = .3) {
   # Infer color names, if available
@@ -461,24 +462,24 @@ color_mix <- function(color, n = 4) {
 #' @param main Character: Title. Default = NULL, which results in
 #' `deparse(substitute(x))`
 #' @param bg Background color.
-#' @param main.col Color: Title color
-#' @param main.x Float: x coordinate for `main`.
-#' @param main.y Float: y coordinate for `main`.
-#' @param main.adj Float: `adj` argument to mtext for `main`.
-#' @param main.cex Float: character expansion factor for `main`.
-#' @param main.font Integer, 1 or 2: Weight of `main` 1: regular, 2: bold.
+#' @param main_col Color: Title color
+#' @param main_x Float: x coordinate for `main`.
+#' @param main_y Float: y coordinate for `main`.
+#' @param main_adj Float: `adj` argument to mtext for `main`.
+#' @param main_cex Float: character expansion factor for `main`.
+#' @param main_font Integer, 1 or 2: Weight of `main` 1: regular, 2: bold.
 #' @param width Float: Plot width. Default = NULL, i.e. set automatically
 #' @param xlim Vector, length 2: x-axis limits. Default = NULL, i.e. set automatically
 #' @param ylim Vector, length 2: y-axis limits.
 #' @param asp Float: Plot aspect ratio.
-#' @param labels.y Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)
-#' @param label.cex Float: Character expansion for labels. Default = NULL, and is
+#' @param labels_y Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)
+#' @param label_cex Float: Character expansion for labels. Default = NULL, and is
 #' calculated automatically based on length of `x`
 #' @param mar Numeric vector, length 4: margin size.
-#' @param par.reset Logical: If TRUE, reset `par` settings on exit.
+#' @param par_reset Logical: If TRUE, reset `par` settings on exit.
 #' @param filename Character: Path to save plot as PDF.
-#' @param pdf.width Numeric: Width of PDF in inches.
-#' @param pdf.height Numeric: Height of PDF in inches.
+#' @param pdf_width Numeric: Width of PDF in inches.
+#' @param pdf_height Numeric: Height of PDF in inches.
 #'
 #' @return Nothing, prints plot.
 #'
@@ -494,34 +495,34 @@ previewcolor <- function(
   x,
   main = NULL,
   bg = "#333333",
-  main.col = "#b3b3b3",
-  main.x = .7,
-  main.y = 0.2,
-  main.adj = 0,
-  main.cex = .9,
-  main.font = 1,
+  main_col = "#b3b3b3",
+  main_x = .7,
+  main_y = 0.2,
+  main_adj = 0,
+  main_cex = .9,
+  main_font = 1,
   width = NULL,
   xlim = NULL,
   ylim = c(0, 2.2),
   asp = 1,
-  labels.y = 1.55,
-  label.cex = NULL,
+  labels_y = 1.55,
+  label_cex = NULL,
   mar = c(0, 0, 0, 1),
-  par.reset = TRUE,
+  par_reset = TRUE,
   filename = NULL,
-  pdf.width = 8,
-  pdf.height = 2.5
+  pdf_width = 8,
+  pdf_height = 2.5
 ) {
   if (is.null(main)) main <- deparse(substitute(x))
   x <- unlist(x)
-  if (par.reset) {
+  if (par_reset) {
     .par <- par(no.readonly = TRUE)
     on.exit(par(.par))
   }
 
   if (is.null(width)) width <- max(3, .3 * length(x))
   if (is.null(xlim)) xlim <- c(0.3, width + .7)
-  if (!is.null(filename)) pdf(filename, pdf.width, pdf.height)
+  if (!is.null(filename)) pdf(filename, pdf_width, pdf_height)
   par(bg = bg, xaxs = "i", yaxs = "i", mar = mar, oma = c(0, 0, 0, 0))
 
   # Plot ----
@@ -547,17 +548,17 @@ previewcolor <- function(
   for (i in seq(x)) rhombus(xmid[i], 1, col = x[i])
 
   # '- Labels ----
-  # ncolors => label.cex
+  # ncolors => label_cex
   # 100, .4
   # 10, 1.2
   # 4, 1.3
   # lm(c(.4, 1.2, 1.3) ~ c(100, 10, 4))
 
-  if (is.null(label.cex)) {
-    # label.cex <- max(.1, 1.30 - .02 * length(x))
-    label.cex <- 1.30 - .02 * length(x)
-    # label.cex <- max(.1, 1.34167 - .01042 * length(x))
-    label.cex <- 1.314869 - 0.009163 * length(x)
+  if (is.null(label_cex)) {
+    # label_cex <- max(.1, 1.30 - .02 * length(x))
+    label_cex <- 1.30 - .02 * length(x)
+    # label_cex <- max(.1, 1.34167 - .01042 * length(x))
+    label_cex <- 1.314869 - 0.009163 * length(x)
   }
 
   if (is.null(names(x))) {
@@ -567,26 +568,26 @@ previewcolor <- function(
   }
   text(
     xmid + .1,
-    labels.y,
+    labels_y,
     labels,
     col = x,
     srt = 45,
     adj = 0,
     offset = 0,
-    cex = label.cex,
+    cex = label_cex,
     xpd = TRUE
   )
 
   # '- Title ----
   if (!is.null(main)) {
     text(
-      main.x,
-      main.y,
+      main_x,
+      main_y,
       main,
-      col = main.col,
-      adj = main.adj,
-      font = main.font,
-      cex = main.cex
+      col = main_col,
+      adj = main_adj,
+      font = main_font,
+      cex = main_cex
     )
   }
 
@@ -618,9 +619,9 @@ rhombus <- function(
 #' @param x Float, vector
 #' @param symmetric Logical: If TRUE, make symmetric gradient between
 #' `-max(abs(x))` and `max(abs(x))`
-#' @param lo.col Low color
-#' @param mid.col Middle color
-#' @param hi.col High color
+#' @param lo_col Low color
+#' @param mid_col Middle color
+#' @param hi_col High color
 #' @param space Character: "rgb" or "Lab".
 #'
 #' @author EDG
@@ -631,18 +632,18 @@ rhombus <- function(
 #' x <- seq(-10, 10, length.out = 51)
 #' previewcolor(colorgradient.x(x))
 #' x <- sort(rnorm(40))
-#' previewcolor(colorgradient.x(x, mid.col = "white"))
+#' previewcolor(colorgradient.x(x, mid_col = "white"))
 #' # Notice how most values are near zero therefore almost white
 #' }
 colorgradient.x <- function(
   x,
   symmetric = FALSE,
-  lo.col = "#0290EE",
-  mid.col = "#1A1A1A",
-  hi.col = "#FFBD4F",
+  lo_col = "#0290EE",
+  mid_col = "#1A1A1A",
+  hi_col = "#FFBD4F",
   space = "Lab"
 ) {
-  grad <- colorRampPalette(c(lo.col, mid.col, hi.col), space = space)(201)
+  grad <- colorRampPalette(c(lo_col, mid_col, hi_col), space = space)(201)
 
   if (symmetric) {
     maxabsx <- max(abs(x))
@@ -691,33 +692,33 @@ colorgradient.x <- function(
 #' @param hi Color for high end
 #' @param preview Logical: Plot the colors horizontally
 #' @param colorbar Logical: Create a vertical colorbar
-#' @param cb.n Integer: How many steps you would like in the colorbar
-#' @param cb.mar Vector, length 4: Colorbar margins. Default: c(1, 1, 1, 1)
-#' @param cb.add Logical: If TRUE, colorbar will be added to existing plot
-#' @param cb.add.mar Vector: Margins for colorbar (See `par("mar")`)
-#' @param cb.axis.pos Float: Position of axis (See `axis("pos")`)
-#' @param cb.axis.las Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
+#' @param cb_n Integer: How many steps you would like in the colorbar
+#' @param cb_mar Vector, length 4: Colorbar margins. Default: c(1, 1, 1, 1)
+#' @param cb_add Logical: If TRUE, colorbar will be added to existing plot
+#' @param cb_add_mar Vector: Margins for colorbar (See `par("mar")`)
+#' @param cb_axis_pos Float: Position of axis (See `axis("pos")`)
+#' @param cb_axis_las Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
 #' 1: Horizontal, 2: Perpendicular, 3: Vertical.
-#' @param cb.axis.hadj Float: Adjustment parallel to the reading direction (See `par("adj")`)
-#' @param cb.cex FLoat: Character expansion factor for colorbar (See `par("cex")`)
-#' @param bar.min Numeric: Lowest value in colorbar
-#' @param bar.mid Numeric: Middle value in colorbar
-#' @param bar.max Numeric: Max value in colorbar
+#' @param cb_axis_hadj Float: Adjustment parallel to the reading direction (See `par("adj")`)
+#' @param cb_cex FLoat: Character expansion factor for colorbar (See `par("cex")`)
+#' @param bar_min Numeric: Lowest value in colorbar
+#' @param bar_mid Numeric: Middle value in colorbar
+#' @param bar_max Numeric: Max value in colorbar
 #' @param cex Float: Character expansion for axis
 #' @param filename String (Optional: Path to file to save colorbar
-#' @param pdf.width Float: Width for PDF output.
-#' @param pdf.height Float: Height for PDF output.
+#' @param pdf_width Float: Width for PDF output.
+#' @param pdf_height Float: Height for PDF output.
 #' @param theme Character: "light", "dark"
 #' @param bg Color: Background color
-#' @param col.text Color: Colorbar text color
+#' @param col_text Color: Colorbar text color
 #' @param plotlycb Logical: Create colorbar using `plotly` (instead of base R graphics)
-#' @param plotly.width Float: Width for plotly colorbar.
-#' @param plotly.height Float: Height for plotly colorbar.
-#' @param rtrn.plotly Logical: If TRUE, return `plotly` object
+#' @param plotly_width Float: Width for plotly colorbar.
+#' @param plotly_height Float: Height for plotly colorbar.
+#' @param return_plotly Logical: If TRUE, return `plotly` object
 #' @param margins Vector: Plotly margins.
 #' @param pad Float: Padding for `plotly`.
-#' @param par.reset Logical: If TRUE (Default), reset `par` settings after running
-#' @return Invisible vector of hexadecimal colors / plotly object if `rtrn.plotly = TRUE`
+#' @param par_reset Logical: If TRUE (Default), reset `par` settings after running
+#' @return Invisible vector of hexadecimal colors / plotly object if `return_plotly = TRUE`
 #' @author EDG
 #' @export
 
@@ -732,40 +733,40 @@ colorgrad <- function(
   hi = "#F48024",
   preview = FALSE,
   colorbar = FALSE,
-  cb.n = 21,
-  cb.mar = c(1, 1, 1, 1),
-  cb.add = FALSE,
-  cb.add.mar = c(5, 0, 2, 5),
-  cb.axis.pos = 1.1,
-  cb.axis.las = 1,
-  cb.axis.hadj = 0,
-  cb.cex = 6,
-  bar.min = -1,
-  bar.mid = 0,
-  bar.max = 1,
+  cb_n = 21,
+  cb_mar = c(1, 1, 1, 1),
+  cb_add = FALSE,
+  cb_add_mar = c(5, 0, 2, 5),
+  cb_axis_pos = 1.1,
+  cb_axis_las = 1,
+  cb_axis_hadj = 0,
+  cb_cex = 6,
+  bar_min = -1,
+  bar_mid = 0,
+  bar_max = 1,
   cex = 1.2,
   filename = NULL,
-  pdf.width = 3,
-  pdf.height = 7,
+  pdf_width = 3,
+  pdf_height = 7,
   theme = getOption("rt.theme", "light"),
   bg = NULL,
-  col.text = NULL,
+  col_text = NULL,
   plotlycb = FALSE,
-  plotly.width = 80,
-  plotly.height = 500,
-  rtrn.plotly = FALSE,
+  plotly_width = 80,
+  plotly_height = 500,
+  return_plotly = FALSE,
   margins = c(0, 0, 0, 0),
   pad = 0,
-  par.reset = TRUE
+  par_reset = TRUE
 ) {
   # Arguments ----
   n <- as.integer(n)
   if (n %% 2 != 1) n <- n + 1
   if (!is.null(filename)) colorbar <- TRUE
-  if (rtrn.plotly) plotlycb <- TRUE
-  if (is.null(cb.n)) {
-    cb.n <- n
-    if (cb.n %% 2 != 1) cb.n <- cb.n + 1
+  if (return_plotly) plotlycb <- TRUE
+  if (is.null(cb_n)) {
+    cb_n <- n
+    if (cb_n %% 2 != 1) cb_n <- cb_n + 1
   }
   space <- match.arg(space)
   theme <- if (strtrim(theme, 4) == "dark") "dark" else "light"
@@ -815,20 +816,20 @@ colorgrad <- function(
     grad <- colorRampPalette(c(lo, hi), space = space)(n)
   }
 
-  if (cb.n != n) {
-    cb.n <- as.integer(cb.n)
-    cb.midpoint <- ceiling(cb.n / 2)
+  if (cb_n != n) {
+    cb_n <- as.integer(cb_n)
+    cb_midpoint <- ceiling(cb_n / 2)
     # if (is.null(mid)) mid <- color_op(c(lo, hi), "mean")
     # lo2mid <- grDevices::colorRampPalette(c(lo, lomid, mid), space = space)
     # mid2hi <- grDevices::colorRampPalette(c(mid, midhi, hi), space = space)
     if (!is.na(mid)) {
-      cb.grad <- c(lo2mid(cb.midpoint), mid2hi(cb.n - cb.midpoint + 1)[-1])
+      cb_grad <- c(lo2mid(cb_midpoint), mid2hi(cb_n - cb_midpoint + 1)[-1])
     } else {
-      cb.grad <- colorRampPalette(c(lo, hi), space = space)(cb.n)
+      cb_grad <- colorRampPalette(c(lo, hi), space = space)(cb_n)
     }
   } else {
-    cb.grad <- grad
-    cb.midpoint <- midpoint
+    cb_grad <- grad
+    cb_midpoint <- midpoint
   }
 
   # [ Preview ] ----
@@ -857,52 +858,52 @@ colorgrad <- function(
   if (colorbar) {
     if (theme == "light") {
       if (is.null(bg)) bg <- "white"
-      if (is.null(col.text)) col.text <- "black"
+      if (is.null(col_text)) col_text <- "black"
     } else if (theme == "dark") {
       if (is.null(bg)) bg <- "black"
-      if (is.null(col.text)) col.text <- "white"
+      if (is.null(col_text)) col_text <- "white"
     }
 
-    par.orig <- par(no.readonly = TRUE)
-    if (par.reset && !cb.add) on.exit(suppressWarnings(par(par.orig)))
-    if (cb.add) {
-      par(new = cb.add, pty = "m", mar = cb.add.mar)
+    par_orig <- par(no.readonly = TRUE)
+    if (par_reset && !cb_add) on.exit(suppressWarnings(par(par_orig)))
+    if (cb_add) {
+      par(new = cb_add, pty = "m", mar = cb_add_mar)
     } else {
-      par(bg = bg, mar = cb.mar, pty = "m")
+      par(bg = bg, mar = cb_mar, pty = "m")
     }
 
     if (!is.null(filename)) {
       grDevices::pdf(
         filename,
-        width = pdf.width,
-        height = pdf.height,
+        width = pdf_width,
+        height = pdf_height,
         title = "rtemis Graphics"
       )
     }
     plot(
-      rep(1, cb.n),
-      1:cb.n,
-      col = cb.grad,
+      rep(1, cb_n),
+      1:cb_n,
+      col = cb_grad,
       pch = 19,
-      cex = cb.cex,
+      cex = cb_cex,
       xlim = c(.5, 1.5),
-      ylim = c(.5, cb.n + .5),
+      ylim = c(.5, cb_n + .5),
       ann = FALSE,
       axes = FALSE
     )
     # box() # to visualize position
-    # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
+    # text(1.5, c(1, midpoint, n), labels = c(bar_min, bar_mid, bar_max), col = col_text)
     axis(
       side = 4,
-      at = c(1, cb.midpoint, cb.n),
-      labels = c(bar.min, bar.mid, bar.max),
+      at = c(1, cb_midpoint, cb_n),
+      labels = c(bar_min, bar_mid, bar_max),
       col = color_adjust("black", 0),
-      col.axis = col.text,
+      col.axis = col_text,
       col.ticks = color_adjust("black", 0),
-      pos = cb.axis.pos,
-      las = cb.axis.las,
+      pos = cb_axis_pos,
+      las = cb_axis_las,
       cex.axis = cex,
-      hadj = cb.axis.hadj
+      hadj = cb_axis_hadj
     )
     if (!is.null(filename)) grDevices::dev.off()
   }
@@ -946,14 +947,14 @@ colorgrad <- function(
       a[[i]] <- list(
         x = 1.3,
         y = c(1, midpoint, n)[i],
-        text = as.character(c(bar.min, bar.mid, bar.max))[i],
+        text = as.character(c(bar_min, bar_mid, bar_max))[i],
         xref = "x",
         yref = "y",
         showarrow = FALSE
       )
     }
 
-    hovtext <- ddSci(seq(bar.min, bar.max, (bar.max - bar.min) / (n - 1)))
+    hovtext <- ddSci(seq(bar_min, bar_max, (bar_max - bar_min) / (n - 1)))
 
     margin <- list(
       b = margins[1],
@@ -975,18 +976,18 @@ colorgrad <- function(
       plotly::layout(
         xaxis = x.ax,
         yaxis = y.ax,
-        width = plotly.width,
-        height = plotly.height,
+        width = plotly_width,
+        height = plotly_height,
         annotations = a,
         font = t,
         margin = margin
       ) |>
       plotly::config(displayModeBar = FALSE)
-    if (plotlycb && !rtrn.plotly) print(p)
+    if (plotlycb && !return_plotly) print(p)
   }
 
   # out ----
-  if (rtrn.plotly) {
+  if (return_plotly) {
     return(p)
   }
   invisible(grad)

@@ -8,23 +8,23 @@ previewcolor(
   x,
   main = NULL,
   bg = "#333333",
-  main.col = "#b3b3b3",
-  main.x = 0.7,
-  main.y = 0.2,
-  main.adj = 0,
-  main.cex = 0.9,
-  main.font = 1,
+  main_col = "#b3b3b3",
+  main_x = 0.7,
+  main_y = 0.2,
+  main_adj = 0,
+  main_cex = 0.9,
+  main_font = 1,
   width = NULL,
   xlim = NULL,
   ylim = c(0, 2.2),
   asp = 1,
-  labels.y = 1.55,
-  label.cex = NULL,
+  labels_y = 1.55,
+  label_cex = NULL,
   mar = c(0, 0, 0, 1),
-  par.reset = TRUE,
+  par_reset = TRUE,
   filename = NULL,
-  pdf.width = 8,
-  pdf.height = 2.5
+  pdf_width = 8,
+  pdf_height = 2.5
 )
 }
 \arguments{
@@ -35,17 +35,17 @@ previewcolor(
 
 \item{bg}{Background color.}
 
-\item{main.col}{Color: Title color}
+\item{main_col}{Color: Title color}
 
-\item{main.x}{Float: x coordinate for \code{main}.}
+\item{main_x}{Float: x coordinate for \code{main}.}
 
-\item{main.y}{Float: y coordinate for \code{main}.}
+\item{main_y}{Float: y coordinate for \code{main}.}
 
-\item{main.adj}{Float: \code{adj} argument to mtext for \code{main}.}
+\item{main_adj}{Float: \code{adj} argument to mtext for \code{main}.}
 
-\item{main.cex}{Float: character expansion factor for \code{main}.}
+\item{main_cex}{Float: character expansion factor for \code{main}.}
 
-\item{main.font}{Integer, 1 or 2: Weight of \code{main} 1: regular, 2: bold.}
+\item{main_font}{Integer, 1 or 2: Weight of \code{main} 1: regular, 2: bold.}
 
 \item{width}{Float: Plot width. Default = NULL, i.e. set automatically}
 
@@ -55,20 +55,20 @@ previewcolor(
 
 \item{asp}{Float: Plot aspect ratio.}
 
-\item{labels.y}{Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)}
+\item{labels_y}{Float: y coord for labels. Default = 1.55 (rhombi are fixed and range y .5 - 1.5)}
 
-\item{label.cex}{Float: Character expansion for labels. Default = NULL, and is
+\item{label_cex}{Float: Character expansion for labels. Default = NULL, and is
 calculated automatically based on length of \code{x}}
 
 \item{mar}{Numeric vector, length 4: margin size.}
 
-\item{par.reset}{Logical: If TRUE, reset \code{par} settings on exit.}
+\item{par_reset}{Logical: If TRUE, reset \code{par} settings on exit.}
 
 \item{filename}{Character: Path to save plot as PDF.}
 
-\item{pdf.width}{Numeric: Width of PDF in inches.}
+\item{pdf_width}{Numeric: Width of PDF in inches.}
 
-\item{pdf.height}{Numeric: Height of PDF in inches.}
+\item{pdf_height}{Numeric: Height of PDF in inches.}
 }
 \value{
 Nothing, prints plot.

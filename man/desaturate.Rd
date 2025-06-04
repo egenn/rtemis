@@ -21,7 +21,7 @@ Lower a color's saturation by a given percent in the HSV color system
 \examples{
 \dontrun{
 color <- c("red", "green", "blue")
-color.p <- desaturate(color)
+color_p <- desaturate(color)
 }
 }
 \author{

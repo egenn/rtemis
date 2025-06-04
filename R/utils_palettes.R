@@ -1793,12 +1793,12 @@ penn_heat <- function(
   space = "Lab",
   demo = FALSE,
   colorbar = FALSE,
-  bar.min = -1,
-  bar.mid = 0,
-  bar.max = 1,
+  bar_min = -1,
+  bar_mid = 0,
+  bar_max = 1,
   cex = 1.2,
   filename = NULL,
-  col.text = "black"
+  col_text = "black"
 ) {
   # Arguments ----
   if (!is.null(filename)) colorbar <- TRUE
@@ -1880,13 +1880,13 @@ penn_heat <- function(
       ann = FALSE,
       axes = FALSE
     )
-    # text(1.5, c(1, midpoint, n), labels = c(bar.min, bar.mid, bar.max), col = col.text)
+    # text(1.5, c(1, midpoint, n), labels = c(bar_min, bar_mid, bar_max), col = col_text)
     axis(
       side = 4,
       at = c(1, midpoint, n),
-      labels = c(bar.min, bar.mid, bar.max),
+      labels = c(bar_min, bar_mid, bar_max),
       col = color_adjust("black", 0),
-      col.axis = col.text,
+      col.axis = col_text,
       col.ticks = color_adjust("black", 0),
       pos = 1.1,
       las = 1,

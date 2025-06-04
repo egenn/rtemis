@@ -15,31 +15,31 @@ colorgrad(
   hi = "#F48024",
   preview = FALSE,
   colorbar = FALSE,
-  cb.n = 21,
-  cb.mar = c(1, 1, 1, 1),
-  cb.add = FALSE,
-  cb.add.mar = c(5, 0, 2, 5),
-  cb.axis.pos = 1.1,
-  cb.axis.las = 1,
-  cb.axis.hadj = 0,
-  cb.cex = 6,
-  bar.min = -1,
-  bar.mid = 0,
-  bar.max = 1,
+  cb_n = 21,
+  cb_mar = c(1, 1, 1, 1),
+  cb_add = FALSE,
+  cb_add_mar = c(5, 0, 2, 5),
+  cb_axis_pos = 1.1,
+  cb_axis_las = 1,
+  cb_axis_hadj = 0,
+  cb_cex = 6,
+  bar_min = -1,
+  bar_mid = 0,
+  bar_max = 1,
   cex = 1.2,
   filename = NULL,
-  pdf.width = 3,
-  pdf.height = 7,
+  pdf_width = 3,
+  pdf_height = 7,
   theme = getOption("rt.theme", "light"),
   bg = NULL,
-  col.text = NULL,
+  col_text = NULL,
   plotlycb = FALSE,
-  plotly.width = 80,
-  plotly.height = 500,
-  rtrn.plotly = FALSE,
+  plotly_width = 80,
+  plotly_height = 500,
+  return_plotly = FALSE,
   margins = c(0, 0, 0, 0),
   pad = 0,
-  par.reset = TRUE
+  par_reset = TRUE
 )
 }
 \arguments{
@@ -67,59 +67,59 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 
 \item{colorbar}{Logical: Create a vertical colorbar}
 
-\item{cb.n}{Integer: How many steps you would like in the colorbar}
+\item{cb_n}{Integer: How many steps you would like in the colorbar}
 
-\item{cb.mar}{Vector, length 4: Colorbar margins. Default: c(1, 1, 1, 1)}
+\item{cb_mar}{Vector, length 4: Colorbar margins. Default: c(1, 1, 1, 1)}
 
-\item{cb.add}{Logical: If TRUE, colorbar will be added to existing plot}
+\item{cb_add}{Logical: If TRUE, colorbar will be added to existing plot}
 
-\item{cb.add.mar}{Vector: Margins for colorbar (See \code{par("mar")})}
+\item{cb_add_mar}{Vector: Margins for colorbar (See \code{par("mar")})}
 
-\item{cb.axis.pos}{Float: Position of axis (See \code{axis("pos")})}
+\item{cb_axis_pos}{Float: Position of axis (See \code{axis("pos")})}
 
-\item{cb.axis.las}{Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
+\item{cb_axis_las}{Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
 1: Horizontal, 2: Perpendicular, 3: Vertical.}
 
-\item{cb.axis.hadj}{Float: Adjustment parallel to the reading direction (See \code{par("adj")})}
+\item{cb_axis_hadj}{Float: Adjustment parallel to the reading direction (See \code{par("adj")})}
 
-\item{cb.cex}{FLoat: Character expansion factor for colorbar (See \code{par("cex")})}
+\item{cb_cex}{FLoat: Character expansion factor for colorbar (See \code{par("cex")})}
 
-\item{bar.min}{Numeric: Lowest value in colorbar}
+\item{bar_min}{Numeric: Lowest value in colorbar}
 
-\item{bar.mid}{Numeric: Middle value in colorbar}
+\item{bar_mid}{Numeric: Middle value in colorbar}
 
-\item{bar.max}{Numeric: Max value in colorbar}
+\item{bar_max}{Numeric: Max value in colorbar}
 
 \item{cex}{Float: Character expansion for axis}
 
 \item{filename}{String (Optional: Path to file to save colorbar}
 
-\item{pdf.width}{Float: Width for PDF output.}
+\item{pdf_width}{Float: Width for PDF output.}
 
-\item{pdf.height}{Float: Height for PDF output.}
+\item{pdf_height}{Float: Height for PDF output.}
 
 \item{theme}{Character: "light", "dark"}
 
 \item{bg}{Color: Background color}
 
-\item{col.text}{Color: Colorbar text color}
+\item{col_text}{Color: Colorbar text color}
 
 \item{plotlycb}{Logical: Create colorbar using \code{plotly} (instead of base R graphics)}
 
-\item{plotly.width}{Float: Width for plotly colorbar.}
+\item{plotly_width}{Float: Width for plotly colorbar.}
 
-\item{plotly.height}{Float: Height for plotly colorbar.}
+\item{plotly_height}{Float: Height for plotly colorbar.}
 
-\item{rtrn.plotly}{Logical: If TRUE, return \code{plotly} object}
+\item{return_plotly}{Logical: If TRUE, return \code{plotly} object}
 
 \item{margins}{Vector: Plotly margins.}
 
 \item{pad}{Float: Padding for \code{plotly}.}
 
-\item{par.reset}{Logical: If TRUE (Default), reset \code{par} settings after running}
+\item{par_reset}{Logical: If TRUE (Default), reset \code{par} settings after running}
 }
 \value{
-Invisible vector of hexadecimal colors / plotly object if \code{rtrn.plotly = TRUE}
+Invisible vector of hexadecimal colors / plotly object if \code{return_plotly = TRUE}
 }
 \description{
 Create a gradient of colors and optionally a colorbar
