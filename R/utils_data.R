@@ -31,6 +31,70 @@ method(get_factor_levels, class_data.table) <- function(x) {
 }
 
 
+#' Describe factor
+#'
+#' Outputs a single character with names and counts of each level of the input factor.
+#'
+#' @param x factor.
+#' @param max_n Integer: Return counts for up to this many levels.
+#' @param return_ordered Logical: If TRUE, return levels ordered by count, otherwise
+#' return in level order.
+#'
+#' @return Character with level counts.
+#'
+#' @author EDG
+#' @export
+#' @examples
+#' \dontrun{
+#' # Small number of levels
+#' fct_describe(iris$Species)
+#'
+#' # Large number of levels: show top n by count
+#' x <- factor(sample(letters, 1000, TRUE))
+#' fct_describe(x)
+#' fct_describe(x, 3)
+#' }
+fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
+  x <- factor(x)
+  x_levels <- levels(x)
+  n_unique <- length(x_levels)
+  x_freqs <- as.integer(table(x))
+  if (return_ordered) {
+    idi <- order(x_freqs, decreasing = TRUE)
+  }
+
+  if (n_unique <= max_n) {
+    if (return_ordered) {
+      paste(x_levels[idi], x_freqs[idi], sep = ": ", collapse = "; ")
+    } else {
+      paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
+    }
+  } else {
+    idi <- order(x_freqs, decreasing = TRUE)
+    if (return_ordered) {
+      idi <- idi[seq_len(max_n)]
+      paste0(
+        "(Top ",
+        max_n,
+        " of ",
+        n_unique,
+        ") ",
+        paste(x_levels[idi], x_freqs[idi], sep = ": ", collapse = "; ")
+      )
+    } else {
+      paste0(
+        "(First ",
+        max_n,
+        " of ",
+        n_unique,
+        ") ",
+        paste(x_levels, x_freqs, sep = ": ", collapse = "; ")
+      )
+    }
+  }
+} # /rtemis::fct_describe
+
+
 #' Merge panel data treatment and outcome data
 #'
 #' Merge long format treatment and outcome data from multiple sources with possibly hierarchical
