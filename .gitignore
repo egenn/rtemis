@@ -1,9 +1,13 @@
-# Dev folder
-/dev/
-/R/dev/
+# Dev
+__dev/
+__validation/
 
-# macOS
+# Mac OS
 .DS_Store
+
+# VS Code
+.vscode
+*.code-workspace
 
 # History files
 .Rhistory
@@ -11,6 +15,10 @@
 
 # Session Data files
 .RData
+.RDataTmp
+
+# User-specific files
+.Ruserdata
 
 # Example code in package build process
 *-Ex.R
@@ -22,10 +30,9 @@
 /*.Rcheck/
 
 # RStudio files
-*.Rproj
 .Rproj.user/
 
-# vignettes
+# produced vignettes
 vignettes/*.html
 vignettes/*.pdf
 
@@ -33,63 +40,28 @@ vignettes/*.pdf
 .httr-oauth
 
 # knitr and R markdown default cache directories
-/*_cache/
+*_cache/
 /cache/
 
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
-inst/doc
 
-# Temporary files created by editors
-*~
-.vscode/
-*.code-workspace
+# R Environment Variables
+.Renviron
 
-# Pkgdown
-_pkgdown.yml
+# pkgdown site
+docs/
 
-# PDFs
-*.pdf
+# translation temp files
+po/*~
 
-# C++
-# Prerequisites
-*.d
+# RStudio Connect folder
+rsconnect/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+# lintr
+.lintr
 docs
 
-# Log files
-*.log
-
-# Julia
-Manifest.toml
-Project.toml
+# pkgdown
+_pkgdown.yml

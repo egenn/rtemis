@@ -19,12 +19,12 @@ summarize(
 of type numeric.}
 
 \item{group_by}{Character, vector: Variable name(s) of factors to group by. Must be column names
-in \code{x}. Default = NULL}
+in \code{x}.}
 
-\item{type}{Character: "all", "median-range" or "mean-sd". Default = "all",
+\item{type}{Character: "all", "median-range" or "mean-sd".
 which returns Mean, SD, Median, Range, NA (number of NA values)}
 
-\item{na.rm}{Logical: Passed to \code{median} and \code{mean}. Default = TRUE}
+\item{na.rm}{Logical: Passed to \code{median} and \code{mean}.}
 }
 \value{
 \code{data.table} with summary
@@ -33,5 +33,5 @@ which returns Mean, SD, Median, Range, NA (number of NA values)}
 Summarize numeric variables
 }
 \author{
-E.D. Gennatas
+EDG
 }

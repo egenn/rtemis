@@ -1,6 +1,7 @@
 # read.R
 # ::rtemis::
-# 2022-3 E.D. Gennatas rtemis.org
+# 2022- EDG rtemis.org
+
 # need a way to ignore errors with duckdb::duckdb_read_csv()
 # polars nullstring is buggy, only recognizes NULL
 
@@ -25,33 +26,33 @@
 #' @param filename Character: filename or full path if `datadir = NULL`
 #' @param datadir Character: Optional path to directory where `filename`
 #' is located. If not specified, `filename` must be the full path.
-#' @param make.unique Logical: If TRUE, keep unique rows only
+#' @param make_unique Logical: If TRUE, keep unique rows only
 #' @param character2factor Logical: If TRUE, convert character variables to
 #' factors
-#' @param clean.colnames Logical: If TRUE, clean columns names using
+#' @param clean_colnames Logical: If TRUE, clean columns names using
 #' [clean_colnames]
-#' @param delim.reader Character: package to use for reading delimited data
-#' @param xlsx.sheet Integer or character: Name or number of XLSX sheet to read
-#' @param sep Single character: field separator. If `delim.reader = "fread"`
+#' @param delim_reader Character: package to use for reading delimited data
+#' @param xlsx_sheet Integer or character: Name or number of XLSX sheet to read
+#' @param sep Single character: field separator. If `delim_reader = "fread"`
 #' and `sep = NULL`, this defaults to "auto", otherwise defaults to ","
 #' @param quote Single character: quote character
-#' @param na.strings Character vector: Strings to be interpreted as NA values.
-#' For `delim.reader = "duckdb"`, this must be a single string.
-# For `delim.reader = "polars"`, this must be a single string, otherwise, if an
+#' @param na_strings Character vector: Strings to be interpreted as NA values.
+#' For `delim_reader = "duckdb"`, this must be a single string.
+# For `delim_reader = "polars"`, this must be a single string, otherwise, if an
 # unnamed character vector, it maps each string to each column. If named, the names
 # should match columns. See `?polars::csv_reader` for more details.
-#' @param output Character: "default" or "data.table", If default, return the delim.reader's
+#' @param output Character: "default" or "data.table", If default, return the delim_reader's
 #' default data structure, otherwise convert to data.table
 #' @param attr Character: Attribute to set (Optional)
 #' @param value Character: Value to set (if `attr` is not NULL)
-#' @param verbose Logical: If TRUE, print messages to console
-#' @param fread_verbose Logical: Passed to `data.table::fread`
+#' @param verbosity Integer: Verbosity level.
+#' @param fread_verbosity Integer: Verbosity level. Passed to `data.table::fread`
 #' @param timed Logical: If TRUE, time the process and print to console
 #' @param ... Additional parameters to pass to `data.table::fread`,
 #' `arrow::read_delim_arrow()`, `vroom::vroom()`,
 #' or `openxlsx::read.xlsx()`
 #'
-#' @author E.D. Gennatas
+#' @author EDG
 #' @export
 #' @examples
 #' \dontrun{
@@ -61,14 +62,14 @@
 read <- function(
   filename,
   datadir = NULL,
-  make.unique = TRUE,
+  make_unique = TRUE,
   character2factor = FALSE,
-  clean.colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
-  xlsx.sheet = 1,
+  clean_colnames = TRUE,
+  delim_reader = c("data.table", "vroom", "duckdb", "arrow"),
+  xlsx_sheet = 1,
   sep = NULL,
   quote = "\"",
-  na.strings = c(""),
+  na_strings = c(""),
   #  polars_ignore_errors = TRUE,
   #  polars_infer_schema_length = 100,
   #  polars_encoding = "utf8-lossy",
@@ -76,14 +77,14 @@ read <- function(
   output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
-  verbose = TRUE,
-  fread_verbose = FALSE,
-  timed = verbose,
+  verbosity = 1L,
+  fread_verbosity = 0L,
+  timed = verbosity > 0L,
   ...
 ) {
-  dependency_check("data.table")
-  if (timed) start.time <- intro(verbose = FALSE)
-  delim.reader <- match.arg(delim.reader)
+  check_dependencies("data.table")
+  if (timed) start_time <- intro(verbosity = 0L)
+  delim_reader <- match.arg(delim_reader)
   output <- match.arg(output)
   ext <- tools::file_ext(filename)
   path <- if (is.null(datadir)) {
@@ -94,8 +95,8 @@ read <- function(
   path <- path.expand(path)
 
   if (ext == "parquet") {
-    dependency_check("arrow")
-    if (verbose) {
+    check_dependencies("arrow")
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
@@ -106,7 +107,7 @@ read <- function(
     .dat <- arrow::read_parquet(path, ...)
     if (output == "data.table") setDT(.dat)
   } else if (ext == "rds") {
-    if (verbose) {
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
@@ -116,8 +117,8 @@ read <- function(
     }
     .dat <- readRDS(path)
   } else if (ext == "xlsx") {
-    dependency_check("openxlsx")
-    if (verbose) {
+    check_dependencies("openxlsx")
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
@@ -125,11 +126,11 @@ read <- function(
         " using openxlsx::read.xlsx()..."
       )
     }
-    .dat <- openxlsx::read.xlsx(filename, xlsx.sheet, ...)
+    .dat <- openxlsx::read.xlsx(filename, xlsx_sheet, ...)
     if (output == "data.table") setDT(.dat)
   } else if (ext == "dta") {
-    dependency_check("haven")
-    if (verbose) {
+    check_dependencies("haven")
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
@@ -140,8 +141,8 @@ read <- function(
     .dat <- haven::read_dta(path, ...)
     if (output == "data.table") setDT(.dat)
   } else if (ext == "fasta") {
-    dependency_check("seqinr")
-    if (verbose) {
+    check_dependencies("seqinr")
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
@@ -154,8 +155,8 @@ read <- function(
     if (length(.dat) == 1) .dat <- as.character(.dat[[1]])
     return(.dat)
   } else if (ext == "arff") {
-    dependency_check("farff")
-    if (verbose) {
+    check_dependencies("farff")
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
@@ -166,36 +167,36 @@ read <- function(
     .dat <- farff::readARFF(path, ...)
     if (output == "data.table") setDT(.dat)
   } else {
-    if (verbose) {
+    if (verbosity > 0L) {
       msg20(
         bold(green("\u25B6")),
         " Reading ",
         hilite(basename(path)),
         " using ",
-        delim.reader,
+        delim_reader,
         "..."
       )
     }
-    if (delim.reader == "data.table") {
+    if (delim_reader == "data.table") {
       if (is.null(sep)) sep <- "auto"
       .dat <- data.table::fread(
         path,
         sep = sep,
         quote = quote,
-        na.strings = na.strings,
-        verbose = fread_verbose,
+        na.strings = na_strings,
+        verbose = fread_verbosity > 0L,
         ...
       )
-    } else if (delim.reader == "duckdb") {
-      dependency_check("DBI", "duckdb")
+    } else if (delim_reader == "duckdb") {
+      check_dependencies("DBI", "duckdb")
       if (is.null(sep)) sep <- ","
-      if (length(na.strings) > 1) {
+      if (length(na_strings) > 1) {
         msg2(
-          "Note: 'na.strings' must be a single string for duckdb; setting to '",
-          na.strings[1],
+          "Note: 'na_strings' must be a single string for duckdb; setting to '",
+          na_strings[1],
           "'"
         )
-        na.strings <- na.strings[1]
+        na_strings <- na_strings[1]
       }
       con <- DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
       .db <- duckdb::duckdb_read_csv(
@@ -203,7 +204,7 @@ read <- function(
         "data",
         path,
         header = TRUE,
-        na.strings = na.strings,
+        na.strings = na_strings,
         nrow.check = 500,
         delim = sep,
         quote = quote,
@@ -214,19 +215,19 @@ read <- function(
       #     sep = sep, quote = quote, ...
       # )
       if (output == "data.table") setDT(.dat)
-    } else if (delim.reader == "arrow") {
-      dependency_check("arrow")
+    } else if (delim_reader == "arrow") {
+      check_dependencies("arrow")
       if (is.null(sep)) sep <- ","
       .dat <- arrow::read_delim_arrow(
         path,
         delim = sep,
         quote = quote,
-        na = na.strings,
+        na = na_strings,
         ...
       )
       if (output == "data.table") setDT(.dat)
-      # } else if (delim.reader == "polars") {
-      #   dependency_check("polars")
+      # } else if (delim_reader == "polars") {
+      #   check_dependencies("polars")
       #   attachNamespace("polars")
       #   if (is.null(sep)) sep <- ","
       #   .dat <- polars::pl$read_csv(
@@ -235,20 +236,20 @@ read <- function(
       #     has_header = TRUE,
       #     ignore_errors = polars_ignore_errors,
       #     quote_char = quote,
-      #     # null_values = na.strings
+      #     # null_values = na_strings
       #     infer_schema_length = polars_infer_schema_length,
       #     encoding = polars_encoding,
       #     parse_dates = polars_parse_dates, ...
       #   )$as_data_frame()
       #   if (output == "data.table") setDT(.dat)
     } else {
-      dependency_check("vroom")
+      check_dependencies("vroom")
       .dat <- vroom::vroom(
         path,
         delim = sep,
         quote = quote,
-        na = na.strings,
-        progress = verbose,
+        na = na_strings,
+        progress = verbosity > 0L,
         ...
       )
       if (output == "data.table") setDT(.dat)
@@ -257,7 +258,7 @@ read <- function(
 
   .nrow <- nrow(.dat)
   .ncol <- ncol(.dat)
-  if (verbose) {
+  if (verbosity > 0L) {
     msg2(
       "Read in",
       hilitebig(.nrow),
@@ -265,11 +266,11 @@ read <- function(
       hilitebig(.ncol)
     )
   }
-  if (make.unique) {
+  if (make_unique) {
     .dat <- unique(.dat)
     .nrowp <- nrow(.dat)
     .dup <- .nrow - .nrowp
-    if (verbose && .dup > 0) {
+    if (verbosity > 0L && .dup > 0) {
       msg2(
         "Removed",
         orange(format(.dup, big.mark = ","), bold = TRUE),
@@ -285,7 +286,7 @@ read <- function(
     }
   }
 
-  if (clean.colnames) {
+  if (clean_colnames) {
     setnames(.dat, names(.dat), clean_colnames(.dat))
   }
 
@@ -297,7 +298,7 @@ read <- function(
     for (i in seq_len(ncol(.dat))) setattr(.dat[[i]], attr, value)
   }
 
-  if (timed) outro(start.time)
+  if (timed) outro(start_time)
 
   return(.dat)
 } # rtemis::read

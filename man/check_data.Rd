@@ -31,7 +31,7 @@ Check Data
 \examples{
 \dontrun{
 n <- 1000
-x <- rnormmat(n, 50, return.df = TRUE)
+x <- rnormmat(n, 50, return_df = TRUE)
 x$char1 <- sample(letters, n, TRUE)
 x$char2 <- sample(letters, n, TRUE)
 x$fct <- factor(sample(letters, n, TRUE))
@@ -45,5 +45,5 @@ check_data(x)
 
 }
 \author{
-E.D. Gennatas
+EDG
 }

@@ -1,65 +1,188 @@
 # calibrate.R
 # ::rtemis::
-# 2023 EDG rtemis.org
+# 2025 EDG rtemis.org
 
-#' Calibrate predicted probabilities
+# calibrate <- new_generic("calibrate", "x")
+
+# calibrate <- new_generic(
+#   "calibrate", ("x"),
+#   function(x, predicted_probabilities, true_labels, algorithm = "isotonic", hyperparameters = NULL) {
+#     S7_dispatch()
+#   }
+# )
+
+calibrate <- new_generic(
+  "calibrate",
+  ("x"),
+  function(
+    x,
+    algorithm = "isotonic",
+    hyperparameters = NULL,
+    verbosity = 1L,
+    ...
+  ) {
+    S7_dispatch()
+  }
+)
+
+#' @name calibrate.Classification
+#' @title
+#' Calibrate Binary Classification Models
 #'
-#' @param true.labels Factor with true class labels.
-#' @param predicted.prob Numeric vector with predicted probabilities.
-#' @param pos.class Integer: Index of the positive class.
-#' @param alg Character: Algorithm to use to train calibration model. See [select_learn()].
-#' @param learn.params List: List of parameters to pass to the learning algorithm
-#' @param verbose Logical: If TRUE, print messages to the console
+#' @description
+#' The goal of calibration is to adjust the predicted probabilities of a binary classification
+#' model so that they better reflect the true probabilities (i.e. empirical risk) of the positive
+#' class.
 #'
-#' @return Trained calibration model. Use `$fitted.values` to get calibrated
-#' input probabilities; use `predict(mod, newdata = newdata, type = "response")`
-#' to calibrate other estimated probabilities.
+#' @details
+#' Important: The calibration model's training data should be different from the classification
+#' model's training data.
+#'
+#' @param x Classification object.
+#' @param predicted_probabilities Numeric vector: Predicted probabilities.
+#' @param true_labels Factor: True class labels.
+#' @param algorithm Character: Algorithm to use to train calibration model.
+#' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
+#' @param verbosity Integer: Verbosity level.
+#' @param ... Not used
 #'
 #' @author EDG
 #' @export
-#' @examples
-#' \dontrun{
-#' data("segment_naive_bayes", package = "probably")
-#'
-#' # Plot the calibration curve of the original predictions
-#' dplot3_calibration(
-#'   true.labels = segment_naive_bayes$Class,
-#'   predicted.prob = segment_naive_bayes$.pred_poor,
-#'   pos.class = 2
-#' )
-#'
-#' # Plot the calibration curve of the calibrated predictions
-#' dplot3_calibration(
-#'   true.labels = segment_naive_bayes$Class,
-#'   predicted.prob = calibrate(
-#'     segment_naive_bayes$Class,
-#'     segment_naive_bayes$.pred_poor
-#'   )$fitted.values,
-#'   pos.class = 2
-#' )
-#' }
-calibrate <- function(
-  true.labels,
-  predicted.prob,
-  pos.class = NULL,
-  alg = "isotonic",
-  learn.params = list(),
-  verbose = TRUE
-) {
-  # Check positive class
-  if (is.null(pos.class)) {
-    pos.class <- rtenv$binclasspos
-  }
-  if (pos.class == 2) {
-    true.labels <- factor(true.labels, levels = rev(levels(true.labels)))
-  }
-  alg_name <- select_learn(alg, desc = TRUE)
 
-  # mod ----
-  if (verbose) msg20("Calibrating probabilities using ", alg_name, "...")
-  learner <- select_learn(alg)
-  do.call(
-    learner,
-    c(list(x = predicted.prob, y = true.labels), learn.params)
+calibrate.Classification <- function(
+  x,
+  predicted_probabilities,
+  true_labels,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+) {
+  # Check inputs
+  check_is_S7(x, Classification)
+  check_float01inc(predicted_probabilities)
+  check_inherits(true_labels, "factor")
+
+  # Training data is whatever is passed by user
+  dat <- data.table(predicted_probabilities, true_labels)
+  # Test data is taken from mod, if available
+  if (!is.null(x@y_test) && !is.null(x@predicted_prob_test)) {
+    dat_test <- data.table(
+      predicted_probabilities = x@predicted_prob_test,
+      true_labels = x@y_test
+    )
+  } else {
+    dat_test <- NULL
+  }
+  # Calibration model
+  cal_model <- train(
+    dat,
+    dat_test = dat_test,
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    verbosity = verbosity
   )
-} # rtemis::calibrate
+
+  CalibratedClassification(x, cal_model)
+} # /rtemis::calibrate
+
+
+#' @name calibrate.ClassificationCV
+#' @title
+#' Calibrate Cross-validated Binary Classification Models
+#'
+#' @description
+#' The goal of calibration is to adjust the predicted probabilities of a binary classification
+#' model so that they better reflect the true probabilities (i.e. empirical risk) of the positive
+#' class.
+#'
+#' @param x ClassificationCV object.
+#' @param algorithm Character: Algorithm to use to train calibration model.
+#' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
+#' @param resampler_parameters ResamplerParameters
+#' @param verbosity Integer: Verbosity level.
+#' @param ... Not used
+#'
+#' @author EDG
+#' @export
+
+method(calibrate, Classification) <- function(
+  x,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+) {
+  calibrate.Classification(
+    x,
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    verbosity = verbosity,
+    ...
+  )
+}
+
+calibrate.ClassificationCV <- function(
+  x,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  resampler_parameters = setup_Resampler(
+    n_resamples = 5L,
+    type = "KFold"
+  ),
+  verbosity = 1L,
+  ...
+) {
+  # Check inputs
+  check_inherits(algorithm, "character")
+  check_is_S7(resampler_parameters, ResamplerParameters)
+  verbosity <- clean_int(verbosity)
+
+  # Check IFW is FALSE
+  if (!is.null(hyperparameters) && hyperparameters[["ifw"]]) {
+    stop("IFW must be FALSE for proper calibration.")
+  }
+
+  # Calibration models
+  calmods <- lapply(
+    x@models,
+    function(mod) {
+      dat <- data.table(
+        predicted_probabilities = mod@predicted_prob_test,
+        true_labels = mod@y_test
+      )
+      train(
+        dat,
+        algorithm = algorithm,
+        hyperparameters = hyperparameters,
+        outer_resampling = resampler_parameters
+      )
+    }
+  )
+  names(calmods) <- names(x@models)
+
+  # calcv <- CalibrationCV(
+  #   models = calmods,
+  #   resampler_parameters = resampler_parameters
+  # )
+
+  # CalibratedClassificationCV
+  CalibratedClassificationCV(x, calmods)
+} # /rtemis::calibrate.ClassificationCV
+
+
+method(calibrate, ClassificationCV) <- function(
+  x,
+  algorithm = "isotonic",
+  hyperparameters = NULL,
+  verbosity = 1L,
+  ...
+) {
+  calibrate.ClassificationCV(
+    x,
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    verbosity = verbosity,
+    ...
+  )
+}

@@ -7,20 +7,20 @@
 read(
   filename,
   datadir = NULL,
-  make.unique = TRUE,
+  make_unique = TRUE,
   character2factor = FALSE,
-  clean.colnames = TRUE,
-  delim.reader = c("data.table", "vroom", "duckdb", "arrow"),
-  xlsx.sheet = 1,
+  clean_colnames = TRUE,
+  delim_reader = c("data.table", "vroom", "duckdb", "arrow"),
+  xlsx_sheet = 1,
   sep = NULL,
   quote = "\\"",
-  na.strings = c(""),
+  na_strings = c(""),
   output = c("data.table", "default"),
   attr = NULL,
   value = NULL,
-  verbose = TRUE,
-  fread_verbose = FALSE,
-  timed = verbose,
+  verbosity = 1L,
+  fread_verbosity = 0L,
+  timed = verbosity > 0L,
   ...
 )
 }
@@ -30,36 +30,36 @@ read(
 \item{datadir}{Character: Optional path to directory where \code{filename}
 is located. If not specified, \code{filename} must be the full path.}
 
-\item{make.unique}{Logical: If TRUE, keep unique rows only}
+\item{make_unique}{Logical: If TRUE, keep unique rows only}
 
 \item{character2factor}{Logical: If TRUE, convert character variables to
 factors}
 
-\item{clean.colnames}{Logical: If TRUE, clean columns names using
+\item{clean_colnames}{Logical: If TRUE, clean columns names using
 \link{clean_colnames}}
 
-\item{delim.reader}{Character: package to use for reading delimited data}
+\item{delim_reader}{Character: package to use for reading delimited data}
 
-\item{xlsx.sheet}{Integer or character: Name or number of XLSX sheet to read}
+\item{xlsx_sheet}{Integer or character: Name or number of XLSX sheet to read}
 
-\item{sep}{Single character: field separator. If \code{delim.reader = "fread"}
+\item{sep}{Single character: field separator. If \code{delim_reader = "fread"}
 and \code{sep = NULL}, this defaults to "auto", otherwise defaults to ","}
 
 \item{quote}{Single character: quote character}
 
-\item{na.strings}{Character vector: Strings to be interpreted as NA values.
-For \code{delim.reader = "duckdb"}, this must be a single string.}
+\item{na_strings}{Character vector: Strings to be interpreted as NA values.
+For \code{delim_reader = "duckdb"}, this must be a single string.}
 
-\item{output}{Character: "default" or "data.table", If default, return the delim.reader's
+\item{output}{Character: "default" or "data.table", If default, return the delim_reader's
 default data structure, otherwise convert to data.table}
 
 \item{attr}{Character: Attribute to set (Optional)}
 
 \item{value}{Character: Value to set (if \code{attr} is not NULL)}
 
-\item{verbose}{Logical: If TRUE, print messages to console}
+\item{verbosity}{Integer: Verbosity level.}
 
-\item{fread_verbose}{Logical: Passed to \code{data.table::fread}}
+\item{fread_verbosity}{Integer: Verbosity level. Passed to \code{data.table::fread}}
 
 \item{timed}{Logical: If TRUE, time the process and print to console}
 
@@ -91,5 +91,5 @@ dat <- read("iris.csv", datadir)
 }
 }
 \author{
-E.D. Gennatas
+EDG
 }

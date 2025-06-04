@@ -1,6 +1,47 @@
 # msg.R
 # ::rtemis::
-# 2016 E.D. Gennatas rtemis.org
+# 2016- EDG rtemis.org
+
+msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
+  .dt <- format(Sys.time(), datetime_format)
+  message(gray(paste0(.dt, gray(" "))), appendLF = FALSE)
+}
+
+stopQuietly <- function() {
+  opt <- options(show.error.messages = FALSE)
+  on.exit(options(opt))
+  stop()
+}
+
+rtStop <- function(...) {
+  message <- paste(...)
+  cat(magenta("[Error]", message))
+  stopQuietly()
+}
+
+warn <- function(...) {
+  message <- paste(...)
+  cat(bold(orange(paste("[Warning]", message, "\n"))))
+}
+
+rtOut <- function(...) {
+  message <- paste(...)
+  cat(
+    bold(gray("[")),
+    green("+++", bold(green(message))),
+    bold(gray("]")),
+    sep = ""
+  )
+}
+
+info <- function(..., format_fn = hilite2) {
+  msg2(..., format_fn = format_fn, caller_id = 2)
+}
+
+suggest <- function(...) {
+  message <- paste(...)
+  cat(hilite2("Suggestion: ", message, "\n"))
+}
 
 #' Message with provenance
 #'
@@ -17,222 +58,26 @@
 #' @param ... Message to print
 #' @param date Logical: if TRUE, include date and time in the prefix
 #' @param caller Character: Name of calling function
-#' @param call.depth Integer: Print the system call path of this depth. Default = NULL
-#' @param caller.id Integer: Which function in the call stack to print
-#' @param newline Logical: If TRUE end with a new line. Default = FALSE
-#' @param newline.pre Logical: If TRUE begin with a new line. Default = FALSE
-#' @param as.message Logical: if TRUE, print using `message()`
+#' @param call_depth Integer: Print the system call path of this depth.
+#' @param caller_id Integer: Which function in the call stack to print
+#' @param newline_pre Logical: If TRUE begin with a new line.
+#' @param newline Logical: If TRUE end with a new line.
 #' @param color Color fn
 #' @param sep Character: Use to separate objects in `...`
 #'
 #' @return Invisibly: List with call, message, and date
-#' @author E.D. Gennatas
-#' @keywords internal
-#' @noRd
-msg <- function(
-  ...,
-  date = TRUE,
-  caller = NULL,
-  call.depth = 1,
-  caller.id = 1,
-  newline = TRUE,
-  extraline = FALSE,
-  newline.pre = FALSE,
-  as.message = FALSE,
-  color = NULL,
-  sep = " "
-) {
-  if (is.null(caller)) {
-    callStack.list <- as.list(sys.calls())
-    stack.length <- length(callStack.list)
-    if (stack.length < 2) {
-      caller <- ">"
-    } else {
-      call.depth <- call.depth + caller.id
-      if (call.depth > stack.length) call.depth <- stack.length
-      caller <- paste(
-        lapply(
-          rev(seq(call.depth)[-seq(caller.id)]),
-          function(i) rev(callStack.list)[[i]][[1]]
-        ),
-        collapse = ">>"
-      )
-    }
-    # do.call and similar will change the call stack, it will contain the full function definition instead of
-    # the name alone
-    if (is.function(caller)) caller <- NULL
-    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
-    if (!is.null(caller)) caller <- paste0(" ", caller)
-  } else {
-    caller <- paste0(" ", caller)
-  }
-
-  txt <- Filter(Negate(is.null), list(...))
-  .dt <- if (date) paste0(as.character(Sys.time())) else NULL
-
-  if (as.message) {
-    message(paste0("[", .dt, caller, "] ", paste(txt, collapse = sep)))
-  } else {
-    if (newline.pre) cat("\n")
-    if (is.null(color)) {
-      cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
-      cat(paste(txt, collapse = sep), if (newline) "\n")
-    } else {
-      cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
-      cat(paste(color(txt), collapse = sep), if (newline) "\n")
-    }
-    if (extraline) cat("\n")
-  }
-
-  invisible(list(
-    call = caller,
-    txt = txt,
-    dt = .dt
-  ))
-} # rtemis::msg
-
-
-# The only issue this way is msg0 will not print (interactive) when used interactively,
-# but who cares. edit: I do
-# msg0 <- function(...,
-#                  date = TRUE,
-#                  call.depth = 1,
-#                  caller.id = 1,
-#                  newline = TRUE,
-#                  extraline = FALSE,
-#                  newline.pre = FALSE,
-#                  as.message = FALSE,
-#                  color = NULL) {
-
-#   msg2(..., date = date,
-#       call.depth = call.depth,
-#       caller.id = caller.id + 1,
-#       newline = newline,
-#       extraline = extraline,
-#       newline.pre = newline.pre,
-#       as.message = as.message,
-#       color = color,
-#       sep = "")
-
-# } # rtemis::msg0
-
-# Create copy of msg with different default sep
-# to avoid issue with call.depth after calling msg from msg0
-# yes, there are other workarounds
-#' @rdname msg
-#' @keywords internal
-#' @noRd
-msg0 <- function(
-  ...,
-  date = TRUE,
-  caller = NULL,
-  call.depth = 1,
-  caller.id = 1,
-  newline = TRUE,
-  extraline = FALSE,
-  newline.pre = FALSE,
-  as.message = FALSE,
-  color = NULL,
-  sep = ""
-) {
-  if (is.null(caller)) {
-    callStack.list <- as.list(sys.calls())
-    stack.length <- length(callStack.list)
-    if (stack.length < 2) {
-      caller <- ">"
-    } else {
-      call.depth <- call.depth + caller.id
-      if (call.depth > stack.length) call.depth <- stack.length
-      caller <- paste(
-        lapply(
-          rev(seq(call.depth)[-seq(caller.id)]),
-          function(i) rev(callStack.list)[[i]][[1]]
-        ),
-        collapse = ">>"
-      )
-    }
-    # do.call and similar will change the call stack, it will contain the full function definition instead of
-    # the name alone
-    if (is.function(caller)) caller <- NULL
-    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
-    if (!is.null(caller)) caller <- paste0(" ", caller)
-  } else {
-    caller <- paste0(" ", caller)
-  }
-
-  txt <- Filter(Negate(is.null), list(...))
-  .dt <- if (date) paste0(as.character(Sys.time())) else NULL
-
-  if (as.message) {
-    message(paste0("[", .dt, caller, "] ", paste(txt, collapse = sep)))
-  } else {
-    if (newline.pre) cat("\n")
-    if (is.null(color)) {
-      cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
-      cat(paste(txt, collapse = sep), if (newline) "\n")
-    } else {
-      cat(gray(paste0("[", .dt, bold(caller), gray("] "))))
-      cat(paste(color(txt), collapse = sep), if (newline) "\n")
-    }
-    if (extraline) cat("\n")
-  }
-
-  invisible(list(
-    call = caller,
-    txt = txt,
-    dt = .dt
-  ))
-} # rtemis::msg0
-
-stopQuietly <- function() {
-  opt <- options(show.error.messages = FALSE)
-  on.exit(options(opt))
-  stop()
-}
-
-rtStop <- function(...) {
-  message <- paste(...)
-  cat(magenta("[Error]", message))
-  stopQuietly()
-}
-
-rtWarning <- function(...) {
-  message <- paste(...)
-  cat(bold(orange(paste("[Warning]", message, "\n"))))
-}
-
-rtOut <- function(...) {
-  message <- paste(...)
-  cat(
-    bold(gray("[")),
-    green("+++", bold(green(message))),
-    bold(gray("]")),
-    sep = ""
-  )
-}
-
-info <- function(..., color = hilite) {
-  msg2(..., color = color)
-}
-
-#' msg2
-#'
-#' @inheritParams msg
-#'
+#' @author EDG
 #' @keywords internal
 #' @noRd
 msg2 <- function(
   ...,
-  date = rtDate,
+  date = rtemis_date,
   caller = NULL,
-  call.depth = 1,
-  caller.id = 1,
-  #  newline = TRUE,
-  #  extraline = FALSE,
-  newline.pre = FALSE,
+  call_depth = 1,
+  caller_id = 1,
+  newline_pre = FALSE,
   newline = TRUE,
-  #  as.message = FALSE,
-  #  color = NULL,
+  format_fn = plain,
   sep = " "
 ) {
   if (is.null(caller)) {
@@ -241,11 +86,11 @@ msg2 <- function(
     if (stack.length < 2) {
       caller <- NA
     } else {
-      call.depth <- call.depth + caller.id
-      if (call.depth > stack.length) call.depth <- stack.length
+      call_depth <- call_depth + caller_id
+      if (call_depth > stack.length) call_depth <- stack.length
       caller <- paste(
         lapply(
-          rev(seq(call.depth)[-seq(caller.id)]),
+          rev(seq(call_depth)[-seq(caller_id)]),
           function(i) rev(callStack.list)[[i]][[1]]
         ),
         collapse = ">>"
@@ -258,32 +103,27 @@ msg2 <- function(
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  if (newline.pre) cat("\n")
+  if (newline_pre) message("")
   if (date) {
-    .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
-    cat(gray(paste0(.dt, gray(" "))))
+    msgdatetime()
   }
-  cat(paste(txt, collapse = sep))
+  message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
-    cat(gray(" :", caller, "\n", sep = ""), sep = "")
+    message(gray(" [", caller, "]", sep = ""))
   } else if (newline) {
-    cat("\n")
+    message("")
   }
 } # rtemis::msg2
 
 
 msg20 <- function(
   ...,
-  #  date = TRUE,
   caller = NULL,
-  call.depth = 1,
-  caller.id = 1,
-  #  newline = TRUE,
-  #  extraline = FALSE,
-  newline.pre = FALSE,
+  call_depth = 1,
+  caller_id = 1,
+  newline_pre = FALSE,
   newline = TRUE,
-  #  as.message = FALSE,
-  #  color = NULL,
+  format_fn = plain,
   sep = ""
 ) {
   if (is.null(caller)) {
@@ -292,11 +132,11 @@ msg20 <- function(
     if (stack.length < 2) {
       caller <- NA
     } else {
-      call.depth <- call.depth + caller.id
-      if (call.depth > stack.length) call.depth <- stack.length
+      call_depth <- call_depth + caller_id
+      if (call_depth > stack.length) call_depth <- stack.length
       caller <- paste(
         lapply(
-          rev(seq(call.depth)[-seq(caller.id)]),
+          rev(seq(call_depth)[-seq(caller_id)]),
           function(i) rev(callStack.list)[[i]][[1]]
         ),
         collapse = ">>"
@@ -309,14 +149,13 @@ msg20 <- function(
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
-  if (newline.pre) cat("\n")
-  cat(gray(paste0(.dt, gray(" "))))
-  cat(paste(txt, collapse = sep))
+  if (newline_pre) message("")
+  msgdatetime()
+  message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
-    cat(gray(" :", caller, "\n", sep = ""), sep = "")
+    message(gray(" [", caller, "]", sep = ""))
   } else if (newline) {
-    cat("\n")
+    message("")
   }
 } # rtemis::msg20
 
@@ -359,16 +198,14 @@ msg2start <- function(
   #  date = TRUE,
   #  newline = TRUE,
   #  extraline = FALSE,
-  newline.pre = FALSE,
-  #  as.message = FALSE,
+  newline_pre = FALSE,
   #  color = NULL,
   sep = " "
 ) {
   txt <- Filter(Negate(is.null), list(...))
-  .dt <- format(Sys.time(), "%m-%d-%y %H:%M:%S")
-  if (newline.pre) cat("\n")
-  cat(gray(paste0(.dt, gray(" "))))
-  cat(paste(txt, collapse = sep))
+  if (newline_pre) cat("\n")
+  msgdatetime()
+  message(paste(txt, collapse = sep), appendLF = FALSE)
 } # rtemis::msg2start
 
 
@@ -378,18 +215,18 @@ msg2start <- function(
 #'
 #' @keywords internal
 #' @noRd
-msg2done <- function(caller = NULL, call.depth = 1, caller.id = 1, sep = " ") {
+msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
   if (is.null(caller)) {
     callStack.list <- as.list(sys.calls())
     stack.length <- length(callStack.list)
     if (stack.length < 2) {
       caller <- NA
     } else {
-      call.depth <- call.depth + caller.id
-      if (call.depth > stack.length) call.depth <- stack.length
+      call_depth <- call_depth + caller_id
+      if (call_depth > stack.length) call_depth <- stack.length
       caller <- paste(
         lapply(
-          rev(seq(call.depth)[-seq(caller.id)]),
+          rev(seq(call_depth)[-seq(caller_id)]),
           function(i) rev(callStack.list)[[i]][[1]]
         ),
         collapse = ">>"
@@ -398,7 +235,7 @@ msg2done <- function(caller = NULL, call.depth = 1, caller.id = 1, sep = " ") {
     if (is.function(caller)) caller <- NULL
     if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
   }
-  cat(" ")
+  message(" ", appendLF = FALSE)
   yay(end = "")
-  cat(gray("[", caller, "]\n", sep = ""), sep = "")
+  message(gray("[", caller, "]\n", sep = ""), appendLF = FALSE)
 } # rtemis::msg2done

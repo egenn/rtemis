@@ -1,80 +1,98 @@
+#             d8P
+#          d888888P
+#   88bd88b  ?88'   d8888b  88bd8b,d88b   88b .d888b,
+#   88P'  `  88P   d8b_,dP  88P'`?8P'?8b  88P ?8b,
+#  d88       88b   88b     d88  d88  88P d88    `?8b
+# d88'       `?8b  `?888P'd88' d88'  88bd88' `?888P'
+#
 # zzz.R
 # ::rtemis::
-# 2016-24 E.D. Gennatas rtemis.org
+# 2016- EDG rtemis.org
 
-rtenv <- new.env()
-rtenv$binclasspos <- 1
-rtemisalpha_version <- packageVersion("rtemisalpha")
-.availableCores <- future::availableCores()
+# rtemis internal environment
+live <- new.env()
+live[["parallelized_learners"]] <- c(
+  "LightCART",
+  "LightGBM",
+  "LightRF",
+  "LightRuleFit",
+  "Ranger"
+)
+
+# vars
+rtemis_version <- packageVersion("rtemis")
+.availableCores <- unname(future::availableCores())
+
+# References
+# Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
 
 .onLoad <- function(libname, pkgname) {
+  # S7
+  S7::methods_register()
   # Defaults ----
-  rtPlan <- rtPlanInit()
-  assign("rtPlan", rtPlan, envir = parent.env(environment()))
-  rtCores <- rtCoresInit()
-  assign("rtCores", rtCores, envir = parent.env(environment()))
-  rtTheme <- rtThemeInit()
-  assign("rtTheme", rtTheme, envir = parent.env(environment()))
-  rtFont <- rtFontInit()
-  assign("rtFont", rtFont, envir = parent.env(environment()))
-  rtPalette <- rtPaletteInit()
-  assign("rtPalette", rtPalette, envir = parent.env(environment()))
-  rtDate <- rtDateInit() == "TRUE"
-  assign("rtDate", rtDate, envir = parent.env(environment()))
+  rtemis_plan <- getOption("future.plan", "multicore")
+  assign("rtemis_plan", rtemis_plan, envir = parent.env(environment()))
+  rtemis_workers <- getOption("rtemis_workers", .availableCores)
+  assign("rtemis_workers", rtemis_workers, envir = parent.env(environment()))
+  rtemis_theme <- getOption("rtemis_theme", "darkgraygrid")
+  assign("rtemis_theme", rtemis_theme, envir = parent.env(environment()))
+  rtemis_font <- getOption("rtemis_font", "Helvetica")
+  assign("rtemis_font", rtemis_font, envir = parent.env(environment()))
+  rtemis_palette <- getOption("rtemis_palette", "rtCol3")
+  assign("rtemis_palette", rtemis_palette, envir = parent.env(environment()))
+  rtemis_date <- getOption("rtemis_date", TRUE)
+  assign("rtemis_date", rtemis_date, envir = parent.env(environment()))
 }
 
 .onAttach <- function(libname, pkgname) {
   if (interactive()) {
     packageStartupMessage(paste0(
-      rtasciitxt(),
-      "  .:",
-      pkgname,
-      " ",
-      rtemisalpha_version,
+      rtlogo,
+      "\n  .:",
+      bold(pkgname),
+      " v.",
+      rtemis_version,
       " \U1F30A",
       " ",
       sessionInfo()[[2]],
       bold("\n  Defaults"),
       "\n  \u2502   ",
       italic(gray("Theme: ")),
-      rtTheme,
+      rtemis_theme,
       "\n  \u2502    ",
       italic(gray("Font: ")),
-      rtFont,
+      rtemis_font,
       "\n  \u2502 ",
       italic(gray("Palette: ")),
-      rtPalette,
+      rtemis_palette,
       "\n  \u2502    ",
       italic(gray("Plan: ")),
-      rtPlan,
+      rtemis_plan,
+      # "\n  \u2514   ", italic(gray("Cores: ")), rtemis_workers, "/", .availableCores, " available",
       "\n  \u2514   ",
       italic(gray("Cores: ")),
-      rtCores,
-      "/",
-      .availableCores,
-      " available",
+      future::availableCores(),
+      " cores available.",
       bold("\n  Resources"),
       "\n  \u2502    ",
       italic(gray("Docs:")),
-      " https://rtemis.org/rtemis",
+      " https://rdocs.rtemis.org",
       "\n  \u2502 ",
       italic(gray("Learn R:")),
-      " https://rtemis.org/pdsr",
+      " https://pdsr.rtemis.org",
       "\n  \u2502  ",
       italic(gray("Themes:")),
       " https://rtemis.org/themes",
       "\n  \u2514    ",
       italic(gray("Cite:")),
-      ' > citation("rtemisalpha")',
+      ' > citation("rtemis")',
       bold("\n  Setup"),
       "\n  \u2514 ",
       italic(gray("Enable progress reporting:")),
       " > progressr::handlers(global = TRUE)",
       '\n                               > progressr::handlers("cli")',
       "\n\n  ",
-      italic(bold(red(
-        "PSA: Do not throw data at algorithms. Compute responsibly!"
-      )))
+      red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
     ))
   } else {
     packageStartupMessage(
@@ -82,7 +100,7 @@ rtemisalpha_version <- packageVersion("rtemisalpha")
         "  .:",
         pkgname,
         " ",
-        rtemisalpha_version,
+        rtemis_version,
         " \U1F30A",
         " ",
         sessionInfo()[[2]]
@@ -91,14 +109,13 @@ rtemisalpha_version <- packageVersion("rtemisalpha")
   }
 }
 
-
 #' \pkg{rtemis}: Machine Learning and Visualization
 #'
 #' @description
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
-#' <https://www.rtemis.org>
+#' <https://rtemis.org>
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
@@ -111,26 +128,18 @@ rtemisalpha_version <- packageVersion("rtemisalpha")
 #'     \item{future.plan}{Default plan to use for parallel processing.}
 #' }
 #' @section Visualization:
-#' Static graphics are handled using the `mplot3` family.
-#' Dynamic graphics are handled using the `dplot3` family.
+#' Graphics are handled using the `draw` family, which is based on `plotly`.
+#' Base graphics family `mplot3` is aavailable as a separate package.
 #' @section Supervised Learning:
-#' Functions for Regression and Classification begin with `s_*`.
-#' Run [select_learn] to get a list of available algorithms
-#' The documentation of each supervised learning function indicates in
-#' brackets, after the title whether the function supports classification,
-#' regression, and survival analysis `[C, R, S]`
+#' Regression and Classification is performed using `train()`.
+#' This function allows you to preprocess, train, tune, and crossvalited models.
+#' Run [available_supervised] to get a list of available algorithms
 #' @section Clustering:
-#' Functions for Clustering begin with `c_*`.
-#' Run [select_clust] to get a list of available algorithms
+#' Clustering is performed using `cluster()`.
+#' Run [available_clustering] to get a list of available algorithms.
 #' @section Decomposition:
-#' Functions for Decomposition and Dimensionality reduction begin with
-#' `d_*`.
-#' Run [select_decom] to get a list of available algorithms
-#' @section Cross-Decomposition:
-#' Functions for Cross-Decomposition begin with `x_*`.
-#' Run [xselect_decom] to get a list of available algorithms
-#' @section Meta-Modeling:
-#' Meta models are trained using `meta*` functions.
+#' Decomposition is performed using `decomp()`.
+#' Run [available_decomposition] to get a list of available algorithms.
 #'
 #' @section Notes:
 #' Function documentation includes input type (e.g. "String", "Integer",
@@ -139,15 +148,10 @@ rtemisalpha_version <- packageVersion("rtemisalpha")
 #' means floats between 0 and 1 including 0, but excluding 1
 #'
 #' For all classification models, the outcome should be provided as a factor,
-#' with the first level of the factor being the 'positive' class, if
-#' applicable. A character vector supplied as outcome will be converted to
-#' factors, where by default the levels are set alphabetically and therefore
-#' the positive class may not be set correctly.
+#' with the *second* level of the factor being the 'positive' class.
 #'
-# @useDynLib rtemisalpha, .registration = TRUE
-# @importFrom Rcpp evalCpp
-#' @name rtemisalpha-package
-#' @import graphics grDevices methods stats utils data.table R6 future htmltools
+#' @name rtemis-package
+#' @import graphics grDevices methods stats utils S7 data.table htmltools cli
 "_PACKAGE"
 
 NULL

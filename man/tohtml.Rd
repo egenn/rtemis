@@ -7,7 +7,7 @@
 tohtml(
   x,
   name = NULL,
-  css = list(font.family = "Helvetica", color = "#fff", background.color = "#242424")
+  css = list(font_family = "Helvetica", color = "#fff", background_color = "#242424")
 )
 }
 \arguments{
@@ -21,5 +21,5 @@ tohtml(
 Generate \code{CheckData} object description in HTML
 }
 \author{
-E.D. Gennatas
+EDG
 }

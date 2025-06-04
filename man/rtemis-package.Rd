@@ -2,8 +2,7 @@
 % Please edit documentation in R/zzz.R
 \docType{package}
 \name{rtemis-package}
-\alias{rtemisalpha}
-\alias{rtemisalpha-package}
+\alias{rtemis}
 \alias{rtemis-package}
 \title{\pkg{rtemis}: Machine Learning and Visualization}
 \description{
@@ -30,41 +29,27 @@ future::availableCores(). In shared systems, you should limit this as appropriat
 
 \section{Visualization}{
 
-Static graphics are handled using the \code{mplot3} family.
-Dynamic graphics are handled using the \code{dplot3} family.
+Graphics are handled using the \code{draw} family, which is based on \code{plotly}.
+Base graphics family \code{mplot3} is aavailable as a separate package.
 }
 
 \section{Supervised Learning}{
 
-Functions for Regression and Classification begin with \verb{s_*}.
-Run \link{select_learn} to get a list of available algorithms
-The documentation of each supervised learning function indicates in
-brackets, after the title whether the function supports classification,
-regression, and survival analysis \verb{[C, R, S]}
+Regression and Classification is performed using \code{train()}.
+This function allows you to preprocess, train, tune, and crossvalited models.
+Run \link{available_supervised} to get a list of available algorithms
 }
 
 \section{Clustering}{
 
-Functions for Clustering begin with \verb{c_*}.
-Run \link{select_clust} to get a list of available algorithms
+Clustering is performed using \code{cluster()}.
+Run \link{available_clustering} to get a list of available algorithms.
 }
 
 \section{Decomposition}{
 
-Functions for Decomposition and Dimensionality reduction begin with
-\verb{d_*}.
-Run \link{select_decom} to get a list of available algorithms
-}
-
-\section{Cross-Decomposition}{
-
-Functions for Cross-Decomposition begin with \verb{x_*}.
-Run \link{xselect_decom} to get a list of available algorithms
-}
-
-\section{Meta-Modeling}{
-
-Meta models are trained using \verb{meta*} functions.
+Decomposition is performed using \code{decomp()}.
+Run \link{available_decomposition} to get a list of available algorithms.
 }
 
 \section{Notes}{
@@ -75,17 +60,14 @@ range in interval notation where applicable. For example, Float: [0, 1)"
 means floats between 0 and 1 including 0, but excluding 1
 
 For all classification models, the outcome should be provided as a factor,
-with the first level of the factor being the 'positive' class, if
-applicable. A character vector supplied as outcome will be converted to
-factors, where by default the levels are set alphabetically and therefore
-the positive class may not be set correctly.
+with the \emph{second} level of the factor being the 'positive' class.
 }
 
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://www.rtemis.org}
-  \item Report bugs at \url{https://github.com/rtemis-org/rtemis-legacy/issues}
+  \item Report bugs at \url{https://github.com/rtemis-org/rtemis/issues}
 }
 
 }

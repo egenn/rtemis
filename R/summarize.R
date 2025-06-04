@@ -1,6 +1,6 @@
 # summarize.R
 # ::rtemis::
-# 2021 E.D. Gennatas rtemis.org
+# 2021 EDG rtemis.org
 
 #' Summarize numeric variables
 #'
@@ -8,14 +8,14 @@
 #' @param varname Character, vector: Variable name(s) to summarize. Must be column names in `x`
 #' of type numeric.
 #' @param group_by Character, vector: Variable name(s) of factors to group by. Must be column names
-#' in `x`. Default = NULL
-#' @param type Character: "all", "median-range" or "mean-sd". Default = "all",
+#' in `x`.
+#' @param type Character: "all", "median-range" or "mean-sd".
 #' which returns Mean, SD, Median, Range, NA (number of NA values)
-#' @param na.rm Logical: Passed to `median` and `mean`. Default = TRUE
+#' @param na.rm Logical: Passed to `median` and `mean`.
 #'
 #' @return `data.table` with summary
 #'
-#' @author E.D. Gennatas
+#' @author EDG
 #' @export
 
 summarize <- function(
