@@ -62,7 +62,6 @@ suggest <- function(...) {
 #' @param caller_id Integer: Which function in the call stack to print
 #' @param newline_pre Logical: If TRUE begin with a new line.
 #' @param newline Logical: If TRUE end with a new line.
-#' @param as.message Logical: if TRUE, print using `message()`
 #' @param color Color fn
 #' @param sep Character: Use to separate objects in `...`
 #'
@@ -200,7 +199,6 @@ msg2start <- function(
   #  newline = TRUE,
   #  extraline = FALSE,
   newline_pre = FALSE,
-  #  as.message = FALSE,
   #  color = NULL,
   sep = " "
 ) {

@@ -92,7 +92,7 @@ resample <- function(
   # Make resamples ----
   if (type == "StratSub") {
     ## StratSub ----
-    res_part <- strat.sub(
+    res_part <- strat_sub(
       x = x,
       n_resamples = n_resamples,
       train_p = parameters@train_p,
@@ -125,7 +125,7 @@ resample <- function(
     parameters@n <- length(res_part)
   } else if (type == "StratBoot") {
     ## StratBoot ----
-    res_part <- strat.boot(
+    res_part <- strat_boot(
       x = x,
       n_resamples = n_resamples,
       train_p = parameters@train_p,
@@ -261,7 +261,7 @@ kfold <- function(
 #'
 #' @keywords internal
 #' @noRd
-strat.sub <- function(
+strat_sub <- function(
   x,
   n_resamples = 10,
   train_p = .75,
@@ -291,7 +291,7 @@ strat.sub <- function(
   names(res) <- paste0("Subsample_", seq(n_resamples))
   attr(res, "strat_n_bins") <- strat_n_bins
   res
-} # rtemis::strat.sub
+} # rtemis::strat_sub
 
 
 #' Stratified Bootstrap Resampling
@@ -303,7 +303,7 @@ strat.sub <- function(
 #'
 #' @keywords internal
 #' @noRd
-strat.boot <- function(
+strat_boot <- function(
   x,
   n_resamples = 10,
   train_p = .75,
@@ -315,7 +315,7 @@ strat.boot <- function(
 ) {
   if (!is.null(seed)) set.seed(seed)
 
-  res_part1 <- strat.sub(
+  res_part1 <- strat_sub(
     x = x,
     n_resamples = n_resamples,
     train_p = train_p,
@@ -341,7 +341,7 @@ strat.boot <- function(
   names(res) <- paste0("StratBoot_", seq(n_resamples))
   attr(res, "strat_n_bins") <- strat_n_bins
   res
-} # rtemis::strat.boot
+} # rtemis::strat_boot
 
 
 #' Leave-one-out Resampling

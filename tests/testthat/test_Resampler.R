@@ -86,19 +86,19 @@ test_that("setup_Resampler() kfold succeeds", {
   expect_s7_class(rsp, KFoldParams)
 })
 
-# setup_Resampler() strat.sub ----
-test_that("setup_Resampler() strat.sub succeeds", {
+# setup_Resampler() strat_sub ----
+test_that("setup_Resampler() strat_sub succeeds", {
   rsp <- setup_Resampler(type = "StratSub")
   expect_s7_class(rsp, StratSubParams)
 })
 
-# setup_Resampler() strat.boot ----
-test_that("setup_Resampler() strat.boot succeeds", {
+# setup_Resampler() strat_boot ----
+test_that("setup_Resampler() strat_boot succeeds", {
   rsp <- setup_Resampler(type = "StratBoot")
   expect_s7_class(rsp, StratBootParams)
 })
 
-test_that("setup_Resampler() strat.boot fails with invalid train_p", {
+test_that("setup_Resampler() strat_boot fails with invalid train_p", {
   expect_error(
     setup_Resampler(type = "StratBoot", train_p = 1)
   )

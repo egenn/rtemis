@@ -651,18 +651,18 @@ list2html <- function(
   x,
   sep = ": ",
   col = "#16A0AC",
-  key.weight = 100,
-  value.weight = 300,
+  key_weight = 100,
+  value_weight = 300,
   line = "<br>"
 ) {
   .names <- names(x)
   sapply(seq_along(x), \(i) {
     paste0(
-      span(.names[i], style = paste0("font-weight:", key.weight, ";")),
+      span(.names[i], style = paste0("font-weight:", key_weight, ";")),
       sep,
       span(
         x[[i]],
-        style = paste0("color:", col, "; font-weight:", value.weight, ";")
+        style = paste0("color:", col, "; font-weight:", value_weight, ";")
       ),
       line
     )

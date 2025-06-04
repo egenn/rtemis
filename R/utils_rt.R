@@ -69,7 +69,6 @@ intro <- function(
 outro <- function(
   start_time,
   message = NULL,
-  #   as.message = FALSE,
   sink_off = FALSE,
   #   color = gray,
   newline_pre = FALSE,
@@ -91,7 +90,6 @@ outro <- function(
         ddSci(elapsed[2]),
         ")."
       )),
-      # as.message = as.message,
       caller_id = 2
     )
   }
