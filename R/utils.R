@@ -111,17 +111,17 @@ drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
 #' One way to test is to use [learn] with x.name = NULL, y.name = NULL
 #'
 #' @param x Variable whose name you want to extract
-#' @param alt Character: If name derived from `deparse(substitute(x))` exceeds `max.nchar` characters, use this name instead
-#' @param max.nchar Integer: Maximum N of characters to allow for name
+#' @param alt Character: If name derived from `deparse(substitute(x))` exceeds `max_nchar` characters, use this name instead
+#' @param max_nchar Integer: Maximum N of characters to allow for name
 #'
 #' @author EDG
 #' @keywords internal
 #' @noRd
 
-getName <- function(x, alt = "x", max.nchar = 20) {
+getName <- function(x, alt = "x", max_nchar = 20) {
   name <- deparse(substitute(x))
 
-  if (nchar(name) > max.nchar) name <- alt
+  if (nchar(name) > max_nchar) name <- alt
 
   name
 } # rtemis::getName
@@ -434,7 +434,7 @@ psd <- function(x) {
 #' @param ncol Integer: Number of columns.
 #' @param mean Float: Mean.
 #' @param sd Float: Standard deviation.
-#' @param return.df Logical: If TRUE, return data.frame, otherwise matrix.
+#' @param return_df Logical: If TRUE, return data.frame, otherwise matrix.
 #' @param seed Integer: Set seed for `rnorm`.
 #'
 #' @author EDG
@@ -444,7 +444,7 @@ rnormmat <- function(
   ncol = 10,
   mean = 0,
   sd = 1,
-  return.df = FALSE,
+  return_df = FALSE,
   seed = NULL
 ) {
   if (length(mean) < ncol) mean <- rep(mean, ncol / length(mean))
@@ -452,7 +452,7 @@ rnormmat <- function(
 
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(seq_len(ncol), function(j) rnorm(nrow, mean = mean, sd = sd))
-  if (return.df) mat <- as.data.frame(mat)
+  if (return_df) mat <- as.data.frame(mat)
   mat
 } # rtemis::rnormmat
 
@@ -465,7 +465,7 @@ rnormmat <- function(
 #' @param ncol Integer: Number of columns.
 #' @param min Float: Min.
 #' @param max Float: Max.
-#' @param return.df Logical: If TRUE, return data.frame, otherwise matrix.
+#' @param return_df Logical: If TRUE, return data.frame, otherwise matrix.
 #' @param seed Integer: Set seed for `rnorm`.
 #'
 #' @author EDG
@@ -475,7 +475,7 @@ runifmat <- function(
   ncol = 10,
   min = 0,
   max = 1,
-  return.df = FALSE,
+  return_df = FALSE,
   seed = NULL
 ) {
   if (length(min) < ncol) min <- rep(min, ncol / length(min))
@@ -483,7 +483,7 @@ runifmat <- function(
 
   if (!is.null(seed)) set.seed(seed)
   mat <- sapply(seq_len(ncol), function(j) runif(nrow, min = min, max = max))
-  if (return.df) mat <- as.data.frame(mat)
+  if (return_df) mat <- as.data.frame(mat)
   mat
 } # rtemis::runifmat
 
@@ -680,7 +680,7 @@ size <- function(x, verbosity = 1L) {
 #'
 #' Replace extreme values by absolute or quantile threshold
 #'
-#' If both lo and prob.lo or both hi and prob.hi are NULL, cut-off is set to min(x) and max(x) respectively, i.e.
+#' If both lo and prob_lo or both hi and prob_hi are NULL, cut-off is set to min(x) and max(x) respectively, i.e.
 #' no values are changed
 #'
 #' @param x Numeric vector: Input data
@@ -688,11 +688,11 @@ size <- function(x, verbosity = 1L) {
 #' this with this.
 #' @param hi Numeric: If not NULL, replace any values in `x` higher than
 #' this with this.
-#' @param prob.lo Numeric (0, 1): If not NULL and `lo = NULL`, find sample
+#' @param prob_lo Numeric (0, 1): If not NULL and `lo = NULL`, find sample
 #' quantile that corresponds to this probability and set as `lo`.
-#' @param prob.hi Numeric (0, 1): If not NULL and `hi = NULL`, find sample
+#' @param prob_hi Numeric (0, 1): If not NULL and `hi = NULL`, find sample
 #' quantile that corresponds to this probability and set as `hi`.
-#' @param quantile.type Integer: passed to `stats::quantile`
+#' @param quantile_type Integer: passed to `stats::quantile`
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
@@ -706,21 +706,21 @@ size <- function(x, verbosity = 1L) {
 #' # Winsorize an exponentially distributed variable only on
 #' # the top 5% highest values
 #' x <- rexp(500)
-#' xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
+#' xw <- winsorize(x, prob_lo = NULL, prob_hi = .95)
 #' }
 winsorize <- function(
   x,
   lo = NULL,
   hi = NULL,
-  prob.lo = .025,
-  prob.hi = .975,
-  quantile.type = 7,
+  prob_lo = .025,
+  prob_hi = .975,
+  quantile_type = 7,
   verbosity = 1L
 ) {
   lo.cut <- if (!is.null(lo)) {
     lo
-  } else if (!is.null(prob.lo)) {
-    as.numeric(quantile(x, prob.lo, type = quantile.type))
+  } else if (!is.null(prob_lo)) {
+    as.numeric(quantile(x, prob_lo, type = quantile_type))
   } else {
     min(x)
   }
@@ -728,8 +728,8 @@ winsorize <- function(
 
   hi.cut <- if (!is.null(hi)) {
     hi
-  } else if (!is.null(prob.hi)) {
-    as.numeric(quantile(x, prob.hi, type = quantile.type))
+  } else if (!is.null(prob_hi)) {
+    as.numeric(quantile(x, prob_hi, type = quantile_type))
   } else {
     max(x)
   }
@@ -801,11 +801,11 @@ seql <- function(x, target) {
 #' This is not meaningful if mean is close to 0. For such cases, set `adjust = TRUE`.
 #' This will add `min(x)` to x
 #' @param x Numeric: Input
-#' @param as.percentage Logical: If TRUE, multiply by 100
+#' @param as_percentage Logical: If TRUE, multiply by 100
 #' @param na.rm Logical: If TRUE, remove missing values before computation
-#' @param adjust Logical: If TRUE, if `x` contains values < `adjust.lo`, x will be shifted up
+#' @param adjust Logical: If TRUE, if `x` contains values < `adjust_lo`, x will be shifted up
 #'   by adding its minimum
-#' @param adjust.lo Float: Threshold to be used if `adjust = TRUE`
+#' @param adjust_lo Float: Threshold to be used if `adjust = TRUE`
 #' @examples
 #' \dontrun{
 #' mplot3_x(sapply(1:100, function(x) cov(rnorm(100))), "d", xlab = "rnorm(100) x 100 times")
@@ -819,19 +819,19 @@ seql <- function(x, target) {
 
 rsd <- function(
   x,
-  as.percentage = TRUE,
+  as_percentage = TRUE,
   na.rm = TRUE,
   adjust = FALSE,
-  adjust.lo = 1
+  adjust_lo = 1
 ) {
   if (adjust) {
-    if (any(x < adjust.lo)) {
+    if (any(x < adjust_lo)) {
       x <- x - min(x, na.rm = TRUE)
     }
   }
 
   cov <- sd(x, na.rm = na.rm) / mean(x, na.rm = na.rm)
-  if (as.percentage) cov <- cov * 100
+  if (as_percentage) cov <- cov * 100
   cov
 } # rtemis::rsd
 
@@ -914,8 +914,8 @@ gmean <- function(x) {
 #' @param x data.frame or matrix: Input data, cases by features
 #' @param summaryFn1 Function: Summary function 1.
 #' @param summaryFn2 Function: Summary function 2.
-#' @param summaryFn1.extraArgs List: Extra arguments for `summaryFn1`.
-#' @param summaryFn2.extraArgs List: Extra arguments for `summaryFn2`.
+#' @param summaryFn1_extraArgs List: Extra arguments for `summaryFn1`.
+#' @param summaryFn2_extraArgs List: Extra arguments for `summaryFn2`.
 #' @param labelify Logical: If TRUE, apply [labelify] to column names of  `x`
 #' @param verbosity Integer: Verbosity level.
 #' @param filename Character: Path to output CSV file to save table.
@@ -934,8 +934,8 @@ table1 <- function(
   x,
   summaryFn1 = mean,
   summaryFn2 = sd,
-  summaryFn1.extraArgs = list(na.rm = TRUE),
-  summaryFn2.extraArgs = list(na.rm = TRUE),
+  summaryFn1_extraArgs = list(na.rm = TRUE),
+  summaryFn2_extraArgs = list(na.rm = TRUE),
   labelify = TRUE,
   verbosity = 1L,
   filename = NULL
@@ -967,11 +967,11 @@ table1 <- function(
   if (length(index.cont) > 0) {
     # .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn1)
     .summary1_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i) {
-      do.call(summaryFn1, c(list(i), summaryFn1.extraArgs))
+      do.call(summaryFn1, c(list(i), summaryFn1_extraArgs))
     })
     # .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, summaryFn2)
     .summary2_cont <- apply(x[, index.cont, drop = FALSE], 2, function(i) {
-      do.call(summaryFn2, c(list(i), summaryFn2.extraArgs))
+      do.call(summaryFn2, c(list(i), summaryFn2_extraArgs))
     })
     .summary_cont <- paste0(
       ddSci(.summary1_cont),

@@ -8,8 +8,8 @@ table1(
   x,
   summaryFn1 = mean,
   summaryFn2 = sd,
-  summaryFn1.extraArgs = list(na.rm = TRUE),
-  summaryFn2.extraArgs = list(na.rm = TRUE),
+  summaryFn1_extraArgs = list(na.rm = TRUE),
+  summaryFn2_extraArgs = list(na.rm = TRUE),
   labelify = TRUE,
   verbosity = 1L,
   filename = NULL
@@ -22,9 +22,9 @@ table1(
 
 \item{summaryFn2}{Function: Summary function 2.}
 
-\item{summaryFn1.extraArgs}{List: Extra arguments for \code{summaryFn1}.}
+\item{summaryFn1_extraArgs}{List: Extra arguments for \code{summaryFn1}.}
 
-\item{summaryFn2.extraArgs}{List: Extra arguments for \code{summaryFn2}.}
+\item{summaryFn2_extraArgs}{List: Extra arguments for \code{summaryFn2}.}
 
 \item{labelify}{Logical: If TRUE, apply \link{labelify} to column names of  \code{x}}
 

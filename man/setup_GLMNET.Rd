@@ -8,10 +8,10 @@ setup_GLMNET(
   alpha = 1,
   family = NULL,
   offset = NULL,
-  which.cv.lambda = "lambda.1se",
+  which_lambda_cv = "lambda.1se",
   nlambda = 100L,
   lambda = NULL,
-  penalty.factor = NULL,
+  penalty_factor = NULL,
   standardize = TRUE,
   intercept = TRUE,
   ifw = FALSE
@@ -24,14 +24,14 @@ setup_GLMNET(
 
 \item{offset}{Numeric: Offset for GLMNET.}
 
-\item{which.cv.lambda}{Character: Which lambda to use for prediction:
+\item{which_lambda_cv}{Character: Which lambda to use for prediction:
 "lambda.1se" or "lambda.min"}
 
 \item{nlambda}{Positive integer: Number of lambda values.}
 
 \item{lambda}{Numeric: Lambda values.}
 
-\item{penalty.factor}{Numeric: Penalty factor for each feature.}
+\item{penalty_factor}{Numeric: Penalty factor for each feature.}
 
 \item{standardize}{Logical: If TRUE, standardize features.}
 

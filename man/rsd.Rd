@@ -4,19 +4,19 @@
 \alias{rsd}
 \title{Coefficient of Variation (Relative standard deviation)}
 \usage{
-rsd(x, as.percentage = TRUE, na.rm = TRUE, adjust = FALSE, adjust.lo = 1)
+rsd(x, as_percentage = TRUE, na.rm = TRUE, adjust = FALSE, adjust_lo = 1)
 }
 \arguments{
 \item{x}{Numeric: Input}
 
-\item{as.percentage}{Logical: If TRUE, multiply by 100}
+\item{as_percentage}{Logical: If TRUE, multiply by 100}
 
 \item{na.rm}{Logical: If TRUE, remove missing values before computation}
 
-\item{adjust}{Logical: If TRUE, if \code{x} contains values < \code{adjust.lo}, x will be shifted up
+\item{adjust}{Logical: If TRUE, if \code{x} contains values < \code{adjust_lo}, x will be shifted up
 by adding its minimum}
 
-\item{adjust.lo}{Float: Threshold to be used if \code{adjust = TRUE}}
+\item{adjust_lo}{Float: Threshold to be used if \code{adjust = TRUE}}
 }
 \description{
 Calculates the coefficient of variation, also known as relative standard deviation, which is given by

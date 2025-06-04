@@ -13,7 +13,7 @@ previewcolor(
   main_y = 0.2,
   main_adj = 0,
   main_cex = 0.9,
-  main_font = 1,
+  main_font = 2,
   width = NULL,
   xlim = NULL,
   ylim = c(0, 2.2),

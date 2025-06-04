@@ -45,13 +45,15 @@ multigplot <- function(plots = NULL, nrows = NULL, byrow = TRUE) {
 #' @param base_family Character: Font family.
 #' @param base_line_size Float: Line size.
 #' @param base_rect_size Float: Size for rect elements.
-#' @param axis.text.size.rel Float: Relative size for axis text.
-#' @param legend.key.fill Color: Fill color for legend.
-#' @param legend.text.size.rel Float: Relative size for legend text.
-#' @param legend.position Character: Legend position, "top", "bottom", "right", "left" Default  = "right"
-#' @param strip.background.fill Color: Fill color from facet labels.
+#' @param axis_text_size_rel Float: Relative size for axis text.
+#' @param legend_key_fill Color: Fill color for legend.
+#' @param legend_text_size_rel Float: Relative size for legend text.
+#' @param legend_position Character: Legend position, "top", "bottom", "right", "left" Default  = "right"
+#' @param strip_background_fill Color: Fill color from facet labels.
+#'
 #' @author EDG
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' (p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
@@ -63,11 +65,11 @@ ggtheme_light <- function(
   base_family = "Helvetica Neue",
   base_line_size = base_size / 22,
   base_rect_size = base_size / 22,
-  axis.text.size.rel = 1,
-  legend.key.fill = NA,
-  legend.text.size.rel = 1,
-  legend.position = "right",
-  strip.background.fill = "grey85"
+  axis_text_size_rel = 1,
+  legend_key_fill = NA,
+  legend_text_size_rel = 1,
+  legend_position = "right",
+  strip_background_fill = "grey85"
 ) {
   half_line <- base_size / 2
 
@@ -100,7 +102,7 @@ ggtheme_light <- function(
     axis.line.x = NULL,
     axis.line.y = NULL,
     axis.text = ggplot2::element_text(
-      size = ggplot2::rel(axis.text.size.rel), # delta
+      size = ggplot2::rel(axis_text_size_rel), # delta
       colour = "grey30"
     ),
     axis.text.x = ggplot2::element_text(
@@ -151,19 +153,19 @@ ggtheme_light <- function(
     legend.spacing.y = NULL,
     legend.margin = ggplot2::margin(half_line, half_line, half_line, half_line),
     legend.key = ggplot2::element_rect(
-      fill = legend.key.fill, # delta
+      fill = legend_key_fill, # delta
       colour = "white"
     ),
     legend.key.size = ggplot2::unit(1.2, "lines"),
     legend.key.height = NULL,
     legend.key.width = NULL,
     legend.text = ggplot2::element_text(
-      size = ggplot2::rel(legend.text.size.rel)
+      size = ggplot2::rel(legend_text_size_rel)
     ), # delta
     legend.text.align = NULL,
     legend.title = ggplot2::element_text(hjust = 0),
     legend.title.align = NULL,
-    legend.position = legend.position,
+    legend_position = legend_position,
     legend.direction = NULL,
     legend.justification = "center",
     legend.box = NULL,
@@ -182,7 +184,7 @@ ggtheme_light <- function(
     panel.spacing.y = NULL,
     panel.ontop = FALSE,
     strip.background = ggplot2::element_rect(
-      fill = strip.background.fill,
+      fill = strip_background_fill,
       colour = NA
     ),
     strip.text = ggplot2::element_text(
@@ -234,9 +236,11 @@ ggtheme_light <- function(
 #' \pkg{rtemis} `ggplot2` dark theme
 #'
 #' @inheritParams ggtheme_light
-#' @param strip.background.fill Color: Fill color from facet labels.
+#' @param strip_background_fill Color: Fill color from facet labels.
+#'
 #' @author EDG
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' (p <- ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
@@ -248,11 +252,11 @@ ggtheme_dark <- function(
   base_family = "Helvetica Neue",
   base_line_size = base_size / 22,
   base_rect_size = base_size / 22,
-  axis.text.size.rel = 1,
-  legend.key.fill = NA,
-  legend.text.size.rel = 1,
-  legend.position = "right",
-  strip.background.fill = "gray25"
+  axis_text_size_rel = 1,
+  legend_key_fill = NA,
+  legend_text_size_rel = 1,
+  legend_position = "right",
+  strip_background_fill = "gray25"
 ) {
   half_line <- base_size / 2
 
@@ -285,7 +289,7 @@ ggtheme_dark <- function(
     axis.line.x = NULL,
     axis.line.y = NULL,
     axis.text = ggplot2::element_text(
-      size = ggplot2::rel(axis.text.size.rel), # delta
+      size = ggplot2::rel(axis_text_size_rel), # delta
       colour = "gray50"
     ),
     axis.text.x = ggplot2::element_text(
@@ -336,19 +340,19 @@ ggtheme_dark <- function(
     legend.spacing.y = NULL,
     legend.margin = ggplot2::margin(half_line, half_line, half_line, half_line),
     legend.key = ggplot2::element_rect(
-      fill = legend.key.fill, # delta
+      fill = legend_key_fill, # delta
       colour = "black"
     ),
     legend.key.size = ggplot2::unit(1.2, "lines"),
     legend.key.height = NULL,
     legend.key.width = NULL,
     legend.text = ggplot2::element_text(
-      size = ggplot2::rel(legend.text.size.rel)
+      size = ggplot2::rel(legend_text_size_rel)
     ), # delta
     legend.text.align = NULL,
     legend.title = ggplot2::element_text(hjust = 0),
     legend.title.align = NULL,
-    legend.position = legend.position,
+    legend_position = legend_position,
     legend.direction = NULL,
     legend.justification = "center",
     legend.box = NULL,
@@ -367,7 +371,7 @@ ggtheme_dark <- function(
     panel.spacing.y = NULL,
     panel.ontop = FALSE,
     strip.background = ggplot2::element_rect(
-      fill = strip.background.fill,
+      fill = strip_background_fill,
       colour = NA
     ),
     strip.text = ggplot2::element_text(

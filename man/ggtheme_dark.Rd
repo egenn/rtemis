@@ -9,11 +9,11 @@ ggtheme_dark(
   base_family = "Helvetica Neue",
   base_line_size = base_size/22,
   base_rect_size = base_size/22,
-  axis.text.size.rel = 1,
-  legend.key.fill = NA,
-  legend.text.size.rel = 1,
-  legend.position = "right",
-  strip.background.fill = "gray25"
+  axis_text_size_rel = 1,
+  legend_key_fill = NA,
+  legend_text_size_rel = 1,
+  legend_position = "right",
+  strip_background_fill = "gray25"
 )
 }
 \arguments{
@@ -25,15 +25,15 @@ ggtheme_dark(
 
 \item{base_rect_size}{Float: Size for rect elements.}
 
-\item{axis.text.size.rel}{Float: Relative size for axis text.}
+\item{axis_text_size_rel}{Float: Relative size for axis text.}
 
-\item{legend.key.fill}{Color: Fill color for legend.}
+\item{legend_key_fill}{Color: Fill color for legend.}
 
-\item{legend.text.size.rel}{Float: Relative size for legend text.}
+\item{legend_text_size_rel}{Float: Relative size for legend text.}
 
-\item{legend.position}{Character: Legend position, "top", "bottom", "right", "left" Default  = "right"}
+\item{legend_position}{Character: Legend position, "top", "bottom", "right", "left" Default  = "right"}
 
-\item{strip.background.fill}{Color: Fill color from facet labels.}
+\item{strip_background_fill}{Color: Fill color from facet labels.}
 }
 \description{
 \pkg{rtemis} \code{ggplot2} dark theme

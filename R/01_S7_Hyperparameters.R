@@ -340,7 +340,7 @@ setup_GAM <- function(k = 5L, ifw = FALSE) {
 
 
 # CARTHyperparameters ----
-CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune.cp", "ifw")
+CART_tunable <- c("cp", "maxdepth", "minsplit", "minbucket", "prune_cp", "ifw")
 CART_fixed <- c(
   "method",
   "model",
@@ -368,7 +368,7 @@ CARTHyperparameters <- new_class(
     maxdepth,
     minsplit,
     minbucket,
-    prune.cp,
+    prune_cp,
     method,
     model,
     maxcompete,
@@ -387,7 +387,7 @@ CARTHyperparameters <- new_class(
           maxdepth = maxdepth,
           minsplit = minsplit,
           minbucket = minbucket,
-          prune.cp = prune.cp,
+          prune_cp = prune_cp,
           method = method,
           model = model,
           maxcompete = maxcompete,
@@ -415,7 +415,7 @@ CARTHyperparameters <- new_class(
 #' @param maxdepth (Tunable) Integer: Maximum depth of tree.
 #' @param minsplit (Tunable) Integer: Minimum number of observations in a node to split.
 #' @param minbucket (Tunable) Integer: Minimum number of observations in a terminal node.
-#' @param prune.cp (Tunable) Numeric: Complexity for cost-complexity pruning after tree is built
+#' @param prune_cp (Tunable) Numeric: Complexity for cost-complexity pruning after tree is built
 #' @param method String: Splitting method.
 #' @param model Logical: If TRUE, return a model.
 #' @param maxcompete Integer: Maximum number of competitive splits.
@@ -436,7 +436,7 @@ setup_CART <- function(
   maxdepth = 20L,
   minsplit = 2L,
   minbucket = 1L, # round(minsplit / 3),
-  prune.cp = NULL,
+  prune_cp = NULL,
   # fixed
   method = "auto",
   model = TRUE,
@@ -452,7 +452,7 @@ setup_CART <- function(
   maxdepth <- clean_int(maxdepth)
   minsplit <- clean_int(minsplit)
   minbucket <- clean_int(minbucket)
-  check_inherits(prune.cp, "numeric")
+  check_inherits(prune_cp, "numeric")
   check_inherits(method, "character")
   check_inherits(model, "logical")
   maxcompete <- clean_int(maxcompete)
@@ -466,7 +466,7 @@ setup_CART <- function(
     maxdepth = maxdepth,
     minsplit = minsplit,
     minbucket = minbucket,
-    prune.cp = prune.cp,
+    prune_cp = prune_cp,
     method = method,
     model = model,
     maxcompete = maxcompete,
@@ -487,9 +487,9 @@ GLMNET_tunable <- c("alpha", "ifw")
 GLMNET_fixed <- c(
   "family",
   "offset",
-  "which.cv.lambda",
+  "which_lambda_cv",
   "nlambda",
-  "penalty.factor",
+  "penalty_factor",
   "standardize",
   "intercept"
 )
@@ -509,18 +509,18 @@ GLMNETHyperparameters <- new_class(
     alpha,
     family,
     offset,
-    which.cv.lambda,
+    which_lambda_cv,
     nlambda,
     lambda,
-    penalty.factor,
+    penalty_factor,
     standardize,
     intercept,
     ifw
   ) {
     check_float01inc(alpha)
-    check_inherits(which.cv.lambda, "character")
+    check_inherits(which_lambda_cv, "character")
     nlambda <- clean_posint(nlambda)
-    check_inherits(penalty.factor, "numeric")
+    check_inherits(penalty_factor, "numeric")
     check_inherits(standardize, "logical")
     new_object(
       Hyperparameters(
@@ -529,10 +529,10 @@ GLMNETHyperparameters <- new_class(
           alpha = alpha,
           family = family,
           offset = offset,
-          which.cv.lambda = which.cv.lambda,
+          which_lambda_cv = which_lambda_cv,
           nlambda = nlambda,
           lambda = lambda,
-          penalty.factor = penalty.factor,
+          penalty_factor = penalty_factor,
           standardize = standardize,
           intercept = intercept,
           ifw = ifw
@@ -553,11 +553,11 @@ GLMNETHyperparameters <- new_class(
 #' @param alpha (Tunable) Numeric: Mixing parameter.
 #' @param family Character: Family for GLMNET.
 #' @param offset Numeric: Offset for GLMNET.
-#' @param which.cv.lambda Character: Which lambda to use for prediction:
+#' @param which_lambda_cv Character: Which lambda to use for prediction:
 #' "lambda.1se" or "lambda.min"
 #' @param nlambda Positive integer: Number of lambda values.
 #' @param lambda Numeric: Lambda values.
-#' @param penalty.factor Numeric: Penalty factor for each feature.
+#' @param penalty_factor Numeric: Penalty factor for each feature.
 #' @param standardize Logical: If TRUE, standardize features.
 #' @param intercept Logical: If TRUE, include intercept.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
@@ -570,28 +570,28 @@ setup_GLMNET <- function(
   # fixed
   family = NULL,
   offset = NULL,
-  which.cv.lambda = "lambda.1se",
+  which_lambda_cv = "lambda.1se",
   nlambda = 100L,
   lambda = NULL,
-  penalty.factor = NULL,
+  penalty_factor = NULL,
   standardize = TRUE,
   intercept = TRUE,
   ifw = FALSE
 ) {
   check_float01inc(alpha)
-  check_inherits(which.cv.lambda, "character")
+  check_inherits(which_lambda_cv, "character")
   nlambda <- clean_posint(nlambda)
-  check_inherits(penalty.factor, "numeric")
+  check_inherits(penalty_factor, "numeric")
   check_logical(standardize)
   check_logical(ifw)
   GLMNETHyperparameters(
     family = family,
     offset = offset,
     alpha = alpha,
-    which.cv.lambda = which.cv.lambda,
+    which_lambda_cv = which_lambda_cv,
     nlambda = nlambda,
     lambda = lambda,
-    penalty.factor = penalty.factor,
+    penalty_factor = penalty_factor,
     standardize = standardize,
     intercept = intercept,
     ifw = ifw

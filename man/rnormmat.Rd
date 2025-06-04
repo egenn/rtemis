@@ -9,7 +9,7 @@ rnormmat(
   ncol = 10,
   mean = 0,
   sd = 1,
-  return.df = FALSE,
+  return_df = FALSE,
   seed = NULL
 )
 }
@@ -22,7 +22,7 @@ rnormmat(
 
 \item{sd}{Float: Standard deviation.}
 
-\item{return.df}{Logical: If TRUE, return data.frame, otherwise matrix.}
+\item{return_df}{Logical: If TRUE, return data.frame, otherwise matrix.}
 
 \item{seed}{Integer: Set seed for \code{rnorm}.}
 }

@@ -8,9 +8,9 @@ winsorize(
   x,
   lo = NULL,
   hi = NULL,
-  prob.lo = 0.025,
-  prob.hi = 0.975,
-  quantile.type = 7,
+  prob_lo = 0.025,
+  prob_hi = 0.975,
+  quantile_type = 7,
   verbosity = 1L
 )
 }
@@ -23,13 +23,13 @@ this with this.}
 \item{hi}{Numeric: If not NULL, replace any values in \code{x} higher than
 this with this.}
 
-\item{prob.lo}{Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample
+\item{prob_lo}{Numeric (0, 1): If not NULL and \code{lo = NULL}, find sample
 quantile that corresponds to this probability and set as \code{lo}.}
 
-\item{prob.hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample
+\item{prob_hi}{Numeric (0, 1): If not NULL and \code{hi = NULL}, find sample
 quantile that corresponds to this probability and set as \code{hi}.}
 
-\item{quantile.type}{Integer: passed to \code{stats::quantile}}
+\item{quantile_type}{Integer: passed to \code{stats::quantile}}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
@@ -37,7 +37,7 @@ quantile that corresponds to this probability and set as \code{hi}.}
 Replace extreme values by absolute or quantile threshold
 }
 \details{
-If both lo and prob.lo or both hi and prob.hi are NULL, cut-off is set to min(x) and max(x) respectively, i.e.
+If both lo and prob_lo or both hi and prob_hi are NULL, cut-off is set to min(x) and max(x) respectively, i.e.
 no values are changed
 }
 \examples{
@@ -48,7 +48,7 @@ xw <- winsorize(x)
 # Winsorize an exponentially distributed variable only on
 # the top 5\% highest values
 x <- rexp(500)
-xw <- winsorize(x, prob.lo = NULL, prob.hi = .95)
+xw <- winsorize(x, prob_lo = NULL, prob_hi = .95)
 }
 }
 \author{

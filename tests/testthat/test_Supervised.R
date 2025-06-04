@@ -318,7 +318,7 @@ test_that("train() Regression with crossvalidation succeeds", {
 
 cvmod_r_cart <- train(
   x = datr,
-  hyperparameters = setup_CART(prune.cp = c(.001, .01)),
+  hyperparameters = setup_CART(prune_cp = c(.001, .01)),
   outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {

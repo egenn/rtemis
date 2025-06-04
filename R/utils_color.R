@@ -500,7 +500,7 @@ previewcolor <- function(
   main_y = 0.2,
   main_adj = 0,
   main_cex = .9,
-  main_font = 1,
+  main_font = 2,
   width = NULL,
   xlim = NULL,
   ylim = c(0, 2.2),
@@ -513,16 +513,24 @@ previewcolor <- function(
   pdf_width = 8,
   pdf_height = 2.5
 ) {
-  if (is.null(main)) main <- deparse(substitute(x))
+  if (is.null(main)) {
+    main <- deparse(substitute(x))
+  }
   x <- unlist(x)
   if (par_reset) {
     .par <- par(no.readonly = TRUE)
     on.exit(par(.par))
   }
 
-  if (is.null(width)) width <- max(3, .3 * length(x))
-  if (is.null(xlim)) xlim <- c(0.3, width + .7)
-  if (!is.null(filename)) pdf(filename, pdf_width, pdf_height)
+  if (is.null(width)) {
+    width <- max(3, .3 * length(x))
+  }
+  if (is.null(xlim)) {
+    xlim <- c(0.3, width + .7)
+  }
+  if (!is.null(filename)) {
+    pdf(filename, pdf_width, pdf_height)
+  }
   par(bg = bg, xaxs = "i", yaxs = "i", mar = mar, oma = c(0, 0, 0, 0))
 
   # Plot ----
@@ -545,7 +553,9 @@ previewcolor <- function(
     xmid <- .5 * width + .5
   }
 
-  for (i in seq(x)) rhombus(xmid[i], 1, col = x[i])
+  for (i in seq(x)) {
+    rhombus(xmid[i], 1, col = x[i])
+  }
 
   # '- Labels ----
   # ncolors => label_cex
@@ -591,7 +601,9 @@ previewcolor <- function(
     )
   }
 
-  if (!is.null(filename)) dev.off()
+  if (!is.null(filename)) {
+    dev.off()
+  }
 } # rtemis::previewcolor
 
 
@@ -769,7 +781,11 @@ colorgrad <- function(
     if (cb_n %% 2 != 1) cb_n <- cb_n + 1
   }
   space <- match.arg(space)
-  theme <- if (strtrim(theme, 4) == "dark") "dark" else "light"
+  theme <- if (strtrim(theme, 4) == "dark") {
+    "dark"
+  } else {
+    "light"
+  }
 
   # Colors ----
   if (!is.null(colors)) {
@@ -806,7 +822,9 @@ colorgrad <- function(
   # Grad ----
   n <- as.integer(n)
   midpoint <- ceiling(n / 2)
-  if (is.null(mid)) mid <- ifelse(theme == "light", "white", "black")
+  if (is.null(mid)) {
+    mid <- ifelse(theme == "light", "white", "black")
+  }
   if (!is.na(mid)) {
     if (mid == "mean") mid <- color_op(c(lo, hi), "mean")
     lo2mid <- colorRampPalette(c(lo, lomid, mid), space = space)

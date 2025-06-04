@@ -29,10 +29,10 @@ test_that("get_params_need_tuning() succeeds", {
 
 # Check printing of hp that need tuning ----
 setup_CART()
-setup_CART(prune.cp = c(.001, .01, .1))
-setup_CART(prune.cp = c(.001, .01, .1), minsplit = c(2L, 10L))
+setup_CART(prune_cp = c(.001, .01, .1))
+setup_CART(prune_cp = c(.001, .01, .1), minsplit = c(2L, 10L))
 setup_CART(
-  prune.cp = c(.001, .01, .1),
+  prune_cp = c(.001, .01, .1),
   minsplit = c(2L, 10L),
   minbucket = c(1L, 10L)
 )
