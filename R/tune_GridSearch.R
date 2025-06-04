@@ -325,17 +325,18 @@ tune_GridSearch <- function(
   if (algorithm == "GLMNET") {
     if (is.null(grid_params[["lambda"]])) {
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
-      # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which.cv.lambda]]
+      # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which_lambda_cv]]
       if (verbosity > 1L) {
         info("Extracting best lambda from GLMNET models...")
       }
       lambda_cv2 <- data.frame(
         lambda = sapply(
           grid_run,
-          \(x)
+          function(x) {
             x[["hyperparameters"]][[x[["hyperparameters"]][[
-              "which.cv.lambda"
+              "which_lambda_cv"
             ]]]]
+          }
         )
       )
       lambda_cv2[["param_combo_id"]] <- rep(

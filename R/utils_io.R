@@ -6,14 +6,14 @@
 #'
 #' @param object Supervised object.
 #' @param outdir Path to output directory.
-#' @param file.prefix Character: Prefix for filename.
+#' @param file_prefix Character: Prefix for filename.
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @author EDG
 #' @keywords internal
 #' @noRd
 
-rt_save <- function(object, outdir, file.prefix = "s_", verbosity = 1L) {
+rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
   outdir <- normalizePath(outdir, mustWork = FALSE)
   if (verbosity > 0L) {
     start_time <- Sys.time()
@@ -28,7 +28,7 @@ rt_save <- function(object, outdir, file.prefix = "s_", verbosity = 1L) {
   }
   if (!dir.exists(outdir))
     dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
-  rdsPath <- file.path(outdir, paste0(file.prefix, object@algorithm, ".rds"))
+  rdsPath <- file.path(outdir, paste0(file_prefix, object@algorithm, ".rds"))
   try(saveRDS(object, rdsPath))
   if (verbosity > 0L) elapsed <- Sys.time() - start_time
   if (file.exists(rdsPath)) {

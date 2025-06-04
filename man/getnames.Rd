@@ -13,7 +13,7 @@ getnames(
   pattern = NULL,
   starts_with = NULL,
   ends_with = NULL,
-  ignore.case = TRUE
+  ignore_case = TRUE
 )
 
 getnumericnames(x)
@@ -33,7 +33,7 @@ getdatenames(x)
 
 \item{ends_with}{Character: pattern to match at the end of names of x.}
 
-\item{ignore.case}{Logical: If TRUE, well, ignore case.}
+\item{ignore_case}{Logical: If TRUE, well, ignore case.}
 }
 \value{
 Character vector of matched names.

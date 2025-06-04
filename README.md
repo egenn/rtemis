@@ -15,10 +15,23 @@ The new version (0.99+) features:
 
 ## Installation
 
-Using `pak`:
+Using `pak` from GitHub:
 
 ```r
 pak::pkg_install("rtemis-org/rtemis")
+```
+
+Using `install.packages` from `r-universe`:
+
+```r
+install.packages('rtemis', repos = c('https://egenn.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Using `pak` from `r-universe`:
+
+```r
+pak::repo_add(myuniverse = "https://egenn.r-universe.dev")
+pak::pkg_install("rtemis")
 ```
 
 ## Changes & Ongoing work

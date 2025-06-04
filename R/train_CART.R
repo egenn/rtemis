@@ -66,8 +66,8 @@ train_CART <- function(
   )
 
   # Cost-Complexity Pruning ----
-  if (!is.null(hyperparameters[["prune.cp"]])) {
-    model <- rpart::prune(model, cp = hyperparameters[["prune.cp"]])
+  if (!is.null(hyperparameters[["prune_cp"]])) {
+    model <- rpart::prune(model, cp = hyperparameters[["prune_cp"]])
   }
   check_inherits(model, "rpart")
   model

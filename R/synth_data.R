@@ -15,7 +15,6 @@
 #' @author EDG
 #' @return List with elements `dat, dat_training, dat_test, resamples, w, seed`
 #' @export
-
 synth_reg_data <- function(
   nrow = 500,
   ncol = 50,
@@ -52,65 +51,67 @@ synth_reg_data <- function(
 #'
 #' There are no checks yet for compatibility among inputs and certain combinations may not work.
 #'
-#' @param n.cases Integer: Number of cases to create.
-#' @param init.fn Character: "runifmat" or "rnormmat". Use the respective functions to
+#' @param n_cases Integer: Number of cases to create.
+#' @param init_fn Character: "runifmat" or "rnormmat". Use the respective functions to
 #' generate features as random uniform and random normal variables, respectively.
-#' @param init.fn.params Named list with arguments "min", "max" for "runifmat" and
+#' @param init_fn_params Named list with arguments "min", "max" for "runifmat" and
 #' "mean", "sd" for "rnormmat".
-#' @param n.groups Integer: Number of feature groups / modalities to create.
-#' @param n.feat.per.group Integer, vector, length `n.groups`: Number of features per group to create.
-#' @param contrib.p Float (0, 1]: Ratio of features contributing to outcome per group.
+#' @param n_groups Integer: Number of feature groups / modalities to create.
+#' @param n_feat_per_group Integer, vector, length `n_groups`: Number of features per group to create.
+#' @param contrib_p Float (0, 1]: Ratio of features contributing to outcome per group.
 #' a third of the features in each group will be used to produce the outcome y
-#' @param linear.p Float \[0, 1\]: Ratio of contributing features to be included linearly.
+#' @param linear_p Float \[0, 1\]: Ratio of contributing features to be included linearly.
 #' features in each group will be included
-#' @param square.p Float \[0, 1\]: Ratio of contributing features to be squared.
+#' @param square_p Float \[0, 1\]: Ratio of contributing features to be squared.
 #' in each group will be squared
-#' @param atan.p Float \[0, 1\]: Ratio of contributing features whose `atan` will be used. These will be selected
+#' @param atan_p Float \[0, 1\]: Ratio of contributing features whose `atan` will be used. These will be selected
 #' from the features that were NOT sampled for squaring.
 #' i.e. .1 of .33 of features in each group will be transformed using `atan`, but given these features were not
-#' already picked to be squared (see `square.p`)
-#' @param pair.multiply.p Float \[0, 1\] Ratio of features will be divided into pairs and multiplied.
-#' @param pair.square.p Float \[0, 1\] Ratio of features which will be divided into pairs, multiplied and squared.
-#' @param pair.atan.p Float \[0, 1\] Ratio of features which will be divided into pairs, multiplied and transformed using
+#' already picked to be squared (see `square_p`)
+#' @param pair_multiply_p Float \[0, 1\] Ratio of features will be divided into pairs and multiplied.
+#' @param pair_square_p Float \[0, 1\] Ratio of features which will be divided into pairs, multiplied and squared.
+#' @param pair_atan_p Float \[0, 1\] Ratio of features which will be divided into pairs, multiplied and transformed using
 #' `atan`.
 #' @param verbosity Integer: Verbosity level.
 #' @param seed Integer: If set, pass to `set.seed` for reproducibility
 #' @param filename Character: Path to file to save output.
 #'
+#' @return List with elements x, y, index_square, index_atan, index_pair_square
+#'
 #' @author EDG
 #' @export
-#' @return List with elements x, y, index.square, index.atan, index.pair.square
+#'
 #' @examples
 #' \dontrun{
 #' xmm <- synth_multimodal(
-#'   n.cases = 10000,
-#'   init.fn = "runifmat",
-#'   init.fn.params = list(min = -10, max = 10),
-#'   n.groups = 5,
-#'   n.feat.per.group = c(20, 50, 100, 200, 300),
-#'   contrib.p = .33,
-#'   linear.p = .66,
-#'   square.p = .1,
-#'   atan.p = .1,
-#'   pair.multiply.p = .1,
-#'   pair.square.p = .1,
-#'   pair.atan.p = .1,
+#'   n_cases = 10000,
+#'   init_fn = "runifmat",
+#'   init_fn_params = list(min = -10, max = 10),
+#'   n_groups = 5,
+#'   n_feat_per_group = c(20, 50, 100, 200, 300),
+#'   contrib_p = .33,
+#'   linear_p = .66,
+#'   square_p = .1,
+#'   atan_p = .1,
+#'   pair_multiply_p = .1,
+#'   pair_square_p = .1,
+#'   pair_atan_p = .1,
 #'   seed = 2019
 #' )
 #' }
 synth_multimodal <- function(
-  n.cases = 10000,
-  init.fn = "runifmat",
-  init.fn.params = list(min = -10, max = 10),
-  n.groups = 4,
-  n.feat.per.group = round(seq(10, 300, length.out = n.groups)),
-  contrib.p = .33,
-  linear.p = .66,
-  square.p = .1,
-  atan.p = .1,
-  pair.multiply.p = .05,
-  pair.square.p = .05,
-  pair.atan.p = .05,
+  n_cases = 10000,
+  init_fn = "runifmat",
+  init_fn_params = list(min = -10, max = 10),
+  n_groups = 4,
+  n_feat_per_group = round(seq(10, 300, length.out = n_groups)),
+  contrib_p = .33,
+  linear_p = .66,
+  square_p = .1,
+  atan_p = .1,
+  pair_multiply_p = .05,
+  pair_square_p = .05,
+  pair_atan_p = .05,
   verbosity = 1L,
   seed = NULL,
   filename = NULL
@@ -118,16 +119,16 @@ synth_multimodal <- function(
   if (!is.null(seed)) set.seed(seed)
 
   # Synth features ----
-  x <- lapply(seq(n.groups), function(i) {
+  x <- lapply(seq(n_groups), function(i) {
     do.call(
-      init.fn,
+      init_fn,
       c(
         list(
-          nrow = n.cases,
-          ncol = n.feat.per.group[i],
-          return.df = FALSE
+          nrow = n_cases,
+          ncol = n_feat_per_group[i],
+          return_df = FALSE
         ),
-        init.fn.params
+        init_fn_params
       )
     )
   })
@@ -136,41 +137,41 @@ synth_multimodal <- function(
   # Indexes ----
   # '- contrib ----
   # index.contrib: The variables from each group contributing to the group's outcome
-  index.contrib <- lapply(seq(n.groups), function(i) {
-    sort(sample(seq(n.feat.per.group[i]), contrib.p * n.feat.per.group[i]))
+  index.contrib <- lapply(seq(n_groups), function(i) {
+    sort(sample(seq(n_feat_per_group[i]), contrib_p * n_feat_per_group[i]))
   })
   names(index.contrib) <- names(x)
   if (verbosity > 0L) cat("  Got index.contrib\n")
 
   # '- linear ----
-  # index.linear: The features within index.contrib that will be included linearly
-  index.linear <- lapply(seq(n.groups), function(i) {
-    sort(sample(index.contrib[[i]], linear.p * length(index.contrib[[i]])))
+  # index_linear: The features within index.contrib that will be included linearly
+  index_linear <- lapply(seq(n_groups), function(i) {
+    sort(sample(index.contrib[[i]], linear_p * length(index.contrib[[i]])))
   })
-  names(index.linear) <- names(x)
-  if (verbosity > 0L) cat("  Got index.square\n")
+  names(index_linear) <- names(x)
+  if (verbosity > 0L) cat("  Got index_square\n")
 
   # '- square ----
-  # index.square: The features within index.contrib that will be squared
-  index.square <- lapply(seq(n.groups), function(i) {
-    sort(sample(index.contrib[[i]], square.p * length(index.contrib[[i]])))
+  # index_square: The features within index.contrib that will be squared
+  index_square <- lapply(seq(n_groups), function(i) {
+    sort(sample(index.contrib[[i]], square_p * length(index.contrib[[i]])))
   })
-  names(index.square) <- names(x)
-  if (verbosity > 0L) cat("  Got index.square\n")
+  names(index_square) <- names(x)
+  if (verbosity > 0L) cat("  Got index_square\n")
 
   # '- atan ----
-  # index.atan: The features within index.contrib that will be arctanned
-  index.atan <- lapply(seq(n.groups), function(i) {
-    index.open <- index.contrib[[i]][!index.contrib[[i]] %in% index.square[[i]]]
-    sort(sample(index.open, atan.p * length(index.contrib[[i]])))
+  # index_atan: The features within index.contrib that will be arctanned
+  index_atan <- lapply(seq(n_groups), function(i) {
+    index.open <- index.contrib[[i]][!index.contrib[[i]] %in% index_square[[i]]]
+    sort(sample(index.open, atan_p * length(index.contrib[[i]])))
   })
-  names(index.atan) <- names(x)
-  if (verbosity > 0L) cat("  Got index.atan\n")
+  names(index_atan) <- names(x)
+  if (verbosity > 0L) cat("  Got index_atan\n")
 
   # '- pair.multiply ----
-  # index.pair.multiply
-  index.pair.multiply <- lapply(seq(n.groups), function(i) {
-    n.pairs <- 2 * round(pair.multiply.p * length(index.contrib[[i]]) / 2)
+  # index_pair_multiply
+  index_pair_multiply <- lapply(seq(n_groups), function(i) {
+    n.pairs <- 2 * round(pair_multiply_p * length(index.contrib[[i]]) / 2)
     if (n.pairs == 0) {
       NULL
     } else {
@@ -178,13 +179,13 @@ synth_multimodal <- function(
       t(apply(matrix(index, ncol = 2, byrow = TRUE), 1, sort))
     }
   })
-  names(index.pair.multiply) <- names(x)
-  if (verbosity > 0L) cat("  Got index.pair.multiply\n")
+  names(index_pair_multiply) <- names(x)
+  if (verbosity > 0L) cat("  Got index_pair_multiply\n")
 
   # '- pair.square ----
-  # index.pair.square
-  index.pair.square <- lapply(seq(n.groups), function(i) {
-    n.pairs <- 2 * round(pair.square.p * length(index.contrib[[i]]) / 2)
+  # index_pair_square
+  index_pair_square <- lapply(seq(n_groups), function(i) {
+    n.pairs <- 2 * round(pair_square_p * length(index.contrib[[i]]) / 2)
     if (n.pairs == 0) {
       NULL
     } else {
@@ -192,12 +193,12 @@ synth_multimodal <- function(
       t(apply(matrix(index, ncol = 2, byrow = TRUE), 1, sort))
     }
   })
-  names(index.pair.square) <- names(x)
-  if (verbosity > 0L) cat("  Got index.pair.square\n")
+  names(index_pair_square) <- names(x)
+  if (verbosity > 0L) cat("  Got index_pair_square\n")
 
-  # index.pair.atan ----
-  index.pair.atan <- lapply(seq(n.groups), function(i) {
-    n.pairs <- 2 * round(pair.atan.p * length(index.contrib[[i]]) / 2)
+  # index_pair_atan ----
+  index_pair_atan <- lapply(seq(n_groups), function(i) {
+    n.pairs <- 2 * round(pair_atan_p * length(index.contrib[[i]]) / 2)
     if (n.pairs == 0) {
       NULL
     } else {
@@ -205,20 +206,20 @@ synth_multimodal <- function(
       t(apply(matrix(index, ncol = 2, byrow = TRUE), 1, sort))
     }
   })
-  if (verbosity > 0L) cat("  Got index.pair.atan\n")
+  if (verbosity > 0L) cat("  Got index_pair_atan\n")
 
   # Outcome ----
   # '- linear, squares & atans ----
   if (verbosity > 0L) cat("  Adding linear, square and atan terms...")
-  y1 <- lapply(seq(n.groups), function(i) {
+  y1 <- lapply(seq(n_groups), function(i) {
     matrixStats::rowSums2(
-      rnorm(1) * x[[i]][, index.linear[[i]], drop = FALSE]
+      rnorm(1) * x[[i]][, index_linear[[i]], drop = FALSE]
     ) +
       matrixStats::rowSums2(
-        rnorm(1) * x[[i]][, index.square[[i]], drop = FALSE]^2
+        rnorm(1) * x[[i]][, index_square[[i]], drop = FALSE]^2
       ) +
       matrixStats::rowSums2(
-        rnorm(1) * atan(x[[i]][, index.atan[[i]], drop = FALSE])
+        rnorm(1) * atan(x[[i]][, index_atan[[i]], drop = FALSE])
       )
   })
   names(y1) <- names(x)
@@ -226,35 +227,35 @@ synth_multimodal <- function(
 
   # '- pair.multiply ----
   if (verbosity > 0L) cat("  Getting pair products...")
-  y2 <- vector("list", n.groups)
+  y2 <- vector("list", n_groups)
   names(y2) <- names(x)
-  for (i in seq_len(n.groups)) {
-    y2[[i]] <- if (!is.null(index.pair.multiply[[i]])) {
+  for (i in seq_len(n_groups)) {
+    y2[[i]] <- if (!is.null(index_pair_multiply[[i]])) {
       matrixStats::rowSums2(sapply(
-        seq_len(NROW(index.pair.multiply[[i]])),
+        seq_len(NROW(index_pair_multiply[[i]])),
         function(k) {
           matrixStats::rowProds(
-            rnorm(1) * x[[i]][, index.pair.multiply[[i]][k, ]]
+            rnorm(1) * x[[i]][, index_pair_multiply[[i]][k, ]]
           )^2
         }
       ))
     } else {
-      rep(0, n.cases)
+      rep(0, n_cases)
     }
   }
   if (verbosity > 0L) cat(" Done\n")
 
   # '- pair.square ----
   if (verbosity > 0L) cat("  Squaring pair products...")
-  y3 <- vector("list", n.groups)
+  y3 <- vector("list", n_groups)
   names(y3) <- names(x)
-  for (i in seq_len(n.groups)) {
-    y3[[i]] <- if (!is.null(index.pair.square[[i]])) {
+  for (i in seq_len(n_groups)) {
+    y3[[i]] <- if (!is.null(index_pair_square[[i]])) {
       matrixStats::rowSums2(sapply(
-        seq_len(NROW(index.pair.square[[i]])),
+        seq_len(NROW(index_pair_square[[i]])),
         function(k) {
           matrixStats::rowProds(
-            rnorm(1) * x[[i]][, index.pair.square[[i]][k, ]]
+            rnorm(1) * x[[i]][, index_pair_square[[i]][k, ]]
           )^2
         }
       ))
@@ -266,26 +267,26 @@ synth_multimodal <- function(
 
   # '- pair.atan ----
   if (verbosity > 0L) cat("  Atan of pair products...")
-  y4 <- vector("list", n.groups)
+  y4 <- vector("list", n_groups)
   names(y4) <- names(x)
-  for (i in seq_len(n.groups)) {
-    y4[[i]] <- if (!is.null(index.pair.atan[[i]])) {
+  for (i in seq_len(n_groups)) {
+    y4[[i]] <- if (!is.null(index_pair_atan[[i]])) {
       matrixStats::rowSums2(sapply(
-        seq_len(NROW(index.pair.atan[[i]])),
+        seq_len(NROW(index_pair_atan[[i]])),
         function(k) {
           matrixStats::rowProds(
-            rnorm(1) * x[[i]][, index.pair.atan[[i]][k, ]]
+            rnorm(1) * x[[i]][, index_pair_atan[[i]][k, ]]
           )^2
         }
       ))
     } else {
-      rep(0, n.cases)
+      rep(0, n_cases)
     }
   }
   if (verbosity > 0L) cat(" Done\n")
 
   y <- lapply(
-    seq_len(n.groups),
+    seq_len(n_groups),
     function(i) y1[[i]] + y2[[i]] + y3[[i]] + y4[[i]]
   )
   names(y) <- names(x)
@@ -293,12 +294,12 @@ synth_multimodal <- function(
   out <- list(
     x = x,
     y = y,
-    index.linear = index.linear,
-    index.square = index.square,
-    index.atan = index.atan,
-    index.pair.multiply = index.pair.multiply,
-    index.pair.square = index.pair.square,
-    index.pair.atan = index.pair.atan
+    index_linear = index_linear,
+    index_square = index_square,
+    index_atan = index_atan,
+    index_pair_multiply = index_pair_multiply,
+    index_pair_square = index_pair_square,
+    index_pair_atan = index_pair_atan
   )
 
   # Save RDS ----

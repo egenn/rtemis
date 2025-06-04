@@ -8,7 +8,7 @@
 #' @param pattern Character: pattern to match anywhere in names of x.
 #' @param starts_with Character: pattern to match in the beginning of names of x.
 #' @param ends_with Character: pattern to match at the end of names of x.
-#' @param ignore.case Logical: If TRUE, well, ignore case.
+#' @param ignore_case Logical: If TRUE, well, ignore case.
 #'
 #' @return Character vector of matched names.
 #'
@@ -19,7 +19,7 @@ getnames <- function(
   pattern = NULL,
   starts_with = NULL,
   ends_with = NULL,
-  ignore.case = TRUE
+  ignore_case = TRUE
 ) {
   .names <- if (is.character(x)) {
     x
@@ -27,11 +27,11 @@ getnames <- function(
     names(x)
   }
   if (!is.null(pattern)) {
-    .names[grep(pattern, .names, ignore.case = ignore.case)]
+    .names[grep(pattern, .names, ignore.case = ignore_case)]
   } else if (!is.null(starts_with)) {
-    .names[grep(paste0("^", starts_with), .names, ignore.case = ignore.case)]
+    .names[grep(paste0("^", starts_with), .names, ignore.case = ignore_case)]
   } else if (!is.null(ends_with)) {
-    .names[grep(paste0(ends_with, "$"), .names, ignore.case = ignore.case)]
+    .names[grep(paste0(ends_with, "$"), .names, ignore.case = ignore_case)]
   }
 }
 
@@ -41,8 +41,8 @@ getnames <- function(
 #' @param pattern Character vector: pattern(s) to match anywhere in names of x.
 #' @param starts_with Character: pattern to match in the beginning of names of x.
 #' @param ends_with Character: pattern to match at the end of names of x.
-#' @param ignore.case Logical: If TRUE, well, ignore case.
-#' @param return.index Logical: If TRUE, return integer index of matches instead of names.
+#' @param ignore_case Logical: If TRUE, well, ignore case.
+#' @param return_index Logical: If TRUE, return integer index of matches instead of names.
 #'
 #' @return Character vector of matched names or integer index.
 #'
@@ -53,8 +53,8 @@ mgetnames <- function(
   pattern = NULL,
   starts_with = NULL,
   ends_with = NULL,
-  ignore.case = TRUE,
-  return.index = FALSE
+  ignore_case = TRUE,
+  return_index = FALSE
 ) {
   .names <- if (is.character(x)) x else names(x)
   idi <- numeric()
@@ -63,7 +63,7 @@ mgetnames <- function(
       idi,
       unlist(lapply(
         pattern,
-        function(p) grep(p, .names, ignore.case = ignore.case)
+        function(p) grep(p, .names, ignore.case = ignore_case)
       ))
     )
   }
@@ -74,7 +74,7 @@ mgetnames <- function(
     idi <- c(idi, which(endsWith(.names, ends_with)))
   }
   idi <- unique(idi)
-  if (return.index) {
+  if (return_index) {
     idi
   } else {
     .names[idi]

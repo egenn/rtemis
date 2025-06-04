@@ -84,24 +84,24 @@ train_GLMNET <- function(
   }
 
   # Train ----
-  # Create xm so that the correct NCOL is used for penalty.factor,
+  # Create xm so that the correct NCOL is used for penalty_factor,
   # since factors are converted to dummy variables.
   xm <- as.matrix(
     model.matrix(~., exc(x, NCOL(x)))[, -1]
   )
   # Check data-specific hyperparameter values
-  # penalty.factor must be of length = N features.
-  if (is.null(hyperparameters[["penalty.factor"]])) {
-    hyperparameters@hyperparameters[["penalty.factor"]] <- rep(1, NCOL(xm))
+  # penalty_factor must be of length = N features.
+  if (is.null(hyperparameters[["penalty_factor"]])) {
+    hyperparameters@hyperparameters[["penalty_factor"]] <- rep(1, NCOL(xm))
     if (verbosity > 1L) {
       info("NCOL(xm) is: ", NCOL(xm))
       info("names(xm) is:", paste(names(xm), collapse = ", "))
-      info('Updated hyperparameters[["penalty.factor"]] to all 1s.')
+      info('Updated hyperparameters[["penalty_factor"]] to all 1s.')
     }
   } else {
-    if (length(hyperparameters[["penalty.factor"]]) != NCOL(xm)) {
+    if (length(hyperparameters[["penalty_factor"]]) != NCOL(xm)) {
       stop(
-        "Length of penalty.factor must be equal to the number of predictors."
+        "Length of penalty_factor must be equal to the number of predictors."
       )
     }
   }
@@ -117,7 +117,7 @@ train_GLMNET <- function(
       nlambda = hyperparameters[["nlambda"]],
       standardize = hyperparameters[["standardize"]],
       intercept = hyperparameters[["intercept"]], # can't be NULL
-      penalty.factor = hyperparameters[["penalty.factor"]]
+      penalty.factor = hyperparameters[["penalty_factor"]]
     )
     check_inherits(model, "cv.glmnet")
   } else {
@@ -132,7 +132,7 @@ train_GLMNET <- function(
       lambda = hyperparameters[["lambda"]],
       standardize = hyperparameters[["standardize"]],
       intercept = hyperparameters[["intercept"]], # can't be NULL
-      penalty.factor = hyperparameters[["penalty.factor"]]
+      penalty.factor = hyperparameters[["penalty_factor"]]
     )
     check_inherits(model, "glmnet")
   }

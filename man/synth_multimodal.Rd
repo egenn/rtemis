@@ -5,55 +5,55 @@
 \title{Create "Multimodal" Synthetic Data}
 \usage{
 synth_multimodal(
-  n.cases = 10000,
-  init.fn = "runifmat",
-  init.fn.params = list(min = -10, max = 10),
-  n.groups = 4,
-  n.feat.per.group = round(seq(10, 300, length.out = n.groups)),
-  contrib.p = 0.33,
-  linear.p = 0.66,
-  square.p = 0.1,
-  atan.p = 0.1,
-  pair.multiply.p = 0.05,
-  pair.square.p = 0.05,
-  pair.atan.p = 0.05,
+  n_cases = 10000,
+  init_fn = "runifmat",
+  init_fn_params = list(min = -10, max = 10),
+  n_groups = 4,
+  n_feat_per_group = round(seq(10, 300, length.out = n_groups)),
+  contrib_p = 0.33,
+  linear_p = 0.66,
+  square_p = 0.1,
+  atan_p = 0.1,
+  pair_multiply_p = 0.05,
+  pair_square_p = 0.05,
+  pair_atan_p = 0.05,
   verbosity = 1L,
   seed = NULL,
   filename = NULL
 )
 }
 \arguments{
-\item{n.cases}{Integer: Number of cases to create.}
+\item{n_cases}{Integer: Number of cases to create.}
 
-\item{init.fn}{Character: "runifmat" or "rnormmat". Use the respective functions to
+\item{init_fn}{Character: "runifmat" or "rnormmat". Use the respective functions to
 generate features as random uniform and random normal variables, respectively.}
 
-\item{init.fn.params}{Named list with arguments "min", "max" for "runifmat" and
+\item{init_fn_params}{Named list with arguments "min", "max" for "runifmat" and
 "mean", "sd" for "rnormmat".}
 
-\item{n.groups}{Integer: Number of feature groups / modalities to create.}
+\item{n_groups}{Integer: Number of feature groups / modalities to create.}
 
-\item{n.feat.per.group}{Integer, vector, length \code{n.groups}: Number of features per group to create.}
+\item{n_feat_per_group}{Integer, vector, length \code{n_groups}: Number of features per group to create.}
 
-\item{contrib.p}{Float (0, 1]: Ratio of features contributing to outcome per group.
+\item{contrib_p}{Float (0, 1]: Ratio of features contributing to outcome per group.
 a third of the features in each group will be used to produce the outcome y}
 
-\item{linear.p}{Float [0, 1]: Ratio of contributing features to be included linearly.
+\item{linear_p}{Float [0, 1]: Ratio of contributing features to be included linearly.
 features in each group will be included}
 
-\item{square.p}{Float [0, 1]: Ratio of contributing features to be squared.
+\item{square_p}{Float [0, 1]: Ratio of contributing features to be squared.
 in each group will be squared}
 
-\item{atan.p}{Float [0, 1]: Ratio of contributing features whose \code{atan} will be used. These will be selected
+\item{atan_p}{Float [0, 1]: Ratio of contributing features whose \code{atan} will be used. These will be selected
 from the features that were NOT sampled for squaring.
 i.e. .1 of .33 of features in each group will be transformed using \code{atan}, but given these features were not
-already picked to be squared (see \code{square.p})}
+already picked to be squared (see \code{square_p})}
 
-\item{pair.multiply.p}{Float [0, 1] Ratio of features will be divided into pairs and multiplied.}
+\item{pair_multiply_p}{Float [0, 1] Ratio of features will be divided into pairs and multiplied.}
 
-\item{pair.square.p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and squared.}
+\item{pair_square_p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and squared.}
 
-\item{pair.atan.p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
+\item{pair_atan_p}{Float [0, 1] Ratio of features which will be divided into pairs, multiplied and transformed using
 \code{atan}.}
 
 \item{verbosity}{Integer: Verbosity level.}
@@ -63,7 +63,7 @@ already picked to be squared (see \code{square.p})}
 \item{filename}{Character: Path to file to save output.}
 }
 \value{
-List with elements x, y, index.square, index.atan, index.pair.square
+List with elements x, y, index_square, index_atan, index_pair_square
 }
 \description{
 Create "Multimodal" Synthetic Data using squares and arctangents
@@ -74,18 +74,18 @@ There are no checks yet for compatibility among inputs and certain combinations 
 \examples{
 \dontrun{
 xmm <- synth_multimodal(
-  n.cases = 10000,
-  init.fn = "runifmat",
-  init.fn.params = list(min = -10, max = 10),
-  n.groups = 5,
-  n.feat.per.group = c(20, 50, 100, 200, 300),
-  contrib.p = .33,
-  linear.p = .66,
-  square.p = .1,
-  atan.p = .1,
-  pair.multiply.p = .1,
-  pair.square.p = .1,
-  pair.atan.p = .1,
+  n_cases = 10000,
+  init_fn = "runifmat",
+  init_fn_params = list(min = -10, max = 10),
+  n_groups = 5,
+  n_feat_per_group = c(20, 50, 100, 200, 300),
+  contrib_p = .33,
+  linear_p = .66,
+  square_p = .1,
+  atan_p = .1,
+  pair_multiply_p = .1,
+  pair_square_p = .1,
+  pair_atan_p = .1,
   seed = 2019
 )
 }

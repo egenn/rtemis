@@ -9,7 +9,7 @@ runifmat(
   ncol = 10,
   min = 0,
   max = 1,
-  return.df = FALSE,
+  return_df = FALSE,
   seed = NULL
 )
 }
@@ -22,7 +22,7 @@ runifmat(
 
 \item{max}{Float: Max.}
 
-\item{return.df}{Logical: If TRUE, return data.frame, otherwise matrix.}
+\item{return_df}{Logical: If TRUE, return data.frame, otherwise matrix.}
 
 \item{seed}{Integer: Set seed for \code{rnorm}.}
 }

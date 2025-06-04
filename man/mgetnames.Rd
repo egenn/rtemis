@@ -9,8 +9,8 @@ mgetnames(
   pattern = NULL,
   starts_with = NULL,
   ends_with = NULL,
-  ignore.case = TRUE,
-  return.index = FALSE
+  ignore_case = TRUE,
+  return_index = FALSE
 )
 }
 \arguments{
@@ -22,9 +22,9 @@ mgetnames(
 
 \item{ends_with}{Character: pattern to match at the end of names of x.}
 
-\item{ignore.case}{Logical: If TRUE, well, ignore case.}
+\item{ignore_case}{Logical: If TRUE, well, ignore case.}
 
-\item{return.index}{Logical: If TRUE, return integer index of matches instead of names.}
+\item{return_index}{Logical: If TRUE, return integer index of matches instead of names.}
 }
 \value{
 Character vector of matched names or integer index.

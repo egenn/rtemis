@@ -9,7 +9,7 @@ setup_CART(
   maxdepth = 20L,
   minsplit = 2L,
   minbucket = 1L,
-  prune.cp = NULL,
+  prune_cp = NULL,
   method = "auto",
   model = TRUE,
   maxcompete = 4L,
@@ -30,7 +30,7 @@ setup_CART(
 
 \item{minbucket}{(Tunable) Integer: Minimum number of observations in a terminal node.}
 
-\item{prune.cp}{(Tunable) Numeric: Complexity for cost-complexity pruning after tree is built}
+\item{prune_cp}{(Tunable) Numeric: Complexity for cost-complexity pruning after tree is built}
 
 \item{method}{String: Splitting method.}
 

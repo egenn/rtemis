@@ -7,9 +7,9 @@
 colorgradient.x(
   x,
   symmetric = FALSE,
-  lo.col = "#0290EE",
-  mid.col = "#1A1A1A",
-  hi.col = "#FFBD4F",
+  lo_col = "#0290EE",
+  mid_col = "#1A1A1A",
+  hi_col = "#FFBD4F",
   space = "Lab"
 )
 }
@@ -19,11 +19,11 @@ colorgradient.x(
 \item{symmetric}{Logical: If TRUE, make symmetric gradient between
 \code{-max(abs(x))} and \code{max(abs(x))}}
 
-\item{lo.col}{Low color}
+\item{lo_col}{Low color}
 
-\item{mid.col}{Middle color}
+\item{mid_col}{Middle color}
 
-\item{hi.col}{High color}
+\item{hi_col}{High color}
 
 \item{space}{Character: "rgb" or "Lab".}
 }
@@ -35,7 +35,7 @@ Color gradient for continuous variable
 x <- seq(-10, 10, length.out = 51)
 previewcolor(colorgradient.x(x))
 x <- sort(rnorm(40))
-previewcolor(colorgradient.x(x, mid.col = "white"))
+previewcolor(colorgradient.x(x, mid_col = "white"))
 # Notice how most values are near zero therefore almost white
 }
 }

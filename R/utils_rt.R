@@ -69,7 +69,6 @@ intro <- function(
 outro <- function(
   start_time,
   message = NULL,
-  #   as.message = FALSE,
   sink_off = FALSE,
   #   color = gray,
   newline_pre = FALSE,
@@ -80,7 +79,7 @@ outro <- function(
     if (newline_pre) cat("\n")
     msg20(
       gray(paste0(
-        "Completed in ",
+        "Done in ",
         ddSci(elapsed[3] / 60),
         " minutes (",
         "Real: ",
@@ -91,7 +90,6 @@ outro <- function(
         ddSci(elapsed[2]),
         ")."
       )),
-      # as.message = as.message,
       caller_id = 2
     )
   }
@@ -102,42 +100,6 @@ outro <- function(
   invisible(elapsed)
 } # rtemis::outro
 
-
-#' `rtemis-internals`: `data_summary`
-#'
-#' Print input data dimensions and test dimensions match
-#'
-#' @keywords internal
-#' @noRd
-data_summary <- function(
-  x,
-  y,
-  x.test = NULL,
-  y.test = NULL,
-  type = NULL,
-  testSet = TRUE
-) {
-  if (!is.null(type)) {
-    padcat(paste(type, "Input Summary"), pad = 0)
-  } else {
-    padcat("Input Summary", pad = 0)
-  }
-  cat("Training features:", bold(NROW(x), "x", NCOL(x), "\n"))
-  cat(" Training outcome:", bold(NROW(y), "x", NCOL(y), "\n"))
-
-  if (testSet) {
-    if (!is.null(x.test)) {
-      cat("    Test features:", bold(NROW(x.test), "x", NCOL(x.test), "\n"))
-    } else {
-      cat("    Test features: Not available\n")
-    }
-    if (!is.null(y.test)) {
-      cat("    Test outcome:", bold(NROW(y.test), "x", NCOL(y.test), "\n"))
-    } else {
-      cat("    Test outcome: Not available\n")
-    }
-  }
-} # rtemis::data_summary
 
 #' Summarize supervised inputs
 #'
@@ -322,7 +284,6 @@ check_type <- function(type, allowed.types, algorithm) {
 #' Initialize parallel processing and progress reporting
 #'
 #' @keywords internal
-
 rtemis_init <- function(n_cores = 1, context = NULL, verbosity = 1L) {
   # Progress handlers
   if (is.null(live[["handlers_set"]])) {

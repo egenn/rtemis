@@ -420,9 +420,9 @@ method(desc, Resampler) <- function(x) {
 #     .text <- paste0(
 #       attr(x, "N"),
 #       resamples <- switch(resampler,
-#         strat.sub = " stratified subsamples",
+#         strat_sub = " stratified subsamples",
 #         bootstrap = " bootstraps",
-#         strat.boot = " stratified bootstraps",
+#         strat_boot = " stratified bootstraps",
 #         kfold = "-fold crossvalidation"
 #       )
 #     )

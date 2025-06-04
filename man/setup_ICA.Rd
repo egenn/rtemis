@@ -9,7 +9,7 @@ setup_ICA(
   type = c("parallel", "deflation"),
   fun = c("logcosh", "exp"),
   alpha = 1,
-  row.norm = TRUE,
+  row_norm = TRUE,
   maxit = 100L,
   tol = 1e-04
 )
@@ -23,7 +23,7 @@ setup_ICA(
 
 \item{alpha}{Numeric [1, 2]: Used in approximation to neg-entropy with \code{fun = "logcosh"}.}
 
-\item{row.norm}{Logical: If TRUE, normalize rows of \code{x} before ICA.}
+\item{row_norm}{Logical: If TRUE, normalize rows of \code{x} before ICA.}
 
 \item{maxit}{Integer: Maximum number of iterations.}
 

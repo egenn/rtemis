@@ -117,7 +117,7 @@ setup_PCA <- function(k = 3L, center = TRUE, scale = TRUE, tol = NULL) {
 ICAParameters <- new_class(
   name = "ICAParameters",
   parent = DecompositionParameters,
-  constructor = function(k, type, fun, alpha, row.norm, maxit, tol) {
+  constructor = function(k, type, fun, alpha, row_norm, maxit, tol) {
     new_object(
       DecompositionParameters(
         algorithm = "ICA",
@@ -126,7 +126,7 @@ ICAParameters <- new_class(
           type = type,
           fun = fun,
           alpha = alpha,
-          row.norm = row.norm,
+          row_norm = row_norm,
           maxit = maxit,
           tol = tol
         )
@@ -145,7 +145,7 @@ ICAParameters <- new_class(
 #' @param type Character: Type of ICA: "parallel" or "deflation".
 #' @param fun Character: ICA function: "logcosh", "exp".
 #' @param alpha Numeric \[1, 2\]: Used in approximation to neg-entropy with `fun = "logcosh"`.
-#' @param row.norm Logical: If TRUE, normalize rows of `x` before ICA.
+#' @param row_norm Logical: If TRUE, normalize rows of `x` before ICA.
 #' @param maxit Integer: Maximum number of iterations.
 #' @param tol Numeric: Tolerance.
 #'
@@ -158,7 +158,7 @@ setup_ICA <- function(
   type = c("parallel", "deflation"),
   fun = c("logcosh", "exp"),
   alpha = 1.0,
-  row.norm = TRUE,
+  row_norm = TRUE,
   maxit = 100L,
   tol = 1e-04
 ) {
@@ -166,7 +166,7 @@ setup_ICA <- function(
   type <- match.arg(type)
   fun <- match.arg(fun)
   stopifnot(alpha >= 1, alpha <= 2)
-  check_inherits(row.norm, "logical")
+  check_inherits(row_norm, "logical")
   maxit <- clean_posint(maxit)
   check_inherits(tol, "numeric")
   ICAParameters(
@@ -174,7 +174,7 @@ setup_ICA <- function(
     type = type,
     fun = fun,
     alpha = alpha,
-    row.norm = row.norm,
+    row_norm = row_norm,
     maxit = maxit,
     tol = tol
   )
