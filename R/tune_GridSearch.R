@@ -374,7 +374,7 @@ tune_GridSearch <- function(
         nrounds_cv,
         tuner_parameters[["metrics_aggregate_fn"]]
       )
-      # Replace NULL nrounds in tune_results$param_grid with average value of CV nrounds
+      # Replace NULL nrounds in tune_results$param_grid with average value of Res nrounds
       stopifnot(tune_results[["param_grid"]][["nrounds"]] == "null")
       param_grid[["nrounds"]] <- tune_results[["param_grid"]][["nrounds"]] <-
         as.integer(round(nrounds_by_param_combo_id[["nrounds"]]))

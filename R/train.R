@@ -38,8 +38,8 @@
 #' `hyperparameters` is not defined. Avoid relying on this, instead use the appropriate `setup_*`
 #' function with the `hyperparameters` argument.
 #'
-#' @return Object of class `Regression(Supervised)`, `RegressionCV(SupervisedCV)`,
-#' `Classification(Supervised)`, or `ClassificationCV(SupervisedCV)`.
+#' @return Object of class `Regression(Supervised)`, `RegressionRes(SupervisedRes)`,
+#' `Classification(Supervised)`, or `ClassificationRes(SupervisedRes)`.
 #'
 #' @author EDG
 #' @export
@@ -293,7 +293,7 @@ train <- function(
       cat("\n")
     } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
-    # All training, validation, and test metrics are calculated by Supervised or SupervisedCV.
+    # All training, validation, and test metrics are calculated by Supervised or SupervisedRes.
     args <- list(
       x = x,
       weights = weights,
@@ -367,7 +367,7 @@ train <- function(
         se_test <- do_call(se_fn, list(model, newdata = features(dat_test)))
       }
     }
-    # Make Supervised/CV ----
+    # Make Supervised/Res ----
     mod <- make_Supervised(
       algorithm = algorithm,
       model = model,
@@ -407,7 +407,7 @@ train <- function(
     } else {
       predicted_prob_training <- predicted_prob_test <- NULL
     }
-    mod <- make_SupervisedCV(
+    mod <- make_SupervisedRes(
       algorithm = algorithm,
       type = type,
       models = models,

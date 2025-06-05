@@ -351,9 +351,9 @@ method(print, Calibration) <- function(x, ...) {
   )
 }
 
-# CalibrationCV ----
-CalibrationCV <- new_class(
-  name = "CalibrationCV",
+# CalibrationRes ----
+CalibrationRes <- new_class(
+  name = "CalibrationRes",
   properties = list(
     models = class_list,
     resampler_parameters = ResamplerParameters
@@ -363,10 +363,10 @@ CalibrationCV <- new_class(
   # constructor = function(models, resampler_parameters) {
 
   # }
-) # /CalibrationCV
+) # /CalibrationRes
 
-# Print CalibrationCV ----
-method(print, CalibrationCV) <- function(x, ...) {
+# Print CalibrationRes ----
+method(print, CalibrationRes) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Cross-validated Calibration Model")
   cat(
@@ -1146,18 +1146,18 @@ method(present, Classification) <- function(
   }
 } # /rtemis::present.Classification
 
-# SupervisedCV ----
+# SupervisedRes ----
 # fields metrics_training/metrics_validation/metrics_test
 # could be active bindings that are collected from @models
-#' SupervisedCV
+#' SupervisedRes
 #'
 #' @description
 #' Superclass for cross-validated supervised learning models.
 #'
 #' @author EDG
 #' @noRd
-SupervisedCV <- new_class(
-  name = "SupervisedCV",
+SupervisedRes <- new_class(
+  name = "SupervisedRes",
   properties = list(
     algorithm = class_character,
     models = class_list,
@@ -1170,8 +1170,8 @@ SupervisedCV <- new_class(
     y_test = class_any,
     predicted_training = class_any,
     predicted_test = class_any,
-    metrics_training = MetricsCV,
-    metrics_test = MetricsCV,
+    metrics_training = MetricsRes,
+    metrics_test = MetricsRes,
     xnames = class_character,
     varimp = class_any,
     question = class_character | NULL,
@@ -1222,10 +1222,10 @@ SupervisedCV <- new_class(
       session_info = sessionInfo()
     )
   }
-) # /SupervisedCV
+) # /SupervisedRes
 
-# Print SupervisedCV ----
-method(print, SupervisedCV) <- function(x, ...) {
+# Print SupervisedRes ----
+method(print, SupervisedRes) <- function(x, ...) {
   cat(gray(".:"))
   objcat(paste("Crossvalidated", x@type, "Model"))
   cat(
@@ -1263,14 +1263,14 @@ method(print, SupervisedCV) <- function(x, ...) {
   cat("\n")
   print(x@metrics_test)
   invisible(x)
-} # /SupervisedCV
+} # /SupervisedRes
 
-# Predict SupervisedCV ----
-#' Predict SupervisedCV
+# Predict SupervisedRes ----
+#' Predict SupervisedRes
 #'
-#' Predict Method for SupervisedCV objects
+#' Predict Method for SupervisedRes objects
 #'
-#' @param object SupervisedCV object.
+#' @param object SupervisedRes object.
 #' @param newdata data.frame or similar: New data to predict.
 #' @param type Character: Type of prediction to output: "avg" applies `avg_fn` (default "mean") to
 #' the predictions of individual models, "all" returns the predictions of all models in a
@@ -1280,7 +1280,7 @@ method(print, SupervisedCV) <- function(x, ...) {
 #'
 #' @keywords internal
 #' @noRd
-method(predict, SupervisedCV) <- function(
+method(predict, SupervisedRes) <- function(
   object,
   newdata,
   type = c("avg", "all", "metrics"),
@@ -1313,19 +1313,19 @@ method(predict, SupervisedCV) <- function(
       sd = sd_predictions
     ))
   }
-} # rtemis::predict.SupervisedCV
+} # rtemis::predict.SupervisedRes
 
-# ClassificationCV ----
-#' @title ClassificationCV
+# ClassificationRes ----
+#' @title ClassificationRes
 #'
 #' @description
-#' SupervisedCV subclass for cross-validated classification models.
+#' SupervisedRes subclass for cross-validated classification models.
 #'
 #' @author EDG
 #' @noRd
-ClassificationCV <- new_class(
-  name = "ClassificationCV",
-  parent = SupervisedCV,
+ClassificationRes <- new_class(
+  name = "ClassificationRes",
+  parent = SupervisedRes,
   properties = list(
     predicted_prob_training = class_any,
     predicted_prob_test = class_any
@@ -1349,16 +1349,16 @@ ClassificationCV <- new_class(
     question = NULL,
     extra = NULL
   ) {
-    metrics_training <- ClassificationMetricsCV(
+    metrics_training <- ClassificationMetricsRes(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)
     )
-    metrics_test <- ClassificationMetricsCV(
+    metrics_test <- ClassificationMetricsRes(
       sample = "Test",
       cv_metrics = lapply(models, function(mod) mod@metrics_test)
     )
     new_object(
-      SupervisedCV(
+      SupervisedRes(
         algorithm = algorithm,
         models = models,
         type = "Classification",
@@ -1383,24 +1383,24 @@ ClassificationCV <- new_class(
       predicted_prob_test = predicted_prob_test
     )
   }
-) # /ClassificationCV
+) # /ClassificationRes
 
 
-# CalibratedClassificationCV ----
-#' @title CalibratedClassificationCV
+# CalibratedClassificationRes ----
+#' @title CalibratedClassificationRes
 #'
 #' @description
-#' ClassificationCV subclass for calibrated classification models.
-#' The calibration models are trained on resamples of the `ClassificationCV`'s test data.
+#' ClassificationRes subclass for calibrated classification models.
+#' The calibration models are trained on resamples of the `ClassificationRes`'s test data.
 #'
 #' @author EDG
 #' @noRd
 # We use getter functions to avoid duplicating data
-CalibratedClassificationCV <- new_class(
-  name = "CalibratedClassificationCV",
-  parent = ClassificationCV,
+CalibratedClassificationRes <- new_class(
+  name = "CalibratedClassificationRes",
+  parent = ClassificationRes,
   properties = list(
-    calibration_models = class_list, # => create CalibrationCV class
+    calibration_models = class_list, # => create CalibrationRes class
     predicted_training_calibrated = new_property(
       getter = function(self) {
         lapply(self@calibration_models, function(mod) {
@@ -1444,17 +1444,17 @@ CalibratedClassificationCV <- new_class(
       }
     )
   ),
-  constructor = function(classificationcv_model, calibrations_models) {
+  constructor = function(ClassificationRes_model, calibrations_models) {
     new_object(
-      classificationcv_model,
+      ClassificationRes_model,
       calibration_models = calibrations_models
     )
   }
-) # /CalibratedClassificationCV
+) # /CalibratedClassificationRes
 
 
-# Print CalibratedClassificationCV ----
-method(print, CalibratedClassificationCV) <- function(x, ...) {
+# Print CalibratedClassificationRes ----
+method(print, CalibratedClassificationRes) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Crossvalidated Classification Model")
   cat(
@@ -1496,12 +1496,12 @@ method(print, CalibratedClassificationCV) <- function(x, ...) {
   print(x@metrics_training)
   cat("\n")
   print(x@metrics_test)
-} # /print.CalibratedClassificationCV
+} # /print.CalibratedClassificationRes
 
 
-# Predict CalibratedClassificationCV ----
+# Predict CalibratedClassificationRes ----
 # =>tocomplete
-method(predict, CalibratedClassificationCV) <- function(object, newdata, ...) {
+method(predict, CalibratedClassificationRes) <- function(object, newdata, ...) {
   check_inherits(newdata, "data.frame")
   raw_prob <- predict(object, newdata = newdata)
   # Get the classification model's predicted probabilities
@@ -1513,19 +1513,19 @@ method(predict, CalibratedClassificationCV) <- function(object, newdata, ...) {
   cal_prob <- lapply(object@calibration_models, function(mod) {
     predict(mod, data.frame(predicted_probabilities = raw_prob))
   })
-} # rtemis::predict.CalibratedClassificationCV
+} # rtemis::predict.CalibratedClassificationRes
 
-# RegressionCV ----
-#' @title RegressionCV
+# RegressionRes ----
+#' @title RegressionRes
 #'
 #' @description
-#' SupervisedCV subclass for cross-validated regression models.
+#' SupervisedRes subclass for cross-validated regression models.
 #'
 #' @author EDG
 #' @noRd
-RegressionCV <- new_class(
-  name = "RegressionCV",
-  parent = SupervisedCV,
+RegressionRes <- new_class(
+  name = "RegressionRes",
+  parent = SupervisedRes,
   properties = list(
     se_training = class_any,
     se_validation = class_any,
@@ -1555,16 +1555,16 @@ RegressionCV <- new_class(
       function(mod) mod@metrics_training@metrics
     )
     metrics_test <- lapply(models, function(mod) mod@metrics_test@metrics)
-    metrics_training <- RegressionMetricsCV(
+    metrics_training <- RegressionMetricsRes(
       sample = "Training",
       cv_metrics = lapply(models, function(mod) mod@metrics_training)
     )
-    metrics_test <- RegressionMetricsCV(
+    metrics_test <- RegressionMetricsRes(
       sample = "Test",
       cv_metrics = lapply(models, function(mod) mod@metrics_test)
     )
     new_object(
-      SupervisedCV(
+      SupervisedRes(
         algorithm = algorithm,
         models = models,
         type = "Regression",
@@ -1589,23 +1589,23 @@ RegressionCV <- new_class(
       se_test = se_test
     )
   }
-) # /RegressionCV
+) # /RegressionRes
 
-# Make SupervisedCV ----
-#' Make SupervisedCV
+# Make SupervisedRes ----
+#' Make SupervisedRes
 #'
 #' @author EDG
 #' @keywords internal
-# make_SupervisedCV <- function(algorithm, models, hyperparameters) {
-#   SupervisedCV(
+# make_SupervisedRes <- function(algorithm, models, hyperparameters) {
+#   SupervisedRes(
 #     algorithm = algorithm,
 #     models = models,
 #     hyperparameters = hyperparameters
 #   )
-# } # /make_SupervisedCV
+# } # /make_SupervisedRes
 # => predict method for {Regression,Classification}CV with average_fn = "mean"
 
-make_SupervisedCV <- function(
+make_SupervisedRes <- function(
   algorithm,
   type,
   models,
@@ -1628,7 +1628,7 @@ make_SupervisedCV <- function(
 ) {
   # Supervised ----
   if (type == "Classification") {
-    ClassificationCV(
+    ClassificationRes(
       algorithm = algorithm,
       models = models,
       preprocessor = preprocessor,
@@ -1647,7 +1647,7 @@ make_SupervisedCV <- function(
       extra = extra
     )
   } else {
-    RegressionCV(
+    RegressionRes(
       algorithm = algorithm,
       models = models,
       preprocessor = preprocessor,
@@ -1666,7 +1666,7 @@ make_SupervisedCV <- function(
       extra = extra
     )
   }
-} # /make_SupervisedCV
+} # /make_SupervisedRes
 
 early_stopping_algs <- c("LightGBM", "LightRF", "LightRuleFit")
 

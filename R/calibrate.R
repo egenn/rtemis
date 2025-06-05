@@ -87,7 +87,7 @@ calibrate.Classification <- function(
 } # /rtemis::calibrate
 
 
-#' @name calibrate.ClassificationCV
+#' @name calibrate.ClassificationRes
 #' @title
 #' Calibrate Cross-validated Binary Classification Models
 #'
@@ -96,7 +96,7 @@ calibrate.Classification <- function(
 #' model so that they better reflect the true probabilities (i.e. empirical risk) of the positive
 #' class.
 #'
-#' @param x ClassificationCV object.
+#' @param x ClassificationRes object.
 #' @param algorithm Character: Algorithm to use to train calibration model.
 #' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
 #' @param resampler_parameters ResamplerParameters
@@ -122,7 +122,7 @@ method(calibrate, Classification) <- function(
   )
 }
 
-calibrate.ClassificationCV <- function(
+calibrate.ClassificationRes <- function(
   x,
   algorithm = "isotonic",
   hyperparameters = NULL,
@@ -161,24 +161,24 @@ calibrate.ClassificationCV <- function(
   )
   names(calmods) <- names(x@models)
 
-  # calcv <- CalibrationCV(
+  # calcv <- CalibrationRes(
   #   models = calmods,
   #   resampler_parameters = resampler_parameters
   # )
 
-  # CalibratedClassificationCV
-  CalibratedClassificationCV(x, calmods)
-} # /rtemis::calibrate.ClassificationCV
+  # CalibratedClassificationRes
+  CalibratedClassificationRes(x, calmods)
+} # /rtemis::calibrate.ClassificationRes
 
 
-method(calibrate, ClassificationCV) <- function(
+method(calibrate, ClassificationRes) <- function(
   x,
   algorithm = "isotonic",
   hyperparameters = NULL,
   verbosity = 1L,
   ...
 ) {
-  calibrate.ClassificationCV(
+  calibrate.ClassificationRes(
     x,
     algorithm = algorithm,
     hyperparameters = hyperparameters,
