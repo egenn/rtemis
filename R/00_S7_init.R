@@ -45,7 +45,7 @@ present <- new_generic("present", "x")
 #' @description
 #' This generic is used to plot the ROC curve for a model.
 #'
-#' @param x Classification or ClassificationCV object.
+#' @param x Classification or ClassificationRes object.
 #' @param ... Additional arguments passed to the plotting function.
 #'
 #' @return A plotly object containing the ROC curve.

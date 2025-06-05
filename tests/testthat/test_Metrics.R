@@ -53,25 +53,25 @@ test_that("classification_metrics() returns correct metrics", {
   )
 })
 
-# RegressionMetricsCV ----
+# RegressionMetricsRes ----
 cv_metrics <- list(mod1 = reg_metrics, mod2 = reg_metrics2)
-rmcv <- RegressionMetricsCV(
+rmcv <- RegressionMetricsRes(
   sample = "Test",
   cv_metrics = cv_metrics
 )
 rmcv
-test_that("RegressionMetricsCV() succeeds", {
-  expect_s7_class(rmcv, RegressionMetricsCV)
+test_that("RegressionMetricsRes() succeeds", {
+  expect_s7_class(rmcv, RegressionMetricsRes)
 })
 
-# ClassificationMetricsCV ----
+# ClassificationMetricsRes ----
 cv_metrics <- list(mod1 = class_metrics1, mod2 = class_metrics2)
-cmcv <- ClassificationMetricsCV(
+cmcv <- ClassificationMetricsRes(
   sample = "Test",
   cv_metrics = cv_metrics
 )
 cmcv
 
-test_that("ClassificationMetricsCV() succeeds", {
-  expect_s7_class(cmcv, ClassificationMetricsCV)
+test_that("ClassificationMetricsRes() succeeds", {
+  expect_s7_class(cmcv, ClassificationMetricsRes)
 })

@@ -54,8 +54,8 @@ answer.}
 function with the \code{hyperparameters} argument.}
 }
 \value{
-Object of class \code{Regression(Supervised)}, \code{RegressionCV(SupervisedCV)},
-\code{Classification(Supervised)}, or \code{ClassificationCV(SupervisedCV)}.
+Object of class \code{Regression(Supervised)}, \code{RegressionRes(SupervisedRes)},
+\code{Classification(Supervised)}, or \code{ClassificationRes(SupervisedRes)}.
 }
 \description{
 Preprocess, tune, train, and test supervised learning models with a single function

@@ -132,16 +132,16 @@ test_that("train() GLMNET Regression with auto-lambda + alpha grid search succee
   expect_s7_class(mod_r_glmnet, Regression)
 })
 
-## CV GLMNET Regression + auto-lambda + alpha grid search ----
-cvmod_r_glmnet <- train(
+## Res GLMNET Regression + auto-lambda + alpha grid search ----
+resmod_r_glmnet <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0.5, 1)),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() CV-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
-  expect_s7_class(cvmod_r_glmnet, RegressionCV)
+test_that("train() Res-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
+  expect_s7_class(resmod_r_glmnet, RegressionRes)
 })
 
 ## GAM Regression ----
@@ -191,8 +191,8 @@ test_that("predict() GAM Regression succeeds", {
   expect_identical(tmod_r_gam@predicted_test, predicted)
 })
 
-## CV GAM Regression ----
-cvmod_r_gam <- train(
+## Res GAM Regression ----
+resmod_r_gam <- train(
   x = datr,
   algorithm = "gam",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
@@ -232,25 +232,25 @@ test_that("train() SVM Regression with tuning succeeds", {
   expect_s7_class(tmod_r_svmr, Regression)
 })
 
-## CV SVM Regression ----
-cvmod_r_svmr <- train(
+## Res SVM Regression ----
+resmod_r_svmr <- train(
   x = datr,
   algorithm = "svm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() CV SVM Regression succeeds", {
-  expect_s7_class(cvmod_r_svmr, RegressionCV)
+test_that("train() Res SVM Regression succeeds", {
+  expect_s7_class(resmod_r_svmr, RegressionRes)
 })
 
-## CV SVM Regression + tuning ----
-cvtmod_r_svmr <- train(
+## Res SVM Regression + tuning ----
+restmod_r_svmr <- train(
   x = datr,
   algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10)),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
-test_that("train() CV SVM Regression with tuning succeeds", {
-  expect_s7_class(cvtmod_r_svmr, RegressionCV)
+test_that("train() Res SVM Regression with tuning succeeds", {
+  expect_s7_class(restmod_r_svmr, RegressionRes)
 })
 
 ## train_CART() ----
@@ -296,33 +296,33 @@ test_that("tuned is set correctly", {
   expect_identical(tmod_r_cart@hyperparameters@tuned, 1L)
 })
 
-## CV CART Regression ----
-cvmod_r_cart <- train(
+## Res CART Regression ----
+resmod_r_cart <- train(
   x = datr,
   hyperparameters = setup_CART(),
   outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {
-  expect_s7_class(cvmod_r_cart, RegressionCV)
+  expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
-## CV CART Regression + tuning ----
-cvtmod_r_cart <- train(
+## Res CART Regression + tuning ----
+restmod_r_cart <- train(
   x = datr,
   hyperparameters = setup_CART(maxdepth = c(1, 2)),
   outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {
-  expect_s7_class(cvtmod_r_cart, RegressionCV)
+  expect_s7_class(restmod_r_cart, RegressionRes)
 })
 
-cvmod_r_cart <- train(
+resmod_r_cart <- train(
   x = datr,
   hyperparameters = setup_CART(prune_cp = c(.001, .01)),
   outer_resampling = setup_Resampler(3L)
 )
 test_that("train() Regression with crossvalidation succeeds", {
-  expect_s7_class(cvmod_r_cart, RegressionCV)
+  expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
 ## LightCART Regression ----
@@ -412,16 +412,16 @@ test_that("train() LightGBM Regression with autotune nrounds succeeds", {
   expect_s7_class(tmod_r_lightgbm, Regression)
 })
 
-## CV LightGBM Regression + autotune nrounds grid search ----
-cvtmod_r_lightgbm <- train(
+## Res LightGBM Regression + autotune nrounds grid search ----
+restmod_r_lightgbm <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "lightgbm",
   hyperparameters = setup_LightGBM(max_nrounds = 50L),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
-test_that("train() CV LightGBM Regression with autotune nrounds succeeds", {
-  expect_s7_class(cvtmod_r_lightgbm, RegressionCV)
+test_that("train() Res LightGBM Regression with autotune nrounds succeeds", {
+  expect_s7_class(restmod_r_lightgbm, RegressionRes)
 })
 
 ## LightRuleFit Regression ----
@@ -560,14 +560,14 @@ test_that("train() LightRF Classification succeeds", {
   expect_s7_class(mod_c_lightrf, Classification)
 })
 
-## LightRF CV Classification ----
-mod_c_lightrf_cv <- train(
+## LightRF Res Classification ----
+resmod_c_lightrf <- train(
   x = datc2,
   algorithm = "lightrf",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() LightRF Classification with crossvalidation succeeds", {
-  expect_s7_class(mod_c_lightrf_cv, ClassificationCV)
+  expect_s7_class(resmod_c_lightrf, ClassificationRes)
 })
 
 ## LightGBM Binary Classification ----
@@ -642,11 +642,11 @@ if (torch::torch_is_installed()) {
   })
 }
 
-# Predict SupervisedCV ----
+# Predict SupervisedRes ----
 
-## CV CART Regression ----
-predicted_mean <- predict(cvmod_r_cart, newdata = features(datr_test))
-test_that("predict() SupervisedCV succeeds", {
+## Res CART Regression ----
+predicted_mean <- predict(resmod_r_cart, newdata = features(datr_test))
+test_that("predict() SupervisedRes succeeds", {
   expect_true(length(predicted_mean) == nrow(datr_test))
 })
 
@@ -675,10 +675,10 @@ test_that("predict() CalibratedClassification succeeds", {
   )
 })
 
-# CalibrationCV ----
-mod_c_lightrf_cv_cal <- calibrate(mod_c_lightrf_cv)
-test_that("calibrate() succeeds on ClassificationCV", {
-  expect_s7_class(mod_c_lightrf_cv_cal, CalibratedClassificationCV)
+# CalibrationRes ----
+resmod_c_lightrf_cal <- calibrate(resmod_c_lightrf)
+test_that("calibrate() succeeds on ClassificationRes", {
+  expect_s7_class(resmod_c_lightrf_cal, CalibratedClassificationRes)
 })
 
 # Plot Regression ----
