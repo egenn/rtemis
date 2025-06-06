@@ -44,7 +44,7 @@
 #' @param file_height Numeric: Height of exported image.
 #' @param file_scale Numeric: Scale of exported image.
 #' @param plot_method Character: Plot method to use. Default = "plotly".
-#' @param theme \pkg{rtemis} theme to use.
+#' @param theme Theme object.
 #' @param ... Additional arguments to be passed to `heatmaply::heatmaply`.
 #'
 #' @return A heatmaply object.
@@ -84,7 +84,7 @@ draw_heatmap <- function(
   showticklabels = NULL,
   colorbar_len = .7,
   plot_method = "plotly",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   row_side_colors = NULL,
   row_side_palette = NULL,
   col_side_colors = NULL,
@@ -132,15 +132,7 @@ draw_heatmap <- function(
   }
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq_along(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
 
   bg <- plotly::toRGB(theme[["bg"]])
   fg <- plotly::toRGB(theme[["fg"]])

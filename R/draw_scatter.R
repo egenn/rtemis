@@ -25,7 +25,7 @@
 #' @param ylab Character: y-axis label.
 #' @param col Color for markers.
 #' @param alpha Numeric: Alpha for markers.
-#' @param theme List: Plot theme.
+#' @param theme Theme object.
 #' @param palette Character: Color palette.
 #' @param axes_square Logical: If TRUE, draw a square plot.
 #' @param group_names Character: Names for groups.
@@ -105,7 +105,6 @@
 #' @param file_height Numeric: Height of saved file.
 #' @param file_scale Numeric: Scale of saved file.
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Additional arguments passed to the theme function.
 #'
 #' @return A `plotly` object.
 #'
@@ -137,7 +136,7 @@ draw_scatter <- function(
   ylab = NULL,
   col = NULL,
   alpha = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   axes_square = FALSE,
   group_names = NULL,
@@ -216,8 +215,7 @@ draw_scatter <- function(
   file_width = 500,
   file_height = 500,
   file_scale = 1,
-  verbosity = 0L,
-  ...
+  verbosity = 0L
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -365,15 +363,8 @@ draw_scatter <- function(
   if (is.null(alpha)) alpha <- autoalpha(max(lengths(x)))
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
+
   if (diagonal) {
     if (is.null(diagonal_col)) {
       diagonal_col <- theme[["fg"]]

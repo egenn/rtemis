@@ -24,7 +24,7 @@ draw_3Dscatter(
   alpha = 0.8,
   bg = NULL,
   plot_bg = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   axes_square = FALSE,
   group_names = NULL,
@@ -57,8 +57,7 @@ draw_3Dscatter(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -100,7 +99,7 @@ draw_3Dscatter(
 
 \item{plot_bg}{Plot background color.}
 
-\item{theme}{List: Plot theme.}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: Color palette.}
 
@@ -167,8 +166,6 @@ draw_3Dscatter(
 \item{file_height}{Numeric: Height of saved file.}
 
 \item{file_scale}{Numeric: Scale of saved file.}
-
-\item{...}{Additional arguments passed to the theme function.}
 }
 \value{
 A \code{plotly} object.
@@ -181,7 +178,7 @@ Note that \code{draw_3Dscatter} uses the theme's \code{plot_bg} as \code{grid_co
 }
 \examples{
 \dontrun{
-draw_3Dscatter(iris, group = iris$Species, theme = "darkgrid")
+draw_3Dscatter(iris, group = iris$Species, theme = theme_blackigrid())
 }
 }
 \author{

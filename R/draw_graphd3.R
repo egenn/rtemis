@@ -14,7 +14,7 @@
 #' @param zoom Logical: If TRUE, graph is zoomable.
 #' @param legend Logical: If TRUE, display legend for groups.
 #' @param palette Vector of colors, or Character defining a builtin palette - get options with `rtpalette()`.
-#' @param theme \pkg{rtemis} theme to use.
+#' @param theme Theme object.
 #' @param ... Additional arguments to pass to `networkD3`.
 #'
 #' @return A networkD3 graph object.
@@ -32,16 +32,14 @@ draw_graphD3 <- function(
   zoom = TRUE,
   legend = FALSE,
   palette = rtemis_palette,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   ...
 ) {
   # Dependencies ----
   check_dependencies("networkD3")
 
   # Theme ----
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), list())
-  }
+  check_is_S7(theme, Theme)
 
   netd3 <- networkD3::igraph_to_networkD3(net)
   if (is.null(groups)) {

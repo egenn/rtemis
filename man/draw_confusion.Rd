@@ -14,13 +14,12 @@ draw_confusion(
   main = NULL,
   main_y = 1,
   main_yanchor = "bottom",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   margin = list(l = 20, r = 5, b = 5, t = 20),
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -44,9 +43,7 @@ the first row and column are the positive class.}
 
 \item{main_yanchor}{Character: y anchor of the title.}
 
-\item{theme}{List or Character: Either the output of a \verb{theme_*()} function or the name of a
-theme. Use \code{themes()} to get available theme names. Theme functions are of the form
-\verb{theme_<name>}.}
+\item{theme}{Theme object.}
 
 \item{margin}{List: Plot margins.}
 
@@ -57,8 +54,6 @@ theme. Use \code{themes()} to get available theme names. Theme functions are of 
 \item{file_height}{Numeric: height of the file. Default is 500.}
 
 \item{file_scale}{Numeric: scale of the file. Default is 1.}
-
-\item{...}{Additional arguments passed to theme functions.}
 }
 \value{
 A plotly object.

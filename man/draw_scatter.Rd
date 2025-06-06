@@ -23,7 +23,7 @@ draw_scatter(
   ylab = NULL,
   col = NULL,
   alpha = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   axes_square = FALSE,
   group_names = NULL,
@@ -102,8 +102,7 @@ draw_scatter(
   file_width = 500,
   file_height = 500,
   file_scale = 1,
-  verbosity = 0L,
-  ...
+  verbosity = 0L
 )
 }
 \arguments{
@@ -143,7 +142,7 @@ draw_scatter(
 
 \item{alpha}{Numeric: Alpha for markers.}
 
-\item{theme}{List: Plot theme.}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: Color palette.}
 
@@ -302,8 +301,6 @@ draw_scatter(
 \item{file_scale}{Numeric: Scale of saved file.}
 
 \item{verbosity}{Integer: Verbosity level.}
-
-\item{...}{Additional arguments passed to the theme function.}
 }
 \value{
 A \code{plotly} object.

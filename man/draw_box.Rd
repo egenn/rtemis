@@ -18,7 +18,7 @@ draw_box(
   alpha = 0.6,
   bg = NULL,
   plot_bg = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   boxpoints = "outliers",
   quartilemethod = "linear",
@@ -73,8 +73,7 @@ draw_box(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -109,7 +108,7 @@ colors from \code{palette}}
 
 \item{plot_bg}{Color: Background color for plot area.}
 
-\item{theme}{Character: Theme to use: Run \code{themes()} for available themes}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use. Only used if \code{col = NULL}.}
 
@@ -242,8 +241,6 @@ set.}
 is set.}
 
 \item{file_scale}{Numeric: If saving to file, scale plot by this number}
-
-\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}

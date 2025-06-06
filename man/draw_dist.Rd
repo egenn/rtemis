@@ -15,7 +15,7 @@ draw_dist(
   col = NULL,
   alpha = 0.75,
   plot_bg = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   axes_square = FALSE,
   group_names = NULL,
@@ -59,8 +59,7 @@ draw_dist(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -84,7 +83,7 @@ draw_dist(
 
 \item{plot_bg}{Color: Background color for plot area.}
 
-\item{theme}{List: Theme settings for the plot.}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: Color palette to use.}
 
@@ -173,8 +172,6 @@ draw_dist(
 \item{file_height}{Integer: File height in pixels for when \code{filename} is set.}
 
 \item{file_scale}{Numeric: If saving to file, scale plot by this number.}
-
-\item{...}{Additional arguments passed to theme function.}
 }
 \value{
 A plotly object

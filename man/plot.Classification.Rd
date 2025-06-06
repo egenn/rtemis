@@ -4,14 +4,14 @@
 \alias{plot.Classification}
 \title{Plot Classification}
 \usage{
-\method{plot}{Classification}(x, what = NULL, theme = "darkgraygrid", ...)
+\method{plot}{Classification}(x, what = NULL, theme = choose_theme(), ...)
 }
 \arguments{
 \item{x}{Classification object.}
 
 \item{what}{Character vector: What to plot. "training", "validation", "test"}
 
-\item{theme}{Character or Theme: Theme to use for the plot.}
+\item{theme}{Theme object.}
 
 \item{...}{Additional arguments passed to the plotting function.}
 }

@@ -43,7 +43,7 @@ draw_protein(
   region_line_smoothing = 1,
   region_line_width = 1,
   region_line_alpha = 0.6,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   region_palette = rtemis_palette,
   region_outline_only = FALSE,
   region_outline_pad = 2,
@@ -103,8 +103,7 @@ draw_protein(
   file_scale = 1,
   width = NULL,
   height = NULL,
-  verbosity = 1L,
-  ...
+  verbosity = 1L
 )
 }
 \arguments{
@@ -191,7 +190,7 @@ middle.}
 
 \item{region_line_alpha}{Numeric: Alpha for region lines.}
 
-\item{theme}{Character: Theme to use: Run \code{themes()} for available themes.}
+\item{theme}{Theme object.}
 
 \item{region_palette}{Named list of colors for regions.}
 
@@ -312,8 +311,6 @@ middle.}
 \item{height}{Integer: Height for plot.}
 
 \item{verbosity}{Integer: Verbosity level.}
-
-\item{...}{Additional arguments to pass to the theme function.}
 }
 \value{
 A plotly object

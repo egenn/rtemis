@@ -39,7 +39,7 @@ draw_spectrogram(
   main = NULL,
   key_title = NULL,
   showticklabels = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   font_size = NULL,
   padding = 0,
   displayModeBar = TRUE,
@@ -120,7 +120,7 @@ draw_spectrogram(
 
 \item{showticklabels}{Logical: If TRUE, show tick labels.}
 
-\item{theme}{List: Theme settings.}
+\item{theme}{Theme object.}
 
 \item{font_size}{Numeric: Font size.}
 

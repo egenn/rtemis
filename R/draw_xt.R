@@ -59,7 +59,7 @@
 #' @param show_rangeslider Logical: If TRUE, show a range slider.
 #' @param slider_start Numeric: Start of range slider.
 #' @param slider_end Numeric: End of range slider.
-#' @param theme Character or list: Name of theme or list of plot parameters.
+#' @param theme Theme object.
 #' @param palette Color list: will be used to draw each vector in `y` and `y2`, in order.
 #' @param font_size Numeric: Font size for text.
 #' @param yfill Character: Fill type for y-axis: "none", "tozeroy", "tonexty".
@@ -96,7 +96,6 @@
 #' @param file_width Numeric: Width of the saved plot image.
 #' @param file_height Numeric: Height of the saved plot image.
 #' @param file_scale Numeric: Scale of the saved plot image.
-#' @param ... Additional theme arguments.
 #'
 #' @return A plotly object.
 #'
@@ -138,7 +137,7 @@ draw_xt <- function(
   show_rangeslider = NULL,
   slider_start = NULL,
   slider_end = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtpalette(rtemis_palette),
   font_size = 16,
   yfill = "none",
@@ -174,8 +173,7 @@ draw_xt <- function(
   filename = NULL,
   file_width = 960,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 ) {
   # Names ----
   .xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
@@ -327,15 +325,8 @@ draw_xt <- function(
   }
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
+
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])
   grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])

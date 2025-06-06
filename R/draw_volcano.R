@@ -45,8 +45,7 @@
 #' as reference. 0: to the left of the plot area; 1: to the right of the plot area.
 #' @param annotate Logical: If TRUE, annotate significant points.
 #' @param annotate_col Color for annotations.
-#' @param theme Output of an rtemis theme function (list of parameters) or theme
-#' name. Use `themes()` to print available themes.
+#' @param theme Theme object.
 #' @param font_size Integer: Font size.
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
 #' @param legend_x_lo Numeric: x position of `legend_lo`.
@@ -122,7 +121,7 @@ draw_volcano <- function(
   hline_annotation_x = 1,
   annotate = TRUE,
   annotate_col = theme[["labs_col"]],
-  theme = rtemis_theme,
+  theme = choose_theme(),
   font_size = 16,
   palette = NULL,
   legend_x_lo = NULL,
@@ -188,16 +187,7 @@ draw_volcano <- function(
   }
 
   # Theme ----
-  # extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), list())
-  }
-  # else {
-  #     # Override with extra arguments
-  #     for (i in seq(extraargs)) {
-  #         theme[[names(extraargs)[i]]] <- extraargs[[i]]
-  #     }
-  # }
+  check_is_S7(theme, Theme)
 
   # Plot ----
   if (is.null(hovertext)) hovertext <- xnames

@@ -12,7 +12,7 @@ draw_bar(
   col = NULL,
   alpha = 1,
   horizontal = FALSE,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   barmode = c("group", "relative", "stack", "overlay"),
   group_names = NULL,
@@ -45,8 +45,7 @@ draw_bar(
   file_width = 500,
   file_height = 500,
   file_scale = 1,
-  verbosity = 0L,
-  ...
+  verbosity = 0L
 )
 }
 \arguments{
@@ -66,9 +65,7 @@ colors from \code{palette}}
 
 \item{horizontal}{Logical: If TRUE, plot bars horizontally}
 
-\item{theme}{List or Character: Either the output of a \verb{theme_*()} function or the name of  a
-theme. Use \code{themes()} to get available theme names. Theme functions are of the form
-\verb{theme_<name>}.}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: Name of \pkg{rtemis} palette to use.}
 
@@ -153,8 +150,6 @@ is set.}
 \item{file_scale}{Numeric: If saving to file, scale plot by this number}
 
 \item{verbosity}{Integer: Verbosity level.}
-
-\item{...}{Additional arguments passed to theme}
 }
 \description{
 Draw interactive barplots using \code{plotly}

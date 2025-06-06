@@ -9,7 +9,8 @@
 #' @param bin_method Character: "quantile" or "equidistant": Method to bin the estimated
 #' probabilities.
 #' @param n_bins Integer: Number of windows to split the data into
-#' @param binclasspos Integer: Index of the positive class
+#' @param binclasspos Integer: Index of the positive class. The convention used in the package is
+#' the second level is the positive class.
 #' @param main Character: Main title
 #' @param subtitle Character: Subtitle, placed bottom right of plot
 #' @param xlab Character: x-axis label
@@ -20,7 +21,7 @@
 #' @param marginal_size Numeric: Size of marginal plot
 #' @param mode Character: "lines", "markers", "lines+markers": How to plot.
 #' @param show_brier Logical: If TRUE, add Brier scores to trace names.
-#' @param theme Character or list: Theme to use for plot
+#' @param theme Theme object.
 #' @param filename Character: Path to save output.
 #' @param ... Additional arguments passed to [draw_scatter]
 #'
@@ -67,7 +68,7 @@ draw_calibration <- function(
   marginal_size = 10,
   mode = "markers+lines",
   show_brier = TRUE,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   filename = NULL,
   ...
 ) {
@@ -83,9 +84,8 @@ draw_calibration <- function(
   stopifnot(length(true_labels) == length(predicted_prob))
 
   # Theme ----
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), list())
-  }
+  check_is_S7(theme, Theme)
+
   pos_class <- lapply(true_labels, \(x) {
     levels(x)[binclasspos]
   })

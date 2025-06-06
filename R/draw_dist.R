@@ -20,7 +20,7 @@
 #' @param col Color: Colors for the plot.
 #' @param alpha Numeric: Alpha transparency for plot elements.
 #' @param plot_bg Color: Background color for plot area.
-#' @param theme List: Theme settings for the plot.
+#' @param theme Theme object.
 #' @param palette Character: Color palette to use.
 #' @param axes_square Logical: If TRUE, draw a square plot to fill the graphic device. Default = FALSE.
 #' @param group_names Character: Names for the groups.
@@ -65,7 +65,6 @@
 #' @param file_width Integer: File width in pixels for when `filename` is set.
 #' @param file_height Integer: File height in pixels for when `filename` is set.
 #' @param file_scale Numeric: If saving to file, scale plot by this number.
-#' @param ... Additional arguments passed to theme function.
 #'
 #' @return A plotly object
 #'
@@ -88,7 +87,7 @@ draw_dist <- function(
   col = NULL,
   alpha = .75,
   plot_bg = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   axes_square = FALSE,
   group_names = NULL,
@@ -138,8 +137,7 @@ draw_dist <- function(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -206,14 +204,7 @@ draw_dist <- function(
   }
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
 
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])

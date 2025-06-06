@@ -27,14 +27,12 @@
 #' @param font_size Integer: Overall font size to use (essentially for the
 #' title at this point).
 #' @param axis_font_size Integer: Font size to use for axis labels and tick labels.
-#' @param theme Output of an rtemis theme function (list of parameters) or theme
-#' name. Use `themes()` to print available themes.
+#' @param theme Theme object.
 #' @param showlegend Logical: If TRUE, show legend.
 #' @param filename Character: Path to save the plot image.
 #' @param file_width Numeric: Width of the saved plot image.
 #' @param file_height Numeric: Height of the saved plot image.
 #' @param file_scale Numeric: Scale of the saved plot image.
-#' @param ... Additional arguments passed to theme.
 #'
 #' @return A `plotly` object.
 #'
@@ -66,13 +64,12 @@ draw_varimp <- function(
   mar = NULL,
   font_size = 16,
   axis_font_size = 14,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   showlegend = TRUE,
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -84,14 +81,8 @@ draw_varimp <- function(
   }
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
+
   if (is.character(palette)) palette <- rtpalette(palette)
 
   bg <- plotly::toRGB(theme[["bg"]])

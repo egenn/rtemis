@@ -31,7 +31,7 @@ draw_heatmap(
   showticklabels = NULL,
   colorbar_len = 0.7,
   plot_method = "plotly",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   row_side_colors = NULL,
   row_side_palette = NULL,
   col_side_colors = NULL,
@@ -100,7 +100,7 @@ draw_heatmap(
 
 \item{plot_method}{Character: Plot method to use. Default = "plotly".}
 
-\item{theme}{\pkg{rtemis} theme to use.}
+\item{theme}{Theme object.}
 
 \item{row_side_colors}{Data frame: Column names will be label names, cells should be label colors. See \code{heatmaply::heatmaply("row_side_colors")}.}
 

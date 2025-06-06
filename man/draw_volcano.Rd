@@ -34,7 +34,7 @@ draw_volcano(
   hline_annotation_x = 1,
   annotate = TRUE,
   annotate_col = theme[["labs_col"]],
-  theme = rtemis_theme,
+  theme = choose_theme(),
   font_size = 16,
   palette = NULL,
   legend_x_lo = NULL,
@@ -125,8 +125,7 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area.
 
 \item{annotate_col}{Color for annotations.}
 
-\item{theme}{Output of an rtemis theme function (list of parameters) or theme
-name. Use \code{themes()} to print available themes.}
+\item{theme}{Theme object.}
 
 \item{font_size}{Integer: Font size.}
 

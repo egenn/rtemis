@@ -21,13 +21,12 @@ draw_varimp(
   mar = NULL,
   font_size = 16,
   axis_font_size = 14,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   showlegend = TRUE,
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -65,8 +64,7 @@ title at this point).}
 
 \item{axis_font_size}{Integer: Font size to use for axis labels and tick labels.}
 
-\item{theme}{Output of an rtemis theme function (list of parameters) or theme
-name. Use \code{themes()} to print available themes.}
+\item{theme}{Theme object.}
 
 \item{showlegend}{Logical: If TRUE, show legend.}
 
@@ -77,8 +75,6 @@ name. Use \code{themes()} to print available themes.}
 \item{file_height}{Numeric: Height of the saved plot image.}
 
 \item{file_scale}{Numeric: Scale of the saved plot image.}
-
-\item{...}{Additional arguments passed to theme.}
 }
 \value{
 A \code{plotly} object.

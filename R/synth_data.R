@@ -260,7 +260,7 @@ synth_multimodal <- function(
         }
       ))
     } else {
-      rep(0, n.cases)
+      rep(0, n_cases)
     }
   }
   if (verbosity > 0L) cat(" Done\n")

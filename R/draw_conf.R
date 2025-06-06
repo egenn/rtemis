@@ -15,15 +15,12 @@
 #' @param main Character: plot title.
 #' @param main_y Numeric: y position of the title.
 #' @param main_yanchor Character: y anchor of the title.
-#' @param theme List or Character: Either the output of a `theme_*()` function or the name of a
-#' theme. Use `themes()` to get available theme names. Theme functions are of the form
-#' `theme_<name>`.
+#' @param theme Theme object.
 #' @param margin List: Plot margins.
 #' @param filename Character: file name to save the plot. Default is NULL.
 #' @param file_width Numeric: width of the file. Default is 500.
 #' @param file_height Numeric: height of the file. Default is 500.
 #' @param file_scale Numeric: scale of the file. Default is 1.
-#' @param ... Additional arguments passed to theme functions.
 #'
 #' @return A plotly object.
 #'
@@ -49,14 +46,13 @@ draw_confusion <- function(
   main = NULL,
   main_y = 1,
   main_yanchor = "bottom",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   margin = list(l = 20, r = 5, b = 5, t = 20),
   # write to file
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 ) {
   # Input ----
   if (S7_inherits(x, ClassificationMetrics)) {
@@ -85,15 +81,8 @@ draw_confusion <- function(
   class_npv <- true_negative / (total - predicted_totals)
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
+
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])
   grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])

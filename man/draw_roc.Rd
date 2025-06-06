@@ -8,7 +8,7 @@ draw_roc(
   true_labels,
   predicted_prob,
   main = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   col = rtpalette(rtemis_palette),
   legend = TRUE,
   legend_title = "Group (AUC)",
