@@ -54,10 +54,10 @@ test_that("classification_metrics() returns correct metrics", {
 })
 
 # RegressionMetricsRes ----
-cv_metrics <- list(mod1 = reg_metrics, mod2 = reg_metrics2)
+res_metrics <- list(mod1 = reg_metrics, mod2 = reg_metrics2)
 rmcv <- RegressionMetricsRes(
   sample = "Test",
-  cv_metrics = cv_metrics
+  res_metrics = res_metrics
 )
 rmcv
 test_that("RegressionMetricsRes() succeeds", {
@@ -65,10 +65,10 @@ test_that("RegressionMetricsRes() succeeds", {
 })
 
 # ClassificationMetricsRes ----
-cv_metrics <- list(mod1 = class_metrics1, mod2 = class_metrics2)
+res_metrics <- list(mod1 = class_metrics1, mod2 = class_metrics2)
 cmcv <- ClassificationMetricsRes(
   sample = "Test",
-  cv_metrics = cv_metrics
+  res_metrics = res_metrics
 )
 cmcv
 
