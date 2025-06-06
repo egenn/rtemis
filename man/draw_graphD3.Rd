@@ -15,7 +15,7 @@ draw_graphD3(
   zoom = TRUE,
   legend = FALSE,
   palette = rtemis_palette,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   ...
 )
 }
@@ -40,7 +40,7 @@ draw_graphD3(
 
 \item{palette}{Vector of colors, or Character defining a builtin palette - get options with \code{rtpalette()}.}
 
-\item{theme}{\pkg{rtemis} theme to use.}
+\item{theme}{Theme object.}
 
 \item{...}{Additional arguments to pass to \code{networkD3}.}
 }

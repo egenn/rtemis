@@ -32,7 +32,7 @@
 #' "longdash", "dashdot", or "longdashdot") or a dash length list in px
 #' (eg "5px,10px,2px,2px")
 #' @param displayModeBar Logical: If TRUE, display plotly's modebar
-#' @param theme Character: theme name or list of theme parameters
+#' @param theme Theme object.
 #' @param palette Character: palette name, or list of colors
 #' @param filename Character: Path to filename to save plot
 #' @param spikemode Character: If "toaxis", spike line is drawn from the data
@@ -97,7 +97,7 @@ draw_ts <- function(
   spikethickness = 1,
   displayModeBar = TRUE,
   modeBar_file_format = "svg",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   filename = NULL,
   file_width = 500,

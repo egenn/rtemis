@@ -32,7 +32,7 @@ draw_roc <- function(
   true_labels,
   predicted_prob,
   main = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   col = rtpalette(rtemis_palette),
   legend = TRUE,
   legend_title = "Group (AUC)",
@@ -88,6 +88,7 @@ draw_roc <- function(
   FPR <- lapply(.roc, \(r) 1 - r[["specificities"]])
   AUC <- lapply(.roc, \(r) r[["auc"]])
   names(TPR) <- names(FPR) <- names(AUC) <- .names
+  theme@parameters[["zerolines"]] <- FALSE
   draw_scatter(
     x = FPR,
     y = TPR,
@@ -107,7 +108,6 @@ draw_roc <- function(
     ylim = ylim,
     diagonal = diagonal,
     diagonal_col = diagonal_col,
-    zerolines = FALSE,
     axes_square = axes_square,
     order_on_x = FALSE,
     filename = filename,

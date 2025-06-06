@@ -85,6 +85,16 @@ test_that("train() GLM Regression with missing data throws error", {
   )
 })
 
+## Res GLM Regression ----
+resmod_r_glm <- train(
+  x = datr,
+  algorithm = "glm",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res GLM Regression succeeds", {
+  expect_s7_class(resmod_r_glm, RegressionRes)
+})
+
 ## GLMNET ----
 hyperparameters <- setup_GLMNET()
 hyperparameters
@@ -482,6 +492,16 @@ test_that("train() GLM Classification succeeds", {
   expect_s7_class(mod_c_glm, Classification)
 })
 
+## GLM ClassificationRes ----
+resmod_c_glm <- train(
+  x = datc2,
+  algorithm = "glm",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() GLM Classification with crossvalidation succeeds", {
+  expect_s7_class(resmod_c_glm, ClassificationRes)
+})
+
 ## GAM Classification ----
 mod_c_gam <- train(
   x = datc2_train,
@@ -721,6 +741,18 @@ test_that("draw_roc creates a plotly object", {
 })
 test_that("plot_roc.Classification creates a plotly object", {
   p <- plot_roc(mod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Plot RegressionRes ----
+test_that("plot.SupervisedRes creates a plotly object", {
+  p <- plot(resmod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Plot ClassificationRes ----
+test_that("plot.SupervisedRes creates a plotly object", {
+  p <- plot(resmod_c_glm)
   expect_s3_class(p, "plotly")
 })
 

@@ -44,7 +44,7 @@
 #' @param main Character: Main title.
 #' @param key_title Character: Title of the key.
 #' @param showticklabels Logical: If TRUE, show tick labels.
-#' @param theme List: Theme settings.
+#' @param theme Theme object.
 #' @param font_size Numeric: Font size.
 #' @param padding Numeric: Padding between cells.
 #' @param displayModeBar Logical: If TRUE, display the plotly mode bar.
@@ -95,7 +95,7 @@ draw_spectrogram <- function(
   main = NULL,
   key_title = NULL,
   showticklabels = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   font_size = NULL,
   padding = 0,
   displayModeBar = TRUE,
@@ -127,15 +127,7 @@ draw_spectrogram <- function(
   }
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq_along(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
 
   bg <- plotly::toRGB(theme[["bg"]])
   fg <- plotly::toRGB(theme[["fg"]])

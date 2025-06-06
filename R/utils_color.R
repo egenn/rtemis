@@ -720,7 +720,7 @@ colorgradient.x <- function(
 #' @param filename String (Optional: Path to file to save colorbar
 #' @param pdf_width Float: Width for PDF output.
 #' @param pdf_height Float: Height for PDF output.
-#' @param theme Character: "light", "dark"
+#' @param theme Theme object.
 #' @param bg Color: Background color
 #' @param col_text Color: Colorbar text color
 #' @param plotlycb Logical: Create colorbar using `plotly` (instead of base R graphics)

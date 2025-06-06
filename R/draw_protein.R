@@ -51,7 +51,7 @@
 #' @param region_line_smoothing Numeric: Smoothing for region lines.
 #' @param region_line_width Numeric: Width for region lines.
 #' @param region_line_alpha Numeric: Alpha for region lines.
-#' @param theme Character: Theme to use: Run `themes()` for available themes.
+#' @param theme Theme object.
 #' @param region_palette Named list of colors for regions.
 #' @param region_outline_only Logical: If TRUE, only show outline of regions.
 #' @param region_outline_pad Numeric: Padding for region outline.
@@ -112,7 +112,6 @@
 #' @param width Integer: Width for plot.
 #' @param height Integer: Height for plot.
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Additional arguments to pass to the theme function.
 #'
 #' @return A plotly object
 #'
@@ -172,7 +171,7 @@ draw_protein <- function(
   region_line_smoothing = 1,
   region_line_width = 1,
   region_line_alpha = .6,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   region_palette = rtemis_palette,
   region_outline_only = FALSE,
   region_outline_pad = 2, # for fake polys
@@ -243,8 +242,7 @@ draw_protein <- function(
   file_scale = 1,
   width = NULL,
   height = NULL,
-  verbosity = 1L,
-  ...
+  verbosity = 1L
 ) {
   # Data ----
   if (inherits(x, "a3")) {
@@ -338,14 +336,8 @@ draw_protein <- function(
       ys[seq(n_per_row, n, n_per_row)] + 1
   }
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
+
   if (is.null(label_col)) label_col <- theme[["fg"]]
   label_col <- recycle(label_col, x)
   if (is.null(marker_col))

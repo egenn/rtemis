@@ -14,9 +14,7 @@
 #' @param col Color, vector: Color for bars. Default NULL, which will draw
 #' colors from `palette`
 #' @param alpha Float (0, 1]: Transparency for bar colors.
-#' @param theme List or Character: Either the output of a `theme_*()` function or the name of  a
-#' theme. Use `themes()` to get available theme names. Theme functions are of the form
-#' `theme_<name>`.
+#' @param theme Theme object.
 #' @param palette Character: Name of \pkg{rtemis} palette to use.
 #' @param barmode Character: Type of bar plot to make: "group", "relative",
 #' "stack", "overlay". Default = "group". Use
@@ -70,7 +68,6 @@
 #' is set.
 #' @param file_scale Numeric: If saving to file, scale plot by this number
 #' @param verbosity Integer: Verbosity level.
-#' @param ... Additional arguments passed to theme
 #'
 #' @author EDG
 #' @export
@@ -96,7 +93,7 @@ draw_bar <- function(
   col = NULL,
   alpha = 1,
   horizontal = FALSE,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   barmode = c("group", "relative", "stack", "overlay"),
   group_names = NULL,
@@ -129,8 +126,7 @@ draw_bar <- function(
   file_width = 500,
   file_height = 500,
   file_scale = 1,
-  verbosity = 0L,
-  ...
+  verbosity = 0L
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -186,14 +182,7 @@ draw_bar <- function(
   if (is.null(col)) col <- recycle(palette, seq(p))[seq(p)]
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
 
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])

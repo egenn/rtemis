@@ -98,7 +98,7 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 
 \item{pdf_height}{Float: Height for PDF output.}
 
-\item{theme}{Character: "light", "dark"}
+\item{theme}{Theme object.}
 
 \item{bg}{Color: Background color}
 

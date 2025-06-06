@@ -162,7 +162,7 @@ MetricsRes <- new_class(
   name = "MetricsRes",
   properties = list(
     sample = class_character | NULL,
-    cv_metrics = class_list,
+    res_metrics = class_list,
     mean_metrics = class_data.frame,
     sd_metrics = class_data.frame
   )
@@ -201,16 +201,16 @@ method(print, MetricsRes) <- function(x, decimal_places = 3, ...) {
 RegressionMetricsRes <- new_class(
   name = "RegressionMetricsRes",
   parent = MetricsRes,
-  constructor = function(sample, cv_metrics) {
+  constructor = function(sample, res_metrics) {
     new_object(
       MetricsRes(
         sample = sample,
-        cv_metrics = cv_metrics,
+        res_metrics = res_metrics,
         mean_metrics = vec2df(
-          colMeans(do.call(rbind, lapply(cv_metrics, function(x) x@metrics)))
+          colMeans(do.call(rbind, lapply(res_metrics, function(x) x@metrics)))
         ),
         sd_metrics = vec2df(
-          sapply(do.call(rbind, lapply(cv_metrics, function(x) x@metrics)), sd)
+          sapply(do.call(rbind, lapply(res_metrics, function(x) x@metrics)), sd)
         )
       )
     )
@@ -222,22 +222,22 @@ RegressionMetricsRes <- new_class(
 ClassificationMetricsRes <- new_class(
   name = "ClassificationMetricsRes",
   parent = MetricsRes,
-  constructor = function(sample, cv_metrics) {
+  constructor = function(sample, res_metrics) {
     new_object(
       MetricsRes(
         sample = sample,
-        cv_metrics = cv_metrics,
+        res_metrics = res_metrics,
         mean_metrics = vec2df(
           colMeans(do.call(
             rbind,
-            lapply(cv_metrics, function(x) x@metrics[["Overall"]])
+            lapply(res_metrics, function(x) x@metrics[["Overall"]])
           ))
         ),
         sd_metrics = vec2df(
           sapply(
             do.call(
               rbind,
-              lapply(cv_metrics, function(x) x@metrics[["Overall"]])
+              lapply(res_metrics, function(x) x@metrics[["Overall"]])
             ),
             sd
           )

@@ -37,7 +37,7 @@
 #' @param alpha Float (0, 1]: Transparency for box colors.
 #' @param bg Color: Background color.
 #' @param plot_bg Color: Background color for plot area.
-#' @param theme Character: Theme to use: Run `themes()` for available themes
+#' @param theme Theme object.
 #' @param palette Character: Name of \pkg{rtemis} palette to use. Only used if `col = NULL`.
 #' @param quartilemethod Character: "linear", "exclusive", "inclusive"
 #' @param xlim Numeric vector: x-axis limits
@@ -115,8 +115,6 @@
 #' @param file_height Integer: File height in pixels for when `filename`
 #' is set.
 #' @param file_scale Numeric: If saving to file, scale plot by this number
-# @param print.plot Logical: If TRUE, print plot, otherwise return it invisibly
-#' @param ... Additional arguments passed to theme
 #'
 #' @author EDG
 #' @export
@@ -161,7 +159,7 @@ draw_box <- function(
   alpha = .6,
   bg = NULL,
   plot_bg = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   boxpoints = "outliers",
   quartilemethod = "linear",
@@ -221,9 +219,7 @@ draw_box <- function(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  # print.plot = TRUE,
-  ...
+  file_scale = 1
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -302,14 +298,8 @@ draw_box <- function(
   }
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
+
   if (theme[["main_font"]] == 2) main <- paste0("<b>", main, "</b>")
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])

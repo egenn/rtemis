@@ -20,7 +20,7 @@ draw_calibration(
   marginal_size = 10,
   mode = "markers+lines",
   show_brier = TRUE,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   filename = NULL,
   ...
 )
@@ -35,7 +35,8 @@ draw_calibration(
 \item{bin_method}{Character: "quantile" or "equidistant": Method to bin the estimated
 probabilities.}
 
-\item{binclasspos}{Integer: Index of the positive class}
+\item{binclasspos}{Integer: Index of the positive class. The convention used in the package is
+the second level is the positive class.}
 
 \item{main}{Character: Main title}
 
@@ -57,7 +58,7 @@ probabilities.}
 
 \item{show_brier}{Logical: If TRUE, add Brier scores to trace names.}
 
-\item{theme}{Character or list: Theme to use for plot}
+\item{theme}{Theme object.}
 
 \item{filename}{Character: Path to save output.}
 

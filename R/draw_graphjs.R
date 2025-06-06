@@ -27,8 +27,7 @@
 #' @param cluster_mark_groups Logical: If TRUE, draw polygons to indicate clusters, if `groups` or `cluster` are defined.
 #' @param cluster_color_vertices Logical: If TRUE, color vertices by cluster membership.
 #' @param main Character: Main title.
-#' @param theme \pkg{rtemis} theme to use.
-#' @param theme_extra_args List of extra arguments to pass to the theme function defined by `theme`.
+#' @param theme Theme object.
 #' @param palette Color vector or name of rtemis palette.
 #' @param mar Numeric vector, length 4: `par`'s margin argument.
 #' @param par_reset Logical: If TRUE, reset par before exiting.
@@ -72,8 +71,7 @@ draw_graphjs <- function(
   cluster_mark_groups = TRUE,
   cluster_color_vertices = FALSE,
   main = "",
-  theme = rtemis_theme,
-  theme_extra_args = list(),
+  theme = choose_theme(),
   palette = rtemis_palette,
   mar = rep(0, 4),
   par_reset = TRUE,
@@ -85,10 +83,7 @@ draw_graphjs <- function(
   check_dependencies("igraph", "threejs")
 
   # Theme ----
-  # extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), theme_extra_args)
-  }
+  check_is_S7(theme, Theme)
 
   if (is.character(palette)) palette <- unname(unlist(rtpalette(palette)))
 

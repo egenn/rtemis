@@ -16,7 +16,7 @@
 #' @param alpha Numeric: Alpha for the pie slices.
 #' @param bg Character: Background color.
 #' @param plot_bg Character: Plot background color.
-#' @param theme Character: "light", "dark". Default = `getOption("rtemis_theme", "light")`.
+#' @param theme Theme object.
 #' @param palette Character: Color palette to use.
 #' @param category_names Character, vector, length = NROW(x): Category names. Default = NULL, which uses
 #' either `rownames(x)`, or the first column of `x` if `ncol(x) = 2`.
@@ -34,7 +34,6 @@
 #' @param file_width Integer: Width for saved file.
 #' @param file_height Integer: Height for saved file.
 #' @param file_scale Numeric: Scale for saved file.
-#' @param ... Additional arguments to pass to the theme function.
 #'
 #' @return A plotly object.
 #'
@@ -53,7 +52,7 @@ draw_pie <- function(
   alpha = .8,
   bg = NULL,
   plot_bg = NULL,
-  theme = getOption("rtemis_theme", "black"),
+  theme = choose_theme(),
   palette = rtemis_palette,
   category_names = NULL,
   textinfo = "label+percent",
@@ -69,8 +68,7 @@ draw_pie <- function(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -114,19 +112,9 @@ draw_pie <- function(
   if (length(col) < p) col <- rep(col, p / length(col))
 
   # Theme ----
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
 
   bg <- plotly::toRGB(theme[["bg"]])
-  # plot_bg <- plotly::toRGB(theme[["plot_bg"]])
-  # grid_col <- plotly::toRGB(theme[["grid_col"]])
-  # tick_col <- plotly::toRGB(theme[["tick_labels_col"]])
   labs_col <- plotly::toRGB(theme[["labs_col"]])
   main_col <- plotly::toRGB(theme[["main_col"]])
 

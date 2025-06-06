@@ -39,7 +39,7 @@ draw_xt(
   show_rangeslider = NULL,
   slider_start = NULL,
   slider_end = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtpalette(rtemis_palette),
   font_size = 16,
   yfill = "none",
@@ -72,8 +72,7 @@ draw_xt(
   filename = NULL,
   file_width = 960,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -159,7 +158,7 @@ included.}
 
 \item{slider_end}{Numeric: End of range slider.}
 
-\item{theme}{Character or list: Name of theme or list of plot parameters.}
+\item{theme}{Theme object.}
 
 \item{palette}{Color list: will be used to draw each vector in \code{y} and \code{y2}, in order.}
 
@@ -229,8 +228,6 @@ bar image export.}
 \item{file_height}{Numeric: Height of the saved plot image.}
 
 \item{file_scale}{Numeric: Scale of the saved plot image.}
-
-\item{...}{Additional theme arguments.}
 }
 \value{
 A plotly object.

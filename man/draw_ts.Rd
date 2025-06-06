@@ -30,7 +30,7 @@ draw_ts(
   spikethickness = 1,
   displayModeBar = TRUE,
   modeBar_file_format = "svg",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   filename = NULL,
   file_width = 500,
@@ -97,7 +97,7 @@ whether spikelines are stuck to the cursor or to the closest datapoints.}
 
 \item{modeBar_file_format}{Character: modeBar image export file format}
 
-\item{theme}{Character: theme name or list of theme parameters}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: palette name, or list of colors}
 

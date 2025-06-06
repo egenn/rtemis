@@ -27,7 +27,7 @@
 #' @param alpha Numeric: Alpha for markers.
 #' @param bg Background color.
 #' @param plot_bg Plot background color.
-#' @param theme List: Plot theme.
+#' @param theme Theme object.
 #' @param palette Character: Color palette.
 #' @param axes_square Logical: If TRUE, draw a square plot.
 #' @param group_names Character: Names for groups.
@@ -61,7 +61,6 @@
 #' @param file_width Numeric: Width of saved file.
 #' @param file_height Numeric: Height of saved file.
 #' @param file_scale Numeric: Scale of saved file.
-#' @param ... Additional arguments passed to the theme function.
 #'
 #' @return A `plotly` object.
 #'
@@ -69,7 +68,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' draw_3Dscatter(iris, group = iris$Species, theme = "darkgrid")
+#' draw_3Dscatter(iris, group = iris$Species, theme = theme_blackigrid())
 #' }
 draw_3Dscatter <- function(
   x,
@@ -91,7 +90,7 @@ draw_3Dscatter <- function(
   alpha = .8,
   bg = NULL,
   plot_bg = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   palette = rtemis_palette,
   axes_square = FALSE,
   group_names = NULL,
@@ -124,8 +123,7 @@ draw_3Dscatter <- function(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -266,15 +264,7 @@ draw_3Dscatter <- function(
   # Theme ----
   axes_visible <- FALSE
   axes_mirrored <- FALSE
-  extraargs <- list(...)
-  if (is.character(theme)) {
-    theme <- do.call(paste0("theme_", theme), extraargs)
-  } else {
-    # Override with extra arguments
-    for (i in seq(extraargs)) {
-      theme[[names(extraargs)[i]]] <- extraargs[[i]]
-    }
-  }
+  check_is_S7(theme, Theme)
 
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])

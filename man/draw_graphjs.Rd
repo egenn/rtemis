@@ -26,8 +26,7 @@ draw_graphjs(
   cluster_mark_groups = TRUE,
   cluster_color_vertices = FALSE,
   main = "",
-  theme = rtemis_theme,
-  theme_extra_args = list(),
+  theme = choose_theme(),
   palette = rtemis_palette,
   mar = rep(0, 4),
   par_reset = TRUE,
@@ -79,9 +78,7 @@ draw_graphjs(
 
 \item{main}{Character: Main title.}
 
-\item{theme}{\pkg{rtemis} theme to use.}
-
-\item{theme_extra_args}{List of extra arguments to pass to the theme function defined by \code{theme}.}
+\item{theme}{Theme object.}
 
 \item{palette}{Color vector or name of rtemis palette.}
 

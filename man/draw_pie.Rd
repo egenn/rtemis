@@ -13,7 +13,7 @@ draw_pie(
   alpha = 0.8,
   bg = NULL,
   plot_bg = NULL,
-  theme = getOption("rtemis_theme", "black"),
+  theme = choose_theme(),
   palette = rtemis_palette,
   category_names = NULL,
   textinfo = "label+percent",
@@ -29,8 +29,7 @@ draw_pie(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1,
-  ...
+  file_scale = 1
 )
 }
 \arguments{
@@ -52,7 +51,7 @@ the \code{category.names} argument.}
 
 \item{plot_bg}{Character: Plot background color.}
 
-\item{theme}{Character: "light", "dark". Default = \code{getOption("rtemis_theme", "light")}.}
+\item{theme}{Theme object.}
 
 \item{palette}{Character: Color palette to use.}
 
@@ -86,8 +85,6 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 \item{file_height}{Integer: Height for saved file.}
 
 \item{file_scale}{Numeric: Scale for saved file.}
-
-\item{...}{Additional arguments to pass to the theme function.}
 }
 \value{
 A plotly object.
