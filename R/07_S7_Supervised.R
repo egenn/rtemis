@@ -8,8 +8,6 @@
 # https://rconsortium.github.io/S7/articles/classes-objects.html?q=computed#computed-properties
 # https://utf8-icons.com/
 
-# => ?extra used
-
 # Supervised ----
 #' @title Supervised
 #'
@@ -225,7 +223,7 @@ method(print, Supervised) <- function(x, ...) {
 #' Plot Variable Importance for Supervised objects.
 #'
 #' @param x Supervised object.
-# @param theme Theme to use for the plot.
+# @param theme Theme object.
 # @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
 #' @param ... Additional arguments passed to the plotting function.
 #'
@@ -234,7 +232,7 @@ method(print, Supervised) <- function(x, ...) {
 plot_varimp <- new_generic("plot_varimp", "x")
 method(plot_varimp, Supervised) <- function(
   x,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   filename = NULL,
   ...
 ) {
@@ -778,7 +776,7 @@ Regression <- new_class(
 #' @param what Character vector: What to plot. Can include "training", "validation", "test", or
 #' "all", which will plot all available.
 #' @param fit Character: Algorithm to use to draw fit line.
-#' @param theme Character or Theme: Theme to use for the plot.
+#' @param theme Theme object.
 #' @param labelify Logical: If TRUE, labelify the axis labels.
 #' @param ... Additional arguments passed to the plotting function.
 #'
@@ -788,7 +786,7 @@ plot.Regression <- function(
   x,
   what = "all",
   fit = "glm",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   labelify = TRUE,
   ...
 ) {
@@ -821,7 +819,7 @@ method(plot, Regression) <- function(
   x,
   what = "all",
   fit = "glm",
-  theme = rtemis_theme,
+  theme = choose_theme(),
   ...
 ) {
   plot.Regression(
@@ -838,12 +836,12 @@ method(plot, Regression) <- function(
 #'
 #' @param x Classification object.
 #' @param what Character vector: What to plot. "training", "validation", "test"
-#' @param theme Character or Theme: Theme to use for the plot.
+#' @param theme Theme object.
 #' @param ... Additional arguments passed to the plotting function.
 #'
 #' @author EDG
 #' @export
-plot.Classification <- function(x, what = NULL, theme = "darkgraygrid", ...) {
+plot.Classification <- function(x, what = NULL, theme = choose_theme(), ...) {
   if (is.null(what)) {
     if (!is.null(x@metrics_test)) {
       what <- "test"
@@ -870,7 +868,7 @@ plot.Classification <- function(x, what = NULL, theme = "darkgraygrid", ...) {
 method(plot, Classification) <- function(
   x,
   what = NULL,
-  theme = "darkgraygrid",
+  theme = choose_theme(),
   ...
 ) {
   plot.Classification(
@@ -885,7 +883,7 @@ method(plot, Classification) <- function(
 method(plot_roc, Classification) <- function(
   x,
   what = NULL,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   col = rtpalette(rtemis_palette)[1:2],
   filename = NULL,
   ...
@@ -999,7 +997,7 @@ write_Supervised <- function(
   object,
   outdir = NULL,
   save_mod = FALSE,
-  theme = rtemis_theme,
+  theme = choose_theme(),
   verbosity = 1L
 ) {
   if (verbosity > 0L) {
@@ -1034,7 +1032,7 @@ write_Supervised <- function(
 method(present, Regression) <- function(
   x,
   what = c("training", "test"),
-  theme = rtemis_theme,
+  theme = choose_theme(),
   col = rtpalette(rtemis_palette)[1:2],
   filename = NULL
 ) {
@@ -1090,7 +1088,7 @@ method(present, Classification) <- function(
   x,
   what = c("training", "test"),
   type = c("ROC", "confusion"),
-  theme = rtemis_theme,
+  theme = choose_theme(),
   col = rtpalette(rtemis_palette)[1:2],
   filename = NULL
 ) {
@@ -1351,11 +1349,11 @@ ClassificationRes <- new_class(
   ) {
     metrics_training <- ClassificationMetricsRes(
       sample = "Training",
-      cv_metrics = lapply(models, function(mod) mod@metrics_training)
+      res_metrics = lapply(models, function(mod) mod@metrics_training)
     )
     metrics_test <- ClassificationMetricsRes(
       sample = "Test",
-      cv_metrics = lapply(models, function(mod) mod@metrics_test)
+      res_metrics = lapply(models, function(mod) mod@metrics_test)
     )
     new_object(
       SupervisedRes(
@@ -1557,11 +1555,11 @@ RegressionRes <- new_class(
     metrics_test <- lapply(models, function(mod) mod@metrics_test@metrics)
     metrics_training <- RegressionMetricsRes(
       sample = "Training",
-      cv_metrics = lapply(models, function(mod) mod@metrics_training)
+      res_metrics = lapply(models, function(mod) mod@metrics_training)
     )
     metrics_test <- RegressionMetricsRes(
       sample = "Test",
-      cv_metrics = lapply(models, function(mod) mod@metrics_test)
+      res_metrics = lapply(models, function(mod) mod@metrics_test)
     )
     new_object(
       SupervisedRes(
@@ -1591,6 +1589,80 @@ RegressionRes <- new_class(
   }
 ) # /RegressionRes
 
+# Plot SupervisedRes ----
+#' Plot SupervisedRes
+#'
+#' Plot boxplot of performance metrics across resamples.
+#'
+#' @param x SupervisedRes object.
+#' @param what Character vector: "training", "test". What to print. Default is to print both.
+#' @param metric Character: Metric to plot.
+#' @param ylab Character: Label for the y-axis.
+#' @param boxpoints Character:"all", "outliers" - How to display points in the boxplot.
+#' @param theme Theme object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
+plot.SupervisedRes <- function(
+  x,
+  what = c("training", "test"),
+  metric = NULL,
+  ylab = labelify(metric),
+  boxpoints = "all",
+  theme = choose_theme(),
+  ...
+) {
+  what <- match.arg(what, several.ok = TRUE)
+  .class <- x@type == "Classification"
+
+  # Metric
+  if (is.null(metric)) {
+    if (.class) {
+      metric <- "Balanced_Accuracy"
+    } else {
+      metric <- "Rsq"
+    }
+  }
+
+  xl <- list()
+  if ("training" %in% what) {
+    if (.class) {
+      xl[["Training"]] <- sapply(
+        x@metrics_training@res_metrics,
+        function(fold) {
+          fold[["Overall"]][[metric]]
+        }
+      )
+    } else {
+      xl[["Training"]] <- sapply(
+        x@metrics_training@res_metrics,
+        function(fold) {
+          fold[[metric]]
+        }
+      )
+    }
+  }
+  if ("test" %in% what) {
+    if (.class) {
+      xl[["Test"]] <- sapply(x@metrics_test@res_metrics, function(fold) {
+        fold[["Overall"]][[metric]]
+      })
+    } else {
+      xl[["Test"]] <- sapply(x@metrics_test@res_metrics, function(fold) {
+        fold[[metric]]
+      })
+    }
+  }
+
+  # Boxplot ----
+  draw_box(xl, theme = theme, ylab = ylab, boxpoints = boxpoints, ...)
+} # /rtemis::plot.SupervisedRes
+
+method(plot, SupervisedRes) <- function(...) {
+  plot.SupervisedRes(...)
+}
+
 # Make SupervisedRes ----
 #' Make SupervisedRes
 #'
@@ -1603,7 +1675,7 @@ RegressionRes <- new_class(
 #     hyperparameters = hyperparameters
 #   )
 # } # /make_SupervisedRes
-# => predict method for {Regression,Classification}CV with average_fn = "mean"
+# => predict method for {Regression,Classification}Res with average_fn = "mean"
 
 make_SupervisedRes <- function(
   algorithm,
