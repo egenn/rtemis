@@ -72,6 +72,20 @@ method(desc, ResamplerParameters) <- function(x) {
   )
 } # /rtemis::desc.ResamplerParameters
 
+# desc_alt ResamplerParameters ----
+method(desc_alt, ResamplerParameters) <- function(x) {
+  switch(
+    x@type,
+    KFold = paste0(x@n, " independent folds"),
+    StratSub = paste0(x@n, " stratified subsamples"),
+    StratBoot = paste0(x@n, " stratified bootstraps"),
+    Bootstrap = paste0(x@n, " bootstrap resamples"),
+    Custom = paste0(x@n, " custom resamples"),
+    LOOCV = paste0(x@n, " leave-one-out folds"),
+    paste0(x@n, " resamples")
+  )
+} # /rtemis::desc.ResamplerParameters
+
 # KFoldParams ----
 #' @title KFoldParams
 #'
@@ -411,6 +425,11 @@ method(`[[`, Resampler) <- function(x, index) {
 method(desc, Resampler) <- function(x) {
   desc(x@parameters)
 } # /rtemis::desc.Resampler
+
+# desc_alt Resampler ----
+method(desc_alt, Resampler) <- function(x) {
+  desc_alt(x@parameters)
+} # /rtemis::desc_alt.Resampler
 
 # print1.resample <- function(x, verbosity = 0L, ...) {
 #   resampler <- attr(x, "resampler")
