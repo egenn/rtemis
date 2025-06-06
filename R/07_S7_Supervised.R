@@ -335,7 +335,7 @@ Calibration <- new_class(
   )
 ) # /Calibration
 
-# Prin Calibration ----
+# Print Calibration ----
 method(print, Calibration) <- function(x, ...) {
   cat(gray(".:"))
   objcat("Calibration Model")
@@ -366,7 +366,7 @@ CalibrationRes <- new_class(
 # Print CalibrationRes ----
 method(print, CalibrationRes) <- function(x, ...) {
   cat(gray(".:"))
-  objcat("Cross-validated Calibration Model")
+  objcat("Resampled Calibration Model")
   cat(
     "  ",
     hilite(x@algorithm),
@@ -644,27 +644,6 @@ CalibratedClassification <- new_class(
     )
   }
 ) # rtemmis::CalibratedClassification
-
-
-# Print CalibratedClassification ----
-# method(print, CalibratedClassification) <- function(x, ...) {
-#   cat(gray(".:"))
-#   objcat("Classification Model")
-#   cat("  ",
-#     hilite(x@algorithm),
-#     " (", get_alg_desc(x@algorithm), ")\n",
-#     sep = ""
-#   )
-#   cat(
-#     "  ", green("\U27CB", bold = TRUE),
-#     " Calibrated using ", get_alg_desc(x@calibration_model@algorithm), ".\n\n",
-#     sep = ""
-#   )
-#   # => raw => calibrated values for Overall
-#   print(x@metrics_training_calibrated)
-#   cat("\n")
-#   print(x@metrics_test_calibrated)
-# } # /print.CalibratedClassification
 
 # Predict CalibratedClassification ----
 method(predict, CalibratedClassification) <- function(object, newdata, ...) {
@@ -1150,7 +1129,7 @@ method(present, Classification) <- function(
 #' SupervisedRes
 #'
 #' @description
-#' Superclass for cross-validated supervised learning models.
+#' Superclass for Resampled supervised learning models.
 #'
 #' @author EDG
 #' @noRd
@@ -1317,7 +1296,7 @@ method(predict, SupervisedRes) <- function(
 #' @title ClassificationRes
 #'
 #' @description
-#' SupervisedRes subclass for cross-validated classification models.
+#' SupervisedRes subclass for Resampled classification models.
 #'
 #' @author EDG
 #' @noRd
@@ -1517,7 +1496,7 @@ method(predict, CalibratedClassificationRes) <- function(object, newdata, ...) {
 #' @title RegressionRes
 #'
 #' @description
-#' SupervisedRes subclass for cross-validated regression models.
+#' SupervisedRes subclass for Resampled regression models.
 #'
 #' @author EDG
 #' @noRd
@@ -1588,6 +1567,57 @@ RegressionRes <- new_class(
     )
   }
 ) # /RegressionRes
+
+
+# desc SupervisedRes ----
+method(desc, SupervisedRes) <- function(x) {
+  type <- x@type
+  algorithm <- get_alg_desc(x@algorithm)
+  # cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
+  out <- paste0(algorithm, " was used for ", tolower(type), ".")
+
+  # Tuning ----
+  if (length(x@tuner_parameters) > 0) {
+    out <- paste(out, desc(x@tuner_parameters))
+  }
+
+  # Metrics ----
+  if (type == "Classification") {
+    out <- paste(
+      out,
+      "Mean Balanced accuracy was",
+      ddSci(x@metrics_training@mean_metrics[["Balanced_Accuracy"]]),
+      "in the training set and",
+      ddSci(x@metrics_test@mean_metrics[["Balanced_Accuracy"]]),
+      "in the test set across "
+    )
+  } else if (type == "Regression") {
+    out <- paste(
+      out,
+      "R-squared was",
+      ddSci(x@metrics_training@mean_metrics[["Rsq"]]),
+      "on the training set and",
+      ddSci(x@metrics_test@mean_metrics[["Rsq"]]),
+      "on the test set across "
+    )
+  }
+  out <- paste0(out, desc_alt(x@outer_resampler), ".")
+  invisible(out)
+} # / rtemis::describe.SupervisedRes
+
+# describe SupervisedRes ----
+method(describe, SupervisedRes) <- function(x, ...) {
+  cat(desc(x), "\n")
+}
+
+# present SupervisedRes ----
+method(present, SupervisedRes) <- function(x, theme = choose_theme(), ...) {
+  # Describe the model
+  describe(x)
+
+  # Plot the performance metrics
+  plot(x, what = c("training", "test"), theme = theme, ...)
+} # /rtemis::present.SupervisedRes
 
 # Plot SupervisedRes ----
 #' Plot SupervisedRes
