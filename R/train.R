@@ -200,11 +200,11 @@ train <- function(
       }
     )
     names(models) <- names(outer_resampler@resamples)
-    hyperparameters@crossvalidated <- 1L
+    hyperparameters@resampled <- 1L
     msg2("Crossvalidation done.")
   } # /Crossvalidation
 
-  if (hyperparameters@crossvalidated == 0L) {
+  if (hyperparameters@resampled == 0L) {
     # Tune ----
     if (needs_tuning(hyperparameters)) {
       if (is.null(tuner_parameters)) {
@@ -247,7 +247,9 @@ train <- function(
         tuned = 1L
       )
     } # /Tune
-    if (verbosity > 0L) cat("\n")
+    if (verbosity > 0L) {
+      cat("\n")
+    }
 
     # Preprocess ----
     if (!is.null(preprocessor_parameters)) {
@@ -262,8 +264,9 @@ train <- function(
       } else {
         preprocessor@preprocessed[["training"]]
       }
-      if (!is.null(dat_validation))
+      if (!is.null(dat_validation)) {
         dat_validation <- preprocessor@preprocessed[["validation"]]
+      }
       if (!is.null(dat_test)) dat_test <- preprocessor@preprocessed[["test"]]
     } else {
       preprocessor <- NULL
