@@ -177,9 +177,12 @@ MetricsRes <- new_class(
 #' @author EDG
 #' @noRd
 print.MetricsRes <- function(x, decimal_places = 3L, ...) {
-  type <- if (inherits(x, "RegressionMetricsRes")) "Regression" else
+  type <- if (S7_inherits(x, RegressionMetricsRes)) {
+    "Regression"
+  } else {
     "Classification"
-  objcat(paste("  Crossvalidated", type, x@sample, "Metrics"))
+  }
+  objcat(paste("  Resampled", type, x@sample, "Metrics"))
   cat(italic("  Showing mean (sd) across resamples.\n\n"))
   # Create list with mean_metrics (sd_metrics)
   out <- lapply(seq_along(x@mean_metrics), function(i) {
