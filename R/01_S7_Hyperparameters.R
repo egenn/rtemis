@@ -16,7 +16,7 @@
 #  0: Set by constructor: Untuned but tunable (at least one of tunable_hyperparameters has more than one value).
 #  1: Set by Tuner: Tuned (Started as 0, set to 1 when tuned).
 
-# `crossvalidated` values ----
+# `resampled` values ----
 # 0: Running on single training set.
 # 1: Running on cross-validated training sets.
 
@@ -28,7 +28,7 @@
 #' @field algorithm Character: Algorithm name.
 #' @field hyperparameters Named list of algorithm hyperparameter values.
 #' @field tuned Integer: Tuning status.
-#' @field crossvalidated Integer: Cross-validation status.
+#' @field resampled Integer: Cross-validation status.
 #' @field tunable_hyperparameters Character: Names of tunable hyperparameters.
 #' @field fixed_hyperparameters Character: Names of fixed hyperparameters.
 #'
@@ -42,7 +42,7 @@ Hyperparameters <- new_class(
     tunable_hyperparameters = class_character,
     fixed_hyperparameters = class_character,
     tuned = class_integer,
-    crossvalidated = class_integer
+    resampled = class_integer
   ),
   constructor = function(
     algorithm,
@@ -97,7 +97,7 @@ Hyperparameters <- new_class(
       tunable_hyperparameters = tunable_hyperparameters,
       fixed_hyperparameters = fixed_hyperparameters,
       tuned = tuned,
-      crossvalidated = 0L
+      resampled = 0L
     )
   }
 ) # /Hyperparameters
