@@ -31,14 +31,14 @@ do_call <- function(
     # "glm.fit: algorithm did not converge" =
     # "Same reasons as for 'glm.fit: fitted probabilities numerically 0 or 1 occurred'.",
     "glm.fit: fitted probabilities numerically 0 or 1 occurred" = paste(
-      "Reasons for this warning include:",
+      bold("Reasons for this warning include:"),
       "1) Perfect Separation of classes.",
       "2) Highly Imbalanced data.",
       "3) Extreme values in predictors.",
       "4) Too many predictors for the number of observations.",
       "5) Multicollinearity.",
       bold("\nSuggestion:"),
-      "\n  Try using GLMNET or tree-based algorithms",
+      "  Try using GLMNET or tree-based algorithms",
       sep = "\n  "
     )
   )
