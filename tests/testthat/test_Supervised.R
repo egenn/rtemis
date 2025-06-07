@@ -524,6 +524,16 @@ test_that("train() CART Classification succeeds", {
   expect_s7_class(mod_c_cart, Classification)
 })
 
+## Res CART Classification ----
+resmod_c_cart <- train(
+  x = datc2,
+  algorithm = "cart",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() CART Classification with crossvalidation succeeds", {
+  expect_s7_class(resmod_c_cart, ClassificationRes)
+})
+
 ## CART Classification + IFW ----
 mod_c_cart_ifw <- train(
   x = datc2_train,
@@ -756,8 +766,44 @@ test_that("plot.SupervisedRes creates a plotly object", {
   expect_s3_class(p, "plotly")
 })
 
+# Present Regression ----
+test_that("present.Supervised creates a plotly object", {
+  p <- present(mod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
 # Present Classification ----
 test_that("present.Supervised creates a plotly object", {
   p <- present(mod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Present RegressionRes object ----
+test_that("present() RegressionRes object creates a plotly object", {
+  p <- present(resmod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Present ClassificationRes object ----
+test_that("present() ClassificationRes object creates a plotly object", {
+  p <- present(resmod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+## Present multiple RegressionRes objects ----
+test_that("present() multiple RegressionRes objects creates a plotly object", {
+  p <- present(list(resmod_r_glm, resmod_r_cart))
+  expect_s3_class(p, "plotly")
+})
+
+## Present multiple ClassificationRes objects ----
+test_that("present() multiple ClassificationRes objects creates a plotly object", {
+  p <- present(list(resmod_c_glm, resmod_c_cart))
+  expect_s3_class(p, "plotly")
+})
+
+## Present multiple Regression objects ----
+test_that("present() multiple Regression objects creates a plotly object", {
+  p <- present(list(mod_r_glm, mod_r_cart))
   expect_s3_class(p, "plotly")
 })
