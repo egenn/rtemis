@@ -12,7 +12,8 @@ se <- new_generic("se", "x")
 desc <- new_generic("desc", "x")
 # Alt description for inline printing.
 desc_alt <- new_generic("desc_alt", "x")
-# Full description for multi-line printing.
+# Get metrics
+get_metrics <- new_generic("get_metrics", "x")
 
 #' Describe rtemis object
 #'
