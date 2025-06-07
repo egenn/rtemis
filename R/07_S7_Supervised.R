@@ -1204,7 +1204,7 @@ SupervisedRes <- new_class(
 # Print SupervisedRes ----
 method(print, SupervisedRes) <- function(x, ...) {
   cat(gray(".:"))
-  objcat(paste("Crossvalidated", x@type, "Model"))
+  objcat(paste("Resampled", x@type, "Model"))
   cat(
     "  ",
     hilite(x@algorithm),
@@ -1270,11 +1270,12 @@ method(predict, SupervisedRes) <- function(
 
   predicted <- sapply(
     object@models,
-    function(mod)
+    function(mod) {
       do_call(
         predict_fn,
         list(model = mod, newdata = newdata, type = object@type)
       )
+    }
   ) # -> data.frame n cases x n resamples
 
   if (type == "all") {
@@ -1433,7 +1434,7 @@ CalibratedClassificationRes <- new_class(
 # Print CalibratedClassificationRes ----
 method(print, CalibratedClassificationRes) <- function(x, ...) {
   cat(gray(".:"))
-  objcat("Crossvalidated Classification Model")
+  objcat("Resampled Classification Model")
   cat(
     "  ",
     hilite(x@algorithm),
@@ -1570,7 +1571,7 @@ RegressionRes <- new_class(
 
 
 # desc SupervisedRes ----
-method(desc, SupervisedRes) <- function(x) {
+method(desc, SupervisedRes) <- function(x, metric = NULL) {
   type <- x@type
   algorithm <- get_alg_desc(x@algorithm)
   # cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
@@ -1583,9 +1584,14 @@ method(desc, SupervisedRes) <- function(x) {
 
   # Metrics ----
   if (type == "Classification") {
+    if (is.null(metric)) {
+      metric <- "Balanced_Accuracy"
+    }
     out <- paste(
       out,
-      "Mean Balanced accuracy was",
+      "Mean",
+      labelify(metric, toLower = TRUE),
+      "was",
       ddSci(x@metrics_training@mean_metrics[["Balanced_Accuracy"]]),
       "in the training set and",
       ddSci(x@metrics_test@mean_metrics[["Balanced_Accuracy"]]),
@@ -1594,7 +1600,7 @@ method(desc, SupervisedRes) <- function(x) {
   } else if (type == "Regression") {
     out <- paste(
       out,
-      "R-squared was",
+      "Mean R-squared was",
       ddSci(x@metrics_training@mean_metrics[["Rsq"]]),
       "on the training set and",
       ddSci(x@metrics_test@mean_metrics[["Rsq"]]),
@@ -1812,3 +1818,31 @@ method(print, LightRuleFit) <- function(x, ...) {
   cat("Selected", hilite(length(x@rules_selected)), "rules.\n")
   invisible(x)
 } # /rtemis::print.LightRuleFit
+
+# Get metrics from Supervised objects ----
+method(get_metrics, Regression) <- function(x, set, metric) {
+  prop(prop(x, paste0("metrics_", set)), "metrics")[[metric]]
+} # /get_metrics.Regression
+
+method(get_metrics, Classification) <- function(x, set, metric) {
+  prop(prop(x, paste0("metrics_", set)), "metrics")[["Overall"]][[metric]]
+} # /get_metrics.Classification
+
+# Get metrics from SupervisedRes objects
+method(get_metrics, RegressionRes) <- function(x, set, metric) {
+  sapply(
+    prop(prop(x, paste0("metrics_", set)), "res_metrics"),
+    function(r) {
+      r[[metric]]
+    }
+  )
+}
+
+method(get_metrics, ClassificationRes) <- function(x, set, metric) {
+  sapply(
+    prop(prop(x, paste0("metrics_", set)), "res_metrics"),
+    function(r) {
+      r[["Overall"]][[metric]]
+    }
+  )
+}
