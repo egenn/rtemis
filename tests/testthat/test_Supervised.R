@@ -803,7 +803,7 @@ test_that("present() multiple ClassificationRes objects creates a plotly object"
 })
 
 ## Present multiple Regression objects ----
-# test_that("present() multiple Regression objects creates a plotly object", {
-#   p <- present(list(mod_r_glm, mod_r_cart))
-#   expect_s3_class(p, "plotly")
-# })
+test_that("present() multiple Regression objects creates a plotly object", {
+  p <- present(list(mod_r_glm, mod_r_cart))
+  expect_s3_class(p, "plotly")
+})

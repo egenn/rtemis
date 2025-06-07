@@ -1819,16 +1819,17 @@ method(print, LightRuleFit) <- function(x, ...) {
   invisible(x)
 } # /rtemis::print.LightRuleFit
 
-# Get metrics from Supervised objects ----
+# get_metrics Regression ----
 method(get_metrics, Regression) <- function(x, set, metric) {
   prop(prop(x, paste0("metrics_", set)), "metrics")[[metric]]
 } # /get_metrics.Regression
 
+# get_metrics Classification ----
 method(get_metrics, Classification) <- function(x, set, metric) {
   prop(prop(x, paste0("metrics_", set)), "metrics")[["Overall"]][[metric]]
 } # /get_metrics.Classification
 
-# Get metrics from SupervisedRes objects
+# get_metrics RegressionRes ----
 method(get_metrics, RegressionRes) <- function(x, set, metric) {
   sapply(
     prop(prop(x, paste0("metrics_", set)), "res_metrics"),
@@ -1838,6 +1839,7 @@ method(get_metrics, RegressionRes) <- function(x, set, metric) {
   )
 }
 
+# get_metrics ClassificationRes ----
 method(get_metrics, ClassificationRes) <- function(x, set, metric) {
   sapply(
     prop(prop(x, paste0("metrics_", set)), "res_metrics"),
