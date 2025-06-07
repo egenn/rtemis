@@ -262,10 +262,18 @@ labelify <- function(
   for (i in capitalize_strings) {
     xf <- gsub(paste0("^", i, "$"), toupper(i), xf, ignore.case = TRUE)
   }
-  if (underscoresToSpaces) xf <- gsub("_", " ", xf)
-  if (dotsToSpaces) xf <- gsub("\\.", " ", xf)
-  if (toLower) xf <- tolower(xf)
-  if (toTitleCase) xf <- tools::toTitleCase(xf)
+  if (underscoresToSpaces) {
+    xf <- gsub("_", " ", xf)
+  }
+  if (dotsToSpaces) {
+    xf <- gsub("\\.", " ", xf)
+  }
+  if (toTitleCase) {
+    xf <- tools::toTitleCase(xf)
+  }
+  if (toLower) {
+    xf <- tolower(xf)
+  }
   xf <- gsub(" {2,}", " ", xf)
   xf <- gsub(" $", "", xf)
 
@@ -390,7 +398,9 @@ padcat <- function(
   if (!is.null(format_fn)) {
     x <- format_fn(x)
   }
-  if (newline_pre) cat("\n")
+  if (newline_pre) {
+    cat("\n")
+  }
   cat(rep(" ", pad), sep = "")
   if (!is.null(col)) {
     cat(col(x, TRUE))
