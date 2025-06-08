@@ -205,7 +205,7 @@ rtasciitxt <- function() {
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
     rep(" ", pad),
-    bold(green("\u2713 ")),
+    green("\u2714 "),
     paste(..., sep = sep),
     end,
     appendLF = FALSE
@@ -215,7 +215,7 @@ yay <- function(..., sep = " ", end = "\n", pad = 0) {
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
     rep(" ", pad),
-    bold(red("\u2715 ")),
+    red("\u2715 "),
     paste(..., sep = sep),
     end,
     appendLF = FALSE

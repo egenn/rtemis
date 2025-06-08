@@ -2,11 +2,11 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' Present multiple SupervisedRes objects
+#' Present list of Supervised or SupervisedRes objects
 #'
-#' Plot training and testing performance boxplots of multiple `SupervisedRes` objects
+#' Plot training and testing performance boxplots of multiple `Supervised` or `SupervisedRes` objects
 #'
-#' @param x List of SupervisedRes objects.
+#' @param x List of Supervised or SupervisedRes objects.
 #' @param metric Character: Metric to plot.
 #' @param model_names Character: Names of models being plotted.
 #' @param ylim Numeric vector of length 2: y-axis limits for the boxplots.
@@ -17,8 +17,7 @@
 #' @return plotly object
 #'
 #' @author EDG
-#' @export
-method(present, class_list) <- function(
+present.list <- function(
   x,
   metric = NULL,
   model_names = NULL,
@@ -114,4 +113,8 @@ method(present, class_list) <- function(
   }
 
   plt
-} # /rtemis::present
+} # /rtemis::present.list
+
+method(present, class_list) <- function(x, ...) {
+  present.list(x, ...)
+} # /rtemis::present.class_list

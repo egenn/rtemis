@@ -36,7 +36,15 @@ intro <- function(
     if (newline_pre) {
       cat("\n")
     }
-    if (!is.null(message)) {
+    if (is.null(message)) {
+      # Read first line from inst/resources/intro.utf8
+      msg20(
+        "Hello.",
+        call_depth = call_depth,
+        caller_id = 2,
+        caller = caller
+      )
+    } else {
       msg2(
         message,
         call_depth = call_depth,
@@ -131,7 +139,7 @@ summarize_supervised_data <- function(
   dat_validation = NULL,
   dat_test = NULL
 ) {
-  msg2(bold("Input data summary:"))
+  msg2("Input data summary:")
   msg20(
     "  Training set: ",
     hilite(NROW(x)),
@@ -150,7 +158,7 @@ summarize_supervised_data <- function(
   }
   if (!is.null(dat_test)) {
     msg20(
-      "   Test set: ",
+      "      Test set: ",
       hilite(NROW(dat_test)),
       " cases x ",
       hilite(NCOL(dat_test) - 1),
