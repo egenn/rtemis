@@ -16,6 +16,9 @@ drange(x, lo = 0, hi = 1, byCol = TRUE)
 \item{byCol}{Logical: If TRUE: if \code{x} is matrix, \code{drange} each
 column separately}
 }
+\value{
+Numeric vector.
+}
 \description{
 \verb{rtemis preproc}: Adjusts the dynamic range of a vector or matrix input.
 By default normalizes to 0-1 range.

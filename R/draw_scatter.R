@@ -106,7 +106,7 @@
 #' @param file_scale Numeric: Scale of saved file.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return A `plotly` object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -224,16 +224,30 @@ draw_scatter <- function(
   xname <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
   yname <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
   if (is.null(y) && NCOL(x) > 1) {
-    if (is.null(xlab)) xlab <- labelify(colnames(x)[1])
-    if (is.null(ylab)) ylab <- labelify(colnames(x)[2])
+    if (is.null(xlab)) {
+      xlab <- labelify(colnames(x)[1])
+    }
+    if (is.null(ylab)) {
+      ylab <- labelify(colnames(x)[2])
+    }
     y <- x[, 2]
     x <- x[, 1]
   }
-  if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
-  if (is.logical(fit)) if (fit) fit <- "GAM"
-  if (is.null(fit)) se_fit <- FALSE
-  if (!is.null(fit)) fit <- toupper(fit)
-  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  if (!is.null(fit)) {
+    if (fit == "none") fit <- NULL
+  } # easier to work with shiny
+  if (is.logical(fit)) {
+    if (fit) fit <- "GAM"
+  }
+  if (is.null(fit)) {
+    se_fit <- FALSE
+  }
+  if (!is.null(fit)) {
+    fit <- toupper(fit)
+  }
+  if (!is.null(main)) {
+    main <- paste0("<b>", main, "</b>")
+  }
   .mode <- mode
   .names <- group_names
 
@@ -253,8 +267,11 @@ draw_scatter <- function(
 
   # order_on_x ----
   if (is.null(order_on_x)) {
-    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else
+    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) {
+      TRUE
+    } else {
       FALSE
+    }
   }
 
   # Cluster ----
@@ -287,7 +304,9 @@ draw_scatter <- function(
     group <- as.factor(group)
     x <- split(x, group, drop = TRUE)
     y <- split(y, group, drop = TRUE)
-    if (is.null(group_names)) group_names <- levels(droplevels(group))
+    if (is.null(group_names)) {
+      group_names <- levels(droplevels(group))
+    }
     names(x) <- names(y) <- .names <- group_names
     if (!is.null(hovertext)) hovertext <- split(hovertext, group, drop = TRUE)
   }
@@ -325,8 +344,9 @@ draw_scatter <- function(
     legend <- if (n_groups == 1 && is.null(fit)) FALSE else TRUE
   }
 
-  if (length(.mode) < n_groups)
+  if (length(.mode) < n_groups) {
     .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
+  }
 
   # if (is.null(legend)) legend <- n_groups > 1
   if (is.null(.names)) {
@@ -339,8 +359,12 @@ draw_scatter <- function(
   }
 
   # Marginal data ----
-  if (show_marginal_x && is.null(marginal_x)) marginal_x <- x
-  if (show_marginal_y && is.null(marginal_y)) marginal_y <- y
+  if (show_marginal_x && is.null(marginal_x)) {
+    marginal_x <- x
+  }
+  if (show_marginal_y && is.null(marginal_y)) {
+    marginal_y <- y
+  }
 
   # Reorder ----
   if (order_on_x) {
@@ -357,10 +381,18 @@ draw_scatter <- function(
   }
 
   # Colors ----
-  if (is.character(palette)) palette <- rtpalette(palette)
-  if (is.null(col)) col <- palette[seq_len(n_groups)]
-  if (length(col) < n_groups) col <- rep(col, n_groups / length(col))
-  if (is.null(alpha)) alpha <- autoalpha(max(lengths(x)))
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
+  if (is.null(col)) {
+    col <- palette[seq_len(n_groups)]
+  }
+  if (length(col) < n_groups) {
+    col <- rep(col, n_groups / length(col))
+  }
+  if (is.null(alpha)) {
+    alpha <- autoalpha(max(lengths(x)))
+  }
 
   # Theme ----
   check_is_S7(theme, Theme)
@@ -378,7 +410,9 @@ draw_scatter <- function(
   tick_col <- plotly::toRGB(theme[["tick_col"]])
   labs_col <- plotly::toRGB(theme[["labs_col"]])
   main_col <- plotly::toRGB(theme[["main_col"]])
-  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
+  if (!theme[["axes_visible"]]) {
+    tick_col <- labs_col <- "transparent"
+  }
 
   # marker_col, se_col ===
   if (is.null(marker_col)) {
@@ -397,8 +431,12 @@ draw_scatter <- function(
     se_col <- col
   }
 
-  if (is.null(legend_col)) legend_col <- labs_col
-  if (is.null(spikecolor)) spikecolor <- theme[["fg"]]
+  if (is.null(legend_col)) {
+    legend_col <- labs_col
+  }
+  if (is.null(spikecolor)) {
+    spikecolor <- theme[["fg"]]
+  }
 
   # Size ----
   # if (axes_square) {
@@ -406,8 +444,16 @@ draw_scatter <- function(
   # }
   # fitted & se_fit ----
   # If plotting se bands, need to include (fitted +/- se_times * se) in the axis limits
-  if (se_fit) se <- list() else se <- NULL
-  if (rsq) .rsq <- list() else .rsq <- NULL
+  if (se_fit) {
+    se <- list()
+  } else {
+    se <- NULL
+  }
+  if (rsq) {
+    .rsq <- list()
+  } else {
+    .rsq <- NULL
+  }
   # if (rsq_pval) rsqp <- list() else rsqp <- NULL
   if (!is.null(fit)) {
     # algorithm <- get_alg_name(fit)
@@ -421,7 +467,9 @@ draw_scatter <- function(
         verbosity = verbosity - 1L
       )
       fitted[[i]] <- fitted(mod)
-      if (se_fit) se[[i]] <- se(mod)
+      if (se_fit) {
+        se[[i]] <- se(mod)
+      }
       if (include_fit_name) {
         # fitted_text[i] <- switch(fit,
         #   NLS = mod$extra$model,
@@ -502,7 +550,9 @@ draw_scatter <- function(
 
   # plotly ----
   if (!is.null(fit) && rsq) {
-    if (!include_fit_name) fitted_text <- gsub("^ ", "", fitted_text)
+    if (!include_fit_name) {
+      fitted_text <- gsub("^ ", "", fitted_text)
+    }
     if (n_groups > 1) {
       .names <- paste0(.names, " (", fitted_text, ")")
     }
@@ -560,8 +610,11 @@ draw_scatter <- function(
       } else {
         NULL
       },
-      legendgroup = if (legend_trace) .names[i] else
-        paste0(.names[i], "_marker"),
+      legendgroup = if (legend_trace) {
+        .names[i]
+      } else {
+        paste0(.names[i], "_marker")
+      },
       showlegend = legend && legend_trace
     )
     # Marginal plots ----
@@ -570,7 +623,9 @@ draw_scatter <- function(
       if (is.null(marginal_col)) {
         marginal_col <- plotly::toRGB(marker_col, alpha = marginal_alpha)
       }
-      if (is.null(marginal_x_y)) marginal_x_y <- ylim[1]
+      if (is.null(marginal_x_y)) {
+        marginal_x_y <- ylim[1]
+      }
       # Extend ylim to include marginal markers
       ylim[1] <- ylim[1] - 0.02 * diff(ylim)
       for (i in seq_len(n_groups)) {
@@ -595,7 +650,9 @@ draw_scatter <- function(
       if (is.null(marginal_col)) {
         marginal_col <- plotly::toRGB(marker_col, alpha = marginal_alpha)
       }
-      if (is.null(marginal_y_x)) marginal_y_x <- xlim[1]
+      if (is.null(marginal_y_x)) {
+        marginal_y_x <- xlim[1]
+      }
       # Extend xlim to include marginal markers
       xlim[1] <- xlim[1] - 0.02 * diff(xlim)
       for (i in seq_len(n_groups)) {

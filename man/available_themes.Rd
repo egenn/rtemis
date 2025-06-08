@@ -6,6 +6,9 @@
 \usage{
 available_themes()
 }
+\value{
+\code{NULL}, invisibly.
+}
 \description{
 Print available \pkg{rtemis} themes
 }

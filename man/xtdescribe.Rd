@@ -15,6 +15,9 @@ xtdescribe(x, ID_col = 1, time_col = 2, n_patterns = 9)
 
 \item{n_patterns}{Integer: The number of patterns to display}
 }
+\value{
+\code{data.frame}, invisibly.
+}
 \description{
 This is a test to emulate the \code{xtdescribe} function in Stata.
 }

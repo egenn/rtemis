@@ -9,6 +9,9 @@ is_discrete(x)
 \arguments{
 \item{x}{Input}
 }
+\value{
+Logical.
+}
 \description{
 Check if variable is discrete (factor or integer)
 }

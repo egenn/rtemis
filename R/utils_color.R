@@ -82,6 +82,7 @@ color_op <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -105,6 +106,7 @@ color_sqdist <- function(x, y) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 color_order <- function(
   x,
   start_with = 1,

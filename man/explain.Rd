@@ -15,6 +15,9 @@ explain(model, x, dat_training = NULL, method = NULL)
 
 \item{method}{Character: Method to use.}
 }
+\value{
+Object depending on model: list, shapr, or other.
+}
 \description{
 Explain Supervised Learning Model
 }

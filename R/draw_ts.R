@@ -49,6 +49,8 @@
 #' @param file_scale Numeric: image export scale
 #' @param ... Additional arguments to be passed to [draw_scatter]
 #'
+#' @return `plotly` object.
+#'
 #' @author EDG
 #' @export
 #'
@@ -107,7 +109,9 @@ draw_ts <- function(
 ) {
   # Arguments ----
   roll_fn <- match.arg(roll_fn)
-  if (roll_fn == "none") window <- NULL
+  if (roll_fn == "none") {
+    window <- NULL
+  }
 
   # Timeseries ----
   if (!is.null(group)) {
@@ -168,8 +172,12 @@ draw_ts <- function(
   }
 
   # Palette ----
-  if (is.character(palette)) palette <- rtpalette(palette)
-  if (is.null(roll_col)) roll_col <- palette[seq_along(x)]
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
+  if (is.null(roll_col)) {
+    roll_col <- palette[seq_along(x)]
+  }
 
   # draw_scatter ----
   plt <- draw_scatter(

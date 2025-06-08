@@ -69,6 +69,8 @@
 #' @param file_scale Numeric: If saving to file, scale plot by this number
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return `plotly` object.
+#'
 #' @author EDG
 #' @export
 #' @examples

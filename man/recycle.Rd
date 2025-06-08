@@ -11,6 +11,9 @@ recycle(x, target)
 
 \item{target}{Object whose length defines target length}
 }
+\value{
+Vector.
+}
 \description{
 Recycle values of vector to match length of target
 }

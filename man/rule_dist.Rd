@@ -38,6 +38,9 @@ respectively.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+\code{rtrule_dist} object.
+}
 \description{
 Calculate pairwise distance among a set of rules or between two sets of rules,
 where each rule defines a subpopulation.

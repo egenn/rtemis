@@ -11,9 +11,10 @@
 #' @param time_col Integer: The column position of the time variable
 #' @param n_patterns Integer: The number of patterns to display
 #'
+#' @return `data.frame`, invisibly.
+#'
 #' @author EDG
 #' @export
-
 xtdescribe <- function(
   x,
   ID_col = 1,
@@ -177,6 +178,7 @@ xtdescribe <- function(
   )
 
   print(pattern_summary, row.names = FALSE)
+  invisible(pattern_summary)
 } # /rtemis::xtdescribe
 
 vec_describe <- function(x, sort_unique = FALSE) {

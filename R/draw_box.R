@@ -116,6 +116,8 @@
 #' is set.
 #' @param file_scale Numeric: If saving to file, scale plot by this number
 #'
+#' @return `plotly` object.
+#'
 #' @author EDG
 #' @export
 #' @examples

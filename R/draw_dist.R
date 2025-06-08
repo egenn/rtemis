@@ -66,7 +66,7 @@
 #' @param file_height Integer: File height in pixels for when `filename` is set.
 #' @param file_scale Numeric: If saving to file, scale plot by this number.
 #'
-#' @return A plotly object
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -145,7 +145,9 @@ draw_dist <- function(
   # Arguments ----
   type <- match.arg(type)
   mode <- match.arg(mode)
-  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  if (!is.null(main)) {
+    main <- paste0("<b>", main, "</b>")
+  }
   .xname <- labelify(deparse(substitute(x)))
 
   # Data ----
@@ -160,7 +162,9 @@ draw_dist <- function(
     x <- as.data.frame(x)
     x <- split(x, group)
     x <- sapply(x, as.vector)
-    if (is.null(group_names)) group_names <- levels(group)
+    if (is.null(group_names)) {
+      group_names <- levels(group)
+    }
     names(x) <- .names <- group_names
   }
 
@@ -180,7 +184,9 @@ draw_dist <- function(
     }
   }
 
-  if (is.null(legend)) legend <- length(x) > 1
+  if (is.null(legend)) {
+    legend <- length(x) > 1
+  }
   if (!is.null(group_names)) {
     .names <- group_names
   } else {
@@ -274,7 +280,9 @@ draw_dist <- function(
 
   # '- { Density } ----
   if (type == "density") {
-    if (is.null(ylab)) ylab <- "Density"
+    if (is.null(ylab)) {
+      ylab <- "Density"
+    }
     xl_density <- lapply(
       x,
       density,

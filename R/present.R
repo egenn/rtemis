@@ -17,6 +17,7 @@
 #' @return plotly object
 #'
 #' @author EDG
+#' @export
 present.list <- function(
   x,
   metric = NULL,

@@ -174,7 +174,7 @@ draw_dist(
 \item{file_scale}{Numeric: If saving to file, scale plot by this number.}
 }
 \value{
-A plotly object
+\code{plotly} object.
 }
 \description{
 Draw Distributions using Histograms and Density Plots using \code{plotly}.

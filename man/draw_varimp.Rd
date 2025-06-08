@@ -77,7 +77,7 @@ title at this point).}
 \item{file_scale}{Numeric: Scale of the saved plot image.}
 }
 \value{
-A \code{plotly} object.
+\code{plotly} object.
 }
 \description{
 Plot variable importance using \code{plotly}

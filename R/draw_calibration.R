@@ -25,7 +25,7 @@
 #' @param filename Character: Path to save output.
 #' @param ... Additional arguments passed to [draw_scatter]
 #'
-#' @return A plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export

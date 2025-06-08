@@ -25,6 +25,9 @@ case}
 \item{get_na_feature_pct}{Logical: If TRUE, calculate percent of NA values
 per feature}
 }
+\value{
+\code{CheckData} object.
+}
 \description{
 Check Data
 }

@@ -13,6 +13,9 @@ resample(x, parameters = setup_Resampler(), verbosity = 1L)
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+\code{Resampler} object.
+}
 \description{
 Create resamples of your data, e.g. for model building or validation.
 "KFold" creates stratified folds, , "StratSub" creates stratified subsamples,

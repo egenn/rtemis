@@ -16,7 +16,7 @@
 #' @param zlab z value label.
 #' @param transpose Logical: If TRUE, transpose matrix.
 #'
-#' @return A plotly heatmap object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -35,9 +35,15 @@ draw_heat <- function(
   requireNamespace("plotly")
 
   # Labels ----
-  if (is.null(xlab)) xlab <- " "
-  if (is.null(ylab)) ylab <- " "
-  if (is.null(zlab)) zlab <- "value"
+  if (is.null(xlab)) {
+    xlab <- " "
+  }
+  if (is.null(ylab)) {
+    ylab <- " "
+  }
+  if (is.null(zlab)) {
+    zlab <- "value"
+  }
 
   # Axes ----
   x <- unique(x)

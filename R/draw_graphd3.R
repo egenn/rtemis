@@ -17,7 +17,7 @@
 #' @param theme Theme object.
 #' @param ... Additional arguments to pass to `networkD3`.
 #'
-#' @return A networkD3 graph object.
+#' @return `forceNetwork` object.
 #'
 #' @author EDG
 #' @export
@@ -61,8 +61,9 @@ draw_graphD3 <- function(
         '"]);'
       )
     } else {
-      if (is.character(palette))
+      if (is.character(palette)) {
         palette <- adjustcolor(unlist(rtpalette(palette)), node_alpha)
+      }
       ngroups <- length(unique(groups))
       .groups <- paste0(sort(unique(groups)), collapse = '", "')
       if (ngroups > length(palette)) {

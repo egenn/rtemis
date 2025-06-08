@@ -16,7 +16,7 @@ choose_theme(
 \item{parameters}{List: Optional list of parameters to override the defaults.}
 }
 \value{
-Theme object.
+\code{Theme} object.
 }
 \description{
 Select an rtemis theme

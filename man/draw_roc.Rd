@@ -63,7 +63,7 @@ draw_roc(
 \item{...}{Additional arguments passed to \link{draw_scatter}.}
 }
 \value{
-plotly object
+\code{plotly} object.
 }
 \description{
 Draw ROC curve

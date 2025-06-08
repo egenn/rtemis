@@ -67,6 +67,9 @@ default data structure, otherwise convert to data.table}
 \code{arrow::read_delim_arrow()}, \code{vroom::vroom()},
 or \code{openxlsx::read.xlsx()}}
 }
+\value{
+data.frame, data.table, or tibble.
+}
 \description{
 Read data and optionally clean column names, keep unique rows, and convert
 characters to factors

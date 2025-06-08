@@ -65,7 +65,7 @@ the second level is the positive class.}
 \item{...}{Additional arguments passed to \link{draw_scatter}}
 }
 \value{
-A plotly object.
+\code{plotly} object.
 }
 \description{
 Draw calibration plot

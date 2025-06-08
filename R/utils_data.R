@@ -115,7 +115,7 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
 #'
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 merge_long_treatment <- function(
   x,
   group_varnames,

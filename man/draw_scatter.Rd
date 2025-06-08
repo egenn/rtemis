@@ -303,7 +303,7 @@ draw_scatter(
 \item{verbosity}{Integer: Verbosity level.}
 }
 \value{
-A \code{plotly} object.
+\code{plotly} object.
 }
 \description{
 Draw interactive scatter plots using \code{plotly}.

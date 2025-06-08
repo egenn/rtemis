@@ -18,7 +18,7 @@
 #'
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 train_SVM <- function(
   x,
   weights = NULL,
@@ -67,8 +67,13 @@ train_SVM <- function(
 
   # Train ----
   class_weights <-
-    if (type == "Classification" && n_classes == 2 && hyperparameters[["ifw"]])
-      "inverse" else NULL
+    if (
+      type == "Classification" && n_classes == 2 && hyperparameters[["ifw"]]
+    ) {
+      "inverse"
+    } else {
+      NULL
+    }
   model <- e1071::svm(
     x = x,
     y = y, # factor or numeric
@@ -88,6 +93,7 @@ train_SVM <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
+#' @noRd
 predict_SVM <- function(model, newdata, type, verbosity = 0L) {
   newdata <- preprocess(
     newdata,
@@ -114,6 +120,7 @@ predict_SVM <- function(model, newdata, type, verbosity = 0L) {
 #' @param model SVM model.
 #'
 #' @keywords internal
+#' @noRd
 varimp_SVM <- function(model) {
   if (model[["kernel"]] == "linear") {
     coef(model)

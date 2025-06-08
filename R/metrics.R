@@ -14,6 +14,7 @@
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 mae <- function(x, y, na.rm = TRUE) {
   error <- x - y
   mean(abs(error), na.rm = na.rm)
@@ -49,7 +50,7 @@ rmse <- function(x, y, na.rm = TRUE) {
 #' @param y Float, vector: predicted values
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 rsq <- function(x, y) {
   SSE <- sum((x - y)^2)
   # Sum of Squares due to Regression (SSR) a.k.a. Explained Sum of Squares (ESS)
@@ -88,9 +89,11 @@ logloss <- function(true_int, predicted_prob, eps = 1e-16) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
+#' @noRd
 sensitivity <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
-  if (harmonize)
+  if (harmonize) {
     predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
+  }
   pos_index <- true == levels(true)[1]
   condition_pos <- sum(pos_index)
   true_pos <- sum(true[pos_index] == predicted[pos_index])
@@ -107,10 +110,11 @@ sensitivity <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
-
+#' @noRd
 specificity <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
-  if (harmonize)
+  if (harmonize) {
     predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
+  }
   neg_index <- true == levels(true)[2]
   condition_neg <- sum(neg_index)
   true_neg <- sum(true[neg_index] == predicted[neg_index])
@@ -129,6 +133,7 @@ specificity <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
+#' @noRd
 bacc <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
   .5 *
     (sensitivity(
@@ -155,7 +160,7 @@ bacc <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
-
+#' @noRd
 precision <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
   if (harmonize) {
     predicted <- factor_harmonize(true, predicted, verbosity = verbosity)
@@ -177,17 +182,24 @@ precision <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
 #' @param reference Reference factor.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @author EDG
 #' @return Factor: x with levels in the same order as reference.
+#'
+#' @author EDG
 #' @keywords internal
-
+#' @noRd
 factor_harmonize <- function(reference, x, verbosity = 1L) {
-  if (!is.factor(x) || !is.factor(reference)) stop("Inputs must be factors")
+  if (!is.factor(x) || !is.factor(reference)) {
+    stop("Inputs must be factors")
+  }
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
-      if (verbosity > 0L) msg2("Levels of x:")
+      if (verbosity > 0L) {
+        msg2("Levels of x:")
+      }
       levels(x)
-      if (verbosity > 0L) msg2("levels of reference:")
+      if (verbosity > 0L) {
+        msg2("levels of reference:")
+      }
       levels(reference)
       stop("Levels of two inputs do not match")
     }
@@ -210,7 +222,7 @@ factor_harmonize <- function(reference, x, verbosity = 1L) {
 #'
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 f1 <- function(precision, recall) {
   2 * (recall * precision) / (recall + precision)
 } # /rtemis::f1
@@ -239,6 +251,8 @@ f1 <- function(precision, recall) {
 #' @param method Character: "pROC", "auc_pairs", or "ROCR": Method to use.
 #' Will use `pROC::roc`, [auc_pairs], `ROCR::performance`, respectively.
 #' @param verbosity Integer: Verbosity level.
+#'
+#' @return Numeric.
 #'
 #' @author EDG
 #' @keywords internal
@@ -286,7 +300,9 @@ auc <- function(true_int, predicted_prob, method = "lightAUC", verbosity = 0L) {
     auc. <- NaN
   }
 
-  if (verbosity > 0L) msg2("AUC =", auc.)
+  if (verbosity > 0L) {
+    msg2("AUC =", auc.)
+  }
   auc.
 } # rtemis::auc
 
@@ -309,7 +325,7 @@ auc <- function(true_int, predicted_prob, method = "lightAUC", verbosity = 0L) {
 #' estimated.score <- c(0.7, 0.55, 0.45, 0.25, 0.6, 0.7, 0.2)
 #' auc_pairs(estimated.score, true.labels, verbosity = 1L)
 #' }
-#' @export
+#' @noRd
 auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
   true.labels <- as.factor(true.labels)
   true.levels <- levels(true.labels)
@@ -392,7 +408,7 @@ labels2int <- function(x, binclasspos = 2L) {
 #' @param sample Character: Sample name.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return ClassificationMetrics object.
+#' @return `ClassificationMetrics` object.
 #'
 #' @author EDG
 #' @export
@@ -420,7 +436,9 @@ classification_metrics <- function(
 ) {
   # Checks ----
   # Binary class probabilities only for now
-  if (length(predicted_prob) > length(true_labels)) predicted_prob <- NULL
+  if (length(predicted_prob) > length(true_labels)) {
+    predicted_prob <- NULL
+  }
   n_classes <- length(levels(true_labels))
 
   # Check same levels in
@@ -553,7 +571,8 @@ classification_metrics <- function(
 #' @param na.rm Logical: If TRUE, remove NA values before computation.
 #' @param sample Character: Sample name (e.g. "training", "test").
 #'
-#' @return RegressionMetrics object
+#' @return `RegressionMetrics` object.
+#'
 #' @author EDG
 #' @export
 regression_metrics <- function(

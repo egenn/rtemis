@@ -36,7 +36,7 @@ classification_metrics(
 \item{verbosity}{Integer: Verbosity level.}
 }
 \value{
-ClassificationMetrics object.
+\code{ClassificationMetrics} object.
 }
 \description{
 Classification Metrics

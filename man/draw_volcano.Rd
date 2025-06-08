@@ -170,7 +170,7 @@ significant points above \code{x_thresh}.}
 \item{...}{Additional parameters passed to \link{draw_scatter}.}
 }
 \value{
-A plotly object.
+\code{plotly} object.
 }
 \description{
 Volcano Plot

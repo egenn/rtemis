@@ -79,6 +79,7 @@ train_CART <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
+#' @noRd
 predict_CART <- function(model, newdata, type) {
   if (type == "Classification") {
     # Classification

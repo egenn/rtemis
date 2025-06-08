@@ -151,6 +151,9 @@ is set.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+\code{plotly} object.
+}
 \description{
 Draw interactive barplots using \code{plotly}
 }

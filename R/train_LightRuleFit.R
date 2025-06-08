@@ -165,6 +165,7 @@ train_LightRuleFit <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
+#' @noRd
 predict_LightRuleFit <- function(model, newdata, type, verbosity = 1L) {
   check_is_S7(model, LightRuleFit)
   check_inherits(newdata, "data.frame")

@@ -291,6 +291,8 @@ GLMHyperparameters <- new_class(
 #'
 #' @param ifw (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #'
+#' @return GLMHyperparameters object.
+#'
 #' @author EDG
 #' @export
 setup_GLM <- function(ifw = FALSE) {
@@ -330,6 +332,8 @@ GAMHyperparameters <- new_class(
 #'
 #' @param k (Tunable) Integer: Number of knots.
 #' @param ifw (Tunable) Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return GAMHyperparameters object.
 #'
 #' @author EDG
 #' @export
@@ -561,6 +565,8 @@ GLMNETHyperparameters <- new_class(
 #' @param standardize Logical: If TRUE, standardize features.
 #' @param intercept Logical: If TRUE, include intercept.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return GLMNETHyperparameters object.
 #'
 #' @author EDG
 #' @export
@@ -837,6 +843,8 @@ LightRFHyperparameters <- new_class(
 #' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
 #' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
 #'
+#' @return LightRFHyperparameters object.
+#'
 #' @author EDG
 #' @export
 setup_LightRF <- function(
@@ -1047,6 +1055,8 @@ method(update, LightGBMHyperparameters) <- function(
 #' @param tree_learner Character: "serial", "feature", "data", or "voting".
 #' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
 #' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
+#'
+#' @return LightGBMHyperparameters object.
 #'
 #' @author EDG
 #' @export
@@ -1624,6 +1634,7 @@ TabNetHyperparameters <- new_class(
 #' @return TabNetHyperparameters object.
 #'
 #' @author EDG
+#' @export
 setup_TabNet <- function(
   batch_size = 1024^2,
   penalty = 0.001,

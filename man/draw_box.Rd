@@ -242,6 +242,9 @@ is set.}
 
 \item{file_scale}{Numeric: If saving to file, scale plot by this number}
 }
+\value{
+\code{plotly} object.
+}
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}
 }

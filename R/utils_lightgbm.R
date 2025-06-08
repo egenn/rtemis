@@ -44,6 +44,7 @@ get_lgb_tree <- function(x, n_iter = -1) {
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @keywords internal
+#' @noRd
 preorderlgb <- function(
   tree,
   node,

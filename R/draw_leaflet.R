@@ -31,7 +31,7 @@
 #' @param init_zoom Integer: Initial zoom level (depends on device, i.e. window, size).
 #' @param stroke Logical: If TRUE, draw polygon borders.
 #'
-#' @return A leaflet map object.
+#' @return `leaflet` object.
 #'
 #' @author EDG
 #' @export
@@ -90,7 +90,9 @@ draw_leaflet <- function(
     )
   }
   legend_position <- match.arg(legend_position)
-  if (is.null(legend_title)) legend_title <- labelify(vals_name)
+  if (is.null(legend_title)) {
+    legend_title <- labelify(vals_name)
+  }
 
   # State vs. County data ----
   if (max(nchar(fips)) < 3) {

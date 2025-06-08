@@ -8,13 +8,19 @@
 #'
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return Character: the working directory path, invisibly.
+#'
 #' @author EDG
 #' @export
 
 init_project_dir <- function(verbosity = 1L) {
   wd <- getwd()
-  if (verbosity > 0L) msg2("Initializing project directory...")
-  if (verbosity > 0L) cat("  Working in ", wd, "...\n", sep = "")
+  if (verbosity > 0L) {
+    msg2("Initializing project directory...")
+  }
+  if (verbosity > 0L) {
+    cat("  Working in ", wd, "...\n", sep = "")
+  }
 
   # rtInit.log ----
   # if (verbosity > 0L) cat(hilite("  Writing 'rtInit.log' file..."))
@@ -28,7 +34,9 @@ init_project_dir <- function(verbosity = 1L) {
   # ./R ./Data ./Results ----
   dirs <- c("R", "Data", "Results")
   for (i in dirs) {
-    if (verbosity > 0L) cat("  > Creating ", bold(i), " folder...", sep = "")
+    if (verbosity > 0L) {
+      cat("  > Creating ", bold(i), " folder...", sep = "")
+    }
     if (!dir.exists(i)) {
       dir.create(i)
       if (dir.exists(i)) {
@@ -41,7 +49,10 @@ init_project_dir <- function(verbosity = 1L) {
     }
   }
 
-  if (verbosity > 0L) cat(hilite("  All done\n"))
+  if (verbosity > 0L) {
+    cat(hilite("  All done\n"))
+  }
+  invisible(wd)
 } # /rtemis::init_project_dir
 
 
@@ -49,6 +60,8 @@ init_project_dir <- function(verbosity = 1L) {
 #'
 #' @param x Vector to be recycled
 #' @param target Object whose length defines target length
+#'
+#' @return Vector.
 #'
 #' @author EDG
 #' @export
@@ -75,6 +88,8 @@ recycle <- function(x, target) {
 #' @param hi Target range maximum. Defaults to 1
 #' @param byCol Logical: If TRUE: if `x` is matrix, `drange` each
 #' column separately
+#'
+#' @return Numeric vector.
 #'
 #' @author EDG
 #' @export
@@ -121,7 +136,9 @@ drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
 getName <- function(x, alt = "x", max_nchar = 20) {
   name <- deparse(substitute(x))
 
-  if (nchar(name) > max_nchar) name <- alt
+  if (nchar(name) > max_nchar) {
+    name <- alt
+  }
 
   name
 } # rtemis::getName
@@ -154,8 +171,12 @@ get_mode <- function(
   getlast = TRUE,
   retain_class = TRUE
 ) {
-  if (retain_class) .class <- class(x)
-  if (na.rm) x <- na.exclude(x)
+  if (retain_class) {
+    .class <- class(x)
+  }
+  if (na.rm) {
+    x <- na.exclude(x)
+  }
   freq <- table(x)
   if (sum(freq) > 0) {
     if (getlast) {
@@ -187,6 +208,9 @@ get_mode <- function(
 #' Checks if any column of a data frame have zero variance
 #'
 #' @param x Input Data Frame
+#'
+#' @return Logical.
+#'
 #' @author EDG
 #' @export
 
@@ -203,6 +227,8 @@ any_constant <- function(x) {
 #' @param x Vector: Input
 #' @param skip_missing Logical: If TRUE, skip NA values before test
 #'
+#' @return Logical.
+#'
 #' @author EDG
 #' @export
 #'
@@ -216,7 +242,9 @@ any_constant <- function(x) {
 #' }
 is_constant <- function(x, skip_missing = FALSE) {
   # all(duplicated(x)[-1L])
-  if (skip_missing) x <- na.exclude(x)
+  if (skip_missing) {
+    x <- na.exclude(x)
+  }
   isTRUE(all(x == x[1]))
 } # rtemis::is_constant
 
@@ -225,9 +253,10 @@ is_constant <- function(x, skip_missing = FALSE) {
 #'
 #' @param x Input
 #'
+#' @return Logical.
+#'
 #' @author EDG
 #' @export
-
 is_discrete <- function(x) {
   is.factor(x) || is.integer(x) || is.logical(x) || is.character(x)
 } # rtemis::is_discrete
@@ -447,12 +476,20 @@ rnormmat <- function(
   return_df = FALSE,
   seed = NULL
 ) {
-  if (length(mean) < ncol) mean <- rep(mean, ncol / length(mean))
-  if (length(sd) < ncol) sd <- rep(sd, ncol / length(sd))
+  if (length(mean) < ncol) {
+    mean <- rep(mean, ncol / length(mean))
+  }
+  if (length(sd) < ncol) {
+    sd <- rep(sd, ncol / length(sd))
+  }
 
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
   mat <- sapply(seq_len(ncol), function(j) rnorm(nrow, mean = mean, sd = sd))
-  if (return_df) mat <- as.data.frame(mat)
+  if (return_df) {
+    mat <- as.data.frame(mat)
+  }
   mat
 } # rtemis::rnormmat
 
@@ -478,12 +515,20 @@ runifmat <- function(
   return_df = FALSE,
   seed = NULL
 ) {
-  if (length(min) < ncol) min <- rep(min, ncol / length(min))
-  if (length(max) < ncol) max <- rep(max, ncol / length(max))
+  if (length(min) < ncol) {
+    min <- rep(min, ncol / length(min))
+  }
+  if (length(max) < ncol) {
+    max <- rep(max, ncol / length(max))
+  }
 
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
   mat <- sapply(seq_len(ncol), function(j) runif(nrow, min = min, max = max))
-  if (return_df) mat <- as.data.frame(mat)
+  if (return_df) {
+    mat <- as.data.frame(mat)
+  }
   mat
 } # rtemis::runifmat
 
@@ -569,7 +614,9 @@ catrange <- function(x, ddSci = TRUE, decimal_places = 1, na.rm = TRUE) {
 
 lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
   out <- if (simplify) sapply(X, FUN, ...) else lapply(X, FUN, ...)
-  if (!is.null(outnames)) names(out) <- outnames
+  if (!is.null(outnames)) {
+    names(out) <- outnames
+  }
   out
 } # rtemis::lsapply
 
@@ -724,7 +771,9 @@ winsorize <- function(
   } else {
     min(x)
   }
-  if (verbosity > 0L) msg2("Lo cut set to", lo.cut)
+  if (verbosity > 0L) {
+    msg2("Lo cut set to", lo.cut)
+  }
 
   hi.cut <- if (!is.null(hi)) {
     hi
@@ -733,7 +782,9 @@ winsorize <- function(
   } else {
     max(x)
   }
-  if (verbosity > 0L) msg2("Hi cut set to", hi.cut)
+  if (verbosity > 0L) {
+    msg2("Hi cut set to", hi.cut)
+  }
 
   xw <- ifelse(x < lo.cut, lo.cut, x)
   xw <- ifelse(xw > hi.cut, hi.cut, xw)
@@ -831,7 +882,9 @@ rsd <- function(
   }
 
   cov <- sd(x, na.rm = na.rm) / mean(x, na.rm = na.rm)
-  if (as_percentage) cov <- cov * 100
+  if (as_percentage) {
+    cov <- cov * 100
+  }
   cov
 } # rtemis::rsd
 
@@ -940,10 +993,13 @@ table1 <- function(
   verbosity = 1L,
   filename = NULL
 ) {
-  if (is.null(dim(x))) stop("Please provide a matrix or data frame")
+  if (is.null(dim(x))) {
+    stop("Please provide a matrix or data frame")
+  }
   .dim <- dim(x)
-  if (verbosity > 0L)
+  if (verbosity > 0L) {
     msg2("Input:", hilite(.dim[1]), "cases with", hilite(.dim[2]), "features")
+  }
 
   .names <- colnames(x)
   if (is.null(.names)) {
@@ -1153,9 +1209,13 @@ fwhm2sigma <- function(fwhm) {
 #' @author EDG
 #' @export
 gt_table <- function(x = list(), x_name = NULL, na.rm = TRUE, verbosity = 1L) {
-  if (is.null(x_name)) x_name <- deparse(substitute(x))
+  if (is.null(x_name)) {
+    x_name <- deparse(substitute(x))
+  }
 
-  if (is.null(names(x))) names(x) <- paste0("x", seq_along(x))
+  if (is.null(names(x))) {
+    names(x) <- paste0("x", seq_along(x))
+  }
   names <- names(x)
 
   grid <- expand.grid(names, names, stringsAsFactors = FALSE)

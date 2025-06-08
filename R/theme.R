@@ -58,6 +58,8 @@
 #' @param main_col Title color.
 #' @param font_family Character: Font to be used throughout plot.
 #'
+#' @return `Theme` object.
+#'
 #' @rdname theme
 #' @export
 
@@ -1241,7 +1243,6 @@ theme_lightgraygrid <- function(
 
 #' @rdname theme
 #' @export
-
 theme_mediumgraygrid <- function(
   bg = "#b3b3b3",
   plot_bg = "transparent",
@@ -1359,6 +1360,8 @@ theme_mediumgraygrid <- function(
 
 #' Print available \pkg{rtemis} themes
 #'
+#' @return `NULL`, invisibly.
+#'
 #' @export
 available_themes <- function() {
   cat(hilite("  Available themes:\n"))
@@ -1366,6 +1369,7 @@ available_themes <- function() {
   cat('    "black", "blackgrid", "blackigrid",\n')
   cat('    "darkgray", "darkgraygrid", "darkgrayigrid",\n')
   cat('    "lightgraygrid", "mediumgraygrid"\n')
+  invisible(NULL)
 }
 
 
@@ -1374,9 +1378,10 @@ available_themes <- function() {
 #' @param x Character: Name of theme to select. If not defined, will use `getOption("rtemis_theme", "whitegrid")`.
 #' @param parameters List: Optional list of parameters to override the defaults.
 #'
-#' @return Theme object.
+#' @return `Theme` object.
 #'
 #' @author EDG
+#' @export
 choose_theme <- function(
   x = c(
     "white",

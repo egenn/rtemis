@@ -56,6 +56,9 @@ setup_LightRF(
 
 \item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
 }
+\value{
+LightRFHyperparameters object.
+}
 \description{
 Setup hyperparameters for LightRF training.
 }

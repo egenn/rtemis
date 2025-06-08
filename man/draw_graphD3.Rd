@@ -45,7 +45,7 @@ draw_graphD3(
 \item{...}{Additional arguments to pass to \code{networkD3}.}
 }
 \value{
-A networkD3 graph object.
+\code{forceNetwork} object.
 }
 \description{
 Plot graph using \pkg{networkD3}

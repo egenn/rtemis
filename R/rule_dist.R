@@ -23,6 +23,8 @@
 #' @param heat_hi Colo: Heatmap hi colo.
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return `rtrule_dist` object.
+#'
 #' @author EDG
 #' @export
 
@@ -32,7 +34,6 @@ rule_dist <- function(
   rules2 = NULL,
   print_plot = TRUE,
   plot_type = c("static", "interactive"),
-  # heat_lo = "black",
   heat_lo = "black",
   heat_mid = NA,
   heat_hi = "#F48024",
@@ -41,7 +42,9 @@ rule_dist <- function(
   #  Match cases by rules
   cxr1 <- match_cases_by_rules(x, rules1, verbosity)
 
-  if (!is.null(rules2)) cxr2 <- match_cases_by_rules(x, rules2, verbosity)
+  if (!is.null(rules2)) {
+    cxr2 <- match_cases_by_rules(x, rules2, verbosity)
+  }
 
   # Rule by rule distance
   if (is.null(rules2)) {
@@ -78,21 +81,6 @@ rule_dist <- function(
       mid = heat_mid,
       hi = heat_hi
     )
-    # plot_type <- match.arg(plot_type)
-    # if (plot_type == "static") {
-    #   mplot3_heatmap(rxr.hamming,
-    #     Rowv = TRUE, Colv = TRUE,
-    #     autorange = FALSE,
-    #     zlim = c(0, nrow(x)),
-    #     lo = heat_lo, mid = heat_mid, hi = heat_hi
-    #   )
-    # } else {
-    #   draw_heatmap(rxr.hamming,
-    #     Rowv = TRUE, Colv = TRUE,
-    #     limits = c(0, nrow(x)),
-    #     lo = heat_lo, mid = heat_mid, hi = heat_hi
-    #   )
-    # }
   }
 
   out <- list(

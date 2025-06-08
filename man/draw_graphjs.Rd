@@ -93,7 +93,7 @@ draw_graphjs(
 \item{...}{Extra arguments to pass to \code{igraph::plot.igraph()}.}
 }
 \value{
-A threejs graph object.
+\code{scatterplotThree} object.
 }
 \description{
 Interactive plotting of an \pkg{igraph} net using \pkg{threejs}.

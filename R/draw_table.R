@@ -25,6 +25,8 @@
 #' @param font_family Character: Font family.
 #' @param margin List: plotly's margins.
 #'
+#' @return `plotly` object.
+#'
 #' @author EDG
 #' @export
 
@@ -64,10 +66,14 @@ draw_table <- function(
   }
 
   # Colnames ----
-  if (!is.null(colnames(x))) colnames(x) <- paste0("<b>", colnames(x), "</b>")
+  if (!is.null(colnames(x))) {
+    colnames(x) <- paste0("<b>", colnames(x), "</b>")
+  }
 
   # Rownames ----
-  if (!is.null(rownames(x))) rownames(x) <- paste0("<b>", rownames(x), "</b>")
+  if (!is.null(rownames(x))) {
+    rownames(x) <- paste0("<b>", rownames(x), "</b>")
+  }
 
   # plotly ----
 

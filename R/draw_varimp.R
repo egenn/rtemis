@@ -34,7 +34,7 @@
 #' @param file_height Numeric: Height of the saved plot image.
 #' @param file_scale Numeric: Scale of the saved plot image.
 #'
-#' @return A `plotly` object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -83,7 +83,9 @@ draw_varimp <- function(
   # Theme ----
   check_is_S7(theme, Theme)
 
-  if (is.character(palette)) palette <- rtpalette(palette)
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
 
   bg <- plotly::toRGB(theme[["bg"]])
   plot_bg <- plotly::toRGB(theme[["plot_bg"]])
@@ -135,7 +137,9 @@ draw_varimp <- function(
   index <- if (plot_top <= 1) {
     order(abs(x))[(length(x) - plot_top * length(x)):length(x)]
   } else {
-    if (plot_top > length(x)) plot_top <- length(x)
+    if (plot_top > length(x)) {
+      plot_top <- length(x)
+    }
     order(abs(x))[(length(x) - plot_top + 1):length(x)]
   }
   x <- x[index]

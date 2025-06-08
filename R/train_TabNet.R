@@ -18,7 +18,7 @@
 #'
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 train_TabNet <- function(
   x,
   weights = NULL,
@@ -82,6 +82,7 @@ train_TabNet <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
+#' @noRd
 predict_TabNet <- function(model, newdata, type) {
   if (type == "Regression") {
     predict(model, new_data = newdata)[[1]]
@@ -100,6 +101,7 @@ predict_TabNet <- function(model, newdata, type) {
 #' @param model TabNet model.
 #'
 #' @keywords internal
+#' @noRd
 varimp_TabNet <- function(model) {
   NULL
 } # /rtemis::varimp_TabNet
