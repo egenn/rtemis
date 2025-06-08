@@ -2,7 +2,7 @@
 % Please edit documentation in R/present.R
 \name{present.list}
 \alias{present.list}
-\title{Present multiple SupervisedRes objects}
+\title{Present list of Supervised or SupervisedRes objects}
 \usage{
 present.list(
   x,
@@ -14,7 +14,7 @@ present.list(
 )
 }
 \arguments{
-\item{x}{List of SupervisedRes objects.}
+\item{x}{List of Supervised or SupervisedRes objects.}
 
 \item{metric}{Character: Metric to plot.}
 
@@ -31,7 +31,7 @@ displayed in the boxplot.}
 plotly object
 }
 \description{
-Plot training and testing performance boxplots of multiple \code{SupervisedRes} objects
+Plot training and testing performance boxplots of multiple \code{Supervised} or \code{SupervisedRes} objects
 }
 \author{
 EDG
