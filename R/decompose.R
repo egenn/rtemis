@@ -27,9 +27,7 @@ decomp <- function(x, algorithm = "ICA", parameters = NULL, verbosity = 1L) {
 
   # Data ----
   if (verbosity > 0L) {
-    cat("\n")
     summarize_unsupervised_data(x)
-    cat("\n")
   }
 
   # Decompose ----

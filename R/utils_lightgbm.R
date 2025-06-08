@@ -60,7 +60,7 @@ preorderlgb <- function(
   if (is.null(node[[split_feature]])) {
     names(rule) <- "leaf"
     if (verbosity > 0L) {
-      cat("Reached a leaf; rule is ", rule, "\n")
+      message("Reached a leaf; rule is ", rule, ".")
     }
     tree[["leafs"]] <- c(tree[["leafs"]], rule)
     return(rule)
@@ -159,7 +159,9 @@ lgb2rules <- function(
   if (verbosity > 0L) {
     msg2start("Extracting LightGBM rules...")
   }
-  if (is.null(n_iter)) n_iter <- length(Booster)
+  if (is.null(n_iter)) {
+    n_iter <- length(Booster)
+  }
   trees <- get_lgb_tree(Booster, n_iter)
   rules <- lapply(trees, function(x) {
     lgbtree2rules(
@@ -170,7 +172,9 @@ lgb2rules <- function(
     )
   }) |>
     unlist()
-  if (verbosity > 0L) msg2done()
+  if (verbosity > 0L) {
+    msg2done()
+  }
   if (return_unique) unique(rules) else rules
 } # rtemis::lgb2rules
 
@@ -186,7 +190,9 @@ method(extract_rules, class_lgb.Booster) <- function(
   if (verbosity > 0L) {
     msg2start("Extracting LightGBM rules...")
   }
-  if (is.null(n_iter)) n_iter <- length(x)
+  if (is.null(n_iter)) {
+    n_iter <- length(x)
+  }
   trees <- get_lgb_tree(x, n_iter)
   rules <- lapply(trees, function(x) {
     lgbtree2rules(

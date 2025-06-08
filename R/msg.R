@@ -4,7 +4,7 @@
 
 msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
   .dt <- format(Sys.time(), datetime_format)
-  message(gray(paste0(.dt, gray(" "))), appendLF = FALSE)
+  message(reset(gray(paste0(.dt, gray(" ")))), appendLF = FALSE)
 }
 
 stopQuietly <- function() {
@@ -87,7 +87,9 @@ msg2 <- function(
       caller <- NA
     } else {
       call_depth <- call_depth + caller_id
-      if (call_depth > stack.length) call_depth <- stack.length
+      if (call_depth > stack.length) {
+        call_depth <- stack.length
+      }
       caller <- paste(
         lapply(
           rev(seq(call_depth)[-seq(caller_id)]),
@@ -98,12 +100,18 @@ msg2 <- function(
     }
     # do.call and similar will change the call stack, it will contain the full
     # function definition instead of the name alone
-    if (is.function(caller)) caller <- NULL
-    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+    if (is.function(caller)) {
+      caller <- NULL
+    }
+    if (is.character(caller)) {
+      if (nchar(caller) > 25) caller <- NULL
+    }
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  if (newline_pre) message("")
+  if (newline_pre) {
+    message("")
+  }
   if (date) {
     msgdatetime()
   }
@@ -133,7 +141,9 @@ msg20 <- function(
       caller <- NA
     } else {
       call_depth <- call_depth + caller_id
-      if (call_depth > stack.length) call_depth <- stack.length
+      if (call_depth > stack.length) {
+        call_depth <- stack.length
+      }
       caller <- paste(
         lapply(
           rev(seq(call_depth)[-seq(caller_id)]),
@@ -144,12 +154,18 @@ msg20 <- function(
     }
     # do.call and similar will change the call stack, it will contain the full
     # function definition instead of the name alone
-    if (is.function(caller)) caller <- NULL
-    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+    if (is.function(caller)) {
+      caller <- NULL
+    }
+    if (is.character(caller)) {
+      if (nchar(caller) > 25) caller <- NULL
+    }
   }
 
   txt <- Filter(Negate(is.null), list(...))
-  if (newline_pre) message("")
+  if (newline_pre) {
+    message("")
+  }
   msgdatetime()
   message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
@@ -195,17 +211,15 @@ pad <- function(x, target = 17, char = " ") {
 #' @noRd
 msg2start <- function(
   ...,
-  #  date = TRUE,
-  #  newline = TRUE,
-  #  extraline = FALSE,
   newline_pre = FALSE,
-  #  color = NULL,
   sep = " "
 ) {
   txt <- Filter(Negate(is.null), list(...))
-  if (newline_pre) cat("\n")
+  if (newline_pre) {
+    message()
+  }
   msgdatetime()
-  message(paste(txt, collapse = sep), appendLF = FALSE)
+  message(reset(paste(txt, collapse = sep)), appendLF = FALSE)
 } # rtemis::msg2start
 
 
@@ -223,7 +237,9 @@ msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
       caller <- NA
     } else {
       call_depth <- call_depth + caller_id
-      if (call_depth > stack.length) call_depth <- stack.length
+      if (call_depth > stack.length) {
+        call_depth <- stack.length
+      }
       caller <- paste(
         lapply(
           rev(seq(call_depth)[-seq(caller_id)]),
@@ -232,8 +248,12 @@ msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
         collapse = ">>"
       )
     }
-    if (is.function(caller)) caller <- NULL
-    if (is.character(caller)) if (nchar(caller) > 25) caller <- NULL
+    if (is.function(caller)) {
+      caller <- NULL
+    }
+    if (is.character(caller)) {
+      if (nchar(caller) > 25) caller <- NULL
+    }
   }
   message(" ", appendLF = FALSE)
   yay(end = "")

@@ -312,7 +312,7 @@ resmod_r_cart <- train(
   hyperparameters = setup_CART(),
   outer_resampling = setup_Resampler(3L)
 )
-test_that("train() Regression with crossvalidation succeeds", {
+test_that("train() RegressionRes succeeds", {
   expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
@@ -322,7 +322,7 @@ restmod_r_cart <- train(
   hyperparameters = setup_CART(maxdepth = c(1, 2)),
   outer_resampling = setup_Resampler(3L)
 )
-test_that("train() Regression with crossvalidation succeeds", {
+test_that("train() RegressionRes succeeds", {
   expect_s7_class(restmod_r_cart, RegressionRes)
 })
 
@@ -331,7 +331,7 @@ resmod_r_cart <- train(
   hyperparameters = setup_CART(prune_cp = c(.001, .01)),
   outer_resampling = setup_Resampler(3L)
 )
-test_that("train() Regression with crossvalidation succeeds", {
+test_that("train() RegressionRes succeeds", {
   expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
@@ -498,7 +498,7 @@ resmod_c_glm <- train(
   algorithm = "glm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() GLM Classification with crossvalidation succeeds", {
+test_that("train() GLM ClassificationRes succeeds", {
   expect_s7_class(resmod_c_glm, ClassificationRes)
 })
 
@@ -530,7 +530,7 @@ resmod_c_cart <- train(
   algorithm = "cart",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() CART Classification with crossvalidation succeeds", {
+test_that("train() CART ClassificationRes succeeds", {
   expect_s7_class(resmod_c_cart, ClassificationRes)
 })
 
@@ -596,7 +596,7 @@ resmod_c_lightrf <- train(
   algorithm = "lightrf",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() LightRF Classification with crossvalidation succeeds", {
+test_that("train() LightRF ClassificationRes succeeds", {
   expect_s7_class(resmod_c_lightrf, ClassificationRes)
 })
 
