@@ -117,7 +117,7 @@ msg2 <- function(
   }
   message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
-    message(gray(" [", caller, "]", sep = ""))
+    message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")
   }
@@ -169,7 +169,7 @@ msg20 <- function(
   msgdatetime()
   message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
   if (!is.null(caller) && !is.na(caller)) {
-    message(gray(" [", caller, "]", sep = ""))
+    message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")
   }
@@ -219,7 +219,7 @@ msg2start <- function(
     message()
   }
   msgdatetime()
-  message(reset(paste(txt, collapse = sep)), appendLF = FALSE)
+  message(plain(paste(txt, collapse = sep)), appendLF = FALSE)
 } # rtemis::msg2start
 
 
@@ -257,5 +257,5 @@ msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
   }
   message(" ", appendLF = FALSE)
   yay(end = "")
-  message(gray("[", caller, "]\n", sep = ""), appendLF = FALSE)
+  message(plain(gray("[", caller, "]\n", sep = "")), appendLF = FALSE)
 } # rtemis::msg2done

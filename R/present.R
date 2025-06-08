@@ -2,8 +2,12 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+#' @name present
+#'
+#' @title
 #' Present multiple SupervisedRes objects
 #'
+#' @description
 #' Plot training and testing performance boxplots of multiple `SupervisedRes` objects
 #'
 #' @param x List of SupervisedRes objects.
@@ -17,7 +21,6 @@
 #' @return plotly object
 #'
 #' @author EDG
-#' @export
 method(present, class_list) <- function(
   x,
   metric = NULL,
