@@ -154,7 +154,9 @@ check_supervised_data <- function(
   # Check that factors across training, validation, and test contain the same levels.
   check_factor_levels(x = x, y = dat_validation, z = dat_test)
 
-  if (verbosity > 0L) msg2done()
+  if (verbosity > 0L) {
+    msg2done()
+  }
   invisible(NULL)
 } # /rtemis::check_supervised_data
 
@@ -177,7 +179,6 @@ check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
   if (verbosity > 0L) {
     msg2start("Checking unsupervised data...")
   }
-
   if (NCOL(x) < 2) {
     cli::cli_abort("Data must contain at least 2 columns.")
   }
@@ -187,7 +188,8 @@ check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
   if (!allow_missing && anyNA(x)) {
     cli::cli_abort("Data should not contain missing values.")
   }
-
-  if (verbosity > 0L) msg2done()
+  if (verbosity > 0L) {
+    msg2done()
+  }
   invisible(NULL)
 } # /rtemis::check_unsupervised_data
