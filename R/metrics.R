@@ -31,7 +31,6 @@ mse <- function(x, y, na.rm = TRUE) {
 #' Weighted MSE
 #'
 #' @rdname error
-#' @param weights Float, vector: Case weights
 #' @keywords internal
 #' @noRd
 msew <- function(x, y, weights = rep(1, length(y)), na.rm = TRUE) {

@@ -78,7 +78,7 @@ Preview one or multiple colors using little rhombi with their little labels up t
 }
 \examples{
 \dontrun{
-colors <- colorgradient.x(seq(-5, 5))
+colors <- colorgradient_x(seq(-5, 5))
 previewcolor(colors)
 }
 }

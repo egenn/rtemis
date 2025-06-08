@@ -265,6 +265,9 @@ get_gam_pvals <- function(m, warn = TRUE) {
 #'
 #' @param x Vector, factor: Labels of outcome. If `x` has more than 1
 #' column, the last one will be used
+#'
+#' @return Numeric.
+#'
 #' @author EDG
 #' @export
 

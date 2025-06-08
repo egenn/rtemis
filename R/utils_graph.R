@@ -7,17 +7,23 @@ igraph_layout <- function(net, layout = "mds", dims = 2) {
     igraph::layout_as_bipartite(net)
   } else if (layout == "star") {
     out <- igraph::layout_as_star(net)
-    if (dims == 3) out <- cbind(out, 0)
+    if (dims == 3) {
+      out <- cbind(out, 0)
+    }
     out
   } else if (layout == "circle") {
     out <- igraph::layout_in_circle(net)
-    if (dims == 3) out <- cbind(out, 0)
+    if (dims == 3) {
+      out <- cbind(out, 0)
+    }
     out
   } else if (layout == "sphere") {
     igraph::layout_on_sphere(net)
   } else if (layout == "tree") {
     out <- igraph::layout_as_tree(net)
-    if (dims == 3) out <- cbind(out, 0)
+    if (dims == 3) {
+      out <- cbind(out, 0)
+    }
     out
   } else if (layout == "nicely") {
     igraph::layout_nicely(net, dim = dims)
@@ -30,14 +36,18 @@ igraph_layout <- function(net, layout = "mds", dims = 2) {
     )
   } else if (layout == "sugiyama") {
     out <- igraph::layout_with_sugiyama(net)$layout
-    if (dims == 3) out <- cbind(out, 0)
+    if (dims == 3) {
+      out <- cbind(out, 0)
+    }
     out
   } else {
     out <- do.call(
       getFromNamespace(paste0("layout_with_", layout), "igraph"),
       c(list(net))
     )
-    if (dims == 3) out <- cbind(out, 0)
+    if (dims == 3) {
+      out <- cbind(out, 0)
+    }
     out
   }
 } # rtemis::igraph_layout
@@ -53,6 +63,8 @@ igraph_layout <- function(net, layout = "mds", dims = 2) {
 #'
 #' @param x \pkg{igraph} network.
 #' @param verbosity Integer: Verbosity level.
+#'
+#' @return `data.frame`.
 #'
 #' @author EDG
 #' @export
@@ -70,7 +82,9 @@ igraph_layout <- function(net, layout = "mds", dims = 2) {
 #' graph_node_metrics(x)
 #' }
 graph_node_metrics <- function(x, verbosity = 1L) {
-  if (!inherits(x, "igraph")) stop("Input must be igraph object")
+  if (!inherits(x, "igraph")) {
+    stop("Input must be igraph object")
+  }
 
   .nodes <- as.character(igraph::V(x))
   .edgeweights <- igraph::E(x)[["weight"]]
@@ -129,8 +143,12 @@ graph_node_metrics <- function(x, verbosity = 1L) {
 lotri2edgeList <- function(A, filename = NULL, verbosity = 1L) {
   # Check A is a square matrix
   dim.A <- dim(A)
-  if (verbosity > 0L) msg2("Input dimensions are", dim.A)
-  if (dim.A[1] != dim.A[2]) stop("Error: Input matrix is not square.")
+  if (verbosity > 0L) {
+    msg2("Input dimensions are", dim.A)
+  }
+  if (dim.A[1] != dim.A[2]) {
+    stop("Error: Input matrix is not square.")
+  }
   n <- dim.A[1]
   l <- list()
   # low tri has n(n-1)/2

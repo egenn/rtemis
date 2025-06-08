@@ -11,6 +11,9 @@ graph_node_metrics(x, verbosity = 1L)
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+\code{data.frame}.
+}
 \description{
 Node-wise (i.e. vertex-wise) graph metrics
 }

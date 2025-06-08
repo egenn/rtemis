@@ -289,6 +289,8 @@ xlsx2list <- function(
 #' @param ignore_na Logical: If TRUE, ignore NA values during exact matching.
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return data.frame
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -422,4 +424,4 @@ matchcases <- function(
   }
 
   mc
-} # rtemis::matchcases
+} # /rtemis::matchcases

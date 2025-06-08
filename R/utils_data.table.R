@@ -255,37 +255,13 @@ dt_set_cleanfactorlevels <- function(x, prefix_digits = NA) {
 } # rtemis::dt_set_cleanfactorlevels
 
 
-#' Check if all rows in a column are unique
-#'
-#' @param x data.frame or data.table
-#' @param on Integer or character: column to check
-#'
-#' @author EDG
-#' @export
-dt_check_unique <- function(x, on) {
-  length(unique(x[[on]])) == NROW(x)
-}
-
-
-#' Get index of duplicate values
-#'
-#' @param x data.frame or data.table
-#' @param on Integer or character: column to check
-#'
-#' @author EDG
-#' @export
-dt_get_duplicates <- function(x, on) {
-  # appease R CMD check
-  ..on <- NULL
-  x[x[[on]] %in% x[[on]][duplicated(x[[on]])], ..on][[1]]
-}
-
-
 #' Index columns by attribute name & value
 #'
 #' @param x data.frame or compatible
 #' @param name Character: Name of attribute
 #' @param value Character: Value of attribute
+#'
+#' @return Integer vector.
 #'
 #' @author EDG
 #' @export
@@ -304,6 +280,8 @@ dt_index_attr <- function(x, name, value) {
 #' @param left_on Integer or character: column to read in `x`
 #' @param right_on Integer or character: column to read in `y`
 #' @param verbosity Integer: Verbosity level.
+#'
+#' @return list.
 #'
 #' @author EDG
 #' @export
@@ -349,6 +327,8 @@ dt_pctmatch <- function(
 #' @param x data.frame or data.table
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return list
+#'
 #' @author EDG
 #' @export
 dt_pctmissing <- function(x, verbosity = 1L) {
@@ -362,7 +342,9 @@ dt_pctmissing <- function(x, verbosity = 1L) {
 }
 
 
-#' Convert data.table logical columns to factor with custom labels in-place
+#' Convert data.table logical columns to factors
+#'
+#' Convert data.table logical columns to factors with custom labels in-place
 #'
 #' @param x data.table
 #' @param cols Integer or character: columns to convert, if NULL, operates on all
@@ -370,6 +352,8 @@ dt_pctmissing <- function(x, verbosity = 1L) {
 #' @param labels Character: labels for factor levels
 #' @param maintain_attributes Logical: If TRUE, maintain column attributes
 #' @param fillNA Character: If not NULL, fill NA values with this constant
+#'
+#' @return data.table, invisibly.
 #'
 #' @author EDG
 #' @export
@@ -430,6 +414,8 @@ dt_set_logical2factor <- function(
 #' @param attr Character: Attribute to get
 #' @param useNA Character: Passed to `table`
 #'
+#' @return table.
+#'
 #' @author EDG
 #' @export
 dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
@@ -462,6 +448,8 @@ dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
 #' @param verbosity Integer: Verbosity level.
 #' @param thresh Numeric: Threshold for determining whether to convert to numeric.
 #' @param na.omit Logical: If TRUE, remove NA values before checking.
+#'
+#' @return Character.
 #'
 #' @author EDG
 #' @export
@@ -517,7 +505,7 @@ inspect_type <- function(
   } else {
     xclass
   }
-}
+} # /rtemis::inspect_type
 
 
 #' Inspect column types
@@ -528,6 +516,8 @@ inspect_type <- function(
 #' @param x data.table
 #' @param cols Character vector: columns to inspect.
 #' @param verbosity Integer: Verbosity level.
+#'
+#' @return Character vector.
 #'
 #' @author EDG
 #' @export
@@ -549,13 +539,15 @@ dt_inspect_type <- function(x, cols = NULL, verbosity = 1L) {
 #' Set column types automatically
 #'
 #' This function inspects a data.table and attempts to identify columns that should be
-#' numeric but have been read in as character, because one or more fields contain
-#' non-numeric characters
+#' numeric but have been read in as character, and changes types in-place.
+#' This can happen when one or more fields contain non-numeric characters.
 #'
 #' @param x data.table
 #' @param cols Character vector: columns to work on. If not defined, will work on all
 #' columns
 #' @param verbosity Integer: Verbosity level.
+#'
+#' @return data.table, invisibly.
 #'
 #' @author EDG
 #' @export
@@ -572,7 +564,7 @@ dt_set_autotypes <- function(x, cols = NULL, verbosity = 1L) {
     }
   }
   invisible(x)
-}
+} # /rtemis::dt_set_autotypes
 
 
 #' List column names by class
@@ -581,6 +573,8 @@ dt_set_autotypes <- function(x, cols = NULL, verbosity = 1L) {
 #' @param sorted Logical: If TRUE, sort the output
 #' @param item_format Function: Function to format each item
 #' @param maxlength Integer: Maximum number of items to print
+#'
+#' @return `NULL`, invisibly.
 #'
 #' @author EDG
 #' @export
@@ -598,22 +592,25 @@ dt_names_by_class <- function(
     sapply(vals, \(i) names(x)[classes == i])
   }
   printls(out, item_format = item_format, maxlength = maxlength)
-}
+  invisible(NULL)
+} # /rtemis::dt_names_by_class
 
 
 #' List column names by attribute
 #'
 #' @param x data.table
-#' @param which Character: name of attribute
+#' @param attribute Character: name of attribute
 #' @param exact Logical: If TRUE, use exact matching
 #' @param sorted Logical: If TRUE, sort the output
 #'
+#' @return Character vector.
+#'
 #' @author EDG
 #' @export
-dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
-  attrs <- unlist(lapply(x, \(i) attr(i, which)))
+dt_names_by_attr <- function(x, attribute, exact = TRUE, sorted = TRUE) {
+  attrs <- unlist(lapply(x, \(i) attr(i, attribute)))
   attrs <- sapply(x, \(i) {
-    .attr <- attr(i, which, exact = exact)
+    .attr <- attr(i, attribute, exact = exact)
     if (is.null(.attr)) "NA" else .attr
   })
   vals <- unique(attrs)
@@ -622,7 +619,7 @@ dt_names_by_attr <- function(x, which, exact = TRUE, sorted = TRUE) {
   } else {
     sapply(vals, \(i) names(x)[attrs == i])
   }
-}
+} # /rtemis::dt_names_by_attr
 
 
 #' Clean column names and factor levels in-place
@@ -795,7 +792,9 @@ dt_describe <- function(x) {
 } # /rtemis::dt_describe
 
 
-#' fread delimited file in parts
+#' Read delimited file in parts
+#'
+#' Read delimited file in parts using `data.table::fread()`.
 #'
 #' @param x Character: Path to delimited file
 #' @param part_nrows Integer: Number of rows to read in each part
@@ -806,6 +805,8 @@ dt_describe <- function(x) {
 #' @param stringsAsFactors Logical: If TRUE, characters will be converted to
 #' factors
 #' @param ... Additional arguments to pass to `data.table::fread()`
+#'
+#' @return `data.table`.
 #'
 #' @author EDG
 #' @export
@@ -825,7 +826,9 @@ pfread <- function(
     nrows <- system2("wc", c("-l", x), stdout = TRUE)
     nrows <- gsub("^ ", "", nrows)
     nrows <- strsplit(nrows, " ")[[1]][1] |> as.integer()
-    if (header) nrows <- nrows - 1
+    if (header) {
+      nrows <- nrows - 1
+    }
   }
 
   nparts <- ceiling(nrows / part_nrows)
@@ -865,8 +868,7 @@ pfread <- function(
   if (verbosity > 0L) {
     msg2("Read", hilitebig(nrow(dat)), "rows")
   }
-
-  invisible(dat)
+  dat
 } # rtemis::pfread
 
 
@@ -937,32 +939,3 @@ pfread1 <- function(
 
   invisible(dat)
 } # rtemis::pfread1
-
-# make_key.R
-# ::rtemis::
-# 2022 EDG rtemis.org
-
-#' Make key from data.table id - description columns
-#'
-#' @param x Input data.table
-#' @param code_name Character: Name of column name that holds codes
-#' @param description_name Character: Name of column that holds descriptions
-#' @param filename Character: Path to file to save CSV with key
-#'
-#' @author EDG
-#' @export
-make_key <- function(x, code_name, description_name, filename = NULL) {
-  check_dependencies("data.table")
-
-  .key <- unique(
-    x,
-    by = code_name
-  )[, .SD, .SDcols = c(code_name, description_name)] |>
-    setkeyv(code_name)
-
-  if (!is.null(filename)) {
-    fwrite(.key, filename)
-  }
-
-  .key
-} # rtemis:: make_key

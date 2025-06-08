@@ -65,6 +65,9 @@ as the submit node.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+Character, invisibly: The command that was submitted to SGE.
+}
 \description{
 Submit expression to SGE grid
 }

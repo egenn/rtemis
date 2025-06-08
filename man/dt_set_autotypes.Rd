@@ -14,10 +14,13 @@ columns}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+data.table, invisibly.
+}
 \description{
 This function inspects a data.table and attempts to identify columns that should be
-numeric but have been read in as character, because one or more fields contain
-non-numeric characters
+numeric but have been read in as character, and changes types in-place.
+This can happen when one or more fields contain non-numeric characters.
 }
 \author{
 EDG

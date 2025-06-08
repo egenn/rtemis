@@ -11,6 +11,9 @@ setdiffsym(x, y)
 
 \item{y}{vector of same type as \code{x}}
 }
+\value{
+Vector.
+}
 \description{
 Symmetric Set Difference
 }

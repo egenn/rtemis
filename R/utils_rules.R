@@ -97,10 +97,10 @@ simple_prune_ <- function(rule, max_length, sep = " & ") {
 #' @param sep Character: The separator between conditions.
 #'
 #' @return Character: The pruned rule.
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
-
 simple_prune <- function(rules, max_length, sep = " & ") {
   rules <- sapply(
     rules,
@@ -119,9 +119,9 @@ simple_prune <- function(rules, max_length, sep = " & ") {
 #' @param unique Logical: If TRUE, return only unique variables.
 #'
 #' @return Character vector: Variable names.
+#'
 #' @author EDG
 #' @export
-
 get_vars_from_rules <- function(rules, unique = FALSE) {
   # Extract variables from rules
   vars <- unique(unlist(strsplit(rules, " & ")))
@@ -134,14 +134,6 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
   vars
 }
 
-
-#' Calculate variable statistics from rules
-#'
-
-# N times variable appears in each rule divided by N variables,
-# averaged across C rules
-# rule_varstats
-
 #' Format rules
 #'
 #' Converts R-executable logical expressions to a more human-friendly format
@@ -150,9 +142,12 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
 #' @param space_after_comma Logical: If TRUE, place spaces after commas.
 #' @param decimal_places Integer: Limit all floats (numbers of the form 9.9) to this many
 #' decimal places
+#'
+#' @return Character vector: Formatted rules.
+#'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 format_rules <- function(x, space_after_comma = FALSE, decimal_places = NULL) {
   x <- gsub("[&+]", "AND", x)
   x <- gsub(">", " > ", x)
@@ -184,9 +179,12 @@ format_rules <- function(x, space_after_comma = FALSE, decimal_places = NULL) {
 #' @param space_after_comma Logical: If TRUE, place spaces after commas.
 #' @param decimal_places Integer: Limit all floats (numbers of the form 9.9) to this many
 #' decimal places
+#'
+#' @return Character vector: Formatted rules.
+#'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 format_LightRuleFit_rules <- function(
   x,
   space_after_comma = FALSE,

@@ -11,6 +11,9 @@ dt_pctmissing(x, verbosity = 1L)
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+list
+}
 \description{
 Get percent of missing values from every column
 }

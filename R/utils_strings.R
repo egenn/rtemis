@@ -241,6 +241,8 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape as needed for `gsub`.
 #' Default = `"\\$"`, which formats common input of the type `data.frame$variable`
 #'
+#' @return Character vector.
+#'
 #' @author EDG
 #' @export
 labelify <- function(

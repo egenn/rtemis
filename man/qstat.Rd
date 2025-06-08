@@ -6,6 +6,9 @@
 \usage{
 qstat()
 }
+\value{
+\code{NULL}, invisibly.
+}
 \description{
 Run SGE qstat
 }

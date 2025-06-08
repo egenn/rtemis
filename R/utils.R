@@ -619,7 +619,8 @@ null2na <- function(x) {
 
 #' Get rtemis and OS version info
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 rtversion <- function() {
   out <- c(
     list(rtemis_version = as.character(packageVersion("rtemis"))),
@@ -732,6 +733,8 @@ size <- function(x, verbosity = 1L) {
 #' @param quantile_type Integer: passed to `stats::quantile`
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return Numeric vector.
+#'
 #' @author EDG
 #' @export
 #'
@@ -788,6 +791,8 @@ winsorize <- function(
 #' @param x vector
 #' @param y vector of same type as `x`
 #'
+#' @return Vector.
+#'
 #' @author EDG
 #' @export
 #'
@@ -801,83 +806,6 @@ winsorize <- function(
 setdiffsym <- function(x, y) {
   union(setdiff(x, y), setdiff(y, x))
 } # rtemis::setdiffsym
-
-#' Sequence generation with automatic cycling
-#'
-#' @param x R object of some `length`
-#' @param target R object of some `length`
-#' @examples
-#' \dontrun{
-#' color <- c("red", "blue")
-#' target <- 1:5
-#' color[seql(color, target)]
-#' # "red"  "blue" "red"  "blue" "red"
-#' color <- c("red", "green", "blue", "yellow", "orange")
-#' target <- 1:3
-#' color[seql(color, target)]
-#' # "red"   "green" "blue"
-#' }
-#' @author EDG
-#' @export
-
-seql <- function(x, target) {
-  xlength <- length(x)
-  tlength <- length(target)
-  if (xlength == tlength) {
-    return(seq(tlength))
-  }
-  if (xlength < tlength) {
-    rep(seq(xlength), ceiling(tlength / xlength))[seq(tlength)]
-  } else {
-    seq(tlength)
-  }
-} # rtemis::seql
-
-
-#' Coefficient of Variation (Relative standard deviation)
-#'
-#' Calculates the coefficient of variation, also known as relative standard deviation, which is given by
-#' \deqn{sd(x)/mean(x)}
-#'
-#' This is not meaningful if mean is close to 0. For such cases, set `adjust = TRUE`.
-#' This will add `min(x)` to x
-#' @param x Numeric: Input
-#' @param as_percentage Logical: If TRUE, multiply by 100
-#' @param na.rm Logical: If TRUE, remove missing values before computation
-#' @param adjust Logical: If TRUE, if `x` contains values < `adjust_lo`, x will be shifted up
-#'   by adding its minimum
-#' @param adjust_lo Float: Threshold to be used if `adjust = TRUE`
-#' @examples
-#' \dontrun{
-#' mplot3_x(sapply(1:100, function(x) cov(rnorm(100))), "d", xlab = "rnorm(100) x 100 times")
-#' # cov of rnorm without adjustment is all over the place
-#' mplot3_x(sapply(1:100, function(x) cov(rnorm(100), adjust = T)), "d",
-#'   xlab = "rnorm(100) x 100 times"
-#' )
-#' # COV after shifting above 1 is what you probably want
-#' }
-#' @export
-
-rsd <- function(
-  x,
-  as_percentage = TRUE,
-  na.rm = TRUE,
-  adjust = FALSE,
-  adjust_lo = 1
-) {
-  if (adjust) {
-    if (any(x < adjust_lo)) {
-      x <- x - min(x, na.rm = TRUE)
-    }
-  }
-
-  cov <- sd(x, na.rm = na.rm) / mean(x, na.rm = na.rm)
-  if (as_percentage) {
-    cov <- cov * 100
-  }
-  cov
-} # rtemis::rsd
-
 
 #' n Choose r
 #'
@@ -931,6 +859,8 @@ permute <- function(n) {
 #' Geometric mean
 #'
 #' @param x Numeric vector
+#'
+#' @return Numeric.
 #'
 #' @author EDG
 #' @export
@@ -1089,6 +1019,8 @@ table1 <- function(
 #' @param na_level_name Character: Name of new level to create that will be assigned to all current
 #' NA values in `x`.
 #'
+#' @return factor.
+#'
 #' @author EDG
 #' @export
 #'
@@ -1123,10 +1055,12 @@ factor_NA2missing <- function(x, na_level_name = "missing") {
 #' if `sparseness = 1`, `rnorm(n, mean, sd)` is returned.
 #' @param mean Float: Target mean of nonzero elements, passed to `stats::rnorm`.
 #' @param sd Float: Target sd of nonzero elements, passed to `stats::rnorm`.
+#'
+#' @return Numeric vector of length `n`.
+#'
 #' @author EDG
 #' @export
-
-sparsernorm <- function(n, sparseness = .1, mean = 0, sd = 1) {
+sparsernorm <- function(n, sparseness = 0.1, mean = 0, sd = 1) {
   if (sparseness > 0 && sparseness < 1) {
     .n <- round(sparseness * n)
     .rnorm <- rnorm(.n, mean = mean, sd = sd)

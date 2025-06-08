@@ -18,6 +18,9 @@ if \code{sparseness = 1}, \code{rnorm(n, mean, sd)} is returned.}
 
 \item{sd}{Float: Target sd of nonzero elements, passed to \code{stats::rnorm}.}
 }
+\value{
+Numeric vector of length \code{n}.
+}
 \description{
 A sparse version of \code{stats::rnorm}
 Outputs a vector where a fraction of values are zeros (determined by \code{sparseness})

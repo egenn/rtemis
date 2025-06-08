@@ -151,11 +151,6 @@ draw_varimp <- function(
   y <- factor(.names, levels = .names)
 
   # Colors ----
-  # fg to teal gradient
-  # if (is.null(col)) {
-  #   if (is.null(palette)) palette <- c(theme[["fg"]], "#18A3AC")
-  #   col <- colorgrad_x(x, palette)
-  # }
   if (is.null(col)) {
     col <- palette[[1]]
   }

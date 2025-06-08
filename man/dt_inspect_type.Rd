@@ -13,6 +13,9 @@ dt_inspect_type(x, cols = NULL, verbosity = 1L)
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+Character vector.
+}
 \description{
 Will attempt to identify columns that should be numeric but are either character or
 factor by running \link{inspect_type} on each column.
