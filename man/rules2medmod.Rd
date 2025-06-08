@@ -17,6 +17,9 @@ notation if two decimal places result in 0.00}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+Character vector.
+}
 \description{
 Convert rules from cutoffs to \code{median (range)} and \code{mode (range)} format
 }

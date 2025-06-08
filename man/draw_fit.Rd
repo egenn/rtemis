@@ -39,6 +39,9 @@ draw_fit(
 
 \item{...}{Additional arguments passed to \link{draw_scatter}}
 }
+\value{
+\code{plotly} object.
+}
 \description{
 A \code{draw_scatter} wrapper for plotting true vs. predicted values
 }

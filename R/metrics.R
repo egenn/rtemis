@@ -22,6 +22,7 @@ mae <- function(x, y, na.rm = TRUE) {
 
 #' @rdname error
 #' @keywords internal
+#' @noRd
 mse <- function(x, y, na.rm = TRUE) {
   error <- x - y
   mean(error^2, na.rm = na.rm)
@@ -32,6 +33,7 @@ mse <- function(x, y, na.rm = TRUE) {
 #' @rdname error
 #' @param weights Float, vector: Case weights
 #' @keywords internal
+#' @noRd
 msew <- function(x, y, weights = rep(1, length(y)), na.rm = TRUE) {
   error <- x - y
   error <- error * weights
@@ -40,6 +42,7 @@ msew <- function(x, y, weights = rep(1, length(y)), na.rm = TRUE) {
 
 #' @rdname error
 #' @keywords internal
+#' @noRd
 rmse <- function(x, y, na.rm = TRUE) {
   sqrt(mse(x, y, na.rm = na.rm))
 } # rtemis::rmse

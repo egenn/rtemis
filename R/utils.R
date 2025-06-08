@@ -266,8 +266,8 @@ is_discrete <- function(x) {
 #'
 #' @param x Float \[0, 1\] Input
 #'
-#' @export
-
+#' @keywords internal
+#' @noRd
 logit <- function(x) {
   log(x / (1 - x))
 } # rtemis::logit
@@ -279,8 +279,9 @@ logit <- function(x) {
 #'
 #' @return The inverse logit of the input
 #' @author EDG
-#' @export
-
+#'
+#' @keywords internal
+#' @noRd
 invlogit <- function(x) {
   exp(x) / (1 + exp(x))
 } # rtemis::invlogit
@@ -293,8 +294,8 @@ invlogit <- function(x) {
 #' @param L maximum value.
 #' @param k steepness of the curve.
 #'
-#' @export
-
+#' @keywords internal
+#' @noRd
 logistic <- function(x, x0 = 0, L = 1, k = 1) {
   L / (1 + exp(-k * (x - x0)))
 } # rtemis::logistic
@@ -304,7 +305,8 @@ logistic <- function(x, x0 = 0, L = 1, k = 1) {
 #'
 #' @param x Numeric: Input
 #'
-#' @export
+#' @keywords internal
+#' @noRd
 relu <- function(x) {
   unlist(Map(function(i) max(0, i), x))
 } # rtemis::relu
@@ -316,8 +318,8 @@ relu <- function(x) {
 #' \deqn{log(1 + e^x)}
 #' @param x Vector, Float: Input
 #'
-#' @export
-
+#' @keywords internal
+#' @noRd
 softplus <- function(x) {
   log(1 + exp(x))
 } # rtemis::softplus
@@ -327,8 +329,8 @@ softplus <- function(x) {
 #'
 #' @param x Vector, float: Input
 #'
-#' @export
-
+#' @keywords internal
+#' @noRd
 sigmoid <- function(x) 1 / (1 + exp(-x))
 
 
@@ -336,8 +338,8 @@ sigmoid <- function(x) 1 / (1 + exp(-x))
 #'
 #' @param x Vector, Float: Input
 #'
-#' @export
-
+#' @keywords internal
+#' @noRd
 softmax <- function(x) {
   logsumexp <- function(x) {
     y <- max(x)
@@ -354,7 +356,6 @@ softmax <- function(x) {
 #'
 #' @keywords internal
 #' @noRd
-
 square <- function(x) x^2
 
 
@@ -364,7 +365,6 @@ square <- function(x) x^2
 #'
 #' @keywords internal
 #' @noRd
-
 cube <- function(x) x^3
 
 
@@ -375,8 +375,8 @@ cube <- function(x) x^3
 #' otherwise if NA is present in any column, NA will be returned.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 colMax <- function(x, na.rm = TRUE) {
   apply(x, 2, function(i) max(i, na.rm = na.rm))
 } # rtemis::colMax
@@ -388,8 +388,8 @@ colMax <- function(x, na.rm = TRUE) {
 #' @param na.rm Logical. If TRUE, missing values are not considered.
 #'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 rowMax <- function(x, na.rm = TRUE) {
   apply(x, 1, function(i) max(i, na.rm = na.rm))
 } # rtrmis::rowMax
@@ -399,9 +399,10 @@ rowMax <- function(x, na.rm = TRUE) {
 #'
 #' @param ... Character: Rules
 #'
+#' @return Character.
+#'
 #' @author EDG
 #' @export
-
 crules <- function(...) {
   rules <- c(...)
   paste0(rules, collapse = " & ")
@@ -422,7 +423,6 @@ crules <- function(...) {
 #' @author EDG
 #' @keywords internal
 #' @noRd
-
 ifNotNull <- function(x, defType) {
   if (!is.null(x)) {
     return(x)
@@ -446,10 +446,10 @@ ifNotNull <- function(x, defType) {
 #'
 #' @param x Numeric vector
 #'
-#' @return Population standard deviation
+#' @return Numeric.
+#'
 #' @author EDG
 #' @export
-
 psd <- function(x) {
   return(sqrt(mean(x^2) - mean(x)^2))
 } # rtemis::psd
@@ -465,6 +465,8 @@ psd <- function(x) {
 #' @param sd Float: Standard deviation.
 #' @param return_df Logical: If TRUE, return data.frame, otherwise matrix.
 #' @param seed Integer: Set seed for `rnorm`.
+#'
+#' @return `matrix` or `data.frame`.
 #'
 #' @author EDG
 #' @export
@@ -504,6 +506,8 @@ rnormmat <- function(
 #' @param max Float: Max.
 #' @param return_df Logical: If TRUE, return data.frame, otherwise matrix.
 #' @param seed Integer: Set seed for `rnorm`.
+#'
+#' @return `matrix` or `data.frame`.
 #'
 #' @author EDG
 #' @export
@@ -590,9 +594,10 @@ roundtofrac <- function(x, t = .5) {
 #' @param decimal_places Integer: Number of decimal place to use if `ddSci = TRUE`.
 #' @param na.rm Logical: passed to `base::range`
 #'
+#' @return `NULL`, invisibly.
+#'
 #' @author EDG
 #' @export
-
 catrange <- function(x, ddSci = TRUE, decimal_places = 1, na.rm = TRUE) {
   if (ddSci) {
     paste(
@@ -602,23 +607,8 @@ catrange <- function(x, ddSci = TRUE, decimal_places = 1, na.rm = TRUE) {
   } else {
     paste(range(x, na.rm = na.rm), collapse = " to ")
   }
+  invisible(NULL)
 } # rtemis::catrange
-
-
-#' `lsapply`
-#'
-#' @inheritParams base::lapply
-#' @param outnames Character vector: Optional names to apply to output
-#'
-#' @export
-
-lsapply <- function(X, FUN, ..., outnames = NULL, simplify = FALSE) {
-  out <- if (simplify) sapply(X, FUN, ...) else lapply(X, FUN, ...)
-  if (!is.null(outnames)) {
-    names(out) <- outnames
-  }
-  out
-} # rtemis::lsapply
 
 
 #' @keywords internal

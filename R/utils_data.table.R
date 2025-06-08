@@ -12,8 +12,13 @@
 #'
 #' @author EDG
 #' @export
+#'
+#' @examples
+#' \dontrun{
+#' dt_nunique_perfeat(iris)
+#' }
 dt_nunique_perfeat <- function(x, excludeNA = FALSE, verbosity = 1L) {
-  check_inherits(x, "data.table")
+  stopifnot(inherits(x, "data.table"))
   nupf <- sapply(x, \(i) data.table::uniqueN(i, na.rm = excludeNA))
   if (verbosity > 0L) {
     printls(nupf, item_format = thin, print_class = FALSE)
@@ -88,7 +93,9 @@ dt_keybin_reshape <- function(
     fill = negative
   )
 
-  if (verbosity > 0L) catsize(x, "Output size")
+  if (verbosity > 0L) {
+    catsize(x, "Output size")
+  }
   x
 } # rtemis::dt_keybin_reshape
 
@@ -128,10 +135,18 @@ dt_merge <- function(
   verbosity = 1L,
   ...
 ) {
-  if (is.null(left_name)) left_name <- deparse(substitute(left))
-  if (is.null(right_name)) right_name <- deparse(substitute(right))
-  if (is.null(left_on)) left_on <- on
-  if (is.null(right_on)) right_on <- on
+  if (is.null(left_name)) {
+    left_name <- deparse(substitute(left))
+  }
+  if (is.null(right_name)) {
+    right_name <- deparse(substitute(right))
+  }
+  if (is.null(left_on)) {
+    left_on <- on
+  }
+  if (is.null(right_on)) {
+    right_on <- on
+  }
   if (verbosity > 0L) {
     icon <- switch(
       how,
@@ -300,8 +315,12 @@ dt_pctmatch <- function(
   right_on = NULL,
   verbosity = 1L
 ) {
-  if (is.null(left_on)) left_on <- on
-  if (is.null(right_on)) right_on <- on
+  if (is.null(left_on)) {
+    left_on <- on
+  }
+  if (is.null(right_on)) {
+    right_on <- on
+  }
   xv <- unique(x[[left_on]])
   n <- length(xv)
   yv <- unique(y[[right_on]])
@@ -384,13 +403,21 @@ dt_set_logical2factor <- function(
   maintain_attributes = TRUE,
   fillNA = NULL
 ) {
-  if (is.null(cols)) cols <- names(x)[sapply(x, is.logical)]
+  if (is.null(cols)) {
+    cols <- names(x)[sapply(x, is.logical)]
+  }
   for (i in cols) {
-    if (maintain_attributes) .attr <- attributes(x[[i]])
-    x[, (i) := factor(x[[i]], levels = c(FALSE, TRUE), labels = labels)]
-    if (!is.null(fillNA)) x[is.na(x[[i]]), (i) := fillNA]
     if (maintain_attributes) {
-      for (j in seq_along(.attr)) setattr(x[[i]], names(.attr)[j], .attr[[j]])
+      .attr <- attributes(x[[i]])
+    }
+    x[, (i) := factor(x[[i]], levels = c(FALSE, TRUE), labels = labels)]
+    if (!is.null(fillNA)) {
+      x[is.na(x[[i]]), (i) := fillNA]
+    }
+    if (maintain_attributes) {
+      for (j in seq_along(.attr)) {
+        setattr(x[[i]], names(.attr)[j], .attr[[j]])
+      }
     }
   }
   invisible(x)
@@ -407,8 +434,11 @@ dt_set_logical2factor <- function(
 #' @export
 dt_get_column_attr <- function(x, attr = "source", useNA = "always") {
   attrs <- sapply(x, \(i) {
-    if (is.null(attr(i, attr, exact = TRUE))) NA_character_ else
+    if (is.null(attr(i, attr, exact = TRUE))) {
+      NA_character_
+    } else {
       attr(i, attr, exact = TRUE)
+    }
   })
   table(attrs, useNA = useNA)
 }
@@ -530,10 +560,14 @@ dt_inspect_type <- function(x, cols = NULL, verbosity = 1L) {
 #' @author EDG
 #' @export
 dt_set_autotypes <- function(x, cols = NULL, verbosity = 1L) {
-  if (is.null(cols)) cols <- names(x)
+  if (is.null(cols)) {
+    cols <- names(x)
+  }
   for (i in cols) {
     if (inspect_type(x[[i]], i, verbosity = 0L) == "numeric") {
-      if (verbosity > 0L) msg2("Converting", hilite(i), "to", bold("numeric"))
+      if (verbosity > 0L) {
+        msg2("Converting", hilite(i), "to", bold("numeric"))
+      }
       x[, (i) := as.numeric(x[[i]])]
     }
   }
@@ -656,7 +690,9 @@ dt_set_clean_all <- function(x, prefix_digits = NA) {
 #' )
 #' }
 dt_describe <- function(x) {
-  if (!is.data.table(x)) setDT(x)
+  if (!is.data.table(x)) {
+    setDT(x)
+  }
   nrows <- NROW(x)
 
   # appease R CMD check: do not use ..var in DT frame, use with = FALSE instead
@@ -870,7 +906,9 @@ pfread1 <- function(
     return(dat)
   }
   ndone <- part_nrows
-  if (verbosity > 0L) msg2("Total read =", hilitebig(ndone))
+  if (verbosity > 0L) {
+    msg2("Total read =", hilitebig(ndone))
+  }
   col_classes <- sapply(dat, \(i) class(i)[1])
   .col.names <- names(col_classes)
   .colClasses <- unname(col_classes)

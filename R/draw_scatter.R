@@ -920,6 +920,8 @@ draw_scatter <- function(
 #' @param y Numeric, vector/data.frame/list: Predicted values
 #' @param ... Additional arguments passed to [draw_scatter]
 #'
+#' @return `plotly` object.
+#'
 #' @author EDG
 #' @export
 #'
