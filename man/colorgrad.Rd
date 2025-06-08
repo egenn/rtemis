@@ -82,7 +82,7 @@ If \code{mid = NA}, then only \code{lo} and \code{hi} are used to create the col
 
 \item{cb_axis_hadj}{Float: Adjustment parallel to the reading direction (See \code{par("adj")})}
 
-\item{cb_cex}{FLoat: Character expansion factor for colorbar (See \code{par("cex")})}
+\item{cb_cex}{Float: Character expansion factor for colorbar (See \code{par("cex")})}
 
 \item{bar_min}{Numeric: Lowest value in colorbar}
 

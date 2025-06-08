@@ -128,9 +128,9 @@ as reference. 0: to the left of the plot area; 1: to the right of the plot area}
 
 \item{margin}{Named list: plot margins.}
 
-\item{automargin_x}{Logical: If TRUE, automatically set x-axis amrgins}
+\item{automargin_x}{Logical: If TRUE, automatically set x-axis margins}
 
-\item{automargin_y}{Logical: If TRUE, automatically set y-axis amrgins}
+\item{automargin_y}{Logical: If TRUE, automatically set y-axis margins}
 
 \item{padding}{Integer: N pixels to pad plot.}
 

@@ -41,10 +41,14 @@ color_op <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
         maxColorValue = 255
       )
     })
-    if (!is.null(names(col))) names(invertedl) <- paste0(names(col), ".invert")
+    if (!is.null(names(col))) {
+      names(invertedl) <- paste0(names(col), ".invert")
+    }
     return(invertedl)
   } else if (fn == "mean") {
-    if (length(col) < 2) stop("Need at least two colors to average")
+    if (length(col) < 2) {
+      stop("Need at least two colors to average")
+    }
     if (space == "RGB") {
       averaged <- rowMeans(col.rgb)
       averaged <- rgb(
@@ -107,7 +111,9 @@ color_order <- function(
   order_by = c("similarity", "dissimilarity")
 ) {
   order_by <- match.arg(order_by)
-  if (!is.integer(start_with)) start_with <- which(x == start_with)
+  if (!is.integer(start_with)) {
+    start_with <- which(x == start_with)
+  }
   fn <- switch(order_by, similarity = which.min, dissimilarity = which.max)
   out <- x[start_with]
   x <- x[-start_with]
@@ -133,7 +139,9 @@ color_order <- function(
 #' @export
 
 color_separate <- function(x, start_with = 1) {
-  if (!is.integer(start_with)) start_with <- which(x == start_with)
+  if (!is.integer(start_with)) {
+    start_with <- which(x == start_with)
+  }
   out <- start_with
   dist <- outer(x, x, Vectorize(color_sqdist))
   colnames(dist) <- seq_along(x)
@@ -251,7 +259,9 @@ color_invertRGB <- function(x) {
       maxColorValue = 255
     )
   })
-  if (!is.null(names(col))) names(invertedl) <- paste0(names(col), ".invert")
+  if (!is.null(names(col))) {
+    names(invertedl) <- paste0(names(col), ".invert")
+  }
   invertedl
 } # rtemis::color_invertRGB
 
@@ -270,7 +280,9 @@ color_invertRGB <- function(x) {
 #' color_mean(c("red", "blue"), "HSV") |> previewcolor()
 #' }
 color_mean <- function(x, space = c("RGB", "HSV")) {
-  if (length(x) < 2) stop("Need at least two colors to average")
+  if (length(x) < 2) {
+    stop("Need at least two colors to average")
+  }
   space <- match.arg(space)
 
   col <- as.list(x)
@@ -412,7 +424,9 @@ color_adjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
   ac.hsv <- grDevices::rgb2hsv(grDevices::col2rgb(ac))
   ac <- grDevices::hsv(ac.hsv[1] + hue, ac.hsv[2] + sat, ac.hsv[3] + val)
   # alpha ----
-  if (!is.null(alpha)) ac <- adjustcolor(color, alpha.f = alpha)
+  if (!is.null(alpha)) {
+    ac <- adjustcolor(color, alpha.f = alpha)
+  }
   ac
 } # rtemis::color_adjust
 
@@ -446,7 +460,9 @@ color_adjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
 #' previewcolor(desaturate(color_mix(color, 5), .3))
 #' }
 color_mix <- function(color, n = 4) {
-  if (class(color)[1] != "list") stop("Please provide list of color pairs")
+  if (class(color)[1] != "list") {
+    stop("Please provide list of color pairs")
+  }
 
   color.grad <- lapply(color, function(i) colorRampPalette(i)(n))
 
@@ -712,7 +728,7 @@ colorgradient.x <- function(
 #' @param cb_axis_las Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
 #' 1: Horizontal, 2: Perpendicular, 3: Vertical.
 #' @param cb_axis_hadj Float: Adjustment parallel to the reading direction (See `par("adj")`)
-#' @param cb_cex FLoat: Character expansion factor for colorbar (See `par("cex")`)
+#' @param cb_cex Float: Character expansion factor for colorbar (See `par("cex")`)
 #' @param bar_min Numeric: Lowest value in colorbar
 #' @param bar_mid Numeric: Middle value in colorbar
 #' @param bar_max Numeric: Max value in colorbar
@@ -773,9 +789,15 @@ colorgrad <- function(
 ) {
   # Arguments ----
   n <- as.integer(n)
-  if (n %% 2 != 1) n <- n + 1
-  if (!is.null(filename)) colorbar <- TRUE
-  if (return_plotly) plotlycb <- TRUE
+  if (n %% 2 != 1) {
+    n <- n + 1
+  }
+  if (!is.null(filename)) {
+    colorbar <- TRUE
+  }
+  if (return_plotly) {
+    plotlycb <- TRUE
+  }
   if (is.null(cb_n)) {
     cb_n <- n
     if (cb_n %% 2 != 1) cb_n <- cb_n + 1
@@ -826,7 +848,9 @@ colorgrad <- function(
     mid <- ifelse(theme == "light", "white", "black")
   }
   if (!is.na(mid)) {
-    if (mid == "mean") mid <- color_op(c(lo, hi), "mean")
+    if (mid == "mean") {
+      mid <- color_op(c(lo, hi), "mean")
+    }
     lo2mid <- colorRampPalette(c(lo, lomid, mid), space = space)
     mid2hi <- colorRampPalette(c(mid, midhi, hi), space = space)
     grad <- c(lo2mid(midpoint), mid2hi(n - midpoint + 1)[-1])
@@ -875,15 +899,21 @@ colorgrad <- function(
   # Colorbar ----
   if (colorbar) {
     if (theme == "light") {
-      if (is.null(bg)) bg <- "white"
+      if (is.null(bg)) {
+        bg <- "white"
+      }
       if (is.null(col_text)) col_text <- "black"
     } else if (theme == "dark") {
-      if (is.null(bg)) bg <- "black"
+      if (is.null(bg)) {
+        bg <- "black"
+      }
       if (is.null(col_text)) col_text <- "white"
     }
 
     par_orig <- par(no.readonly = TRUE)
-    if (par_reset && !cb_add) on.exit(suppressWarnings(par(par_orig)))
+    if (par_reset && !cb_add) {
+      on.exit(suppressWarnings(par(par_orig)))
+    }
     if (cb_add) {
       par(new = cb_add, pty = "m", mar = cb_add_mar)
     } else {
@@ -1055,7 +1085,9 @@ colorvec <- function(cols) {
     fivecols = c("lo", "lomid", "mid", "midhi", "hi")
   )
 
-  for (i in seq(ncols)) assign(collist[[ncols - 1]][i], cols[i])
+  for (i in seq(ncols)) {
+    assign(collist[[ncols - 1]][i], cols[i])
+  }
   list(lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi)
 }
 

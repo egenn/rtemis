@@ -23,7 +23,7 @@ a given pair of datasets, merge on that, otherwise try the next in line.}
 \item{time_varname}{Character: Name of column that should be present in all datasets containing
 time information.}
 
-\item{start_date}{Date or characcter: Start date for final dataset in format "YYYY-MM-DD"}
+\item{start_date}{Date or character: Start date for final dataset in format "YYYY-MM-DD"}
 
 \item{end_date}{Date or character: End dat for final dataset in format "YYYY-MM-DD"}
 

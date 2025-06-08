@@ -55,8 +55,8 @@
 #' "right", "auto"
 #' @param legend_yanchor Character: Legend's y anchor: "top", "middle",
 #' "bottom", "auto"
-#' @param automargin_x Logical: If TRUE, automatically set x-axis amrgins
-#' @param automargin_y Logical: If TRUE, automatically set y-axis amrgins
+#' @param automargin_x Logical: If TRUE, automatically set x-axis margins
+#' @param automargin_y Logical: If TRUE, automatically set y-axis margins
 #' @param displayModeBar Logical: If TRUE, show plotly's modebar
 #' @param modeBar_file_format Character: "svg", "png", "jpeg", "pdf" / any
 #' output file type supported by plotly and your system
@@ -133,10 +133,14 @@ draw_bar <- function(
 
   # Arguments ----
   barmode <- match.arg(barmode)
-  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  if (!is.null(main)) {
+    main <- paste0("<b>", main, "</b>")
+  }
 
   dat <- as.data.frame(x)
-  if (NROW(dat) == 1 && barmode != "stack") dat <- as.data.frame(t(dat))
+  if (NROW(dat) == 1 && barmode != "stack") {
+    dat <- as.data.frame(t(dat))
+  }
 
   # Order by val ----
   if (order_by_val) {
@@ -147,7 +151,9 @@ draw_bar <- function(
       order_ <- order(dat[[1]])
       dat <- dat[order_, , drop = FALSE]
     }
-    if (!is.null(group_names)) group_names <- group_names[order_]
+    if (!is.null(group_names)) {
+      group_names <- group_names[order_]
+    }
     if (!is.null(hovernames)) hovernames <- hovernames[order_]
   }
 
@@ -161,7 +167,9 @@ draw_bar <- function(
     dat <- dat[, group_names_]
   }
 
-  if (verbosity > 0L) cat("group_names_:", group_names_, "\n")
+  if (verbosity > 0L) {
+    cat("group_names_:", group_names_, "\n")
+  }
 
   # Feature names ----
   feature_names_ <- feature_names
@@ -173,13 +181,21 @@ draw_bar <- function(
     }
   }
 
-  if (verbosity > 0L) cat("feature_names_:", feature_names_, "\n")
-  if (is.null(legend)) legend <- length(feature_names_) > 1
+  if (verbosity > 0L) {
+    cat("feature_names_:", feature_names_, "\n")
+  }
+  if (is.null(legend)) {
+    legend <- length(feature_names_) > 1
+  }
 
   # Colors ----
-  if (is.character(palette)) palette <- rtpalette(palette)
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
   p <- NCOL(dat)
-  if (is.null(col)) col <- recycle(palette, seq(p))[seq(p)]
+  if (is.null(col)) {
+    col <- recycle(palette, seq(p))[seq(p)]
+  }
 
   # Theme ----
   check_is_S7(theme, Theme)
@@ -193,7 +209,9 @@ draw_bar <- function(
   axes_col <- plotly::toRGB(theme[["axes_col"]])
 
   # Derived
-  if (is.null(legend_col)) legend_col <- labs_col
+  if (is.null(legend_col)) {
+    legend_col <- labs_col
+  }
 
   if (!is.null(hovernames)) {
     hovernames <- matrix(hovernames)
@@ -341,7 +359,9 @@ draw_bar <- function(
 
   # hline ----
   if (!is.null(hline)) {
-    if (is.null(hline_col)) hline_col <- theme[["fg"]]
+    if (is.null(hline_col)) {
+      hline_col <- theme[["fg"]]
+    }
     hline_col <- recycle(hline_col, hline)
     hline_width <- recycle(hline_width, hline)
     hline_dash <- recycle(hline_dash, hline)

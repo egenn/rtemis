@@ -29,14 +29,14 @@ future::availableCores(). In shared systems, you should limit this as appropriat
 
 \section{Visualization}{
 
-Graphics are handled using the \code{draw} family, which is based on \code{plotly}.
-Base graphics family \code{mplot3} is aavailable as a separate package.
+Graphics are handled using the \code{draw} family, which produces interactive plots using\code{plotly} and
+other packages.
 }
 
 \section{Supervised Learning}{
 
 Regression and Classification is performed using \code{train()}.
-This function allows you to preprocess, train, tune, and crossvalited models.
+This function allows you to preprocess, train, tune, and test models on multiple resamples.
 Run \link{available_supervised} to get a list of available algorithms
 }
 

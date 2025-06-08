@@ -182,9 +182,9 @@ the theme.}
 
 \item{margin}{Named list: plot margins.}
 
-\item{automargin_x}{Logical: If TRUE, automatically set x-axis amrgins}
+\item{automargin_x}{Logical: If TRUE, automatically set x-axis margins}
 
-\item{automargin_y}{Logical: If TRUE, automatically set y-axis amrgins}
+\item{automargin_y}{Logical: If TRUE, automatically set y-axis margins}
 
 \item{boxgroupgap}{Numeric: Sets the gap (in plot fraction) between boxes
 of the same location coordinate}
