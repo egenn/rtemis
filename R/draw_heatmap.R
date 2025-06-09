@@ -341,8 +341,11 @@ draw_heatmap <- function(
   )
 
   ## Override colorbar tick font color to theme[["fg"]]
-  plt$x$data[[3]]$colorbar$tickfont <- list(color = theme[["fg"]])
-  plt$x$data[[3]]$colorbar$tickcolor <- theme[["fg"]]
+  plt[["x"]][["data"]][[3]][["colorbar"]][["tickfont"]] <- list(
+    family = theme[["font_family"]],
+    color = tick_labels_col
+  )
+  plt[["x"]][["data"]][[3]][["colorbar"]][["tickcolor"]] <- theme[["tick_col"]]
 
   # Write to file ----
   if (!is.null(filename)) {
