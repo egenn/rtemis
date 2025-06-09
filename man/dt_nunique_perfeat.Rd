@@ -19,6 +19,11 @@ Named integer vector of length \code{NCOL(x)} with number of unique values per c
 \description{
 Number of unique values per feature
 }
+\examples{
+\dontrun{
+dt_nunique_perfeat(iris)
+}
+}
 \author{
 EDG
 }

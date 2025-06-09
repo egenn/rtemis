@@ -47,6 +47,9 @@ once.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+data.frame
+}
 \description{
 Find one or more cases from a \code{pool} data.frame that match cases in a target
 data.frame. Match exactly and/or by distance (sum of squared distances).

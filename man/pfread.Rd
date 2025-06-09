@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_data.table.R
 \name{pfread}
 \alias{pfread}
-\title{fread delimited file in parts}
+\title{Read delimited file in parts}
 \usage{
 pfread(
   x,
@@ -33,8 +33,11 @@ factors}
 
 \item{...}{Additional arguments to pass to \code{data.table::fread()}}
 }
+\value{
+\code{data.table}.
+}
 \description{
-fread delimited file in parts
+Read delimited file in parts using \code{data.table::fread()}.
 }
 \author{
 EDG

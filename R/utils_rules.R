@@ -45,7 +45,9 @@ match_cases_by_rules <- function(x, rules, prefix = "Rule_", verbosity = 1L) {
   if (!is.null(prefix)) {
     colnames(cxr) <- paste0(prefix, seq_len(n_rules))
   }
-  if (verbosity > 0L) msg2done()
+  if (verbosity > 0L) {
+    msg2done()
+  }
   cxr
 } # rtemis::match_cases_by_rules
 
@@ -95,10 +97,10 @@ simple_prune_ <- function(rule, max_length, sep = " & ") {
 #' @param sep Character: The separator between conditions.
 #'
 #' @return Character: The pruned rule.
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
-
 simple_prune <- function(rules, max_length, sep = " & ") {
   rules <- sapply(
     rules,
@@ -117,9 +119,9 @@ simple_prune <- function(rules, max_length, sep = " & ") {
 #' @param unique Logical: If TRUE, return only unique variables.
 #'
 #' @return Character vector: Variable names.
+#'
 #' @author EDG
 #' @export
-
 get_vars_from_rules <- function(rules, unique = FALSE) {
   # Extract variables from rules
   vars <- unique(unlist(strsplit(rules, " & ")))
@@ -132,14 +134,6 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
   vars
 }
 
-
-#' Calculate variable statistics from rules
-#'
-
-# N times variable appears in each rule divided by N variables,
-# averaged across C rules
-# rule_varstats
-
 #' Format rules
 #'
 #' Converts R-executable logical expressions to a more human-friendly format
@@ -148,9 +142,12 @@ get_vars_from_rules <- function(rules, unique = FALSE) {
 #' @param space_after_comma Logical: If TRUE, place spaces after commas.
 #' @param decimal_places Integer: Limit all floats (numbers of the form 9.9) to this many
 #' decimal places
+#'
+#' @return Character vector: Formatted rules.
+#'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 format_rules <- function(x, space_after_comma = FALSE, decimal_places = NULL) {
   x <- gsub("[&+]", "AND", x)
   x <- gsub(">", " > ", x)
@@ -159,7 +156,9 @@ format_rules <- function(x, space_after_comma = FALSE, decimal_places = NULL) {
   x <- gsub("c\\(", "{", x)
   x <- gsub("\\)", "}", x)
   x <- gsub("'", "", x)
-  if (space_after_comma) x <- gsub(",", ", ", x)
+  if (space_after_comma) {
+    x <- gsub(",", ", ", x)
+  }
   if (!is.null(decimal_places)) {
     x <- gsubfn::gsubfn(
       "([0-9.]+[0-9])",
@@ -180,9 +179,12 @@ format_rules <- function(x, space_after_comma = FALSE, decimal_places = NULL) {
 #' @param space_after_comma Logical: If TRUE, place spaces after commas.
 #' @param decimal_places Integer: Limit all floats (numbers of the form 9.9) to this many
 #' decimal places
+#'
+#' @return Character vector: Formatted rules.
+#'
 #' @author EDG
-#' @export
-
+#' @keywords internal
+#' @noRd
 format_LightRuleFit_rules <- function(
   x,
   space_after_comma = FALSE,
@@ -196,7 +198,9 @@ format_LightRuleFit_rules <- function(
   x <- gsub("c\\(", "{", x)
   x <- gsub("\\)", "}", x)
   x <- gsub("'", "", x)
-  if (space_after_comma) x <- gsub(",", ", ", x)
+  if (space_after_comma) {
+    x <- gsub(",", ", ", x)
+  }
   if (!is.null(decimal_places)) {
     x <- gsubfn::gsubfn(
       "([0-9.]+[0-9])",
@@ -224,17 +228,23 @@ format_LightRuleFit_rules <- function(
 #' notation if two decimal places result in 0.00
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return Character vector.
+#'
 #' @author EDG
 #' @export
 
 rules2medmod <- function(rules, x, .ddSci = TRUE, verbosity = 1L) {
   cxr <- match_cases_by_rules(x, rules, verbosity = verbosity)
   nrules <- length(rules)
-  rules.f <- vector("character", nrules)
+  rules_f <- vector("character", nrules)
   frmt <- if (.ddSci) ddSci else I
-  if (verbosity > 0L) msg2("Converting rules...")
+  if (verbosity > 0L) {
+    msg2("Converting rules...")
+  }
   for (i in seq(rules)) {
-    if (verbosity > 1L) cat("#", i, "/", nrules, "...\n", sep = "")
+    if (verbosity > 1L) {
+      cat("#", i, "/", nrules, "...\n", sep = "")
+    }
     dat <- x[cxr[, i] == 1, ]
     sub <- strsplit(rules[i], "&")[[1]]
     rule <- character()
@@ -266,9 +276,11 @@ rules2medmod <- function(rules, x, .ddSci = TRUE, verbosity = 1L) {
       }
     } # /loop through each rule's conditions
     # This consolidates conditions like a > 3 & a > 5 to one
-    rules.f[i] <- paste(unique(rule), collapse = " & ")
+    rules_f[i] <- paste(unique(rule), collapse = " & ")
   } # /loop through rules
 
-  if (verbosity > 0L) msg2("Done")
-  rules.f
+  if (verbosity > 0L) {
+    msg2("Done")
+  }
+  rules_f
 } # rtemis::rules2medmod

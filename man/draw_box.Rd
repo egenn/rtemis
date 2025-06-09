@@ -182,9 +182,9 @@ the theme.}
 
 \item{margin}{Named list: plot margins.}
 
-\item{automargin_x}{Logical: If TRUE, automatically set x-axis amrgins}
+\item{automargin_x}{Logical: If TRUE, automatically set x-axis margins}
 
-\item{automargin_y}{Logical: If TRUE, automatically set y-axis amrgins}
+\item{automargin_y}{Logical: If TRUE, automatically set y-axis margins}
 
 \item{boxgroupgap}{Numeric: Sets the gap (in plot fraction) between boxes
 of the same location coordinate}
@@ -241,6 +241,9 @@ set.}
 is set.}
 
 \item{file_scale}{Numeric: If saving to file, scale plot by this number}
+}
+\value{
+\code{plotly} object.
 }
 \description{
 Draw interactive boxplots or violin plots using \pkg{plotly}

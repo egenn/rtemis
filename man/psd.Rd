@@ -10,7 +10,7 @@ psd(x)
 \item{x}{Numeric vector}
 }
 \value{
-Population standard deviation
+Numeric.
 }
 \description{
 Estimate the population standard deviation:

@@ -33,7 +33,7 @@ draw_pvals(
 \item{...}{Additional arguments passed to \link{draw_bar}.}
 }
 \value{
-A plotly object.
+\code{plotly} object.
 }
 \description{
 Plot 1 - p-values as a barplot

@@ -128,11 +128,11 @@ rtemis_version <- packageVersion("rtemis")
 #'     \item{future.plan}{Default plan to use for parallel processing.}
 #' }
 #' @section Visualization:
-#' Graphics are handled using the `draw` family, which is based on `plotly`.
-#' Base graphics family `mplot3` is aavailable as a separate package.
+#' Graphics are handled using the `draw` family, which produces interactive plots using`plotly` and
+#' other packages.
 #' @section Supervised Learning:
 #' Regression and Classification is performed using `train()`.
-#' This function allows you to preprocess, train, tune, and crossvalited models.
+#' This function allows you to preprocess, train, tune, and test models on multiple resamples.
 #' Run [available_supervised] to get a list of available algorithms
 #' @section Clustering:
 #' Clustering is performed using `cluster()`.

@@ -59,6 +59,7 @@ is_test <- function(x, fn) {
 #' @return Logical
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #' @examples
 #' \dontrun{
 #' check_inherits("papaya", "character") # TRUE

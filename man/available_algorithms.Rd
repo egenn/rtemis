@@ -13,6 +13,9 @@ available_clustering()
 
 available_decomposition()
 }
+\value{
+NULL, invisibly.
+}
 \description{
 Print available algorithms for supervised learning, clustering, and decomposition.
 }

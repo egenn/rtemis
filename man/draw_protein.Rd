@@ -313,7 +313,7 @@ middle.}
 \item{verbosity}{Integer: Verbosity level.}
 }
 \value{
-A plotly object
+\code{plotly} object.
 }
 \description{
 Plot an amino acid sequence with multiple site and/or region annotations.

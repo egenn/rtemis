@@ -69,7 +69,9 @@ ddb_data <- function(
   # Intro ----
   check_dependencies("DBI", "duckdb")
   returnobj <- match.arg(returnobj)
-  if (!is.null(data.table.key)) returnobj <- "data.table"
+  if (!is.null(data.table.key)) {
+    returnobj <- "data.table"
+  }
   path <- if (is.null(datadir)) {
     normalizePath(filename)
   } else {
@@ -153,7 +155,9 @@ ddb_data <- function(
     # on.exit(
     #     tryCatch(DBI::dbRollback(conn), error = function(e) {
     # }))
-    if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
+    if (progress) {
+      DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
+    }
     out <- DBI::dbGetQuery(conn, sql)
     if (clean_colnames) {
       names(out) <- clean_colnames(out)
@@ -196,6 +200,8 @@ ls2sel <- function(x) {
 #' @param progress Logical: If TRUE, show progress bar
 #' @param returnobj Character: data.frame or data.table: class of object to return
 #'
+#' @return `data.frame` or `data.table`.
+#'
 #' @author EDG
 #' @export
 #'
@@ -212,7 +218,9 @@ ddb_collect <- function(
   returnobj <- match.arg(returnobj)
   conn <- DBI::dbConnect(duckdb::duckdb())
   on.exit(DBI::dbDisconnect(conn, shutdown = TRUE))
-  if (progress) DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
+  if (progress) {
+    DBI::dbExecute(conn, "PRAGMA enable_progress_bar;")
+  }
   out <- DBI::dbGetQuery(conn, sql)
   if (returnobj == "data.table") {
     setDT(out)

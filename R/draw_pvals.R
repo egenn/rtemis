@@ -15,7 +15,7 @@
 #' @param hline_dash Character: type of line to draw.
 #' @param ... Additional arguments passed to [draw_bar].
 #'
-#' @return A plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -35,8 +35,12 @@ draw_pvals <- function(
   hline_dash = "dash",
   ...
 ) {
-  if (is.null(xnames)) xnames <- names(x)
-  if (is.null(yname)) yname <- deparse(substitute(x))
+  if (is.null(xnames)) {
+    xnames <- names(x)
+  }
+  if (is.null(yname)) {
+    yname <- deparse(substitute(x))
+  }
 
   draw_bar(
     1 - p.adjust(x, method = p_adjust_method),

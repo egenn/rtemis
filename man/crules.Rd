@@ -9,6 +9,9 @@ crules(...)
 \arguments{
 \item{...}{Character: Rules}
 }
+\value{
+Character.
+}
 \description{
 Combine rules
 }

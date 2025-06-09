@@ -33,6 +33,9 @@ quantile that corresponds to this probability and set as \code{hi}.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+Numeric vector.
+}
 \description{
 Replace extreme values by absolute or quantile threshold
 }

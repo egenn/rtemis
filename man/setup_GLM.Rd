@@ -9,6 +9,9 @@ setup_GLM(ifw = FALSE)
 \arguments{
 \item{ifw}{(Tunable) Logical: If TRUE, use Inverse Frequency Weighting in classification.}
 }
+\value{
+GLMHyperparameters object.
+}
 \description{
 Setup hyperparameters for GLM training.
 }

@@ -99,6 +99,7 @@ set_outcome <- function(dat, outcome_column) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #'
 #' @return character
 make_formula <- function(x, output = "character") {
@@ -140,7 +141,9 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
     }
   }
 
-  if (!is.na(include_anova_pvals)) check_dependencies("car")
+  if (!is.na(include_anova_pvals)) {
+    check_dependencies("car")
+  }
 
   out <- data.table(
     Variable = xnames,
@@ -164,7 +167,9 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
   for (i in pvals_idi) {
     lteps <- out[, i, with = FALSE] < eps
     if (length(lteps) > 0) {
-      if (warn) warning("Values < machine double eps converted to double eps")
+      if (warn) {
+        warning("Values < machine double eps converted to double eps")
+      }
       out[, i, with = FALSE][lteps] <- eps
     }
   }
@@ -238,7 +243,9 @@ get_gam_pvals <- function(m, warn = TRUE) {
   )
   lteps <- pvals < eps
   if (length(lteps) > 0) {
-    if (warn) warning("Values < machine double eps converted to double eps")
+    if (warn) {
+      warning("Values < machine double eps converted to double eps")
+    }
     pvals[lteps] <- eps
   }
   pvals
@@ -258,6 +265,9 @@ get_gam_pvals <- function(m, warn = TRUE) {
 #'
 #' @param x Vector, factor: Labels of outcome. If `x` has more than 1
 #' column, the last one will be used
+#'
+#' @return Numeric.
+#'
 #' @author EDG
 #' @export
 
@@ -266,7 +276,9 @@ class_imbalance <- function(x) {
     x <- outcome(x)
   }
 
-  if (!is.factor(x)) stop("Input must be a factor")
+  if (!is.factor(x)) {
+    stop("Input must be a factor")
+  }
   K <- length(levels(x))
   N <- length(x)
   freq <- as.data.frame(table(x))

@@ -113,7 +113,7 @@
 #' @param height Integer: Height for plot.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return A plotly object
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -282,7 +282,9 @@ draw_protein <- function(
   x <- toupper(x)
   position <- seq_along(x)
   n <- length(x)
-  if (is.null(n_per_row)) n_per_row <- ceiling(sqrt(n))
+  if (is.null(n_per_row)) {
+    n_per_row <- ceiling(sqrt(n))
+  }
 
   # Arguments ----
   layout <- match.arg(layout)
@@ -338,23 +340,33 @@ draw_protein <- function(
   # Theme ----
   check_is_S7(theme, Theme)
 
-  if (is.null(label_col)) label_col <- theme[["fg"]]
+  if (is.null(label_col)) {
+    label_col <- theme[["fg"]]
+  }
   label_col <- recycle(label_col, x)
-  if (is.null(marker_col))
+  if (is.null(marker_col)) {
     marker_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
+  }
   marker_col <- plotly::toRGB(marker_col, alpha = marker_alpha)
-  if (is.null(line_col))
+  if (is.null(line_col)) {
     line_col <- color_fade(theme[["fg"]], theme[["bg"]], .9)
+  }
   line_col <- plotly::toRGB(line_col, alpha = marker_alpha)
 
   main_col <- plotly::toRGB(theme[["main_col"]])
   labs_col <- plotly::toRGB(theme[["labs_col"]])
-  if (is.null(legend_col)) legend_col <- labs_col
+  if (is.null(legend_col)) {
+    legend_col <- labs_col
+  }
   grid_col <- plotly::toRGB(theme[["grid_col"]], theme[["grid_alpha"]])
 
   # Palette ----
-  if (is.character(region_palette)) region_palette <- rtpalette(region_palette)
-  if (is.character(site_palette)) site_palette <- rtpalette(site_palette)
+  if (is.character(region_palette)) {
+    region_palette <- rtpalette(region_palette)
+  }
+  if (is.character(site_palette)) {
+    site_palette <- rtpalette(site_palette)
+  }
 
   # Match abbreviations to full names ----
   if (show_full_names) {
@@ -658,8 +670,12 @@ draw_protein <- function(
   # PTMs ----
   # Note: Do not show both PTMs and cleavage sites using the same padding
   if (!is.null(ptm)) {
-    if (verbosity > 1L) msg2("Adding PTM markers...")
-    if (is.null(ptm.col)) ptm.col <- 1 + seq_along(ptm)
+    if (verbosity > 1L) {
+      msg2("Adding PTM markers...")
+    }
+    if (is.null(ptm.col)) {
+      ptm.col <- 1 + seq_along(ptm)
+    }
     ptm.symbol <- recycle(ptm.symbol, ptm)
     ptm.names <- names(ptm)
     for (i in seq_along(ptm)) {
@@ -683,7 +699,9 @@ draw_protein <- function(
   # Cleavage sites ----
   # Note: Do not show both PTMs and cleavage sites using the same padding
   if (!is.null(clv)) {
-    if (verbosity > 1L) msg2("Adding cleavage site markers...")
+    if (verbosity > 1L) {
+      msg2("Adding cleavage site markers...")
+    }
     if (is.null(clv_col)) {
       clv_col <- c(
         colorspace::qualitative_hcl(
@@ -1092,8 +1110,11 @@ poly_xys <- function(xs, ys, d, pad = 1, bpadcx = .5, bpadcy = .5) {
   }
 
   # pénultième ----
-  py_pen <- if (d[1] %in% c("rb", "lb")) ys[1] - sqrt(.5 * pad^2) else
+  py_pen <- if (d[1] %in% c("rb", "lb")) {
+    ys[1] - sqrt(.5 * pad^2)
+  } else {
     ys[1] + pad
+  }
 
   # out ----
   list(

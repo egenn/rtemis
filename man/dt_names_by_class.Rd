@@ -15,6 +15,9 @@ dt_names_by_class(x, sorted = TRUE, item_format = hilite, maxlength = 24)
 
 \item{maxlength}{Integer: Maximum number of items to print}
 }
+\value{
+\code{NULL}, invisibly.
+}
 \description{
 List column names by class
 }

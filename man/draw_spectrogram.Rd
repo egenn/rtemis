@@ -141,7 +141,7 @@ draw_spectrogram(
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}.}
 }
 \value{
-A \code{plotly} object.
+\code{plotly} object.
 }
 \description{
 Draw interactive spectrograms using \code{plotly}

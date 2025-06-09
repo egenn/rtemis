@@ -18,6 +18,8 @@
 #' @param parameters Resampler object created by [setup_Resampler].
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return `Resampler` object.
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -42,11 +44,14 @@ resample <- function(
   type <- parameters@type
   if (NCOL(x) > 1) {
     if (survival::is.Surv(x)) {
-      if (verbosity > 0L) msg2("Survival object will be stratified on time.")
+      if (verbosity > 0L) {
+        msg2("Survival object will be stratified on time.")
+      }
       x <- x[, 1]
     } else {
-      if (verbosity > 0L)
+      if (verbosity > 0L) {
         msg2("Input contains more than one column; will stratify on last.")
+      }
       x <- x[[NCOL(x)]]
     }
   }
@@ -65,14 +70,20 @@ resample <- function(
   }
 
   if (type == "StratBoot") {
-    target_length <- if (is.null(parameters@target_length)) NROW(x) else
+    target_length <- if (is.null(parameters@target_length)) {
+      NROW(x)
+    } else {
       parameters@target_length
+    }
   }
 
   # resample ----
   if (!type %in% c("Bootstrap", "LOOCV")) {
-    .stratify_var <- if (is.null(parameters@stratify_var)) x else
+    .stratify_var <- if (is.null(parameters@stratify_var)) {
+      x
+    } else {
       parameters@stratify_var
+    }
   }
 
   # stratify_var is for printing with parameter_summary
@@ -177,11 +188,15 @@ resample <- function(
 #' @keywords internal
 #' @noRd
 bootstrap <- function(x, n_resamples = 10, seed = NULL) {
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
   ids <- seq_along(x)
   .length <- length(x)
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
   res <- lapply(
     seq(n_resamples),
@@ -210,15 +225,23 @@ kfold <- function(
   seed = NULL,
   verbosity = TRUE
 ) {
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
-  if (is.null(stratify_var)) stratify_var <- x
+  if (is.null(stratify_var)) {
+    stratify_var <- x
+  }
   stratify_var <- as.numeric(stratify_var)
   # ->> update
   max.bins <- length(unique(stratify_var))
   if (max.bins < strat_n_bins) {
-    if (max.bins == 1) stop("Only one unique value present in stratify_var.")
-    if (verbosity > 0L) msg20("Using max n bins possible = ", max.bins, ".")
+    if (max.bins == 1) {
+      stop("Only one unique value present in stratify_var.")
+    }
+    if (verbosity > 0L) {
+      msg20("Using max n bins possible = ", max.bins, ".")
+    }
     strat_n_bins <- max.bins
   }
 
@@ -242,8 +265,9 @@ kfold <- function(
 
   res <- lapply(
     seq(k),
-    \(i)
+    \(i) {
       seq(ids)[-sort(unlist(lapply(seq_along(cut.bins), \(j) idl.k[[j]][[i]])))]
+    }
   )
 
   names(res) <- paste0("Fold_", seq(k))
@@ -270,12 +294,18 @@ strat_sub <- function(
   seed = NULL,
   verbosity = TRUE
 ) {
-  if (!is.null(seed)) set.seed(seed)
-  if (is.null(stratify_var)) stratify_var <- x
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
+  if (is.null(stratify_var)) {
+    stratify_var <- x
+  }
   stratify_var <- as.numeric(stratify_var)
   max.bins <- length(unique(stratify_var))
   if (max.bins < strat_n_bins) {
-    if (verbosity > 0L) msg2("Using max n bins possible =", max.bins)
+    if (verbosity > 0L) {
+      msg2("Using max n bins possible =", max.bins)
+    }
     strat_n_bins <- max.bins
   }
   ids <- seq_along(x)
@@ -313,7 +343,9 @@ strat_boot <- function(
   seed = NULL,
   verbosity = TRUE
 ) {
-  if (!is.null(seed)) set.seed(seed)
+  if (!is.null(seed)) {
+    set.seed(seed)
+  }
 
   res_part1 <- strat_sub(
     x = x,
@@ -326,8 +358,12 @@ strat_boot <- function(
 
   # Make sure target_length was not too short by accident
   res.length <- length(res_part1[[1]])
-  if (is.null(target_length)) target_length <- length(x)
-  if (target_length < res.length) target_length <- length(x)
+  if (is.null(target_length)) {
+    target_length <- length(x)
+  }
+  if (target_length < res.length) {
+    target_length <- length(x)
+  }
 
   # Add back this many cases
   add.length <- target_length - res.length

@@ -227,6 +227,8 @@ method(print, Supervised) <- function(x, ...) {
 # @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
 #' @param ... Additional arguments passed to the plotting function.
 #'
+#' @return plotly object or invisible NULL if no variable importance is available.
+#'
 #' @author EDG
 #' @export
 plot_varimp <- new_generic("plot_varimp", "x")
@@ -403,6 +405,8 @@ get_explain_fn <- function(algorithm) {
 #' @param x data.frame or similar: Data to explain.
 #' @param dat_training data.frame or similar: Training data.
 #' @param method Character: Method to use.
+#'
+#' @return Object depending on model: list, shapr, or other.
 #'
 #' @export
 explain <- function(model, x, dat_training = NULL, method = NULL) {
@@ -1704,6 +1708,7 @@ method(plot, SupervisedRes) <- function(...) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 # make_SupervisedRes <- function(algorithm, models, hyperparameters) {
 #   SupervisedRes(
 #     algorithm = algorithm,

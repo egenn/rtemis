@@ -36,7 +36,7 @@ draw_heat(
 \item{transpose}{Logical: If TRUE, transpose matrix.}
 }
 \value{
-A plotly heatmap object.
+\code{plotly} object.
 }
 \description{
 Draw a heatmap using \code{plotly}.

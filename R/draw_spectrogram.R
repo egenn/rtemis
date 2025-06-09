@@ -55,7 +55,7 @@
 #' @param file_scale Numeric: Scale of exported image.
 #' @param ... Additional arguments to be passed to `heatmaply::heatmaply`.
 #'
-#' @return A `plotly` object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -117,12 +117,16 @@ draw_spectrogram <- function(
     )
   }
 
-  if (is.null(font_size)) font_size <- 17.0769 - 0.2692 * ncol(x)
+  if (is.null(font_size)) {
+    font_size <- 17.0769 - 0.2692 * ncol(x)
+  }
 
   # Limits ----
   if (is.null(limits)) {
     maxabs <- max(abs(x), na.rm = TRUE)
-    if (.2 < maxabs && maxabs < 1) maxabs <- 1
+    if (.2 < maxabs && maxabs < 1) {
+      maxabs <- 1
+    }
     limits <- c(-maxabs, maxabs)
   }
 
@@ -139,7 +143,9 @@ draw_spectrogram <- function(
   main_col <- plotly::toRGB(theme[["main_col"]])
 
   # Colors ----
-  if (is.null(mid)) mid <- theme[["bg"]]
+  if (is.null(mid)) {
+    mid <- theme[["bg"]]
+  }
   colors <- colorgrad(
     n = colorgrad_n,
     colors = colors,

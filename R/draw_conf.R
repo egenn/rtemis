@@ -22,7 +22,7 @@
 #' @param file_height Numeric: height of the file. Default is 500.
 #' @param file_scale Numeric: scale of the file. Default is 1.
 #'
-#' @return A plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export

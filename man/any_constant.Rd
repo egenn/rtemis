@@ -9,6 +9,9 @@ any_constant(x)
 \arguments{
 \item{x}{Input Data Frame}
 }
+\value{
+Logical.
+}
 \description{
 Checks if any column of a data frame have zero variance
 }

@@ -105,7 +105,7 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
 #' a given pair of datasets, merge on that, otherwise try the next in line.
 #' @param time_varname Character: Name of column that should be present in all datasets containing
 #' time information.
-#' @param start_date Date or characcter: Start date for final dataset in format "YYYY-MM-DD"
+#' @param start_date Date or character: Start date for final dataset in format "YYYY-MM-DD"
 #' @param end_date Date or character: End dat for final dataset in format "YYYY-MM-DD"
 #' @param interval_days Integer: Starting with `start_date` create timepoints every this many
 #' days.
@@ -115,7 +115,7 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
 #'
 #' @author EDG
 #' @keywords internal
-
+#' @noRd
 merge_long_treatment <- function(
   x,
   group_varnames,
@@ -126,14 +126,19 @@ merge_long_treatment <- function(
   verbosity = 1L
 ) {
   # Arguments ----
-  if (!is.list(x)) stop("x must be a named list")
+  if (!is.list(x)) {
+    stop("x must be a named list")
+  }
   n_sets <- length(x)
-  if (is.null(names(x))) names(x) <- paste0("Dataset", seq(x))
+  if (is.null(names(x))) {
+    names(x) <- paste0("Dataset", seq(x))
+  }
   .names <- names(x)
 
   # Check there are at least 2 inputs
-  if (n_sets < 2)
+  if (n_sets < 2) {
     stop("Please provide at least 2 datasets as a named list in 'x'")
+  }
 
   # Check all inputs contain at least one of group_varname and the time_varname
   for (i in seq(x)) {
@@ -284,6 +289,8 @@ xlsx2list <- function(
 #' @param ignore_na Logical: If TRUE, ignore NA values during exact matching.
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return data.frame
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -383,7 +390,9 @@ matchcases <- function(
   # then order pool by distance.
   mc <- data.frame(targetID = targetID, match = matrix(NA, ntarget, n_matches))
   for (i in seq(ntarget)) {
-    if (verbosity > 0L) msg2("Working on case", i, "of", ntarget)
+    if (verbosity > 0L) {
+      msg2("Working on case", i, "of", ntarget)
+    }
     if (is.null(exactmatch_cols)) {
       subpool <- pool_s
     } else {
@@ -409,9 +418,10 @@ matchcases <- function(
     ))
     n_matched <- min(n_matches, nrow(subpool))
     mc[i, 2:(n_matched + 1)] <- subpool[, 1][distord[seq(n_matched)]]
-    if (norepeats)
+    if (norepeats) {
       pool_s <- pool_s[!pool_s[, 1] %in% mc[i, 2:(n_matches + 1)], ]
+    }
   }
 
   mc
-} # rtemis::matchcases
+} # /rtemis::matchcases

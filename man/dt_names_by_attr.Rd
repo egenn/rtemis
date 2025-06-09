@@ -4,16 +4,19 @@
 \alias{dt_names_by_attr}
 \title{List column names by attribute}
 \usage{
-dt_names_by_attr(x, which, exact = TRUE, sorted = TRUE)
+dt_names_by_attr(x, attribute, exact = TRUE, sorted = TRUE)
 }
 \arguments{
 \item{x}{data.table}
 
-\item{which}{Character: name of attribute}
+\item{attribute}{Character: name of attribute}
 
 \item{exact}{Logical: If TRUE, use exact matching}
 
 \item{sorted}{Logical: If TRUE, sort the output}
+}
+\value{
+Character vector.
 }
 \description{
 List column names by attribute

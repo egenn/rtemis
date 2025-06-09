@@ -97,7 +97,9 @@ train_LightCART <- function(
 #' @param model lgb.Booster object trained using `train_LightCART`.
 #' @param newdata data.frame or similar: Data to predict on.
 #'
+#' @author EDG
 #' @keywords internal
+#' @noRd
 predict_LightCART <- function(model, newdata, type, verbosity = 0L) {
   check_inherits(model, "lgb.Booster")
   check_inherits(newdata, "data.frame")

@@ -11,6 +11,9 @@ is_constant(x, skip_missing = FALSE)
 
 \item{skip_missing}{Logical: If TRUE, skip NA values before test}
 }
+\value{
+Logical.
+}
 \description{
 Check if vector is constant
 }

@@ -16,7 +16,7 @@ regression_metrics(true, predicted, na.rm = TRUE, sample = character())
 \item{sample}{Character: Sample name (e.g. "training", "test").}
 }
 \value{
-RegressionMetrics object
+\code{RegressionMetrics} object.
 }
 \description{
 Regression Metrics

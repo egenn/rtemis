@@ -144,7 +144,9 @@ train_GLMNET <- function(
 #' @param model glmnet model.
 #' @param newdata data.frame or similar: Data to predict on.
 #'
+#' @author EDG
 #' @keywords internal
+#' @noRd
 predict_GLMNET <- function(model, newdata, type = NULL) {
   # Determine type
   # if model@classnames exists, type is Classification

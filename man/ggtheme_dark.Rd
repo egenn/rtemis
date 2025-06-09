@@ -35,6 +35,9 @@ ggtheme_dark(
 
 \item{strip_background_fill}{Color: Fill color from facet labels.}
 }
+\value{
+\code{ggplot2}, \code{theme} object.
+}
 \description{
 \pkg{rtemis} \code{ggplot2} dark theme
 }

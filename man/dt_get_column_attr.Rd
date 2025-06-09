@@ -13,6 +13,9 @@ dt_get_column_attr(x, attr = "source", useNA = "always")
 
 \item{useNA}{Character: Passed to \code{table}}
 }
+\value{
+table.
+}
 \description{
 Tabulate column attributes
 }

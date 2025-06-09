@@ -14,6 +14,8 @@
 #' @param bordered Logical: If TRUE, add border.
 #' @param ... Additional arguments passed to `reactable::reactable`
 #'
+#' @return `reactable` object.
+#'
 #' @author E D Gennatas
 #' @export
 

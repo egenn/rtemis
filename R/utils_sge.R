@@ -32,9 +32,10 @@
 #' as the submit node.
 #' @param verbosity Integer: Verbosity level.
 #'
+#' @return Character, invisibly: The command that was submitted to SGE.
+#'
 #' @author EDG
 #' @export
-
 sge_submit <- function(
   expr,
   obj_names = NULL,
@@ -97,7 +98,9 @@ sge_submit <- function(
 
   # Write {.R file} to temp_dir ----
   Rfilepath <- tempfile(pattern = "Rsub", tmpdir = temp_dir)
-  if (verbosity > 1L) msg2("Rfilepath set to", Rfilepath)
+  if (verbosity > 1L) {
+    msg2("Rfilepath set to", Rfilepath)
+  }
 
   ## init file ----
   cat("# rtemis sge_submit", date(), "\n", file = Rfilepath)
@@ -136,7 +139,9 @@ sge_submit <- function(
 
   # Write {.sh file} to temp_dir ----
   shfilepath <- tempfile(pattern = "SHsub", tmpdir = temp_dir)
-  if (verbosity > 1L) msg2("shfile set to:", shfilepath)
+  if (verbosity > 1L) {
+    msg2("shfile set to:", shfilepath)
+  }
 
   cat(sge_env, "\n", file = shfilepath)
   cat(sge_opts, "\n", file = shfilepath, append = TRUE)
@@ -168,7 +173,8 @@ sge_submit <- function(
   qsub <- paste(qsub, shfilepath)
 
   system(qsub)
-}
+  invisible(qsub)
+} # /rtemis::sge_submit
 
 
 #' SGE qstat
@@ -177,8 +183,10 @@ sge_submit <- function(
 #'
 #' alias for `system("qstat")`
 #'
+#' @return `NULL`, invisibly.
+#'
 #' @export
-
 qstat <- function() {
   system("qstat")
+  invisible(NULL)
 }

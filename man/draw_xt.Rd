@@ -230,7 +230,7 @@ bar image export.}
 \item{file_scale}{Numeric: Scale of the saved plot image.}
 }
 \value{
-A plotly object.
+\code{plotly} object.
 }
 \description{
 Plot timeseries data

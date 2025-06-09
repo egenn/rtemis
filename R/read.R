@@ -52,6 +52,8 @@
 #' `arrow::read_delim_arrow()`, `vroom::vroom()`,
 #' or `openxlsx::read.xlsx()`
 #'
+#' @return data.frame, data.table, or tibble.
+#'
 #' @author EDG
 #' @export
 #' @examples
@@ -83,7 +85,9 @@ read <- function(
   ...
 ) {
   check_dependencies("data.table")
-  if (timed) start_time <- intro(verbosity = 0L)
+  if (timed) {
+    start_time <- intro(verbosity = 0L)
+  }
   delim_reader <- match.arg(delim_reader)
   output <- match.arg(output)
   ext <- tools::file_ext(filename)
@@ -152,7 +156,9 @@ read <- function(
     }
     .dat <- seqinr::read.fasta(path, ...)
     # if single sequence, return as character
-    if (length(.dat) == 1) .dat <- as.character(.dat[[1]])
+    if (length(.dat) == 1) {
+      .dat <- as.character(.dat[[1]])
+    }
     return(.dat)
   } else if (ext == "arff") {
     check_dependencies("farff")
@@ -178,7 +184,9 @@ read <- function(
       )
     }
     if (delim_reader == "data.table") {
-      if (is.null(sep)) sep <- "auto"
+      if (is.null(sep)) {
+        sep <- "auto"
+      }
       .dat <- data.table::fread(
         path,
         sep = sep,
@@ -189,7 +197,9 @@ read <- function(
       )
     } else if (delim_reader == "duckdb") {
       check_dependencies("DBI", "duckdb")
-      if (is.null(sep)) sep <- ","
+      if (is.null(sep)) {
+        sep <- ","
+      }
       if (length(na_strings) > 1) {
         msg2(
           "Note: 'na_strings' must be a single string for duckdb; setting to '",
@@ -217,7 +227,9 @@ read <- function(
       if (output == "data.table") setDT(.dat)
     } else if (delim_reader == "arrow") {
       check_dependencies("arrow")
-      if (is.null(sep)) sep <- ","
+      if (is.null(sep)) {
+        sep <- ","
+      }
       .dat <- arrow::read_delim_arrow(
         path,
         delim = sep,
@@ -295,15 +307,21 @@ read <- function(
   }
 
   if (!is.null(attr) && !is.null(value)) {
-    for (i in seq_len(ncol(.dat))) setattr(.dat[[i]], attr, value)
+    for (i in seq_len(ncol(.dat))) {
+      setattr(.dat[[i]], attr, value)
+    }
   }
 
-  if (timed) outro(start_time)
+  if (timed) {
+    outro(start_time)
+  }
 
   return(.dat)
 } # rtemis::read
 
 msgread <- function(x, caller = "", use_basename = TRUE) {
-  if (use_basename) x <- basename(x)
+  if (use_basename) {
+    x <- basename(x)
+  }
   msg20(bold(green("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
 }

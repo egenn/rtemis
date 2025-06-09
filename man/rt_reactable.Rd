@@ -33,6 +33,9 @@ e.g. \code{c("numeric", "factor", "character")}}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
+\value{
+\code{reactable} object.
+}
 \description{
 View table using reactable
 }
