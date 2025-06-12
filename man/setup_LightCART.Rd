@@ -30,7 +30,7 @@ setup_LightCART(
 
 \item{max_cat_threshold}{(Tunable) Positive integer: Maximum number of categories for categorical features.}
 
-\item{min_data_per_group}{(Tunable) Positive integer: Minimum number of data per categorical group.}
+\item{min_data_per_group}{(Tunable) Positive integer: Minimum number of observations per categorical group.}
 
 \item{linear_tree}{(Tunable) Logical: If TRUE, use linear trees.}
 

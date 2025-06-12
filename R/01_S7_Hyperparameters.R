@@ -691,7 +691,7 @@ LightCARTHyperparameters <- new_class(
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
 #' @param min_data_in_leaf (Tunable) Positive integer: Minimum number of data in a leaf.
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
-#' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
+#' @param min_data_per_group (Tunable) Positive integer: Minimum number of observations per categorical group.
 #' @param linear_tree (Tunable) Logical: If TRUE, use linear trees.
 #' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
@@ -841,7 +841,7 @@ LightRFHyperparameters <- new_class(
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
-#' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
+#' @param min_data_per_group (Tunable) Positive integer: Minimum number of observations per categorical group.
 #' @param linear_tree Logical: If TRUE, use linear trees.
 #' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
@@ -1054,7 +1054,7 @@ method(update, LightGBMHyperparameters) <- function(
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
-#' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
+#' @param min_data_per_group (Tunable) Positive integer: Minimum number of observations per categorical group.
 #' @param linear_tree Logical: If TRUE, use linear trees.
 #' @param objective Character: Objective function.
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
