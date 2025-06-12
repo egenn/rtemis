@@ -9,6 +9,7 @@ setup_LightCART(
   max_depth = -1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
+  min_data_in_leaf = 20L,
   max_cat_threshold = 32L,
   min_data_per_group = 100L,
   linear_tree = FALSE,
@@ -24,6 +25,8 @@ setup_LightCART(
 \item{lambda_l1}{(Tunable) Numeric: L1 regularization.}
 
 \item{lambda_l2}{(Tunable) Numeric: L2 regularization.}
+
+\item{min_data_in_leaf}{(Tunable) Positive integer: Minimum number of data in a leaf.}
 
 \item{max_cat_threshold}{(Tunable) Positive integer: Maximum number of categories for categorical features.}
 
