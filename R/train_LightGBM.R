@@ -2,6 +2,9 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+# LightGBM parameters
+# https://lightgbm.readthedocs.io/en/latest/Parameters.html
+
 #' Gradient Boosting with LightGBM
 #'
 #' @param x data.frame or similar: Training set.
