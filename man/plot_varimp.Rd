@@ -11,6 +11,9 @@ plot_varimp(x, ...)
 
 \item{...}{Additional arguments passed to the plotting function.}
 }
+\value{
+plotly object or invisible NULL if no variable importance is available.
+}
 \description{
 Plot Variable Importance for Supervised objects.
 }

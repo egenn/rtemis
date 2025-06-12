@@ -46,6 +46,8 @@ calibrate <- new_generic(
 #' @param verbosity Integer: Verbosity level.
 #' @param ... Not used
 #'
+#' @return CalibratedClassification object.
+#'
 #' @author EDG
 #' @export
 

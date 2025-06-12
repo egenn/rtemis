@@ -205,7 +205,7 @@ rtasciitxt <- function() {
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
     rep(" ", pad),
-    bold(green("\u2713 ")),
+    green("\u2714 "),
     paste(..., sep = sep),
     end,
     appendLF = FALSE
@@ -215,7 +215,7 @@ yay <- function(..., sep = " ", end = "\n", pad = 0) {
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
     rep(" ", pad),
-    bold(red("\u2715 ")),
+    red("\u2715 "),
     paste(..., sep = sep),
     end,
     appendLF = FALSE
@@ -240,6 +240,8 @@ nay <- function(..., sep = " ", end = "\n", pad = 0) {
 #' @param capitalize_strings Character, vector: Always capitalize these strings, if present. Default = `"id"`
 #' @param stringsToSpaces Character, vector: Replace these strings with spaces. Escape as needed for `gsub`.
 #' Default = `"\\$"`, which formats common input of the type `data.frame$variable`
+#'
+#' @return Character vector.
 #'
 #' @author EDG
 #' @export

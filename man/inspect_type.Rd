@@ -17,6 +17,9 @@ inspect_type(x, xname = NULL, verbosity = 1L, thresh = 0.5, na.omit = TRUE)
 
 \item{na.omit}{Logical: If TRUE, remove NA values before checking.}
 }
+\value{
+Character.
+}
 \description{
 Checks character or factor vector to determine whether it might be best to convert to
 numeric.

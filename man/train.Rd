@@ -59,7 +59,7 @@ Object of class \code{Regression(Supervised)}, \code{RegressionRes(SupervisedRes
 }
 \description{
 Preprocess, tune, train, and test supervised learning models with a single function
-using nested crossvalidation.
+using nested resampling
 }
 \details{
 Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the

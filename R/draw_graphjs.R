@@ -35,7 +35,7 @@
 #' @param verbosity Integer: Verbosity level.
 #' @param ... Extra arguments to pass to `igraph::plot.igraph()`.
 #'
-#' @return A threejs graph object.
+#' @return `scatterplotThree` object.
 #'
 #' @author EDG
 #' @export
@@ -85,7 +85,9 @@ draw_graphjs <- function(
   # Theme ----
   check_is_S7(theme, Theme)
 
-  if (is.character(palette)) palette <- unname(unlist(rtpalette(palette)))
+  if (is.character(palette)) {
+    palette <- unname(unlist(rtpalette(palette)))
+  }
 
   # Vertex names ----
   # by default use names in input net.

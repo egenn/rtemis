@@ -9,6 +9,9 @@ col2hex(color)
 \arguments{
 \item{color}{Color(s) that R understands}
 }
+\value{
+Character vector of hexadecimal codes.
+}
 \description{
 Convert a color that R understands into the corresponding hexadecimal code
 }

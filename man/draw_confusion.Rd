@@ -56,7 +56,7 @@ the first row and column are the positive class.}
 \item{file_scale}{Numeric: scale of the file. Default is 1.}
 }
 \value{
-A plotly object.
+\code{plotly} object.
 }
 \description{
 Plot confusion matrix

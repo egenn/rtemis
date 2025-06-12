@@ -29,6 +29,9 @@ calibrate.Classification(
 
 \item{...}{Not used}
 }
+\value{
+CalibratedClassification object.
+}
 \description{
 The goal of calibration is to adjust the predicted probabilities of a binary classification
 model so that they better reflect the true probabilities (i.e. empirical risk) of the positive

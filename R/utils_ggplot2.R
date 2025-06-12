@@ -11,11 +11,15 @@
 #' to plot 2 plots per row
 #' @param byrow Logical: If TRUE, draw plots in order provided by row, otherwise by column.
 #'
+#' @return NULL, invisibly.
+#'
 #' @author EDG
 #' @export
 multigplot <- function(plots = NULL, nrows = NULL, byrow = TRUE) {
   nplots <- length(plots)
-  if (is.null(nrows)) nrows <- ceiling(nplots / 2)
+  if (is.null(nrows)) {
+    nrows <- ceiling(nplots / 2)
+  }
   ncols <- ceiling(nplots / nrows)
   layout <- matrix(seq(nrows * ncols), nrows, byrow = byrow)
 
@@ -32,6 +36,7 @@ multigplot <- function(plots = NULL, nrows = NULL, byrow = TRUE) {
       )
     )
   }
+  invisible(NULL)
 } # rtemis::multigplot
 
 
@@ -50,6 +55,8 @@ multigplot <- function(plots = NULL, nrows = NULL, byrow = TRUE) {
 #' @param legend_text_size_rel Float: Relative size for legend text.
 #' @param legend_position Character: Legend position, "top", "bottom", "right", "left" Default  = "right"
 #' @param strip_background_fill Color: Fill color from facet labels.
+#'
+#' @return `ggplot2`, `theme` object.
 #'
 #' @author EDG
 #' @export
@@ -238,6 +245,8 @@ ggtheme_light <- function(
 #' @inheritParams ggtheme_light
 #' @param strip_background_fill Color: Fill color from facet labels.
 #'
+#' @return `ggplot2`, `theme` object.
+#'
 #' @author EDG
 #' @export
 #'
@@ -418,4 +427,4 @@ ggtheme_dark <- function(
     plot.margin = ggplot2::margin(half_line, half_line, half_line, half_line),
     complete = TRUE
   )
-} # rtemis::ggtheme_dark
+} # /rtemis::ggtheme_dark

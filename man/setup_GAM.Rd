@@ -11,6 +11,9 @@ setup_GAM(k = 5L, ifw = FALSE)
 
 \item{ifw}{(Tunable) Logical: If TRUE, use Inverse Frequency Weighting in classification.}
 }
+\value{
+GAMHyperparameters object.
+}
 \description{
 Setup hyperparameters for GAM training.
 }

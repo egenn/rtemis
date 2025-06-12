@@ -68,6 +68,9 @@ setup_LightGBM(
 
 \item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
 }
+\value{
+LightGBMHyperparameters object.
+}
 \description{
 Setup hyperparameters for LightGBM training.
 }

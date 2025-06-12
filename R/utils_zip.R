@@ -9,7 +9,11 @@
 #'
 #' @param x Character vector: Zip code(s)
 #' @param zipdt data.table with "zip", "lng", and "lat" columns
-
+#'
+#' @return `data.table`.
+#'
+#' @author EDG
+#' @export
 zip2longlat <- function(x, zipdt) {
   data.table::setorder(
     merge(

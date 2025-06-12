@@ -9,6 +9,9 @@ init_project_dir(verbosity = 1L)
 \arguments{
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+Character: the working directory path, invisibly.
+}
 \description{
 Initializes Directory Structure: "R", "Data", "Results"
 }

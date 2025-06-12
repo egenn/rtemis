@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_data.table.R
 \name{dt_set_logical2factor}
 \alias{dt_set_logical2factor}
-\title{Convert data.table logical columns to factor with custom labels in-place}
+\title{Convert data.table logical columns to factors}
 \usage{
 dt_set_logical2factor(
   x,
@@ -24,8 +24,11 @@ logical columns}
 
 \item{fillNA}{Character: If not NULL, fill NA values with this constant}
 }
+\value{
+data.table, invisibly.
+}
 \description{
-Convert data.table logical columns to factor with custom labels in-place
+Convert data.table logical columns to factors with custom labels in-place
 }
 \examples{
 \dontrun{

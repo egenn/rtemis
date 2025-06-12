@@ -167,7 +167,9 @@ tune_GridSearch <- function(
     # if (algorithm == "LIHADBoost") {
     #   out1$sel.n.steps <- mod1$mod$selected.n.steps
     # }
-    if (save_mods) out1[["mod1"]] <- mod1
+    if (save_mods) {
+      out1[["mod1"]] <- mod1
+    }
     if (parallel_type != "mirai") {
       ptn(sprintf("Tuning resample %i/%i", index, n_res_x_comb))
     }
@@ -479,7 +481,7 @@ tune_GridSearch <- function(
   )
   best_param_combo <- as.list(param_grid[best_param_combo_id, -1, drop = FALSE])
   if (verbosity > 0L) {
-    cat("\n")
+    message()
     msg2(hilite(paste0("Best parameters to ", paste(verb, metric), ":")))
     print_tune_finding(grid_params, best_param_combo)
   }

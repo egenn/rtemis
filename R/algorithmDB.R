@@ -133,8 +133,11 @@ get_default_hyperparameters <- function(algorithm, type, ncols) {
   alg_name <- get_alg_name(algorithm)
   if (alg_name == "LightRF") {
     setup_LightRF(
-      feature_fraction = if (type == "Classification") sqrt(ncols) / ncols else
+      feature_fraction = if (type == "Classification") {
+        sqrt(ncols) / ncols
+      } else {
         0.33
+      }
     )
   } else {
     do.call(paste0("setup_", get_alg_name(algorithm)), list())
@@ -277,6 +280,9 @@ get_decom_predict_fn <- function(algorithm) {
 #'
 #' @rdname available_algorithms
 #' @aliases available_algorithms
+#'
+#' @return NULL, invisibly.
+#'
 #' @export
 available_supervised <- function() {
   algs <- structure(
@@ -285,6 +291,7 @@ available_supervised <- function() {
     class = "list"
   )
   printls(algs, print_class = FALSE)
+  invisible(NULL)
 }
 
 #' @rdname available_algorithms
@@ -296,6 +303,7 @@ available_clustering <- function() {
     class = "list"
   )
   printls(algs, print_class = FALSE)
+  invisible(NULL)
 }
 
 #' @rdname available_algorithms
@@ -307,6 +315,7 @@ available_decomposition <- function() {
     class = "list"
   )
   printls(algs, print_class = FALSE)
+  invisible(NULL)
 }
 
 # Draw ----
@@ -342,6 +351,8 @@ colnames(draw_fns) <- c("Function Name", "Description")
 #'
 #' Print available draw functions for visualization.
 #'
+#' @return NULL, invisibly.
+#'
 #' @author EDG
 #' @export
 available_draw <- function() {
@@ -352,4 +363,5 @@ available_draw <- function() {
   )
   cat("Available draw functions:\n")
   printls(fns, print_class = FALSE, limit_iter = length(fns))
+  invisible(NULL)
 } # rtemis::available_draw

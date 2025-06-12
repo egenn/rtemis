@@ -13,6 +13,9 @@ dt_index_attr(x, name, value)
 
 \item{value}{Character: Value of attribute}
 }
+\value{
+Integer vector.
+}
 \description{
 Index columns by attribute name & value
 }

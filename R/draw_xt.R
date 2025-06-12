@@ -97,7 +97,7 @@
 #' @param file_height Numeric: Height of the saved plot image.
 #' @param file_scale Numeric: Scale of the saved plot image.
 #'
-#' @return A plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -207,11 +207,21 @@ draw_xt <- function(
   }
 
   # Data to lists
-  if (!is.null(y2) && is.null(x2)) x2 <- x
-  if (!is.list(x)) x <- list(x)
-  if (!is.list(y)) y <- list(y)
-  if (!is.null(y2) && !is.list(y2)) y2 <- list(y2)
-  if (!is.null(y2) && !is.list(x2)) x2 <- list(x2)
+  if (!is.null(y2) && is.null(x2)) {
+    x2 <- x
+  }
+  if (!is.list(x)) {
+    x <- list(x)
+  }
+  if (!is.list(y)) {
+    y <- list(y)
+  }
+  if (!is.null(y2) && !is.list(y2)) {
+    y2 <- list(y2)
+  }
+  if (!is.null(y2) && !is.list(x2)) {
+    x2 <- list(x2)
+  }
 
   # Recycle x and x2 as needed
   if (length(y) > 1 && length(x) == 1) {
@@ -333,8 +343,12 @@ draw_xt <- function(
   tick_col <- plotly::toRGB(theme[["tick_col"]])
   legend_col <- labs_col <- plotly::toRGB(theme[["labs_col"]])
   main_col <- plotly::toRGB(theme[["main_col"]])
-  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
-  if (is.null(spike_col)) spike_col <- theme[["fg"]]
+  if (!theme[["axes_visible"]]) {
+    tick_col <- labs_col <- "transparent"
+  }
+  if (is.null(spike_col)) {
+    spike_col <- theme[["fg"]]
+  }
   zero_col <- adjustcolor(theme[["zerolines_col"]], theme[["zerolines_alpha"]])
 
   # Colors ----
@@ -354,7 +368,9 @@ draw_xt <- function(
     y2fill <- rep(y2fill, length(y2))
   }
 
-  if (!is.null(y2)) stopifnot(length(y2fill) == length(y2))
+  if (!is.null(y2)) {
+    stopifnot(length(y2fill) == length(y2))
+  }
 
   # Fonts ----
   f <- list(
@@ -434,8 +450,12 @@ draw_xt <- function(
 
   # Shade intervals ----
   if (!is.null(shade_interval)) {
-    if (is.null(shade_x)) shade_x <- x[[1]]
-    if (is.null(shade_col)) shade_col <- plotly::toRGB(theme[["fg"]], 0.15)
+    if (is.null(shade_x)) {
+      shade_x <- x[[1]]
+    }
+    if (is.null(shade_col)) {
+      shade_col <- plotly::toRGB(theme[["fg"]], 0.15)
+    }
     ymax <- max(unlist(y), unlist(y2))
     # Draw shaded rectangles
     for (i in seq_along(shade_interval)) {
@@ -490,7 +510,9 @@ draw_xt <- function(
   } # /y2 scatter
 
   # Labels ----
-  if (is.null(xlab)) xlab <- .xname
+  if (is.null(xlab)) {
+    xlab <- .xname
+  }
   if (!is.null(xunits)) {
     xlab <- paste0(xlab, " (", xunits, ")")
   }
@@ -637,7 +659,9 @@ draw_xt <- function(
 
   # Rangeslider ----
   if (show_rangeslider) {
-    if (is.null(slider_start)) slider_start <- x[[1]][1]
+    if (is.null(slider_start)) {
+      slider_start <- x[[1]][1]
+    }
     if (is.null(slider_end)) {
       idi <- min(500, length(x[[1]]))
       slider_end <- x[[1]][idi]

@@ -39,6 +39,9 @@ setup_GLMNET(
 
 \item{ifw}{Logical: If TRUE, use Inverse Frequency Weighting in classification.}
 }
+\value{
+GLMNETHyperparameters object.
+}
 \description{
 Setup hyperparameters for GLMNET training.
 }

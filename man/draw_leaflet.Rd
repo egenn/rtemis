@@ -87,7 +87,7 @@ draw_leaflet(
 \item{stroke}{Logical: If TRUE, draw polygon borders.}
 }
 \value{
-A leaflet map object.
+\code{leaflet} object.
 }
 \description{
 Plot interactive choropleth map using \pkg{leaflet}

@@ -58,6 +58,9 @@ row names.}
 
 \item{margin}{List: plotly's margins.}
 }
+\value{
+\code{plotly} object.
+}
 \description{
 Draw an html table using \code{plotly}
 }

@@ -87,7 +87,7 @@ either \code{rownames(x)}, or the first column of \code{x} if \code{ncol(x) = 2}
 \item{file_scale}{Numeric: Scale for saved file.}
 }
 \value{
-A plotly object.
+\code{plotly} object.
 }
 \description{
 Draw interactive pie charts using \code{plotly}.

@@ -11,7 +11,13 @@ zip2longlat(x, zipdt)
 
 \item{zipdt}{data.table with "zip", "lng", and "lat" columns}
 }
+\value{
+\code{data.table}.
+}
 \description{
 Returns a data.table of longitude and lattitude for one or more zip codes,
 given an input dataset
+}
+\author{
+EDG
 }

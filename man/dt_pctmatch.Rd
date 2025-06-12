@@ -20,6 +20,9 @@ same}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
+\value{
+list.
+}
 \description{
 Get N and percent match of values between two columns of two data.tables
 }

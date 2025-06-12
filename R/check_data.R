@@ -12,6 +12,8 @@
 #' @param get_na_feature_pct Logical: If TRUE, calculate percent of NA values
 #' per feature
 #'
+#' @return `CheckData` object.
+#'
 #' @author EDG
 #' @export
 #'
@@ -192,8 +194,10 @@ max0 <- function(x) max(x, 0, na.rm = TRUE)
 #' @param name Character: Name of the data set
 #' @param css List: CSS styles
 #'
+#' @return `shiny.tag` object.
+#'
 #' @author EDG
-#' @export
+#' @noRd
 tohtml <- function(
   x,
   name = NULL,
@@ -396,4 +400,4 @@ tohtml <- function(
       ";"
     )
   )
-}
+} # /rtemis::tohtml

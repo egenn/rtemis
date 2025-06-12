@@ -676,6 +676,9 @@ title.}
 
 \item{font_family}{Character: Font to be used throughout plot.}
 }
+\value{
+\code{Theme} object.
+}
 \description{
 Themes for \verb{draw_*} functions
 }

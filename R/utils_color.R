@@ -18,7 +18,6 @@
 #'
 #' @author EDG
 #' @export
-
 color_op <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
   # Arguments ----
   fn <- match.arg(fn)
@@ -41,10 +40,14 @@ color_op <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
         maxColorValue = 255
       )
     })
-    if (!is.null(names(col))) names(invertedl) <- paste0(names(col), ".invert")
+    if (!is.null(names(col))) {
+      names(invertedl) <- paste0(names(col), ".invert")
+    }
     return(invertedl)
   } else if (fn == "mean") {
-    if (length(col) < 2) stop("Need at least two colors to average")
+    if (length(col) < 2) {
+      stop("Need at least two colors to average")
+    }
     if (space == "RGB") {
       averaged <- rowMeans(col.rgb)
       averaged <- rgb(
@@ -78,6 +81,7 @@ color_op <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -101,13 +105,16 @@ color_sqdist <- function(x, y) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 color_order <- function(
   x,
   start_with = 1,
   order_by = c("similarity", "dissimilarity")
 ) {
   order_by <- match.arg(order_by)
-  if (!is.integer(start_with)) start_with <- which(x == start_with)
+  if (!is.integer(start_with)) {
+    start_with <- which(x == start_with)
+  }
   fn <- switch(order_by, similarity = which.min, dissimilarity = which.max)
   out <- x[start_with]
   x <- x[-start_with]
@@ -119,34 +126,6 @@ color_order <- function(
   c(out, x)
 } # rtemis::color_order
 
-#' Separate colors
-#'
-#' Separate colors by RGB distance
-#'
-#' Starting with the first color defined by `start_with`, the next color
-#' is chosen to be max distance from all preceding colors
-#'
-#' @param x Vector of colors
-#' @param start_with Integer: Which color to output in first position
-#'
-#' @author EDG
-#' @export
-
-color_separate <- function(x, start_with = 1) {
-  if (!is.integer(start_with)) start_with <- which(x == start_with)
-  out <- start_with
-  dist <- outer(x, x, Vectorize(color_sqdist))
-  colnames(dist) <- seq_along(x)
-  out <- c(out, as.numeric(colnames(dist)[which.max(dist[out, ])]))
-  dist <- dist[, -out, drop = FALSE]
-  while (length(out) < length(x)) {
-    id <- which.max(colSums(dist[out, , drop = FALSE]))
-    out <- c(out, as.numeric(colnames(dist)[id]))
-    dist <- dist[, -id, drop = FALSE]
-  }
-  x[out]
-}
-
 #' Color to Grayscale
 #'
 #' Convert a color to grayscale
@@ -157,6 +136,8 @@ color_separate <- function(x, start_with = 1) {
 #' @param x Color to convert to grayscale
 #' @param what Character: "color" returns a hexadecimal color,
 #' "decimal" returns a decimal between 0 and 1
+#'
+#' @return Character: color hex code.
 #'
 #' @author EDG
 #' @export
@@ -171,53 +152,11 @@ col2grayscale <- function(x, what = c("color", "decimal")) {
   col <- col2rgb(x)
   gs <- (0.299 * col[1, ] + 0.587 * col[2, ] + 0.114 * col[3, ]) / 255
   if (what == "color") {
-    gray(gs)
+    grDevices::gray(gs)
   } else {
     gs
   }
-} # col2grayscale
-
-
-#' Palettize colors
-#'
-#' Filter and order a set of colors to produce a palette suitable for
-#' multicolor plots
-#'
-#' @param x Color vector
-#' @param grayscale_hicut Numeric: exclude colors whose grayscale equivalent
-#' is greater than this value
-#' @param start_with Integer or color: For integer, start with this color out
-#' of `x`, otherwise find color `x` closer to this color and place it
-#' first
-#' @param order_by Character: "separation", "dissimilarity", "similarity"
-#'
-#' @author EDG
-#' @export
-palettize <- function(
-  x,
-  grayscale_hicut = .8,
-  start_with = "#16A0AC",
-  order_by = c("separation", "dissimilarity", "similarity")
-) {
-  order_by <- match.arg(order_by)
-  x <- unlist(x)
-  if (!is.integer(start_with)) {
-    start_with <- x[which.min(Vectorize(color_sqdist)(x, start_with))]
-  }
-  if (!is.null(grayscale_hicut)) {
-    xgray <- col2grayscale(x, "dec")
-    xf <- x[xgray < grayscale_hicut]
-  } else {
-    xf <- x
-  }
-
-  switch(
-    order_by,
-    separation = color_separate(xf, start_with),
-    dissimilarity = color_order(xf, start_with, "dissimilarity"),
-    similarity = color_order(xf, start_with, "similarity")
-  )
-} # palettize
+} # /rtemis::col2grayscale
 
 #' Invert Color in RGB space
 #'
@@ -251,52 +190,11 @@ color_invertRGB <- function(x) {
       maxColorValue = 255
     )
   })
-  if (!is.null(names(col))) names(invertedl) <- paste0(names(col), ".invert")
+  if (!is.null(names(col))) {
+    names(invertedl) <- paste0(names(col), ".invert")
+  }
   invertedl
 } # rtemis::color_invertRGB
-
-
-#' Average colors
-#'
-#' @param x Color vector
-#' @param space Character: RGB  or HSV; space to average in
-#'
-#' @author EDG
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' color_mean(c("red", "blue")) |> previewcolor()
-#' color_mean(c("red", "blue"), "HSV") |> previewcolor()
-#' }
-color_mean <- function(x, space = c("RGB", "HSV")) {
-  if (length(x) < 2) stop("Need at least two colors to average")
-  space <- match.arg(space)
-
-  col <- as.list(x)
-  col.rgb <- col2rgb(x, alpha = TRUE)
-
-  if (space == "RGB") {
-    averaged <- rowMeans(col.rgb)
-    averaged <- rgb(
-      averaged[1],
-      averaged[2],
-      averaged[3],
-      averaged[4],
-      maxColorValue = 255
-    )
-  } else if (space == "HSV") {
-    # Convert HSV to RGB
-    col.hsv <- rgb2hsv(col.rgb[1:3, ])
-    # Get mean HSV values
-    averaged <- rowMeans(col.hsv)
-    # Get mean alpha from RGB
-    alpha <- mean(col.rgb[4, ])
-    # Turn to hex
-    averaged <- hsv(averaged[1], averaged[2], averaged[3], alpha / 255)
-  }
-  averaged
-} # rtemis::color_mean
 
 #' Fade color towards target
 #'
@@ -365,6 +263,8 @@ desaturate <- function(color, s = .3) {
 #'
 #' @param color Color(s) that R understands
 #'
+#' @return Character vector of hexadecimal codes.
+#'
 #' @author EDG
 #' @export
 #'
@@ -412,7 +312,9 @@ color_adjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
   ac.hsv <- grDevices::rgb2hsv(grDevices::col2rgb(ac))
   ac <- grDevices::hsv(ac.hsv[1] + hue, ac.hsv[2] + sat, ac.hsv[3] + val)
   # alpha ----
-  if (!is.null(alpha)) ac <- adjustcolor(color, alpha.f = alpha)
+  if (!is.null(alpha)) {
+    ac <- adjustcolor(color, alpha.f = alpha)
+  }
   ac
 } # rtemis::color_adjust
 
@@ -421,6 +323,8 @@ color_adjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
 #' @param color List: List of two or more elements, each containing two colors.
 #' A gradient will be created from the first to the second color of each element
 #' @param n Integer: Number of steps in each gradient.
+#'
+#' @return Character vector of color hex codes.
 #'
 #' @author EDG
 #' @export
@@ -446,7 +350,9 @@ color_adjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
 #' previewcolor(desaturate(color_mix(color, 5), .3))
 #' }
 color_mix <- function(color, n = 4) {
-  if (class(color)[1] != "list") stop("Please provide list of color pairs")
+  if (class(color)[1] != "list") {
+    stop("Please provide list of color pairs")
+  }
 
   color.grad <- lapply(color, function(i) colorRampPalette(i)(n))
 
@@ -488,7 +394,7 @@ color_mix <- function(color, n = 4) {
 #'
 #' @examples
 #' \dontrun{
-#' colors <- colorgradient.x(seq(-5, 5))
+#' colors <- colorgradient_x(seq(-5, 5))
 #' previewcolor(colors)
 #' }
 previewcolor <- function(
@@ -626,54 +532,6 @@ rhombus <- function(
 }
 
 
-#' Color gradient for continuous variable
-#'
-#' @param x Float, vector
-#' @param symmetric Logical: If TRUE, make symmetric gradient between
-#' `-max(abs(x))` and `max(abs(x))`
-#' @param lo_col Low color
-#' @param mid_col Middle color
-#' @param hi_col High color
-#' @param space Character: "rgb" or "Lab".
-#'
-#' @author EDG
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' x <- seq(-10, 10, length.out = 51)
-#' previewcolor(colorgradient.x(x))
-#' x <- sort(rnorm(40))
-#' previewcolor(colorgradient.x(x, mid_col = "white"))
-#' # Notice how most values are near zero therefore almost white
-#' }
-colorgradient.x <- function(
-  x,
-  symmetric = FALSE,
-  lo_col = "#0290EE",
-  mid_col = "#1A1A1A",
-  hi_col = "#FFBD4F",
-  space = "Lab"
-) {
-  grad <- colorRampPalette(c(lo_col, mid_col, hi_col), space = space)(201)
-
-  if (symmetric) {
-    maxabsx <- max(abs(x))
-    cuts <- cut(c(-maxabsx, x, maxabsx), 201, labels = FALSE)[
-      -c(1, length(x) + 2)
-    ]
-  } else {
-    cuts <- cut(x, 201, labels = FALSE)
-  }
-
-  grad[cuts]
-} # rtemis::colorgradient.x
-
-
-# colorgrad.R
-# ::rtemis::
-# 2016 EDG rtemis.org
-
 #' Color Gradient
 #'
 #' Create a gradient of colors and optionally a colorbar
@@ -712,7 +570,7 @@ colorgradient.x <- function(
 #' @param cb_axis_las Integer \{0,1,2,3\}: Style of axis labels. 0: Always parallel to the axis,
 #' 1: Horizontal, 2: Perpendicular, 3: Vertical.
 #' @param cb_axis_hadj Float: Adjustment parallel to the reading direction (See `par("adj")`)
-#' @param cb_cex FLoat: Character expansion factor for colorbar (See `par("cex")`)
+#' @param cb_cex Float: Character expansion factor for colorbar (See `par("cex")`)
 #' @param bar_min Numeric: Lowest value in colorbar
 #' @param bar_mid Numeric: Middle value in colorbar
 #' @param bar_max Numeric: Max value in colorbar
@@ -730,10 +588,11 @@ colorgradient.x <- function(
 #' @param margins Vector: Plotly margins.
 #' @param pad Float: Padding for `plotly`.
 #' @param par_reset Logical: If TRUE (Default), reset `par` settings after running
+#'
 #' @return Invisible vector of hexadecimal colors / plotly object if `return_plotly = TRUE`
+#'
 #' @author EDG
 #' @export
-
 colorgrad <- function(
   n = 21,
   colors = NULL,
@@ -773,9 +632,15 @@ colorgrad <- function(
 ) {
   # Arguments ----
   n <- as.integer(n)
-  if (n %% 2 != 1) n <- n + 1
-  if (!is.null(filename)) colorbar <- TRUE
-  if (return_plotly) plotlycb <- TRUE
+  if (n %% 2 != 1) {
+    n <- n + 1
+  }
+  if (!is.null(filename)) {
+    colorbar <- TRUE
+  }
+  if (return_plotly) {
+    plotlycb <- TRUE
+  }
   if (is.null(cb_n)) {
     cb_n <- n
     if (cb_n %% 2 != 1) cb_n <- cb_n + 1
@@ -826,7 +691,9 @@ colorgrad <- function(
     mid <- ifelse(theme == "light", "white", "black")
   }
   if (!is.na(mid)) {
-    if (mid == "mean") mid <- color_op(c(lo, hi), "mean")
+    if (mid == "mean") {
+      mid <- color_op(c(lo, hi), "mean")
+    }
     lo2mid <- colorRampPalette(c(lo, lomid, mid), space = space)
     mid2hi <- colorRampPalette(c(mid, midhi, hi), space = space)
     grad <- c(lo2mid(midpoint), mid2hi(n - midpoint + 1)[-1])
@@ -875,15 +742,21 @@ colorgrad <- function(
   # Colorbar ----
   if (colorbar) {
     if (theme == "light") {
-      if (is.null(bg)) bg <- "white"
+      if (is.null(bg)) {
+        bg <- "white"
+      }
       if (is.null(col_text)) col_text <- "black"
     } else if (theme == "dark") {
-      if (is.null(bg)) bg <- "black"
+      if (is.null(bg)) {
+        bg <- "black"
+      }
       if (is.null(col_text)) col_text <- "white"
     }
 
     par_orig <- par(no.readonly = TRUE)
-    if (par_reset && !cb_add) on.exit(suppressWarnings(par(par_orig)))
+    if (par_reset && !cb_add) {
+      on.exit(suppressWarnings(par(par_orig)))
+    }
     if (cb_add) {
       par(new = cb_add, pty = "m", mar = cb_add_mar)
     } else {
@@ -1055,43 +928,11 @@ colorvec <- function(cols) {
     fivecols = c("lo", "lomid", "mid", "midhi", "hi")
   )
 
-  for (i in seq(ncols)) assign(collist[[ncols - 1]][i], cols[i])
+  for (i in seq(ncols)) {
+    assign(collist[[ncols - 1]][i], cols[i])
+  }
   list(lo = lo, lomid = lomid, mid = mid, midhi = midhi, hi = hi)
 }
-
-
-#' Color gradient for continuous variable
-#'
-#' @param x Float, vector
-#' @param color Color, vector, length 2
-#' @param space Character: "rgb" or "Lab".
-#' @author EDG
-#' @export
-
-colorgrad_x <- function(x, color = c("gray20", "#18A3AC"), space = "Lab") {
-  colors <- rep(color[1], length(x))
-  bipolar <- min(x) < 0 & 0 < max(x)
-
-  if (bipolar) {
-    maxabsx <- max(abs(x))
-    grad <- colorRampPalette(c(color[2], color[1], color[2]), space = space)(
-      201
-    )
-    cuts <- cut(c(-maxabsx, x, maxabsx), 201, labels = FALSE)[
-      -c(1, length(x) + 2)
-    ]
-    neg.index <- which(x < 0)
-    colors[neg.index] <- grad[cuts[neg.index]]
-    colors[-neg.index] <- grad[cuts[-neg.index]]
-  } else {
-    grad <- colorRampPalette(color, space = space)(101)
-    cuts <- cut(x, 101, labels = FALSE)
-    colors <- grad[cuts]
-  }
-
-  colors
-} # rtemis::colorgrad_x
-
 
 autoalpha <- function(x, gamma = .0008, min = .3) {
   max(min, 1 - x * gamma)

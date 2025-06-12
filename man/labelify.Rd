@@ -33,6 +33,9 @@ all-caps words, set \code{toLower} to TRUE if desired)}
 \item{stringsToSpaces}{Character, vector: Replace these strings with spaces. Escape as needed for \code{gsub}.
 Default = \code{"\\\\$"}, which formats common input of the type \code{data.frame$variable}}
 }
+\value{
+Character vector.
+}
 \description{
 Format text for label printing
 }

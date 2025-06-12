@@ -47,7 +47,7 @@
 #' @param theme Theme object.
 #' @param ... Additional arguments to be passed to `heatmaply::heatmaply`.
 #'
-#' @return A heatmaply object.
+#' @return `plotly` object.`
 #'
 #' @author EDG
 #' @export
@@ -103,8 +103,12 @@ draw_heatmap <- function(
   check_dependencies("heatmaply")
 
   # Colnames ----
-  if (is.null(colnames(x))) colnames(x) <- seq_len(NCOL(x)) # rtLetters(NCOL(x))
-  if (is.null(rownames(x))) rownames(x) <- seq_len(NROW(x)) # rtLetters(NCOL(x), caps = TRUE)
+  if (is.null(colnames(x))) {
+    colnames(x) <- seq_len(NCOL(x))
+  } # rtLetters(NCOL(x))
+  if (is.null(rownames(x))) {
+    rownames(x) <- seq_len(NROW(x))
+  } # rtLetters(NCOL(x), caps = TRUE)
 
   # Margins ----
   # By default, allow 7 px per character
@@ -122,12 +126,16 @@ draw_heatmap <- function(
     )
   }
 
-  if (is.null(font_size)) font_size <- 17.0769 - 0.2692 * ncol(x)
+  if (is.null(font_size)) {
+    font_size <- 17.0769 - 0.2692 * ncol(x)
+  }
 
   # Limits ----
   if (is.null(limits)) {
     maxabs <- max(abs(x), na.rm = TRUE)
-    if (.2 < maxabs && maxabs < 1) maxabs <- 1
+    if (.2 < maxabs && maxabs < 1) {
+      maxabs <- 1
+    }
     limits <- c(-maxabs, maxabs)
   }
 
@@ -144,7 +152,9 @@ draw_heatmap <- function(
   main_col <- plotly::toRGB(theme[["main_col"]])
 
   # Colors ----
-  if (is.null(mid)) mid <- theme[["bg"]]
+  if (is.null(mid)) {
+    mid <- theme[["bg"]]
+  }
   colors <- colorgrad(
     n = colorgrad_n,
     colors = colors,
@@ -157,7 +167,9 @@ draw_heatmap <- function(
   )
 
   # Cluster ----
-  if (cluster) Rowv <- Colv <- TRUE
+  if (cluster) {
+    Rowv <- Colv <- TRUE
+  }
 
   # Cellnote ----
   if (!is.null(cellnote)) {
@@ -327,6 +339,13 @@ draw_heatmap <- function(
       height = file_height
     )
   )
+
+  ## Override colorbar tick font color to theme[["fg"]]
+  plt[["x"]][["data"]][[3]][["colorbar"]][["tickfont"]] <- list(
+    family = theme[["font_family"]],
+    color = tick_labels_col
+  )
+  plt[["x"]][["data"]][[3]][["colorbar"]][["tickcolor"]] <- theme[["tick_col"]]
 
   # Write to file ----
   if (!is.null(filename)) {

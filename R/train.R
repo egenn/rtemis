@@ -5,7 +5,7 @@
 #' Train Supervised Learning Models
 #'
 #' Preprocess, tune, train, and test supervised learning models with a single function
-#' using nested crossvalidation.
+#' using nested resampling
 #'
 #' @details
 #' Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the
@@ -88,6 +88,15 @@ train <- function(
     check_is_S7(tuner_parameters, TunerParameters)
   }
 
+  # If outer_resampling is set, dat_validation and dat_test must be NULL
+  if (!is.null(outer_resampling)) {
+    if (!is.null(dat_validation) || !is.null(dat_test)) {
+      cli::cli_abort(
+        "If outer_resampling is set, dat_validation and dat_test must be NULL."
+      )
+    }
+  }
+
   ## Arguments ----
   if (!is.null(outer_resampling)) {
     check_is_S7(outer_resampling, ResamplerParameters)
@@ -123,7 +132,7 @@ train <- function(
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
     if (verbosity > 0L) {
-      cat("Output directory set to", outdir, "\n")
+      message("Output directory set to ", outdir, ".")
     }
   }
 
@@ -161,13 +170,19 @@ train <- function(
     )
   }
 
-  # CV ----
-  # if crossvallidation is set, this function calls itself
+  # Outer Resampling ----
+  # if outer_resampling is set, this function calls itself
   # on multiple outer resamples (training-test sets), each of which may call itself
-  # on multiple inner resamples (training-validation set) for hyperparameter tuning.
+  # on multiple inner resamples (training-validation sets) for hyperparameter tuning.
   if (!is.null(outer_resampling)) {
     if (verbosity > 0L) {
-      msg2("Training", hilite(algorithm, type), "by cross-validation...")
+      msg20(
+        "Training ",
+        hilite(algorithm, type),
+        " using ",
+        desc(outer_resampling),
+        "..."
+      )
     }
     outer_resampler <- resample(
       x,
@@ -247,9 +262,9 @@ train <- function(
         tuned = 1L
       )
     } # /Tune
-    if (verbosity > 0L) {
-      cat("\n")
-    }
+    # if (verbosity > 0L) {
+    #   message()
+    # }
 
     # Preprocess ----
     if (!is.null(preprocessor_parameters)) {
@@ -293,7 +308,6 @@ train <- function(
       } else {
         msg20("Training ", hilite(algorithm, type), "...")
       }
-      cat("\n")
     } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
     # All training, validation, and test metrics are calculated by Supervised or SupervisedRes.
@@ -432,8 +446,9 @@ train <- function(
 
   # Outro ----
   if (verbosity > 0L) {
+    message()
     print(mod)
-    cat("\n")
+    message()
   }
   outro(
     start_time,

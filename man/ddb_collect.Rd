@@ -14,6 +14,9 @@ ddb_collect(sql, progress = TRUE, returnobj = c("data.frame", "data.table"))
 
 \item{returnobj}{Character: data.frame or data.table: class of object to return}
 }
+\value{
+\code{data.frame} or \code{data.table}.
+}
 \description{
 Collect a table read with \code{ddb_data(x, collect = FALSE)}
 }

@@ -12,7 +12,6 @@
 #'
 #' @keywords internal
 #' @noRd
-
 intro <- function(
   message = NULL,
   log_file = NULL,
@@ -27,16 +26,19 @@ intro <- function(
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    if (file.exists(log_file)) log_file <- paste0(log_file, "_1")
+    if (file.exists(log_file)) {
+      log_file <- paste0(log_file, "_1")
+    }
     sink(log_file, split = verbosity > 0L)
   }
   start_time <- proc.time()
   if (verbosity > 0L || !is.null(log_file)) {
-    if (newline_pre) cat("\n")
+    if (newline_pre) {
+      cat("\n")
+    }
     if (is.null(message)) {
       # Read first line from inst/resources/intro.utf8
       msg20(
-        "\U1F47D",
         "Hello.",
         call_depth = call_depth,
         caller_id = 2,
@@ -55,6 +57,14 @@ intro <- function(
   invisible(start_time)
 } # rtemis::intro
 
+# Function to output seconds if seconds < 60, otherwise output minutes
+format_seconds <- function(seconds) {
+  if (seconds < 60) {
+    paste0(bold(ddSci(seconds)), " seconds")
+  } else {
+    paste0(bold(ddSci(round(seconds / 60))), " minutes")
+  }
+}
 
 #' `rtemis-internals`: `outro`
 #'
@@ -72,26 +82,40 @@ outro <- function(
   sink_off = FALSE,
   #   color = gray,
   newline_pre = FALSE,
+  real_user_system = FALSE,
   verbosity = 1L
 ) {
   elapsed <- as.numeric(proc.time() - start_time)
   if (verbosity > 0L || sink_off) {
-    if (newline_pre) cat("\n")
-    msg20(
-      gray(paste0(
-        "Done in ",
-        ddSci(elapsed[3] / 60),
-        " minutes (",
-        "Real: ",
-        ddSci(elapsed[3]),
-        "; User: ",
-        ddSci(elapsed[1]),
-        "; System: ",
-        ddSci(elapsed[2]),
-        ")."
-      )),
-      caller_id = 2
-    )
+    if (newline_pre) {
+      cat("\n")
+    }
+    if (real_user_system) {
+      msg20(
+        paste0(
+          "Done in ",
+          format_seconds(elapsed[3]),
+          " (",
+          "Real:",
+          ddSci(elapsed[3]),
+          "/User:",
+          ddSci(elapsed[1]),
+          "/System:",
+          ddSci(elapsed[2]),
+          ")."
+        ),
+        caller_id = 2
+      )
+    } else {
+      msg20(
+        paste0(
+          "Done in ",
+          format_seconds(elapsed[3]),
+          "."
+        ),
+        caller_id = 2
+      )
+    }
   }
 
   if (sink_off) {
@@ -115,30 +139,30 @@ summarize_supervised_data <- function(
   dat_validation = NULL,
   dat_test = NULL
 ) {
-  cat(bold("  Input data summary:\n"))
-  cat(
-    "  Training set:",
+  msg2("Input data summary:")
+  msg20(
+    "  Training set: ",
     hilite(NROW(x)),
-    "cases x",
+    " cases x ",
     hilite(NCOL(x) - 1),
-    "features.\n"
+    " features."
   )
   if (!is.null(dat_validation)) {
-    cat(
-      "Validation set:",
+    msg20(
+      "Validation set: ",
       hilite(NROW(dat_validation)),
-      "cases x",
+      " cases x ",
       hilite(NCOL(dat_validation) - 1),
-      "features.\n"
+      " features."
     )
   }
   if (!is.null(dat_test)) {
-    cat(
-      "   Test set:",
+    msg20(
+      "      Test set: ",
       hilite(NROW(dat_test)),
-      "cases x",
+      " cases x ",
       hilite(NCOL(dat_test) - 1),
-      "features.\n"
+      " features."
     )
   }
 } # rtemis::summarize_supervised_data
@@ -151,12 +175,12 @@ summarize_supervised_data <- function(
 #' @keywords internal
 #' @noRd
 summarize_unsupervised_data <- function(x) {
-  cat(
-    "  Input:",
+  msg2(
+    "Input:",
     hilite(NROW(x)),
     "cases x",
     hilite(NCOL(x)),
-    "features.\n"
+    "features."
   )
 } # rtemis::summarize_unsupervised_data
 
@@ -186,7 +210,9 @@ parameter_summary <- function(
   newline_pre = FALSE,
   newline = FALSE
 ) {
-  if (newline_pre) cat("\n")
+  if (newline_pre) {
+    message()
+  }
   if (length(list(...)) > 0) {
     x <- list(...)
     xnames <- as.character(substitute(list(...)))[-1L]
@@ -203,96 +229,9 @@ parameter_summary <- function(
       }
       if (is.null(x[[i]])) x[[i]] <- "NULL"
     }
-
     printls(x, pad = pad + 3, title = title, center_title = FALSE)
-
-    if (newline) cat("\n")
+    if (newline) {
+      message()
+    }
   }
 } # rtemis::parameter_summary
-
-
-#' `rtemis-internals`: `grid_summary`
-#'
-#' Pretty print list of parameters with more than one value,
-#' which will be used in a grid search
-#'
-#' @keywords internal
-#' @noRd
-grid_summary <- function(...) {
-  params <- list(...)
-  xnames <- as.character(substitute(list(...)))[-1L]
-  index <- sapply(params, function(x) length(x) > 1)
-  tuned <- params[index]
-  names(tuned) <- xnames[index]
-  if (length(tuned) > 0) {
-    padcat("Parameters to be tuned")
-    printls(tuned)
-    cat("\n")
-  }
-} # rtemis::grid_summary
-
-
-#' `rtemis-internals`: `metrics_summary`
-#'
-#' Print Training and Test error
-#'
-#' @keywords internal
-#' @noRd
-metrics_summary <- function(error, algorithm = NULL, pre = NULL) {
-  id <- deparse(substitute(error))
-  if (class(error)[[1]] == "regError") {
-    type <- "Regression"
-  } else if (class(error)[[1]] == "surv_error") {
-    type <- "Survival"
-  } else {
-    type <- "Classification"
-  }
-  # type <- if (class(error)[[1]] == "regError") "Regression" else "Classification"
-
-  if (is.null(pre)) {
-    if (grepl("train", id)) {
-      pre <- "Training"
-    } else if (grepl("test", id)) {
-      pre <- "Test"
-    } else {
-      pre <- "Error"
-    }
-  }
-
-  if (!is.null(algorithm)) {
-    padcat(paste(algorithm, type, pre, "Summary"))
-  } else {
-    padcat(paste(type, pre, "Summary"))
-  }
-  print(error)
-} # rtemis::metrics_summary
-
-
-check_type <- function(type, allowed.types, algorithm) {
-  if (!type %in% allowed.types) {
-    rtStop(
-      "You were attempting to perform",
-      type,
-      "but",
-      algorithm,
-      "only supports:\n",
-      paste(allowed.types, collapse = ", ")
-    )
-  }
-}
-
-#' Initialize parallel processing and progress reporting
-#'
-#' @keywords internal
-rtemis_init <- function(n_cores = 1, context = NULL, verbosity = 1L) {
-  # Progress handlers
-  if (is.null(live[["handlers_set"]])) {
-    # progressr::handlers(global = TRUE)
-    rtemis_progress <- getOption("rtemis_progress", "cli")
-    progressr::handlers(rtemis_progress)
-    live[["handlers_set"]] <- 1
-    if (verbosity > 0L) {
-      msg2("Progress handler set to", bold(rtemis_progress), color = magenta)
-    }
-  }
-} # rtemis::rtemis_init

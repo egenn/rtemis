@@ -227,6 +227,8 @@ method(print, Supervised) <- function(x, ...) {
 # @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
 #' @param ... Additional arguments passed to the plotting function.
 #'
+#' @return plotly object or invisible NULL if no variable importance is available.
+#'
 #' @author EDG
 #' @export
 plot_varimp <- new_generic("plot_varimp", "x")
@@ -403,6 +405,8 @@ get_explain_fn <- function(algorithm) {
 #' @param x data.frame or similar: Data to explain.
 #' @param dat_training data.frame or similar: Training data.
 #' @param method Character: Method to use.
+#'
+#' @return Object depending on model: list, shapr, or other.
 #'
 #' @export
 explain <- function(model, x, dat_training = NULL, method = NULL) {
@@ -1704,6 +1708,7 @@ method(plot, SupervisedRes) <- function(...) {
 #'
 #' @author EDG
 #' @keywords internal
+#' @noRd
 # make_SupervisedRes <- function(algorithm, models, hyperparameters) {
 #   SupervisedRes(
 #     algorithm = algorithm,
@@ -1819,16 +1824,17 @@ method(print, LightRuleFit) <- function(x, ...) {
   invisible(x)
 } # /rtemis::print.LightRuleFit
 
-# Get metrics from Supervised objects ----
+# get_metrics Regression ----
 method(get_metrics, Regression) <- function(x, set, metric) {
   prop(prop(x, paste0("metrics_", set)), "metrics")[[metric]]
 } # /get_metrics.Regression
 
+# get_metrics Classification ----
 method(get_metrics, Classification) <- function(x, set, metric) {
   prop(prop(x, paste0("metrics_", set)), "metrics")[["Overall"]][[metric]]
 } # /get_metrics.Classification
 
-# Get metrics from SupervisedRes objects
+# get_metrics RegressionRes ----
 method(get_metrics, RegressionRes) <- function(x, set, metric) {
   sapply(
     prop(prop(x, paste0("metrics_", set)), "res_metrics"),
@@ -1838,6 +1844,7 @@ method(get_metrics, RegressionRes) <- function(x, set, metric) {
   )
 }
 
+# get_metrics ClassificationRes ----
 method(get_metrics, ClassificationRes) <- function(x, set, metric) {
   sapply(
     prop(prop(x, paste0("metrics_", set)), "res_metrics"),

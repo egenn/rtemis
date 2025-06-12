@@ -32,15 +32,13 @@ cluster <- function(
 
   # Data ----
   if (verbosity > 0L) {
-    cat("\n")
     summarize_unsupervised_data(x)
-    cat("\n")
   }
 
   # Cluster ----
   algorithm <- get_clust_name(algorithm)
   if (verbosity > 0L) {
-    msg20("Clustering with ", algorithm, "...")
+    msg20(bold(paste0("Clustering with ", algorithm, "...")))
   }
   clust <- do_call(
     fn = get_clust_fn(algorithm),

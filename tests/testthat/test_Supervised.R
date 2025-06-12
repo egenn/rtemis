@@ -145,7 +145,6 @@ test_that("train() GLMNET Regression with auto-lambda + alpha grid search succee
 ## Res GLMNET Regression + auto-lambda + alpha grid search ----
 resmod_r_glmnet <- train(
   x = datr_train,
-  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0.5, 1)),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
@@ -312,7 +311,7 @@ resmod_r_cart <- train(
   hyperparameters = setup_CART(),
   outer_resampling = setup_Resampler(3L)
 )
-test_that("train() Regression with crossvalidation succeeds", {
+test_that("train() RegressionRes succeeds", {
   expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
@@ -322,7 +321,7 @@ restmod_r_cart <- train(
   hyperparameters = setup_CART(maxdepth = c(1, 2)),
   outer_resampling = setup_Resampler(3L)
 )
-test_that("train() Regression with crossvalidation succeeds", {
+test_that("train() RegressionRes succeeds", {
   expect_s7_class(restmod_r_cart, RegressionRes)
 })
 
@@ -331,7 +330,7 @@ resmod_r_cart <- train(
   hyperparameters = setup_CART(prune_cp = c(.001, .01)),
   outer_resampling = setup_Resampler(3L)
 )
-test_that("train() Regression with crossvalidation succeeds", {
+test_that("train() RegressionRes succeeds", {
   expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
@@ -425,8 +424,6 @@ test_that("train() LightGBM Regression with autotune nrounds succeeds", {
 ## Res LightGBM Regression + autotune nrounds grid search ----
 restmod_r_lightgbm <- train(
   x = datr_train,
-  dat_test = datr_test,
-  algorithm = "lightgbm",
   hyperparameters = setup_LightGBM(max_nrounds = 50L),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
@@ -498,7 +495,7 @@ resmod_c_glm <- train(
   algorithm = "glm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() GLM Classification with crossvalidation succeeds", {
+test_that("train() GLM ClassificationRes succeeds", {
   expect_s7_class(resmod_c_glm, ClassificationRes)
 })
 
@@ -530,7 +527,7 @@ resmod_c_cart <- train(
   algorithm = "cart",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() CART Classification with crossvalidation succeeds", {
+test_that("train() CART ClassificationRes succeeds", {
   expect_s7_class(resmod_c_cart, ClassificationRes)
 })
 
@@ -596,7 +593,7 @@ resmod_c_lightrf <- train(
   algorithm = "lightrf",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() LightRF Classification with crossvalidation succeeds", {
+test_that("train() LightRF ClassificationRes succeeds", {
   expect_s7_class(resmod_c_lightrf, ClassificationRes)
 })
 
@@ -803,7 +800,7 @@ test_that("present() multiple ClassificationRes objects creates a plotly object"
 })
 
 ## Present multiple Regression objects ----
-# test_that("present() multiple Regression objects creates a plotly object", {
-#   p <- present(list(mod_r_glm, mod_r_cart))
-#   expect_s3_class(p, "plotly")
-# })
+test_that("present() multiple Regression objects creates a plotly object", {
+  p <- present(list(mod_r_glm, mod_r_cart))
+  expect_s3_class(p, "plotly")
+})

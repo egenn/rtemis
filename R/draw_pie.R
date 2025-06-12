@@ -35,7 +35,7 @@
 #' @param file_height Integer: Height for saved file.
 #' @param file_scale Numeric: Scale for saved file.
 #'
-#' @return A plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -103,13 +103,21 @@ draw_pie <- function(
     }
   }
 
-  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
+  if (!is.null(main)) {
+    main <- paste0("<b>", main, "</b>")
+  }
 
   # Colors ----
-  if (is.character(palette)) palette <- rtpalette(palette)
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
   p <- NROW(x)
-  if (is.null(col)) col <- palette[seq_len(p)]
-  if (length(col) < p) col <- rep(col, p / length(col))
+  if (is.null(col)) {
+    col <- palette[seq_len(p)]
+  }
+  if (length(col) < p) {
+    col <- rep(col, p / length(col))
+  }
 
   # Theme ----
   check_is_S7(theme, Theme)
@@ -118,7 +126,9 @@ draw_pie <- function(
   labs_col <- plotly::toRGB(theme[["labs_col"]])
   main_col <- plotly::toRGB(theme[["main_col"]])
 
-  if (is.null(legend_col)) legend_col <- labs_col
+  if (is.null(legend_col)) {
+    legend_col <- labs_col
+  }
   sep_col <- if (is.null(sep_col)) bg else plotly::toRGB(sep_col)
 
   # plotly ----

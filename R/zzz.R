@@ -115,7 +115,7 @@ rtemis_version <- packageVersion("rtemis")
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
-#' <https://rtemis.org>
+#' <https://rdocs.rtemis.org>
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
@@ -128,11 +128,11 @@ rtemis_version <- packageVersion("rtemis")
 #'     \item{future.plan}{Default plan to use for parallel processing.}
 #' }
 #' @section Visualization:
-#' Graphics are handled using the `draw` family, which is based on `plotly`.
-#' Base graphics family `mplot3` is aavailable as a separate package.
+#' Graphics are handled using the `draw` family, which produces interactive plots using`plotly` and
+#' other packages.
 #' @section Supervised Learning:
 #' Regression and Classification is performed using `train()`.
-#' This function allows you to preprocess, train, tune, and crossvalited models.
+#' This function allows you to preprocess, train, tune, and test models on multiple resamples.
 #' Run [available_supervised] to get a list of available algorithms
 #' @section Clustering:
 #' Clustering is performed using `cluster()`.

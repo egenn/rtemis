@@ -111,6 +111,9 @@ whether spikelines are stuck to the cursor or to the closest datapoints.}
 
 \item{...}{Additional arguments to be passed to \link{draw_scatter}}
 }
+\value{
+\code{plotly} object.
+}
 \description{
 Draw interactive timeseries plots using \code{plotly}
 }

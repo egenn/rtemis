@@ -83,6 +83,7 @@ train_GLM <- function(
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
+#' @noRd
 predict_GLM <- function(model, newdata, type) {
   predict(model, newdata = newdata, type = "response")
 } # /rtemis::predict_GLM
@@ -101,6 +102,10 @@ varimp_GLM <- function(model) {
 #'
 #' @param model GLM model.
 #' @param newdata data.frame or similar: Data to predict on.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
 se_GLM <- function(model, newdata) {
   predict(model, newdata = newdata, se.fit = TRUE)[["se.fit"]]
 }

@@ -70,7 +70,7 @@
 #' @param verbosity Integer: Verbosity level.
 #' @param ... Additional parameters passed to [draw_scatter].
 #'
-#' @return A plotly object.
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export
@@ -152,13 +152,19 @@ draw_volcano <- function(
   } else {
     xnames <- xnames[filt]
   }
-  if (is.null(xnames)) xnames <- paste("Feature", seq_along(x))
-  if (is.null(legend)) legend <- !is.null(group)
+  if (is.null(xnames)) {
+    xnames <- paste("Feature", seq_along(x))
+  }
+  if (is.null(legend)) {
+    legend <- !is.null(group)
+  }
 
   p_adjusted <- p.adjust(pvals, method = p_adjust_method)
   index_ltpthresh <- p_adjusted < p_thresh
   p_transformed <- p_transform(p_adjusted)
-  if (is.null(xlab)) xlab <- labelify(xname)
+  if (is.null(xlab)) {
+    xlab <- labelify(xname)
+  }
 
   if (is.null(ylab)) {
     ylab <- paste(ddSci(p_transform), "p-value")
@@ -190,7 +196,9 @@ draw_volcano <- function(
   check_is_S7(theme, Theme)
 
   # Plot ----
-  if (is.null(hovertext)) hovertext <- xnames
+  if (is.null(hovertext)) {
+    hovertext <- xnames
+  }
   plt <- draw_scatter(
     x,
     p_transformed,
@@ -222,8 +230,12 @@ draw_volcano <- function(
 
   legxdiff <- legend_x_hi - legend_x_lo
 
-  if (autolegend_x_lo) legend_x_lo <- x_thresh - legxdiff / 2
-  if (autolegend_x_hi) legend_x_hi <- x_thresh + legxdiff / 2
+  if (autolegend_x_lo) {
+    legend_x_lo <- x_thresh - legxdiff / 2
+  }
+  if (autolegend_x_hi) {
+    legend_x_hi <- x_thresh + legxdiff / 2
+  }
 
   if (group.counts[1] > 0 && !is.null(legend_lo)) {
     plt <- plt |>
@@ -268,8 +280,12 @@ draw_volcano <- function(
     index_lo <- index_ltpthresh & index_ltxthresh
     index_hi <- index_ltpthresh & index_gtxthresh
     annotate_n_lo <- annotate_n_hi <- annotate_n
-    if (sum(index_lo) < annotate_n) annotate_n_lo <- sum(index_lo)
-    if (sum(index_hi) < annotate_n) annotate_n_hi <- sum(index_hi)
+    if (sum(index_lo) < annotate_n) {
+      annotate_n_lo <- sum(index_lo)
+    }
+    if (sum(index_hi) < annotate_n) {
+      annotate_n_hi <- sum(index_hi)
+    }
 
     if (annotate_n_lo > 0) {
       lo_ord <- order(pvals[index_lo])
@@ -282,7 +298,9 @@ draw_volcano <- function(
           ay_lo <- drange(order(lo_pval), 30, -30)
         }
       }
-      if (is.null(ax_lo)) ax_lo <- 5 + 5 * annotate_n_lo
+      if (is.null(ax_lo)) {
+        ax_lo <- 5 + 5 * annotate_n_lo
+      }
       plt <- plt |>
         plotly::add_annotations(
           x = lo_x,
@@ -319,7 +337,9 @@ draw_volcano <- function(
       if (is.null(ay_hi)) {
         ay_hi <- drange(order(hi_pval), 50, -50)
       }
-      if (is.null(ax_hi)) ax_hi <- -5 - 5 * annotate_n_hi
+      if (is.null(ax_hi)) {
+        ax_hi <- -5 - 5 * annotate_n_hi
+      }
       plt <- plt |>
         plotly::add_annotations(
           x = hi_x,
@@ -343,7 +363,9 @@ draw_volcano <- function(
 
   # hline ----
   if (!is.null(hline)) {
-    if (is.null(hline_col)) hline_col <- theme[["fg"]]
+    if (is.null(hline_col)) {
+      hline_col <- theme[["fg"]]
+    }
     hline_col <- recycle(hline_col, hline)
     hline_width <- recycle(hline_width, hline)
     hline_dash <- recycle(hline_dash, hline)

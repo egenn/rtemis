@@ -12,6 +12,9 @@ factor_NA2missing(x, na_level_name = "missing")
 \item{na_level_name}{Character: Name of new level to create that will be assigned to all current
 NA values in \code{x}.}
 }
+\value{
+factor.
+}
 \description{
 Set NA values of a factor vector to a new level indicating missingness
 }

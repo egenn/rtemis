@@ -23,7 +23,7 @@
 #' @param filename Character: If provided, save the plot to this file.
 #' @param ... Additional arguments passed to [draw_scatter].
 #'
-#' @return plotly object
+#' @return `plotly` object.
 #'
 #' @author EDG
 #' @export

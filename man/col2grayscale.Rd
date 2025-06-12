@@ -12,6 +12,9 @@ col2grayscale(x, what = c("color", "decimal"))
 \item{what}{Character: "color" returns a hexadecimal color,
 "decimal" returns a decimal between 0 and 1}
 }
+\value{
+Character: color hex code.
+}
 \description{
 Convert a color to grayscale
 }

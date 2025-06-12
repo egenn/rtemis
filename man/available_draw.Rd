@@ -6,6 +6,9 @@
 \usage{
 available_draw()
 }
+\value{
+NULL, invisibly.
+}
 \description{
 Print available draw functions for visualization.
 }

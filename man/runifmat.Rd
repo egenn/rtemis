@@ -26,6 +26,9 @@ runifmat(
 
 \item{seed}{Integer: Set seed for \code{rnorm}.}
 }
+\value{
+\code{matrix} or \code{data.frame}.
+}
 \description{
 Create a matrix or data frame of defined dimensions, whose columns are random uniform vectors
 }

@@ -129,7 +129,7 @@ draw_heatmap(
 \item{...}{Additional arguments to be passed to \code{heatmaply::heatmaply}.}
 }
 \value{
-A heatmaply object.
+\code{plotly} object.`
 }
 \description{
 Draw interactive heatmaps using \code{heatmaply}.

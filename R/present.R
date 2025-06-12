@@ -2,11 +2,11 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-#' Present multiple SupervisedRes objects
+#' Present list of Supervised or SupervisedRes objects
 #'
-#' Plot training and testing performance boxplots of multiple `SupervisedRes` objects
+#' Plot training and testing performance boxplots of multiple `Supervised` or `SupervisedRes` objects
 #'
-#' @param x List of SupervisedRes objects.
+#' @param x List of Supervised or SupervisedRes objects.
 #' @param metric Character: Metric to plot.
 #' @param model_names Character: Names of models being plotted.
 #' @param ylim Numeric vector of length 2: y-axis limits for the boxplots.
@@ -18,7 +18,7 @@
 #'
 #' @author EDG
 #' @export
-method(present, class_list) <- function(
+present.list <- function(
   x,
   metric = NULL,
   model_names = NULL,
@@ -65,17 +65,17 @@ method(present, class_list) <- function(
     )
   }
 
+  # Data
+  xl_training <- lapply(x, function(m) {
+    get_metrics(m, set = "training", metric = metric)
+  })
+  xl_test <- lapply(x, function(m) {
+    get_metrics(m, set = "test", metric = metric)
+  })
+  names(xl_training) <- names(xl_test) <- model_names
+
   # Plots
   if (all_supervisedres) {
-    # Get all res_metrics for each SupervisedRes
-    xl_training <- lapply(x, function(m) {
-      get_metrics(m, set = "training", metric = metric)
-    })
-    xl_test <- lapply(x, function(m) {
-      get_metrics(m, set = "test", metric = metric)
-    })
-    names(xl_training) <- names(xl_test) <- model_names
-
     # Get ylim
     if (is.null(ylim)) {
       ylim <- range(c(xl_training, xl_test), na.rm = TRUE)
@@ -94,20 +94,28 @@ method(present, class_list) <- function(
       theme = theme,
       boxpoints = boxpoints
     )
-  } else {
-    plot_train <- draw_bar(
-      xl_training
+    plt <- plotly::subplot(
+      plot_training,
+      plot_test,
+      nrows = 2L,
+      shareX = TRUE,
+      shareY = FALSE,
+      titleX = TRUE,
+      titleY = TRUE,
+      margin = 0.05
     )
+  } else {
+    # rows are groups, columns are features
+    xdf_training <- as.data.frame(xl_training)
+    xdf_test <- as.data.frame(xl_test)
+    xdf <- t(rbind(xdf_training, xdf_test))
+    colnames(xdf) <- c("Training", "Test")
+    plt <- draw_bar(xdf, ylab = labelify(metric), theme = theme)
   }
 
-  plotly::subplot(
-    plot_training,
-    plot_test,
-    nrows = 2L,
-    shareX = TRUE,
-    shareY = FALSE,
-    titleX = TRUE,
-    titleY = TRUE,
-    margin = 0.05
-  )
-} # /rtemis::present
+  plt
+} # /rtemis::present.list
+
+method(present, class_list) <- function(x, ...) {
+  present.list(x, ...)
+} # /rtemis::present.class_list

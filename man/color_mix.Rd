@@ -12,6 +12,9 @@ A gradient will be created from the first to the second color of each element}
 
 \item{n}{Integer: Number of steps in each gradient.}
 }
+\value{
+Character vector of color hex codes.
+}
 \description{
 Create an alternating sequence of graded colors
 }

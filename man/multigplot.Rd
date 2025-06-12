@@ -14,6 +14,9 @@ to plot 2 plots per row}
 
 \item{byrow}{Logical: If TRUE, draw plots in order provided by row, otherwise by column.}
 }
+\value{
+NULL, invisibly.
+}
 \description{
 Plot a panel of \strong{gplot2} plots
 }
