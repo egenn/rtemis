@@ -626,6 +626,7 @@ LightCART_tunable <- c(
   "max_depth",
   "lambda_l1",
   "lambda_l2",
+  "min_data_in_leaf",
   "max_cat_threshold",
   "min_data_per_group",
   "linear_tree",
@@ -649,6 +650,7 @@ LightCARTHyperparameters <- new_class(
     max_depth,
     lambda_l1,
     lambda_l2,
+    min_data_in_leaf,
     max_cat_threshold,
     min_data_per_group,
     linear_tree,
@@ -663,6 +665,7 @@ LightCARTHyperparameters <- new_class(
           max_depth = max_depth,
           lambda_l1 = lambda_l1,
           lambda_l2 = lambda_l2,
+          min_data_in_leaf = min_data_in_leaf,
           max_cat_threshold = max_cat_threshold,
           min_data_per_group = min_data_per_group,
           linear_tree = linear_tree,
@@ -686,6 +689,7 @@ LightCARTHyperparameters <- new_class(
 #' @param max_depth (Tunable) Integer: Maximum depth of trees.
 #' @param lambda_l1 (Tunable) Numeric: L1 regularization.
 #' @param lambda_l2 (Tunable) Numeric: L2 regularization.
+#' @param min_data_in_leaf (Tunable) Positive integer: Minimum number of data in a leaf.
 #' @param max_cat_threshold (Tunable) Positive integer: Maximum number of categories for categorical features.
 #' @param min_data_per_group (Tunable) Positive integer: Minimum number of data per categorical group.
 #' @param linear_tree (Tunable) Logical: If TRUE, use linear trees.
@@ -701,6 +705,7 @@ setup_LightCART <- function(
   max_depth = -1L,
   lambda_l1 = 0,
   lambda_l2 = 0,
+  min_data_in_leaf = 20L,
   max_cat_threshold = 32L,
   min_data_per_group = 100L,
   linear_tree = FALSE,
@@ -711,6 +716,7 @@ setup_LightCART <- function(
   max_depth <- clean_int(max_depth)
   check_float01inc(lambda_l1)
   check_float01inc(lambda_l2)
+  min_data_in_leaf <- clean_posint(min_data_in_leaf)
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
   check_logical(linear_tree)
@@ -719,6 +725,7 @@ setup_LightCART <- function(
     max_depth = max_depth,
     lambda_l1 = lambda_l1,
     lambda_l2 = lambda_l2,
+    min_data_in_leaf = min_data_in_leaf,
     max_cat_threshold = max_cat_threshold,
     min_data_per_group = min_data_per_group,
     linear_tree = linear_tree,
