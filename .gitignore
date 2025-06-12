@@ -1,6 +1,7 @@
 # Dev
 __dev/
 __validation/
+dev/
 
 # Mac OS
 .DS_Store
