@@ -324,8 +324,8 @@ print.CheckData <- function(
       if (n_cols_anyna > 0) {
         out <- paste(
           out,
-          bold(orange(paste(
-            "  * Consider imputing missing values or using algorithms that can handle missingness."
+          bold(blue(paste(
+            "  * Consider using algorithms that can handle missingness or imputing missing values."
           ))),
           sep = "\n"
         )

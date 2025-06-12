@@ -115,7 +115,7 @@ rtemis_version <- packageVersion("rtemis")
 #' Advanced Machine Learning made easy, efficient, reproducible
 #'
 #' @section Online Documentation and Vignettes:
-#' <https://rtemis.org>
+#' <https://rdocs.rtemis.org>
 #' @section System Setup:
 #' There are some options you can define in your .Rprofile (usually found in your home directory),
 #' so you do not have to define each time you execute a function.
