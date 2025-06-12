@@ -88,6 +88,15 @@ train <- function(
     check_is_S7(tuner_parameters, TunerParameters)
   }
 
+  # If outer_resampling is set, dat_validation and dat_test must be NULL
+  if (!is.null(outer_resampling)) {
+    if (!is.null(dat_validation) || !is.null(dat_test)) {
+      cli::cli_abort(
+        "If outer_resampling is set, dat_validation and dat_test must be NULL."
+      )
+    }
+  }
+
   ## Arguments ----
   if (!is.null(outer_resampling)) {
     check_is_S7(outer_resampling, ResamplerParameters)
