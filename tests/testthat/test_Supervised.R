@@ -145,7 +145,6 @@ test_that("train() GLMNET Regression with auto-lambda + alpha grid search succee
 ## Res GLMNET Regression + auto-lambda + alpha grid search ----
 resmod_r_glmnet <- train(
   x = datr_train,
-  dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0.5, 1)),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
@@ -425,8 +424,6 @@ test_that("train() LightGBM Regression with autotune nrounds succeeds", {
 ## Res LightGBM Regression + autotune nrounds grid search ----
 restmod_r_lightgbm <- train(
   x = datr_train,
-  dat_test = datr_test,
-  algorithm = "lightgbm",
   hyperparameters = setup_LightGBM(max_nrounds = 50L),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
