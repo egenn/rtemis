@@ -4,6 +4,13 @@
 
 #' UMAP Decomposition
 #'
+#' @param x A numeric matrix or data frame to be decomposed.
+#' @param parameters `UMAPParameters` object.
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @return A list containing the decomposition and transformed data.
+#'
+#' @author EDG
 #' @keywords internal
 #' @noRd
 decom_UMAP <- function(x, parameters, verbosity = 1L) {

@@ -229,7 +229,7 @@ decom_algorithms <- data.frame(rbind(
   # c("KPCA", "Kernel Principal Component Analysis"),
   # c("LLE", "Locally Linear Embedding"),
   # c("MDS", "Multidimensional Scaling"),
-  # c("NMF", "Non-negative Matrix Factorization"),
+  c("NMF", "Non-negative Matrix Factorization"),
   c("PCA", "Principal Component Analysis"),
   # c("SPCA", "Sparse Principal Component Analysis"),
   # c("SVD", "Singular Value Decomposition"),

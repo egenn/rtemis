@@ -29,6 +29,17 @@ test_that("decomp() ICA succeeds", {
   expect_s7_class(iris_ica, Decomposition)
 })
 
+# NMF ----
+parameters <- setup_NMF()
+parameters
+test_that("setup_NMF() succeeds", {
+  expect_s7_class(parameters, NMFParameters)
+})
+iris_nmf <- decomp(x, algorithm = "nmf", parameters = parameters)
+test_that("decomp() NMF succeeds", {
+  expect_s7_class(iris_nmf, Decomposition)
+})
+
 # UMAP ----
 parameters <- setup_UMAP()
 parameters
