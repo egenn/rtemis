@@ -52,7 +52,7 @@ printls <- function(
   maxlength = 4L,
   center_title = TRUE,
   title = NULL,
-  title_newline = FALSE,
+  title_newline = TRUE,
   newline_pre = FALSE,
   format_fn_rhs = ddSci,
   print_class = TRUE,
@@ -62,7 +62,9 @@ printls <- function(
   limit_iter = 12L
 ) {
   # Arguments ----
-  if (newline_pre) cat("\n")
+  if (newline_pre) {
+    cat("\n")
+  }
   if (is.null(x)) {
     if (!is.null(title)) {
       padcat(title, pad = pad, newline = title_newline, newline_pre = FALSE)
@@ -112,22 +114,28 @@ printls <- function(
     counter <- 0L
     # Print each item up to limit_iter items
     if (length(x) > limit_iter) {
-      cat(italic(thin(
-        "  Showing first",
-        limit_iter,
-        "of",
-        length(x),
-        "items.\n"
-      )))
+      padcat(
+        italic(thin(
+          "  Showing first",
+          limit_iter,
+          "of",
+          length(x),
+          "items.\n"
+        )),
+        pad = pad
+      )
     }
     for (i in seq_along(x)) {
       counter <- counter + 1L
       if (counter > limit_iter) {
-        cat(italic(thin(
-          "  ...",
-          length(x) - limit_iter,
-          "more items not shown.\n"
-        )))
+        padcat(
+          italic(thin(
+            "  ...",
+            length(x) - limit_iter,
+            "more items not shown.\n"
+          )),
+          pad = pad
+        )
         break
       }
       # Print item
@@ -339,7 +347,9 @@ printdf <- function(
   newline_pre = FALSE,
   newline = FALSE
 ) {
-  if (transpose) x <- as.data.frame(t(x))
+  if (transpose) {
+    x <- as.data.frame(t(x))
+  }
   xnames <- colnames(x)
   xrownames <- gsub(pattern = "\\.", replacement = " ", rownames(x))
   if (!is.null(ddSci_dp)) {
@@ -355,10 +365,14 @@ printdf <- function(
 
   xrownames_spacing <- if (rownames) max(nchar(xrownames)) + pad else pad
   spacer <- paste0(rep(" ", spacing), collapse = "")
-  if (newline_pre) cat("\n")
+  if (newline_pre) {
+    cat("\n")
+  }
   if (colnames) {
     cat(paste0(rep(" ", xrownames_spacing), collapse = ""))
-    if (justify == "left") cat(spacer)
+    if (justify == "left") {
+      cat(spacer)
+    }
     for (i in seq_len(NCOL(x))) {
       cat(column_col(format(
         xnames[i],

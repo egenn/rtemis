@@ -4,7 +4,7 @@
 \alias{print.Hyperparameters}
 \title{Print Hyperparameters}
 \usage{
-\method{print}{Hyperparameters}(x, ...)
+\method{print}{Hyperparameters}(x, pad = 0L, ...)
 }
 \arguments{
 \item{x}{Hyperparameters object.}
