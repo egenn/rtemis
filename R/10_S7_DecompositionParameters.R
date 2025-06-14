@@ -49,7 +49,6 @@ method(`[[`, DecompositionParameters) <- function(x, name) {
 #' @noRd
 method(print, DecompositionParameters) <- function(x, pad = 0L, ...) {
   objcat(paste(x@algorithm, "DecompositionParameters"), pad = pad)
-  cat("\n")
   printls(props(x)$parameters, pad = pad)
   invisible(x)
 }
@@ -179,6 +178,57 @@ setup_ICA <- function(
     tol = tol
   )
 } # /rtemis::setup_ICA
+
+# NMFParameters ----
+#' @title NMFParameters
+#'
+#' @description
+#' DecompositionParameters subclass for Non-negative Matrix Factorization.
+#' Internal use only.
+#'
+#' @author EDG
+#' @noRd
+NMFParameters <- new_class(
+  name = "NMFParameters",
+  parent = DecompositionParameters,
+  constructor = function(k, method, nrun) {
+    k <- clean_posint(k)
+    check_inherits(method, "character")
+    nrun <- clean_posint(nrun)
+    new_object(
+      DecompositionParameters(
+        algorithm = "NMF",
+        parameters = list(
+          k = k,
+          method = method,
+          nrun = nrun
+        )
+      )
+    )
+  }
+) # /rtemis::NMFParameters
+
+# setup_NMF ----
+#' Setup NMF parameters.
+#'
+#' @param k Integer: Number of components.
+#' @param method Character: NMF method. See `NMF::nmf`.
+#' @param nrun Integer: Number of runs to perform.
+#'
+#' @return NMFParameters object.
+#'
+#' @author EDG
+#' @export
+setup_NMF <- function(
+  k = 2L,
+  method = "brunet",
+  nrun = if (length(k) > 1L) 30L else 1L
+) {
+  k <- clean_posint(k)
+  check_inherits(method, "character")
+  nrun <- clean_posint(nrun)
+  NMFParameters(k, method, nrun)
+} # /rtemis::setup_NMF
 
 # UMAPParameters ----
 #' @title UMAPParameters

@@ -108,13 +108,14 @@ Hyperparameters <- new_class(
 #' Print method for Hyperparameters object.
 #'
 #' @param x Hyperparameters object.
+#' @param pad Integer: Left padding for printed output.
 #' @param ... Not used.
 #'
 #' @author EDG
-#' @export
-print.Hyperparameters <- function(x, ...) {
+#' @noRd
+print.Hyperparameters <- function(x, pad = 0L, ...) {
   objcat(paste(x@algorithm, "Hyperparameters"))
-  printls(props(x)[-1])
+  printls(props(x)[-1], pad = pad)
   if (x@tuned == -9L) {
     cat(hilite2("\n  Hyperparameters are being tuned.\n"))
   } else if (x@tuned == -2L) {

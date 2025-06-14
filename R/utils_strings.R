@@ -390,11 +390,11 @@ oxfordcomma <- function(..., format_fn = identity) {
 #' @noRd
 padcat <- function(
   x,
-  format_fn = hilite,
+  format_fn = I,
   col = NULL,
-  newline_pre = TRUE,
+  newline_pre = FALSE,
   newline = FALSE,
-  pad = 2
+  pad = 2L
 ) {
   x <- as.character(x)
   if (!is.null(format_fn)) {
@@ -409,8 +409,9 @@ padcat <- function(
   } else {
     cat(bold(x))
   }
-  cat("\n")
-  if (newline) cat("\n")
+  if (newline) {
+    cat("\n")
+  }
 } # rtemis::padcat
 
 pastebox <- function(x, pad = 0) {
