@@ -85,6 +85,7 @@ method(`[[`, PreprocessorParameters) <- function(x, name) {
 #' @param x `PreprocessorParameters` object.
 #' @param ... Ignored.
 #'
+#' @author EDG
 #' @noRd
 print.PreprocessorParameters <- function(x, pad = 0L, ...) {
   objcat("PreprocessorParameters", pad = pad)

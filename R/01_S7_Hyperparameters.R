@@ -108,10 +108,11 @@ Hyperparameters <- new_class(
 #' Print method for Hyperparameters object.
 #'
 #' @param x Hyperparameters object.
+#' @param pad Integer: Left padding for printed output.
 #' @param ... Not used.
 #'
 #' @author EDG
-#' @export
+#' @noRd
 print.Hyperparameters <- function(x, pad = 0L, ...) {
   objcat(paste(x@algorithm, "Hyperparameters"))
   printls(props(x)[-1], pad = pad)

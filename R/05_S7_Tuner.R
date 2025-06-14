@@ -252,10 +252,11 @@ GridSearch <- new_class(
 #' @param ... Not used.
 #'
 #' @author EDG
-#' @keywords internal
 #' @noRd
 method(print, GridSearch) <- function(x, header = TRUE, ...) {
-  if (header) objcat(paste(x@type, "Tuner"))
+  if (header) {
+    objcat(paste(x@type, "Tuner"))
+  }
   type <- if (x@tuner_parameters[["search_type"]] == "exhaustive") {
     "An exhaustive grid search"
   } else {
