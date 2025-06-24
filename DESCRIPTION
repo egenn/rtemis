@@ -64,6 +64,7 @@ Suggests:
     psych,
     pvclust,
     reactable,
+    readxl,
     ROCR,
     rpart,
     Rtsne,

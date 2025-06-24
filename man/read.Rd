@@ -65,7 +65,7 @@ default data structure, otherwise convert to data.table}
 
 \item{...}{Additional parameters to pass to \code{data.table::fread},
 \code{arrow::read_delim_arrow()}, \code{vroom::vroom()},
-or \code{openxlsx::read.xlsx()}}
+or \code{readxl::read_excel()}}
 }
 \value{
 data.frame, data.table, or tibble.
