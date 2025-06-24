@@ -5,7 +5,7 @@
 # %% Setup
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
-# library(rtemis)
+# devtools::load_all()
 # library(testthat)
 library(data.table)
 
@@ -802,5 +802,11 @@ test_that("present() multiple ClassificationRes objects creates a plotly object"
 ## Present multiple Regression objects ----
 test_that("present() multiple Regression objects creates a plotly object", {
   p <- present(list(mod_r_glm, mod_r_cart))
+  expect_s3_class(p, "plotly")
+})
+
+## plot_varimp RegressionRes ----
+test_that("plot_varimp RegressionRes creates a plotly object", {
+  p <- plot_varimp(resmod_r_cart)
   expect_s3_class(p, "plotly")
 })

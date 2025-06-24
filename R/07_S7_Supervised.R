@@ -1727,7 +1727,11 @@ method(plot_varimp, SupervisedRes) <- function(
   }
   # Not every variable gets a variable importance score necessarily
   # Each varimp vector as a one row data.table in order to rbindlist them, filling in NAs as needed.
-  varimp_dt <- lapply(x@varimp, as.data.table)
+  # x@varimp[[i]] may be named vector or data.frame
+  varimp_dt <- lapply(x@varimp, function(z) {
+    as.data.table(as.list(z), keep.rownames = TRUE)
+  })
+
   varimp <- rbindlist(varimp_dt, use.names = TRUE, fill = TRUE)
   # Convert NA values to 0
   setDF(varimp)
@@ -1736,6 +1740,9 @@ method(plot_varimp, SupervisedRes) <- function(
   varimp_summary <- apply(varimp, 2, summarize_fn)
   # Sort columns by descending variable importance
   varimp_sorted <- varimp_summary[order(-varimp_summary)]
+  if (length(varimp_sorted) > show_top) {
+    varimp_sorted <- varimp_sorted[seq_len(show_top)]
+  }
   # ylab
   if (is.null(ylab)) {
     ylab <- paste0(
@@ -1746,7 +1753,7 @@ method(plot_varimp, SupervisedRes) <- function(
     )
   }
   draw_varimp(
-    varimp_sorted[seq_len(show_top)],
+    varimp_sorted,
     theme = theme,
     ylab = ylab,
     filename = filename,
