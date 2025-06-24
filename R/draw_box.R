@@ -309,7 +309,6 @@ draw_box <- function(
   if (!is.null(order_by_fn)) {
     col <- col[.order]
   }
-  print(col)
 
   # Theme ----
   check_is_S7(theme, Theme)
