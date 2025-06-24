@@ -261,7 +261,7 @@ draw_box <- function(
   }
 
   # Order by fn ----
-  if (!is.null(order_by_fn) && order_by_fn != "none") {
+  if (!is.null(order_by_fn)) {
     if (is.null(time)) {
       if (is.list(x)) {
         .order <- order(sapply(x, order_by_fn, na.rm = TRUE))
@@ -271,10 +271,11 @@ draw_box <- function(
           x <- x[names(x)[.order]]
         }
       }
-      if (!is.null(xnames)) xnames <- xnames[.order]
+      if (!is.null(xnames)) {
+        xnames <- xnames[.order]
+      }
     } else {
-      warning("Ignoring order_by_fn with time data")
-      order_by_fn <- NULL
+      cli::cli_abort("Cannot use `order_by_fn` with `time`")
     }
   }
 
@@ -305,9 +306,10 @@ draw_box <- function(
   if (is.null(col)) {
     col <- recycle(palette, seq(n.groups))[seq(n.groups)]
   }
-  if (!is.null(order_by_fn) && order_by_fn != "none") {
+  if (!is.null(order_by_fn)) {
     col <- col[.order]
   }
+  print(col)
 
   # Theme ----
   check_is_S7(theme, Theme)
