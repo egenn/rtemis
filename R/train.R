@@ -195,7 +195,7 @@ train <- function(
       function(i) {
         pcv(
           message = sprintf(
-            "Crossvalidation %i/%i",
+            "Outer resample %i/%i",
             i,
             outer_resampler@parameters@n
           )
@@ -216,8 +216,8 @@ train <- function(
     )
     names(models) <- names(outer_resampler@resamples)
     hyperparameters@resampled <- 1L
-    msg2("Crossvalidation done.")
-  } # /Crossvalidation
+    msg2("Outer resampling done.")
+  } # /Outer Resampling
 
   if (hyperparameters@resampled == 0L) {
     # Tune ----
