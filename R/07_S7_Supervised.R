@@ -216,35 +216,6 @@ method(print, Supervised) <- function(x, ...) {
   print.Supervised(x)
 }
 
-# Plot Variable Importance ----
-#' Plot Variable Importance
-#'
-#' @description
-#' Plot Variable Importance for Supervised objects.
-#'
-#' @param x Supervised object.
-# @param theme Theme object.
-# @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
-#' @param ... Additional arguments passed to the plotting function.
-#'
-#' @return plotly object or invisible NULL if no variable importance is available.
-#'
-#' @author EDG
-#' @export
-plot_varimp <- new_generic("plot_varimp", "x")
-method(plot_varimp, Supervised) <- function(
-  x,
-  theme = choose_theme(),
-  filename = NULL,
-  ...
-) {
-  if (is.null(x@varimp)) {
-    msg2(hilite2("No variable importance available."))
-    return(invisible(NULL))
-  }
-  draw_varimp(x@varimp, theme = theme, filename = filename, ...)
-} # /plot_varimp.Supervised
-
 # Describe Supervised ----
 method(describe, Supervised) <- function(x) {
   type <- x@type
@@ -1702,6 +1673,87 @@ plot.SupervisedRes <- function(
 method(plot, SupervisedRes) <- function(...) {
   plot.SupervisedRes(...)
 }
+
+
+# Plot Variable Importance ----
+#' Plot Variable Importance
+#'
+#' @description
+#' Plot Variable Importance for Supervised objects.
+#'
+#' @param x Supervised or SupervisedRes object.
+# @param theme Theme object.
+# @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return plotly object or invisible NULL if no variable importance is available.
+#'
+#' @author EDG
+#' @export
+plot_varimp <- new_generic("plot_varimp", "x")
+method(plot_varimp, Supervised) <- function(
+  x,
+  theme = choose_theme(),
+  filename = NULL,
+  ...
+) {
+  if (is.null(x@varimp)) {
+    msg2(hilite2("No variable importance available."))
+    return(invisible(NULL))
+  }
+  draw_varimp(x@varimp, theme = theme, filename = filename, ...)
+} # /plot_varimp.Supervised
+
+method(plot_varimp, SupervisedRes) <- function(
+  x,
+  ylab = NULL,
+  summarize_fn = "mean",
+  show_top = 20L,
+  theme = choose_theme(),
+  filename = NULL,
+  ...
+) {
+  if (is.null(x@varimp)) {
+    msg2(hilite2("No variable importance available."))
+    return(invisible(NULL))
+  }
+  check_inherits(summarize_fn, "character")
+
+  # ! Variable importance may be returned in different order in each resample !
+  # Order varimp vectors by variable names
+  # First, check each varimp vector is named
+  if (!all(sapply(x@varimp, function(z) !is.null(names(z))))) {
+    cli::cli_abort("Variable importance elements must be named vectors.")
+  }
+  # Not every variable gets a variable importance score necessarily
+  # Each varimp vector as a one row data.table in order to rbindlist them, filling in NAs as needed.
+  varimp_dt <- lapply(x@varimp, as.data.table)
+  varimp <- rbindlist(varimp_dt, use.names = TRUE, fill = TRUE)
+  # Convert NA values to 0
+  setDF(varimp)
+  varimp[is.na(varimp)] <- 0
+  # Summarize variable importance
+  varimp_summary <- apply(varimp, 2, summarize_fn)
+  # Sort columns by descending variable importance
+  varimp_sorted <- varimp_summary[order(-varimp_summary)]
+  # ylab
+  if (is.null(ylab)) {
+    ylab <- paste0(
+      labelify(paste(summarize_fn, "Variable Importance")),
+      " (across ",
+      desc_alt(x@outer_resampler),
+      ")"
+    )
+  }
+  draw_varimp(
+    varimp_sorted[seq_len(show_top)],
+    theme = theme,
+    ylab = ylab,
+    filename = filename,
+    ...
+  )
+} # /plot_varimp.SupervisedRes
+
 
 # Make SupervisedRes ----
 #' Make SupervisedRes

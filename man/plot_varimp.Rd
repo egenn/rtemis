@@ -7,7 +7,7 @@
 plot_varimp(x, ...)
 }
 \arguments{
-\item{x}{Supervised object.}
+\item{x}{Supervised or SupervisedRes object.}
 
 \item{...}{Additional arguments passed to the plotting function.}
 }
