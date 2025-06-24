@@ -50,7 +50,7 @@
 #' @param timed Logical: If TRUE, time the process and print to console
 #' @param ... Additional parameters to pass to `data.table::fread`,
 #' `arrow::read_delim_arrow()`, `vroom::vroom()`,
-#' or `openxlsx::read.xlsx()`
+#' or `readxl::read_excel()`
 #'
 #' @return data.frame, data.table, or tibble.
 #'
@@ -127,10 +127,15 @@ read <- function(
         bold(green("\u25B6")),
         " Reading ",
         hilite(basename(path)),
-        " using openxlsx::read.xlsx()..."
+        " using readxl::read_excel()..."
       )
     }
-    .dat <- openxlsx::read.xlsx(filename, xlsx_sheet, ...)
+    .dat <- readxl::read_excel(
+      filename,
+      sheet = xlsx_sheet,
+      na = na_strings,
+      ...
+    )
     if (output == "data.table") setDT(.dat)
   } else if (ext == "dta") {
     check_dependencies("haven")
