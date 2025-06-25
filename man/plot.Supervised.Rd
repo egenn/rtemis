@@ -6,6 +6,11 @@
 \usage{
 \method{plot}{Supervised}(x, ...)
 }
+\arguments{
+\item{x}{Supervised object.}
+
+\item{...}{Additional arguments passed to the plotting function.}
+}
 \description{
 Plot Supervised
 }

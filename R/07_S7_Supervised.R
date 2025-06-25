@@ -1053,6 +1053,9 @@ write_Supervised <- function(
 
 #' Plot Supervised
 #'
+#' @param x Supervised object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
 #' @author EDG
 plot.Supervised <- function(x, ...) {
   plot_true_pred(x, ...)
