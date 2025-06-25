@@ -13,7 +13,9 @@ desc <- new_generic("desc", "x")
 # Alt description for inline printing.
 desc_alt <- new_generic("desc_alt", "x")
 # Get metrics
-get_metrics <- new_generic("get_metrics", "x")
+get_metric <- new_generic("get_metric", "x")
+# Plot predicted vs. true values.
+plot_true_pred <- new_generic("plot_true_pred", "x")
 
 #' Describe rtemis object
 #'
