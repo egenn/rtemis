@@ -820,7 +820,7 @@ plot_true_pred.Classification <- function(
   draw_confusion(
     .confmat,
     theme = theme,
-    ylab = labelify(paste("Predicted", what)),
+    xlab = labelify(paste("Predicted", what)),
     ...
   )
 } # /rtemis::plot_true_pred.Classification
@@ -837,6 +837,72 @@ method(plot_true_pred, Classification) <- function(
     ...
   )
 }
+
+# Plot Regression ----
+#' Plot Regression
+#'
+#' @param x Regression object.
+#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
+#' "all", which will plot all available.
+#' @param fit Character: Algorithm to use to draw fit line.
+#' @param theme Theme object.
+#' @param labelify Logical: If TRUE, labelify the axis labels.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
+plot.Regression <- function(
+  x,
+  what = "all",
+  fit = "glm",
+  theme = choose_theme(),
+  labelify = TRUE,
+  ...
+) {
+  plot_true_pred.Regression(
+    x = x,
+    what = what,
+    fit = fit,
+    theme = theme,
+    labelify = labelify,
+    ...
+  )
+} # /plot.Regression
+
+method(plot, Regression) <- function(x, ...) {
+  plot.Regression(x, ...)
+}
+
+
+# Plot Classification ----
+#' Plot Classification
+#'
+#' @param x Classification object.
+#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
+#' "all", which will plot all available.
+#' @param theme Theme object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
+plot.Classification <- function(
+  x,
+  what = NULL,
+  theme = choose_theme(),
+  ...
+) {
+  plot_true_pred.Classification(
+    x = x,
+    what = what,
+    theme = theme,
+    ...
+  )
+} # /plot.Classification
+
+method(plot, Classification) <- function(x, ...) {
+  plot.Classification(x, ...)
+}
+
 
 # plot_ROC Classification ----
 method(plot_roc, Classification) <- function(
