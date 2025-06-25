@@ -50,7 +50,7 @@ resample <- function(
       x <- x[, 1]
     } else {
       if (verbosity > 0L) {
-        msg2("Input contains more than one column; will stratify on last.")
+        msg2("Input contains more than one column; stratifying on last.")
       }
       x <- x[[NCOL(x)]]
     }

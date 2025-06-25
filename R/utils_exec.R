@@ -37,7 +37,7 @@ do_call <- function(
       "3) Extreme values in predictors.",
       "4) Too many predictors for the number of observations.",
       "5) Multicollinearity.",
-      bold("\nSuggestion:"),
+      bold("Suggestion:"),
       "Try using GLMNET or tree-based algorithms",
       sep = "\n  "
     )

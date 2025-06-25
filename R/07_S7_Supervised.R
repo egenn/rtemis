@@ -723,8 +723,8 @@ Regression <- new_class(
   }
 ) # /Regression
 
-# Plot Regression ----
-#' Plot Regression
+# Plot True Pred Regression ----
+#' Plot True vs. Predicted for Regression
 #'
 #' @param x Regression object.
 #' @param what Character vector: What to plot. Can include "training", "validation", "test", or
@@ -736,7 +736,7 @@ Regression <- new_class(
 #'
 #' @author EDG
 #' @export
-plot.Regression <- function(
+plot_true_pred.Regression <- function(
   x,
   what = "all",
   fit = "glm",
@@ -767,16 +767,16 @@ plot.Regression <- function(
     theme = theme,
     ...
   )
-} # /rtemis::plot.Regression
+} # /rtemis::plot_true_pred.Regression
 
-method(plot, Regression) <- function(
+method(plot_true_pred, Regression) <- function(
   x,
   what = "all",
   fit = "glm",
   theme = choose_theme(),
   ...
 ) {
-  plot.Regression(
+  plot_true_pred.Regression(
     x = x,
     what = what,
     fit = fit,
@@ -785,8 +785,8 @@ method(plot, Regression) <- function(
   )
 }
 
-# Plot Classification ----
-#' Plot Classification
+# Plot True Pred Classification ----
+#' Plot True vs. Predicted for Classification
 #'
 #' @param x Classification object.
 #' @param what Character vector: What to plot. "training", "validation", "test"
@@ -795,7 +795,12 @@ method(plot, Regression) <- function(
 #'
 #' @author EDG
 #' @export
-plot.Classification <- function(x, what = NULL, theme = choose_theme(), ...) {
+plot_true_pred.Classification <- function(
+  x,
+  what = NULL,
+  theme = choose_theme(),
+  ...
+) {
   if (is.null(what)) {
     if (!is.null(x@metrics_test)) {
       what <- "test"
@@ -815,23 +820,89 @@ plot.Classification <- function(x, what = NULL, theme = choose_theme(), ...) {
   draw_confusion(
     .confmat,
     theme = theme,
-    ylab = labelify(paste("Predicted", what)),
+    xlab = labelify(paste("Predicted", what)),
     ...
   )
-}
-method(plot, Classification) <- function(
+} # /rtemis::plot_true_pred.Classification
+method(plot_true_pred, Classification) <- function(
   x,
   what = NULL,
   theme = choose_theme(),
   ...
 ) {
-  plot.Classification(
+  plot_true_pred.Classification(
     x = x,
     what = what,
     theme = theme,
     ...
   )
 }
+
+# Plot Regression ----
+#' Plot Regression
+#'
+#' @param x Regression object.
+#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
+#' "all", which will plot all available.
+#' @param fit Character: Algorithm to use to draw fit line.
+#' @param theme Theme object.
+#' @param labelify Logical: If TRUE, labelify the axis labels.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
+plot.Regression <- function(
+  x,
+  what = "all",
+  fit = "glm",
+  theme = choose_theme(),
+  labelify = TRUE,
+  ...
+) {
+  plot_true_pred.Regression(
+    x = x,
+    what = what,
+    fit = fit,
+    theme = theme,
+    labelify = labelify,
+    ...
+  )
+} # /plot.Regression
+
+method(plot, Regression) <- function(x, ...) {
+  plot.Regression(x, ...)
+}
+
+
+# Plot Classification ----
+#' Plot Classification
+#'
+#' @param x Classification object.
+#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
+#' "all", which will plot all available.
+#' @param theme Theme object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+#' @export
+plot.Classification <- function(
+  x,
+  what = NULL,
+  theme = choose_theme(),
+  ...
+) {
+  plot_true_pred.Classification(
+    x = x,
+    what = what,
+    theme = theme,
+    ...
+  )
+} # /plot.Classification
+
+method(plot, Classification) <- function(x, ...) {
+  plot.Classification(x, ...)
+}
+
 
 # plot_ROC Classification ----
 method(plot_roc, Classification) <- function(
@@ -979,10 +1050,22 @@ write_Supervised <- function(
   }
 } # /write_Supervised
 
+
+#' Plot Supervised
+#'
+#' @param x Supervised object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @author EDG
+plot.Supervised <- function(x, ...) {
+  plot_true_pred(x, ...)
+}
+
+
 # Present Regression ----
 # present method for Regression objects
 # Plot training + test metrics, if available, side by side using `plotly::subplot()`
-# + run `describe()` on the object
+# & run `describe()` on the object
 method(present, Regression) <- function(
   x,
   what = c("training", "test"),
@@ -1600,6 +1683,150 @@ method(present, SupervisedRes) <- function(x, theme = choose_theme(), ...) {
   plot(x, what = c("training", "test"), theme = theme, ...)
 } # /rtemis::present.SupervisedRes
 
+
+# Plot True Pred RegressionRes ----
+# Plot true vs. predicted aggregated across resamples for either training, test, or both.
+#' Plot True vs. Predicted for RegressionRes
+#'
+#' @param x RegressionRes object.
+#' @param what Character vector: "all", "training", "test". Which set(s) to plot.
+#' @param fit Character: Algorithm to use to draw fit line.
+#' @param theme Theme object.
+#' @param labelify Logical: If TRUE, labelify the axis labels.
+#' @param ... Additional arguments passed to [draw_fit].
+#'
+#' @author EDG
+#' @export
+plot_true_pred.RegressionRes <- function(
+  x,
+  what = "all",
+  fit = "glm",
+  theme = choose_theme(),
+  labelify = TRUE,
+  ...
+) {
+  if (length(what) == 1 && what == "all") {
+    what <- c("training", "test")
+  }
+  true <- paste0("y_", what)
+  true_l <- sapply(true, function(z) {
+    unlist(prop(x, z), use.names = FALSE)
+  })
+
+  predicted <- paste0("predicted_", what)
+  predicted_l <- sapply(predicted, function(z) {
+    unlist(prop(x, z), use.names = FALSE)
+  })
+  if (labelify) {
+    names(predicted_l) <- labelify(names(predicted_l))
+  }
+  draw_fit(
+    x = true_l,
+    y = predicted_l,
+    fit = fit,
+    theme = theme,
+    ...
+  )
+} # /rtemis::plot_true_pred.RegressionRes
+
+method(plot_true_pred, RegressionRes) <- function(
+  x,
+  what = "all",
+  fit = "glm",
+  theme = choose_theme(),
+  ...
+) {
+  plot_true_pred.RegressionRes(
+    x,
+    what = what,
+    fit = fit,
+    theme = theme,
+    ...
+  )
+} # /rtemis::plot_true_pred.RegressionRes
+
+
+# Plot True Pred ClassificationRes ----
+# Cannot be combined with plot_true_pred.RegressionRes
+# because scatter can overplot train & test, but confusion matrices must be subplots.
+#' Plot True vs. Predicted for ClassificationRes
+#'
+#' @param x ClassificationRes object.
+#' @param what Character vector: "all", "training", "test". Which set(s) to plot.
+#' @param theme Theme object.
+#' @param ... Additional arguments passed to [draw_confusion].
+#'
+#' @author EDG
+#' @export
+plot_true_pred.ClassificationRes <- function(
+  x,
+  what = "all",
+  theme = choose_theme(),
+  ...
+) {
+  if (length(what) == 1 && what == "all") {
+    what <- c("training", "test")
+  }
+  true <- paste0("y_", what)
+  true_l <- sapply(true, function(z) {
+    unlist(prop(x, z), use.names = FALSE)
+  })
+
+  predicted <- paste0("predicted_", what)
+  predicted_l <- sapply(predicted, function(z) {
+    unlist(prop(x, z), use.names = FALSE)
+  })
+  # if (labelify) {
+  #   names(predicted_l) <- labelify(names(predicted_l))
+  # }
+  # Training
+  if ("training" %in% what) {
+    plt_training <- draw_confusion(
+      table(true_l[["y_training"]], predicted_l[["predicted_training"]]),
+      theme = theme,
+      ...
+    )
+  }
+  if ("test" %in% what) {
+    plt_test <- draw_confusion(
+      table(true_l[["y_test"]], predicted_l[["predicted_test"]]),
+      theme = theme,
+      ...
+    )
+  }
+
+  if (length(what) == 1) {
+    if (what == "training") {
+      return(plt_training)
+    } else {
+      return(plt_test)
+    }
+  } else {
+    return(plotly::subplot(
+      plt_training,
+      plt_test,
+      nrows = 1L,
+      shareX = FALSE,
+      shareY = FALSE
+    ))
+  }
+} # /rtemis::plot_true_pred.ClassificationRes
+
+method(plot_true_pred, ClassificationRes) <- function(
+  x,
+  what = "all",
+  theme = choose_theme(),
+  ...
+) {
+  plot_true_pred.ClassificationRes(
+    x,
+    what = what,
+    theme = theme,
+    ...
+  )
+} # /rtemis::plot_true_pred.ClassificationRes
+
+
 # Plot SupervisedRes ----
 #' Plot SupervisedRes
 #'
@@ -1883,18 +2110,19 @@ method(print, LightRuleFit) <- function(x, ...) {
   invisible(x)
 } # /rtemis::print.LightRuleFit
 
-# get_metrics Regression ----
-method(get_metrics, Regression) <- function(x, set, metric) {
+
+# get_metric Regression ----
+method(get_metric, Regression) <- function(x, set, metric) {
   prop(prop(x, paste0("metrics_", set)), "metrics")[[metric]]
-} # /get_metrics.Regression
+} # /get_metric.Regression
 
-# get_metrics Classification ----
-method(get_metrics, Classification) <- function(x, set, metric) {
+# get_metric Classification ----
+method(get_metric, Classification) <- function(x, set, metric) {
   prop(prop(x, paste0("metrics_", set)), "metrics")[["Overall"]][[metric]]
-} # /get_metrics.Classification
+} # /get_metric.Classification
 
-# get_metrics RegressionRes ----
-method(get_metrics, RegressionRes) <- function(x, set, metric) {
+# get_metric RegressionRes ----
+method(get_metric, RegressionRes) <- function(x, set, metric) {
   sapply(
     prop(prop(x, paste0("metrics_", set)), "res_metrics"),
     function(r) {
@@ -1903,8 +2131,8 @@ method(get_metrics, RegressionRes) <- function(x, set, metric) {
   )
 }
 
-# get_metrics ClassificationRes ----
-method(get_metrics, ClassificationRes) <- function(x, set, metric) {
+# get_metric ClassificationRes ----
+method(get_metric, ClassificationRes) <- function(x, set, metric) {
   sapply(
     prop(prop(x, paste0("metrics_", set)), "res_metrics"),
     function(r) {

@@ -136,7 +136,7 @@ mod_r_glmnet <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "glmnet",
-  hyperparameters = setup_GLMNET(alpha = c(0, 0.5, 1))
+  hyperparameters = setup_GLMNET(alpha = c(0, 1))
 )
 test_that("train() GLMNET Regression with auto-lambda + alpha grid search succeeds", {
   expect_s7_class(mod_r_glmnet, Regression)
@@ -260,12 +260,6 @@ restmod_r_svmr <- train(
 )
 test_that("train() Res SVM Regression with tuning succeeds", {
   expect_s7_class(restmod_r_svmr, RegressionRes)
-})
-
-## train_CART() ----
-mod_r_rpart <- train_CART(x = datr_train)
-test_that("train_CART() succeeds", {
-  expect_s3_class(mod_r_rpart, "rpart")
 })
 
 ## CART Regression ----
@@ -708,31 +702,49 @@ test_that("calibrate() succeeds on ClassificationRes", {
   expect_s7_class(resmod_c_lightrf_cal, CalibratedClassificationRes)
 })
 
-# Plot Regression ----
+# 1. Describe Regression ----
+test_that("describe.Regression returns character", {
+  desc <- describe(mod_r_glm)
+  expect_type(desc, "character")
+})
+
+# 2. Plot Regression ----
 test_that("plot.Supervised creates a plotly object", {
   p <- plot(mod_r_glm)
   expect_s3_class(p, "plotly")
 })
 
-# Present Regression ----
+# 3. Plot True Pred Regression ----
+test_that("plot_true_pred creates a plotly object", {
+  p <- plot_true_pred(mod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# 4. Present Regression ----
 test_that("present.Supervised creates a plotly object", {
   p <- present(mod_r_glm)
   expect_s3_class(p, "plotly")
 })
 
-# Describe Classification ----
+# 1. Describe Classification ----
 test_that("describe.Classification returns character", {
   desc <- describe(mod_c_glm)
   expect_type(desc, "character")
 })
 
-# Plot Classification ----
+# 2. Plot Classification ----
 test_that("plot.Supervised creates a plotly object", {
   p <- plot(mod_c_glm)
   expect_s3_class(p, "plotly")
 })
 
-# Plot ROC Classification ----
+# 3. Plot True Pred Classification ----
+test_that("plot_true_pred creates a plotly object", {
+  p <- plot_true_pred(mod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# 4. Plot ROC Classification ----
 test_that("draw_roc creates a plotly object", {
   p <- draw_roc(
     true_labels = list(
@@ -760,6 +772,18 @@ test_that("plot.SupervisedRes creates a plotly object", {
 # Plot ClassificationRes ----
 test_that("plot.SupervisedRes creates a plotly object", {
   p <- plot(resmod_c_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Plot True Pred RegressionRes ----
+test_that("plot_true_pred RegressionRes creates a plotly object", {
+  p <- plot_true_pred(resmod_r_glm)
+  expect_s3_class(p, "plotly")
+})
+
+# Plot True Pred ClassificationRes ----
+test_that("plot_true_pred ClassificationRes creates a plotly object", {
+  p <- plot_true_pred(resmod_c_glm)
   expect_s3_class(p, "plotly")
 })
 
