@@ -67,10 +67,10 @@ present.list <- function(
 
   # Data
   xl_training <- lapply(x, function(m) {
-    get_metrics(m, set = "training", metric = metric)
+    get_metric(m, set = "training", metric = metric)
   })
   xl_test <- lapply(x, function(m) {
-    get_metrics(m, set = "test", metric = metric)
+    get_metric(m, set = "test", metric = metric)
   })
   names(xl_training) <- names(xl_test) <- model_names
 
