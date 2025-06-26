@@ -579,9 +579,9 @@ test_that("train() Classification with grid_search() succeeds", {
 mod_c_glmnet <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  hyperparameters = setup_GLMNET()
+  hyperparameters = setup_GLMNET(ifw = FALSE)
 )
-test_that("train() GLMNET Classification with fixed lambda succeeds", {
+test_that("train() GLMNET Binary Classification succeeds", {
   expect_s7_class(mod_c_glmnet, Classification)
 })
 
@@ -591,7 +591,7 @@ mod_c_glmnet_ifw <- train(
   dat_test = datc2_test,
   hyperparameters = setup_GLMNET(ifw = TRUE, lambda = .001)
 )
-test_that("train() GLMNET Classification with fixed lambda succeeds", {
+test_that("train() GLMNET Binary Classification with IFW & fixed lambda succeeds", {
   expect_s7_class(mod_c_glmnet_ifw, Classification)
 })
 
