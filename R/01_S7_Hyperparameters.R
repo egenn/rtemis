@@ -583,7 +583,7 @@ setup_GLMNET <- function(
   penalty_factor = NULL,
   standardize = TRUE,
   intercept = TRUE,
-  ifw = FALSE
+  ifw = TRUE
 ) {
   check_float01inc(alpha)
   check_inherits(which_lambda_cv, "character")
