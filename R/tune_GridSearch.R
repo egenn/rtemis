@@ -309,24 +309,13 @@ tune_GridSearch <- function(
       each = n_resamples
     )
   ]
-  # metrics_training_by_combo_id <- aggregate(
-  #   . ~ param_combo_id,
-  #   data = metrics_training_all,
-  #   FUN = tuner_parameters[["metrics_aggregate_fn"]]
-  # )
-  metrics_training_by_combo_id <- metrics_validation_all[,
+  metrics_training_by_combo_id <- metrics_training_all[,
     lapply(
       .SD,
       get(tuner_parameters[["metrics_aggregate_fn"]])
     ),
     by = param_combo_id
   ]
-
-  # metrics_validation_by_combo_id <- aggregate(
-  #   . ~ param_combo_id,
-  #   data = metrics_validation_all,
-  #   FUN = tuner_parameters[["metrics_aggregate_fn"]]
-  # )
   metrics_validation_by_combo_id <- metrics_validation_all[,
     lapply(
       .SD,
