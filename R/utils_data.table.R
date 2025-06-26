@@ -6,6 +6,7 @@
 #'
 #' @param x data.table
 #' @param excludeNA Logical: If TRUE, exclude NA values.
+#' @param limit Integer: Print up to this many features. Set to -1L to print all.
 #' @param verbosity Integer: If > 0, print output to console.
 #'
 #' @return Named integer vector of length `NCOL(x)` with number of unique values per column/feature, invisibly.
@@ -17,11 +18,11 @@
 #' \dontrun{
 #' dt_nunique_perfeat(iris)
 #' }
-dt_nunique_perfeat <- function(x, excludeNA = FALSE, verbosity = 1L) {
+dt_nunique_perfeat <- function(x, excludeNA = FALSE, limit = 20L, verbosity = 1L) {
   stopifnot(inherits(x, "data.table"))
   nupf <- sapply(x, \(i) data.table::uniqueN(i, na.rm = excludeNA))
   if (verbosity > 0L) {
-    printls(nupf, item_format = thin, print_class = FALSE)
+    printls(nupf, item_format = thin, limit = limit, print_class = FALSE)
   }
   invisible(nupf)
 } # /rtemis::dt_nunique_perfeat

@@ -59,7 +59,7 @@ printls <- function(
   abbrev_class_n = 3L,
   print_df = FALSE,
   print_S4 = FALSE,
-  limit_iter = 12L
+  limit = 12L
 ) {
   # Arguments ----
   if (newline_pre) {
@@ -112,12 +112,12 @@ printls <- function(
       )
     } # /title
     counter <- 0L
-    # Print each item up to limit_iter items
-    if (length(x) > limit_iter) {
+    # Print each item up to limit items
+    if (limit != -1L && length(x) > limit) {
       padcat(
         italic(thin(
-          "  Showing first",
-          limit_iter,
+          "Showing first",
+          limit,
           "of",
           length(x),
           "items.\n"
@@ -127,11 +127,11 @@ printls <- function(
     }
     for (i in seq_along(x)) {
       counter <- counter + 1L
-      if (counter > limit_iter) {
+      if (limit != -1L && counter > limit) {
         padcat(
           italic(thin(
-            "  ...",
-            length(x) - limit_iter,
+            "...",
+            length(x) - limit,
             "more items not shown.\n"
           )),
           pad = pad

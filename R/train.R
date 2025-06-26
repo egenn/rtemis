@@ -291,7 +291,7 @@ train <- function(
     # Must follow preprocessing since N cases may change
     if (type == "Classification" && hyperparameters[["ifw"]]) {
       if (!is.null(weights)) {
-        stop("Custom weights are defined, but IFW is set to TRUE.")
+        cli::cli_abort("Custom weights are defined, but IFW is set to TRUE.")
       } else {
         weights <- ifw(x[[ncols]], type = "case_weights", verbosity = verbosity)
       }
@@ -310,7 +310,8 @@ train <- function(
       }
     } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
-    # All training, validation, and test metrics are calculated by Supervised or SupervisedRes.
+    # Note: All training, validation, and test metrics are calculated by Supervised or SupervisedRes.
+    # => Introduce supports_weights() if any algorithms do NOT support case weights.
     args <- list(
       x = x,
       weights = weights,

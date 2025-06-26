@@ -2,14 +2,14 @@
 # ::rtemis::
 # EDG rtemis.org
 
-# %% Setup
+# Setup ----
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
 # devtools::load_all()
 # library(testthat)
 library(data.table)
 
-# %% Data ----
+# Data ----
 ## Regression Data ----
 n <- 400
 x <- rnormmat(n, 5, seed = 2025)
@@ -53,8 +53,12 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 # datc3_train <- iris[resc3$Fold_1, ]
 # datc3_test <- iris[-resc3$Fold_1, ]
 
-# %% Regression ----
+# Utils ----
+test_that("class_imbalance() works", {
+  expect_type(class_imbalance(outcome(datc2)), "double")
+})
 
+# Regression ----
 ## GLM Regression ----
 mod_r_glm <- train(
   x = datr_train,
@@ -471,8 +475,7 @@ if (torch::torch_is_installed()) {
   })
 }
 
-# %% Binary Classification ----
-
+# Binary Classification ----
 ## GLM Classification ----
 mod_c_glm <- train(
   x = datc2_train,
@@ -481,6 +484,17 @@ mod_c_glm <- train(
 )
 test_that("train() GLM Classification succeeds", {
   expect_s7_class(mod_c_glm, Classification)
+})
+
+## GLM Classification IFW ----
+mod_c_glm_ifw <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "glm",
+  hyperparameters = setup_GLM(ifw = TRUE)
+)
+test_that("train() GLM Classification with IFW succeeds", {
+  expect_s7_class(mod_c_glm_ifw, Classification)
 })
 
 ## GLM ClassificationRes ----
@@ -501,6 +515,17 @@ mod_c_gam <- train(
 )
 test_that("train() GAM Classification succeeds", {
   expect_s7_class(mod_c_gam, Classification)
+})
+
+## GAM Classification IFW ----
+mod_c_gam_ifw <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "gam",
+  hyperparameters = setup_GAM(ifw = TRUE)
+)
+test_that("train() GAM Classification with IFW succeeds", {
+  expect_s7_class(mod_c_gam_ifw, Classification)
 })
 
 ## CART Classification ----
@@ -554,11 +579,20 @@ test_that("train() Classification with grid_search() succeeds", {
 mod_c_glmnet <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  algorithm = "glmnet",
-  hyperparameters = setup_GLMNET(lambda = 0.01)
+  hyperparameters = setup_GLMNET(ifw = FALSE)
 )
-test_that("train() GLMNET Classification with fixed lambda succeeds", {
+test_that("train() GLMNET Binary Classification succeeds", {
   expect_s7_class(mod_c_glmnet, Classification)
+})
+
+## GLMNET Binary Classification IFW ----
+mod_c_glmnet_ifw <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_GLMNET(ifw = TRUE, lambda = .001)
+)
+test_that("train() GLMNET Binary Classification with IFW & fixed lambda succeeds", {
+  expect_s7_class(mod_c_glmnet_ifw, Classification)
 })
 
 ## LightCART Classification ----

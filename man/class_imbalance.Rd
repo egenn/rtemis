@@ -7,8 +7,7 @@
 class_imbalance(x)
 }
 \arguments{
-\item{x}{Vector, factor: Labels of outcome. If \code{x} has more than 1
-column, the last one will be used}
+\item{x}{Vector, factor: Outcome.}
 }
 \value{
 Numeric.

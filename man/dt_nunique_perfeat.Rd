@@ -4,12 +4,14 @@
 \alias{dt_nunique_perfeat}
 \title{Number of unique values per feature}
 \usage{
-dt_nunique_perfeat(x, excludeNA = FALSE, verbosity = 1L)
+dt_nunique_perfeat(x, excludeNA = FALSE, limit = 20L, verbosity = 1L)
 }
 \arguments{
 \item{x}{data.table}
 
 \item{excludeNA}{Logical: If TRUE, exclude NA values.}
+
+\item{limit}{Integer: Print up to this many features. Set to -1L to print all.}
 
 \item{verbosity}{Integer: If > 0, print output to console.}
 }

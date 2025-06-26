@@ -362,6 +362,6 @@ available_draw <- function() {
     class = "list"
   )
   cat("Available draw functions:\n")
-  printls(fns, print_class = FALSE, limit_iter = length(fns))
+  printls(fns, print_class = FALSE, limit = -1L)
   invisible(NULL)
 } # rtemis::available_draw

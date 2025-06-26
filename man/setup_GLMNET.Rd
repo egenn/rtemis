@@ -14,7 +14,7 @@ setup_GLMNET(
   penalty_factor = NULL,
   standardize = TRUE,
   intercept = TRUE,
-  ifw = FALSE
+  ifw = TRUE
 )
 }
 \arguments{

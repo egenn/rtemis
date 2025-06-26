@@ -252,10 +252,6 @@ get_gam_pvals <- function(m, warn = TRUE) {
 } # rtemis::get_gam_pvals
 
 
-# class_imbalance.R
-# ::rtemis::
-# 2018 EDG rtemis.org
-
 #' Class Imbalance
 #'
 #' Calculate class imbalance as given by:
@@ -263,8 +259,7 @@ get_gam_pvals <- function(m, warn = TRUE) {
 #' where \eqn{K} is the number of classes, and \eqn{n_i} is the number of
 #' instances of class \eqn{i}
 #'
-#' @param x Vector, factor: Labels of outcome. If `x` has more than 1
-#' column, the last one will be used
+#' @param x Vector, factor: Outcome.
 #'
 #' @return Numeric.
 #'
@@ -272,10 +267,6 @@ get_gam_pvals <- function(m, warn = TRUE) {
 #' @export
 
 class_imbalance <- function(x) {
-  x <- if (inherits(x, "data.frame")) {
-    x <- outcome(x)
-  }
-
   if (!is.factor(x)) {
     stop("Input must be a factor")
   }
