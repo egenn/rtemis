@@ -26,11 +26,14 @@ rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
       newline = FALSE
     )
   }
-  if (!dir.exists(outdir))
+  if (!dir.exists(outdir)) {
     dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
+  }
   rdsPath <- file.path(outdir, paste0(file_prefix, object@algorithm, ".rds"))
   try(saveRDS(object, rdsPath))
-  if (verbosity > 0L) elapsed <- Sys.time() - start_time
+  if (verbosity > 0L) {
+    elapsed <- Sys.time() - start_time
+  }
   if (file.exists(rdsPath)) {
     if (verbosity > 0L) {
       yay("[", format(elapsed, digits = 2), "]", gray(" [rt_save]"), sep = "")
@@ -52,7 +55,7 @@ rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
         sep = ""
       )
     }
-    stop("Error: Saving model to ", outdir, " failed.")
+    cli::cli_abort("Error: Saving model to ", outdir, " failed.")
   }
 } # rtemis::rt_save
 
@@ -66,7 +69,9 @@ rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
 #' @keywords internal
 #' @noRd
 check_files <- function(paths, verbosity = 1L, pad = 0) {
-  if (verbosity > 0L) msg20("Checking ", singorplu(length(paths), "file"), ":")
+  if (verbosity > 0L) {
+    msg20("Checking ", singorplu(length(paths), "file"), ":")
+  }
 
   for (f in paths) {
     if (file.exists(f)) {
