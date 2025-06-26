@@ -46,7 +46,7 @@ train_GLMNET <- function(
   # Hyperparameters ----
   # Hyperparameters must be either untunable or frozen by `train`.
   if (needs_tuning(hyperparameters)) {
-    stop("Hyperparameters must be fixed - use train() instead.")
+    cli::cli_abort("Hyperparameters must be fixed - use train() instead.")
   }
 
   # Convert "null" lambda to NULL
@@ -100,7 +100,7 @@ train_GLMNET <- function(
     }
   } else {
     if (length(hyperparameters[["penalty_factor"]]) != NCOL(xm)) {
-      stop(
+      cli::cli_abort(
         "Length of penalty_factor must be equal to the number of predictors."
       )
     }

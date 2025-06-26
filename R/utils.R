@@ -914,7 +914,7 @@ table1 <- function(
   filename = NULL
 ) {
   if (is.null(dim(x))) {
-    stop("Please provide a matrix or data frame")
+    cli::cli_abort("Please provide a matrix or data frame")
   }
   .dim <- dim(x)
   if (verbosity > 0L) {

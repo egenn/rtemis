@@ -1293,10 +1293,10 @@ setup_LightRuleFit <- function(
   # If ifw, cannot have ifw_lightgbm or ifw_glmnet
   if (ifw) {
     if (ifw_lightgbm) {
-      stop("Cannot set ifw and ifw_lightgbm at the same time.")
+      cli::cli_abort("Cannot set ifw and ifw_lightgbm at the same time.")
     }
     if (ifw_glmnet) {
-      stop("Cannot set ifw and ifw_glmnet at the same time.")
+      cli::cli_abort("Cannot set ifw and ifw_glmnet at the same time.")
     }
   }
   LightRuleFitHyperparameters(

@@ -191,7 +191,7 @@ precision <- function(true, predicted, harmonize = FALSE, verbosity = 1L) {
 #' @noRd
 factor_harmonize <- function(reference, x, verbosity = 1L) {
   if (!is.factor(x) || !is.factor(reference)) {
-    stop("Inputs must be factors")
+    cli::cli_abort("Inputs must be factors")
   }
   if (!all(levels(x) == levels(reference))) {
     if (!all(levels(x) %in% levels(reference))) {
@@ -203,7 +203,7 @@ factor_harmonize <- function(reference, x, verbosity = 1L) {
         msg2("levels of reference:")
       }
       levels(reference)
-      stop("Levels of two inputs do not match")
+      cli::cli_abort("Levels of two inputs do not match")
     }
     if (verbosity > 0L) {
       msg2("Input factor levels are not in the same order, correcting")
@@ -340,7 +340,7 @@ auc_pairs <- function(estimated.score, true.labels, verbosity = 1L) {
     )
     .auc <- mean((outer.diff > 0) + .5 * (outer.diff == 0))
   } else {
-    stop(
+    cli::cli_abort(
       "Multiclass AUC does not have a unique definition and is not yet implemented"
     )
   }
@@ -445,7 +445,7 @@ classification_metrics <- function(
 
   # Check same levels in
   if (!all(levels(true_labels) == levels(predicted_labels))) {
-    stop(
+    cli::cli_abort(
       "True and predicted labels must have the same levels, in the same order.",
       "\n     levels(true_labels): ",
       paste(levels(true_labels), collapse = ", "),

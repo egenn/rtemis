@@ -106,7 +106,7 @@ get_alg_name <- function(algorithm) {
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
   ]
   if (length(algname) == 0) {
-    stop(algorithm, "Incorrect algorithm specified")
+    cli::cli_abort(algorithm, "Incorrect algorithm specified")
   }
   algname
 }
@@ -120,7 +120,7 @@ get_alg_desc <- function(algorithm) {
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
   ]
   if (length(algdesc) == 0) {
-    stop(algorithm, "Incorrect algorithm specified")
+    cli::cli_abort(algorithm, "Incorrect algorithm specified")
   }
   algdesc
 }
@@ -188,7 +188,7 @@ get_clust_name <- function(algorithm) {
     tolower(algorithm) == tolower(clust_algorithms[, 1])
   ]
   if (length(clustname) == 0) {
-    stop(algorithm, "Incorrect clustering algorithm specified")
+    cli::cli_abort(algorithm, "Incorrect clustering algorithm specified")
   }
   clustname
 } # /rtemis::get_clust_name
@@ -198,7 +198,7 @@ get_clust_desc <- function(algorithm) {
     tolower(algorithm) == tolower(clust_algorithms[, 1])
   ]
   if (length(clustdesc) == 0) {
-    stop(algorithm, "Incorrect clustering algorithm specified")
+    cli::cli_abort(algorithm, "Incorrect clustering algorithm specified")
   }
   clustdesc
 } # /rtemis::get_clust_desc
@@ -242,7 +242,7 @@ get_decom_name <- function(algorithm) {
     tolower(algorithm) == tolower(decom_algorithms[, 1])
   ]
   if (length(decomname) == 0) {
-    stop(algorithm, "Incorrect decomposition algorithm specified")
+    cli::cli_abort(algorithm, "Incorrect decomposition algorithm specified")
   }
   decomname
 } # /rtemis::get_decom_name
@@ -252,7 +252,7 @@ get_decom_desc <- function(algorithm) {
     tolower(algorithm) == tolower(decom_algorithms[, 1])
   ]
   if (length(decomdesc) == 0) {
-    stop(algorithm, "Incorrect decomposition algorithm specified")
+    cli::cli_abort(algorithm, "Incorrect decomposition algorithm specified")
   }
   decomdesc
 } # /rtemis::get_decom_desc

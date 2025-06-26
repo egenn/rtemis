@@ -165,7 +165,7 @@ setup_GridSearch <- function(
   check_inherits(search_type, "character")
   check_float01exc(randomize_p)
   if (search_type == "exhaustive" && !is.null(randomize_p)) {
-    stop("search_type is 'exhaustive': do not set randomize_p.")
+    cli::cli_abort("search_type is 'exhaustive': do not set randomize_p.")
   }
   # check_inherits(metrics_aggregate_fn, "function")
   check_character(metrics_aggregate_fn)

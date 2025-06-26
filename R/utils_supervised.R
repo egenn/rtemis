@@ -60,7 +60,7 @@ prob2categorical <- function(x, levels, binclasspos = 2L) {
 
 check_supervised_inputs <- function(x, y = NULL) {
   if (is.null(y) && NCOL(x) < 2) {
-    stop("y is missing")
+    cli::cli_abort("y is missing")
   }
 }
 
@@ -79,7 +79,7 @@ set_outcome <- function(dat, outcome_column) {
   id <- grep(outcome_column, names(dat))
   # Check
   if (length(id) == 0) {
-    stop('Column "', outcome_column, '" not found in data.')
+    cli::cli_abort('Column "', outcome_column, '" not found in data.')
   }
   # Reorder columns
   # => Make S7 generic
@@ -268,7 +268,7 @@ get_gam_pvals <- function(m, warn = TRUE) {
 
 class_imbalance <- function(x) {
   if (!is.factor(x)) {
-    stop("Input must be a factor")
+    cli::cli_abort("Input must be a factor")
   }
   K <- length(levels(x))
   N <- length(x)

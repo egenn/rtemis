@@ -67,7 +67,7 @@ train <- function(
   # Pass ... to hyperparameters setup_* fn
   # hpr_args <- list(...)
   # if (!is.null(hyperparameters) && length(hpr_args) > 0) {
-  #   stop("You can either define `hyperparameters` or pass them as additional arguments.")
+  #   cli::cli_abort("You can either define `hyperparameters` or pass them as additional arguments.")
   # }
   if (!is.null(preprocessor_parameters)) {
     check_is_S7(preprocessor_parameters, PreprocessorParameters)
@@ -110,7 +110,7 @@ train <- function(
     !is.null(algorithm) &&
       tolower(algorithm) != tolower(hyperparameters@algorithm)
   ) {
-    stop(
+    cli::cli_abort(
       "You defined algorithm to be '",
       algorithm,
       "', but defined hyperparameters for ",

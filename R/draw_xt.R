@@ -202,7 +202,7 @@ draw_xt <- function(
     }
   } else {
     if (is.null(y)) {
-      stop("y must be provided")
+      cli::cli_abort("y must be provided")
     }
   }
 
@@ -231,10 +231,10 @@ draw_xt <- function(
     x2 <- rep(x2, length(y2))
   }
   if (length(x) != length(y)) {
-    stop("x and y must be the same length")
+    cli::cli_abort("x and y must be the same length")
   }
   if (!is.null(y2) && length(x2) != length(y2)) {
-    stop("x2 and y2 must be the same length")
+    cli::cli_abort("x2 and y2 must be the same length")
   }
 
   # Which traces to plot ----
@@ -266,7 +266,7 @@ draw_xt <- function(
 
   # Check args ----
   if (!is.null(shade_bin) && !is.null(shade_interval)) {
-    stop("Only set shade_bin or shade_interval, not both")
+    cli::cli_abort("Only set shade_bin or shade_interval, not both")
   }
 
   # Names ----

@@ -308,7 +308,7 @@ setup_Resampler <- function(
     c("KFold", "StratSub", "StratBoot", "Bootstrap", "LOOCV")
   )
   if (length(type) == 0) {
-    stop(
+    cli::cli_abort(
       "Invalid resampler type. Must be one of: 'StratSub', 'StratBoot', 'KFold', 'Bootstrap', 'LOOCV'"
     )
   }
@@ -352,7 +352,7 @@ setup_Resampler <- function(
       n = 0L
     )
   } else {
-    stop(paste(
+    cli::cli_abort(paste(
       "Resampler'",
       type,
       "'is not supported.",

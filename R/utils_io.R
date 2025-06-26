@@ -82,7 +82,7 @@ check_files <- function(paths, verbosity = 1L, pad = 0) {
       if (verbosity > 0L) {
         nay(paste(f, red(" not found!")), pad = pad)
       }
-      stop("File not found")
+      cli::cli_abort("File not found")
     }
   }
 } # rtemis::check_files
@@ -100,7 +100,7 @@ check_files <- function(paths, verbosity = 1L, pad = 0) {
 #' @export
 list2csv <- function(x, outdir) {
   if (!inherits(x, "list")) {
-    stop("Input must be a list")
+    cli::cli_abort("Input must be a list")
   }
 
   xname <- deparse(substitute(x))

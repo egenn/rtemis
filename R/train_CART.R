@@ -30,7 +30,7 @@ train_CART <- function(
   # Arguments ----
   # Hyperparameters must be either untunable or frozen by `train`
   if (needs_tuning(hyperparameters)) {
-    stop("Hyperparameters must be fixed - use train() instead.")
+    cli::cli_abort("Hyperparameters must be fixed - use train() instead.")
   }
 
   # Data ----

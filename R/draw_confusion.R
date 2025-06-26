@@ -60,7 +60,7 @@ draw_confusion <- function(
   }
 
   if (is.null(dim(x)) || ncol(x) != nrow(x)) {
-    stop("The confusion matrix must be a square matrix.")
+    cli::cli_abort("The confusion matrix must be a square matrix.")
   }
 
   # Metrics ----

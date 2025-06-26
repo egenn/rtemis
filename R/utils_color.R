@@ -46,7 +46,7 @@ color_op <- function(col, fn = c("invert", "mean"), space = c("HSV", "RGB")) {
     return(invertedl)
   } else if (fn == "mean") {
     if (length(col) < 2) {
-      stop("Need at least two colors to average")
+      cli::cli_abort("Need at least two colors to average")
     }
     if (space == "RGB") {
       averaged <- rowMeans(col.rgb)
@@ -351,7 +351,7 @@ color_adjust <- function(color, alpha = NULL, hue = 0, sat = 0, val = 0) {
 #' }
 color_mix <- function(color, n = 4) {
   if (class(color)[1] != "list") {
-    stop("Please provide list of color pairs")
+    cli::cli_abort("Please provide list of color pairs")
   }
 
   color.grad <- lapply(color, function(i) colorRampPalette(i)(n))
@@ -896,7 +896,9 @@ colorgrad <- function(
 
 colorvec <- function(cols) {
   if (nchar(cols) %% 3 != 0) {
-    stop("All colors must be specified by their 3-letter abbreviations")
+    cli::cli_abort(
+      "All colors must be specified by their 3-letter abbreviations"
+    )
   }
 
   cols <- tolower(cols)

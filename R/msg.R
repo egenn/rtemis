@@ -10,7 +10,7 @@ msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
 stopQuietly <- function() {
   opt <- options(show.error.messages = FALSE)
   on.exit(options(opt))
-  stop()
+  cli::cli_abort()
 }
 
 rtStop <- function(...) {

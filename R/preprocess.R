@@ -971,7 +971,7 @@ one_hot2factor <- function(x, labels = colnames(x)) {
     return(factor(x))
   }
   if (any(na.exclude(rowSums(x)) > 1)) {
-    stop("Input must be one-hot encoded.")
+    cli::cli_abort("Input must be one-hot encoded.")
   }
   out <- factor(rep(NA, NROW(x)), levels = labels)
   for (i in seq_along(labels)) {

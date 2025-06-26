@@ -54,7 +54,7 @@ train_Isotonic <- function(
   if (type == "Classification") {
     n_classes <- length(levels(outcome(x)))
     if (n_classes > 2L) {
-      stop("Isotonic does not support multiclass classification")
+      cli::cli_abort("Isotonic does not support multiclass classification")
     }
     # Assuming binclasspos = 2L
     y <- as.numeric(x[[2]]) - 1
