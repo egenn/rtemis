@@ -277,42 +277,61 @@ tune_GridSearch <- function(
     # grid_run <- mirai::collect_mirai(grid_run)
   }
   if (type %in% c("Regression", "Survival")) {
-    metrics_training_all <- as.data.frame(t(sapply(
+    metrics_training_all <- as.data.table(t(sapply(
       grid_run,
       function(r) unlist(r[["metrics_training"]]@metrics)
     )))
-    metrics_validation_all <- as.data.frame(t(sapply(
+    metrics_validation_all <- as.data.table(t(sapply(
       grid_run,
       function(r) unlist(r[["metrics_validation"]]@metrics)
     )))
   } else if (type == "Classification") {
-    metrics_training_all <- as.data.frame(t(sapply(
+    metrics_training_all <- as.data.table(t(sapply(
       grid_run,
       function(r) unlist(r[["metrics_training"]]@metrics[["Overall"]])
     )))
-    metrics_validation_all <- as.data.frame(t(sapply(
+    metrics_validation_all <- as.data.table(t(sapply(
       grid_run,
       function(r) unlist(r[["metrics_validation"]]@metrics[["Overall"]])
     )))
   }
-  metrics_validation_all[["param_combo_id"]] <- rep(
-    seq_len(n_param_combinations),
-    each = n_resamples
-  )
-  metrics_training_all[["param_combo_id"]] <- rep(
-    seq_len(n_param_combinations),
-    each = n_resamples
-  )
-  metrics_training_by_combo_id <- aggregate(
-    . ~ param_combo_id,
-    data = metrics_training_all,
-    FUN = tuner_parameters[["metrics_aggregate_fn"]]
-  )
-  metrics_validation_by_combo_id <- aggregate(
-    . ~ param_combo_id,
-    data = metrics_validation_all,
-    FUN = tuner_parameters[["metrics_aggregate_fn"]]
-  )
+  metrics_validation_all[,
+    param_combo_id := rep(
+      seq_len(n_param_combinations),
+      each = n_resamples
+    )
+  ]
+  metrics_training_all[,
+    param_combo_id := rep(
+      seq_len(n_param_combinations),
+      each = n_resamples
+    )
+  ]
+  # metrics_training_by_combo_id <- aggregate(
+  #   . ~ param_combo_id,
+  #   data = metrics_training_all,
+  #   FUN = tuner_parameters[["metrics_aggregate_fn"]]
+  # )
+  metrics_training_by_combo_id <- metrics_validation_all[,
+    lapply(
+      .SD,
+      get(tuner_parameters[["metrics_aggregate_fn"]])
+    ),
+    by = param_combo_id
+  ]
+
+  # metrics_validation_by_combo_id <- aggregate(
+  #   . ~ param_combo_id,
+  #   data = metrics_validation_all,
+  #   FUN = tuner_parameters[["metrics_aggregate_fn"]]
+  # )
+  metrics_validation_by_combo_id <- metrics_validation_all[,
+    lapply(
+      .SD,
+      get(tuner_parameters[["metrics_aggregate_fn"]])
+    ),
+    by = param_combo_id
+  ]
 
   tune_results <- list(
     param_grid = param_grid,
@@ -331,7 +350,7 @@ tune_GridSearch <- function(
       if (verbosity > 1L) {
         info("Extracting best lambda from GLMNET models...")
       }
-      lambda_cv2 <- data.frame(
+      lambda_cv2 <- data.table(
         lambda = sapply(
           grid_run,
           function(x) {
@@ -341,15 +360,21 @@ tune_GridSearch <- function(
           }
         )
       )
-      lambda_cv2[["param_combo_id"]] <- rep(
-        1:n_param_combinations,
-        each = n_resamples
-      )
-      lambda_by_param_combo_id <- aggregate(
-        lambda ~ param_combo_id,
-        lambda_cv2,
-        tuner_parameters[["metrics_aggregate_fn"]]
-      )
+      lambda_cv2[,
+        param_combo_id := rep(
+          seq_len(n_param_combinations),
+          each = n_resamples
+        )
+      ]
+      # lambda_by_param_combo_id <- aggregate(
+      #   lambda ~ param_combo_id,
+      #   lambda_cv2,
+      #   tuner_parameters[["metrics_aggregate_fn"]]
+      # )
+      lambda_by_param_combo_id <- lambda_cv2[,
+        lapply(.SD, get(tuner_parameters[["metrics_aggregate_fn"]])),
+        by = param_combo_id
+      ]
       # Replace NULL lambda in tune_results$param_grid with average value of CV-squared lambda
       stopifnot(tune_results[["param_grid"]][["lambda"]] == "null")
       param_grid[["lambda"]] <- tune_results[["param_grid"]][[
@@ -364,18 +389,17 @@ tune_GridSearch <- function(
       if (verbosity > 1L) {
         info("Extracting best N of iterations from LightGBM models...")
       }
-      nrounds_cv <- data.frame(
+      nrounds_cv <- data.table(
         nrounds = sapply(grid_run, \(x) x[["hyperparameters"]][["best_iter"]])
       )
       nrounds_cv[["param_combo_id"]] <- rep(
         seq_len(n_param_combinations),
         each = n_resamples
       )
-      nrounds_by_param_combo_id <- aggregate(
-        nrounds ~ param_combo_id,
-        nrounds_cv,
-        tuner_parameters[["metrics_aggregate_fn"]]
-      )
+      nrounds_by_param_combo_id <- nrounds_cv[,
+        lapply(.SD, get(tuner_parameters[["metrics_aggregate_fn"]])),
+        by = param_combo_id
+      ]
       # Replace NULL nrounds in tune_results$param_grid with average value of Res nrounds
       stopifnot(tune_results[["param_grid"]][["nrounds"]] == "null")
       param_grid[["nrounds"]] <- tune_results[["param_grid"]][["nrounds"]] <-
