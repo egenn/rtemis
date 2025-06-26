@@ -295,6 +295,8 @@ tune_GridSearch <- function(
       function(r) unlist(r[["metrics_validation"]]@metrics[["Overall"]])
     )))
   }
+  # appease R CMD check
+  param_combo_id <- NULL
   metrics_validation_all[,
     param_combo_id := rep(
       seq_len(n_param_combinations),
