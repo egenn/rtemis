@@ -2,14 +2,14 @@
 # ::rtemis::
 # EDG rtemis.org
 
-# %% Setup
+# Setup ----
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
 # devtools::load_all()
 # library(testthat)
 library(data.table)
 
-# %% Data ----
+# Data ----
 ## Regression Data ----
 n <- 400
 x <- rnormmat(n, 5, seed = 2025)
@@ -53,8 +53,7 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 # datc3_train <- iris[resc3$Fold_1, ]
 # datc3_test <- iris[-resc3$Fold_1, ]
 
-# %% Regression ----
-
+# Regression ----
 ## GLM Regression ----
 mod_r_glm <- train(
   x = datr_train,
@@ -471,8 +470,7 @@ if (torch::torch_is_installed()) {
   })
 }
 
-# %% Binary Classification ----
-
+# Binary Classification ----
 ## GLM Classification ----
 mod_c_glm <- train(
   x = datc2_train,
@@ -556,6 +554,11 @@ mod_c_glmnet <- train(
   dat_test = datc2_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(lambda = 0.01)
+)
+mod_c_glmnet <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_GLMNET()
 )
 test_that("train() GLMNET Classification with fixed lambda succeeds", {
   expect_s7_class(mod_c_glmnet, Classification)
