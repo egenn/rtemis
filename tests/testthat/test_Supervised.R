@@ -53,6 +53,11 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 # datc3_train <- iris[resc3$Fold_1, ]
 # datc3_test <- iris[-resc3$Fold_1, ]
 
+# Utils ----
+test_that("class_imbalance() works", {
+  expect_type(class_imbalance(outcome(datc2)), "double")
+})
+
 # Regression ----
 ## GLM Regression ----
 mod_r_glm <- train(
