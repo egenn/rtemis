@@ -13,48 +13,52 @@
 #' @keywords internal
 #' @noRd
 
-rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
-  outdir <- normalizePath(outdir, mustWork = FALSE)
+rt_save <- function(object, outdir, file_prefix, print_load_info = FALSE, verbosity = 1L) {
+  # Message before expanding outdir to preserve privacy when using relative paths.
   if (verbosity > 0L) {
     start_time <- Sys.time()
-    msg2(
+    msg20(
       "Writing data to ",
       outdir,
-      "... ",
-      sep = "",
+      "...",
       caller = NA,
       newline = FALSE
     )
   }
-  if (!dir.exists(outdir))
+  outdir <- normalizePath(outdir, mustWork = FALSE)
+  if (!dir.exists(outdir)) {
     dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
-  rdsPath <- file.path(outdir, paste0(file_prefix, object@algorithm, ".rds"))
-  try(saveRDS(object, rdsPath))
-  if (verbosity > 0L) elapsed <- Sys.time() - start_time
-  if (file.exists(rdsPath)) {
+  }
+  rds_path <- file.path(outdir, paste0(file_prefix, ".rds"))
+  try(saveRDS(object, rds_path))
+  if (verbosity > 0L) {
+    elapsed <- Sys.time() - start_time
+  }
+  if (file.exists(rds_path)) {
     if (verbosity > 0L) {
-      yay("[", format(elapsed, digits = 2), "]", gray(" [rt_save]"), sep = "")
-      msg20(italic(
-        "Reload with:",
-        "> object <- readRDS('",
-        rdsPath,
-        "')",
-        sep = ""
-      ))
+      yay(format(elapsed, digits = 2), gray(" [rt_save]"), sep = "")
+      if (print_load_info) {
+        msg20(italic(
+          "Reload with:",
+          "> obj <- readRDS('",
+          rds_path,
+          "')",
+          sep = ""
+        ))
+      }
     }
   } else {
     if (verbosity > 0L) {
       nay(
-        "[Failed after ",
+        "Failed after ",
         format(elapsed, digits = 2),
-        "]",
         gray(" [rt_save]"),
         sep = ""
       )
     }
-    stop("Error: Saving model to ", outdir, " failed.")
+    cli::cli_abort("Error: Saving model to ", outdir, " failed.")
   }
-} # rtemis::rt_save
+      } # rtemis::rt_save
 
 #' Check file(s) exist
 #'
@@ -66,7 +70,9 @@ rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
 #' @keywords internal
 #' @noRd
 check_files <- function(paths, verbosity = 1L, pad = 0) {
-  if (verbosity > 0L) msg20("Checking ", singorplu(length(paths), "file"), ":")
+  if (verbosity > 0L) {
+    msg20("Checking ", singorplu(length(paths), "file"), ":")
+  }
 
   for (f in paths) {
     if (file.exists(f)) {
@@ -77,7 +83,7 @@ check_files <- function(paths, verbosity = 1L, pad = 0) {
       if (verbosity > 0L) {
         nay(paste(f, red(" not found!")), pad = pad)
       }
-      stop("File not found")
+      cli::cli_abort("File not found")
     }
   }
 } # rtemis::check_files
@@ -95,7 +101,7 @@ check_files <- function(paths, verbosity = 1L, pad = 0) {
 #' @export
 list2csv <- function(x, outdir) {
   if (!inherits(x, "list")) {
-    stop("Input must be a list")
+    cli::cli_abort("Input must be a list")
   }
 
   xname <- deparse(substitute(x))

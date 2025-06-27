@@ -35,7 +35,9 @@ present.list <- function(
   }))
 
   if (!(all_supervised || all_supervisedres)) {
-    stop("Input must be a list of Supervised or SupervisedRes objects.")
+    cli::cli_abort(
+      "Input must be a list of Supervised or SupervisedRes objects."
+    )
   }
 
   # Check all models are of the same type

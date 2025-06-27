@@ -58,6 +58,6 @@ tune <- function(
       parallel_type = parallel_type
     )
   } else {
-    stop("Unsupported tuner type: ", tuner_parameters@type)
+    cli::cli_abort("Unsupported tuner type: ", tuner_parameters@type)
   }
 } # /rtemis::tune

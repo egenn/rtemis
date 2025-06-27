@@ -67,7 +67,7 @@ train <- function(
   # Pass ... to hyperparameters setup_* fn
   # hpr_args <- list(...)
   # if (!is.null(hyperparameters) && length(hpr_args) > 0) {
-  #   stop("You can either define `hyperparameters` or pass them as additional arguments.")
+  #   cli::cli_abort("You can either define `hyperparameters` or pass them as additional arguments.")
   # }
   if (!is.null(preprocessor_parameters)) {
     check_is_S7(preprocessor_parameters, PreprocessorParameters)
@@ -110,7 +110,7 @@ train <- function(
     !is.null(algorithm) &&
       tolower(algorithm) != tolower(hyperparameters@algorithm)
   ) {
-    stop(
+    cli::cli_abort(
       "You defined algorithm to be '",
       algorithm,
       "', but defined hyperparameters for ",
@@ -127,7 +127,7 @@ train <- function(
   }
   algorithm <- get_alg_name(algorithm)
   if (!is.null(outdir)) {
-    outdir <- make_path(outdir, algorithm)
+    outdir <- make_path(outdir)
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
@@ -140,7 +140,7 @@ train <- function(
     paste0(
       outdir,
       "/",
-      "train_",
+      "train_", algorithm, "_",
       format(Sys.time(), "%Y%m%d.%H%M%S"),
       ".log"
     )
@@ -385,6 +385,7 @@ train <- function(
         se_test <- do_call(se_fn, list(model, newdata = features(dat_test)))
       }
     }
+
     # Make Supervised/Res ----
     mod <- make_Supervised(
       algorithm = algorithm,
@@ -450,6 +451,9 @@ train <- function(
     message()
     print(mod)
     message()
+  }
+  if (!is.null(outdir)) {
+    rt_save(mod, outdir = outdir, file_prefix = paste0("train_", algorithm))
   }
   outro(
     start_time,

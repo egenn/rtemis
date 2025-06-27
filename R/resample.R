@@ -237,7 +237,7 @@ kfold <- function(
   max.bins <- length(unique(stratify_var))
   if (max.bins < strat_n_bins) {
     if (max.bins == 1) {
-      stop("Only one unique value present in stratify_var.")
+      cli::cli_abort("Only one unique value present in stratify_var.")
     }
     if (verbosity > 0L) {
       msg20("Using max n bins possible = ", max.bins, ".")

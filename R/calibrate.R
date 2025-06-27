@@ -142,7 +142,7 @@ calibrate.ClassificationRes <- function(
 
   # Check IFW is FALSE
   if (!is.null(hyperparameters) && hyperparameters[["ifw"]]) {
-    stop("IFW must be FALSE for proper calibration.")
+    cli::cli_abort("IFW must be FALSE for proper calibration.")
   }
 
   # Calibration models

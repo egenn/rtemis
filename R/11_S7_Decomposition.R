@@ -32,7 +32,11 @@ method(`$`, Decomposition) <- function(x, name) {
   if (name %in% prop_names) {
     prop(x, name)
   } else {
-    stop(paste0("No property named '", name, "' in Decomposition object."))
+    cli::cli_abort(paste0(
+      "No property named '",
+      name,
+      "' in Decomposition object."
+    ))
   }
 }
 method(`.DollarNames`, Decomposition) <- function(x, pattern = "") {

@@ -386,7 +386,7 @@ explain <- function(model, x, dat_training = NULL, method = NULL) {
   explain_fn <- get_explain_fn(model@algorithm)
   # Test if a function by that name exists in the package
   if (!exists(explain_fn, envir = asNamespace("rtemis"))) {
-    stop(paste0(
+    cli::cli_abort(paste0(
       "Explain support for ",
       model@algorithm,
       " is not currently available."

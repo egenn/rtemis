@@ -83,7 +83,7 @@ igraph_layout <- function(net, layout = "mds", dims = 2) {
 #' }
 graph_node_metrics <- function(x, verbosity = 1L) {
   if (!inherits(x, "igraph")) {
-    stop("Input must be igraph object")
+    cli::cli_abort("Input must be igraph object")
   }
 
   .nodes <- as.character(igraph::V(x))
@@ -147,7 +147,7 @@ lotri2edgeList <- function(A, filename = NULL, verbosity = 1L) {
     msg2("Input dimensions are", dim.A)
   }
   if (dim.A[1] != dim.A[2]) {
-    stop("Error: Input matrix is not square.")
+    cli::cli_abort("Error: Input matrix is not square.")
   }
   n <- dim.A[1]
   l <- list()

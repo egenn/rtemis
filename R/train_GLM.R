@@ -46,7 +46,7 @@ train_GLM <- function(
   if (type == "Classification") {
     n_classes <- length(levels(outcome(x)))
     if (n_classes > 2L) {
-      stop("GLM does not support multiclass classification")
+      cli::cli_abort("GLM does not support multiclass classification")
     }
   } else {
     n_classes <- NA_integer_

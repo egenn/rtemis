@@ -127,7 +127,7 @@ merge_long_treatment <- function(
 ) {
   # Arguments ----
   if (!is.list(x)) {
-    stop("x must be a named list")
+    cli::cli_abort("x must be a named list")
   }
   n_sets <- length(x)
   if (is.null(names(x))) {
@@ -137,17 +137,22 @@ merge_long_treatment <- function(
 
   # Check there are at least 2 inputs
   if (n_sets < 2) {
-    stop("Please provide at least 2 datasets as a named list in 'x'")
+    cli::cli_abort("Please provide at least 2 datasets as a named list in 'x'")
   }
 
   # Check all inputs contain at least one of group_varname and the time_varname
   for (i in seq(x)) {
     .names <- names(x[[i]])
     if (!time_varname %in% .names) {
-      stop("dataset", .names[i], "does not include time variable", time_varname)
+      cli::cli_abort(
+        "dataset",
+        .names[i],
+        "does not include time variable",
+        time_varname
+      )
     }
     if (any(!group_varnames %in% .names)) {
-      stop(
+      cli::cli_abort(
         "Dataset",
         .names[i],
         "does not include any variable named",

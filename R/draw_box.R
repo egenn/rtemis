@@ -246,7 +246,7 @@ draw_box <- function(
   }
   nvars <- length(x)
   if (nvars > 1 && !is.null(group) && !is.null(time)) {
-    stop("Better use subplot for each variable")
+    cli::cli_abort("Better use subplot for each variable")
   }
   horizontal <- orientation == "h"
 
@@ -256,7 +256,7 @@ draw_box <- function(
     } else if (x_transform == "minmax") {
       x <- lapply(x, drange)
     } else {
-      stop("Unsupported x_transform specified")
+      cli::cli_abort("Unsupported x_transform specified")
     }
   }
 

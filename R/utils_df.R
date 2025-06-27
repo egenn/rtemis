@@ -174,12 +174,16 @@ uniquevalsperfeat <- function(x, excludeNA = FALSE) {
 #' mtcars_hp <- df_movecolumn(mtcars, "hp")
 #' }
 df_movecolumn <- function(x, from, to = ncol(x)) {
-  if (!is.data.frame(x)) stop("Input must be data frame")
+  if (!is.data.frame(x)) {
+    cli::cli_abort("Input must be data frame")
+  }
 
   if (is.character(from)) {
     from_name <- from
     from <- grep(from, colnames(x))
-    if (length(from) == 0) stop("Did not find \"", from, "\" in input")
+    if (length(from) == 0) {
+      cli::cli_abort("Did not find \"", from, "\" in input")
+    }
   } else {
     from_name <- colnames(x)[from]
   }
@@ -207,7 +211,9 @@ df_movecolumn <- function(x, from, to = ncol(x)) {
 #' @author EDG
 #' @export
 vec2df <- function(x, col_names = NULL) {
-  if (!is.vector(x)) stop("Input must be a vector")
+  if (!is.vector(x)) {
+    cli::cli_abort("Input must be a vector")
+  }
   if (!is.null(col_names)) {
     names(x) <- col_names
   }

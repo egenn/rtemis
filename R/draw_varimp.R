@@ -110,7 +110,7 @@ draw_varimp <- function(
 
   # Data ----
   if (NCOL(x) > 1 && NROW(x) > 1) {
-    stop("x must be a vector or single row or column")
+    cli::cli_abort("x must be a vector or single row or column")
   }
 
   ## Names ----
