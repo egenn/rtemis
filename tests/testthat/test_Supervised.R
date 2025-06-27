@@ -870,12 +870,17 @@ test_that("plot_varimp RegressionRes creates a plotly object", {
 })
 
 # Save model using outdir ----
-mod_r_glm <- train(
-  x = datr_train,
-  dat_test = datr_test,
-  algorithm = "glm",
-  outdir = "./__out/mod_r_glm"
-)
 test_that("train saves model to rds successfully", {
-  expect_true(file.exists("./__out/mod_r_glm/train_GLM.rds"))
+  temp_dir <- withr::local_tempdir()
+  outdir <- file.path(temp_dir, "mod_r_glm")
+  
+  mod_r_glm <- train(
+    x = datr_train,
+    dat_test = datr_test,
+    algorithm = "glm",
+    outdir = outdir
+  )
+  
+  expect_true(file.exists(file.path(outdir, "train_GLM.rds")))
+  withr::deferred_run()
 })
