@@ -13,7 +13,7 @@
 #' @keywords internal
 #' @noRd
 
-rt_save <- function(object, outdir, file_prefix = NULL, print_load_info = FALSE, verbosity = 1L) {
+rt_save <- function(object, outdir, file_prefix, print_load_info = FALSE, verbosity = 1L) {
   # Message before expanding outdir to preserve privacy when using relative paths.
   if (verbosity > 0L) {
     start_time <- Sys.time()
