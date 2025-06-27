@@ -13,51 +13,52 @@
 #' @keywords internal
 #' @noRd
 
-rt_save <- function(object, outdir, file_prefix = "s_", verbosity = 1L) {
-  outdir <- normalizePath(outdir, mustWork = FALSE)
+rt_save <- function(object, outdir, file_prefix = NULL, print_load_info = FALSE, verbosity = 1L) {
+  # Message before expanding outdir to preserve privacy when using relative paths.
   if (verbosity > 0L) {
     start_time <- Sys.time()
-    msg2(
+    msg20(
       "Writing data to ",
       outdir,
-      "... ",
-      sep = "",
+      "...",
       caller = NA,
       newline = FALSE
     )
   }
+  outdir <- normalizePath(outdir, mustWork = FALSE)
   if (!dir.exists(outdir)) {
     dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
   }
-  rdsPath <- file.path(outdir, paste0(file_prefix, object@algorithm, ".rds"))
-  try(saveRDS(object, rdsPath))
+  rds_path <- file.path(outdir, paste0(file_prefix, ".rds"))
+  try(saveRDS(object, rds_path))
   if (verbosity > 0L) {
     elapsed <- Sys.time() - start_time
   }
-  if (file.exists(rdsPath)) {
+  if (file.exists(rds_path)) {
     if (verbosity > 0L) {
-      yay("[", format(elapsed, digits = 2), "]", gray(" [rt_save]"), sep = "")
-      msg20(italic(
-        "Reload with:",
-        "> object <- readRDS('",
-        rdsPath,
-        "')",
-        sep = ""
-      ))
+      yay(format(elapsed, digits = 2), gray(" [rt_save]"), sep = "")
+      if (print_load_info) {
+        msg20(italic(
+          "Reload with:",
+          "> obj <- readRDS('",
+          rds_path,
+          "')",
+          sep = ""
+        ))
+      }
     }
   } else {
     if (verbosity > 0L) {
       nay(
-        "[Failed after ",
+        "Failed after ",
         format(elapsed, digits = 2),
-        "]",
         gray(" [rt_save]"),
         sep = ""
       )
     }
     cli::cli_abort("Error: Saving model to ", outdir, " failed.")
   }
-} # rtemis::rt_save
+      } # rtemis::rt_save
 
 #' Check file(s) exist
 #'
