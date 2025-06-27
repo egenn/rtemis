@@ -882,5 +882,4 @@ test_that("train saves model to rds successfully", {
   )
   
   expect_true(file.exists(file.path(outdir, "train_GLM.rds")))
-  withr::deferred_run()
 })
