@@ -868,3 +868,14 @@ test_that("plot_varimp RegressionRes creates a plotly object", {
   p <- plot_varimp(resmod_r_cart)
   expect_s3_class(p, "plotly")
 })
+
+# Save model using outdir ----
+mod_r_glm <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  algorithm = "glm",
+  outdir = "./__out/mod_r_glm"
+)
+test_that("train saves model to rds successfully", {
+  expect_true(file.exists("./__out/mod_r_glm/train_GLM.rds"))
+})
