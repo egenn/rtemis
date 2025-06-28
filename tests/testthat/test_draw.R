@@ -220,5 +220,16 @@ test_that("draw_varimp creates a plotly object", {
   p <- draw_varimp(x)
   expect_s3_class(p, "plotly")
   p_h <- draw_varimp(x, orientation = "h")
-  expect_s3_class(p_v, "plotly")
+  expect_s3_class(p_h, "plotly")
 })
+
+# draw_volcano ----
+test_that("draw_volcano creates a plotly object", {
+  set.seed(2019)
+  x <- rnorm(100, mean = 0.5, sd = 2)
+  pvals <- runif(100, min = 0, max = 0.1)
+  p <- draw_volcano(x, pvals)
+  expect_s3_class(p, "plotly")
+})
+
+# draw_xt ----

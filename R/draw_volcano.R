@@ -119,9 +119,9 @@ draw_volcano <- function(
   hline_dash = "solid",
   hline_annotate = NULL,
   hline_annotation_x = 1,
+  theme = choose_theme(),
   annotate = TRUE,
   annotate_col = theme[["labs_col"]],
-  theme = choose_theme(),
   font_size = 16,
   palette = NULL,
   legend_x_lo = NULL,
@@ -164,10 +164,6 @@ draw_volcano <- function(
   p_transformed <- p_transform(p_adjusted)
   if (is.null(xlab)) {
     xlab <- labelify(xname)
-  }
-
-  if (is.null(ylab)) {
-    ylab <- paste(ddSci(p_transform), "p-value")
   }
 
   # Default to lo - ns - hi groups

@@ -101,6 +101,9 @@
 #'
 #' @author EDG
 #' @export
+#' @examples
+#' \dontrun{
+#'
 draw_xt <- function(
   x,
   y = NULL,
