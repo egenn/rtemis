@@ -233,3 +233,17 @@ test_that("draw_volcano creates a plotly object", {
 })
 
 # draw_xt ----
+test_that("draw_xt creates a plotly object", {
+  datetime <- seq(
+    as.POSIXct("2020-01-01 00:00"),
+    as.POSIXct("2020-01-02 00:00"),
+    by = "hour"
+  )
+  df <- data.frame(
+    datetime = datetime,
+    value1 = rnorm(length(datetime)),
+    value2 = rnorm(length(datetime))
+  )
+  p <- draw_xt(df, x = df[, 1], y = df[, 2:3])
+  expect_s3_class(p, "plotly")
+})
