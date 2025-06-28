@@ -41,7 +41,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' draw_pie(VADeaths[, 1, drop = F])
+#' draw_pie(VADeaths[, 1, drop = FALSE])
 #' }
 draw_pie <- function(
   x,

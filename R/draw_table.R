@@ -29,6 +29,19 @@
 #'
 #' @author EDG
 #' @export
+#' @examples
+#' \dontrun{
+#'  df <- data.frame(
+#'    Name = c("Alice", "Bob", "Charlie"),
+#'    Age = c(25, 30, 35),
+#'    Score = c(90.5, 85.0, 88.0)
+#' )
+#' p <- draw_table(
+#'   df,
+#'   main = "Sample Table",
+#'   main_col = "#00b2b2"
+#' )
+#' }
 
 draw_table <- function(
   x,

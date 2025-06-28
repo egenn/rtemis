@@ -68,7 +68,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' draw_3Dscatter(iris, group = iris$Species, theme = theme_blackigrid())
+#' draw_3Dscatter(iris, group = iris$Species, theme = theme_darkgraygrid())
 #' }
 draw_3Dscatter <- function(
   x,
@@ -134,20 +134,33 @@ draw_3Dscatter <- function(
     y <- x[, 2]
     z <- x[, 3]
     x <- x[, 1]
-    if (is.null(xlab)) xlab <- .colnames[1]
-    if (is.null(ylab)) ylab <- .colnames[2]
+    if (is.null(xlab)) {
+      xlab <- .colnames[1]
+    }
+    if (is.null(ylab)) {
+      ylab <- .colnames[2]
+    }
     if (is.null(zlab)) zlab <- .colnames[3]
   }
-  if (!is.null(main)) main <- paste0("<b>", main, "</b>")
-  if (!is.null(fit)) if (fit == "none") fit <- NULL # easier to work with shiny
-  if (!is.null(fit)) fit <- toupper(fit)
+  if (!is.null(main)) {
+    main <- paste0("<b>", main, "</b>")
+  }
+  if (!is.null(fit)) {
+    if (fit == "none") fit <- NULL
+  } # easier to work with shiny
+  if (!is.null(fit)) {
+    fit <- toupper(fit)
+  }
   .mode <- mode
   .names <- group_names
 
   # order_on_x ----
   if (is.null(order_on_x)) {
-    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) TRUE else
+    order_on_x <- if (!is.null(fit) || any(grepl("lines", mode))) {
+      TRUE
+    } else {
       FALSE
+    }
   }
 
   # Cluster ----
@@ -169,16 +182,25 @@ draw_3Dscatter <- function(
   # xlab, ylab ----
   # The gsubs remove all text up to and including a "$" symbol if present
   if (is.null(xlab)) {
-    if (is.list(x)) xlab <- "x" else
+    if (is.list(x)) {
+      xlab <- "x"
+    } else {
       xlab <- labelify(gsub(".*\\$", "", deparse(substitute(x))))
+    }
   }
   if (!is.null(y) && is.null(ylab)) {
-    if (is.list(y)) ylab <- "y" else
+    if (is.list(y)) {
+      ylab <- "y"
+    } else {
       ylab <- labelify(gsub(".*\\$", "", deparse(substitute(y))))
+    }
   }
   if (!is.null(z) && is.null(zlab)) {
-    if (is.list(z)) zlab <- "z" else
+    if (is.list(z)) {
+      zlab <- "z"
+    } else {
       zlab <- labelify(gsub(".*\\$", "", deparse(substitute(z))))
+    }
   }
 
   # '- Group ----
@@ -187,7 +209,9 @@ draw_3Dscatter <- function(
     x <- split(x, group, drop = TRUE)
     y <- split(y, group, drop = TRUE)
     z <- split(z, group, drop = TRUE)
-    if (is.null(group_names)) group_names <- levels(droplevels(group))
+    if (is.null(group_names)) {
+      group_names <- levels(droplevels(group))
+    }
     names(x) <- names(y) <- names(z) <- .names <- group_names
   }
 
@@ -223,8 +247,9 @@ draw_3Dscatter <- function(
   # legend <- if (is.null(legend) & n_groups == 1 & is.null(fit)) FALSE else TRUE
   legend <- if (is.null(legend) && n_groups == 1) FALSE else TRUE
 
-  if (length(.mode) < n_groups)
+  if (length(.mode) < n_groups) {
     .mode <- c(.mode, rep(tail(.mode)[1], n_groups - length(.mode)))
+  }
 
   # if (is.null(legend)) legend <- n_groups > 1
   if (is.null(.names)) {
@@ -254,9 +279,15 @@ draw_3Dscatter <- function(
   # }
 
   # Colors ----
-  if (is.character(palette)) palette <- rtpalette(palette)
-  if (is.null(col)) col <- palette[seq_len(n_groups)]
-  if (length(col) < n_groups) col <- rep(col, n_groups / length(col))
+  if (is.character(palette)) {
+    palette <- rtpalette(palette)
+  }
+  if (is.null(col)) {
+    col <- palette[seq_len(n_groups)]
+  }
+  if (length(col) < n_groups) {
+    col <- rep(col, n_groups / length(col))
+  }
 
   # Convert inputs to RGB
   spike_col <- plotly::toRGB(spike_col)
@@ -272,12 +303,17 @@ draw_3Dscatter <- function(
   tick_col <- plotly::toRGB(theme[["tick_col"]])
   labs_col <- plotly::toRGB(theme[["labs_col"]])
   main_col <- plotly::toRGB(theme[["main_col"]])
-  if (!theme[["axes_visible"]]) tick_col <- labs_col <- "transparent"
+  if (!theme[["axes_visible"]]) {
+    tick_col <- labs_col <- "transparent"
+  }
 
   # marker_col, se_col ----
   if (is.null(marker_col)) {
-    marker_col <- if (!is.null(fit) && n_groups == 1)
-      as.list(rep(theme[["fg"]], n_groups)) else col
+    marker_col <- if (!is.null(fit) && n_groups == 1) {
+      as.list(rep(theme[["fg"]], n_groups))
+    } else {
+      col
+    }
   }
 
   if (!is.null(fit)) {
@@ -285,7 +321,9 @@ draw_3Dscatter <- function(
   }
 
   # Derived
-  if (is.null(legend_col)) legend_col <- labs_col
+  if (is.null(legend_col)) {
+    legend_col <- labs_col
+  }
 
   # Size ----
   if (axes_square) {
@@ -294,8 +332,16 @@ draw_3Dscatter <- function(
 
   # fitted & se_fit ----
   # If plotting se bands, need to include (fitted +/- se.times * se) in the axis limits
-  if (se_fit) se <- list() else se <- NULL
-  if (rsq) .rsq <- list() else .rsq <- NULL
+  if (se_fit) {
+    se <- list()
+  } else {
+    se <- NULL
+  }
+  if (rsq) {
+    .rsq <- list()
+  } else {
+    .rsq <- NULL
+  }
   if (!is.null(fit)) {
     # learner <- get_train_fn(fit)
     fitted <- list()
@@ -309,7 +355,9 @@ draw_3Dscatter <- function(
         verbosity = verbosity
       )
       fitted[[i]] <- fitted(mod)
-      if (se_fit) se[[i]] <- se(mod)
+      if (se_fit) {
+        se[[i]] <- se(mod)
+      }
       fitted_text[i] <- fit
       if (rsq) {
         fitted_text[i] <- paste0(
@@ -352,8 +400,11 @@ draw_3Dscatter <- function(
       # hoverinfo = "text",
       # marker = if (grepl("markers", .mode[i])) list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
       marker = marker,
-      line = if (grepl("lines", .mode[i]))
-        list(color = plotly::toRGB(marker_col[[i]], alpha = alpha)) else NULL,
+      line = if (grepl("lines", .mode[i])) {
+        list(color = plotly::toRGB(marker_col[[i]], alpha = alpha))
+      } else {
+        NULL
+      },
       legendgroup = if (n_groups > 1) .names[i] else "Raw",
       showlegend = legend
     )

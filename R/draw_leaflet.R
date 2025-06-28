@@ -60,9 +60,9 @@ draw_leaflet <- function(
   weight = .5,
   color = "black",
   alpha = 1,
-  bg_tile_provider = leaflet::providers[["Stamen.TonerBackground"]],
+  bg_tile_provider = leaflet::providers[["CartoDB.Positron"]],
   bg_tile_alpha = .67,
-  fg_tile_provider = leaflet::providers[["Stamen.TonerLabels"]],
+  fg_tile_provider = leaflet::providers[["CartoDB.PositronOnlyLabels"]],
   legend_position = c(
     "topright",
     "bottomright",
@@ -103,7 +103,11 @@ draw_leaflet <- function(
         package = "rtemis"
       )
     )
-    fips <- if (is.character(fips)) fips else sprintf("%02d", fips)
+    fips <- if (is.character(fips)) {
+      fips
+    } else {
+      sprintf("%02d", fips)
+    }
   } else {
     geo <- readRDS(
       system.file(
@@ -112,7 +116,11 @@ draw_leaflet <- function(
         package = "rtemis"
       )
     )
-    fips <- if (is.character(fips)) fips else sprintf("%05d", fips)
+    fips <- if (is.character(fips)) {
+      fips
+    } else {
+      sprintf("%05d", fips)
+    }
   }
 
   # Match input county-level data
