@@ -869,17 +869,32 @@ test_that("plot_varimp RegressionRes creates a plotly object", {
   expect_s3_class(p, "plotly")
 })
 
-# Save model using outdir ----
+# Write Supervised to outdir ----
 test_that("train saves model to rds successfully", {
   temp_dir <- withr::local_tempdir()
   outdir <- file.path(temp_dir, "mod_r_glm")
-  
+
   mod_r_glm <- train(
     x = datr_train,
     dat_test = datr_test,
     algorithm = "glm",
     outdir = outdir
   )
-  
+
+  expect_true(file.exists(file.path(outdir, "train_GLM.rds")))
+})
+
+# Write SupervisedRes to outdir ----
+test_that("train saves SupervisedRes model to rds successfully", {
+  temp_dir <- withr::local_tempdir()
+  outdir <- file.path(temp_dir, "resmod_r_glm")
+
+  resmod_r_glm <- train(
+    x = datr,
+    algorithm = "glm",
+    outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold"),
+    outdir = outdir
+  )
+
   expect_true(file.exists(file.path(outdir, "train_GLM.rds")))
 })

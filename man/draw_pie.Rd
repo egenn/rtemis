@@ -94,7 +94,7 @@ Draw interactive pie charts using \code{plotly}.
 }
 \examples{
 \dontrun{
-draw_pie(VADeaths[, 1, drop = F])
+draw_pie(VADeaths[, 1, drop = FALSE])
 }
 }
 \author{

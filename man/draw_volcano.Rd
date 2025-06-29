@@ -32,9 +32,9 @@ draw_volcano(
   hline_dash = "solid",
   hline_annotate = NULL,
   hline_annotation_x = 1,
+  theme = choose_theme(),
   annotate = TRUE,
   annotate_col = theme[["labs_col"]],
-  theme = choose_theme(),
   font_size = 16,
   palette = NULL,
   legend_x_lo = NULL,
@@ -121,11 +121,11 @@ Default = \code{list(b = 65, l = 65, t = 50, r = 10, pad = 0)}.}
 \item{hline_annotation_x}{Numeric: x position to place annotation with paper
 as reference. 0: to the left of the plot area; 1: to the right of the plot area.}
 
+\item{theme}{Theme object.}
+
 \item{annotate}{Logical: If TRUE, annotate significant points.}
 
 \item{annotate_col}{Color for annotations.}
-
-\item{theme}{Theme object.}
 
 \item{font_size}{Integer: Font size.}
 

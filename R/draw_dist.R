@@ -72,8 +72,9 @@
 #' @export
 #' @examples
 #' \dontrun{
+#' # Will automatically use only numeric columns
 #' draw_dist(iris)
-#' draw_dist(split(iris[["Sepal.Length"]], iris[["Species"]]), xlab = "Sepal Length")
+#' draw_dist(iris[["Sepal.Length"]], group = iris[["Species"]])
 #' }
 #'
 draw_dist <- function(
@@ -160,6 +161,12 @@ draw_dist <- function(
       group <- as.factor(group)
     }
     x <- as.data.frame(x)
+    # Can't have multiple vectors in `x` and `group`
+    if (length(x) > 1 && !is.null(group)) {
+      cli::cli_abort(
+        "Can't have both multiple vectors in `x` and `group` defined."
+      )
+    }
     x <- split(x, group)
     x <- sapply(x, as.vector)
     if (is.null(group_names)) {

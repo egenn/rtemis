@@ -45,7 +45,7 @@
 #' x <- rnorm(10)
 #' names(x) <- paste0("Feature_", seq(x))
 #' draw_varimp(x)
-#' draw_varimp(x, orientation = "v")
+#' draw_varimp(x, orientation = "h")
 #' }
 draw_varimp <- function(
   x,

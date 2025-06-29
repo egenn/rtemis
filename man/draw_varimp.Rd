@@ -92,7 +92,7 @@ which can be used to visualize variable importance, model coefficients, etc.
 x <- rnorm(10)
 names(x) <- paste0("Feature_", seq(x))
 draw_varimp(x)
-draw_varimp(x, orientation = "v")
+draw_varimp(x, orientation = "h")
 }
 }
 \author{
