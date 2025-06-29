@@ -150,6 +150,19 @@ Draw interactive spectrograms using \code{plotly}
 To set custom colors, use a minimum of \code{lo} and \code{hi}, optionally also
 \code{lomid}, \code{mid}, \code{midhi} colors and set \code{colorscale = NULL}.
 }
+\examples{
+\dontrun{
+# Example data
+time <- seq(0, 10, length.out = 100)
+freq <- seq(1, 100, length.out = 100)
+power <- outer(time, freq, function(t, f) sin(t) * cos(f))
+draw_spectrogram(
+  x = time,
+  y = freq,
+  z = power
+)
+}
+}
 \author{
 EDG
 }

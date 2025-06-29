@@ -184,8 +184,9 @@ If input is data.frame, non-numeric variables will be removed.
 }
 \examples{
 \dontrun{
+# Will automatically use only numeric columns
 draw_dist(iris)
-draw_dist(split(iris[["Sepal.Length"]], iris[["Species"]]), xlab = "Sepal Length")
+draw_dist(iris[["Sepal.Length"]], group = iris[["Species"]])
 }
 
 }

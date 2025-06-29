@@ -64,6 +64,20 @@ row names.}
 \description{
 Draw an html table using \code{plotly}
 }
+\examples{
+\dontrun{
+ df <- data.frame(
+   Name = c("Alice", "Bob", "Charlie"),
+   Age = c(25, 30, 35),
+   Score = c(90.5, 85.0, 88.0)
+)
+p <- draw_table(
+  df,
+  main = "Sample Table",
+  main_col = "#00b2b2"
+)
+}
+}
 \author{
 EDG
 }
