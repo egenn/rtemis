@@ -441,7 +441,7 @@ classification_metrics <- function(
   if (length(predicted_prob) > length(true_labels)) {
     predicted_prob <- NULL
   }
-  n_classes <- length(levels(true_labels))
+  n_classes <- nlevels(true_labels)
 
   # Check same levels in
   if (!all(levels(true_labels) == levels(predicted_labels))) {

@@ -44,7 +44,7 @@ train_GAM <- function(
 
   type <- supervised_type(x)
   n_classes <- if (type == "Classification") {
-    length(levels(x[, ncol(x)]))
+    nlevels(x[, ncol(x)])
   } else {
     NA
   }

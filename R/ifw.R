@@ -40,7 +40,7 @@ ifw <- function(y, type = c("case_weights", "class_weights"), verbosity = 1L) {
 
   if (type == "class_weights") {
     out <- class_weights
-    stopifnot(length(out) == length(levels(y)))
+    stopifnot(length(out) == nlevels(y))
   } else {
     out <- class_weights[as.integer(y)]
     stopifnot(length(out) == length(y))

@@ -53,7 +53,7 @@ train_LightGBM <- function(
   type <- supervised_type(x)
   ## Objective ----
   if (type == "Classification") {
-    nclasses <- length(levels(outcome(x)))
+    nclasses <- nlevels(outcome(x))
   } else {
     nclasses <- NA
   }

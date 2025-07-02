@@ -270,7 +270,7 @@ class_imbalance <- function(x) {
   if (!is.factor(x)) {
     cli::cli_abort("Input must be a factor")
   }
-  K <- length(levels(x))
+  K <- nlevels(x)
   N <- length(x)
   freq <- as.data.frame(table(x))
 
