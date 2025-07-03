@@ -526,7 +526,7 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
     # Get index of numeric features
     numeric_index <- which(sapply(x, is.numeric))
     sc <- if (parameters@scale) "Scaling" else NULL
-    ce <- if (parameters@center) "Centering" else NULL
+    ce <- if (parameters@center) "centering" else NULL
     if (length(numeric_index) > 0) {
       if (verbosity > 0L) {
         msg2(
@@ -648,7 +648,7 @@ method(preprocess, list(class_data.frame, PreprocessorParameters)) <- function(
     data.table::setDT(x)
   }
   if (verbosity > 0L) {
-    msg2("Preprocessing completed.")
+    msg2("Preprocessing done.")
   }
 
   preprocessed <- list(training = x)

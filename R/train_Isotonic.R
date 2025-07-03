@@ -52,7 +52,7 @@ train_Isotonic <- function(
 
   type <- supervised_type(x)
   if (type == "Classification") {
-    n_classes <- length(levels(outcome(x)))
+    n_classes <- nlevels(outcome(x))
     if (n_classes > 2L) {
       cli::cli_abort("Isotonic does not support multiclass classification")
     }

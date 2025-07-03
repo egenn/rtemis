@@ -47,7 +47,7 @@ train_SVM <- function(
 
   type <- supervised_type(x)
   n_classes <- if (type == "Classification") {
-    length(levels(outcome(x)))
+    nlevels(outcome(x))
   } else {
     NA
   }

@@ -71,8 +71,8 @@ check_data <- function(
   # index_gt2levels_nonordered <- which(
   #     sapply(
   #         x[, setdiff(index_factor, index_ordered), drop = FALSE],
-  #         \(x) length(levels(x))
-  #     ) > 2
+  #         \(x) nlevels(x) > 2
+  #     )
   # )
   # n_gt2levels_nonordered <- length(index_gt2levels_nonordered)
 

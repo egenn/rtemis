@@ -286,7 +286,11 @@ draw_box <- function(
   if (!is.null(group)) {
     group <- factor(group)
   }
-  n.groups <- if (is.null(group)) length(x) else length(levels(group))
+  n.groups <- if (is.null(group)) {
+    length(x)
+  } else {
+    nlevels(group)
+  }
   if (n.groups == 1) {
     htest <- "none"
   }

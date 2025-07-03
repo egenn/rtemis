@@ -140,7 +140,9 @@ train <- function(
     paste0(
       outdir,
       "/",
-      "train_", algorithm, "_",
+      "train_",
+      algorithm,
+      "_",
       format(Sys.time(), "%Y%m%d.%H%M%S"),
       ".log"
     )
@@ -150,7 +152,7 @@ train <- function(
   start_time <- intro(verbosity = verbosity, log_file = log_file)
 
   # Parallelization ----
-  # 3 potential points of parallelization from innermost to outermost: algorithm, tuning, CV.
+  # 3 potential points of parallelization from innermost to outermost: algorithm, tuning (inner resampling), outer resampling.
 
   # Init ----
   tuner <- NULL

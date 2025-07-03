@@ -36,7 +36,7 @@ train_LightCART <- function(
   )
   type <- supervised_type(x)
   if (type == "Classification") {
-    nclasses <- length(levels(outcome(x)))
+    nclasses <- nlevels(outcome(x))
   } else {
     nclasses <- NA
   }

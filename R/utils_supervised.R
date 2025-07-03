@@ -122,7 +122,7 @@ make_formula <- function(x, output = "character") {
 #'
 #' @param x list of [glm] models
 #' @param xnames Character, vector: names of models
-#' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
+#' @param include_anova Integer vector {1, 3}: Output ANOVA I and/or III p-vals. NA to not.
 #' @param warn Logical: If TRUE, warn when values < than machine eps are replaced by
 #' machine eps
 #'
@@ -132,16 +132,16 @@ make_formula <- function(x, output = "character") {
 #' @keywords internal
 #' @noRd
 
-glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
+glm2table <- function(x, xnames = NULL, include_anova = NA, info = TRUE) {
   if (is.null(xnames)) {
     xnames <- if (!is.null(names(x))) {
       names(x)
     } else {
-      paste0("Model_", seq_along(x))
+      paste0("Variable_", seq_along(x))
     }
   }
 
-  if (!is.na(include_anova_pvals)) {
+  if (!is.na(include_anova)) {
     check_dependencies("car")
   }
 
@@ -152,38 +152,38 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
       c(lapply(x, function(l) {
         out <- t(coef(summary(l))[-1, , drop = FALSE])
         varnames <- gsub(".*\\$", "", colnames(out))
-        parnames <- c("Coefficient", "SE", "t_value", "p_value")
+        parnames <- c("Coefficient_", "SE_", "t_value_", "p_value_")
         out <- c(out)
-        names(out) <- c(outer(parnames, varnames, paste))
+        names(out) <- c(outer(parnames, varnames, paste0))
         out
       }))
     )
   )
 
   # Convert p-vals equal to 0 to machine double eps
-  eps <- .Machine[["double.eps"]]
-  pvals_idi <- getnames(out, ends_with = "p_value")
-  # appease R CMD check:, use with = FALSE, not ..i
-  for (i in pvals_idi) {
-    lteps <- out[, i, with = FALSE] < eps
-    if (length(lteps) > 0) {
-      if (warn) {
-        warning("Values < machine double eps converted to double eps")
-      }
-      out[, i, with = FALSE][lteps] <- eps
-    }
-  }
+  # eps <- .Machine[["double.eps"]]
+  # pvals_idc <- getnames(out, starts_with = "p_value")
+  # # appease R CMD check:, use with = FALSE, not ..i
+  # for (i in pvals_idc) {
+  #   lteps <- out[, i, with = FALSE] < eps
+  #   if (length(lteps) > 0) {
+  #     if (info) {
+  #       cli::cli_inform("Values < machine double eps converted to double eps")
+  #     }
+  #     out[, i, with = FALSE][lteps] <- eps
+  #   }
+  # }
 
-  if (1 %in% include_anova_pvals) {
+  if (1 %in% include_anova) {
     pvals2 <- t(sapply(x, \(i) car::Anova(i, type = 2)[, 3]))
     colnames(pvals2) <- paste(
       "p_value type II",
       x[[1]] |> terms() |> attr("term.labels")
     )
-    out <- c(out, pvals2)
+    out <- cbind(out, pvals2)
   }
 
-  if (3 %in% include_anova_pvals) {
+  if (3 %in% include_anova) {
     pvals3 <- t(sapply(x, \(i) car::Anova(i, type = 3)[, 3]))
     colnames(pvals3) <- paste(
       "p_value type III",
@@ -201,12 +201,13 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, warn = TRUE) {
 #'
 #' @param x list of [mgcv::gam] models
 #' @param xnames Character, vector: names of models
-#' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
+#' @param include_anova Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #'
 #' @return `data.table` with glm summaries
+#' @author EDG
+#'
 #' @keywords internal
 #' @noRd
-#' @author EDG
 
 gam2table <- function(mods, modnames = NULL) {
   if (is.null(modnames)) {
@@ -270,7 +271,7 @@ class_imbalance <- function(x) {
   if (!is.factor(x)) {
     cli::cli_abort("Input must be a factor")
   }
-  K <- length(levels(x))
+  K <- nlevels(x)
   N <- length(x)
   freq <- as.data.frame(table(x))
 
@@ -289,7 +290,11 @@ class_imbalance <- function(x) {
 #' @param ... Not used.
 #'
 #' @method predict nullmod
-#' @export
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
 
 predict.nullmod <- function(object, newdata = NULL, ...) {
   if (!is.null(object[["fitted"]])) object[["fitted"]] else 0

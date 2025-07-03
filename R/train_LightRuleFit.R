@@ -36,7 +36,7 @@ train_LightRuleFit <- function(
     verbosity = verbosity
   )
   type <- supervised_type(x)
-  nclasses <- if (type == "Classification") length(levels(x[[ncol(x)]])) else -1
+  nclasses <- if (type == "Classification") nlevels(x[[ncol(x)]]) else -1
 
   # IFW for LightGBM ----
   # You can choose to use IFW for both steps with `ifw = TRUE` OR control each steps individually using `ifw_lightgbm` and `ifw_glmnet`.
