@@ -1,0 +1,141 @@
+# massGLM.R
+# ::rtemis::
+# 2021- EDG rtemis.org
+
+#' Mass-univariate GLM Analysis
+#'
+#' @param x data.frame or similar: Predictor variables
+#' @param y data.frame or similar: Each column is a different outcome. The function will train one
+#' GLM for each column of `y`.
+#' @param scale_y Logical: If TRUE, scale each column of `y` to have mean 0 and sd 1.
+#' @param save_mods Logical: If TRUE, save the individual GLM models. This can take a lot of memory
+#' if `y` is high-dimensional.
+# @param include_anova Logical: If TRUE, include ANOVA results in the summary.
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @return `MassGLM` object.
+#'
+#' @author EDG
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # x: outcome of interest as first column, optional covariates in the other columns
+#' # y: features whose association with x we want to study
+#' set.seed(2022)
+#' y <- data.table(rnormmat(500, 40))
+#' x <- data.table(
+#'   x1 = y[[3]] - y[[5]] + y[[14]] + rnorm(500),
+#'   x2 = y[[21]] + rnorm(500)
+#' )
+#' massmod <- massGLM(x, y)
+#' plot(massmod)
+#' plot(massmod, what = "coef")
+#' plot(massmod, what = "volcano")
+#' }
+massGLM <- function(
+  x,
+  y,
+  scale_y = NULL,
+  center_y = NULL,
+  # include_anova = TRUE,
+  verbosity = 1L
+) {
+  # Dependencies ----
+  check_dependencies("progressr")
+
+  start_time <- intro(verbosity = verbosity)
+
+  # Check y ----
+  # all y columns must be numeric or all factors with 2 levels
+  y_class <- sapply(y, class)
+  if (y_class[1] == "numeric") {
+    # Check all are numeric
+    if (!all(y_class == "numeric")) {
+      cli::cli_abort(
+        "All columns of y must be the same type: either numeric or factors with 2 levels"
+      )
+    }
+    .family <- "gaussian"
+  } else if (y_class[1] == "factor") {
+    n_levels <- sapply(y, nlevels)
+    if (!all(n_levels == 2)) {
+      cli::cli_abort("All factor columns of y must have 2 levels")
+    }
+    .family <- "binomial"
+  } else {
+    cli::cli_abort(
+      "All columns of y must be either numeric or factors with 2 levels. Found: {.val {y_class}}"
+    )
+  }
+
+  # Preprocessing ----
+  if (is.null(scale_y)) {
+    scale_y <- if (y_class[1] == "numeric") {
+      TRUE
+    } else {
+      FALSE
+    }
+  }
+  if (is.null(center_y)) {
+    center_y <- if (scale_y) {
+      TRUE
+    } else {
+      FALSE
+    }
+  }
+  if (scale_y || center_y) {
+    y <- preprocess(
+      y,
+      parameters = setup_Preprocessor(scale = scale_y, center = center_y),
+      verbosity = verbosity
+    )[["preprocessed"]]
+  }
+
+  # Data ----
+  xnames <- colnames(x)
+  ynames <- colnames(y)
+  dat <- data.table(x, y)
+
+  # fit1: Loop function ----
+  p <- progressr::progressor(along = seq_along(y))
+  fit1 <- function(index, dat, family, ynames) {
+    formula1 <- as.formula(paste(
+      ynames[index],
+      "~",
+      paste(xnames, collapse = " + ")
+    ))
+    mod1 <- glm(formula1, family = family, data = dat)
+    p()
+    glm2table(list(mod1), xnames = ynames[index], include_anova = NA)
+  }
+
+  # Fit models ----
+  if (verbosity > 0L) {
+    msg2(
+      "Fitting",
+      hilite(length(ynames)),
+      "GLMs of family",
+      bold(.family),
+      "with",
+      hilite(length(xnames)),
+      "predictors each..."
+    )
+  }
+  tbls <- lapply(
+    seq_along(y),
+    function(i) {
+      fit1(index = i, dat = dat, family = .family, ynames = ynames)
+    }
+  )
+  tbl <- rbindlist(tbls)
+
+  # MassGLM ----
+  outro(start_time)
+  MassGLM(
+    summary = tbl,
+    xnames = xnames,
+    ynames = ynames,
+    family = .family
+  )
+} # rtemis::massGLM
