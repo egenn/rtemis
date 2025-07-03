@@ -123,7 +123,7 @@ make_formula <- function(x, output = "character") {
 #' @param x list of [glm] models
 #' @param xnames Character, vector: names of models
 #' @param include_anova Integer vector {1, 3}: Output ANOVA I and/or III p-vals. NA to not.
-#' @param warn Logical: If TRUE, warn when values < than machine eps are replaced by
+#' @param info Logical: If TRUE, warn when values < than machine eps are replaced by
 #' machine eps
 #'
 #' @return `data.table` with glm summaries
