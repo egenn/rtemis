@@ -16,6 +16,8 @@ desc_alt <- new_generic("desc_alt", "x")
 get_metric <- new_generic("get_metric", "x")
 # Plot predicted vs. true values.
 plot_true_pred <- new_generic("plot_true_pred", "x")
+# Manhattan plot
+plot_manhattan <- new_generic("plot_manhattan", "x")
 
 #' Describe rtemis object
 #'

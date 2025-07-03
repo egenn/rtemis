@@ -4,12 +4,15 @@
 \alias{plot.MassGLM}
 \title{Plot MassGLM using volcano plot}
 \usage{
-\method{plot}{MassGLM}(x, xname = NULL, theme = choose_theme(), ...)
+\method{plot}{MassGLM}(x, xname = NULL, p_adjust = "holm", theme = choose_theme(), ...)
 }
 \arguments{
 \item{x}{MassGLM object}
 
 \item{xname}{Character: Name of covariate to get data for. If \code{NULL}, the first covariate is used.}
+
+\item{p_adjust}{Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
+p-value adjustment method.}
 
 \item{theme}{Theme object}
 
