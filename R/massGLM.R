@@ -29,8 +29,6 @@
 #' )
 #' massmod <- massGLM(x, y)
 #' plot(massmod)
-#' plot(massmod, what = "coef")
-#' plot(massmod, what = "volcano")
 #' }
 massGLM <- function(
   x,

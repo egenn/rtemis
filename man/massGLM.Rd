@@ -36,8 +36,6 @@ x <- data.table(
 )
 massmod <- massGLM(x, y)
 plot(massmod)
-plot(massmod, what = "coef")
-plot(massmod, what = "volcano")
 }
 }
 \author{
