@@ -8,8 +8,7 @@
 #' @param y data.frame or similar: Each column is a different outcome. The function will train one
 #' GLM for each column of `y`.
 #' @param scale_y Logical: If TRUE, scale each column of `y` to have mean 0 and sd 1.
-#' @param save_mods Logical: If TRUE, save the individual GLM models. This can take a lot of memory
-#' if `y` is high-dimensional.
+#' @param center_y Logical: If TRUE, center each column of `y` to have mean 0.
 # @param include_anova Logical: If TRUE, include ANOVA results in the summary.
 #' @param verbosity Integer: Verbosity level.
 #'

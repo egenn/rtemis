@@ -14,10 +14,9 @@ GLM for each column of \code{y}.}
 
 \item{scale_y}{Logical: If TRUE, scale each column of \code{y} to have mean 0 and sd 1.}
 
-\item{verbosity}{Integer: Verbosity level.}
+\item{center_y}{Logical: If TRUE, center each column of \code{y} to have mean 0.}
 
-\item{save_mods}{Logical: If TRUE, save the individual GLM models. This can take a lot of memory
-if \code{y} is high-dimensional.}
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 \code{MassGLM} object.

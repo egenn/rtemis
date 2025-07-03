@@ -122,7 +122,7 @@ make_formula <- function(x, output = "character") {
 #'
 #' @param x list of [glm] models
 #' @param xnames Character, vector: names of models
-#' @param include_anova_pvals Integer vector {1, 3}: Output ANOVA I and/or III p-vals. NA to not.
+#' @param include_anova Integer vector {1, 3}: Output ANOVA I and/or III p-vals. NA to not.
 #' @param warn Logical: If TRUE, warn when values < than machine eps are replaced by
 #' machine eps
 #'
@@ -132,7 +132,7 @@ make_formula <- function(x, output = "character") {
 #' @keywords internal
 #' @noRd
 
-glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, info = TRUE) {
+glm2table <- function(x, xnames = NULL, include_anova = NA, info = TRUE) {
   if (is.null(xnames)) {
     xnames <- if (!is.null(names(x))) {
       names(x)
@@ -141,7 +141,7 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, info = TRUE) {
     }
   }
 
-  if (!is.na(include_anova_pvals)) {
+  if (!is.na(include_anova)) {
     check_dependencies("car")
   }
 
@@ -174,7 +174,7 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, info = TRUE) {
   #   }
   # }
 
-  if (1 %in% include_anova_pvals) {
+  if (1 %in% include_anova) {
     pvals2 <- t(sapply(x, \(i) car::Anova(i, type = 2)[, 3]))
     colnames(pvals2) <- paste(
       "p_value type II",
@@ -183,7 +183,7 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, info = TRUE) {
     out <- cbind(out, pvals2)
   }
 
-  if (3 %in% include_anova_pvals) {
+  if (3 %in% include_anova) {
     pvals3 <- t(sapply(x, \(i) car::Anova(i, type = 3)[, 3]))
     colnames(pvals3) <- paste(
       "p_value type III",
@@ -201,7 +201,7 @@ glm2table <- function(x, xnames = NULL, include_anova_pvals = NA, info = TRUE) {
 #'
 #' @param x list of [mgcv::gam] models
 #' @param xnames Character, vector: names of models
-#' @param include_anova_pvals Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
+#' @param include_anova Integer: 1 or 3; to output ANOVA I or III p-vals. NA to not
 #'
 #' @return `data.table` with glm summaries
 #' @author EDG
