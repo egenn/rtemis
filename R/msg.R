@@ -100,11 +100,31 @@ msg2 <- function(
     }
     # do.call and similar will change the call stack, it will contain the full
     # function definition instead of the name alone
+    # Capture S7 method calls
+    if (substr(caller, 1, 8) == "`method(") {
+      caller <- sub("`method\\(([^,]+),.*\\)`", "\\1", caller)
+    }
     if (is.function(caller)) {
-      caller <- NULL
+      # Try to get function name from call stack context
+      caller <- tryCatch(
+        {
+          # Get the original call stack element as character
+          call_str <- deparse(rev(callStack.list)[[rev(seq(call_depth)[
+            -seq(caller_id)
+          ])[1]]])
+          # Extract function name from the call
+          fn_match <- regexpr("^[a-zA-Z_][a-zA-Z0-9_\\.]*", call_str)
+          if (fn_match > 0) {
+            regmatches(call_str, fn_match)
+          } else {
+            "(fn)"
+          }
+        },
+        error = function(e) "(fn)"
+      )
     }
     if (is.character(caller)) {
-      if (nchar(caller) > 25) caller <- NULL
+      if (nchar(caller) > 30) caller <- paste0(substr(caller, 1, 27), "...")
     }
   }
 
@@ -115,7 +135,10 @@ msg2 <- function(
   if (date) {
     msgdatetime()
   }
-  message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
+  message(
+    cli::format_inline(format_fn(paste(txt, collapse = sep))),
+    appendLF = FALSE
+  )
   if (!is.null(caller) && !is.na(caller)) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
@@ -167,7 +190,10 @@ msg20 <- function(
     message("")
   }
   msgdatetime()
-  message(format_fn(paste(txt, collapse = sep)), appendLF = FALSE)
+  message(
+    cli::format_inline(format_fn(paste(txt, collapse = sep))),
+    appendLF = FALSE
+  )
   if (!is.null(caller) && !is.na(caller)) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
