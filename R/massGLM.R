@@ -116,7 +116,8 @@ massGLM <- function(
       bold(.family),
       "with",
       hilite(length(xnames)),
-      "predictors each..."
+      ngettext(length(xnames), "predictor", "predictors"),
+      "each..."
     )
   }
   tbls <- lapply(
