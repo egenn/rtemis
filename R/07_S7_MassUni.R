@@ -50,7 +50,10 @@ method(print, MassGLM) <- print.MassGLM
 #' @param xname Character: Name of covariate to get data for. If `NULL`, the first covariate is used.
 #' @param p_adjust Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
+#' @param transform_fn Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
+#' @param ylab Character: y-axis label.
 #' @param theme Theme object
+#'
 #' @param ... Additional arguments passed to [draw_volcano] or [draw_bar]
 #'
 #' @author EDG
@@ -59,6 +62,8 @@ plot.MassGLM <- function(
   x,
   xname = NULL,
   p_adjust = "holm",
+  transform_fn = function(x) -log10(x),
+  ylab = NULL,
   theme = choose_theme(),
   ...
 ) {
@@ -67,6 +72,15 @@ plot.MassGLM <- function(
   }
   if (!xname %in% x@xnames) {
     stop("xname must be one of the xnames in the MassGLM object.")
+  }
+
+  # y-axis label ----
+  if (is.null(ylab)) {
+    ylab <- fn2label(transform_fn, "p-value")
+    if (p_adjust != "none") {
+      ylab <- paste0(ylab, " (", p_adjust, "-corrected)")
+    }
+    ylab <- paste(ylab, "for", xname)
   }
 
   # Plot ----
@@ -85,13 +99,25 @@ method(plot, MassGLM) <- plot.MassGLM
 
 
 # Plot Manhattan ----
+#' @name
+#' plot_manhattan
+#'
+#' @title
 #' Manhattan plot for MassGLM
+#'
+#' @description
+#' Create a Manhattan plot for MassGLM objects created with [massGLM].
 #'
 #' @param x MassGLM object.
 #' @param xname Character: Name of covariate to get data for. If `NULL`, the first covariate is used.
 #' @param p_adjust Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
+#' @param transform_fn Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
+#' @param ylab Character: y-axis label.
 #' @param theme Theme object.
+#' @param col_pos Character: Color for positive significant coefficients.
+#' @param col_neg Character: Color for negative significant coefficients.
+#' @param alpha Numeric: Transparency level for the bars.
 #' @param ... Additional arguments passed to [draw_bar].
 #'
 #' @author EDG
@@ -100,9 +126,9 @@ method(plot_manhattan, MassGLM) <- function(
   x,
   xname = NULL,
   p_adjust = "holm",
-  theme = choose_theme(),
   transform_fn = function(x) -log10(x),
   ylab = NULL,
+  theme = choose_theme(),
   col_pos = "#43A4AC",
   col_neg = "#FA9860",
   alpha = 0.8,
