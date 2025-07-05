@@ -442,3 +442,22 @@ objcat <- function(x, format_fn = hilite1, pad = 0) {
 # wave <- "\U1F30A"
 # mountain <- "\U26F0\UFE0F"
 # alien <- "\U1F47D"
+
+#' Function to label
+#'
+#' Create axis label from function definition and variable name
+#'
+#' @param fn Function.
+#' @param varname Character: Variable name.
+#'
+#' @return Character: Label.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+fn2label <- function(fn, varname) {
+  # Get function body
+  fn_body <- deparse(fn)[2]
+  # Replace "x" with variable name
+  sub("\\(x\\)", paste0("(", varname, ")"), fn_body)
+} # /rtemis::fn2label

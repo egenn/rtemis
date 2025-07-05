@@ -23,3 +23,9 @@ test_that("plot.MassGLM creates plotly object", {
   plt <- plot(massmod)
   expect_s3_class(plt, "plotly")
 })
+
+# plot_manhattan.MassGLM ----
+test_that("plot_manhattan.MassGLM creates plotly object", {
+  plt <- plot_manhattan(massmod)
+  expect_s3_class(plt, "plotly")
+})
