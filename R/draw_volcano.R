@@ -14,10 +14,10 @@
 #' color of `palette`.
 #' @param x_thresh Numeric x-axis threshold separating low from high.
 #' @param p_thresh Numeric: p-value threshold of significance.
-#' @param p_transform function.
 #' @param p_adjust_method Character: p-value adjustment method.
 #' "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".
 #' Default = "holm". Use "none" for raw p-values.
+#' @param p_transform function.
 #' @param legend Logical: If TRUE, show legend. Will default to FALSE, if
 #' `group = NULL`, otherwise to TRUE.
 #' @param legend_lo Character: Legend to annotate significant points below the
@@ -90,7 +90,6 @@ draw_volcano <- function(
   group = NULL,
   x_thresh = 0,
   p_thresh = .05,
-  p_transform = \(x) -log10(x),
   p_adjust_method = c(
     "holm",
     "hochberg",
@@ -101,6 +100,7 @@ draw_volcano <- function(
     "fdr",
     "none"
   ),
+  p_transform = function(x) -log10(x),
   legend = NULL,
   legend_lo = NULL,
   legend_hi = NULL,
@@ -173,7 +173,7 @@ draw_volcano <- function(
     group[index_ltpthresh & x > x_thresh] <- label_hi
     group <- factor(group, levels = c(label_lo, "NS", label_hi))
     if (is.null(palette)) {
-      palette <- list("#18A3AC", "#7f7f7f", "#F48024")
+      palette <- list("#43A4AC", "#7f7f7f", "#FA9860")
     }
   }
 
@@ -190,6 +190,14 @@ draw_volcano <- function(
 
   # Theme ----
   check_is_S7(theme, Theme)
+
+  # y-axis label ----
+  if (is.null(ylab)) {
+    ylab <- fn2label(p_transform, "p-value")
+    if (p_adjust_method != "none") {
+      ylab <- paste0(ylab, " (", p_adjust_method, "-corrected)")
+    }
+  }
 
   # Plot ----
   if (is.null(hovertext)) {

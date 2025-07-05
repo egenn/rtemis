@@ -11,9 +11,9 @@ draw_volcano(
   group = NULL,
   x_thresh = 0,
   p_thresh = 0.05,
-  p_transform = function(x) -log10(x),
   p_adjust_method = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
     "none"),
+  p_transform = function(x) -log10(x),
   legend = NULL,
   legend_lo = NULL,
   legend_hi = NULL,
@@ -72,11 +72,11 @@ color of \code{palette}.}
 
 \item{p_thresh}{Numeric: p-value threshold of significance.}
 
-\item{p_transform}{function.}
-
 \item{p_adjust_method}{Character: p-value adjustment method.
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none".
 Default = "holm". Use "none" for raw p-values.}
+
+\item{p_transform}{function.}
 
 \item{legend}{Logical: If TRUE, show legend. Will default to FALSE, if
 \code{group = NULL}, otherwise to TRUE.}

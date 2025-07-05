@@ -48,9 +48,9 @@ method(print, MassGLM) <- print.MassGLM
 #'
 #' @param x MassGLM object
 #' @param xname Character: Name of covariate to get data for. If `NULL`, the first covariate is used.
-#' @param p_adjust Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
+#' @param p_adjust_method Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
-#' @param transform_fn Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
+#' @param p_transform Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
 #' @param ylab Character: y-axis label.
 #' @param theme Theme object
 #'
@@ -61,8 +61,8 @@ method(print, MassGLM) <- print.MassGLM
 plot.MassGLM <- function(
   x,
   xname = NULL,
-  p_adjust = "holm",
-  transform_fn = function(x) -log10(x),
+  p_adjust_method = "holm",
+  p_transform = function(x) -log10(x),
   ylab = NULL,
   theme = choose_theme(),
   ...
@@ -76,21 +76,23 @@ plot.MassGLM <- function(
 
   # y-axis label ----
   if (is.null(ylab)) {
-    ylab <- fn2label(transform_fn, "p-value")
-    if (p_adjust != "none") {
-      ylab <- paste0(ylab, " (", p_adjust, "-corrected)")
-    }
+    ylab <- fn2label(p_transform, "p-value")
     ylab <- paste(ylab, "for", xname)
+    if (p_adjust_method != "none") {
+      ylab <- paste0(ylab, " (", labelify(p_adjust_method), "-corrected)")
+    }
   }
 
   # Plot ----
   coefs <- x@summary[[paste0("Coefficient_", xname)]]
   pvals <- x@summary[[paste0("p_value_", xname)]]
-  pvals <- p.adjust(pvals, method = p_adjust)
   draw_volcano(
     x = coefs,
     pvals = pvals,
+    p_adjust_method = p_adjust_method,
+    p_transform = p_transform,
     theme = theme,
+    ylab = ylab,
     ...
   )
 } # /rtemis::plot.MassGLM
@@ -110,9 +112,9 @@ method(plot, MassGLM) <- plot.MassGLM
 #'
 #' @param x MassGLM object.
 #' @param xname Character: Name of covariate to get data for. If `NULL`, the first covariate is used.
-#' @param p_adjust Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
+#' @param p_adjust_method Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
-#' @param transform_fn Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
+#' @param p_transform Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
 #' @param ylab Character: y-axis label.
 #' @param theme Theme object.
 #' @param col_pos Character: Color for positive significant coefficients.
@@ -125,8 +127,17 @@ method(plot, MassGLM) <- plot.MassGLM
 method(plot_manhattan, MassGLM) <- function(
   x,
   xname = NULL,
-  p_adjust = "holm",
-  transform_fn = function(x) -log10(x),
+  p_adjust_method = c(
+    "holm",
+    "hochberg",
+    "hommel",
+    "bonferroni",
+    "BH",
+    "BY",
+    "fdr",
+    "none"
+  ),
+  p_transform = function(x) -log10(x),
   ylab = NULL,
   theme = choose_theme(),
   col_pos = "#43A4AC",
@@ -134,6 +145,7 @@ method(plot_manhattan, MassGLM) <- function(
   alpha = 0.8,
   ...
 ) {
+  p_adjust_method <- match.arg(p_adjust_method)
   if (is.null(xname)) {
     xname <- x@xnames[1]
   }
@@ -143,17 +155,17 @@ method(plot_manhattan, MassGLM) <- function(
 
   # y-axis label ----
   if (is.null(ylab)) {
-    ylab <- fn2label(transform_fn, "p-value")
-    if (p_adjust != "none") {
-      ylab <- paste0(ylab, " (", p_adjust, "-corrected)")
-    }
+    ylab <- fn2label(p_transform, "p-value")
     ylab <- paste(ylab, "for", xname)
+    if (p_adjust_method != "none") {
+      ylab <- paste0(ylab, " (", labelify(p_adjust_method), "-corrected)")
+    }
   }
 
   # Plot ----
   coefs <- x@summary[[paste0("Coefficient_", xname)]]
   pvals <- x@summary[[paste0("p_value_", xname)]]
-  pvals <- p.adjust(pvals, method = p_adjust)
+  pvals <- p.adjust(pvals, method = p_adjust_method)
   signif_pos_idi <- pvals < 0.05 & coefs > 0
   signif_neg_idi <- pvals < 0.05 & coefs < 0
   col <- rep(
@@ -164,7 +176,7 @@ method(plot_manhattan, MassGLM) <- function(
   col[signif_neg_idi] <- adjustcolor(col_neg, alpha.f = alpha)
 
   draw_bar(
-    x = transform_fn(pvals),
+    x = p_transform(pvals),
     theme = theme,
     col = col,
     group_names = x@ynames,
@@ -172,23 +184,3 @@ method(plot_manhattan, MassGLM) <- function(
     ...
   )
 } # /rtemis::plot_manhattan.MassGLM
-
-
-#' Function to label
-#'
-#' Create axis label from function definition and variable name
-#'
-#' @param fn Function.
-#' @param varname Character: Variable name.
-#'
-#' @return Character: Label.
-#'
-#' @author EDG
-#' @keywords internal
-#' @noRd
-fn2label <- function(fn, varname) {
-  # Get function body
-  fn_body <- deparse(fn)[2]
-  # Replace "x" with variable name
-  sub("\\(x\\)", paste0("(", varname, ")"), fn_body)
-} # /rtemis::fn2label

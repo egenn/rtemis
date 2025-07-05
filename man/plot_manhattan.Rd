@@ -8,10 +8,10 @@
 
 \item{xname}{Character: Name of covariate to get data for. If \code{NULL}, the first covariate is used.}
 
-\item{p_adjust}{Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
+\item{p_adjust_method}{Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 p-value adjustment method.}
 
-\item{transform_fn}{Function to transform p-values for plotting. Default is \code{function(x) -log10(x)}.}
+\item{p_transform}{Function to transform p-values for plotting. Default is \code{function(x) -log10(x)}.}
 
 \item{ylab}{Character: y-axis label.}
 
