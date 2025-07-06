@@ -66,3 +66,17 @@ xp <- preprocess(
 test_that("impute meanMode works", {
   expect_false(anyNA(xp))
 })
+
+# Test one_hot ----
+n <- 10
+x <- rnormmat(n, 5, seed = 2025)
+g <- factor(sample(c("A", "B"), n, replace = TRUE))
+y <- x[, 3] + x[, 5] + ifelse(g == "A", 2, -1) + rnorm(n)
+datr <- data.frame(x, g, y)
+datr_onehot <- preprocess(
+  datr,
+  setup_Preprocessor(one_hot = TRUE)
+)[["preprocessed"]]
+test_that("one_hot.data.frame works", {
+  expect_s3_class(datr_onehot, "data.frame")
+})
