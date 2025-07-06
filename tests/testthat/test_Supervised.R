@@ -223,46 +223,71 @@ resmod_r_gam <- train(
 #   expect_identical(mod_r_gam_aa@hyperparameters$k, 7L)
 # })
 
-## SVM Regression ----
+## LinearSVM Regression ----
+mod_r_svml <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_LinearSVM()
+)
+test_that("train() LinearSVM Regression succeeds", {
+  expect_s7_class(mod_r_svml, Regression)
+})
+
+## LinearSVM Regression + tuning ----
+tmod_r_svml <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_LinearSVM(cost = c(1, 10))
+)
+test_that("train() LinearSVM Regression with tuning succeeds", {
+  expect_s7_class(tmod_r_svml, Regression)
+})
+
+## Res LinearSVM Regression ----
+resmod_r_svml <- train(
+  x = datr,
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+
+## RadialSVM Regression ----
 mod_r_svmr <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "svm",
   hyperparameters = setup_RadialSVM()
 )
-test_that("train() SVM Regression succeeds", {
+test_that("train() RadialSVM Regression succeeds", {
   expect_s7_class(mod_r_svmr, Regression)
 })
 
-## SVM Regression + tuning ----
+## RadialSVM Regression + tuning ----
 tmod_r_svmr <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10, 100))
 )
-test_that("train() SVM Regression with tuning succeeds", {
+test_that("train() RadialSVM Regression with tuning succeeds", {
   expect_s7_class(tmod_r_svmr, Regression)
 })
 
-## Res SVM Regression ----
+## Res RadialSVM Regression ----
 resmod_r_svmr <- train(
   x = datr,
   algorithm = "svm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() Res SVM Regression succeeds", {
+test_that("train() Res RadialSVM Regression succeeds", {
   expect_s7_class(resmod_r_svmr, RegressionRes)
 })
 
-## Res SVM Regression + tuning ----
+## Res RadialSVM Regression + tuning ----
 restmod_r_svmr <- train(
   x = datr,
   algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10)),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
-test_that("train() Res SVM Regression with tuning succeeds", {
+test_that("train() Res RadialSVM Regression with tuning succeeds", {
   expect_s7_class(restmod_r_svmr, RegressionRes)
 })
 
