@@ -69,10 +69,7 @@ train <- function(
   # if (!is.null(hyperparameters) && length(hpr_args) > 0) {
   #   cli::cli_abort("You can either define `hyperparameters` or pass them as additional arguments.")
   # }
-  if (!is.null(preprocessor_parameters)) {
-    check_is_S7(preprocessor_parameters, PreprocessorParameters)
-  }
-  if (is.null(hyperparameters)) {
+  if (is.null(hyperparameters) && !is.null(algorithm)) {
     # without extra args
     hyperparameters <- get_default_hyperparameters(
       algorithm,
@@ -83,9 +80,27 @@ train <- function(
     # setup_fn <- get_alg_setup(algorithm)
     # hyperparameters <- do_call(setup_fn, hpr_args)
   }
+
+  if (
+    !is.null(algorithm) &&
+      tolower(algorithm) != tolower(hyperparameters@algorithm)
+  ) {
+    cli::cli_abort(
+      "You defined algorithm to be '",
+      algorithm,
+      "', but defined hyperparameters for ",
+      hyperparameters@algorithm,
+      "."
+    )
+  }
+
   check_is_S7(hyperparameters, Hyperparameters)
   if (!is.null(tuner_parameters)) {
     check_is_S7(tuner_parameters, TunerParameters)
+  }
+
+  if (!is.null(preprocessor_parameters)) {
+    check_is_S7(preprocessor_parameters, PreprocessorParameters)
   }
 
   # If outer_resampling is set, dat_validation and dat_test must be NULL
@@ -105,19 +120,7 @@ train <- function(
     }
   }
 
-  ## Algorithm ----
-  if (
-    !is.null(algorithm) &&
-      tolower(algorithm) != tolower(hyperparameters@algorithm)
-  ) {
-    cli::cli_abort(
-      "You defined algorithm to be '",
-      algorithm,
-      "', but defined hyperparameters for ",
-      hyperparameters@algorithm,
-      "."
-    )
-  }
+  # Default to LightRF if no algorithm is set.
   if (is.null(algorithm)) {
     algorithm <- if (is.null(hyperparameters)) {
       "LightRF"
