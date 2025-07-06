@@ -69,6 +69,16 @@ train <- function(
   # if (!is.null(hyperparameters) && length(hpr_args) > 0) {
   #   cli::cli_abort("You can either define `hyperparameters` or pass them as additional arguments.")
   # }
+  if (is.null(hyperparameters) && is.null(algorithm)) {
+    cli::cli_abort(
+      "You must define either `hyperparameters` or `algorithm`."
+    )
+  }
+
+  if (is.null(algorithm) && !is.null(hyperparameters)) {
+    algorithm <- hyperparameters@algorithm
+  }
+
   if (is.null(hyperparameters) && !is.null(algorithm)) {
     # without extra args
     hyperparameters <- get_default_hyperparameters(
