@@ -819,13 +819,9 @@ one_hotcm <- function(
 # one_hot.data.frame
 method(one_hot, class_data.frame) <- function(
   x,
-  xname = NULL,
   factor_levels = NULL,
   verbosity = 1L
 ) {
-  if (is.null(xname)) {
-    xname <- deparse(substitute(x))
-  }
   ncases <- NROW(x)
   factor_index <- which(sapply(x, is.factor))
   # If factor_levels list is provided, check column names match
@@ -838,25 +834,28 @@ method(one_hot, class_data.frame) <- function(
   }
   for (i in factor_index) {
     if (verbosity > 0L) {
-      msg20("One hot encoding ", .names[i], "...")
+      msg2start("One hot encoding ", .names[i], "...")
     }
     .levels <- if (!is.null(factor_levels)) {
       factor_levels[[i]]
     } else {
       levels(x[[i]])
     }
-    index <- as.numeric(x[, i])
+    index <- as.integer(x[, i])
     oh <- matrix(0, ncases, length(.levels))
-    colnames(oh) <- paste(xname, .levels, sep = "_")
+    colnames(oh) <- paste0(names(x)[i], "_", .levels)
     for (j in seq(ncases)) {
       oh[j, index[j]] <- 1
     }
+    # Replace list element that was a factor with one-hot encoded matrix
     one.hot[[i]] <- oh
   }
   if (verbosity > 0L) {
-    msg2("Done")
+    msg2done()
   }
-  as.data.frame(one.hot)
+  # do.call below creates a matrix, maintaining column names in one.hot matrix.
+  # as.data.frame on one.hot would have added {name_of_oh_element}.{column_names}
+  as.data.frame(do.call(cbind, one.hot))
 } # rtemis::one_hot.data.frame
 
 # one_hot.data.table ----
@@ -870,10 +869,7 @@ method(one_hot, class_data.frame) <- function(
 #' ir_oh <- one_hot(ir)
 #' ir_oh
 #' }
-method(one_hot, class_data.table) <- function(x, xname = NULL, verbosity = 1L) {
-  if (is.null(xname)) {
-    xname <- deparse(substitute(x))
-  }
+method(one_hot, class_data.table) <- function(x, verbosity = 1L) {
   x <- copy(x)
   ncases <- NROW(x)
   factor_index <- which(sapply(x, is.factor))
@@ -883,9 +879,9 @@ method(one_hot, class_data.table) <- function(x, xname = NULL, verbosity = 1L) {
       info(paste0("One hot encoding ", .names[i], "..."))
     }
     .levels <- levels(x[[i]])
-    index <- as.numeric(x[[i]])
+    index <- as.integer(x[[i]])
     oh <- as.data.table(matrix(0, ncases, length(.levels)))
-    .colnames <- colnames(oh) <- paste(xname, .levels, sep = "_")
+    .colnames <- colnames(oh) <- .levels
     for (k in seq_along(.levels)) {
       oh[index == k, (.colnames[k]) := 1]
     }
