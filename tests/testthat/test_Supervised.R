@@ -273,7 +273,7 @@ test_that("train() RadialSVM Regression with tuning succeeds", {
 ## Res RadialSVM Regression ----
 resmod_r_svmr <- train(
   x = datr,
-  algorithm = "svm",
+  algorithm = "radialsvm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() Res RadialSVM Regression succeeds", {
@@ -283,7 +283,6 @@ test_that("train() Res RadialSVM Regression succeeds", {
 ## Res RadialSVM Regression + tuning ----
 restmod_r_svmr <- train(
   x = datr,
-  algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10)),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
@@ -699,14 +698,24 @@ test_that("train() Isotonic Classification succeeds", {
   expect_s7_class(cmod_iso, Classification)
 })
 
-# SVM Classification ----
-mod_c_svm <- train(
+# LinearSVM Classification ----
+mod_c_linearsvm <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  algorithm = "svm"
+  algorithm = "linearsvm"
 )
-test_that("train() SVM Classification succeeds", {
-  expect_s7_class(mod_c_svm, Classification)
+test_that("train() LinearSVM Classification succeeds", {
+  expect_s7_class(mod_c_linearsvm, Classification)
+})
+
+# RadialSVM Classification ----
+mod_c_radialsvm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "radialsvm"
+)
+test_that("train() RadialSVM Classification succeeds", {
+  expect_s7_class(mod_c_radialsvm, Classification)
 })
 
 # TabNet Classification ----
