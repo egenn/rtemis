@@ -246,6 +246,7 @@ test_that("train() LinearSVM Regression with tuning succeeds", {
 ## Res LinearSVM Regression ----
 resmod_r_svml <- train(
   x = datr,
+  algorithm = "linearsvm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 
@@ -263,7 +264,6 @@ test_that("train() RadialSVM Regression succeeds", {
 tmod_r_svmr <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10, 100))
 )
 test_that("train() RadialSVM Regression with tuning succeeds", {
