@@ -1828,9 +1828,7 @@ ranger_fixed <- c(
   "quantreg",
   "time_interest",
   "oob_error",
-  # "num_threads", # set by train
   "save_memory",
-  # "verbose", # will be set based on train's verbosity
   "node_stats",
   "seed",
   "na_action"
@@ -1876,7 +1874,6 @@ RangerHyperparameters <- new_class(
     quantreg,
     time_interest,
     oob_error,
-    # num_threads,
     save_memory,
     node_stats,
     seed,
@@ -1915,7 +1912,6 @@ RangerHyperparameters <- new_class(
           quantreg = quantreg,
           time_interest = time_interest,
           oob_error = oob_error,
-          # num_threads = num_threads,
           save_memory = save_memory,
           node_stats = node_stats,
           seed = seed,
@@ -1951,8 +1947,6 @@ RangerHyperparameters <- new_class(
 #' "impurity_decrease", "impurity_decrease_corrected", "permutation_decrease", "permutation_decrease_corrected".
 #' @param write_forest Logical: If TRUE, write the forest to the output.
 #' @param probability Logical: If TRUE, return probabilities for classification.
-#' @param case_weights (Tunable) Numeric: Case weights for observations.
-#' @param class_weights (Tunable) Numeric: Class weights for classification.
 #' @param split_select_weights (Tunable) Numeric: Weights for variable selection.
 #' @param always_split_variables Logical: If TRUE, always split variables.
 #' @param respect_unordered_factors Logical: If TRUE, respect unordered factors.
@@ -1965,7 +1959,6 @@ RangerHyperparameters <- new_class(
 #' @param quantreg Logical: If TRUE, use quantile regression.
 #' @param time_interest Logical: If TRUE, use time interest.
 #' @param oob_error Logical: If TRUE, calculate out-of-bag error.
-#' @param num_threads Positive integer: Number of threads to use.
 #' @param save_memory Logical: If TRUE, save memory.
 #' @param node_stats Logical: If TRUE, calculate node statistics.
 #' @param seed Positive integer: Random seed.
@@ -1989,8 +1982,6 @@ setup_Ranger <- function(
   importance = "impurity",
   write_forest = TRUE,
   probability = FALSE,
-  case_weights = NULL,
-  class_weights = NULL,
   split_select_weights = NULL,
   always_split_variables = FALSE,
   respect_unordered_factors = TRUE,
@@ -2003,7 +1994,6 @@ setup_Ranger <- function(
   quantreg = FALSE,
   time_interest = FALSE,
   oob_error = TRUE,
-  num_threads = 0L, # 0 means default number of threads in OpenMP
   save_memory = FALSE,
   node_stats = FALSE,
   seed = NULL,
@@ -2024,8 +2014,6 @@ setup_Ranger <- function(
   check_inherits(importance, "character")
   check_inherits(write_forest, "logical")
   check_inherits(probability, "logical")
-  # check_inherits(case_weights, "numeric")
-  # check_inherits(class_weights, "numeric")
   check_inherits(split_select_weights, "numeric")
   check_inherits(always_split_variables, "logical")
   check_inherits(respect_unordered_factors, "logical")
@@ -2038,7 +2026,6 @@ setup_Ranger <- function(
   check_inherits(quantreg, "logical")
   check_inherits(time_interest, "logical")
   check_inherits(oob_error, "logical")
-  # num_threads <- clean_posint(num_threads)
   check_inherits(save_memory, "logical")
   check_inherits(node_stats, "logical")
   check_inherits(seed, "numeric")
@@ -2059,8 +2046,6 @@ setup_Ranger <- function(
     importance = importance,
     write_forest = write_forest,
     probability = probability,
-    case_weights = case_weights,
-    class_weights = class_weights,
     split_select_weights = split_select_weights,
     always_split_variables = always_split_variables,
     respect_unordered_factors = respect_unordered_factors,
@@ -2073,7 +2058,6 @@ setup_Ranger <- function(
     quantreg = quantreg,
     time_interest = time_interest,
     oob_error = oob_error,
-    num_threads = num_threads,
     save_memory = save_memory,
     node_stats = node_stats,
     seed = seed,

@@ -122,11 +122,14 @@ test_that("RadialSVMHyperparameters() errors", {
   expect_error(RadialSVMHyperparameters())
 })
 
+# setup_LinearSVM ----
+test_that("setup_LinearSVM() succeeds", {
+  expect_s7_class(setup_LinearSVM(), LinearSVMHyperparameters)
+})
+
 # setup_RadialSVM ----
-rsvm_hpr <- setup_RadialSVM()
 test_that("setup_RadialSVM() succeeds", {
-  expect_s7_class(rsvm_hpr, RadialSVMHyperparameters)
-  expect_s7_class(rsvm_hpr, SVMHyperparameters)
+  expect_s7_class(setup_RadialSVM(), RadialSVMHyperparameters)
 })
 
 # TabNetHyperparameters ----

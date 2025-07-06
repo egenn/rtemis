@@ -19,8 +19,6 @@ setup_Ranger(
   importance = "impurity",
   write_forest = TRUE,
   probability = FALSE,
-  case_weights = NULL,
-  class_weights = NULL,
   split_select_weights = NULL,
   always_split_variables = FALSE,
   respect_unordered_factors = TRUE,
@@ -33,7 +31,6 @@ setup_Ranger(
   quantreg = FALSE,
   time_interest = FALSE,
   oob_error = TRUE,
-  num_threads = 0L,
   save_memory = FALSE,
   node_stats = FALSE,
   seed = NULL,
@@ -72,10 +69,6 @@ setup_Ranger(
 
 \item{probability}{Logical: If TRUE, return probabilities for classification.}
 
-\item{case_weights}{(Tunable) Numeric: Case weights for observations.}
-
-\item{class_weights}{(Tunable) Numeric: Class weights for classification.}
-
 \item{split_select_weights}{(Tunable) Numeric: Weights for variable selection.}
 
 \item{always_split_variables}{Logical: If TRUE, always split variables.}
@@ -99,8 +92,6 @@ setup_Ranger(
 \item{time_interest}{Logical: If TRUE, use time interest.}
 
 \item{oob_error}{Logical: If TRUE, calculate out-of-bag error.}
-
-\item{num_threads}{Positive integer: Number of threads to use.}
 
 \item{save_memory}{Logical: If TRUE, save memory.}
 
