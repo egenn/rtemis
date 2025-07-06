@@ -43,6 +43,55 @@ suggest <- function(...) {
   cat(hilite2("Suggestion: ", message, "\n"))
 }
 
+format_caller <- function(call_stack, call_depth, caller_id, max_char = 30L) {
+  stack.length <- length(call_stack)
+  if (stack.length < 2) {
+    caller <- NA
+  } else {
+    call_depth <- call_depth + caller_id
+    if (call_depth > stack.length) {
+      call_depth <- stack.length
+    }
+    caller <- paste(
+      lapply(
+        rev(seq(call_depth)[-seq(caller_id)]),
+        function(i) rev(call_stack)[[i]][[1]]
+      ),
+      collapse = ">>"
+    )
+  }
+  # do.call and similar will change the call stack, it will contain the full
+  # function definition instead of the name alone
+  # Capture S7 method calls
+  if (substr(caller, 1, 8) == "`method(") {
+    caller <- sub("`method\\(([^,]+),.*\\)`", "\\1", caller)
+  }
+  if (is.function(caller)) {
+    # Try to get function name from call stack context
+    caller <- tryCatch(
+      {
+        # Get the original call stack element as character
+        call_str <- deparse(rev(call_stack)[[rev(seq(call_depth)[
+          -seq(caller_id)
+        ])[1]]])
+        # Extract function name from the call
+        fn_match <- regexpr("^[a-zA-Z_][a-zA-Z0-9_\\.]*", call_str)
+        if (fn_match > 0) {
+          regmatches(call_str, fn_match)
+        } else {
+          "(fn)"
+        }
+      },
+      error = function(e) "(fn)"
+    )
+  }
+  if (is.character(caller)) {
+    if (nchar(caller) > 30) caller <- paste0(substr(caller, 1, 27), "...")
+  }
+  caller
+} # / rtemis::format_caller
+
+
 #' Message with provenance
 #'
 #' Print message to output with a prefix including data and time, and calling function or full
@@ -81,52 +130,9 @@ msg2 <- function(
   sep = " "
 ) {
   if (is.null(caller)) {
-    callStack.list <- as.list(sys.calls())
-    stack.length <- length(callStack.list)
-    if (stack.length < 2) {
-      caller <- NA
-    } else {
-      call_depth <- call_depth + caller_id
-      if (call_depth > stack.length) {
-        call_depth <- stack.length
-      }
-      caller <- paste(
-        lapply(
-          rev(seq(call_depth)[-seq(caller_id)]),
-          function(i) rev(callStack.list)[[i]][[1]]
-        ),
-        collapse = ">>"
-      )
-    }
-    # do.call and similar will change the call stack, it will contain the full
-    # function definition instead of the name alone
-    # Capture S7 method calls
-    if (substr(caller, 1, 8) == "`method(") {
-      caller <- sub("`method\\(([^,]+),.*\\)`", "\\1", caller)
-    }
-    if (is.function(caller)) {
-      # Try to get function name from call stack context
-      caller <- tryCatch(
-        {
-          # Get the original call stack element as character
-          call_str <- deparse(rev(callStack.list)[[rev(seq(call_depth)[
-            -seq(caller_id)
-          ])[1]]])
-          # Extract function name from the call
-          fn_match <- regexpr("^[a-zA-Z_][a-zA-Z0-9_\\.]*", call_str)
-          if (fn_match > 0) {
-            regmatches(call_str, fn_match)
-          } else {
-            "(fn)"
-          }
-        },
-        error = function(e) "(fn)"
-      )
-    }
-    if (is.character(caller)) {
-      if (nchar(caller) > 30) caller <- paste0(substr(caller, 1, 27), "...")
-    }
-  }
+    call_stack <- as.list(sys.calls())
+    caller <- format_caller(call_stack, call_depth, caller_id)
+  } # / get caller
 
   txt <- Filter(Negate(is.null), list(...))
   if (newline_pre) {
@@ -158,31 +164,8 @@ msg20 <- function(
   sep = ""
 ) {
   if (is.null(caller)) {
-    callStack.list <- as.list(sys.calls())
-    stack.length <- length(callStack.list)
-    if (stack.length < 2) {
-      caller <- NA
-    } else {
-      call_depth <- call_depth + caller_id
-      if (call_depth > stack.length) {
-        call_depth <- stack.length
-      }
-      caller <- paste(
-        lapply(
-          rev(seq(call_depth)[-seq(caller_id)]),
-          function(i) rev(callStack.list)[[i]][[1]]
-        ),
-        collapse = ">>"
-      )
-    }
-    # do.call and similar will change the call stack, it will contain the full
-    # function definition instead of the name alone
-    if (is.function(caller)) {
-      caller <- NULL
-    }
-    if (is.character(caller)) {
-      if (nchar(caller) > 25) caller <- NULL
-    }
+    call_stack <- as.list(sys.calls())
+    caller <- format_caller(call_stack, call_depth, caller_id)
   }
 
   txt <- Filter(Negate(is.null), list(...))
@@ -257,29 +240,8 @@ msg2start <- function(
 #' @noRd
 msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
   if (is.null(caller)) {
-    callStack.list <- as.list(sys.calls())
-    stack.length <- length(callStack.list)
-    if (stack.length < 2) {
-      caller <- NA
-    } else {
-      call_depth <- call_depth + caller_id
-      if (call_depth > stack.length) {
-        call_depth <- stack.length
-      }
-      caller <- paste(
-        lapply(
-          rev(seq(call_depth)[-seq(caller_id)]),
-          function(i) rev(callStack.list)[[i]][[1]]
-        ),
-        collapse = ">>"
-      )
-    }
-    if (is.function(caller)) {
-      caller <- NULL
-    }
-    if (is.character(caller)) {
-      if (nchar(caller) > 25) caller <- NULL
-    }
+    call_stack <- as.list(sys.calls())
+    caller <- format_caller(call_stack, call_depth, caller_id)
   }
   message(" ", appendLF = FALSE)
   yay(end = "")
