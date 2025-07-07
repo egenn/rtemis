@@ -50,7 +50,7 @@ method(`[[`, Clustering) <- function(x, index) {
 
 # Print Clustering ----
 method(print, Clustering) <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat(paste(x$algorithm, "Clustering"))
   cat("\n")
   printls(props(x)[-1])

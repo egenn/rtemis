@@ -29,7 +29,7 @@ MassGLM <- new_class(
 #' @author EDG
 #' @noRd
 print.MassGLM <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat("MassGLM")
   cat(
     hilite(length(x@ynames)),
