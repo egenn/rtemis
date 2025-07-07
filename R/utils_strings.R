@@ -425,14 +425,28 @@ pastebox <- function(x, pad = 0) {
 #' `rtemis-internal`: Object cat
 #'
 #' @param x Character: Object description
+#' @param format_fn Function: Function to format `x`.
+#' @param pad Integer: Number of spaces to pad the message with.
+#' @param verbosity Integer: Verbosity level. If > 1, adds package name to the output.
+#'
+#' @return NULL: Prints the formatted object description to the console.
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
 
-objcat <- function(x, format_fn = hilite1, pad = 0) {
+objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 1L) {
   cat(
     paste0(rep(" ", pad), collapse = ""),
-    format_fn(x),
+    paste0(
+      if (verbosity > 1L) {
+        thin("<rtemis::")
+      } else {
+        thin("<")
+      },
+      format_fn(x),
+      thin(">")
+    ),
     "\n",
     sep = ""
   )
