@@ -30,7 +30,14 @@ train_SVM <- function(
   check_dependencies("e1071")
 
   # Checks ----
-  check_is_S7(hyperparameters, SVMHyperparameters)
+  if (
+    !(S7_inherits(hyperparameters, LinearSVMHyperparameters) ||
+      S7_inherits(hyperparameters, RadialSVMHyperparameters))
+  ) {
+    cli::cli_abort(
+      "hyperparameters must be LinearSVMHyperparameters or RadialSVMHyperparameters"
+    )
+  }
 
   # Hyperparameters ----
   # Hyperparameters must be either untunable or frozen by `train`.
@@ -74,18 +81,25 @@ train_SVM <- function(
     } else {
       NULL
     }
+  # gamma can't be NULL even if not used
+  gamma <- hyperparameters[["gamma"]]
+  if (is.null(gamma)) {
+    gamma <- 1
+  }
   model <- e1071::svm(
     x = x,
     y = y, # factor or numeric
     kernel = hyperparameters[["kernel"]],
     cost = hyperparameters[["cost"]],
-    gamma = hyperparameters[["gamma"]],
+    gamma = gamma,
     class.weights = class_weights,
     probability = TRUE
   )
   check_inherits(model, "svm")
   model
 } # /rtemis::train_SVM
+
+train_LinearSVM <- train_RadialSVM <- train_SVM
 
 #' Predict from SVM model
 #'
@@ -115,16 +129,18 @@ predict_SVM <- function(model, newdata, type, verbosity = 0L) {
   }
 } # /rtemis::predict_SVM
 
+predict_LinearSVM <- predict_RadialSVM <- predict_SVM
+
 #' Get coefficients from SVM model
 #'
 #' @param model SVM model.
 #'
 #' @keywords internal
 #' @noRd
-varimp_SVM <- function(model) {
-  if (model[["kernel"]] == "linear") {
-    coef(model)
-  } else {
-    NULL
-  }
-} # /rtemis::varimp_SVM
+varimp_RadialSVM <- function(model) {
+  NULL
+} # /rtemis::varimp_RadialSVM
+
+varimp_LinearSVM <- function(model) {
+  coef(model)
+} # /rtemis::varimp_LinearSVM

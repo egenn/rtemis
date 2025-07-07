@@ -122,11 +122,14 @@ test_that("RadialSVMHyperparameters() errors", {
   expect_error(RadialSVMHyperparameters())
 })
 
+# setup_LinearSVM ----
+test_that("setup_LinearSVM() succeeds", {
+  expect_s7_class(setup_LinearSVM(), LinearSVMHyperparameters)
+})
+
 # setup_RadialSVM ----
-rsvm_hpr <- setup_RadialSVM()
 test_that("setup_RadialSVM() succeeds", {
-  expect_s7_class(rsvm_hpr, RadialSVMHyperparameters)
-  expect_s7_class(rsvm_hpr, SVMHyperparameters)
+  expect_s7_class(setup_RadialSVM(), RadialSVMHyperparameters)
 })
 
 # TabNetHyperparameters ----
@@ -137,4 +140,9 @@ test_that("TabNetHyperparameters() errors", {
 # setup_TabNet ----
 test_that("setup_TabNet() succeeds", {
   expect_s7_class(setup_TabNet(), TabNetHyperparameters)
+})
+
+# setup_Ranger ----
+test_that("setup_Ranger() succeeds", {
+  expect_s7_class(setup_Ranger(), RangerHyperparameters)
 })

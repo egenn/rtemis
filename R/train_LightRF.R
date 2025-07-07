@@ -9,6 +9,8 @@
 #'
 #' @inheritParams train_GLMNET
 #'
+#' @return `lgb.Booster` object.
+#'
 #' @author EDG
 #' @keywords internal
 #' @noRd
@@ -150,7 +152,7 @@ predict_LightRF <- function(model, newdata, type, verbosity = 0L) {
 
 #' Get variable importance from LightRF model
 #'
-#' @param model lgb.Booster object trained using `train_LightRF`.
+#' @param model `lgb.Booster`` object trained using `train_LightRF`.
 #'
 #' @keywords internal
 #' @noRd

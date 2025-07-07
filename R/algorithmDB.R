@@ -56,7 +56,6 @@ supervised_algorithms <- data.frame(rbind(
   c("LightGBM", "Gradient Boosting", TRUE, TRUE, FALSE),
   c("LightRF", "LightGBM Random Forest", TRUE, TRUE, FALSE),
   c("LightRuleFit", "LightGBM RuleFit", TRUE, TRUE, FALSE),
-  # c("LM", "Ordinary Least Squares Regression", FALSE, TRUE, FALSE),
   # c("LOESS", "Local Polynomial Regression", FALSE, TRUE, FALSE),
   # c("LOGISTIC", "Logistic Regression", TRUE, FALSE, FALSE),
   # c("MARS", "Multivariate Adaptive Regression Splines", FALSE, TRUE, FALSE),
@@ -76,8 +75,7 @@ supervised_algorithms <- data.frame(rbind(
   # c("PPTree", "Projection Pursuit Tree", TRUE, FALSE, FALSE),
   # c("QDA", "Quadratic Discriminant Analysis", TRUE, FALSE, FALSE),
   # c("QRNN", "Quantile Neural Network Regression", FALSE, TRUE, FALSE),
-  # c("Ranger", "Ranger Random Forest", TRUE, TRUE, FALSE),
-  # c("RF", "Random Forest", TRUE, TRUE, FALSE),
+  c("Ranger", "Ranger Random Forest", TRUE, TRUE, FALSE),
   # c("RRF", "Regularized Random Forest", TRUE, TRUE, FALSE),
   # c("RFSRC", "Random Forest SRC", TRUE, TRUE, TRUE),
   # c("RLM", "Robust Linear Model", FALSE, TRUE, FALSE),
@@ -85,7 +83,21 @@ supervised_algorithms <- data.frame(rbind(
   # c("SDA", "Sparse Linear Discriminant Analysis", TRUE, FALSE, FALSE),
   # c("SGD", "Stochastic Gradient Descent", FALSE, TRUE, FALSE),
   # c("SPLS", "Sparse Partial Least Squares", FALSE, TRUE, FALSE),
-  c("SVM", "Support Vector Machine", TRUE, TRUE, FALSE),
+  # c("SVM", "Support Vector Machine", TRUE, TRUE, FALSE),
+  c(
+    "LinearSVM",
+    "Support Vector Machine with Linear Kernel",
+    TRUE,
+    TRUE,
+    FALSE
+  ),
+  c(
+    "RadialSVM",
+    "Support Vector Machine with Radial Kernel",
+    TRUE,
+    TRUE,
+    FALSE
+  ),
   c("TabNet", "Attentive Interpretable Tabular Learning", TRUE, TRUE, FALSE)
   # c("TFN", "TensorFlow Neural Network", TRUE, TRUE, FALSE),
   # c("TLS", "Total Least Squares", FALSE, TRUE, FALSE),
@@ -290,7 +302,7 @@ available_supervised <- function() {
     names = supervised_algorithms[, 1],
     class = "list"
   )
-  printls(algs, print_class = FALSE)
+  printls(algs, print_class = FALSE, limit = -1L)
   invisible(NULL)
 }
 
@@ -302,7 +314,7 @@ available_clustering <- function() {
     names = clust_algorithms[, 1],
     class = "list"
   )
-  printls(algs, print_class = FALSE)
+  printls(algs, print_class = FALSE, limit = -1L)
   invisible(NULL)
 }
 
@@ -314,7 +326,7 @@ available_decomposition <- function() {
     names = decom_algorithms[, 1],
     class = "list"
   )
-  printls(algs, print_class = FALSE)
+  printls(algs, print_class = FALSE, limit = -1L)
   invisible(NULL)
 }
 

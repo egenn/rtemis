@@ -223,46 +223,73 @@ resmod_r_gam <- train(
 #   expect_identical(mod_r_gam_aa@hyperparameters$k, 7L)
 # })
 
-## SVM Regression ----
+## LinearSVM Regression ----
+mod_r_svml <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_LinearSVM()
+)
+test_that("train() LinearSVM Regression succeeds", {
+  expect_s7_class(mod_r_svml, Regression)
+})
+
+## LinearSVM Regression + tuning ----
+tmod_r_svml <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_LinearSVM(cost = c(1, 10))
+)
+test_that("train() LinearSVM Regression with tuning succeeds", {
+  expect_s7_class(tmod_r_svml, Regression)
+})
+
+## Res LinearSVM Regression ----
+resmod_r_svml <- train(
+  x = datr,
+  algorithm = "linearsvm",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res LinearSVM Regression succeeds", {
+  expect_s7_class(resmod_r_svml, RegressionRes)
+})
+
+## RadialSVM Regression ----
 mod_r_svmr <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "svm",
   hyperparameters = setup_RadialSVM()
 )
-test_that("train() SVM Regression succeeds", {
+test_that("train() RadialSVM Regression succeeds", {
   expect_s7_class(mod_r_svmr, Regression)
 })
 
-## SVM Regression + tuning ----
+## RadialSVM Regression + tuning ----
 tmod_r_svmr <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10, 100))
 )
-test_that("train() SVM Regression with tuning succeeds", {
+test_that("train() RadialSVM Regression with tuning succeeds", {
   expect_s7_class(tmod_r_svmr, Regression)
 })
 
-## Res SVM Regression ----
+## Res RadialSVM Regression ----
 resmod_r_svmr <- train(
   x = datr,
-  algorithm = "svm",
+  algorithm = "radialsvm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
-test_that("train() Res SVM Regression succeeds", {
+test_that("train() Res RadialSVM Regression succeeds", {
   expect_s7_class(resmod_r_svmr, RegressionRes)
 })
 
-## Res SVM Regression + tuning ----
+## Res RadialSVM Regression + tuning ----
 restmod_r_svmr <- train(
   x = datr,
-  algorithm = "svm",
   hyperparameters = setup_RadialSVM(cost = c(1, 10)),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
-test_that("train() Res SVM Regression with tuning succeeds", {
+test_that("train() Res RadialSVM Regression with tuning succeeds", {
   expect_s7_class(restmod_r_svmr, RegressionRes)
 })
 
@@ -674,14 +701,24 @@ test_that("train() Isotonic Classification succeeds", {
   expect_s7_class(cmod_iso, Classification)
 })
 
-# SVM Classification ----
-mod_c_svm <- train(
+# LinearSVM Classification ----
+mod_c_linearsvm <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  algorithm = "svm"
+  algorithm = "linearsvm"
 )
-test_that("train() SVM Classification succeeds", {
-  expect_s7_class(mod_c_svm, Classification)
+test_that("train() LinearSVM Classification succeeds", {
+  expect_s7_class(mod_c_linearsvm, Classification)
+})
+
+# RadialSVM Classification ----
+mod_c_radialsvm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "radialsvm"
+)
+test_that("train() RadialSVM Classification succeeds", {
+  expect_s7_class(mod_c_radialsvm, Classification)
 })
 
 # TabNet Classification ----
@@ -696,6 +733,66 @@ if (torch::torch_is_installed()) {
     expect_s7_class(mod_c_tabnet, Classification)
   })
 }
+
+# Ranger Regression ----
+mod_r_ranger <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_Ranger(num_trees = 50L)
+)
+test_that("train() Ranger Regression succeeds", {
+  expect_s7_class(mod_r_ranger, Regression)
+})
+
+# Ranger Regression + grid search ----
+tmod_r_ranger <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_Ranger(num_trees = 50L, mtry = c(3, 6))
+)
+test_that("train() Ranger Regression with grid search succeeds", {
+  expect_s7_class(tmod_r_ranger, Regression)
+})
+
+# Res Ranger Regression ----
+resmod_r_ranger <- train(
+  x = datr,
+  hyperparameters = setup_Ranger(num_trees = 50L),
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res Ranger Regression succeeds", {
+  expect_s7_class(resmod_r_ranger, RegressionRes)
+})
+
+# Ranger Classification ----
+mod_c_ranger <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_Ranger(num_trees = 10L)
+)
+test_that("train() Ranger Classification succeeds", {
+  expect_s7_class(mod_c_ranger, Classification)
+})
+
+# Ranger Classification + grid search ----
+tmod_c_ranger <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_Ranger(num_trees = 10L, mtry = c(2, 4))
+)
+test_that("train() Ranger Classification with grid search succeeds", {
+  expect_s7_class(tmod_c_ranger, Classification)
+})
+
+# Res Ranger Classification ----
+resmod_c_ranger <- train(
+  x = datc2,
+  hyperparameters = setup_Ranger(num_trees = 10L),
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res Ranger Classification succeeds", {
+  expect_s7_class(resmod_c_ranger, ClassificationRes)
+})
 
 # Predict SupervisedRes ----
 

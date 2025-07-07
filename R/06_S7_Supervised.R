@@ -158,7 +158,7 @@ method(`[[`, Supervised) <- function(x, name) {
 #' @author EDG
 #' @noRd
 print.Supervised <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat(paste(x@type, "Model"))
   cat(
     "  ",
@@ -201,14 +201,14 @@ print.Supervised <- function(x, ...) {
       sep = ""
     )
   }
-  print(x@metrics_training)
+  print(x@metrics_training, pad = 2L)
   if (length(x@metrics_validation) > 0) {
     cat("\n")
-    print(x@metrics_validation)
+    print(x@metrics_validation, pad = 2L)
   }
   if (length(x@metrics_test) > 0) {
     cat("\n")
-    print(x@metrics_test)
+    print(x@metrics_test, pad = 2L)
   }
   invisible(x)
 } # /print.Supervised
@@ -310,7 +310,7 @@ Calibration <- new_class(
 
 # Print Calibration ----
 method(print, Calibration) <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat("Calibration Model")
   cat(
     "  ",
@@ -338,7 +338,7 @@ CalibrationRes <- new_class(
 
 # Print CalibrationRes ----
 method(print, CalibrationRes) <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat("Resampled Calibration Model")
   cat(
     "  ",
@@ -1261,7 +1261,7 @@ SupervisedRes <- new_class(
 
 # Print SupervisedRes ----
 method(print, SupervisedRes) <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat(paste("Resampled", x@type, "Model"))
   cat(
     "  ",
@@ -1294,9 +1294,9 @@ method(print, SupervisedRes) <- function(x, ...) {
   # if (x@type == "Classification" && !is.null(x@calibration)) {
   #   cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
   # }
-  print(x@metrics_training)
+  print(x@metrics_training, pad = 2L)
   cat("\n")
-  print(x@metrics_test)
+  print(x@metrics_test, pad = 2L)
   invisible(x)
 } # /SupervisedRes
 
@@ -1491,7 +1491,7 @@ CalibratedClassificationRes <- new_class(
 
 # Print CalibratedClassificationRes ----
 method(print, CalibratedClassificationRes) <- function(x, ...) {
-  cat(gray(".:"))
+  # cat(gray(".:"))
   objcat("Resampled Classification Model")
   cat(
     "  ",

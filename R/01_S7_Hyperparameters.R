@@ -113,8 +113,13 @@ Hyperparameters <- new_class(
 #'
 #' @author EDG
 #' @noRd
-print.Hyperparameters <- function(x, pad = 0L, ...) {
-  objcat(paste(x@algorithm, "Hyperparameters"))
+print.Hyperparameters <- function(x, pad = 0L, verbosity = 1L, ...) {
+  .class <- class(x)[1]
+  if (verbosity < 2L) {
+    .class <- strsplit(.class, "::")[[1]][2]
+  }
+  # objcat(paste(x@algorithm, "Hyperparameters"))
+  objcat(.class)
   printls(props(x)[-1], pad = pad)
   if (x@tuned == -9L) {
     cat(hilite2("\n  Hyperparameters are being tuned.\n"))
@@ -1367,9 +1372,6 @@ setup_Isotonic <- function(ifw = FALSE) {
 
 
 # SVMHyperparameters ----
-SVM_tunable <- c("cost", "degree", "gamma", "coef0", "ifw")
-SVM_fixed <- c("kernel")
-
 #' @title SVMHyperparameters
 #'
 #' @description
@@ -1397,8 +1399,72 @@ SVMHyperparameters <- new_class(
   } # /constructor
 ) # /rtemis::SVMHyperparameters
 
+# LinearSVMHyperparameters ----
+LinearSVM_tunable <- c("cost", "ifw")
+LinearSVM_fixed <- character()
+
+#' @title LinearSVMHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for SVM with linear kernel.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+LinearSVMHyperparameters <- new_class(
+  name = "LinearSVMHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(cost, ifw) {
+    new_object(
+      Hyperparameters(
+        algorithm = "LinearSVM",
+        hyperparameters = list(
+          kernel = "linear",
+          cost = cost,
+          ifw = ifw
+        ),
+        tunable_hyperparameters = c("cost", "ifw"),
+        fixed_hyperparameters = character()
+      )
+    )
+  } # /constructor
+) # /rtemis::LinearSVMHyperparameters
+
+#' Setup LinearSVM Hyperparameters
+#'
+#' Setup hyperparameters for LinearSVM training.
+#'
+#' Get more information from [e1071::svm].
+#' @param cost (Tunable) Numeric: Cost of constraints violation.
+#' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
+#'
+#' @return LinearSVMHyperparameters object.
+#'
+#' @author EDG
+#' @export
+setup_LinearSVM <- function(
+  cost = 1,
+  ifw = FALSE
+) {
+  check_inherits(cost, "numeric")
+  check_logical(ifw)
+  LinearSVMHyperparameters(
+    cost = cost,
+    ifw = ifw
+  )
+} # /setup_LinearSVM
+
+# Test that all SVM hyperparameters are set by setup_SVM
+stopifnot(all(
+  c(LinearSVM_tunable, LinearSVM_fixed) %in% names(formals(setup_LinearSVM))
+))
+
 
 # RadialSVMHyperparameters ----
+
+RadialSVM_tunable <- c("cost", "gamma", "ifw")
+RadialSVM_fixed <- character()
+
 #' @title RadialSVMHyperparameters
 #'
 #' @description
@@ -1409,10 +1475,11 @@ SVMHyperparameters <- new_class(
 #' @noRd
 RadialSVMHyperparameters <- new_class(
   name = "RadialSVMHyperparameters",
-  parent = SVMHyperparameters,
+  parent = Hyperparameters,
   constructor = function(cost, gamma, ifw) {
     new_object(
-      SVMHyperparameters(
+      Hyperparameters(
+        algorithm = "RadialSVM",
         hyperparameters = list(
           kernel = "radial",
           cost = cost,
@@ -1420,7 +1487,7 @@ RadialSVMHyperparameters <- new_class(
           ifw = ifw
         ),
         tunable_hyperparameters = c("cost", "gamma", "ifw"),
-        fixed_hyperparameters = c("kernel")
+        fixed_hyperparameters = character()
       )
     )
   } # /constructor
@@ -1455,8 +1522,11 @@ setup_RadialSVM <- function(
   )
 } # /setup_RadialSVM
 
-setup_SVM <- setup_RadialSVM
 
+# Test that all SVM hyperparameters are set by setup_SVM
+stopifnot(all(
+  c(RadialSVM_tunable, RadialSVM_fixed) %in% names(formals(setup_RadialSVM))
+))
 
 # TabNetHyperparameters ----
 tabnet_tunable <- c(
@@ -1717,10 +1787,346 @@ setup_TabNet <- function(
   )
 } # /setup_TabNet
 
+# Test that all TabNet hyperparameters are set by setup_TabNet
+stopifnot(all(
+  c(tabnet_tunable, tabnet_fixed) %in% names(formals(setup_TabNet))
+))
+
 get_tabnet_config <- function(hyperparameters) {
   check_is_S7(hyperparameters, TabNetHyperparameters)
   hpr <- hyperparameters@hyperparameters
   hpr[["ifw"]] <- NULL
-  hpr
   do.call(tabnet::tabnet_config, hpr)
 } # /get_tabnet_config
+
+# RangerHyperparameters ----
+ranger_tunable <- c(
+  "num_trees",
+  "mtry",
+  "min_node_size",
+  "max_depth",
+  "sample_fraction",
+  "replace",
+  "splitrule",
+  "num_random_splits",
+  "alpha",
+  "minprop",
+  "regularization_factor",
+  "ifw"
+)
+
+ranger_fixed <- c(
+  "importance",
+  "write_forest",
+  "probability",
+  "min_bucket",
+  "case_weights", # set by train
+  "class_weights", # set by train
+  "poisson_tau",
+  "split_select_weights",
+  "always_split_variables",
+  "respect_unordered_factors",
+  "scale_permutation_importance",
+  "local_importance",
+  "regularization_usedepth",
+  "keep_inbag",
+  "inbag",
+  "holdout",
+  "quantreg",
+  "time_interest",
+  "oob_error",
+  "num_threads",
+  "save_memory",
+  "verbose",
+  "node_stats",
+  "seed",
+  "na_action"
+)
+
+#' @title RangerHyperparameters
+#'
+#' @description
+#' Hyperparameters subclass for Ranger Random Forest.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+RangerHyperparameters <- new_class(
+  name = "RangerHyperparameters",
+  parent = Hyperparameters,
+  constructor = function(
+    num_trees,
+    mtry,
+    importance,
+    write_forest,
+    probability,
+    min_node_size,
+    min_bucket,
+    max_depth,
+    replace,
+    sample_fraction,
+    case_weights,
+    class_weights,
+    splitrule,
+    num_random_splits,
+    alpha,
+    minprop,
+    poisson_tau,
+    split_select_weights,
+    always_split_variables,
+    respect_unordered_factors,
+    scale_permutation_importance,
+    local_importance,
+    regularization_factor,
+    regularization_usedepth,
+    keep_inbag,
+    inbag,
+    holdout,
+    quantreg,
+    time_interest,
+    oob_error,
+    num_threads,
+    save_memory,
+    verbose,
+    node_stats,
+    seed,
+    na_action,
+    ifw
+  ) {
+    new_object(
+      Hyperparameters(
+        algorithm = "Ranger",
+        hyperparameters = list(
+          num_trees = num_trees,
+          mtry = mtry,
+          importance = importance,
+          write_forest = write_forest,
+          probability = probability,
+          min_node_size = min_node_size,
+          min_bucket = min_bucket,
+          max_depth = max_depth,
+          replace = replace,
+          sample_fraction = sample_fraction,
+          case_weights = case_weights,
+          class_weights = class_weights,
+          splitrule = splitrule,
+          num_random_splits = num_random_splits,
+          alpha = alpha,
+          minprop = minprop,
+          poisson_tau = poisson_tau,
+          split_select_weights = split_select_weights,
+          always_split_variables = always_split_variables,
+          respect_unordered_factors = respect_unordered_factors,
+          scale_permutation_importance = scale_permutation_importance,
+          local_importance = local_importance,
+          regularization_factor = regularization_factor,
+          regularization_usedepth = regularization_usedepth,
+          keep_inbag = keep_inbag,
+          inbag = inbag,
+          holdout = holdout,
+          quantreg = quantreg,
+          time_interest = time_interest,
+          oob_error = oob_error,
+          num_threads = num_threads,
+          save_memory = save_memory,
+          verbose = verbose,
+          node_stats = node_stats,
+          seed = seed,
+          na_action = na_action,
+          ifw = ifw
+        ),
+        tunable_hyperparameters = ranger_tunable,
+        fixed_hyperparameters = ranger_fixed
+      )
+    )
+  } # /constructor
+) # /rtemis::RangerHyperparameters
+
+#' Setup Ranger Hyperparameters
+#'
+#' Setup hyperparameters for Ranger Random Forest training.
+#'
+#' Get more information from [ranger::ranger].
+#'
+#' @param num_trees (Tunable) Positive integer: Number of trees.
+#' @param mtry (Tunable) Positive integer: Number of features to consider at each split.
+#' @param importance Character: Variable importance mode. "none", "impurity", "impurity_corrected", "permutation".
+#' The "impurity" measure is the Gini index for classification, the variance of the responses for regression.
+#' @param write_forest Logical: Save ranger.forest object, required for prediction. Set to FALSE to reduce memory usage if no prediction intended.
+#' @param probability Logical: Grow a probability forest as in Malley et al. (2012). For classification only.
+#' @param min_node_size (Tunable) Positive integer: Minimal node size. Default 1 for classification, 5 for regression, 3 for survival, and 10 for probability.
+#' @param min_bucket Positive integer: Minimal number of samples in a terminal node. Only for survival. Deprecated in favor of min_node_size.
+#' @param max_depth (Tunable) Positive integer: Maximal tree depth. A value of NULL or 0 (the default) corresponds to unlimited depth, 1 to tree stumps (1 split per tree).
+#' @param replace Logical: Sample with replacement.
+#' @param sample_fraction (Tunable) Numeric: Fraction of observations to sample. Default is 1 for sampling with replacement and 0.632 for sampling without replacement.
+#' @param case_weights Numeric vector: Weights for sampling of training observations. Observations with larger weights will be selected with higher probability in the bootstrap (or subsampled) samples for the trees.
+#' @param class_weights Numeric vector: Weights for the outcome classes for classification. Vector of the same length as the number of classes, with names corresponding to the class labels.
+#' @param splitrule (Tunable) Character: Splitting rule. For classification: "gini", "extratrees", "hellinger". For regression: "variance", "extratrees", "maxstat", "beta". For survival: "logrank", "extratrees", "C", "maxstat".
+#' @param num_random_splits (Tunable) Positive integer: For "extratrees" splitrule: Number of random splits to consider for each candidate splitting variable.
+#' @param alpha (Tunable) Numeric: For "maxstat" splitrule: significance threshold to allow splitting.
+#' @param minprop (Tunable) Numeric: For "maxstat" splitrule: lower quantile of covariate distribution to be considered for splitting.
+#' @param poisson_tau Numeric: For "poisson" regression splitrule: tau parameter for Poisson regression.
+#' @param split_select_weights Numeric vector: Numeric vector with weights between 0 and 1, representing the probability to select variables for splitting. Alternatively, a list of size num_trees, with one weight vector per tree.
+#' @param always_split_variables Character vector: Character vector with variable names to be always selected in addition to the mtry variables tried for splitting.
+#' @param respect_unordered_factors Character or logical: Handling of unordered factor covariates. For "partition" all 2^(k-1)-1 possible partitions are considered for splitting, where k is the number of factor levels. For "ignore", all factor levels are ordered by their first occurrence in the data. For "order", all factor levels are ordered by their average response. TRUE corresponds to "partition" for the randomForest package compatibility.
+#' @param scale_permutation_importance Logical: Scale permutation importance by standard error as in (Breiman 2001). Only applicable if permutation variable importance mode selected.
+#' @param local_importance Logical: For permutation variable importance, use local importance as in Breiman (2001) and Liaw & Wiener (2002).
+#' @param regularization_factor (Tunable) Numeric: Regularization factor. Penalize variables with many split points. Requires splitrule = "variance".
+#' @param regularization_usedepth Logical: Use regularization factor with node depth. Requires regularization_factor.
+#' @param keep_inbag Logical: Save how often observations are in-bag in each tree. These will be used for (local) variable importance if inbag.counts in predict() is NULL.
+#' @param inbag List: Manually set observations per tree. List of size num_trees, containing inbag counts for each observation. Can be used for stratified sampling.
+#' @param holdout Logical: Hold-out mode. Hold-out all samples with case weight 0 and use these for variable importance and prediction error.
+#' @param quantreg Logical: Prepare quantile prediction as in quantile regression forests (Meinshausen 2006). For regression only. Set keep_inbag = TRUE to prepare out-of-bag quantile prediction.
+#' @param time_interest Numeric: For GWAS data: SNP with this number will be used as time variable. Only for survival. Deprecated, use time.var in formula instead.
+#' @param oob_error Logical: Compute OOB prediction error. Set to FALSE to save computation time if only the forest is needed.
+#' @param num_threads Positive integer: Number of threads. Default is number of CPUs available.
+#' @param save_memory Logical: Use memory saving (but slower) splitting mode. No effect for survival and GWAS data. Warning: This option slows down the tree growing, use only if you encounter memory problems.
+#' @param verbose Logical: Show computation status and estimated runtime.
+#' @param node_stats Logical: Save additional node statistics. Only terminal nodes for now.
+#' @param seed Positive integer: Random seed. Default is NULL, which generates the seed from R. Set to 0 to ignore the R seed.
+#' @param na_action Character: Action to take if the data contains missing values. "na.learn" uses observations with missing values in splitting, treating missing values as a separate category.
+#' @param ifw Logical: Inverse Frequency Weighting for classification. If TRUE, class weights are set inversely proportional to the class frequencies.
+#' @return RangerHyperparameters object.
+#' @author EDG
+#' @export
+setup_Ranger <- function(
+  num_trees = 500,
+  mtry = NULL,
+  importance = "impurity",
+  write_forest = TRUE,
+  probability = FALSE,
+  min_node_size = NULL,
+  min_bucket = NULL,
+  max_depth = NULL,
+  replace = TRUE,
+  sample_fraction = ifelse(replace, 1, 0.632),
+  case_weights = NULL,
+  class_weights = NULL,
+  splitrule = NULL,
+  num_random_splits = 1,
+  alpha = 0.5,
+  minprop = 0.1,
+  poisson_tau = 1,
+  split_select_weights = NULL,
+  always_split_variables = NULL,
+  respect_unordered_factors = NULL,
+  scale_permutation_importance = FALSE,
+  local_importance = FALSE,
+  regularization_factor = 1,
+  regularization_usedepth = FALSE,
+  keep_inbag = FALSE,
+  inbag = NULL,
+  holdout = FALSE,
+  quantreg = FALSE,
+  time_interest = NULL,
+  oob_error = TRUE,
+  num_threads = NULL,
+  save_memory = FALSE,
+  verbose = TRUE,
+  node_stats = FALSE,
+  seed = NULL,
+  na_action = "na.learn",
+  ifw = FALSE
+) {
+  num_trees <- clean_posint(num_trees)
+  mtry <- clean_posint(mtry)
+  check_inherits(importance, "character")
+  check_inherits(write_forest, "logical")
+  check_inherits(probability, "logical")
+  min_node_size <- clean_posint(min_node_size)
+  min_bucket <- clean_posint(min_bucket)
+  max_depth <- clean_posint(max_depth)
+  check_inherits(replace, "logical")
+  check_float01inc(sample_fraction)
+  check_inherits(case_weights, "numeric")
+  check_inherits(class_weights, "numeric")
+  check_inherits(splitrule, "character")
+  num_random_splits <- clean_posint(num_random_splits)
+  check_float01inc(alpha)
+  check_float01inc(minprop)
+  check_inherits(poisson_tau, "numeric")
+  check_inherits(split_select_weights, "numeric")
+  check_inherits(always_split_variables, "character")
+  check_inherits(respect_unordered_factors, "logical")
+  check_inherits(scale_permutation_importance, "logical")
+  check_inherits(local_importance, "logical")
+  check_inherits(regularization_factor, "numeric")
+  check_inherits(regularization_usedepth, "logical")
+  check_inherits(keep_inbag, "logical")
+  check_inherits(inbag, "list")
+  check_inherits(holdout, "logical")
+  check_inherits(quantreg, "logical")
+  check_inherits(time_interest, "numeric")
+  check_inherits(oob_error, "logical")
+  num_threads <- clean_posint(num_threads)
+  check_inherits(save_memory, "logical")
+  check_inherits(verbose, "logical")
+  check_inherits(node_stats, "logical")
+  check_inherits(seed, "numeric")
+  check_inherits(na_action, "character")
+  check_logical(ifw)
+  RangerHyperparameters(
+    num_trees = num_trees,
+    mtry = mtry,
+    importance = importance,
+    write_forest = write_forest,
+    probability = probability,
+    min_node_size = min_node_size,
+    min_bucket = min_bucket,
+    max_depth = max_depth,
+    replace = replace,
+    sample_fraction = sample_fraction,
+    case_weights = case_weights,
+    class_weights = class_weights,
+    splitrule = splitrule,
+    num_random_splits = num_random_splits,
+    alpha = alpha,
+    minprop = minprop,
+    poisson_tau = poisson_tau,
+    split_select_weights = split_select_weights,
+    always_split_variables = always_split_variables,
+    respect_unordered_factors = respect_unordered_factors,
+    scale_permutation_importance = scale_permutation_importance,
+    local_importance = local_importance,
+    regularization_factor = regularization_factor,
+    regularization_usedepth = regularization_usedepth,
+    keep_inbag = keep_inbag,
+    inbag = inbag,
+    holdout = holdout,
+    quantreg = quantreg,
+    time_interest = time_interest,
+    oob_error = oob_error,
+    num_threads = num_threads,
+    save_memory = save_memory,
+    verbose = verbose,
+    node_stats = node_stats,
+    seed = seed,
+    na_action = na_action,
+    ifw = ifw
+  )
+} # /setup_Ranger
+
+# Test that all Ranger hyperparameters are set by setup_Ranger
+stopifnot(all(
+  c(ranger_tunable, ranger_fixed) %in% names(formals(setup_Ranger))
+))
+
+# get_ranger_config ----
+#' Get Ranger Configuration
+#'
+#' Get Ranger configuration from RangerHyperparameters object.
+#'
+#' @param hyperparameters RangerHyperparameters object.
+#'
+#' @return List with Ranger configuration.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+get_ranger_config <- function(hyperparameters) {
+  check_is_S7(hyperparameters, RangerHyperparameters)
+  hpr <- hyperparameters@hyperparameters
+  hpr[["ifw"]] <- NULL
+  hpr
+} # /get_ranger_config
