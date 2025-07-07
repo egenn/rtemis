@@ -63,7 +63,7 @@ format_caller <- function(call_stack, call_depth, caller_id, max_char = 30L) {
   # do.call and similar will change the call stack, it will contain the full
   # function definition instead of the name alone
   # Capture S7 method calls
-  if (substr(caller, 1, 8) == "`method(") {
+  if (!is.na(caller) && substr(caller, 1, 8) == "`method(") {
     caller <- sub("`method\\(([^,]+),.*\\)`", "\\1", caller)
   }
   if (is.function(caller)) {
