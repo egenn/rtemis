@@ -65,41 +65,41 @@ train_Ranger <- function(
     sample.fraction = hyperparameters@hyperparameters[["sample_fraction"]],
     case.weights = weights,
     splitrule = hyperparameters@hyperparameters[["splitrule"]],
-    num.random.splits = hyperparameters@hyperparameters[["num.random.splits"]],
+    num.random.splits = hyperparameters@hyperparameters[["num_random_splits"]],
     alpha = hyperparameters@hyperparameters[["alpha"]],
     minprop = hyperparameters@hyperparameters[["minprop"]],
-    poisson.tau = hyperparameters@hyperparameters[["poisson.tau"]],
+    poisson.tau = hyperparameters@hyperparameters[["poisson_tau"]],
     split.select.weights = hyperparameters@hyperparameters[[
-      "split.select.weights"
+      "split_select_weights"
     ]],
     always.split.variables = hyperparameters@hyperparameters[[
-      "always.split.variables"
+      "always_split_variables"
     ]],
     respect.unordered.factors = hyperparameters@hyperparameters[[
-      "respect.unordered.factors"
+      "respect_unordered_factors"
     ]],
     scale.permutation.importance = hyperparameters@hyperparameters[[
-      "scale.permutation.importance"
+      "scale_permutation_importance"
     ]],
-    local.importance = hyperparameters@hyperparameters[["local.importance"]],
+    local.importance = hyperparameters@hyperparameters[["local_importance"]],
     regularization.factor = hyperparameters@hyperparameters[[
-      "regularization.factor"
+      "regularization_factor"
     ]],
     regularization.usedepth = hyperparameters@hyperparameters[[
-      "regularization.usedepth"
+      "regularization_usedepth"
     ]],
-    keep.inbag = hyperparameters@hyperparameters[["keep.inbag"]],
+    keep.inbag = hyperparameters@hyperparameters[["keep_inbag"]],
     inbag = hyperparameters@hyperparameters[["inbag"]],
     holdout = hyperparameters@hyperparameters[["holdout"]],
     quantreg = hyperparameters@hyperparameters[["quantreg"]],
-    time.interest = hyperparameters@hyperparameters[["time.interest"]],
-    oob.error = hyperparameters@hyperparameters[["oob.error"]],
-    num.threads = hyperparameters@hyperparameters[["num.threads"]],
-    save.memory = hyperparameters@hyperparameters[["save.memory"]],
+    time.interest = hyperparameters@hyperparameters[["time_interest"]],
+    oob.error = hyperparameters@hyperparameters[["oob_error"]],
+    num.threads = hyperparameters@hyperparameters[["num_threads"]],
+    save.memory = hyperparameters@hyperparameters[["save_memory"]],
     verbose = verbosity > 0L,
-    node.stats = hyperparameters@hyperparameters[["node.stats"]],
+    node.stats = hyperparameters@hyperparameters[["node_stats"]],
     seed = hyperparameters@hyperparameters[["seed"]],
-    na.action = hyperparameters@hyperparameters[["na.action"]]
+    na.action = hyperparameters@hyperparameters[["na_action"]]
   )
   check_inherits(model, "ranger")
   model
