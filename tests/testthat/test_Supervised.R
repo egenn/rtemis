@@ -249,6 +249,9 @@ resmod_r_svml <- train(
   algorithm = "linearsvm",
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
+test_that("train() Res LinearSVM Regression succeeds", {
+  expect_s7_class(resmod_r_svml, RegressionRes)
+})
 
 ## RadialSVM Regression ----
 mod_r_svmr <- train(
