@@ -5,36 +5,42 @@
 \title{Setup Ranger Hyperparameters}
 \usage{
 setup_Ranger(
-  num_trees = 500L,
+  num_trees = 500,
   mtry = NULL,
-  min_node_size = 1L,
-  max_depth = NULL,
-  sample_fraction = 1,
-  replace = TRUE,
-  splitrule = "gini",
-  num_random_splits = 1L,
-  alpha = 0.5,
-  minprop = 0.01,
-  regularization_factor = 0.01,
   importance = "impurity",
   write_forest = TRUE,
   probability = FALSE,
+  min_node_size = NULL,
+  min_bucket = NULL,
+  max_depth = NULL,
+  replace = TRUE,
+  sample_fraction = ifelse(replace, 1, 0.632),
+  case_weights = NULL,
+  class_weights = NULL,
+  splitrule = NULL,
+  num_random_splits = 1,
+  alpha = 0.5,
+  minprop = 0.1,
+  poisson_tau = 1,
   split_select_weights = NULL,
-  always_split_variables = FALSE,
-  respect_unordered_factors = TRUE,
+  always_split_variables = NULL,
+  respect_unordered_factors = NULL,
   scale_permutation_importance = FALSE,
   local_importance = FALSE,
+  regularization_factor = 1,
   regularization_usedepth = FALSE,
   keep_inbag = FALSE,
-  inbag = FALSE,
+  inbag = NULL,
   holdout = FALSE,
   quantreg = FALSE,
-  time_interest = FALSE,
+  time_interest = NULL,
   oob_error = TRUE,
+  num_threads = NULL,
   save_memory = FALSE,
+  verbose = TRUE,
   node_stats = FALSE,
   seed = NULL,
-  na_action = "na.omit",
+  na_action = "na.learn",
   ifw = FALSE
 )
 }
@@ -43,13 +49,26 @@ setup_Ranger(
 
 \item{mtry}{(Tunable) Positive integer: Number of features to consider at each split.}
 
+\item{importance}{Character: Importance type. "none", "impurity", "impurity_corrected", "permutation", "permutation_corrected",
+"impurity_decrease", "impurity_decrease_corrected", "permutation_decrease", "permutation_decrease_corrected".}
+
+\item{write_forest}{Logical: If TRUE, write the forest to the output.}
+
+\item{probability}{Logical: If TRUE, return probabilities for classification.}
+
 \item{min_node_size}{(Tunable) Positive integer: Minimum size of terminal nodes.}
+
+\item{min_bucket}{Positive integer: Minimum number of samples in a node before attempting to split.}
 
 \item{max_depth}{(Tunable) Positive integer: Maximum depth of trees.}
 
+\item{replace}{Logical: If TRUE, sample with replacement.}
+
 \item{sample_fraction}{(Tunable) Numeric: Fraction of data to sample for each tree.}
 
-\item{replace}{Logical: If TRUE, sample with replacement.}
+\item{case_weights}{Numeric: Case weights.}
+
+\item{class_weights}{Numeric: Class weights.}
 
 \item{splitrule}{(Tunable) Character: Split rule. "gini", "extratrees", "variance", "maxstat", "quantile", "poisson",
 "mse", "mae", "logloss", "cross_entropy", "deviance", "exponential", "tweedie".}
@@ -60,18 +79,11 @@ setup_Ranger(
 
 \item{minprop}{(Tunable) Numeric: Minimum proportion of observations in a node for quantile regression.}
 
-\item{regularization_factor}{(Tunable) Numeric: Regularization factor for quantile regression.}
+\item{poisson_tau}{Numeric: Tau parameter for Poisson regression.}
 
-\item{importance}{Character: Importance type. "none", "impurity", "impurity_corrected", "permutation", "permutation_corrected",
-"impurity_decrease", "impurity_decrease_corrected", "permutation_decrease", "permutation_decrease_corrected".}
+\item{split_select_weights}{Numeric: Weights for variable selection.}
 
-\item{write_forest}{Logical: If TRUE, write the forest to the output.}
-
-\item{probability}{Logical: If TRUE, return probabilities for classification.}
-
-\item{split_select_weights}{(Tunable) Numeric: Weights for variable selection.}
-
-\item{always_split_variables}{Logical: If TRUE, always split variables.}
+\item{always_split_variables}{Character: Variables to always split on.}
 
 \item{respect_unordered_factors}{Logical: If TRUE, respect unordered factors.}
 
@@ -79,21 +91,27 @@ setup_Ranger(
 
 \item{local_importance}{Logical: If TRUE, calculate local importance.}
 
+\item{regularization_factor}{(Tunable) Numeric: Regularization factor for quantile regression.}
+
 \item{regularization_usedepth}{Logical: If TRUE, use depth-based regularization.}
 
 \item{keep_inbag}{Logical: If TRUE, keep in-bag samples.}
 
-\item{inbag}{Logical: If TRUE, return in-bag samples.}
+\item{inbag}{List: In-bag samples.}
 
 \item{holdout}{Logical: If TRUE, use holdout samples.}
 
 \item{quantreg}{Logical: If TRUE, use quantile regression.}
 
-\item{time_interest}{Logical: If TRUE, use time interest.}
+\item{time_interest}{Numeric: Time interest for survival forests.}
 
 \item{oob_error}{Logical: If TRUE, calculate out-of-bag error.}
 
+\item{num_threads}{Positive integer: Number of threads to use.}
+
 \item{save_memory}{Logical: If TRUE, save memory.}
+
+\item{verbose}{Logical: If TRUE, print verbose output.}
 
 \item{node_stats}{Logical: If TRUE, calculate node statistics.}
 
