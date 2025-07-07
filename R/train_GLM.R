@@ -25,7 +25,7 @@
 train_GLM <- function(
   x,
   weights = NULL,
-  hyperparameters = NULL,
+  hyperparameters,
   verbosity = 1L
 ) {
   # Checks ----
@@ -56,7 +56,7 @@ train_GLM <- function(
   formula <- as.formula(
     paste(
       names(x)[ncol(x)],
-      "~ .",
+      "~ ."
     )
   )
 
