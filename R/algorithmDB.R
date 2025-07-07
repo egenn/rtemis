@@ -302,7 +302,7 @@ available_supervised <- function() {
     names = supervised_algorithms[, 1],
     class = "list"
   )
-  printls(algs, print_class = FALSE)
+  printls(algs, print_class = FALSE, limit = -1L)
   invisible(NULL)
 }
 
@@ -314,7 +314,7 @@ available_clustering <- function() {
     names = clust_algorithms[, 1],
     class = "list"
   )
-  printls(algs, print_class = FALSE)
+  printls(algs, print_class = FALSE, limit = -1L)
   invisible(NULL)
 }
 
@@ -326,7 +326,7 @@ available_decomposition <- function() {
     names = decom_algorithms[, 1],
     class = "list"
   )
-  printls(algs, print_class = FALSE)
+  printls(algs, print_class = FALSE, limit = -1L)
   invisible(NULL)
 }
 
