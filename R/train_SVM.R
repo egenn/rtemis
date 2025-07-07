@@ -30,10 +30,14 @@ train_SVM <- function(
   check_dependencies("e1071")
 
   # Checks ----
-  stopifnot(
-    S7_inherits(hyperparameters, LinearSVMHyperparameters) ||
-      S7_inherits(hyperparameters, RadialSVMHyperparameters)
-  )
+  if (
+    !(S7_inherits(hyperparameters, LinearSVMHyperparameters) ||
+      S7_inherits(hyperparameters, RadialSVMHyperparameters))
+  ) {
+    cli::cli_abort(
+      "hyperparameters must be LinearSVMHyperparameters or RadialSVMHyperparameters"
+    )
+  }
 
   # Hyperparameters ----
   # Hyperparameters must be either untunable or frozen by `train`.
