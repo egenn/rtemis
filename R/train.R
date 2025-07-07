@@ -130,14 +130,6 @@ train <- function(
     }
   }
 
-  # Default to LightRF if no algorithm is set.
-  if (is.null(algorithm)) {
-    algorithm <- if (is.null(hyperparameters)) {
-      "LightRF"
-    } else {
-      hyperparameters@algorithm
-    }
-  }
   algorithm <- get_alg_name(algorithm)
   if (!is.null(outdir)) {
     outdir <- make_path(outdir)
