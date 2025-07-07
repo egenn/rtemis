@@ -113,8 +113,13 @@ Hyperparameters <- new_class(
 #'
 #' @author EDG
 #' @noRd
-print.Hyperparameters <- function(x, pad = 0L, ...) {
-  objcat(paste(x@algorithm, "Hyperparameters"))
+print.Hyperparameters <- function(x, pad = 0L, verbosity = 1L, ...) {
+  .class <- class(x)[1]
+  if (verbosity < 2L) {
+    .class <- strsplit(.class, "::")[[1]][2]
+  }
+  # objcat(paste(x@algorithm, "Hyperparameters"))
+  objcat(.class)
   printls(props(x)[-1], pad = pad)
   if (x@tuned == -9L) {
     cat(hilite2("\n  Hyperparameters are being tuned.\n"))
@@ -1814,8 +1819,10 @@ ranger_fixed <- c(
   "importance",
   "write_forest",
   "probability",
-  # "case_weights", # set by train
-  # "class_weights", # set by train
+  "min_bucket",
+  "case_weights", # set by train
+  "class_weights", # set by train
+  "poisson_tau",
   "split_select_weights",
   "always_split_variables",
   "respect_unordered_factors",
@@ -1828,7 +1835,9 @@ ranger_fixed <- c(
   "quantreg",
   "time_interest",
   "oob_error",
+  "num_threads",
   "save_memory",
+  "verbose",
   "node_stats",
   "seed",
   "na_action"
@@ -1848,25 +1857,27 @@ RangerHyperparameters <- new_class(
   constructor = function(
     num_trees,
     mtry,
+    importance,
+    write_forest,
+    probability,
     min_node_size,
+    min_bucket,
     max_depth,
-    sample_fraction,
     replace,
+    sample_fraction,
+    case_weights,
+    class_weights,
     splitrule,
     num_random_splits,
     alpha,
     minprop,
-    regularization_factor,
-    importance,
-    write_forest,
-    probability,
-    # case_weights,
-    # class_weights,
+    poisson_tau,
     split_select_weights,
     always_split_variables,
     respect_unordered_factors,
     scale_permutation_importance,
     local_importance,
+    regularization_factor,
     regularization_usedepth,
     keep_inbag,
     inbag,
@@ -1874,7 +1885,9 @@ RangerHyperparameters <- new_class(
     quantreg,
     time_interest,
     oob_error,
+    num_threads,
     save_memory,
+    verbose,
     node_stats,
     seed,
     na_action,
@@ -1886,25 +1899,27 @@ RangerHyperparameters <- new_class(
         hyperparameters = list(
           num_trees = num_trees,
           mtry = mtry,
+          importance = importance,
+          write_forest = write_forest,
+          probability = probability,
           min_node_size = min_node_size,
+          min_bucket = min_bucket,
           max_depth = max_depth,
-          sample_fraction = sample_fraction,
           replace = replace,
+          sample_fraction = sample_fraction,
+          case_weights = case_weights,
+          class_weights = class_weights,
           splitrule = splitrule,
           num_random_splits = num_random_splits,
           alpha = alpha,
           minprop = minprop,
-          regularization_factor = regularization_factor,
-          importance = importance,
-          write_forest = write_forest,
-          probability = probability,
-          # case_weights = case_weights,
-          # class_weights = class_weights,
+          poisson_tau = poisson_tau,
           split_select_weights = split_select_weights,
           always_split_variables = always_split_variables,
           respect_unordered_factors = respect_unordered_factors,
           scale_permutation_importance = scale_permutation_importance,
           local_importance = local_importance,
+          regularization_factor = regularization_factor,
           regularization_usedepth = regularization_usedepth,
           keep_inbag = keep_inbag,
           inbag = inbag,
@@ -1912,7 +1927,9 @@ RangerHyperparameters <- new_class(
           quantreg = quantreg,
           time_interest = time_interest,
           oob_error = oob_error,
+          num_threads = num_threads,
           save_memory = save_memory,
+          verbose = verbose,
           node_stats = node_stats,
           seed = seed,
           na_action = na_action,
@@ -1933,33 +1950,39 @@ RangerHyperparameters <- new_class(
 #'
 #' @param num_trees (Tunable) Positive integer: Number of trees.
 #' @param mtry (Tunable) Positive integer: Number of features to consider at each split.
+#' @param importance Character: Importance type. "none", "impurity", "impurity_corrected", "permutation", "permutation_corrected",
+#' "impurity_decrease", "impurity_decrease_corrected", "permutation_decrease", "permutation_decrease_corrected".
+#' @param write_forest Logical: If TRUE, write the forest to the output.
+#' @param probability Logical: If TRUE, return probabilities for classification.
 #' @param min_node_size (Tunable) Positive integer: Minimum size of terminal nodes.
+#' @param min_bucket Positive integer: Minimum number of samples in a node before attempting to split.
 #' @param max_depth (Tunable) Positive integer: Maximum depth of trees.
-#' @param sample_fraction (Tunable) Numeric: Fraction of data to sample for each tree.
 #' @param replace Logical: If TRUE, sample with replacement.
+#' @param sample_fraction (Tunable) Numeric: Fraction of data to sample for each tree.
+#' @param case_weights Numeric: Case weights.
+#' @param class_weights Numeric: Class weights.
 #' @param splitrule (Tunable) Character: Split rule. "gini", "extratrees", "variance", "maxstat", "quantile", "poisson",
 #' "mse", "mae", "logloss", "cross_entropy", "deviance", "exponential", "tweedie".
 #' @param num_random_splits (Tunable) Positive integer: Number of random splits to consider for each split.
 #' @param alpha (Tunable) Numeric: Alpha parameter for quantile regression.
 #' @param minprop (Tunable) Numeric: Minimum proportion of observations in a node for quantile regression.
-#' @param regularization_factor (Tunable) Numeric: Regularization factor for quantile regression.
-#' @param importance Character: Importance type. "none", "impurity", "impurity_corrected", "permutation", "permutation_corrected",
-#' "impurity_decrease", "impurity_decrease_corrected", "permutation_decrease", "permutation_decrease_corrected".
-#' @param write_forest Logical: If TRUE, write the forest to the output.
-#' @param probability Logical: If TRUE, return probabilities for classification.
-#' @param split_select_weights (Tunable) Numeric: Weights for variable selection.
-#' @param always_split_variables Logical: If TRUE, always split variables.
+#' @param poisson_tau Numeric: Tau parameter for Poisson regression.
+#' @param split_select_weights Numeric: Weights for variable selection.
+#' @param always_split_variables Character: Variables to always split on.
 #' @param respect_unordered_factors Logical: If TRUE, respect unordered factors.
 #' @param scale_permutation_importance Logical: If TRUE, scale permutation importance.
 #' @param local_importance Logical: If TRUE, calculate local importance.
+#' @param regularization_factor (Tunable) Numeric: Regularization factor for quantile regression.
 #' @param regularization_usedepth Logical: If TRUE, use depth-based regularization.
 #' @param keep_inbag Logical: If TRUE, keep in-bag samples.
-#' @param inbag Logical: If TRUE, return in-bag samples.
+#' @param inbag List: In-bag samples.
 #' @param holdout Logical: If TRUE, use holdout samples.
 #' @param quantreg Logical: If TRUE, use quantile regression.
-#' @param time_interest Logical: If TRUE, use time interest.
+#' @param time_interest Numeric: Time interest for survival forests.
 #' @param oob_error Logical: If TRUE, calculate out-of-bag error.
+#' @param num_threads Positive integer: Number of threads to use.
 #' @param save_memory Logical: If TRUE, save memory.
+#' @param verbose Logical: If TRUE, print verbose output.
 #' @param node_stats Logical: If TRUE, calculate node statistics.
 #' @param seed Positive integer: Random seed.
 #' @param na_action Character: NA action. "na.omit", "na.exclude", "na.fail", "na.pass".
@@ -1968,65 +1991,77 @@ RangerHyperparameters <- new_class(
 #' @author EDG
 #' @export
 setup_Ranger <- function(
-  num_trees = 500L,
+  num_trees = 500,
   mtry = NULL,
-  min_node_size = 1L,
-  max_depth = NULL,
-  sample_fraction = 1.0,
-  replace = TRUE,
-  splitrule = "gini",
-  num_random_splits = 1L,
-  alpha = 0.5,
-  minprop = 0.01,
-  regularization_factor = 0.01,
   importance = "impurity",
   write_forest = TRUE,
   probability = FALSE,
+  min_node_size = NULL,
+  min_bucket = NULL,
+  max_depth = NULL,
+  replace = TRUE,
+  sample_fraction = ifelse(replace, 1, 0.632),
+  case_weights = NULL,
+  class_weights = NULL,
+  splitrule = NULL,
+  num_random_splits = 1,
+  alpha = 0.5,
+  minprop = 0.1,
+  poisson_tau = 1,
   split_select_weights = NULL,
-  always_split_variables = FALSE,
-  respect_unordered_factors = TRUE,
+  always_split_variables = NULL,
+  respect_unordered_factors = NULL,
   scale_permutation_importance = FALSE,
   local_importance = FALSE,
+  regularization_factor = 1,
   regularization_usedepth = FALSE,
   keep_inbag = FALSE,
-  inbag = FALSE,
+  inbag = NULL,
   holdout = FALSE,
   quantreg = FALSE,
-  time_interest = FALSE,
+  time_interest = NULL,
   oob_error = TRUE,
+  num_threads = NULL,
   save_memory = FALSE,
+  verbose = TRUE,
   node_stats = FALSE,
   seed = NULL,
-  na_action = "na.omit",
+  na_action = "na.learn",
   ifw = FALSE
 ) {
   num_trees <- clean_posint(num_trees)
   mtry <- clean_posint(mtry)
-  min_node_size <- clean_posint(min_node_size)
-  max_depth <- clean_posint(max_depth)
-  check_float01inc(sample_fraction)
-  check_inherits(replace, "logical")
-  check_inherits(splitrule, "character")
-  check_inherits(num_random_splits, "numeric")
-  check_float01inc(alpha)
-  check_float01inc(minprop)
-  check_inherits(regularization_factor, "numeric")
   check_inherits(importance, "character")
   check_inherits(write_forest, "logical")
   check_inherits(probability, "logical")
+  min_node_size <- clean_posint(min_node_size)
+  min_bucket <- clean_posint(min_bucket)
+  max_depth <- clean_posint(max_depth)
+  check_inherits(replace, "logical")
+  check_float01inc(sample_fraction)
+  check_inherits(case_weights, "numeric")
+  check_inherits(class_weights, "numeric")
+  check_inherits(splitrule, "character")
+  num_random_splits <- clean_posint(num_random_splits)
+  check_float01inc(alpha)
+  check_float01inc(minprop)
+  check_inherits(poisson_tau, "numeric")
   check_inherits(split_select_weights, "numeric")
-  check_inherits(always_split_variables, "logical")
+  check_inherits(always_split_variables, "character")
   check_inherits(respect_unordered_factors, "logical")
   check_inherits(scale_permutation_importance, "logical")
   check_inherits(local_importance, "logical")
+  check_inherits(regularization_factor, "numeric")
   check_inherits(regularization_usedepth, "logical")
   check_inherits(keep_inbag, "logical")
-  check_inherits(inbag, "logical")
+  check_inherits(inbag, "list")
   check_inherits(holdout, "logical")
   check_inherits(quantreg, "logical")
-  check_inherits(time_interest, "logical")
+  check_inherits(time_interest, "numeric")
   check_inherits(oob_error, "logical")
+  num_threads <- clean_posint(num_threads)
   check_inherits(save_memory, "logical")
+  check_inherits(verbose, "logical")
   check_inherits(node_stats, "logical")
   check_inherits(seed, "numeric")
   check_inherits(na_action, "character")
@@ -2034,23 +2069,27 @@ setup_Ranger <- function(
   RangerHyperparameters(
     num_trees = num_trees,
     mtry = mtry,
+    importance = importance,
+    write_forest = write_forest,
+    probability = probability,
     min_node_size = min_node_size,
+    min_bucket = min_bucket,
     max_depth = max_depth,
-    sample_fraction = sample_fraction,
     replace = replace,
+    sample_fraction = sample_fraction,
+    case_weights = case_weights,
+    class_weights = class_weights,
     splitrule = splitrule,
     num_random_splits = num_random_splits,
     alpha = alpha,
     minprop = minprop,
-    regularization_factor = regularization_factor,
-    importance = importance,
-    write_forest = write_forest,
-    probability = probability,
+    poisson_tau = poisson_tau,
     split_select_weights = split_select_weights,
     always_split_variables = always_split_variables,
     respect_unordered_factors = respect_unordered_factors,
     scale_permutation_importance = scale_permutation_importance,
     local_importance = local_importance,
+    regularization_factor = regularization_factor,
     regularization_usedepth = regularization_usedepth,
     keep_inbag = keep_inbag,
     inbag = inbag,
@@ -2058,7 +2097,9 @@ setup_Ranger <- function(
     quantreg = quantreg,
     time_interest = time_interest,
     oob_error = oob_error,
+    num_threads = num_threads,
     save_memory = save_memory,
+    verbose = verbose,
     node_stats = node_stats,
     seed = seed,
     na_action = na_action,
