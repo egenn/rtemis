@@ -18,6 +18,8 @@ get_metric <- new_generic("get_metric", "x")
 plot_true_pred <- new_generic("plot_true_pred", "x")
 # Manhattan plot
 plot_manhattan <- new_generic("plot_manhattan", "x")
+# check hyperparameters given training data
+validate_hyperparameters <- new_generic("validate_hyperparameters", "x")
 
 #' Describe rtemis object
 #'
