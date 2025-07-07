@@ -56,8 +56,7 @@ train_GLM <- function(
   formula <- as.formula(
     paste(
       names(x)[ncol(x)],
-      "~",
-      paste(names(x)[-ncol(x)], collapse = " + ")
+      "~ .",
     )
   )
 
