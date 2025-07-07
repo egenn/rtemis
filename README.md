@@ -54,3 +54,7 @@ Ongoing planning is looking at organizing the long list of arguments in `draw` f
 The documentation is available at [rdocs.rtemis.org](https://rdocs.rtemis.org).
 
 [![rtemis cover](https://rdocs.rtemis.org/assets/rtemis-mlv-cover.webp)](https://rdocs.rtemis.org)
+
+## rtemisalpha
+
+The original, unmaintained version of rtemis remains available as `rtemisalpha` [here](https://github.com/rtemis-org/rtemis-legacy).
