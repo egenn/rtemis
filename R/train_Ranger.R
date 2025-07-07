@@ -107,7 +107,7 @@ train_Ranger <- function(
 
 #' Predict from Ranger model
 #'
-#' @param model
+#' @param model `ranger` model object.
 #' @param newdata data.frame or similar: Data to predict on.
 #'
 #' @keywords internal
