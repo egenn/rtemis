@@ -731,6 +731,66 @@ if (torch::torch_is_installed()) {
   })
 }
 
+# Ranger Regression ----
+mod_r_ranger <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_Ranger(num_trees = 50L)
+)
+test_that("train() Ranger Regression succeeds", {
+  expect_s7_class(mod_r_ranger, Regression)
+})
+
+# Ranger Regression + grid search ----
+tmod_r_ranger <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  hyperparameters = setup_Ranger(num_trees = 50L, mtry = c(3, 6))
+)
+test_that("train() Ranger Regression with grid search succeeds", {
+  expect_s7_class(tmod_r_ranger, Regression)
+})
+
+# Res Ranger Regression ----
+resmod_r_ranger <- train(
+  x = datr,
+  hyperparameters = setup_Ranger(num_trees = 50L),
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res Ranger Regression succeeds", {
+  expect_s7_class(resmod_r_ranger, RegressionRes)
+})
+
+# Ranger Classification ----
+mod_c_ranger <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_Ranger(num_trees = 10L)
+)
+test_that("train() Ranger Classification succeeds", {
+  expect_s7_class(mod_c_ranger, Classification)
+})
+
+# Ranger Classification + grid search ----
+tmod_c_ranger <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_Ranger(num_trees = 10L, mtry = c(2, 4))
+)
+test_that("train() Ranger Classification with grid search succeeds", {
+  expect_s7_class(tmod_c_ranger, Classification)
+})
+
+# Res Ranger Classification ----
+resmod_c_ranger <- train(
+  x = datc2,
+  hyperparameters = setup_Ranger(num_trees = 10L),
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res Ranger Classification succeeds", {
+  expect_s7_class(resmod_c_ranger, ClassificationRes)
+})
+
 # Predict SupervisedRes ----
 
 ## Res CART Regression ----

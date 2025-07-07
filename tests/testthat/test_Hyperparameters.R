@@ -141,3 +141,8 @@ test_that("TabNetHyperparameters() errors", {
 test_that("setup_TabNet() succeeds", {
   expect_s7_class(setup_TabNet(), TabNetHyperparameters)
 })
+
+# setup_Ranger ----
+test_that("setup_Ranger() succeeds", {
+  expect_s7_class(setup_Ranger(), RangerHyperparameters)
+})
