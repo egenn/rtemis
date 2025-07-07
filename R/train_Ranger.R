@@ -33,7 +33,7 @@ train_Ranger <- function(
     cli::cli_abort("Hyperparameters must be fixed - use train() instead.")
   }
   # mtry cannot be larger than number of features
-  if (any(hyperparameters@hyperparameters$mtry > NCOL(features(x)))) {
+  if (any(hyperparameters@hyperparameters[["mtry"]] > NCOL(features(x)))) {
     cli::cli_abort(
       "mtry cannot be greater than number of features: {ncol(features(x))}."
     )
@@ -53,41 +53,53 @@ train_Ranger <- function(
     formula = NULL,
     x = features(x),
     y = outcome(x),
-    num.trees = hyperparameters@hyperparameters$num_trees,
-    mtry = hyperparameters@hyperparameters$mtry,
-    importance = hyperparameters@hyperparameters$importance,
-    write.forest = hyperparameters@hyperparameters$write_forest,
+    num.trees = hyperparameters@hyperparameters[["num_trees"]],
+    mtry = hyperparameters@hyperparameters[["mtry"]],
+    importance = hyperparameters@hyperparameters[["importance"]],
+    write.forest = hyperparameters@hyperparameters[["write_forest"]],
     probability = type == "Classification",
-    min.node.size = hyperparameters@hyperparameters$min_node_size,
-    min.bucket = hyperparameters@hyperparameters$min_bucket,
-    max.depth = hyperparameters@hyperparameters$max_depth,
-    replace = hyperparameters@hyperparameters$replace,
-    sample.fraction = hyperparameters@hyperparameters$sample_fraction,
+    min.node.size = hyperparameters@hyperparameters[["min_node_size"]],
+    min.bucket = hyperparameters@hyperparameters[["min_bucket"]],
+    max.depth = hyperparameters@hyperparameters[["max_depth"]],
+    replace = hyperparameters@hyperparameters[["replace"]],
+    sample.fraction = hyperparameters@hyperparameters[["sample_fraction"]],
     case.weights = weights,
-    splitrule = hyperparameters@hyperparameters$splitrule,
-    num.random.splits = hyperparameters@hyperparameters$num_random_splits,
-    alpha = hyperparameters@hyperparameters$alpha,
-    minprop = hyperparameters@hyperparameters$minprop,
-    poisson.tau = hyperparameters@hyperparameters$poisson_tau,
-    split.select.weights = hyperparameters@hyperparameters$split_select_weights,
-    always.split.variables = hyperparameters@hyperparameters$always_split_variables,
-    respect.unordered.factors = hyperparameters@hyperparameters$respect_unordered_factors,
-    scale.permutation.importance = hyperparameters@hyperparameters$scale_permutation_importance,
-    local.importance = hyperparameters@hyperparameters$local_importance,
-    regularization.factor = hyperparameters@hyperparameters$regularization_factor,
-    regularization.usedepth = hyperparameters@hyperparameters$regularization_usedepth,
-    keep.inbag = hyperparameters@hyperparameters$keep_inbag,
-    inbag = hyperparameters@hyperparameters$inbag,
-    holdout = hyperparameters@hyperparameters$holdout,
-    quantreg = hyperparameters@hyperparameters$quantreg,
-    time.interest = hyperparameters@hyperparameters$time_interest,
-    oob.error = hyperparameters@hyperparameters$oob_error,
-    num.threads = hyperparameters@hyperparameters$num_threads,
-    save.memory = hyperparameters@hyperparameters$save_memory,
+    splitrule = hyperparameters@hyperparameters[["splitrule"]],
+    num.random.splits = hyperparameters@hyperparameters[["num.random.splits"]],
+    alpha = hyperparameters@hyperparameters[["alpha"]],
+    minprop = hyperparameters@hyperparameters[["minprop"]],
+    poisson.tau = hyperparameters@hyperparameters[["poisson.tau"]],
+    split.select.weights = hyperparameters@hyperparameters[[
+      "split.select.weights"
+    ]],
+    always.split.variables = hyperparameters@hyperparameters[[
+      "always.split.variables"
+    ]],
+    respect.unordered.factors = hyperparameters@hyperparameters[[
+      "respect.unordered.factors"
+    ]],
+    scale.permutation.importance = hyperparameters@hyperparameters[[
+      "scale.permutation.importance"
+    ]],
+    local.importance = hyperparameters@hyperparameters[["local.importance"]],
+    regularization.factor = hyperparameters@hyperparameters[[
+      "regularization.factor"
+    ]],
+    regularization.usedepth = hyperparameters@hyperparameters[[
+      "regularization.usedepth"
+    ]],
+    keep.inbag = hyperparameters@hyperparameters[["keep.inbag"]],
+    inbag = hyperparameters@hyperparameters[["inbag"]],
+    holdout = hyperparameters@hyperparameters[["holdout"]],
+    quantreg = hyperparameters@hyperparameters[["quantreg"]],
+    time.interest = hyperparameters@hyperparameters[["time.interest"]],
+    oob.error = hyperparameters@hyperparameters[["oob.error"]],
+    num.threads = hyperparameters@hyperparameters[["num.threads"]],
+    save.memory = hyperparameters@hyperparameters[["save.memory"]],
     verbose = verbosity > 0L,
-    node.stats = hyperparameters@hyperparameters$node_stats,
-    seed = hyperparameters@hyperparameters$seed,
-    na.action = hyperparameters@hyperparameters$na_action
+    node.stats = hyperparameters@hyperparameters[["node.stats"]],
+    seed = hyperparameters@hyperparameters[["seed"]],
+    na.action = hyperparameters@hyperparameters[["na.action"]]
   )
   check_inherits(model, "ranger")
   model
@@ -159,7 +171,7 @@ method(validate_hyperparameters, RangerHyperparameters) <- function(
   check_is_S7(hyperparameters, RangerHyperparameters)
 
   # Check mtry
-  if (any(hyperparameters@hyperparameters$mtry > NCOL(features(x)))) {
+  if (any(hyperparameters@hyperparameters[["mtry"]] > NCOL(features(x)))) {
     cli::cli_abort(
       "mtry cannot be greater than number of features: {ncol(features(x))}."
     )
