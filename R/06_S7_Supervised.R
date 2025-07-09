@@ -1783,6 +1783,7 @@ plot_true_pred.ClassificationRes <- function(
   if ("training" %in% what) {
     plt_training <- draw_confusion(
       table(true_l[["y_training"]], predicted_l[["predicted_training"]]),
+      xlab = "Predicted Training",
       theme = theme,
       ...
     )
@@ -1790,6 +1791,7 @@ plot_true_pred.ClassificationRes <- function(
   if ("test" %in% what) {
     plt_test <- draw_confusion(
       table(true_l[["y_test"]], predicted_l[["predicted_test"]]),
+      xlab = "Predicted Test",
       theme = theme,
       ...
     )
@@ -1903,21 +1905,6 @@ method(plot, SupervisedRes) <- function(...) {
 
 
 # Plot Variable Importance ----
-#' Plot Variable Importance
-#'
-#' @description
-#' Plot Variable Importance for Supervised objects.
-#'
-#' @param x Supervised or SupervisedRes object.
-# @param theme Theme object.
-# @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
-#' @param ... Additional arguments passed to the plotting function.
-#'
-#' @return plotly object or invisible NULL if no variable importance is available.
-#'
-#' @author EDG
-#' @export
-plot_varimp <- new_generic("plot_varimp", "x")
 method(plot_varimp, Supervised) <- function(
   x,
   theme = choose_theme(),
