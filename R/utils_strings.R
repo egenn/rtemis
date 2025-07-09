@@ -435,17 +435,17 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 #' @noRd
 
-objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 1L) {
+objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 2L) {
   cat(
     paste0(rep(" ", pad), collapse = ""),
     paste0(
       if (verbosity > 1L) {
-        thin("<rtemis::")
+        gray("<rtemis::")
       } else {
-        thin("<")
+        gray("<")
       },
       format_fn(x),
-      thin(">")
+      gray(">")
     ),
     "\n",
     sep = ""

@@ -36,6 +36,7 @@
 #' @param fit_col Color for fit line.
 #' @param fit_alpha Numeric: Alpha for fit line.
 #' @param fit_lwd Numeric: Line width for fit line.
+#' @param line_shape Character: Line shape for line plots. Options: "linear", "hv", "vh", "hvh", "vhv".
 #' @param se_col Color for standard error band.
 #' @param se_alpha Numeric: Alpha for standard error band.
 #' @param scatter_type Character: Scatter plot type.
@@ -147,6 +148,7 @@ draw_scatter <- function(
   fit_col = NULL,
   fit_alpha = .8,
   fit_lwd = 2.5,
+  line_shape = "linear",
   se_col = NULL,
   se_alpha = .4,
   scatter_type = "scatter",
@@ -606,7 +608,10 @@ draw_scatter <- function(
       text = hovertext[[i]],
       marker = marker,
       line = if (grepl("lines", .mode[i])) {
-        list(color = plotly::toRGB(marker_col[[i]], alpha = alpha))
+        list(
+          color = plotly::toRGB(marker_col[[i]], alpha = alpha),
+          shape = line_shape
+        )
       } else {
         NULL
       },

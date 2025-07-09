@@ -6,7 +6,7 @@
 \arguments{
 \item{x}{MassGLM object.}
 
-\item{xname}{Character: Name of covariate to get data for. If \code{NULL}, the first covariate is used.}
+\item{coefname}{Character: Name of coefficient to plot. If \code{NULL}, the first coefficient is used.}
 
 \item{p_adjust_method}{Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 p-value adjustment method.}

@@ -7,8 +7,10 @@
 #' @param x data.frame or similar: Predictor variables
 #' @param y data.frame or similar: Each column is a different outcome. The function will train one
 #' GLM for each column of `y`.
-#' @param scale_y Logical: If TRUE, scale each column of `y` to have mean 0 and sd 1.
-#' @param center_y Logical: If TRUE, center each column of `y` to have mean 0.
+#' @param scale_y Logical: If TRUE, scale each column of `y` to have mean 0 and sd 1. If `NULL`,
+#' defaults to TRUE if `y` is numeric, FALSE otherwise.
+#' @param center_y Logical: If TRUE, center each column of `y` to have mean 0. If `NULL`, defaults
+#' to TRUE if `scale_y` is TRUE, FALSE otherwise.
 # @param include_anova Logical: If TRUE, include ANOVA results in the summary.
 #' @param verbosity Integer: Verbosity level.
 #'
@@ -129,11 +131,20 @@ massGLM <- function(
   tbl <- rbindlist(tbls)
 
   # MassGLM ----
+  # ynames should be the same as tbl[["Variable"]]
+  # <> Check in MassGLM constructor
+  if (!all(ynames == tbl[["Variable"]])) {
+    cli::cli_warn(c(
+      "The names of the outcome variables in y ({.val ynames}) do not match the names in the summary table ({.val summary[['Variable']]})",
+      "Check the summary table."
+    ))
+  }
   outro(start_time)
   MassGLM(
     summary = tbl,
-    xnames = xnames,
     ynames = ynames,
+    xnames = xnames,
+    coefnames = gsub("Coefficient_", "", getnames(tbl, "Coefficient")),
     family = .family
   )
 } # rtemis::massGLM

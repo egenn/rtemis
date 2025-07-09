@@ -12,9 +12,11 @@ massGLM(x, y, scale_y = NULL, center_y = NULL, verbosity = 1L)
 \item{y}{data.frame or similar: Each column is a different outcome. The function will train one
 GLM for each column of \code{y}.}
 
-\item{scale_y}{Logical: If TRUE, scale each column of \code{y} to have mean 0 and sd 1.}
+\item{scale_y}{Logical: If TRUE, scale each column of \code{y} to have mean 0 and sd 1. If \code{NULL},
+defaults to TRUE if \code{y} is numeric, FALSE otherwise.}
 
-\item{center_y}{Logical: If TRUE, center each column of \code{y} to have mean 0.}
+\item{center_y}{Logical: If TRUE, center each column of \code{y} to have mean 0. If \code{NULL}, defaults
+to TRUE if \code{scale_y} is TRUE, FALSE otherwise.}
 
 \item{verbosity}{Integer: Verbosity level.}
 }
