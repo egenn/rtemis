@@ -145,13 +145,16 @@ draw_volcano <- function(
   xname <- deparse(substitute(x))
   p_adjust_method <- match.arg(p_adjust_method)
   filt <- !is.na(x) & !is.na(pvals)
+  if (is.null(xnames)) {
+    xnames <- names(x)
+  } else {
+    xnames <- xnames
+  }
+  if (!is.null(group)) {
+    group <- group[filt]
+  }
   x <- x[filt]
   pvals <- pvals[filt]
-  if (is.null(xnames)) {
-    xnames <- names(x)[filt]
-  } else {
-    xnames <- xnames[filt]
-  }
   if (is.null(xnames)) {
     xnames <- paste("Feature", seq_along(x))
   }
