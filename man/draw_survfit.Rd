@@ -55,8 +55,6 @@ draw_survfit(
 \item{filename}{Character: Filename to save plot.}
 
 \item{...}{Additional arguments passed to \link{draw_scatter}.}
-
-\item{plot_median}{Logical: If \code{TRUE}, draw line(s) at 50\% survival.}
 }
 \value{
 \code{plotly} object.

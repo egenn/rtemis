@@ -13,7 +13,7 @@
 #'
 #' @param x `survfit` object created by [survival::survfit].
 #' @param mode Character, vector: "markers", "lines", "markers+lines".
-#' @param plot_median Logical: If `TRUE`, draw line(s) at 50% survival.
+# @param plot_median Logical: If `TRUE`, draw line(s) at 50% survival.
 #' @param xlim Numeric vector of length 2: x-axis limits.
 #' @param ylim Numeric vector of length 2: y-axis limits.
 #' @param xlab Character: x-axis label.
@@ -82,24 +82,6 @@ draw_survfit <- function(
   }
   if (is.null(ylim)) {
     ylim <- c(0, 1)
-  }
-
-  # N at risk table ----
-  if (nrisk_table) {
-    sfs <- summary(x, times = time.at)
-    if (nstrata > 1) {
-      nrisk <- split(sfs$n.risk, sfs$strata)
-      nperstratum <- table(sfs$strata)
-      strata <- names(nperstratum)
-      nriskmat <- matrix(0, nstrata, length(time.at))
-      for (i in seq_len(nstrata)) {
-        nriskmat[i, seq_len(nperstratum[i])] <- nrisk[[i]]
-      }
-      rownames(nriskmat) <- strata
-    } else {
-      nriskmat <- matrix(sfs$n.risk, 1)
-    }
-    colnames(nriskmat) <- time.at
   }
 
   # Plot ----
