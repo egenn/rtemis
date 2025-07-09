@@ -42,6 +42,12 @@ rtemis_version <- packageVersion("rtemis")
   assign("rtemis_palette", rtemis_palette, envir = parent.env(environment()))
   rtemis_date <- getOption("rtemis_date", TRUE)
   assign("rtemis_date", rtemis_date, envir = parent.env(environment()))
+  rtemis_plotfileformat <- getOption("rtemis_plotfileformat", "svg")
+  assign(
+    "rtemis_plotfileformat",
+    rtemis_plotfileformat,
+    envir = parent.env(environment())
+  )
 }
 
 .onAttach <- function(libname, pkgname) {
