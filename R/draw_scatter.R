@@ -743,7 +743,12 @@ draw_scatter <- function(
   )
   .legend <- list(
     title = list(
-      text = legend_title
+      text = legend_title,
+      font = list(
+        family = theme[["font_family"]],
+        size = font_size,
+        color = legend_col
+      )
     ),
     x = legend_xy[1],
     xanchor = legend_xanchor,
