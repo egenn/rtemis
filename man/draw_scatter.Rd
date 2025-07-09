@@ -34,6 +34,7 @@ draw_scatter(
   fit_col = NULL,
   fit_alpha = 0.8,
   fit_lwd = 2.5,
+  line_shape = "linear",
   se_col = NULL,
   se_alpha = 0.4,
   scatter_type = "scatter",
@@ -163,6 +164,8 @@ draw_scatter(
 \item{fit_alpha}{Numeric: Alpha for fit line.}
 
 \item{fit_lwd}{Numeric: Line width for fit line.}
+
+\item{line_shape}{Character: Line shape for line plots. Options: "linear", "hv", "vh", "hvh", "vhv".}
 
 \item{se_col}{Color for standard error band.}
 
