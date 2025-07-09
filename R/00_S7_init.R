@@ -5,7 +5,7 @@
 # References
 # S7 generics: https://rconsortium.github.io/S7/articles/generics-methods.html
 
-# Generics ----
+# Internal Generics ----
 # Standard error of the fit.
 se <- new_generic("se", "x")
 # Short description for inline printing.
@@ -14,12 +14,53 @@ desc <- new_generic("desc", "x")
 desc_alt <- new_generic("desc_alt", "x")
 # Get metrics
 get_metric <- new_generic("get_metric", "x")
-# Plot predicted vs. true values.
-plot_true_pred <- new_generic("plot_true_pred", "x")
-# Manhattan plot
-plot_manhattan <- new_generic("plot_manhattan", "x")
 # check hyperparameters given training data
 validate_hyperparameters <- new_generic("validate_hyperparameters", "x")
+
+## Exported generics ----
+
+#' Plot Variable Importance
+#'
+#' @description
+#' Plot Variable Importance for Supervised objects.
+#'
+#' @param x Supervised or SupervisedRes object.
+# @param theme Theme object.
+# @param filename Character: Filename to save the plot to. If NULL, the plot is not saved.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return plotly object or invisible NULL if no variable importance is available.
+#'
+#' @author EDG
+#' @export
+plot_varimp <- new_generic("plot_varimp", "x")
+
+
+#' Plot True vs. Predicted Values
+#'
+#' @description
+#' Plot True vs. Predicted Values for Supervised objects.
+#' For classification, it plots a confusion matrix.
+#' For regression, it plots a scatter plot of true vs. predicted values.
+#'
+#' @param x Supervised or SupervisedRes object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return plotly object.
+#'
+#' @author EDG
+#' @export
+plot_true_pred <- new_generic("plot_true_pred", "x")
+
+
+#' Manhattan plot
+#'
+#' @description
+#' Draw a Manhattan plot for MassGLM objects created with [massGLM].
+#'
+#' @param x MassGLM object.
+#' @param ... Additional arguments passed to the plotting function.
+plot_manhattan <- new_generic("plot_manhattan", "x")
 
 #' Describe rtemis object
 #'
