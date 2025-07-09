@@ -14,8 +14,9 @@ MassGLM <- new_class(
   name = "MassGLM",
   properties = list(
     summary = class_data.table,
-    xnames = class_character,
     ynames = class_character,
+    xnames = class_character,
+    coefnames = class_character,
     family = class_character
   )
 ) # /rtemis::MassGLM
@@ -37,7 +38,11 @@ print.MassGLM <- function(x, ...) {
     bold(x@family),
     "with",
     hilite(length(x@xnames)),
-    "predictors each\n"
+    ngettext(length(x@xnames), "predictor", "predictors"),
+    "each.",
+    "\nAvailable coefficients:\n ",
+    paste(hilite(x@coefnames), collapse = ", "),
+    "\n"
   )
 } # /rtemis::print.MassGLM
 
@@ -47,7 +52,7 @@ method(print, MassGLM) <- print.MassGLM
 #' Plot MassGLM using volcano plot
 #'
 #' @param x MassGLM object
-#' @param xname Character: Name of covariate to get data for. If `NULL`, the first covariate is used.
+#' @param coefname Character: Name of coefficient to plot. If `NULL`, the first coefficient is used.
 #' @param p_adjust_method Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
 #' @param p_transform Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
@@ -60,35 +65,39 @@ method(print, MassGLM) <- print.MassGLM
 #' @export
 plot.MassGLM <- function(
   x,
-  xname = NULL,
+  coefname = NULL,
   p_adjust_method = "holm",
   p_transform = function(x) -log10(x),
   ylab = NULL,
   theme = choose_theme(),
   ...
 ) {
-  if (is.null(xname)) {
-    xname <- x@xnames[1]
+  if (is.null(coefname)) {
+    coefname <- x@coefnames[1]
   }
-  if (!xname %in% x@xnames) {
-    stop("xname must be one of the xnames in the MassGLM object.")
+  if (!coefname %in% x@coefnames) {
+    cli::cli_abort(c(
+      "i" = "{.var coefname} must be one of available coefnames: {.strong {x@coefnames}}",
+      "x" = "You asked for: {.strong {coefname}}"
+    ))
   }
 
   # y-axis label ----
   if (is.null(ylab)) {
     ylab <- fn2label(p_transform, "p-value")
-    ylab <- paste(ylab, "for", xname)
+    ylab <- paste(ylab, "for", coefname)
     if (p_adjust_method != "none") {
       ylab <- paste0(ylab, " (", labelify(p_adjust_method), "-corrected)")
     }
   }
 
   # Plot ----
-  coefs <- x@summary[[paste0("Coefficient_", xname)]]
-  pvals <- x@summary[[paste0("p_value_", xname)]]
+  coefs <- x@summary[[paste0("Coefficient_", coefname)]]
+  pvals <- x@summary[[paste0("p_value_", coefname)]]
   draw_volcano(
     x = coefs,
     pvals = pvals,
+    xnames = x@ynames,
     p_adjust_method = p_adjust_method,
     p_transform = p_transform,
     theme = theme,
@@ -111,7 +120,7 @@ method(plot, MassGLM) <- plot.MassGLM
 #' Create a Manhattan plot for MassGLM objects created with [massGLM].
 #'
 #' @param x MassGLM object.
-#' @param xname Character: Name of covariate to get data for. If `NULL`, the first covariate is used.
+#' @param coefname Character: Name of coefficient to plot. If `NULL`, the first coefficient is used.
 #' @param p_adjust_method Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
 #' @param p_transform Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
@@ -126,7 +135,7 @@ method(plot, MassGLM) <- plot.MassGLM
 #' @export
 method(plot_manhattan, MassGLM) <- function(
   x,
-  xname = NULL,
+  coefname = NULL,
   p_adjust_method = c(
     "holm",
     "hochberg",
@@ -146,25 +155,27 @@ method(plot_manhattan, MassGLM) <- function(
   ...
 ) {
   p_adjust_method <- match.arg(p_adjust_method)
-  if (is.null(xname)) {
-    xname <- x@xnames[1]
+  if (is.null(coefname)) {
+    coefname <- x@coefnames[1]
   }
-  if (!xname %in% x@xnames) {
-    stop("xname must be one of the xnames in the MassGLM object.")
+  if (!coefname %in% x@coefnames) {
+    stop(
+      "coefname must be one of the coefnames available in the MassGLM object."
+    )
   }
 
   # y-axis label ----
   if (is.null(ylab)) {
     ylab <- fn2label(p_transform, "p-value")
-    ylab <- paste(ylab, "for", xname)
+    ylab <- paste(ylab, "for", coefname)
     if (p_adjust_method != "none") {
       ylab <- paste0(ylab, " (", labelify(p_adjust_method), "-corrected)")
     }
   }
 
   # Plot ----
-  coefs <- x@summary[[paste0("Coefficient_", xname)]]
-  pvals <- x@summary[[paste0("p_value_", xname)]]
+  coefs <- x@summary[[paste0("Coefficient_", coefname)]]
+  pvals <- x@summary[[paste0("p_value_", coefname)]]
   pvals <- p.adjust(pvals, method = p_adjust_method)
   signif_pos_idi <- pvals < 0.05 & coefs > 0
   signif_neg_idi <- pvals < 0.05 & coefs < 0
