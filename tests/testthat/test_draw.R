@@ -180,8 +180,9 @@ test_that("draw_spectrogram creates a plotly object", {
 })
 
 # draw_survfit ----
-sf2 <- survival::survfit(survival::Surv(time, status) ~ sex, data = lung)
 test_that("draw_survfit creates a plotly object", {
+  data(cancer, package = "survival")
+  sf2 <- survival::survfit(survival::Surv(time, status) ~ sex, data = lung)
   p <- draw_survfit(sf2)
   expect_s3_class(p, "plotly")
 })
