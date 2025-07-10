@@ -1814,20 +1814,54 @@ plot_true_pred.ClassificationRes <- function(
   }
 } # /rtemis::plot_true_pred.ClassificationRes
 
-method(plot_true_pred, ClassificationRes) <- function(
+method(plot_true_pred, ClassificationRes) <- plot_true_pred.ClassificationRes
+
+
+# Plot ROC ClassificationRes ----
+#' Plot ROC for ClassificationRes
+#'
+#' @param x ClassificationRes object.
+#' @param what Character vector: "all", "training", "test". Which set(s) to plot.
+#' @param theme Theme object.
+#' @param col Character vector: Colors to use for the ROC curves.
+#' @param filename Character: Filename to save the plot to.
+#' @param ... Additional arguments passed to [draw_roc].
+#'
+#' @return plotly object.
+#'
+#' @author EDG
+#' @export
+plot_roc.ClassificationRes <- function(
   x,
   what = "all",
   theme = choose_theme(),
+  col = rtpalette(rtemis_palette)[1:2],
+  filename = NULL,
   ...
 ) {
-  plot_true_pred.ClassificationRes(
-    x,
-    what = what,
+  if (length(what) == 1 && what == "all") {
+    what <- c("training", "test")
+  }
+  labelsl <- probl <- list()
+
+  if ("training" %in% what) {
+    labelsl[["Training"]] <- unlist(x@y_training, use.names = FALSE)
+    probl[["Training"]] <- unlist(x@predicted_prob_training, use.names = FALSE)
+  }
+  if ("test" %in% what && !is.null(x@predicted_prob_test)) {
+    labelsl[["Test"]] <- unlist(x@y_test, use.names = FALSE)
+    probl[["Test"]] <- unlist(x@predicted_prob_test, use.names = FALSE)
+  }
+
+  draw_roc(
+    true_labels = labelsl,
+    predicted_prob = probl,
     theme = theme,
+    col = col,
+    filename = filename,
     ...
   )
-} # /rtemis::plot_true_pred.ClassificationRes
-
+} # /rtemis::plot_roc.ClassificationRes
 
 # Plot SupervisedRes ----
 #' Plot SupervisedRes
@@ -1899,9 +1933,7 @@ plot.SupervisedRes <- function(
   draw_box(xl, theme = theme, ylab = ylab, boxpoints = boxpoints, ...)
 } # /rtemis::plot.SupervisedRes
 
-method(plot, SupervisedRes) <- function(...) {
-  plot.SupervisedRes(...)
-}
+method(plot, SupervisedRes) <- plot.SupervisedRes
 
 
 # Plot Variable Importance ----
