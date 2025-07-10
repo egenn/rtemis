@@ -14,25 +14,25 @@
 #' @noRd
 intro <- function(
   message = NULL,
-  log_file = NULL,
+  logfile = NULL,
   call_depth = 1,
   caller = NULL,
   newline_pre = FALSE,
   verbosity = 1L
 ) {
-  if (!is.null(log_file)) {
-    log_file <- normalizePath(log_file, mustWork = FALSE)
-    outdir <- dirname(log_file)
+  if (!is.null(logfile)) {
+    logfile <- normalizePath(logfile, mustWork = FALSE)
+    outdir <- dirname(logfile)
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    if (file.exists(log_file)) {
-      log_file <- paste0(log_file, "_1")
+    if (file.exists(logfile)) {
+      logfile <- paste0(logfile, "_1")
     }
-    sink(log_file, split = verbosity > 0L)
+    sink(logfile, split = verbosity > 0L)
   }
   start_time <- proc.time()
-  if (verbosity > 0L || !is.null(log_file)) {
+  if (verbosity > 0L || !is.null(logfile)) {
     if (newline_pre) {
       cat("\n")
     }

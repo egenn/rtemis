@@ -141,7 +141,7 @@ train <- function(
     }
   }
 
-  log_file <- if (!is.null(outdir)) {
+  logfile <- if (!is.null(outdir)) {
     paste0(
       outdir,
       "/",
@@ -154,7 +154,7 @@ train <- function(
   } else {
     NULL
   }
-  start_time <- intro(verbosity = verbosity, log_file = log_file)
+  start_time <- intro(verbosity = verbosity, logfile = logfile)
 
   # Parallelization ----
   # 3 potential points of parallelization from innermost to outermost: algorithm, tuning (inner resampling), outer resampling.
@@ -465,7 +465,7 @@ train <- function(
   outro(
     start_time,
     verbosity = verbosity,
-    sink_off = ifelse(is.null(log_file), FALSE, TRUE)
+    sink_off = ifelse(is.null(logfile), FALSE, TRUE)
   )
   mod
 } # /rtemis::train
