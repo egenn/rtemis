@@ -892,6 +892,12 @@ test_that("plot_roc.Classification creates a plotly object", {
   expect_s3_class(p, "plotly")
 })
 
+# Plot ROC ClassificationRes ----
+test_that("plot_roc.ClassificationRes creates a plotly object", {
+  p <- plot_roc(resmod_c_cart)
+  expect_s3_class(p, "plotly")
+})
+
 # Plot RegressionRes ----
 test_that("plot.SupervisedRes creates a plotly object", {
   p <- plot(resmod_r_glm)
