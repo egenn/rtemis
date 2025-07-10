@@ -1863,6 +1863,8 @@ plot_roc.ClassificationRes <- function(
   )
 } # /rtemis::plot_roc.ClassificationRes
 
+method(plot_roc, ClassificationRes) <- plot_roc.ClassificationRes
+
 # Plot SupervisedRes ----
 #' Plot SupervisedRes
 #'
