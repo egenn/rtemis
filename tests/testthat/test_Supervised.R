@@ -58,7 +58,6 @@ test_that("class_imbalance() works", {
   expect_type(class_imbalance(outcome(datc2)), "double")
 })
 
-# Regression ----
 ## GLM Regression ----
 mod_r_glm <- train(
   x = datr_train,
@@ -97,6 +96,37 @@ resmod_r_glm <- train(
 )
 test_that("train() Res GLM Regression succeeds", {
   expect_s7_class(resmod_r_glm, RegressionRes)
+})
+
+## GLM Classification ----
+mod_c_glm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "glm"
+)
+test_that("train() GLM Classification succeeds", {
+  expect_s7_class(mod_c_glm, Classification)
+})
+
+## GLM Classification IFW ----
+mod_c_glm_ifw <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "glm",
+  hyperparameters = setup_GLM(ifw = TRUE)
+)
+test_that("train() GLM Classification with IFW succeeds", {
+  expect_s7_class(mod_c_glm_ifw, Classification)
+})
+
+## GLM ClassificationRes ----
+resmod_c_glm <- train(
+  x = datc2,
+  algorithm = "glm",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() GLM ClassificationRes succeeds", {
+  expect_s7_class(resmod_c_glm, ClassificationRes)
 })
 
 ## GLMNET ----
@@ -359,6 +389,53 @@ test_that("train() RegressionRes succeeds", {
   expect_s7_class(resmod_r_cart, RegressionRes)
 })
 
+## CART Classification ----
+# model <- train_CART(dat_training = datc2_train, dat_test = datc2_test)
+# model$method #"class"
+mod_c_cart <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "cart"
+)
+test_that("train() CART Classification succeeds", {
+  expect_s7_class(mod_c_cart, Classification)
+})
+
+## CART Classification + IFW ----
+mod_c_cart_ifw <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "cart",
+  hyperparameters = setup_CART(
+    ifw = TRUE
+  )
+)
+test_that("train() CART Classification with IFW succeeds", {
+  expect_s7_class(mod_c_cart_ifw, Classification)
+})
+
+## CART Classification + grid search ----
+mod_c_cart_tuned <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_CART(
+    maxdepth = c(1L, 3L)
+  )
+)
+test_that("train() Classification with grid_search() succeeds", {
+  expect_s7_class(mod_c_cart_tuned, Classification)
+})
+
+## Res CART Classification ----
+resmod_c_cart <- train(
+  x = datc2,
+  algorithm = "cart",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() CART ClassificationRes succeeds", {
+  expect_s7_class(resmod_c_cart, ClassificationRes)
+})
+
 ## LightCART Regression ----
 mod_r_lightcart <- train(
   x = datr_train,
@@ -502,38 +579,6 @@ if (torch::torch_is_installed()) {
   })
 }
 
-# Binary Classification ----
-## GLM Classification ----
-mod_c_glm <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "glm"
-)
-test_that("train() GLM Classification succeeds", {
-  expect_s7_class(mod_c_glm, Classification)
-})
-
-## GLM Classification IFW ----
-mod_c_glm_ifw <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "glm",
-  hyperparameters = setup_GLM(ifw = TRUE)
-)
-test_that("train() GLM Classification with IFW succeeds", {
-  expect_s7_class(mod_c_glm_ifw, Classification)
-})
-
-## GLM ClassificationRes ----
-resmod_c_glm <- train(
-  x = datc2,
-  algorithm = "glm",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
-)
-test_that("train() GLM ClassificationRes succeeds", {
-  expect_s7_class(resmod_c_glm, ClassificationRes)
-})
-
 ## GAM Classification ----
 mod_c_gam <- train(
   x = datc2_train,
@@ -553,53 +598,6 @@ mod_c_gam_ifw <- train(
 )
 test_that("train() GAM Classification with IFW succeeds", {
   expect_s7_class(mod_c_gam_ifw, Classification)
-})
-
-## CART Classification ----
-# model <- train_CART(dat_training = datc2_train, dat_test = datc2_test)
-# model$method #"class"
-mod_c_cart <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "cart"
-)
-test_that("train() CART Classification succeeds", {
-  expect_s7_class(mod_c_cart, Classification)
-})
-
-## Res CART Classification ----
-resmod_c_cart <- train(
-  x = datc2,
-  algorithm = "cart",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
-)
-test_that("train() CART ClassificationRes succeeds", {
-  expect_s7_class(resmod_c_cart, ClassificationRes)
-})
-
-## CART Classification + IFW ----
-mod_c_cart_ifw <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "cart",
-  hyperparameters = setup_CART(
-    ifw = TRUE
-  )
-)
-test_that("train() CART Classification with IFW succeeds", {
-  expect_s7_class(mod_c_cart_ifw, Classification)
-})
-
-## CART Classification + grid search ----
-mod_c_cart_tuned <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  hyperparameters = setup_CART(
-    maxdepth = c(1L, 3L)
-  )
-)
-test_that("train() Classification with grid_search() succeeds", {
-  expect_s7_class(mod_c_cart_tuned, Classification)
 })
 
 ## GLMNET Binary Classification ----
