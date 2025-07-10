@@ -393,7 +393,11 @@ draw_scatter <- function(
     col <- rep(col, n_groups / length(col))
   }
   if (is.null(alpha)) {
-    alpha <- autoalpha(max(lengths(x)))
+    alpha <- if (mode == "markers") {
+      autoalpha(max(lengths(x)))
+    } else {
+      1
+    }
   }
 
   # Theme ----
