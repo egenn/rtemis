@@ -393,7 +393,11 @@ draw_scatter <- function(
     col <- rep(col, n_groups / length(col))
   }
   if (is.null(alpha)) {
-    alpha <- autoalpha(max(lengths(x)))
+    alpha <- if (mode == "markers") {
+      autoalpha(max(lengths(x)))
+    } else {
+      1
+    }
   }
 
   # Theme ----
@@ -743,7 +747,12 @@ draw_scatter <- function(
   )
   .legend <- list(
     title = list(
-      text = legend_title
+      text = legend_title,
+      font = list(
+        family = theme[["font_family"]],
+        size = font_size,
+        color = legend_col
+      )
     ),
     x = legend_xy[1],
     xanchor = legend_xanchor,

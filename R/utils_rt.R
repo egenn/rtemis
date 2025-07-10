@@ -139,9 +139,10 @@ summarize_supervised_data <- function(
   dat_validation = NULL,
   dat_test = NULL
 ) {
-  msg2("Input data summary:")
+  # msg2("Input data summary:")
   msg20(
-    "  Training set: ",
+    if (!is.null(dat_validation)) "  ",
+    "Training set: ",
     hilite(NROW(x)),
     " cases x ",
     hilite(NCOL(x) - 1),
@@ -158,7 +159,8 @@ summarize_supervised_data <- function(
   }
   if (!is.null(dat_test)) {
     msg20(
-      "      Test set: ",
+      if (!is.null(dat_validation)) "  ",
+      "    Test set: ",
       hilite(NROW(dat_test)),
       " cases x ",
       hilite(NCOL(dat_test) - 1),

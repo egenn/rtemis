@@ -3,6 +3,9 @@
 # 2022 EDG rtemis.org
 # allow custom grouping
 
+# References
+# https://github.com/plotly/plotly.js/blob/master/src/plot_api/plot_config.js
+
 #' Volcano Plot
 #'
 #' @param x Numeric vector: Input values, e.g. log2 fold change, coefficients, etc.
@@ -127,14 +130,14 @@ draw_volcano <- function(
   legend_x_lo = NULL,
   legend_x_hi = NULL,
   legend_y = .97,
-  annotate_n = 7,
+  annotate_n = 7L,
   ax_lo = NULL, # 40,
   ay_lo = NULL,
   ax_hi = NULL, # -40,
   ay_hi = NULL,
   annotate_alpha = .7,
   hovertext = NULL,
-  displayModeBar = FALSE,
+  displayModeBar = "hover",
   filename = NULL,
   file_width = 500,
   file_height = 500,
@@ -420,8 +423,13 @@ draw_volcano <- function(
   plt <- plotly::config(
     plt,
     displaylogo = FALSE,
-    displayModeBar = displayModeBar
-    # mathjax = mathjax
+    displayModeBar = displayModeBar,
+    toImageButtonOptions = list(
+      format = "svg",
+      width = file_width,
+      height = file_height,
+      scale = file_scale
+    )
   )
 
   # Write to file ----
@@ -429,7 +437,7 @@ draw_volcano <- function(
     plotly::save_image(
       plt,
       file.path(filename),
-      with = file_width,
+      width = file_width,
       height = file_height,
       scale = file_scale
     )

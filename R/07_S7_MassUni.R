@@ -56,8 +56,10 @@ method(print, MassGLM) <- print.MassGLM
 #' @param p_adjust_method Character: "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none" -
 #' p-value adjustment method.
 #' @param p_transform Function to transform p-values for plotting. Default is `function(x) -log10(x)`.
+#' @param xlab Character: x-axis label.
 #' @param ylab Character: y-axis label.
 #' @param theme Theme object
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @param ... Additional arguments passed to [draw_volcano] or [draw_bar]
 #'
@@ -68,8 +70,10 @@ plot.MassGLM <- function(
   coefname = NULL,
   p_adjust_method = "holm",
   p_transform = function(x) -log10(x),
+  xlab = "Coefficient",
   ylab = NULL,
   theme = choose_theme(),
+  verbosity = 1L,
   ...
 ) {
   if (is.null(coefname)) {
@@ -80,6 +84,15 @@ plot.MassGLM <- function(
       "i" = "{.var coefname} must be one of available coefnames: {.strong {x@coefnames}}",
       "x" = "You asked for: {.strong {coefname}}"
     ))
+  }
+  if (verbosity > 0L) {
+    msg2(
+      "Plotting coefficients for",
+      hilite(coefname),
+      "x",
+      length(x@ynames),
+      "outcomes."
+    )
   }
 
   # y-axis label ----
@@ -101,6 +114,7 @@ plot.MassGLM <- function(
     p_adjust_method = p_adjust_method,
     p_transform = p_transform,
     theme = theme,
+    xlab = xlab,
     ylab = ylab,
     ...
   )
@@ -133,7 +147,7 @@ method(plot, MassGLM) <- plot.MassGLM
 #'
 #' @author EDG
 #' @export
-method(plot_manhattan, MassGLM) <- function(
+plot_manhattan.MassGLM <- function(
   x,
   coefname = NULL,
   p_adjust_method = c(
@@ -195,3 +209,5 @@ method(plot_manhattan, MassGLM) <- function(
     ...
   )
 } # /rtemis::plot_manhattan.MassGLM
+
+method(plot_manhattan, MassGLM) <- plot_manhattan.MassGLM

@@ -120,7 +120,7 @@ print.Hyperparameters <- function(x, pad = 0L, verbosity = 1L, ...) {
   }
   # objcat(paste(x@algorithm, "Hyperparameters"))
   objcat(.class)
-  printls(props(x)[-1], pad = pad)
+  printls(props(x)[-1], pad = pad, limit = -1L)
   if (x@tuned == -9L) {
     cat(hilite2("\n  Hyperparameters are being tuned.\n"))
   } else if (x@tuned == -2L) {

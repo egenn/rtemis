@@ -9,8 +9,10 @@
   coefname = NULL,
   p_adjust_method = "holm",
   p_transform = function(x) -log10(x),
+  xlab = "Coefficient",
   ylab = NULL,
   theme = choose_theme(),
+  verbosity = 1L,
   ...
 )
 }
@@ -24,9 +26,13 @@ p-value adjustment method.}
 
 \item{p_transform}{Function to transform p-values for plotting. Default is \code{function(x) -log10(x)}.}
 
+\item{xlab}{Character: x-axis label.}
+
 \item{ylab}{Character: y-axis label.}
 
 \item{theme}{Theme object}
+
+\item{verbosity}{Integer: Verbosity level.}
 
 \item{...}{Additional arguments passed to \link{draw_volcano} or \link{draw_bar}}
 }

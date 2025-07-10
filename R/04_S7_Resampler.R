@@ -31,8 +31,17 @@ ResamplerParameters <- new_class(
   name = "ResamplerParameters",
   properties = list(
     type = class_character,
-    n = scalar_int_pos
-  )
+    n = class_integer # scalar_int_pos
+  ),
+  constructor = function(type, n) {
+    # LOOCV does not have a defined number of resamples, so n can be NA_integer_
+    n <- clean_posint(n, allow_na = TRUE)
+    new_object(
+      S7_object(),
+      type = type,
+      n = n
+    )
+  }
 ) # /ResamplerParameters
 
 # Make S7 properties `$`-accessible
@@ -349,7 +358,7 @@ setup_Resampler <- function(
     )
   } else if (type == "LOOCV") {
     LOOCVParams(
-      n = 0L
+      n = NA_integer_
     )
   } else {
     cli::cli_abort(paste(

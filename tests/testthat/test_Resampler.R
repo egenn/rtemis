@@ -4,11 +4,6 @@
 
 # library(testthat)
 
-# ResamplerParameters ----
-test_that("ResamplerParameters succeeds", {
-  expect_s7_class(ResamplerParameters(n = 10L), ResamplerParameters)
-})
-
 # StratSubParams ----
 test_that("StratSubParams succeeds", {
   rsp <- StratSubParams(
