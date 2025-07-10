@@ -3,6 +3,7 @@
 # EDG rtemis.org
 
 # Setup ----
+# library(rtemis)
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
 # devtools::load_all()
@@ -241,17 +242,27 @@ resmod_r_gam <- train(
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 
-## Test ... args to train ---
-# mod_r_gam_aa <- train(
-#   x = datr_train,
-#   dat_test = datr_test,
-#   algorithm = "gam",
-#   k = 7L
-# )
-# test_that("train() GAM Regression with ... args succeeds", {
-#   expect_s7_class(mod_r_gam_aa, Regression)
-#   expect_identical(mod_r_gam_aa@hyperparameters$k, 7L)
-# })
+## GAM Classification ----
+mod_c_gam <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "gam"
+)
+test_that("train() GAM Classification succeeds", {
+  expect_s7_class(mod_c_gam, Classification)
+})
+
+## GAM Classification IFW ----
+mod_c_gam_ifw <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "gam",
+  hyperparameters = setup_GAM(ifw = TRUE)
+)
+test_that("train() GAM Classification with IFW succeeds", {
+  expect_s7_class(mod_c_gam_ifw, Classification)
+})
+
 
 ## LinearSVM Regression ----
 mod_r_svml <- train(
@@ -281,6 +292,16 @@ resmod_r_svml <- train(
 )
 test_that("train() Res LinearSVM Regression succeeds", {
   expect_s7_class(resmod_r_svml, RegressionRes)
+})
+
+# LinearSVM Classification ----
+mod_c_linearsvm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "linearsvm"
+)
+test_that("train() LinearSVM Classification succeeds", {
+  expect_s7_class(mod_c_linearsvm, Classification)
 })
 
 ## RadialSVM Regression ----
@@ -462,6 +483,16 @@ test_that("train() LightCART Regression with linear_tree succeeds", {
   )
 })
 
+## LightCART Classification ----
+mod_c_lightcart <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "lightcart"
+)
+test_that("train() LightCART Classification succeeds", {
+  expect_s7_class(mod_c_lightcart, Classification)
+})
+
 ## LightRF Regression ----
 mod_r_lightrf <- train(
   x = datr_train,
@@ -500,6 +531,26 @@ test_that("train() LightRF Regression with l1 tuning succeeds", {
   expect_s7_class(tmod_r_lightrf, Regression)
 })
 
+## LightRF Classification ----
+mod_c_lightrf <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "lightrf"
+)
+test_that("train() LightRF Classification succeeds", {
+  expect_s7_class(mod_c_lightrf, Classification)
+})
+
+## LightRF Res Classification ----
+resmod_c_lightrf <- train(
+  x = datc2,
+  algorithm = "lightrf",
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() LightRF ClassificationRes succeeds", {
+  expect_s7_class(resmod_c_lightrf, ClassificationRes)
+})
+
 ## LightGBM Regression ----
 mod_r_lightgbm <- train(
   x = datr_train,
@@ -533,6 +584,25 @@ test_that("train() Res LightGBM Regression with autotune nrounds succeeds", {
   expect_s7_class(restmod_r_lightgbm, RegressionRes)
 })
 
+## LightGBM Binary Classification ----
+mod_c_lightgbm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "lightgbm",
+  # hyperparameters = setup_LightGBM(
+  #   force_nrounds = 100L
+  # ),
+  tuner_parameters = setup_GridSearch(
+    resampler_parameters = setup_Resampler(
+      n_resamples = 3L,
+      type = "KFold"
+    )
+  )
+)
+test_that("train() LightGBM Classification succeeds", {
+  expect_s7_class(mod_c_lightgbm, Classification)
+})
+
 ## LightRuleFit Regression ----
 mod_r_lightrlft_l1l2 <- train(
   x = datr_train,
@@ -557,14 +627,16 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
   )
 })
 
-# mod_r_lightrlft_reg <- train(
-#   x = datr_train,
-#   dat_test = datr_test,
-#   algorithm = "lightrulefit",
-#   hyperparameters = setup_LightRuleFit(num_leaves = 2^2, lambda_l1 = 100)
-# )
+## LightRuleFit Binary Classification ----
+mod_c_lightrlft <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "lightrulefit"
+)
+test_that("train() LightRuleFit Classification succeeds", {
+  expect_s7_class(mod_c_lightrlft, Classification)
+})
 
-# TabNet Regression ----
 ## TabNet Regression ----
 # Test if lantern is installed
 if (torch::torch_is_installed()) {
@@ -579,105 +651,18 @@ if (torch::torch_is_installed()) {
   })
 }
 
-## GAM Classification ----
-mod_c_gam <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "gam"
-)
-test_that("train() GAM Classification succeeds", {
-  expect_s7_class(mod_c_gam, Classification)
-})
-
-## GAM Classification IFW ----
-mod_c_gam_ifw <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "gam",
-  hyperparameters = setup_GAM(ifw = TRUE)
-)
-test_that("train() GAM Classification with IFW succeeds", {
-  expect_s7_class(mod_c_gam_ifw, Classification)
-})
-
-## GLMNET Binary Classification ----
-mod_c_glmnet <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  hyperparameters = setup_GLMNET(ifw = FALSE)
-)
-test_that("train() GLMNET Binary Classification succeeds", {
-  expect_s7_class(mod_c_glmnet, Classification)
-})
-
-## GLMNET Binary Classification IFW ----
-mod_c_glmnet_ifw <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  hyperparameters = setup_GLMNET(ifw = TRUE, lambda = .001)
-)
-test_that("train() GLMNET Binary Classification with IFW & fixed lambda succeeds", {
-  expect_s7_class(mod_c_glmnet_ifw, Classification)
-})
-
-## LightCART Classification ----
-mod_c_lightcart <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "lightcart"
-)
-test_that("train() LightCART Classification succeeds", {
-  expect_s7_class(mod_c_lightcart, Classification)
-})
-
-## LightRF Classification ----
-mod_c_lightrf <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "lightrf"
-)
-test_that("train() LightRF Classification succeeds", {
-  expect_s7_class(mod_c_lightrf, Classification)
-})
-
-## LightRF Res Classification ----
-resmod_c_lightrf <- train(
-  x = datc2,
-  algorithm = "lightrf",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
-)
-test_that("train() LightRF ClassificationRes succeeds", {
-  expect_s7_class(resmod_c_lightrf, ClassificationRes)
-})
-
-## LightGBM Binary Classification ----
-mod_c_lightgbm <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "lightgbm",
-  # hyperparameters = setup_LightGBM(
-  #   force_nrounds = 100L
-  # ),
-  tuner_parameters = setup_GridSearch(
-    resampler_parameters = setup_Resampler(
-      n_resamples = 3L,
-      type = "KFold"
-    )
+# TabNet Classification ----
+if (torch::torch_is_installed()) {
+  mod_c_tabnet <- train(
+    x = datc2_train,
+    dat_test = datc2_test,
+    algorithm = "tabnet",
+    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
   )
-)
-test_that("train() LightGBM Classification succeeds", {
-  expect_s7_class(mod_c_lightgbm, Classification)
-})
-
-## LightRuleFit Binary Classification ----
-mod_c_lightrlft <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "lightrulefit"
-)
-test_that("train() LightRuleFit Classification succeeds", {
-  expect_s7_class(mod_c_lightrlft, Classification)
-})
+  test_that("train() TabNet Classification succeeds", {
+    expect_s7_class(mod_c_tabnet, Classification)
+  })
+}
 
 # Isotonic Regression ----
 x <- rnorm(50)
@@ -698,39 +683,6 @@ cmod_iso <- train(dat, algorithm = "Isotonic")
 test_that("train() Isotonic Classification succeeds", {
   expect_s7_class(cmod_iso, Classification)
 })
-
-# LinearSVM Classification ----
-mod_c_linearsvm <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "linearsvm"
-)
-test_that("train() LinearSVM Classification succeeds", {
-  expect_s7_class(mod_c_linearsvm, Classification)
-})
-
-# RadialSVM Classification ----
-mod_c_radialsvm <- train(
-  x = datc2_train,
-  dat_test = datc2_test,
-  algorithm = "radialsvm"
-)
-test_that("train() RadialSVM Classification succeeds", {
-  expect_s7_class(mod_c_radialsvm, Classification)
-})
-
-# TabNet Classification ----
-if (torch::torch_is_installed()) {
-  mod_c_tabnet <- train(
-    x = datc2_train,
-    dat_test = datc2_test,
-    algorithm = "tabnet",
-    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
-  )
-  test_that("train() TabNet Classification succeeds", {
-    expect_s7_class(mod_c_tabnet, Classification)
-  })
-}
 
 # Ranger Regression ----
 mod_r_ranger <- train(
@@ -838,8 +790,8 @@ test_that("describe.Regression returns character", {
 })
 
 # 2. Plot Regression ----
-test_that("plot.Supervised creates a plotly object", {
-  p <- plot(mod_r_glm)
+test_that("plot_true_pred.Supervised creates a plotly object", {
+  p <- plot_true_pred(mod_r_glm)
   expect_s3_class(p, "plotly")
 })
 
@@ -862,8 +814,8 @@ test_that("describe.Classification returns character", {
 })
 
 # 2. Plot Classification ----
-test_that("plot.Supervised creates a plotly object", {
-  p <- plot(mod_c_glm)
+test_that("plot_true_pred.Classification creates a plotly object", {
+  p <- plot_true_pred(mod_c_glm)
   expect_s3_class(p, "plotly")
 })
 
@@ -899,14 +851,14 @@ test_that("plot_roc.ClassificationRes creates a plotly object", {
 })
 
 # Plot RegressionRes ----
-test_that("plot.SupervisedRes creates a plotly object", {
-  p <- plot(resmod_r_glm)
+test_that("plot_metric.SupervisedRes creates a plotly object", {
+  p <- plot_metric(resmod_r_glm)
   expect_s3_class(p, "plotly")
 })
 
 # Plot ClassificationRes ----
-test_that("plot.SupervisedRes creates a plotly object", {
-  p <- plot(resmod_c_glm)
+test_that("plot_metric.SupervisedRes creates a plotly object", {
+  p <- plot_metric(resmod_c_glm)
   expect_s3_class(p, "plotly")
 })
 

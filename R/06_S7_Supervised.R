@@ -8,6 +8,14 @@
 # https://rconsortium.github.io/S7/articles/classes-objects.html?q=computed#computed-properties
 # https://utf8-icons.com/
 
+# Plot methods
+# Supervised: plot_varimp
+# SupervisedRes: plot_varimp, plot_metric
+# Regression: plot_true_pred,
+# Classification: plot_true_pred, plot_roc
+# RegressionRes: plot_metric, plot_true_pred,
+# ClassificationRes: plot_metric, plot_true_pred, plot_roc
+
 # Supervised ----
 #' @title Supervised
 #'
@@ -838,71 +846,6 @@ method(plot_true_pred, Classification) <- function(
   )
 }
 
-# Plot Regression ----
-#' Plot Regression
-#'
-#' @param x Regression object.
-#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
-#' "all", which will plot all available.
-#' @param fit Character: Algorithm to use to draw fit line.
-#' @param theme Theme object.
-#' @param labelify Logical: If TRUE, labelify the axis labels.
-#' @param ... Additional arguments passed to the plotting function.
-#'
-#' @author EDG
-#' @export
-plot.Regression <- function(
-  x,
-  what = "all",
-  fit = "glm",
-  theme = choose_theme(),
-  labelify = TRUE,
-  ...
-) {
-  plot_true_pred.Regression(
-    x = x,
-    what = what,
-    fit = fit,
-    theme = theme,
-    labelify = labelify,
-    ...
-  )
-} # /plot.Regression
-
-method(plot, Regression) <- function(x, ...) {
-  plot.Regression(x, ...)
-}
-
-
-# Plot Classification ----
-#' Plot Classification
-#'
-#' @param x Classification object.
-#' @param what Character vector: What to plot. Can include "training", "validation", "test", or
-#' "all", which will plot all available.
-#' @param theme Theme object.
-#' @param ... Additional arguments passed to the plotting function.
-#'
-#' @author EDG
-#' @export
-plot.Classification <- function(
-  x,
-  what = NULL,
-  theme = choose_theme(),
-  ...
-) {
-  plot_true_pred.Classification(
-    x = x,
-    what = what,
-    theme = theme,
-    ...
-  )
-} # /plot.Classification
-
-method(plot, Classification) <- function(x, ...) {
-  plot.Classification(x, ...)
-}
-
 
 # plot_ROC Classification ----
 method(plot_roc, Classification) <- function(
@@ -1051,17 +994,6 @@ write_Supervised <- function(
 } # /write_Supervised
 
 
-#' Plot Supervised
-#'
-#' @param x Supervised object.
-#' @param ... Additional arguments passed to the plotting function.
-#'
-#' @author EDG
-plot.Supervised <- function(x, ...) {
-  plot_true_pred(x, ...)
-}
-
-
 # Present Regression ----
 # present method for Regression objects
 # Plot training + test metrics, if available, side by side using `plotly::subplot()`
@@ -1070,51 +1002,18 @@ method(present, Regression) <- function(
   x,
   what = c("training", "test"),
   theme = choose_theme(),
-  col = rtpalette(rtemis_palette)[1:2],
-  filename = NULL
+  filename = NULL,
+  ...
 ) {
   # Describe the model
   describe(x)
-  # Training set plot
-  if ("training" %in% what) {
-    plot_training <- plot(
-      x,
-      what = "training",
-      ylab = "Predicted Training",
-      theme = theme,
-      col = col[1],
-      group_names = "Training",
-      legend_trace = FALSE
-    )
-  } else {
-    plot_training <- NULL
-  }
-  # Test set plot
-  if ("test" %in% what && !is.null(x@y_test)) {
-    plot_test <- plot(
-      x,
-      what = "test",
-      ylab = "Predicted Test",
-      theme = theme,
-      col = col[2],
-      group_names = "Test",
-      legend_trace = FALSE
-    )
-  } else {
-    plot_test <- NULL
-  }
-
-  # Combined plot
-  # regression: scatter plots left to right
-  plotly::subplot(
-    plot_training,
-    plot_test,
-    nrows = 1L,
-    shareX = FALSE,
-    shareY = TRUE,
-    titleX = TRUE,
-    titleY = TRUE,
-    margin = 0.05
+  # Plot True vs. Predicted
+  plot_true_pred(
+    x,
+    what = what,
+    theme = theme,
+    filename = filename,
+    ...
   )
 } # /rtemis::present.Regression
 
@@ -1145,7 +1044,7 @@ method(present, Classification) <- function(
   } else if (type == "confusion") {
     # Training set plot
     if ("training" %in% what) {
-      plot_training <- plot(
+      plot_training <- plot_true_pred(
         x,
         what = "training",
         theme = theme,
@@ -1156,7 +1055,7 @@ method(present, Classification) <- function(
     }
     # Test set plot
     if ("test" %in% what && !is.null(x@y_test)) {
-      plot_test <- plot(
+      plot_test <- plot_true_pred(
         x,
         what = "test",
         theme = theme,
@@ -1678,9 +1577,8 @@ method(describe, SupervisedRes) <- function(x, ...) {
 method(present, SupervisedRes) <- function(x, theme = choose_theme(), ...) {
   # Describe the model
   describe(x)
-
   # Plot the performance metrics
-  plot(x, what = c("training", "test"), theme = theme, ...)
+  plot_metric(x, what = c("training", "test"), theme = theme, ...)
 } # /rtemis::present.SupervisedRes
 
 
@@ -1865,8 +1763,8 @@ plot_roc.ClassificationRes <- function(
 
 method(plot_roc, ClassificationRes) <- plot_roc.ClassificationRes
 
-# Plot SupervisedRes ----
-#' Plot SupervisedRes
+# Plot Metric SupervisedRes ----
+#' Plot Metric SupervisedRes
 #'
 #' Plot boxplot of performance metrics across resamples.
 #'
@@ -1880,7 +1778,7 @@ method(plot_roc, ClassificationRes) <- plot_roc.ClassificationRes
 #'
 #' @author EDG
 #' @export
-plot.SupervisedRes <- function(
+plot_metric.SupervisedRes <- function(
   x,
   what = c("training", "test"),
   metric = NULL,
@@ -1933,12 +1831,12 @@ plot.SupervisedRes <- function(
 
   # Boxplot ----
   draw_box(xl, theme = theme, ylab = ylab, boxpoints = boxpoints, ...)
-} # /rtemis::plot.SupervisedRes
+} # /rtemis::plot_metric.SupervisedRes
 
-method(plot, SupervisedRes) <- plot.SupervisedRes
+method(plot_metric, SupervisedRes) <- plot_metric.SupervisedRes
 
 
-# Plot Variable Importance ----
+# Plot Variable Importance Supervised ----
 method(plot_varimp, Supervised) <- function(
   x,
   theme = choose_theme(),
@@ -1952,6 +1850,8 @@ method(plot_varimp, Supervised) <- function(
   draw_varimp(x@varimp, theme = theme, filename = filename, ...)
 } # /plot_varimp.Supervised
 
+
+# Plot Variable Importance SupervisedRes ----
 method(plot_varimp, SupervisedRes) <- function(
   x,
   ylab = NULL,

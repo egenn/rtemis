@@ -5,7 +5,6 @@
 # References
 # S7 generics: https://rconsortium.github.io/S7/articles/generics-methods.html
 
-# Internal Generics ----
 # Standard error of the fit.
 se <- new_generic("se", "x")
 # Short description for inline printing.
@@ -17,7 +16,35 @@ get_metric <- new_generic("get_metric", "x")
 # check hyperparameters given training data
 validate_hyperparameters <- new_generic("validate_hyperparameters", "x")
 
-## Exported generics ----
+#' Plot Metric
+#'
+#' @description
+#' Plot metric for Supervised or SupervisedRes objects.
+#'
+#' @param x Supervised or SupervisedRes object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return plotly object
+#'
+#' @author EDG
+#' @export
+plot_metric <- new_generic("plot_metric", "x")
+
+
+#' Plot ROC curve
+#'
+#' @description
+#' This generic is used to plot the ROC curve for a model.
+#'
+#' @param x Classification or ClassificationRes object.
+#' @param ... Additional arguments passed to the plotting function.
+#'
+#' @return A plotly object containing the ROC curve.
+#'
+#' @author EDG
+#' @export
+plot_roc <- new_generic("plot_roc", "x")
+
 
 #' Plot Variable Importance
 #'
@@ -89,20 +116,6 @@ describe <- new_generic("describe", "x")
 #' @author EDG
 #' @export
 present <- new_generic("present", "x")
-
-#' Plot ROC curve
-#'
-#' @description
-#' This generic is used to plot the ROC curve for a model.
-#'
-#' @param x Classification or ClassificationRes object.
-#' @param ... Additional arguments passed to the plotting function.
-#'
-#' @return A plotly object containing the ROC curve.
-#'
-#' @author EDG
-#' @export
-plot_roc <- new_generic("plot_roc", "x")
 
 # Get parameters that need tuning.
 get_params_need_tuning <- new_generic("get_params_need_tuning", "x")

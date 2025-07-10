@@ -147,7 +147,7 @@ method(plot, MassGLM) <- plot.MassGLM
 #'
 #' @author EDG
 #' @export
-method(plot_manhattan, MassGLM) <- function(
+plot_manhattan.MassGLM <- function(
   x,
   coefname = NULL,
   p_adjust_method = c(
@@ -209,3 +209,5 @@ method(plot_manhattan, MassGLM) <- function(
     ...
   )
 } # /rtemis::plot_manhattan.MassGLM
+
+method(plot_manhattan, MassGLM) <- plot_manhattan.MassGLM

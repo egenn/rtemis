@@ -2,9 +2,24 @@
 % Please edit documentation in R/00_S7_init.R, R/07_S7_MassUni.R
 \name{plot_manhattan}
 \alias{plot_manhattan}
+\alias{plot_manhattan.MassGLM}
 \title{Manhattan plot}
 \usage{
 plot_manhattan(x, ...)
+
+plot_manhattan.MassGLM(
+  x,
+  coefname = NULL,
+  p_adjust_method = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr",
+    "none"),
+  p_transform = function(x) -log10(x),
+  ylab = NULL,
+  theme = choose_theme(),
+  col_pos = "#43A4AC",
+  col_neg = "#FA9860",
+  alpha = 0.8,
+  ...
+)
 }
 \arguments{
 \item{x}{MassGLM object.}
