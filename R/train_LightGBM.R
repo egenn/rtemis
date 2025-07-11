@@ -44,7 +44,7 @@ train_LightGBM <- function(
   }
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     dat_validation = dat_validation,
     allow_missing = TRUE,

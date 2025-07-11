@@ -7,6 +7,7 @@
 #' @param type Character: Type of tuner.
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 get_tuner_fn <- function(type = "GridSearch") {
@@ -36,18 +37,7 @@ tune <- function(
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
-  tuner_fn <- get_tuner_fn(tuner_parameters@type)
-  # do_call(
-  #   fn = tuner_fn,
-  #   args = list(
-  #     x = x,
-  #     hyperparameters = hyperparameters,
-  #     tuner_parameters = tuner_parameters,
-  #     weights = weights,
-  #     verbosity = verbosity,
-  #     parallel_type = parallel_type
-  #   )
-  # )
+
   if (tuner_parameters@type == "GridSearch") {
     tune_GridSearch(
       x = x,
@@ -58,6 +48,6 @@ tune <- function(
       parallel_type = parallel_type
     )
   } else {
-    cli::cli_abort("Unsupported tuner type: ", tuner_parameters@type)
+    cli::cli_abort("Unsupported tuner type: {tuner_parameters@type}")
   }
 } # /rtemis::tune

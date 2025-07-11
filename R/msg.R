@@ -2,9 +2,13 @@
 # ::rtemis::
 # 2016- EDG rtemis.org
 
+# used by msgdatetime, log_to_file
+datetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
+  format(Sys.time(), datetime_format)
+}
+
 msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
-  .dt <- format(Sys.time(), datetime_format)
-  message(reset(gray(paste0(.dt, gray(" ")))), appendLF = FALSE)
+  message(reset(gray(paste0(datetime(), gray(" ")))), appendLF = FALSE)
 }
 
 stopQuietly <- function() {
@@ -142,7 +146,7 @@ msg2 <- function(
     msgdatetime()
   }
   message(
-    cli::format_inline(format_fn(paste(txt, collapse = sep))),
+    format_fn(paste(txt, collapse = sep)),
     appendLF = FALSE
   )
   if (!is.null(caller) && !is.na(caller)) {

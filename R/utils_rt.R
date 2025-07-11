@@ -7,8 +7,7 @@
 #' Intro
 #'
 #' Starts function execution timer and opens log file.
-#' Pairs with `outro`. Unfortunately the errors and warnings (the stderr; sink(type = "message"))
-#' cannot get split to file and console, so we keep in console only
+#' Pairs with `outro`.
 #'
 #' @keywords internal
 #' @noRd
@@ -18,6 +17,7 @@ intro <- function(
   call_depth = 1,
   caller = NULL,
   newline_pre = FALSE,
+  use_sink = FALSE,
   verbosity = 1L
 ) {
   if (!is.null(logfile)) {
@@ -26,10 +26,10 @@ intro <- function(
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    if (file.exists(logfile)) {
-      logfile <- paste0(logfile, "_1")
+    if (use_sink) {
+      sink(logfile, append = TRUE, split = verbosity > 0L)
     }
-    sink(logfile, split = verbosity > 0L)
+    log_to_file(paste(caller, "started."), logfile = logfile)
   }
   start_time <- proc.time()
   if (verbosity > 0L || !is.null(logfile)) {
@@ -80,6 +80,7 @@ outro <- function(
   start_time,
   message = NULL,
   sink_off = FALSE,
+  logfile = NULL,
   #   color = gray,
   newline_pre = FALSE,
   real_user_system = FALSE,
@@ -121,6 +122,9 @@ outro <- function(
   if (sink_off) {
     sink()
   }
+  if (!is.null(logfile)) {
+    log_to_file("Done.", logfile = logfile)
+  }
   invisible(elapsed)
 } # rtemis::outro
 
@@ -134,7 +138,7 @@ outro <- function(
 #' @author EDG
 #' @keywords internal
 #' @noRd
-summarize_supervised_data <- function(
+summarize_supervised <- function(
   x,
   dat_validation = NULL,
   dat_test = NULL
@@ -167,7 +171,7 @@ summarize_supervised_data <- function(
       " features."
     )
   }
-} # rtemis::summarize_supervised_data
+} # rtemis::summarize_supervised
 
 #' Summarize unsupervised inputs
 #'
@@ -176,7 +180,7 @@ summarize_supervised_data <- function(
 #' @author EDG
 #' @keywords internal
 #' @noRd
-summarize_unsupervised_data <- function(x) {
+summarize_unsupervised <- function(x) {
   msg2(
     "Input:",
     hilite(NROW(x)),
@@ -184,7 +188,7 @@ summarize_unsupervised_data <- function(x) {
     hilite(NCOL(x)),
     "features."
   )
-} # rtemis::summarize_unsupervised_data
+} # rtemis::summarize_unsupervised
 
 
 #' `rtemis-internals`: `parameter_summary`
@@ -237,3 +241,26 @@ parameter_summary <- function(
     }
   }
 } # rtemis::parameter_summary
+
+
+#' Log to file
+#'
+#' @param x Character: Message to log.
+#' @param logfile Character: Path to log file.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+log_to_file <- function(x, logfile) {
+  cat(
+    paste0(
+      datetime(),
+      " ",
+      x,
+      "\n"
+    ),
+    file = logfile,
+    append = TRUE
+  )
+} # rtemis::log_to_file
