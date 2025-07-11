@@ -17,6 +17,8 @@ train(
   question = NULL,
   outdir = NULL,
   parallel_type = "future",
+  future_plan = getOption("future.plan", "multicore"),
+  n_workers = max(future::availableCores() - 3L, 1L),
   verbosity = 1L
 )
 }
@@ -48,6 +50,20 @@ answer.}
 \item{outdir}{Character, optional: String defining the output directory.}
 
 \item{parallel_type}{Character: "none", or "future".}
+
+\item{future_plan}{Character: Future plan to use for parallel processing.}
+
+\item{n_workers}{Integer: Number of workers to use for parallel processing in total.
+Parallelization may happen at three different levels, from innermost to outermost:
+\enumerate{
+\item Algorithm training (e.g. a parallelized learner like LightGBM)
+\item Tuning (inner resampling, where multiple resamples can be processed in parallel)
+\item Outer resampling (where multiple outer resamples can be processed in parallel)
+The \code{train()} function will assign the number of workers to the innermost available
+parallelization level. Best to leave a few cores for the OS and other processes, especially
+on shared systems or when working with large datasets, since parallelization will increase
+memory usage.
+}}
 
 \item{verbosity}{Integer: Verbosity level.
 \code{hyperparameters} is not defined. Avoid relying on this, instead use the appropriate \verb{setup_*}
