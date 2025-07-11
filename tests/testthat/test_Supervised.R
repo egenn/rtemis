@@ -3,7 +3,6 @@
 # EDG rtemis.org
 
 # Setup ----
-# library(rtemis)
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
 # devtools::load_all()
