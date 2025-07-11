@@ -21,7 +21,7 @@ live[["parallelized_learners"]] <- c(
 
 # vars
 rtemis_version <- packageVersion("rtemis")
-.availableCores <- unname(future::availableCores())
+.availableCores <- max(future::availableCores() - 3L, 1L)
 
 # References
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
