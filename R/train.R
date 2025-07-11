@@ -33,6 +33,16 @@
 #' answer.
 #' @param outdir Character, optional: String defining the output directory.
 #' @param parallel_type Character: "none", or "future".
+#' @param future_plan Character: Future plan to use for parallel processing.
+#' @param n_workers Integer: Number of workers to use for parallel processing in total.
+#' Parallelization may happen at three different levels, from innermost to outermost:
+#' 1. Algorithm training (e.g. a parallelized learner like LightGBM)
+#' 2. Tuning (inner resampling, where multiple resamples can be processed in parallel)
+#' 3. Outer resampling (where multiple outer resamples can be processed in parallel)
+#' The `train()` function will assign the number of workers to the innermost available
+#' parallelization level. Best to leave a few cores for the OS and other processes, especially
+#' on shared systems or when working with large datasets, since parallelization will increase
+#' memory usage.
 #' @param verbosity Integer: Verbosity level.
 # @param ... Additional arguments to pass to the hyperparameters setup function. Only used if
 #' `hyperparameters` is not defined. Avoid relying on this, instead use the appropriate `setup_*`
@@ -56,6 +66,8 @@ train <- function(
   question = NULL,
   outdir = NULL,
   parallel_type = "future",
+  future_plan = getOption("future.plan", "multicore"),
+  n_workers = max(future::availableCores() - 3L, 1L),
   verbosity = 1L
 ) {
   # Dependencies ----
@@ -154,6 +166,8 @@ train <- function(
   } else {
     NULL
   }
+
+  # Start timer & logfile ----
   start_time <- intro(verbosity = verbosity, logfile = logfile)
 
   # Parallelization ----
@@ -170,7 +184,7 @@ train <- function(
 
   ## Print data summary ----
   if (verbosity > 0L) {
-    summarize_supervised_data(
+    summarize_supervised(
       x = x,
       dat_validation = dat_validation,
       dat_test = dat_test
@@ -242,13 +256,13 @@ train <- function(
             )
           }
         } else {
-          future::plan(strategy = rtemis_plan, workers = rtemis_workers)
+          future::plan(strategy = future_plan, workers = n_workers)
           if (verbosity > 0L) {
             info(
               "Tuning parallelization: plan set to",
-              bold(rtemis_plan),
+              bold(future_plan),
               "with",
-              bold(rtemis_workers),
+              bold(n_workers),
               "workers."
             )
           }
@@ -269,9 +283,6 @@ train <- function(
         tuned = 1L
       )
     } # /Tune
-    # if (verbosity > 0L) {
-    #   message()
-    # }
 
     # Preprocess ----
     if (!is.null(preprocessor_parameters)) {
@@ -295,7 +306,7 @@ train <- function(
     } # /Preprocess
 
     # IFW ----
-    # Must follow preprocessing since N cases may change
+    # Weight calculation must follow preprocessing since N cases may change
     if (type == "Classification" && hyperparameters[["ifw"]]) {
       if (!is.null(weights)) {
         cli::cli_abort("Custom weights are defined, but IFW is set to TRUE.")
@@ -318,7 +329,8 @@ train <- function(
     } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
     # Note: All training, validation, and test metrics are calculated by Supervised or SupervisedRes.
-    # => Introduce supports_weights() if any algorithms do NOT support case weights.
+    # => Introduce supports_weights() if any algorithms do NOT support case weights
+    # or only support class weights
     args <- list(
       x = x,
       weights = weights,
@@ -464,8 +476,8 @@ train <- function(
   }
   outro(
     start_time,
-    verbosity = verbosity,
-    sink_off = ifelse(is.null(logfile), FALSE, TRUE)
+    verbosity = verbosity
+    # sink_off = ifelse(is.null(logfile), FALSE, TRUE)
   )
   mod
 } # /rtemis::train
