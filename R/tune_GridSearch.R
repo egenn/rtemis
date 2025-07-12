@@ -17,6 +17,10 @@
 #' @param hyperparameters List: Hyperparameters.
 #' @param tuner_parameters List: Tuner parameters.
 #' @param weights Vector: Class weights.
+#' @param save_mods Logical: Save models in tuning results.
+#' @param n_workers Integer: Number of workers to use for parallel processing.
+#' @param parallel_type Character: Type of parallelization to use. Options are "none", "future", or "mirai".
+#' @param future_plan Character: Future plan to use if `parallel_type` is "future".
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @return GridSearch object.
@@ -30,15 +34,21 @@ tune_GridSearch <- function(
   tuner_parameters,
   weights = NULL,
   save_mods = FALSE,
-  verbosity = 1L,
-  parallel_type = "none"
+  n_workers = 1L,
+  parallel_type = "none",
+  future_plan = "multicore",
+  verbosity = 1L
 ) {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
 
   # Dependencies ----
-  check_dependencies(c("future", "future.apply"))
+  if (parallel_type == "future") {
+    check_dependencies("future.apply")
+  } else if (parallel_type == "mirai") {
+    check_dependencies("mirai")
+  }
 
   # Intro ----
   start_time <- intro(
@@ -153,9 +163,9 @@ tune_GridSearch <- function(
       best_iter <- mod1@model[["best_iter"]]
       if (is.null(best_iter) || best_iter == -1 || best_iter == 0) {
         info(bold(italic(
-          "best_iter returned from lightgbm:",
+          "best_iter returned from lightgbm: ",
           best_iter,
-          " - setting to 100L"
+          "- setting to 100L"
         )))
         best_iter <- 100L
       }
@@ -214,6 +224,22 @@ tune_GridSearch <- function(
       n_res_x_comb = n_res_x_comb
     )
   } else if (parallel_type == "future") {
+    if (n_workers == 1L) {
+      future::plan(strategy = "sequential")
+      if (verbosity > 0L) {
+        info("Tuning in sequence")
+      }
+    } else {
+      future::plan(strategy = future_plan, workers = n_workers)
+      if (verbosity > 0L) {
+        info(
+          "Tuning using future (",
+          bold(future_plan),
+          "); N workers: ",
+          bold(n_workers)
+        )
+      }
+    }
     grid_run <- future.apply::future_lapply(
       X = seq_len(n_res_x_comb),
       FUN = learner1,
@@ -229,6 +255,11 @@ tune_GridSearch <- function(
       future.globals = FALSE # See: https://github.com/futureverse/globals/issues/93
     )
   } else if (parallel_type == "mirai") {
+    if (verbosity > 0L) {
+      info("Tuning using mirai; N workers: ", bold(n_workers))
+    }
+    mirai::daemons(n_workers, dispatcher = TRUE)
+    on.exit(mirai::daemons(0L))
     grid_run <- mirai::mirai_map(
       .x = seq_len(n_res_x_comb),
       .f = learner1,
@@ -272,8 +303,8 @@ tune_GridSearch <- function(
   # if using mirai, wait for all to finish
   if (parallel_type == "mirai") {
     # Appease R CMD check
-    .progress_cli <- NULL
-    grid_run <- grid_run[.progress_cli]
+    .progress <- NULL
+    grid_run <- grid_run[.progress]
     # grid_run <- mirai::collect_mirai(grid_run)
   }
   if (type %in% c("Regression", "Survival")) {
