@@ -80,8 +80,13 @@ train_LightCART <- function(
   )
 
   # Train ----
+  params <- hyperparameters@hyperparameters
+  params[["ifw"]] <- NULL
+  # Set n threads
+  params[["num_threads"]] <- 1L
+
   model <- lightgbm::lgb.train(
-    params = hyperparameters@hyperparameters,
+    params = params,
     data = x,
     nrounds = 1L,
     valids = list(training = x),
