@@ -19,12 +19,9 @@ DarkOrange <- "208;1"
 Turquoise4 <- "30;1"
 DarkCyan <- "36;1"
 
-# primary highlight color
-# hilite_col <- MediumSpringGreen
-hilite_col <- DarkCyan
-# secondary highlight color
+hilite_col <- DarkCyan # green, really
 hilite1_col <- SteelBlue1 # objcat default
-hilite2_col <- "177" # Violet # info
+hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 rt_green <- DarkCyan # yay
 
@@ -81,7 +78,7 @@ hilite2 <- function(
   sep = ""
 ) {
   paste0(
-    ifelse(bold, "\033[1m", ""),
+    ifelse(bold, "\033[1m", "\033[0m"),
     ifelse(italic, "\033[3m", ""),
     "\033[38;5;",
     hilite2_col,
@@ -440,7 +437,7 @@ objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 2L) {
     paste0(rep(" ", pad), collapse = ""),
     paste0(
       if (verbosity > 1L) {
-        gray("<rtemis::")
+        gray("<rt ")
       } else {
         gray("<")
       },
