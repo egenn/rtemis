@@ -26,6 +26,7 @@
 #' @return GridSearch object.
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 tune_GridSearch <- function(
@@ -59,6 +60,15 @@ tune_GridSearch <- function(
 
   # Arguments ----
   algorithm <- hyperparameters@algorithm
+
+  # Parallel Processing Strategy ----
+  # If n_workers = 1, use direct lapply for simplicity and better error handling
+  if (n_workers == 1L && parallel_type != "none") {
+    if (verbosity > 0L) {
+      info("Using sequential execution (n_workers = 1)")
+    }
+    parallel_type <- "none"
+  }
 
   # Make Grid ----
   grid_params <- get_params_need_tuning(hyperparameters)
@@ -211,8 +221,13 @@ tune_GridSearch <- function(
   }
 
   if (parallel_type == "none") {
+    # Sequential execution with cli progress.
     grid_run <- lapply(
-      X = seq_len(n_res_x_comb),
+      cli::cli_progress_along(
+        seq_len(n_res_x_comb),
+        name = "Outer Resamples",
+        type = "tasks"
+      ),
       FUN = learner1,
       x = x,
       res = res,
@@ -224,6 +239,7 @@ tune_GridSearch <- function(
       n_res_x_comb = n_res_x_comb
     )
   } else if (parallel_type == "future") {
+    # Future parallelization
     if (n_workers == 1L) {
       future::plan(strategy = "sequential")
       if (verbosity > 0L) {
