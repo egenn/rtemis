@@ -104,8 +104,11 @@ train_LightRF <- function(
 
   # Train ----
   params <- hyperparameters@hyperparameters
+  # Remove parameters that are not used by LightGBM
   params[["ifw"]] <- NULL
   params[["early_stopping_rounds"]] <- NULL
+  # Set n threads
+  params[["num_threads"]] <- prop(hyperparameters, "n_workers")
 
   model <- lightgbm::lgb.train(
     params = params,
