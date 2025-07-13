@@ -39,7 +39,7 @@ rtOut <- function(...) {
 }
 
 info <- function(..., format_fn = hilite2) {
-  msg2(..., format_fn = format_fn, caller_id = 2)
+  msg20(..., format_fn = format_fn, caller_id = 2)
 }
 
 suggest <- function(...) {
@@ -178,10 +178,10 @@ msg20 <- function(
   }
   msgdatetime()
   message(
-    cli::format_inline(format_fn(paste(txt, collapse = sep))),
+    format_fn(paste(txt, collapse = sep)),
     appendLF = FALSE
   )
-  if (!is.null(caller) && !is.na(caller)) {
+  if (!is.null(caller) && !is.na(caller) && length(caller) > 0L) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")
