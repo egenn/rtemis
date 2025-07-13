@@ -32,7 +32,9 @@ tune <- function(
   tuner_parameters,
   weights = NULL,
   verbosity = 1L,
-  parallel_type = "none"
+  parallel_type = "none",
+  future_plan = "multicore",
+  n_workers = 1L
 ) {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
@@ -45,7 +47,9 @@ tune <- function(
       tuner_parameters = tuner_parameters,
       weights = weights,
       verbosity = verbosity,
-      parallel_type = parallel_type
+      parallel_type = parallel_type,
+      future_plan = future_plan,
+      n_workers = n_workers
     )
   } else {
     cli::cli_abort("Unsupported tuner type: {tuner_parameters@type}")
