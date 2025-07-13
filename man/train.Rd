@@ -16,7 +16,7 @@ train(
   weights = NULL,
   question = NULL,
   outdir = NULL,
-  parallel_type = "future",
+  parallel_type = c("mirai", "future", "none"),
   future_plan = getOption("future.plan", "multicore"),
   n_workers = max(future::availableCores() - 3L, 1L),
   verbosity = 1L
@@ -49,7 +49,7 @@ answer.}
 
 \item{outdir}{Character, optional: String defining the output directory.}
 
-\item{parallel_type}{Character: "none", or "future".}
+\item{parallel_type}{Character: "none", "future", or "mirai".}
 
 \item{future_plan}{Character: Future plan to use for parallel processing.}
 
@@ -86,6 +86,9 @@ replacement if you will also be using an inner resampling (for tuning).
 The duplicated cases from the outer resampling may appear both in the
 training and test sets of the inner resamples, leading to underestimated
 test error.
+
+Note on parallelization: There are three potential points of parallelization, from innermost to
+outermost: algorithm training, tuning (inner resampling), outer resampling.
 }
 \author{
 EDG
