@@ -12,7 +12,6 @@
 # rtemis internal environment
 live <- new.env()
 live[["parallelized_learners"]] <- c(
-  "LightCART",
   "LightGBM",
   "LightRF",
   "LightRuleFit",
@@ -25,6 +24,19 @@ rtemis_version <- packageVersion("rtemis")
 
 # References
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
+
+# Progress reporting
+setup_progress <- function() {
+  progressr::handlers(global = TRUE)
+  progressr::handlers(
+    progressr::handler_cli(
+      format = "{cli::pb_spin} [{pb_current}/{pb_total}] {pb_status}",
+      format_done = "{cli::col_green(cli::symbol$tick)} Completed {pb_total} tasks",
+      show_after = 0,
+      clear = FALSE
+    )
+  )
+}
 
 .onLoad <- function(libname, pkgname) {
   # S7
@@ -48,10 +60,12 @@ rtemis_version <- packageVersion("rtemis")
     rtemis_plotfileformat,
     envir = parent.env(environment())
   )
+  # setup_progress()
 }
 
 .onAttach <- function(libname, pkgname) {
   if (interactive()) {
+    # setup_progress()
     packageStartupMessage(paste0(
       rtlogo,
       "\n  .:",
