@@ -8,8 +8,8 @@
 #' using nested resampling
 #'
 #' @details
-#' Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the
-#' positive class.
+#' Important: For binary classification, the outcome should be a factor where the 2nd level
+#' corresponds to the positive class.
 #'
 #' Note on resampling: You should never use an outer resampling method with
 #' replacement if you will also be using an inner resampling (for tuning).
@@ -32,7 +32,7 @@
 #' @param question Optional character string defining the question that the model is trying to
 #' answer.
 #' @param outdir Character, optional: String defining the output directory.
-#' @param parallel_type Character: "none", or "future".
+#' @param parallel_type Character: "none", "future", or "mirai".
 #' @param future_plan Character: Future plan to use for parallel processing.
 #' @param n_workers Integer: Number of workers to use for parallel processing in total.
 #' Parallelization may happen at three different levels, from innermost to outermost:
@@ -65,22 +65,12 @@ train <- function(
   weights = NULL,
   question = NULL,
   outdir = NULL,
-  parallel_type = "future",
+  parallel_type = c("mirai", "future", "none"),
   future_plan = getOption("future.plan", "multicore"),
   n_workers = max(future::availableCores() - 3L, 1L),
   verbosity = 1L
 ) {
-  # Dependencies ----
-  check_dependencies(c("future.apply", "progressr"))
-  type <- supervised_type(x)
-  ncols <- ncol(x)
-
   # Checks ----
-  # Pass ... to hyperparameters setup_* fn
-  # hpr_args <- list(...)
-  # if (!is.null(hyperparameters) && length(hpr_args) > 0) {
-  #   cli::cli_abort("You can either define `hyperparameters` or pass them as additional arguments.")
-  # }
   if (is.null(hyperparameters) && is.null(algorithm)) {
     cli::cli_abort(
       "You must define either `hyperparameters` or `algorithm`."
@@ -135,6 +125,7 @@ train <- function(
   }
 
   ## Arguments ----
+  parallel_type <- match.arg(parallel_type)
   if (!is.null(outer_resampling)) {
     check_is_S7(outer_resampling, ResamplerParameters)
     if (!is.null(outer_resampling[["id_strat"]])) {
@@ -170,10 +161,20 @@ train <- function(
   # Start timer & logfile ----
   start_time <- intro(verbosity = verbosity, logfile = logfile)
 
-  # Parallelization ----
-  # 3 potential points of parallelization from innermost to outermost: algorithm, tuning (inner resampling), outer resampling.
+  type <- supervised_type(x)
+  ncols <- ncol(x)
 
   # Init ----
+  workers <- get_n_workers(
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    outer_resampling = outer_resampling,
+    n_workers = n_workers,
+    verbosity = verbosity
+  )
+
+  # Innermost parallelization level: algorithm training
+  hyperparameters@n_workers <- workers[["algorithm"]]
   tuner <- NULL
 
   # Data ----
@@ -210,17 +211,13 @@ train <- function(
       parameters = outer_resampling,
       verbosity = verbosity
     )
-    pcv <- progressr::progressor(outer_resampler@parameters@n)
     models <- lapply(
-      seq_len(outer_resampler@parameters@n),
+      cli::cli_progress_along(
+        seq_len(outer_resampler@parameters@n),
+        name = "Outer Resamples",
+        type = "tasks"
+      ),
       function(i) {
-        pcv(
-          message = sprintf(
-            "Outer resample %i/%i",
-            i,
-            outer_resampler@parameters@n
-          )
-        )
         train(
           x = x[outer_resampler[[i]], ],
           dat_test = x[-outer_resampler[[i]], ],
@@ -246,34 +243,14 @@ train <- function(
       if (is.null(tuner_parameters)) {
         tuner_parameters <- setup_GridSearch()
       }
-      if (parallel_type == "future") {
-        if (algorithm %in% live[["parallelized_learners"]]) {
-          future::plan(strategy = "sequential")
-          if (verbosity > 0L) {
-            info(
-              bold(algorithm),
-              "is parallelized. Disabling all other parallelization."
-            )
-          }
-        } else {
-          future::plan(strategy = future_plan, workers = n_workers)
-          if (verbosity > 0L) {
-            info(
-              "Tuning parallelization: plan set to",
-              bold(future_plan),
-              "with",
-              bold(n_workers),
-              "workers."
-            )
-          }
-        }
-      }
       tuner <- tune(
         x = x,
         hyperparameters = hyperparameters,
         tuner_parameters = tuner_parameters,
         weights = weights,
         parallel_type = parallel_type,
+        future_plan = future_plan,
+        n_workers = workers[["tuning"]],
         verbosity = verbosity
       )
       # Update hyperparameters
@@ -481,3 +458,109 @@ train <- function(
   )
   mod
 } # /rtemis::train
+
+
+# Function to assign number of workers to algorithm, tuning, or outer resampling
+# based on whether algorithm is parallelized, tuning is needed, and outer resampling is set.
+
+#' Get Number of Workers
+#'
+#' Distribute workers across different parallelization levels: algorithm training,
+#' tuning (inner resampling), and outer resampling. Assigns workers to the innermost
+#' available parallelization level to avoid over-subscription.
+#'
+#' @param algorithm Character: Algorithm name.
+#' @param hyperparameters Hyperparameters object: Setup using one of `setup_*` functions.
+#' @param outer_resampling ResamplerParameters object or NULL: Setup using [setup_Resampler].
+#' @param n_workers Integer: Total number of workers you want to use.
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @details
+#' The function prioritizes parallelization levels as follows:
+#' 1. If algorithm is parallelized (e.g., LightGBM, Ranger): all workers go to algorithm
+#' 2. Else if tuning is needed: all workers go to tuning (inner resampling)
+#' 3. Else if outer resampling is set: all workers go to outer resampling
+#' 4. Else: sequential execution (1 worker each)
+#'
+#' @return Named list with the number of workers for each level:
+#' - `algorithm`: Number of workers for algorithm training.
+#' - `tuning`: Number of workers for tuning (if applicable).
+#' - `outer_resampling`: Number of workers for outer resampling (if applicable).
+#'
+#' @keywords internal
+#' @noRd
+get_n_workers <- function(
+  algorithm,
+  hyperparameters,
+  outer_resampling,
+  n_workers,
+  verbosity = 1L
+) {
+  # Input validation
+  stopifnot(
+    is.character(algorithm),
+    length(algorithm) == 1L,
+    is.numeric(n_workers),
+    n_workers >= 1L,
+    n_workers == as.integer(n_workers)
+  )
+
+  # Check parallelization conditions
+  is_parallelized <- algorithm %in% live[["parallelized_learners"]]
+  requires_tuning <- needs_tuning(hyperparameters)
+  requires_resampling <- !is.null(outer_resampling)
+
+  # Assign workers to innermost parallelization level to avoid over-subscription
+  if (is_parallelized) {
+    # Parallelized algorithms get all workers, disable other parallelization
+    workers_algorithm <- n_workers
+    workers_tuning <- 1L
+    workers_outer_resampling <- 1L
+    if (verbosity > 0L && (requires_tuning || requires_resampling)) {
+      msg2(
+        bold(algorithm),
+        "is parallelized. Disabling tuning and outer resampling parallelization."
+      )
+    }
+  } else if (requires_tuning) {
+    # Tuning gets all workers if algorithm is not parallelized
+    workers_algorithm <- 1L
+    workers_tuning <- n_workers
+    workers_outer_resampling <- 1L
+    if (verbosity > 0L && requires_resampling) {
+      msg2(
+        "Tuning parallelization enabled. Disabling outer resampling parallelization."
+      )
+    }
+  } else if (requires_resampling) {
+    # Outer resampling gets all workers if no tuning needed
+    workers_algorithm <- 1L
+    workers_tuning <- 1L
+    workers_outer_resampling <- n_workers
+  } else {
+    # Sequential execution
+    workers_algorithm <- 1L
+    workers_tuning <- 1L
+    workers_outer_resampling <- 1L
+  }
+
+  if (verbosity > 0L) {
+    info(
+      "Max workers: ",
+      bold(n_workers),
+      "; ",
+      "Algorithm: ",
+      bold(workers_algorithm),
+      "; Tuning: ",
+      bold(workers_tuning),
+      "; Outer Resampling: ",
+      bold(workers_outer_resampling)
+    )
+  }
+
+  list(
+    algorithm = workers_algorithm,
+    tuning = workers_tuning,
+    outer_resampling = workers_outer_resampling
+  )
+} # /rtemis::get_n_workers
