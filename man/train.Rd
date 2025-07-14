@@ -16,7 +16,7 @@ train(
   weights = NULL,
   question = NULL,
   outdir = NULL,
-  parallel_type = c("mirai", "future", "none"),
+  parallel_type = c("future", "mirai", "none"),
   future_plan = getOption("future.plan", "multicore"),
   n_workers = max(future::availableCores() - 3L, 1L),
   verbosity = 1L
@@ -78,17 +78,14 @@ Preprocess, tune, train, and test supervised learning models with a single funct
 using nested resampling
 }
 \details{
-Important: For binary classification, the outcome should be a factor where the 2nd level corresponds to the
-positive class.
+Important: For binary classification, the outcome should be a factor where the 2nd level
+corresponds to the positive class.
 
 Note on resampling: You should never use an outer resampling method with
 replacement if you will also be using an inner resampling (for tuning).
 The duplicated cases from the outer resampling may appear both in the
 training and test sets of the inner resamples, leading to underestimated
 test error.
-
-Note on parallelization: There are three potential points of parallelization, from innermost to
-outermost: algorithm training, tuning (inner resampling), outer resampling.
 }
 \author{
 EDG
