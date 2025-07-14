@@ -12,7 +12,6 @@
 # rtemis internal environment
 live <- new.env()
 live[["parallelized_learners"]] <- c(
-  "LightCART",
   "LightGBM",
   "LightRF",
   "LightRuleFit",
@@ -21,10 +20,24 @@ live[["parallelized_learners"]] <- c(
 
 # vars
 rtemis_version <- packageVersion("rtemis")
-.availableCores <- unname(future::availableCores())
+cores_available <- parallelly::availableCores()
+cores_to_use <- max(cores_available - 3L, 1L)
 
 # References
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
+
+# Progress reporting
+setup_progress <- function() {
+  progressr::handlers(global = TRUE)
+  progressr::handlers(
+    progressr::handler_cli(
+      format = "{cli::pb_spin} [{pb_current}/{pb_total}] {pb_status}",
+      format_done = "{cli::col_green(cli::symbol$tick)} Completed {pb_total} tasks",
+      show_after = 0,
+      clear = FALSE
+    )
+  )
+}
 
 .onLoad <- function(libname, pkgname) {
   # S7
@@ -32,7 +45,7 @@ rtemis_version <- packageVersion("rtemis")
   # Defaults ----
   rtemis_plan <- getOption("future.plan", "multicore")
   assign("rtemis_plan", rtemis_plan, envir = parent.env(environment()))
-  rtemis_workers <- getOption("rtemis_workers", .availableCores)
+  rtemis_workers <- getOption("rtemis_workers", cores_to_use)
   assign("rtemis_workers", rtemis_workers, envir = parent.env(environment()))
   rtemis_theme <- getOption("rtemis_theme", "darkgraygrid")
   assign("rtemis_theme", rtemis_theme, envir = parent.env(environment()))
@@ -48,11 +61,16 @@ rtemis_version <- packageVersion("rtemis")
     rtemis_plotfileformat,
     envir = parent.env(environment())
   )
+  # setup_progress()
 }
 
 .onAttach <- function(libname, pkgname) {
   if (interactive()) {
+    # setup_progress()
     packageStartupMessage(paste0(
+      "  ",
+      paste0(rep("\u2500", 32), collapse = ""),
+      "\n",
       rtlogo,
       "\n  .:",
       bold(pkgname),
@@ -61,6 +79,10 @@ rtemis_version <- packageVersion("rtemis")
       " \U1F30A",
       " ",
       sessionInfo()[[2]],
+      " (",
+      cores_available,
+      " cores available)\n  ",
+      paste0(rep("\u2500", 64 + nchar(cores_available)), collapse = ""),
       bold("\n  Defaults"),
       "\n  \u2502   ",
       italic(gray("Theme: ")),
@@ -68,16 +90,9 @@ rtemis_version <- packageVersion("rtemis")
       "\n  \u2502    ",
       italic(gray("Font: ")),
       rtemis_font,
-      "\n  \u2502 ",
+      "\n  \u2514 ",
       italic(gray("Palette: ")),
       rtemis_palette,
-      "\n  \u2502    ",
-      italic(gray("Plan: ")),
-      rtemis_plan,
-      # "\n  \u2514   ", italic(gray("Cores: ")), rtemis_workers, "/", .availableCores, " available",
-      "\n  \u2514   ",
-      italic(gray("Cores: ")),
-      future::availableCores(),
       " cores available.",
       bold("\n  Resources"),
       "\n  \u2502    ",
@@ -90,13 +105,14 @@ rtemis_version <- packageVersion("rtemis")
       italic(gray("Themes:")),
       " https://rtemis.org/themes",
       "\n  \u2514    ",
-      italic(gray("Cite:")),
-      ' > citation("rtemis")',
-      bold("\n  Setup"),
-      "\n  \u2514 ",
-      italic(gray("Enable progress reporting:")),
-      " > progressr::handlers(global = TRUE)",
-      '\n                               > progressr::handlers("cli")',
+      italic(gray("Cite: ")),
+      # ' > citation("rtemis")',
+      rtcitation,
+      # bold("\n  Setup"),
+      # "\n  \u2514 ",
+      # italic(gray("Enable progress reporting:")),
+      # " > progressr::handlers(global = TRUE)",
+      # '\n                               > progressr::handlers("cli")',
       "\n\n  ",
       red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
     ))

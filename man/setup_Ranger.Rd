@@ -35,7 +35,6 @@ setup_Ranger(
   quantreg = FALSE,
   time_interest = NULL,
   oob_error = TRUE,
-  num_threads = NULL,
   save_memory = FALSE,
   verbose = TRUE,
   node_stats = FALSE,
@@ -105,8 +104,6 @@ The "impurity" measure is the Gini index for classification, the variance of the
 \item{time_interest}{Numeric: For GWAS data: SNP with this number will be used as time variable. Only for survival. Deprecated, use time.var in formula instead.}
 
 \item{oob_error}{Logical: Compute OOB prediction error. Set to FALSE to save computation time if only the forest is needed.}
-
-\item{num_threads}{Positive integer: Number of threads. Default is number of CPUs available.}
 
 \item{save_memory}{Logical: Use memory saving (but slower) splitting mode. No effect for survival and GWAS data. Warning: This option slows down the tree growing, use only if you encounter memory problems.}
 

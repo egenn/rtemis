@@ -3,7 +3,6 @@
 # EDG rtemis.org
 
 # Setup ----
-# library(rtemis)
 # progressr::handlers(global = TRUE)
 # progressr::handlers("cli")
 # devtools::load_all()
@@ -155,14 +154,27 @@ test_that("predict() GLMNET Regression succeeds", {
   expect_null(dim(predicted))
 })
 
-## GLMNET Regression + auto-lambda grid search ----
+## GLMNET Regression + auto-lambda grid search using future ----
 mod_r_glmnet <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "glmnet",
-  hyperparameters = setup_GLMNET()
+  hyperparameters = setup_GLMNET(alpha = 1),
+  parallel_type = "future"
 )
-test_that("train() GLMNET Regression with auto-lambda grid search succeeds", {
+test_that("train() GLMNET Regression with auto-lambda grid search using future succeeds", {
+  expect_s7_class(mod_r_glmnet, Regression)
+})
+
+## GLMNET Regression + auto-lambda grid search using mirai ----
+mod_r_glmnet <- train(
+  x = datr_train,
+  dat_test = datr_test,
+  algorithm = "glmnet",
+  hyperparameters = setup_GLMNET(alpha = 1),
+  parallel_type = "mirai"
+)
+test_that("train() GLMNET Regression with auto-lambda grid search using mirai succeeds", {
   expect_s7_class(mod_r_glmnet, Regression)
 })
 
@@ -219,20 +231,20 @@ test_that("train() GAM Regression with only parametric terms succeeds.", {
 })
 
 ## GAM Regression + grid search ----
-tmod_r_gam <- train(
+modt_r_gam <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "gam",
   hyperparameters = setup_GAM(k = c(3, 5, 7)),
 )
 test_that("train() GAM Regression with grid_search() succeeds", {
-  expect_s7_class(tmod_r_gam, Regression)
+  expect_s7_class(modt_r_gam, Regression)
 })
 
 ## predict GAM ----
-predicted <- predict(tmod_r_gam, datr_test)
+predicted <- predict(modt_r_gam, datr_test)
 test_that("predict() GAM Regression succeeds", {
-  expect_identical(tmod_r_gam@predicted_test, predicted)
+  expect_identical(modt_r_gam@predicted_test, predicted)
 })
 
 ## Res GAM Regression ----
@@ -275,13 +287,13 @@ test_that("train() LinearSVM Regression succeeds", {
 })
 
 ## LinearSVM Regression + tuning ----
-tmod_r_svml <- train(
+modt_r_svml <- train(
   x = datr_train,
   dat_test = datr_test,
   hyperparameters = setup_LinearSVM(cost = c(1, 10))
 )
 test_that("train() LinearSVM Regression with tuning succeeds", {
-  expect_s7_class(tmod_r_svml, Regression)
+  expect_s7_class(modt_r_svml, Regression)
 })
 
 ## Res LinearSVM Regression ----
@@ -315,13 +327,13 @@ test_that("train() RadialSVM Regression succeeds", {
 })
 
 ## RadialSVM Regression + tuning ----
-tmod_r_svmr <- train(
+modt_r_svmr <- train(
   x = datr_train,
   dat_test = datr_test,
   hyperparameters = setup_RadialSVM(cost = c(1, 10, 100))
 )
 test_that("train() RadialSVM Regression with tuning succeeds", {
-  expect_s7_class(tmod_r_svmr, Regression)
+  expect_s7_class(modt_r_svmr, Regression)
 })
 
 ## Res RadialSVM Regression ----
@@ -335,13 +347,13 @@ test_that("train() Res RadialSVM Regression succeeds", {
 })
 
 ## Res RadialSVM Regression + tuning ----
-restmod_r_svmr <- train(
+resmodt_r_svmr <- train(
   x = datr,
   hyperparameters = setup_RadialSVM(cost = c(1, 10)),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res RadialSVM Regression with tuning succeeds", {
-  expect_s7_class(restmod_r_svmr, RegressionRes)
+  expect_s7_class(resmodt_r_svmr, RegressionRes)
 })
 
 ## CART Regression ----
@@ -367,18 +379,19 @@ test_that("tuned field is set correctly", {
   expect_identical(hyperparameters@tuned, 0L)
 })
 
-tmod_r_cart <- train(
+modt_r_cart <- train(
   datr_train,
   dat_test = datr_test,
-  hyperparameters = hyperparameters
+  hyperparameters = setup_CART(maxdepth = 2:3),
+  n_workers = 1L
 )
 test_that("train() Regression with grid_search() succeeds", {
-  expect_s7_class(tmod_r_cart, Regression)
+  expect_s7_class(modt_r_cart, Regression)
 })
 
 ## Test that tuned == 1----
 test_that("tuned is set correctly", {
-  expect_identical(tmod_r_cart@hyperparameters@tuned, 1L)
+  expect_identical(modt_r_cart@hyperparameters@tuned, 1L)
 })
 
 ## Res CART Regression ----
@@ -392,13 +405,13 @@ test_that("train() RegressionRes succeeds", {
 })
 
 ## Res CART Regression + tuning ----
-restmod_r_cart <- train(
+resmodt_r_cart <- train(
   x = datr,
-  hyperparameters = setup_CART(maxdepth = c(1, 2)),
-  outer_resampling = setup_Resampler(3L)
+  hyperparameters = setup_CART(maxdepth = 1:3, prune_cp = c(.001, .01)),
+  outer_resampling = setup_Resampler(10L)
 )
 test_that("train() RegressionRes succeeds", {
-  expect_s7_class(restmod_r_cart, RegressionRes)
+  expect_s7_class(resmodt_r_cart, RegressionRes)
 })
 
 resmod_r_cart <- train(
@@ -497,8 +510,7 @@ test_that("train() LightCART Classification succeeds", {
 mod_r_lightrf <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "lightrf",
-  hyperparameters = setup_LightRF(num_threads = 8L)
+  algorithm = "lightrf"
 )
 test_that("train() LightRF Regression succeeds", {
   expect_s7_class(mod_r_lightrf, Regression)
@@ -518,7 +530,7 @@ test_that("train() LightRF Regression with l1, l2 succeeds", {
 })
 
 ## LightRF Regression + grid search ----
-tmod_r_lightrf <- train(
+modt_r_lightrf <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "lightrf",
@@ -528,7 +540,7 @@ tmod_r_lightrf <- train(
   parallel_type = "none"
 )
 test_that("train() LightRF Regression with l1 tuning succeeds", {
-  expect_s7_class(tmod_r_lightrf, Regression)
+  expect_s7_class(modt_r_lightrf, Regression)
 })
 
 ## LightRF Classification ----
@@ -565,23 +577,23 @@ test_that("train() LightGBM Regression succeeds", {
 })
 
 ## LightGBM Regression + autotune nrounds ----
-tmod_r_lightgbm <- train(
+modt_r_lightgbm <- train(
   x = datr_train,
   dat_test = datr_test,
   hyperparameters = setup_LightGBM()
 )
 test_that("train() LightGBM Regression with autotune nrounds succeeds", {
-  expect_s7_class(tmod_r_lightgbm, Regression)
+  expect_s7_class(modt_r_lightgbm, Regression)
 })
 
 ## Res LightGBM Regression + autotune nrounds grid search ----
-restmod_r_lightgbm <- train(
+resmodt_r_lightgbm <- train(
   x = datr_train,
   hyperparameters = setup_LightGBM(max_nrounds = 50L),
   outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res LightGBM Regression with autotune nrounds succeeds", {
-  expect_s7_class(restmod_r_lightgbm, RegressionRes)
+  expect_s7_class(resmodt_r_lightgbm, RegressionRes)
 })
 
 ## LightGBM Binary Classification ----
@@ -695,19 +707,19 @@ test_that("train() Ranger Regression succeeds", {
 })
 
 # Ranger Regression + grid search ----
-tmod_r_ranger <- train(
+modt_r_ranger <- train(
   x = datr_train,
   dat_test = datr_test,
   hyperparameters = setup_Ranger(num_trees = 50L, mtry = c(3, 6))
 )
 test_that("train() Ranger Regression with grid search succeeds", {
-  expect_s7_class(tmod_r_ranger, Regression)
+  expect_s7_class(modt_r_ranger, Regression)
 })
 
 # Res Ranger Regression ----
 resmod_r_ranger <- train(
   x = datr,
-  hyperparameters = setup_Ranger(num_trees = 50L),
+  hyperparameters = setup_Ranger(num_trees = 5000L),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() Res Ranger Regression succeeds", {
@@ -725,13 +737,13 @@ test_that("train() Ranger Classification succeeds", {
 })
 
 # Ranger Classification + grid search ----
-tmod_c_ranger <- train(
+modt_c_ranger <- train(
   x = datc2_train,
   dat_test = datc2_test,
   hyperparameters = setup_Ranger(num_trees = 10L, mtry = c(2, 4))
 )
 test_that("train() Ranger Classification with grid search succeeds", {
-  expect_s7_class(tmod_c_ranger, Classification)
+  expect_s7_class(modt_c_ranger, Classification)
 })
 
 # Res Ranger Classification ----

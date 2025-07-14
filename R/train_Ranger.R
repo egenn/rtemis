@@ -40,7 +40,7 @@ train_Ranger <- function(
   }
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     dat_validation = dat_validation,
     allow_missing = TRUE,
@@ -94,7 +94,7 @@ train_Ranger <- function(
     quantreg = hyperparameters@hyperparameters[["quantreg"]],
     time.interest = hyperparameters@hyperparameters[["time_interest"]],
     oob.error = hyperparameters@hyperparameters[["oob_error"]],
-    num.threads = hyperparameters@hyperparameters[["num_threads"]],
+    num.threads = prop(hyperparameters, "n_workers"),
     save.memory = hyperparameters@hyperparameters[["save_memory"]],
     verbose = verbosity > 0L,
     node.stats = hyperparameters@hyperparameters[["node_stats"]],

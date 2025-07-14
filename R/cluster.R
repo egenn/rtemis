@@ -32,7 +32,7 @@ cluster <- function(
 
   # Data ----
   if (verbosity > 0L) {
-    summarize_unsupervised_data(x)
+    summarize_unsupervised(x)
   }
 
   # Cluster ----

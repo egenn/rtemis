@@ -34,7 +34,7 @@ train_CART <- function(
   }
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     allow_missing = TRUE,
     verbosity = verbosity

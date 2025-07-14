@@ -29,7 +29,7 @@ train_LightCART <- function(
   }
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     allow_missing = TRUE,
     verbosity = verbosity
@@ -80,8 +80,13 @@ train_LightCART <- function(
   )
 
   # Train ----
+  params <- hyperparameters@hyperparameters
+  params[["ifw"]] <- NULL
+  # Set n threads
+  params[["num_threads"]] <- 1L
+
   model <- lightgbm::lgb.train(
-    params = hyperparameters@hyperparameters,
+    params = params,
     data = x,
     nrounds = 1L,
     valids = list(training = x),

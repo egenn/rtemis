@@ -1,4 +1,4 @@
-# check_supervised_data.R
+# check_supervised.R
 # ::rtemis::
 # EDG rtemis.org
 
@@ -81,9 +81,9 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
 #' @noRd
 #' @examples
 #' \dontrun{
-#' check_supervised_data(training_data, validation_data, test_data)
+#' check_supervised(training_data, validation_data, test_data)
 #' }
-check_supervised_data <- function(
+check_supervised <- function(
   x,
   dat_validation = NULL,
   dat_test = NULL,
@@ -158,7 +158,7 @@ check_supervised_data <- function(
     msg2done()
   }
   invisible(NULL)
-} # /rtemis::check_supervised_data
+} # /rtemis::check_supervised
 
 
 #' Check data ahead of unsupervised learning

@@ -2,9 +2,13 @@
 # ::rtemis::
 # 2016- EDG rtemis.org
 
+# used by msgdatetime, log_to_file
+datetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
+  format(Sys.time(), datetime_format)
+}
+
 msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
-  .dt <- format(Sys.time(), datetime_format)
-  message(reset(gray(paste0(.dt, gray(" ")))), appendLF = FALSE)
+  message(reset(gray(paste0(datetime(), gray(" ")))), appendLF = FALSE)
 }
 
 stopQuietly <- function() {
@@ -35,7 +39,7 @@ rtOut <- function(...) {
 }
 
 info <- function(..., format_fn = hilite2) {
-  msg2(..., format_fn = format_fn, caller_id = 2)
+  msg20(..., format_fn = format_fn, caller_id = 2)
 }
 
 suggest <- function(...) {
@@ -122,8 +126,8 @@ msg2 <- function(
   ...,
   date = rtemis_date,
   caller = NULL,
-  call_depth = 1,
-  caller_id = 1,
+  call_depth = 1L,
+  caller_id = 1L,
   newline_pre = FALSE,
   newline = TRUE,
   format_fn = plain,
@@ -142,10 +146,10 @@ msg2 <- function(
     msgdatetime()
   }
   message(
-    cli::format_inline(format_fn(paste(txt, collapse = sep))),
+    format_fn(paste(txt, collapse = sep)),
     appendLF = FALSE
   )
-  if (!is.null(caller) && !is.na(caller)) {
+  if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")
@@ -174,10 +178,10 @@ msg20 <- function(
   }
   msgdatetime()
   message(
-    cli::format_inline(format_fn(paste(txt, collapse = sep))),
+    format_fn(paste(txt, collapse = sep)),
     appendLF = FALSE
   )
-  if (!is.null(caller) && !is.na(caller)) {
+  if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")

@@ -17,11 +17,16 @@
 #' @param hyperparameters List: Hyperparameters.
 #' @param tuner_parameters List: Tuner parameters.
 #' @param weights Vector: Class weights.
+#' @param save_mods Logical: Save models in tuning results.
+#' @param n_workers Integer: Number of workers to use for parallel processing.
+#' @param parallel_type Character: Type of parallelization to use. Options are "none", "future", or "mirai".
+#' @param future_plan Character: Future plan to use if `parallel_type` is "future".
 #' @param verbosity Integer: Verbosity level.
 #'
 #' @return GridSearch object.
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 tune_GridSearch <- function(
@@ -30,15 +35,21 @@ tune_GridSearch <- function(
   tuner_parameters,
   weights = NULL,
   save_mods = FALSE,
-  verbosity = 1L,
-  parallel_type = "none"
+  n_workers = 1L,
+  parallel_type = "none",
+  future_plan = "multicore",
+  verbosity = 1L
 ) {
   check_is_S7(hyperparameters, Hyperparameters)
   check_is_S7(tuner_parameters, TunerParameters)
   stopifnot(needs_tuning(hyperparameters))
 
   # Dependencies ----
-  check_dependencies(c("future", "future.apply"))
+  if (parallel_type == "future") {
+    check_dependencies("future.apply")
+  } else if (parallel_type == "mirai") {
+    check_dependencies("mirai")
+  }
 
   # Intro ----
   start_time <- intro(
@@ -49,6 +60,15 @@ tune_GridSearch <- function(
 
   # Arguments ----
   algorithm <- hyperparameters@algorithm
+
+  # Parallel Processing Strategy ----
+  # If n_workers = 1, use direct lapply for simplicity and better error handling
+  if (n_workers == 1L && parallel_type != "none") {
+    if (verbosity > 1L) {
+      info("Using sequential execution (n_workers = 1)")
+    }
+    parallel_type <- "none"
+  }
 
   # Make Grid ----
   grid_params <- get_params_need_tuning(hyperparameters)
@@ -73,6 +93,37 @@ tune_GridSearch <- function(
     res_param_grid <- res_param_grid[rep(index_per_resample, n_resamples), ]
   }
 
+  # Intro pt. 2 ----
+  if (verbosity > 0L) {
+    msg20(
+      hilite("<> ", col = col_tuner),
+      "Tuning ",
+      algorithm,
+      " by ",
+      search_type,
+      " grid search with ",
+      desc(tuner_parameters@parameters[["resampler_parameters"]]),
+      "..."
+    )
+    msg20(
+      hilite(n_param_combinations, col = col_tuner),
+      ngettext(
+        n_param_combinations,
+        " parameter combination x ",
+        " parameter combinations x "
+      ),
+      hilite(n_resamples, col = col_tuner),
+      " resamples: ",
+      hilite(n_res_x_comb, col = col_tuner),
+      " models total",
+      # hilite(n_res_x_comb), " models total running on ",
+      # singorplu(n_workers, "worker"),
+      " (",
+      Sys.getenv("R_PLATFORM"),
+      ")."
+    )
+  }
+
   # Resamples ----
   res <- resample(
     x = x,
@@ -81,7 +132,7 @@ tune_GridSearch <- function(
   )
 
   # learner1 ----
-  if (parallel_type != "mirai") {
+  if (parallel_type == "future") {
     ptn <- progressr::progressor(steps = NROW(res_param_grid))
   }
   learner1 <- function(
@@ -95,10 +146,10 @@ tune_GridSearch <- function(
     save_mods,
     n_res_x_comb
   ) {
-    if (verbosity > 0L) {
+    if (verbosity > 1L) {
       msg2(
         "Running grid line #",
-        hilite(index),
+        hilite(index, col = col_tuner),
         "/",
         NROW(res_param_grid),
         "...",
@@ -153,9 +204,9 @@ tune_GridSearch <- function(
       best_iter <- mod1@model[["best_iter"]]
       if (is.null(best_iter) || best_iter == -1 || best_iter == 0) {
         info(bold(italic(
-          "best_iter returned from lightgbm:",
+          "best_iter returned from lightgbm: ",
           best_iter,
-          " - setting to 100L"
+          "- setting to 100L"
         )))
         best_iter <- 100L
       }
@@ -170,39 +221,21 @@ tune_GridSearch <- function(
     if (save_mods) {
       out1[["mod1"]] <- mod1
     }
-    if (parallel_type != "mirai") {
+    if (parallel_type == "future") {
       ptn(sprintf("Tuning resample %i/%i", index, n_res_x_comb))
     }
     out1
   } # /learner1
 
   # Train Grid ----
-  if (verbosity > 0L) {
-    msg2(
-      hilite("Tuning", algorithm, "by", search_type, "grid search.")
-    )
-    msg20(
-      hilite(n_param_combinations),
-      ngettext(
-        n_param_combinations,
-        " parameter combination x ",
-        " parameter combinations x "
-      ),
-      hilite(n_resamples),
-      " resamples: ",
-      hilite(n_res_x_comb),
-      " models total",
-      # hilite(n_res_x_comb), " models total running on ",
-      # singorplu(n_workers, "worker"),
-      " (",
-      Sys.getenv("R_PLATFORM"),
-      ")."
-    )
-  }
-
   if (parallel_type == "none") {
+    # Sequential execution with cli progress.
     grid_run <- lapply(
-      X = seq_len(n_res_x_comb),
+      cli::cli_progress_along(
+        seq_len(n_res_x_comb),
+        name = "Outer Resamples",
+        type = "tasks"
+      ),
       FUN = learner1,
       x = x,
       res = res,
@@ -214,6 +247,23 @@ tune_GridSearch <- function(
       n_res_x_comb = n_res_x_comb
     )
   } else if (parallel_type == "future") {
+    # Future parallelization
+    if (n_workers == 1L) {
+      future::plan(strategy = "sequential")
+      if (verbosity > 0L) {
+        msg2("Tuning in sequence")
+      }
+    } else {
+      future::plan(strategy = future_plan, workers = n_workers)
+      if (verbosity > 0L) {
+        msg20(
+          "Tuning using future (",
+          bold(future_plan),
+          "); N workers: ",
+          bold(n_workers)
+        )
+      }
+    }
     grid_run <- future.apply::future_lapply(
       X = seq_len(n_res_x_comb),
       FUN = learner1,
@@ -229,6 +279,11 @@ tune_GridSearch <- function(
       future.globals = FALSE # See: https://github.com/futureverse/globals/issues/93
     )
   } else if (parallel_type == "mirai") {
+    if (verbosity > 0L) {
+      msg2("Tuning using mirai; N workers:", bold(n_workers))
+    }
+    mirai::daemons(n_workers, dispatcher = TRUE)
+    on.exit(mirai::daemons(0L))
     grid_run <- mirai::mirai_map(
       .x = seq_len(n_res_x_comb),
       .f = learner1,
@@ -272,8 +327,8 @@ tune_GridSearch <- function(
   # if using mirai, wait for all to finish
   if (parallel_type == "mirai") {
     # Appease R CMD check
-    .progress_cli <- NULL
-    grid_run <- grid_run[.progress_cli]
+    .progress <- NULL
+    grid_run <- grid_run[.progress]
     # grid_run <- mirai::collect_mirai(grid_run)
   }
   if (type %in% c("Regression", "Survival")) {
@@ -496,14 +551,22 @@ tune_GridSearch <- function(
   )
   best_param_combo <- as.list(param_grid[best_param_combo_id, -1, drop = FALSE])
   if (verbosity > 0L) {
-    message()
-    msg2(hilite(paste0("Best parameters to ", paste(verb, metric), ":")))
+    msg2(
+      paste0("Best parameters to ", paste(verb, metric), ":")
+    )
     print_tune_finding(grid_params, best_param_combo)
   }
 
   # Outro ----
   # Since this is always called from within `train()`, we don't want to print "Completed..."
   outro(start_time, verbosity = verbosity - 1)
+
+  if (verbosity > 0L) {
+    msg2(
+      hilite("</>", col = col_tuner),
+      "Tuning done."
+    )
+  }
 
   # => add optional mods field to GridSearch
   # if (save_mods) mods <- grid_run
@@ -524,7 +587,7 @@ tune_GridSearch <- function(
 # Print tuning results ----
 # Print set of search values and best value in the form {1, 3, 5} => 3
 # for each hyperparameter that was tuned.
-print_tune_finding <- function(grid_params, best_param_combo) {
+print_tune_finding <- function(grid_params, best_param_combo, pad = 20L) {
   # Make list of search values and best value
   tfl <- lapply(seq_along(grid_params), function(i) {
     paste0(
@@ -536,5 +599,5 @@ print_tune_finding <- function(grid_params, best_param_combo) {
     )
   })
   names(tfl) <- names(grid_params)
-  printls(tfl, print_class = FALSE)
+  printls(tfl, print_class = FALSE, pad = pad)
 } # /rtemis::print_tune_finding

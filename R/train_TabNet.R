@@ -39,7 +39,7 @@ train_TabNet <- function(
   }
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     allow_missing = FALSE,
     verbosity = verbosity

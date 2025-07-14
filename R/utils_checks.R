@@ -165,20 +165,6 @@ clean_int <- function(x) {
 } # /rtemis::clean_int
 
 
-#' Clean positive integer input
-#'
-#' @keywords internal
-#' @noRd
-clean_posint <- function(x) {
-  xname <- deparse(substitute(x))
-  x <- clean_int(x)
-  if (any(x < 1L)) {
-    cli::cli_abort("{.var {xname}} must be positive integer.")
-  }
-  x
-} # /rtemis::clean_posint
-
-
 #' Match Arguments Ignoring Case
 #'
 #' @param x Character: Argument to match.

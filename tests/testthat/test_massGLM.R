@@ -6,7 +6,8 @@
 # library(data.table)
 # library(testthat)
 set.seed(2022)
-y <- data.table(rnormmat(500, 40))
+n <- 40L
+y <- data.table(rnormmat(500, n))
 x <- data.table(
   x1 = y[[3]] - y[[5]] + y[[14]] + rnorm(500),
   x2 = y[[21]] + rnorm(500)

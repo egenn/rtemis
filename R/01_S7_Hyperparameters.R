@@ -42,13 +42,15 @@ Hyperparameters <- new_class(
     tunable_hyperparameters = class_character,
     fixed_hyperparameters = class_character,
     tuned = class_integer,
-    resampled = class_integer
+    resampled = class_integer,
+    n_workers = class_integer
   ),
   constructor = function(
     algorithm,
     hyperparameters,
     tunable_hyperparameters,
-    fixed_hyperparameters
+    fixed_hyperparameters,
+    n_workers = 1L
   ) {
     # Test if any tunable_hyperparameters have more than one value
     if (length(tunable_hyperparameters) > 0) {
@@ -90,6 +92,7 @@ Hyperparameters <- new_class(
         }
       }
     }
+    n_workers <- clean_posint(n_workers)
     new_object(
       S7_object(),
       algorithm = algorithm,
@@ -97,7 +100,8 @@ Hyperparameters <- new_class(
       tunable_hyperparameters = tunable_hyperparameters,
       fixed_hyperparameters = fixed_hyperparameters,
       tuned = tuned,
-      resampled = 0L
+      resampled = 0L,
+      n_workers = n_workers
     )
   }
 ) # /Hyperparameters
@@ -762,8 +766,7 @@ LightRF_fixed <- c(
   "learning_rate",
   "subsample_freq",
   "early_stopping_rounds",
-  "force_col_wise",
-  "num_threads"
+  "force_col_wise"
 )
 
 #' @title LightRFHyperparameters
@@ -793,8 +796,7 @@ LightRFHyperparameters <- new_class(
     objective,
     device_type,
     tree_learner,
-    force_col_wise,
-    num_threads
+    force_col_wise
   ) {
     new_object(
       Hyperparameters(
@@ -816,7 +818,6 @@ LightRFHyperparameters <- new_class(
           device_type = device_type,
           tree_learner = tree_learner,
           force_col_wise = force_col_wise,
-          num_threads = num_threads,
           # unsettable: LightGBM params for RF
           boosting_type = "rf",
           learning_rate = 1, # no effect? in boosting_type 'rf', but set for clarity
@@ -853,8 +854,7 @@ LightRFHyperparameters <- new_class(
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #' @param device_type Character: "cpu" or "gpu".
 #' @param tree_learner Character: "serial", "feature", "data", or "voting".
-#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
-#' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
+#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building.
 #'
 #' @return LightRFHyperparameters object.
 #'
@@ -876,8 +876,7 @@ setup_LightRF <- function(
   objective = NULL,
   device_type = "cpu",
   tree_learner = "serial",
-  force_col_wise = TRUE,
-  num_threads = 0L # 0 means default number of threads in OpenMP
+  force_col_wise = TRUE
 ) {
   nrounds <- clean_posint(nrounds)
   num_leaves <- clean_posint(num_leaves)
@@ -889,7 +888,6 @@ setup_LightRF <- function(
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
   check_logical(linear_tree)
-  num_threads <- clean_int(num_threads)
   LightRFHyperparameters(
     nrounds = nrounds,
     num_leaves = num_leaves,
@@ -905,8 +903,7 @@ setup_LightRF <- function(
     objective = objective,
     device_type = device_type,
     tree_learner = tree_learner,
-    force_col_wise = force_col_wise,
-    num_threads = num_threads
+    force_col_wise = force_col_wise
   )
 } # /rtemis::setupLightRF
 
@@ -937,8 +934,7 @@ LightGBM_fixed <- c(
   "objective",
   "device_type",
   "tree_learner",
-  "force_col_wise",
-  "num_threads"
+  "force_col_wise"
 )
 
 #' @title LightGBMHyperparameters
@@ -972,8 +968,7 @@ LightGBMHyperparameters <- new_class(
     objective,
     device_type,
     tree_learner,
-    force_col_wise,
-    num_threads
+    force_col_wise
   ) {
     nrounds <- if (!is.null(force_nrounds)) {
       force_nrounds
@@ -1002,8 +997,7 @@ LightGBMHyperparameters <- new_class(
           objective = objective,
           device_type = device_type,
           tree_learner = tree_learner,
-          force_col_wise = force_col_wise,
-          num_threads = num_threads
+          force_col_wise = force_col_wise
         ),
         tunable_hyperparameters = LightGBM_tunable,
         fixed_hyperparameters = LightGBM_fixed
@@ -1066,8 +1060,7 @@ method(update, LightGBMHyperparameters) <- function(
 #' @param ifw Logical: If TRUE, use Inverse Frequency Weighting in classification.
 #' @param device_type Character: "cpu" or "gpu".
 #' @param tree_learner Character: "serial", "feature", "data", or "voting".
-#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building
-#' @param num_threads Integer: Number of threads to use. 0 means default number of threads in OpenMP.
+#' @param force_col_wise Logical: Use only with CPU - If TRUE, force col-wise histogram building.
 #'
 #' @return LightGBMHyperparameters object.
 #'
@@ -1095,8 +1088,7 @@ setup_LightGBM <- function(
   objective = NULL,
   device_type = "cpu",
   tree_learner = "serial",
-  force_col_wise = TRUE,
-  num_threads = 0L # 0 means default number of threads in OpenMP
+  force_col_wise = TRUE
 ) {
   max_nrounds <- clean_posint(max_nrounds)
   force_nrounds <- clean_posint(force_nrounds)
@@ -1131,8 +1123,7 @@ setup_LightGBM <- function(
     objective = objective,
     device_type = device_type,
     tree_learner = tree_learner,
-    force_col_wise = force_col_wise,
-    num_threads = num_threads
+    force_col_wise = force_col_wise
   )
 } # /rtemis::setupLightGBM
 
@@ -1835,7 +1826,6 @@ ranger_fixed <- c(
   "quantreg",
   "time_interest",
   "oob_error",
-  "num_threads",
   "save_memory",
   "verbose",
   "node_stats",
@@ -1885,7 +1875,6 @@ RangerHyperparameters <- new_class(
     quantreg,
     time_interest,
     oob_error,
-    num_threads,
     save_memory,
     verbose,
     node_stats,
@@ -1927,7 +1916,6 @@ RangerHyperparameters <- new_class(
           quantreg = quantreg,
           time_interest = time_interest,
           oob_error = oob_error,
-          num_threads = num_threads,
           save_memory = save_memory,
           verbose = verbose,
           node_stats = node_stats,
@@ -1979,7 +1967,6 @@ RangerHyperparameters <- new_class(
 #' @param quantreg Logical: Prepare quantile prediction as in quantile regression forests (Meinshausen 2006). For regression only. Set keep_inbag = TRUE to prepare out-of-bag quantile prediction.
 #' @param time_interest Numeric: For GWAS data: SNP with this number will be used as time variable. Only for survival. Deprecated, use time.var in formula instead.
 #' @param oob_error Logical: Compute OOB prediction error. Set to FALSE to save computation time if only the forest is needed.
-#' @param num_threads Positive integer: Number of threads. Default is number of CPUs available.
 #' @param save_memory Logical: Use memory saving (but slower) splitting mode. No effect for survival and GWAS data. Warning: This option slows down the tree growing, use only if you encounter memory problems.
 #' @param verbose Logical: Show computation status and estimated runtime.
 #' @param node_stats Logical: Save additional node statistics. Only terminal nodes for now.
@@ -2020,7 +2007,6 @@ setup_Ranger <- function(
   quantreg = FALSE,
   time_interest = NULL,
   oob_error = TRUE,
-  num_threads = NULL,
   save_memory = FALSE,
   verbose = TRUE,
   node_stats = FALSE,
@@ -2058,7 +2044,6 @@ setup_Ranger <- function(
   check_inherits(quantreg, "logical")
   check_inherits(time_interest, "numeric")
   check_inherits(oob_error, "logical")
-  num_threads <- clean_posint(num_threads)
   check_inherits(save_memory, "logical")
   check_inherits(verbose, "logical")
   check_inherits(node_stats, "logical")
@@ -2096,7 +2081,6 @@ setup_Ranger <- function(
     quantreg = quantreg,
     time_interest = time_interest,
     oob_error = oob_error,
-    num_threads = num_threads,
     save_memory = save_memory,
     verbose = verbose,
     node_stats = node_stats,

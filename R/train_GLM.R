@@ -32,7 +32,7 @@ train_GLM <- function(
   check_is_S7(hyperparameters, GLMHyperparameters)
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     allow_missing = FALSE,
     verbosity = verbosity

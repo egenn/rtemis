@@ -522,7 +522,7 @@ classification_metrics <- function(
     Overall[["F1"]] <- Class[["F1"]][1]
   } else {
     Overall[["Balanced_Accuracy"]] <- mean(Class[["Sensitivity"]])
-    Overall[["F1 Mean"]] <- mean(Class[["F1"]])
+    Overall[["F1"]] <- mean(Class[["F1"]])
   }
   Overall[["Accuracy"]] <- sum(Class[["Hits"]]) / Total
 

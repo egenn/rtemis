@@ -35,7 +35,7 @@ train_Isotonic <- function(
   check_is_S7(hyperparameters, IsotonicHyperparameters)
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     dat_validation = dat_validation,
     dat_test = dat_test,

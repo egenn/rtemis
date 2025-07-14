@@ -44,7 +44,7 @@ train_LightGBM <- function(
   }
 
   # Data ----
-  check_supervised_data(
+  check_supervised(
     x = x,
     dat_validation = dat_validation,
     allow_missing = TRUE,
@@ -118,6 +118,9 @@ train_LightGBM <- function(
   params[["max_nrounds"]] <- NULL
   params[["force_nrounds"]] <- NULL
   params[["ifw"]] <- NULL
+  # Set n threads
+  params[["num_threads"]] <- prop(hyperparameters, "n_workers")
+
   model <- lightgbm::lgb.train(
     params = params,
     data = x,

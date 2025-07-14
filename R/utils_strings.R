@@ -2,31 +2,46 @@
 # ::rtemis::
 # 2022 EDG rtemis.org
 
+# rtemis color system
+# Violet: Class names (structure)
+# Blue: Outer resampling (evaluation)
+# Orange: Hyperparameter tuning (optimization)
+# Green: Model training + important highlights (execution)
+# Cyan: Info messages (communication)
+
 # References
 # ANSI escape code numbers
 # https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 # Xterm color names: https://jonasjacek.github.io/colors/
 # CSS color keywords: https://www.uxgem.com/docs/css-color-keywords
+# Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
+# UTF-8 icons: https://www.utf8icons.com/
 
 # rt console colors
-MediumSpringGreen <- "49;1"
-CornflowerBlue <- "69;1"
-SteelBlue1 <- "75;1"
-Magenta3 <- "164;1"
-MediumOrchid1 <- "171;1"
-Violet <- "177;1"
-DarkOrange <- "208;1"
-Turquoise4 <- "30;1"
-DarkCyan <- "36;1"
+MediumSpringGreen <- "49"
+Cyan2 <- "50"
+CornflowerBlue <- "69"
+MediumOrchid3 <- "133"
+MediumOrchid <- "134"
+SteelBlue1 <- "75"
+Magenta3 <- "164"
+MediumOrchid1 <- "171"
+Violet <- "177"
+DarkOrange <- "208"
+Turquoise4 <- "30"
+DarkCyan <- "36"
 
-# primary highlight color
-# hilite_col <- MediumSpringGreen
-hilite_col <- DarkCyan
-# secondary highlight color
-hilite1_col <- SteelBlue1 # objcat default
-hilite2_col <- "177" # Violet # info
+hilite_col <- DarkCyan # green, really
+hilite1_col <- SteelBlue1
+hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 rt_green <- DarkCyan # yay
+
+col_object <- MediumOrchid3 # objcat()
+col_outer <- SteelBlue1 # print.SupervisedRes
+col_tuner <- DarkOrange # print.{Supervised, SupervisedRes, CalibratedClassificationRes}
+col_train <- hilite_col
+col_info <- Cyan2
 
 #' String formatting utilities
 #'
@@ -52,10 +67,9 @@ underline <- function(...) {
 }
 
 
-# blue for light and dark background: "69;1"
-# green: "49;1"
+# General hilite function output bold + any color.
 hilite <- function(..., col = hilite_col) {
-  paste0("\033[38;5;", col, "m", paste(...), "\033[0m")
+  paste0("\033[1;38;5;", col, "m", paste(...), "\033[0m")
 }
 
 
@@ -81,7 +95,7 @@ hilite2 <- function(
   sep = ""
 ) {
   paste0(
-    ifelse(bold, "\033[1m", ""),
+    ifelse(bold, "\033[1m", "\033[0m"),
     ifelse(italic, "\033[3m", ""),
     "\033[38;5;",
     hilite2_col,
@@ -152,8 +166,8 @@ reset <- function(...) {
   paste0("\033[0m", paste(...))
 }
 
-col256 <- function(x, col = 183) {
-  paste0("\033[38;5;", col, "m", x, "\033[0m")
+col256 <- function(..., col = 183) {
+  paste0("\033[38;5;", col, "m", ..., "\033[0m")
 }
 
 # Read UTF-8 strings from file, because R files should be ASCII-only.
@@ -187,7 +201,7 @@ rtlogo <- local({
         "resources",
         "rtemis_logo.utf8"
       )),
-      c(92, 128, 196, 208, 27)
+      col = c(92, 128, 196, 208, 27)
     ),
     collapse = "\n"
   )
@@ -201,6 +215,16 @@ rtascii <- function() {
 rtasciitxt <- function() {
   paste(paste0(paste0("  ", rtaart(), "\n")), collapse = "")
 }
+
+citation("rtemis")
+
+rtcitation <- paste0(
+  "> ",
+  col256("citation", col = "69"),
+  "(",
+  col256("rtemis", col = "177"),
+  ")"
+)
 
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
@@ -435,16 +459,16 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 #' @noRd
 
-objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 2L) {
+objcat <- function(x, col = col_object, pad = 0, verbosity = 2L) {
   cat(
     paste0(rep(" ", pad), collapse = ""),
     paste0(
       if (verbosity > 1L) {
-        gray("<rtemis::")
+        gray("<rt ")
       } else {
         gray("<")
       },
-      format_fn(x),
+      bold(col256(x, col = col)),
       gray(">")
     ),
     "\n",

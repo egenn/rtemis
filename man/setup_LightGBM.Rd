@@ -23,8 +23,7 @@ setup_LightGBM(
   objective = NULL,
   device_type = "cpu",
   tree_learner = "serial",
-  force_col_wise = TRUE,
-  num_threads = 0L
+  force_col_wise = TRUE
 )
 }
 \arguments{
@@ -64,9 +63,7 @@ setup_LightGBM(
 
 \item{tree_learner}{Character: "serial", "feature", "data", or "voting".}
 
-\item{force_col_wise}{Logical: Use only with CPU - If TRUE, force col-wise histogram building}
-
-\item{num_threads}{Integer: Number of threads to use. 0 means default number of threads in OpenMP.}
+\item{force_col_wise}{Logical: Use only with CPU - If TRUE, force col-wise histogram building.}
 }
 \value{
 LightGBMHyperparameters object.

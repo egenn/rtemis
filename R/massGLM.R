@@ -40,9 +40,7 @@ massGLM <- function(
   # include_anova = TRUE,
   verbosity = 1L
 ) {
-  # Dependencies ----
-  check_dependencies("progressr")
-
+  # Init ----
   start_time <- intro(verbosity = verbosity)
 
   # Check y ----
@@ -97,7 +95,6 @@ massGLM <- function(
   dat <- data.table(x, y)
 
   # fit1: Loop function ----
-  p <- progressr::progressor(along = seq_along(y))
   fit1 <- function(index, dat, family, ynames) {
     formula1 <- as.formula(paste(
       ynames[index],
@@ -105,7 +102,6 @@ massGLM <- function(
       paste(xnames, collapse = " + ")
     ))
     mod1 <- glm(formula1, family = family, data = dat)
-    p()
     glm2table(list(mod1), xnames = ynames[index], include_anova = NA)
   }
 
@@ -123,7 +119,7 @@ massGLM <- function(
     )
   }
   tbls <- lapply(
-    seq_along(y),
+    cli_progress_along(seq_along(y), name = "GLMs", type = "tasks"),
     function(i) {
       fit1(index = i, dat = dat, family = .family, ynames = ynames)
     }
