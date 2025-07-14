@@ -126,8 +126,8 @@ msg2 <- function(
   ...,
   date = rtemis_date,
   caller = NULL,
-  call_depth = 1,
-  caller_id = 1,
+  call_depth = 1L,
+  caller_id = 1L,
   newline_pre = FALSE,
   newline = TRUE,
   format_fn = plain,
@@ -149,7 +149,7 @@ msg2 <- function(
     format_fn(paste(txt, collapse = sep)),
     appendLF = FALSE
   )
-  if (!is.null(caller) && !is.na(caller)) {
+  if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")
@@ -181,7 +181,7 @@ msg20 <- function(
     format_fn(paste(txt, collapse = sep)),
     appendLF = FALSE
   )
-  if (!is.null(caller) && !is.na(caller) && length(caller) > 0L) {
+  if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
     message(plain(gray(" [", caller, "]", sep = "")))
   } else if (newline) {
     message("")
