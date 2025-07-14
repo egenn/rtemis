@@ -65,7 +65,7 @@ train <- function(
   weights = NULL,
   question = NULL,
   outdir = NULL,
-  parallel_type = c("mirai", "future", "none"),
+  parallel_type = c("future", "mirai", "none"),
   future_plan = getOption("future.plan", "multicore"),
   n_workers = max(future::availableCores() - 3L, 1L),
   verbosity = 1L
@@ -80,6 +80,9 @@ train <- function(
   if (is.null(algorithm) && !is.null(hyperparameters)) {
     algorithm <- hyperparameters@algorithm
   }
+
+  type <- supervised_type(x)
+  ncols <- ncol(x)
 
   if (is.null(hyperparameters) && !is.null(algorithm)) {
     # without extra args
@@ -107,6 +110,12 @@ train <- function(
   }
 
   check_is_S7(hyperparameters, Hyperparameters)
+
+  # Set default tuner_parameters if tuning is needed but none specified
+  if (needs_tuning(hyperparameters) && is.null(tuner_parameters)) {
+    tuner_parameters <- setup_GridSearch()
+  }
+
   if (!is.null(tuner_parameters)) {
     check_is_S7(tuner_parameters, TunerParameters)
   }
@@ -161,22 +170,6 @@ train <- function(
   # Start timer & logfile ----
   start_time <- intro(verbosity = verbosity, logfile = logfile)
 
-  type <- supervised_type(x)
-  ncols <- ncol(x)
-
-  # Init ----
-  workers <- get_n_workers(
-    algorithm = algorithm,
-    hyperparameters = hyperparameters,
-    outer_resampling = outer_resampling,
-    n_workers = n_workers,
-    verbosity = verbosity
-  )
-
-  # Innermost parallelization level: algorithm training
-  hyperparameters@n_workers <- workers[["algorithm"]]
-  tuner <- NULL
-
   # Data ----
   if (type == "Classification") {
     classes <- levels(outcome(x))
@@ -192,6 +185,17 @@ train <- function(
     )
   }
 
+  # Init ----
+  workers <- get_n_workers(
+    algorithm = algorithm,
+    hyperparameters = hyperparameters,
+    outer_resampling = outer_resampling,
+    n_workers = n_workers,
+    verbosity = verbosity
+  )
+  hyperparameters@n_workers <- workers[["algorithm"]]
+  tuner <- NULL
+
   # Outer Resampling ----
   # if outer_resampling is set, this function calls itself
   # on multiple outer resamples (training-test sets), each of which may call itself
@@ -199,6 +203,7 @@ train <- function(
   if (!is.null(outer_resampling)) {
     if (verbosity > 0L) {
       msg20(
+        hilite("<> ", col = col_outer),
         "Training ",
         hilite(algorithm, type),
         " using ",
@@ -234,15 +239,15 @@ train <- function(
     )
     names(models) <- names(outer_resampler@resamples)
     hyperparameters@resampled <- 1L
-    msg2("Outer resampling done.")
+    msg2(hilite("</>", col = col_outer), "Outer resampling done.")
   } # /Outer Resampling
 
   if (hyperparameters@resampled == 0L) {
+    # Path 1: Normal training path for a single model.
+    # This needs to be skipped if multiple single models have already been trained
+    # in the outer resampling loop above, which calls train() recursively.
     # Tune ----
     if (needs_tuning(hyperparameters)) {
-      if (is.null(tuner_parameters)) {
-        tuner_parameters <- setup_GridSearch()
-      }
       tuner <- tune(
         x = x,
         hyperparameters = hyperparameters,
@@ -516,7 +521,7 @@ get_n_workers <- function(
     workers_algorithm <- n_workers
     workers_tuning <- 1L
     workers_outer_resampling <- 1L
-    if (verbosity > 0L && (requires_tuning || requires_resampling)) {
+    if (verbosity > 1L && (requires_tuning || requires_resampling)) {
       msg2(
         bold(algorithm),
         "is parallelized. Disabling tuning and outer resampling parallelization."
@@ -545,16 +550,17 @@ get_n_workers <- function(
   }
 
   if (verbosity > 0L) {
-    info(
-      "Max workers: ",
-      bold(n_workers),
-      "; ",
+    msg20(
+      bold("//"),
+      " Max workers: ",
+      hilite(n_workers),
+      " => ",
       "Algorithm: ",
-      bold(workers_algorithm),
+      hilite(workers_algorithm),
       "; Tuning: ",
-      bold(workers_tuning),
+      hilite(workers_tuning),
       "; Outer Resampling: ",
-      bold(workers_outer_resampling)
+      hilite(workers_outer_resampling)
     )
   }
 
