@@ -20,7 +20,8 @@ live[["parallelized_learners"]] <- c(
 
 # vars
 rtemis_version <- packageVersion("rtemis")
-.availableCores <- max(future::availableCores() - 3L, 1L)
+cores_available <- parallelly::availableCores()
+cores_to_use <- max(cores_available - 3L, 1L)
 
 # References
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
@@ -44,7 +45,7 @@ setup_progress <- function() {
   # Defaults ----
   rtemis_plan <- getOption("future.plan", "multicore")
   assign("rtemis_plan", rtemis_plan, envir = parent.env(environment()))
-  rtemis_workers <- getOption("rtemis_workers", .availableCores)
+  rtemis_workers <- getOption("rtemis_workers", cores_to_use)
   assign("rtemis_workers", rtemis_workers, envir = parent.env(environment()))
   rtemis_theme <- getOption("rtemis_theme", "darkgraygrid")
   assign("rtemis_theme", rtemis_theme, envir = parent.env(environment()))
@@ -67,6 +68,9 @@ setup_progress <- function() {
   if (interactive()) {
     # setup_progress()
     packageStartupMessage(paste0(
+      "  ",
+      paste0(rep("\u2500", 32), collapse = ""),
+      "\n",
       rtlogo,
       "\n  .:",
       bold(pkgname),
@@ -75,6 +79,10 @@ setup_progress <- function() {
       " \U1F30A",
       " ",
       sessionInfo()[[2]],
+      " (",
+      cores_available,
+      " cores available)\n  ",
+      paste0(rep("\u2500", 64 + nchar(cores_available)), collapse = ""),
       bold("\n  Defaults"),
       "\n  \u2502   ",
       italic(gray("Theme: ")),
@@ -82,16 +90,9 @@ setup_progress <- function() {
       "\n  \u2502    ",
       italic(gray("Font: ")),
       rtemis_font,
-      "\n  \u2502 ",
+      "\n  \u2514 ",
       italic(gray("Palette: ")),
       rtemis_palette,
-      "\n  \u2502    ",
-      italic(gray("Plan: ")),
-      rtemis_plan,
-      # "\n  \u2514   ", italic(gray("Cores: ")), rtemis_workers, "/", .availableCores, " available",
-      "\n  \u2514   ",
-      italic(gray("Cores: ")),
-      future::availableCores(),
       " cores available.",
       bold("\n  Resources"),
       "\n  \u2502    ",
@@ -104,13 +105,14 @@ setup_progress <- function() {
       italic(gray("Themes:")),
       " https://rtemis.org/themes",
       "\n  \u2514    ",
-      italic(gray("Cite:")),
-      ' > citation("rtemis")',
-      bold("\n  Setup"),
-      "\n  \u2514 ",
-      italic(gray("Enable progress reporting:")),
-      " > progressr::handlers(global = TRUE)",
-      '\n                               > progressr::handlers("cli")',
+      italic(gray("Cite: ")),
+      # ' > citation("rtemis")',
+      rtcitation,
+      # bold("\n  Setup"),
+      # "\n  \u2514 ",
+      # italic(gray("Enable progress reporting:")),
+      # " > progressr::handlers(global = TRUE)",
+      # '\n                               > progressr::handlers("cli")',
       "\n\n  ",
       red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
     ))
