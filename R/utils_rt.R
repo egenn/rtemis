@@ -12,7 +12,7 @@
 #' @keywords internal
 #' @noRd
 intro <- function(
-  message = NULL,
+  message = "\u25b6",
   logfile = NULL,
   call_depth = 1,
   caller = NULL,
@@ -36,23 +36,13 @@ intro <- function(
     if (newline_pre) {
       cat("\n")
     }
-    if (is.null(message)) {
-      # Read first line from inst/resources/intro.utf8
-      msg20(
-        "Hello.",
-        call_depth = call_depth,
-        caller_id = 2,
-        caller = caller
-      )
-    } else {
-      msg2(
-        message,
-        call_depth = call_depth,
-        sep = "",
-        caller_id = 2,
-        caller = caller
-      )
-    }
+    msg2(
+      message,
+      call_depth = call_depth,
+      sep = "",
+      caller_id = 2,
+      caller = caller
+    )
   }
   invisible(start_time)
 } # rtemis::intro
