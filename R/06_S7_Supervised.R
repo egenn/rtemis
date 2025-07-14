@@ -179,7 +179,7 @@ print.Supervised <- function(x, ...) {
   if (!is.null(x@tuner)) {
     cat(
       "  ",
-      magenta("\U2699", bold = TRUE),
+      hilite("\U2699", col = col_tuner),
       " Tuned using ",
       desc(x@tuner),
       ".\n\n",
@@ -1170,26 +1170,25 @@ method(print, SupervisedRes) <- function(x, ...) {
     ")\n",
     sep = ""
   )
+  if (!is.null(x@tuner_parameters)) {
+    cat(
+      "  ",
+      hilite("\U2699", col = col_tuner),
+      " Tuned using ",
+      desc(x@tuner_parameters),
+      ".\n",
+      sep = ""
+    )
+  }
   cat(
     "  ",
-    orange("\U27F3", bold = TRUE),
+    hilite("\U27F3", col = col_outer),
     " Tested using ",
     desc(x@outer_resampler),
     ".\n",
     sep = ""
   )
-  if (!is.null(x@tuner_parameters)) {
-    cat(
-      "  ",
-      magenta("\U2699", bold = TRUE),
-      " Tuned using ",
-      desc(x@tuner_parameters),
-      ".\n\n",
-      sep = ""
-    )
-  } else {
-    cat("\n")
-  }
+  cat("\n")
   # if (x@type == "Classification" && !is.null(x@calibration)) {
   #   cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
   # }
@@ -1411,7 +1410,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
   if (!is.null(x@tuner_parameters)) {
     cat(
       "  ",
-      magenta("\U2699", bold = TRUE),
+      hilite("\U2699", col = col_tuner),
       " Tuned using ",
       desc(x@tuner_parameters),
       ".\n",
