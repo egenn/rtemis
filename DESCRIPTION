@@ -20,7 +20,8 @@ Imports:
     data.table,
     future,
     htmltools,
-    cli
+    cli,
+    parallelly
 Suggests:
     arrow,
     bit64,
