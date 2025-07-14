@@ -2,6 +2,13 @@
 # ::rtemis::
 # 2022 EDG rtemis.org
 
+# rtemis color system
+# Violet: Class names (structure)
+# Blue: Outer resampling (evaluation)
+# Orange: Hyperparameter tuning (optimization)
+# Green: Model training + important highlights (execution)
+# Cyan: Info messages (communication)
+
 # References
 # ANSI escape code numbers
 # https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
@@ -9,21 +16,28 @@
 # CSS color keywords: https://www.uxgem.com/docs/css-color-keywords
 
 # rt console colors
-MediumSpringGreen <- "49;1"
-CornflowerBlue <- "69;1"
-SteelBlue1 <- "75;1"
-Magenta3 <- "164;1"
-MediumOrchid1 <- "171;1"
-Violet <- "177;1"
-DarkOrange <- "208;1"
-Turquoise4 <- "30;1"
-DarkCyan <- "36;1"
+MediumSpringGreen <- "49"
+Cyan2 <- "50"
+CornflowerBlue <- "69"
+SteelBlue1 <- "75"
+Magenta3 <- "164"
+MediumOrchid1 <- "171"
+Violet <- "177"
+DarkOrange <- "208"
+Turquoise4 <- "30"
+DarkCyan <- "36"
 
 hilite_col <- DarkCyan # green, really
-hilite1_col <- SteelBlue1 # objcat default
+hilite1_col <- SteelBlue1
 hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 rt_green <- DarkCyan # yay
+
+col_object <- Violet # objcat()
+col_outer <- SteelBlue1 # print.SupervisedRes
+col_tuner <- DarkOrange # print.{Supervised, SupervisedRes, CalibratedClassificationRes}
+col_train <- hilite_col
+col_info <- Cyan2
 
 #' String formatting utilities
 #'
@@ -49,10 +63,9 @@ underline <- function(...) {
 }
 
 
-# blue for light and dark background: "69;1"
-# green: "49;1"
+# General hilite function output bold + any color.
 hilite <- function(..., col = hilite_col) {
-  paste0("\033[38;5;", col, "m", paste(...), "\033[0m")
+  paste0("\033[1;38;5;", col, "m", paste(...), "\033[0m")
 }
 
 
@@ -149,8 +162,8 @@ reset <- function(...) {
   paste0("\033[0m", paste(...))
 }
 
-col256 <- function(x, col = 183) {
-  paste0("\033[38;5;", col, "m", x, "\033[0m")
+col256 <- function(..., col = 183) {
+  paste0("\033[38;5;", col, "m", ..., "\033[0m")
 }
 
 # Read UTF-8 strings from file, because R files should be ASCII-only.
@@ -184,7 +197,7 @@ rtlogo <- local({
         "resources",
         "rtemis_logo.utf8"
       )),
-      c(92, 128, 196, 208, 27)
+      col = c(92, 128, 196, 208, 27)
     ),
     collapse = "\n"
   )
@@ -198,6 +211,16 @@ rtascii <- function() {
 rtasciitxt <- function() {
   paste(paste0(paste0("  ", rtaart(), "\n")), collapse = "")
 }
+
+citation("rtemis")
+
+rtcitation <- paste0(
+  "> ",
+  col256("citation", col = "27"),
+  "(",
+  col256("rtemis", col = "128"),
+  ")"
+)
 
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
@@ -432,7 +455,7 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 #' @noRd
 
-objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 2L) {
+objcat <- function(x, col = col_object, pad = 0, verbosity = 2L) {
   cat(
     paste0(rep(" ", pad), collapse = ""),
     paste0(
@@ -441,7 +464,7 @@ objcat <- function(x, format_fn = hilite1, pad = 0, verbosity = 2L) {
       } else {
         gray("<")
       },
-      format_fn(x),
+      bold(col256(x, col = col)),
       gray(">")
     ),
     "\n",
