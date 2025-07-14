@@ -14,11 +14,15 @@
 # https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 # Xterm color names: https://jonasjacek.github.io/colors/
 # CSS color keywords: https://www.uxgem.com/docs/css-color-keywords
+# Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
+# UTF-8 icons: https://www.utf8icons.com/
 
 # rt console colors
 MediumSpringGreen <- "49"
 Cyan2 <- "50"
 CornflowerBlue <- "69"
+MediumOrchid3 <- "133"
+MediumOrchid <- "134"
 SteelBlue1 <- "75"
 Magenta3 <- "164"
 MediumOrchid1 <- "171"
@@ -33,7 +37,7 @@ hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 rt_green <- DarkCyan # yay
 
-col_object <- Violet # objcat()
+col_object <- MediumOrchid3 # objcat()
 col_outer <- SteelBlue1 # print.SupervisedRes
 col_tuner <- DarkOrange # print.{Supervised, SupervisedRes, CalibratedClassificationRes}
 col_train <- hilite_col
@@ -216,9 +220,9 @@ citation("rtemis")
 
 rtcitation <- paste0(
   "> ",
-  col256("citation", col = "27"),
+  col256("citation", col = "69"),
   "(",
-  col256("rtemis", col = "128"),
+  col256("rtemis", col = "177"),
   ")"
 )
 
