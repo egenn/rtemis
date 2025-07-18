@@ -191,7 +191,7 @@ print.Supervised <- function(x, ...) {
   if (prop_exists(x, "calibration_model")) {
     cat(
       "  ",
-      green("\U27CB", bold = TRUE),
+      bold(green("\U27CB")),
       " Calibrated using ",
       get_alg_desc(x@calibration_model@algorithm),
       ".\n\n",
@@ -201,7 +201,7 @@ print.Supervised <- function(x, ...) {
   if (prop_exists(x, "calibration_models")) {
     cat(
       "  ",
-      green("\U27CB", bold = TRUE),
+      bold(green("\U27CB")),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
@@ -1190,7 +1190,7 @@ method(print, SupervisedRes) <- function(x, ...) {
   )
   cat("\n")
   # if (x@type == "Classification" && !is.null(x@calibration)) {
-  #   cat("  ", green("\U27CB", bold = TRUE), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
+  #   cat("  ", bold(green("\U27CB")), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
   # }
   print(x@metrics_training, pad = 2L)
   cat("\n")
@@ -1401,7 +1401,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
   )
   cat(
     "  ",
-    orange("\U27F3", bold = TRUE),
+    bold(orange("\U27F3")),
     " Tested using ",
     desc(x@outer_resampler),
     ".\n",
@@ -1419,7 +1419,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
   }
   cat(
     "  ",
-    green("\U27CB", bold = TRUE),
+    bold(green("\U27CB")),
     " Calibrated using ",
     get_alg_desc(x@calibration_models[[1]]@algorithm),
     " with ",

@@ -42,10 +42,10 @@ init_project_dir <- function(verbosity = 1L) {
       if (dir.exists(i)) {
         if (verbosity > 0L) cat(hilite(" Done\n"))
       } else {
-        if (verbosity > 0L) cat(red(" Failed", bold = TRUE))
+        if (verbosity > 0L) cat(bold(red(" Failed")))
       }
     } else {
-      if (verbosity > 0L) cat(orange(" Already present\n", bold = TRUE))
+      if (verbosity > 0L) cat(bold(orange(" Already present\n")))
     }
   }
 

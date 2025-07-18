@@ -115,15 +115,14 @@ hilitebig <- function(x) {
 }
 
 
-red <- function(..., bold = FALSE) {
-  paste0("\033[", ifelse(bold, "1;", ""), "91m", paste(...), "\033[0m")
+red <- function(...) {
+  paste0("\033[91m", paste(...), "\033[0m")
 }
 
 
 # og green: "92m"
-green <- function(..., bold = FALSE) {
+green <- function(...) {
   paste0(
-    ifelse(bold, "\033[1m", ""),
     "\033[38;5;",
     rt_green,
     "m",
@@ -132,33 +131,28 @@ green <- function(..., bold = FALSE) {
   )
 }
 
-blue <- function(..., bold = FALSE) {
-  paste0("\033[", ifelse(bold, "1;", ""), "34m", paste(...), "\033[0m")
+blue <- function(...) {
+  paste0("\033[34m", paste(...), "\033[0m")
 }
 
 
-orange <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;208m", paste(...), "\033[0m")
+orange <- function(...) {
+  paste0("\033[38;5;208m", paste(...), "\033[0m")
 }
 
 
-cyan <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[36m", paste(...), "\033[0m")
+cyan <- function(...) {
+  paste0("\033[36m", paste(...), "\033[0m")
 }
 
 
-magenta <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[35m", paste(...), "\033[0m")
+magenta <- function(...) {
+  paste0("\033[35m", paste(...), "\033[0m")
 }
 
 
-gray <- function(..., bold = FALSE, sep = " ") {
-  paste0(
-    ifelse(bold, "\033[1m", ""),
-    "\033[90m",
-    paste(..., sep = sep),
-    "\033[0m"
-  )
+gray <- function(...) {
+  paste0("\033[90m", paste(...), "\033[0m")
 }
 
 
