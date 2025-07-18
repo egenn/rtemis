@@ -462,7 +462,11 @@ header <- function(
 #'
 #' @keywords internal
 #' @noRd
-list_item <- function(text, bullet = "•", type = c("ansi", "html", "plain")) {
+list_item <- function(
+  text,
+  bullet = "\u2022",
+  type = c("ansi", "html", "plain")
+) {
   type <- match.arg(type)
 
   switch(
@@ -503,9 +507,9 @@ warning_msg <- function(text, type = c("ansi", "html", "plain")) {
 
   switch(
     type,
-    "ansi" = paste0(col_named("⚠ WARNING: ", "yellow", type = type), text),
+    "ansi" = paste0(col_named("\u26a0 WARNING: ", "yellow", type = type), text),
     "html" = paste0(
-      '<span style="color: orange; font-weight: bold;">⚠ WARNING: </span>',
+      '<span style="color: orange; font-weight: bold;">\u26a0 WARNING: </span>',
       text
     ),
     "plain" = paste0("WARNING: ", text)
@@ -524,9 +528,9 @@ error_msg <- function(text, type = c("ansi", "html", "plain")) {
 
   switch(
     type,
-    "ansi" = paste0(col_named("✗ ERROR: ", "red", type = type), text),
+    "ansi" = paste0(col_named("\u2717 ERROR: ", "red", type = type), text),
     "html" = paste0(
-      '<span style="color: red; font-weight: bold;">✗ ERROR: </span>',
+      '<span style="color: red; font-weight: bold;">\u2717 ERROR: </span>',
       text
     ),
     "plain" = paste0("ERROR: ", text)
@@ -545,9 +549,9 @@ success_msg <- function(text, type = c("ansi", "html", "plain")) {
 
   switch(
     type,
-    "ansi" = paste0(col_named("✓ SUCCESS: ", "green", type = type), text),
+    "ansi" = paste0(col_named("\u2713 SUCCESS: ", "green", type = type), text),
     "html" = paste0(
-      '<span style="color: green; font-weight: bold;">✓ SUCCESS: </span>',
+      '<span style="color: green; font-weight: bold;">\u2713 SUCCESS: </span>',
       text
     ),
     "plain" = paste0("SUCCESS: ", text)
@@ -566,9 +570,9 @@ info_msg <- function(text, type = c("ansi", "html", "plain")) {
 
   switch(
     type,
-    "ansi" = paste0(col_named("ℹ INFO: ", "cyan", type = type), text),
+    "ansi" = paste0(col_named("\u2139 INFO: ", "cyan", type = type), text),
     "html" = paste0(
-      '<span style="color: blue; font-weight: bold;">ℹ INFO: </span>',
+      '<span style="color: blue; font-weight: bold;">\u2139 INFO: </span>',
       text
     ),
     "plain" = paste0("INFO: ", text)
@@ -881,9 +885,9 @@ msg3done <- function(
   # Create success indicator based on output type
   success_indicator <- switch(
     detected_type,
-    "ansi" = col_named("✓", "green", type = "ansi"),
-    "html" = col_named("✓", "green", type = "html"),
-    "plain" = "✓"
+    "ansi" = col_named("\u2713", "green", type = "ansi"),
+    "html" = col_named("\u2713", "green", type = "html"),
+    "plain" = "\u2713"
   )
 
   message(success_indicator, " ", appendLF = FALSE)
