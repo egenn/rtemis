@@ -203,11 +203,11 @@ msg20 <- function(
 #' }
 pcat <- function(left, right, pad = 17, newline = TRUE) {
   lpad <- max(0, pad - 1 - max(0, nchar(left)))
-  cat(pad(left), right)
+  cat(pad_string(left), right)
   if (newline) cat("\n")
 }
 
-pad <- function(x, target = 17, char = " ") {
+pad_string <- function(x, target = 17, char = " ") {
   lpad <- max(0, target - max(0, nchar(x)))
   paste0(
     paste(rep(char, lpad), collapse = ""),
