@@ -84,6 +84,7 @@ mformat <- function(
               "bold",
               "italic",
               "underline",
+              "thin",
               "muted",
               "col256",
               "col_rgb",
@@ -150,8 +151,10 @@ italic <- function(text, type = c("ansi", "html", "plain")) {
 }
 
 #' Make text underlined
+#'
 #' @param text Character: Text to underline
 #' @param type Character: Output type ("ansi", "html", "plain")
+#'
 #' @keywords internal
 #' @noRd
 underline <- function(text, type = c("ansi", "html", "plain")) {
@@ -164,10 +167,28 @@ underline <- function(text, type = c("ansi", "html", "plain")) {
   )
 }
 
+#' Make text thin/light
+#'
+#' @param text Character: Text to make thin
+#' @param type Character: Output type ("ansi", "html", "plain")
+#'
+#' @keywords internal
+#' @noRd
+thin <- function(text, type = c("ansi", "html", "plain")) {
+  type <- match.arg(type)
+  switch(
+    type,
+    "ansi" = paste0("\033[2m", text, "\033[0m"), # ANSI thin (dimmed)
+    "html" = paste0('<span style="font-weight: lighter;">', text, "</span>"),
+    "plain" = text
+  )
+}
+
 #' Muted text
 #'
 #' @param x Character: Text to mute
 #' @param type Character: Output type ("ansi", "html", "plain")
+#'
 #' @keywords internal
 #' @noRd
 muted <- function(x, type = c("ansi", "html", "plain")) {
@@ -179,6 +200,7 @@ muted <- function(x, type = c("ansi", "html", "plain")) {
     "plain" = x # Plain text unformatted
   )
 }
+
 
 #' Apply 256-color formatting
 #'
@@ -586,10 +608,12 @@ msg <- function(..., output_type = "ansi", timestamp = TRUE, caller = TRUE) {
 }
 
 #' Print with mformat (cat version)
+#'
 #' @param ... Arguments passed to mformat
 #' @param output_type Character: Output type for mformat
 #' @param timestamp Logical: Include timestamp
 #' @param caller Logical: Include caller info
+#'
 #' @keywords internal
 #' @noRd
 pmsg <- function(..., output_type = "ansi", timestamp = TRUE, caller = TRUE) {
@@ -616,9 +640,11 @@ pmsg <- function(..., output_type = "ansi", timestamp = TRUE, caller = TRUE) {
 }
 
 #' HTML message with mformat
+#'
 #' @param ... Arguments passed to mformat
 #' @param timestamp Logical: Include timestamp
 #' @param caller Logical: Include caller info
+#'
 #' @keywords internal
 #' @noRd
 hmsg <- function(..., timestamp = TRUE, caller = TRUE) {
@@ -645,9 +671,11 @@ hmsg <- function(..., timestamp = TRUE, caller = TRUE) {
 }
 
 #' Plain text message with mformat
+#'
 #' @param ... Arguments passed to mformat
 #' @param timestamp Logical: Include timestamp
 #' @param caller Logical: Include caller info
+#'
 #' @keywords internal
 #' @noRd
 tmsg <- function(..., timestamp = TRUE, caller = TRUE) {
@@ -673,8 +701,10 @@ tmsg <- function(..., timestamp = TRUE, caller = TRUE) {
 # Smart output type detection and dispatcher
 
 #' Detect appropriate output type based on context
+#'
 #' @param filename Character: Optional filename for output
 #' @param force_type Character: Force a specific output type
+#'
 #' @keywords internal
 #' @noRd
 detect_output_type <- function(filename = NULL, force_type = NULL) {
@@ -781,45 +811,96 @@ msg3 <- function(
   invisible(formatted_msg)
 }
 
-#' Print method that automatically adapts to context
-#' @param x Object to print
-#' @param filename Character: Optional filename to write to
+#' Start/done messaging functions for processes
+
+#' Start a process message using mformat
+#'
+#' @param ... Arguments passed to mformat
 #' @param output_type Character: Force specific output type
-#' @param ... Additional arguments passed to mformat
+#' @param newline_pre Logical: If TRUE, start with a new line
+#' @param sep Character: Separator between elements
+#'
 #' @keywords internal
 #' @noRd
-smart_print <- function(x, filename = NULL, output_type = NULL, ...) {
+msg3start <- function(
+  ...,
+  output_type = NULL,
+  newline_pre = FALSE,
+  sep = " "
+) {
   # Auto-detect output type
-  detected_type <- detect_output_type(filename, output_type)
+  detected_type <- detect_output_type(force_type = output_type)
 
-  # Create appropriate representation based on object type
-  if (is.data.frame(x) || is.matrix(x)) {
-    # For tabular data
-    if (detected_type == "html") {
-      # Could integrate with DT, knitr::kable, etc.
-      output <- paste(
-        "<table>",
-        paste(capture.output(print(x)), collapse = "\n"),
-        "</table>"
-      )
-    } else {
-      output <- capture.output(print(x))
-    }
-  } else {
-    # For other objects, use standard representation
-    output <- capture.output(print(x))
+  if (newline_pre) {
+    message("")
   }
 
-  # Format and output
-  if (!is.null(filename)) {
-    cat(output, file = filename, sep = "\n")
-  } else {
-    cat(output, sep = "\n")
-  }
+  # Format the message with timestamp but no caller info
+  formatted_msg <- mformat(
+    ...,
+    output_type = detected_type,
+    timestamp = TRUE,
+    sep = sep
+  )
 
-  invisible(x)
+  # Output without newline (appendLF = FALSE)
+  message(formatted_msg, appendLF = FALSE)
 }
 
+#' Complete a process message using mformat with success indicator
+#'
+#' @param caller Character: Name of calling function (auto-detected if NULL)
+#' @param call_depth Integer: Depth in call stack
+#' @param caller_id Integer: Which function in call stack to extract
+#' @param output_type Character: Force specific output type
+#' @param sep Character: Separator between elements
+#'
+#' @keywords internal
+#' @noRd
+msg3done <- function(
+  caller = NULL,
+  call_depth = 1L,
+  caller_id = 1L,
+  output_type = NULL,
+  sep = " "
+) {
+  # Auto-detect output type
+  detected_type <- detect_output_type(force_type = output_type)
+
+  # Get caller info if not provided
+  if (is.null(caller)) {
+    caller <- get_caller_info(
+      call_depth = call_depth + 2L,
+      caller_id = caller_id
+    )
+  }
+
+  # Add a space first, then success indicator
+  message(" ", appendLF = FALSE)
+
+  # Create success indicator based on output type
+  success_indicator <- switch(
+    detected_type,
+    "ansi" = col_named("✓", "green", type = "ansi"),
+    "html" = col_named("✓", "green", type = "html"),
+    "plain" = "✓"
+  )
+
+  message(success_indicator, " ", appendLF = FALSE)
+
+  # Add caller info if available
+  if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
+    caller_msg <- switch(
+      detected_type,
+      "ansi" = muted(paste0("[", caller, "]"), type = "ansi"),
+      "html" = muted(paste0("[", caller, "]"), type = "html"),
+      "plain" = paste0("[", caller, "]")
+    )
+    message(caller_msg)
+  } else {
+    message("")
+  }
+}
 # ==============================================================================
 # MFORMAT SYSTEM SUMMARY
 # ==============================================================================
@@ -847,7 +928,7 @@ smart_print <- function(x, filename = NULL, output_type = NULL, ...) {
 # message <- mformat("Status: ", success_msg("Complete"), output_type = "ansi")
 #
 # AVAILABLE FORMATTING FUNCTIONS:
-# - bold(), italic(), underline(): Basic text styling
+# - bold(), italic(), underline(), thin(): Basic text styling
 # - col256(), col_rgb(), col_named(): Color formatting
 # - header(), list_item(), code_block(): Structural elements
 # - success_msg(), warning_msg(), error_msg(), info_msg(): Status messages
@@ -867,9 +948,11 @@ smart_print <- function(x, filename = NULL, output_type = NULL, ...) {
 # Helper function for caller detection (adapted from msg2 system)
 
 #' Get caller information from call stack
+#'
 #' @param call_depth Integer: Depth in call stack to examine
 #' @param caller_id Integer: Which function in the call stack to extract
 #' @param max_char Integer: Maximum characters for caller name
+#'
 #' @keywords internal
 #' @noRd
 get_caller_info <- function(call_depth = 3L, caller_id = 1L, max_char = 30L) {
