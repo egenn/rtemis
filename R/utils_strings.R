@@ -24,6 +24,10 @@ CornflowerBlue <- "69"
 MediumOrchid3 <- "133"
 MediumOrchid <- "134"
 SteelBlue1 <- "75"
+SlateBlue1 <- "99"
+MediumPurple <- "104"
+LightSlateBlue <- "105"
+SkyBlue2 <- "111"
 Magenta3 <- "164"
 MediumOrchid1 <- "171"
 Violet <- "177"
@@ -37,35 +41,11 @@ hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 rt_green <- DarkCyan # yay
 
-col_object <- MediumOrchid3 # objcat()
-col_outer <- SteelBlue1 # print.SupervisedRes
+col_object <- SkyBlue2 # objcat()
+col_outer <- LightSlateBlue # SteelBlue1 # print.SupervisedRes
 col_tuner <- DarkOrange # print.{Supervised, SupervisedRes, CalibratedClassificationRes}
 col_train <- hilite_col
 col_info <- Cyan2
-
-#' String formatting utilities
-#'
-#' @param ... Character objects to format
-#'
-
-#' @keywords internal
-#' @noRd
-bold <- function(...) {
-  paste0("\033[1m", paste(...), "\033[22m")
-}
-
-italic <- function(...) {
-  paste0("\033[3m", paste(...), "\033[23m")
-}
-
-thin <- function(...) {
-  paste0("\033[2m", paste(...), "\033[22m")
-}
-
-underline <- function(...) {
-  paste0("\033[4m", paste(...), "\033[24m")
-}
-
 
 # General hilite function output bold + any color.
 hilite <- function(..., col = hilite_col) {
@@ -158,10 +138,6 @@ gray <- function(...) {
 
 reset <- function(...) {
   paste0("\033[0m", paste(...))
-}
-
-col256 <- function(..., col = 183) {
-  paste0("\033[38;5;", col, "m", ..., "\033[0m")
 }
 
 # Read UTF-8 strings from file, because R files should be ASCII-only.
@@ -443,9 +419,10 @@ pastebox <- function(x, pad = 0) {
 #' `rtemis-internal`: Object cat
 #'
 #' @param x Character: Object description
-#' @param format_fn Function: Function to format `x`.
+#' @param col Character: Color code for the object name
 #' @param pad Integer: Number of spaces to pad the message with.
 #' @param verbosity Integer: Verbosity level. If > 1, adds package name to the output.
+#' @param type Character: Output type ("ansi", "html", "plain")
 #'
 #' @return NULL: Prints the formatted object description to the console.
 #'
@@ -453,21 +430,25 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 #' @noRd
 
-objcat <- function(x, col = col_object, pad = 0, verbosity = 2L) {
-  cat(
+objcat <- function(
+  x,
+  col = col_object,
+  pad = 0L,
+  verbosity = 2L,
+  type = c("ansi", "html", "plain")
+) {
+  type <- match.arg(type)
+
+  out <- mformat(
     paste0(rep(" ", pad), collapse = ""),
-    paste0(
-      if (verbosity > 1L) {
-        gray("<rt ")
-      } else {
-        gray("<")
-      },
-      bold(col256(x, col = col)),
-      gray(">")
-    ),
-    "\n",
+    muted(if (verbosity > 1L) "<rt " else "<", type = type),
+    bold(col256(x, col = col, type = type), type = type),
+    muted(">", type = type),
+    output_type = type,
+    timestamp = FALSE,
     sep = ""
   )
+  cat(out, "\n", sep = "")
 } # rtemis::objcat
 
 # Emojis ----
