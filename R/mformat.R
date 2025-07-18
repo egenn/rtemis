@@ -47,15 +47,13 @@ mformat <- function(
 ) {
   output_type <- match.arg(output_type)
 
-  # Get the unevaluated arguments
+  # Get the unevaluated arguments but preserve the calling environment
   args_list <- substitute(list(...))
-
-  # debug
-  # return(args_list)
+  calling_env <- parent.frame()
 
   # If timestamp, prepend the current date and time using muted(datetime())
   if (timestamp) {
-    # Create the timestamp expression (no caller info here)
+    # Create the timestamp expression
     dt <- paste0(datetime(), " ")
     timestamp_expr <- bquote(muted(.(dt), type = .(output_type)))
 
@@ -67,9 +65,6 @@ mformat <- function(
 
   # Remove the 'list' part to get individual arguments
   args <- if (length(args_list) > 1) args_list[-1] else list()
-
-  # debug
-  # return(args)
 
   # Process each argument
   formatted_args <- lapply(args, function(arg) {
@@ -105,10 +100,11 @@ mformat <- function(
           }
         }
       }
-      eval(arg, envir = parent.frame())
+      # Evaluate in the calling environment (not parent.frame() which changes with lapply)
+      eval(arg, envir = calling_env)
     } else {
-      # For non-function calls, evaluate directly
-      eval(arg, envir = parent.frame())
+      # For non-function calls, evaluate in the calling environment
+      eval(arg, envir = calling_env)
     }
   })
 
