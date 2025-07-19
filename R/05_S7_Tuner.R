@@ -255,7 +255,7 @@ GridSearch <- new_class(
 #' @noRd
 method(print, GridSearch) <- function(x, header = TRUE, ...) {
   if (header) {
-    objcat(paste(x@type, "Tuner"))
+    objcat(paste(x@type))
   }
   type <- if (x@tuner_parameters[["search_type"]] == "exhaustive") {
     "An exhaustive grid search"
@@ -270,7 +270,7 @@ method(print, GridSearch) <- function(x, header = TRUE, ...) {
   cat(
     type,
     " of ",
-    singorplu(n_param_combs, " parameter combination"),
+    singorplu(n_param_combs, "parameter combination"),
     " was performed using ",
     desc(x@tuner_parameters[["resampler_parameters"]]),
     ".\n",
@@ -290,3 +290,58 @@ method(print, GridSearch) <- function(x, header = TRUE, ...) {
 method(describe, GridSearch) <- function(x) {
   print(x, header = FALSE)
 } # /describe.GridSearch
+
+# Show GridSearch ----
+#' Show GridSearch
+#'
+#' Show GridSearch object
+#'
+#' @param x GridSearch object.
+#' @param ... Not used.
+#'
+#' @author EDG
+#' @noRd
+method(show, GridSearch) <- function(
+  x,
+  header = TRUE,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  output_type <- match.arg(output_type)
+  out <- character()
+  if (header) {
+    out <- paste0(out, obj_str(x@type), "\n")
+  }
+  type <- if (x@tuner_parameters[["search_type"]] == "exhaustive") {
+    "An exhaustive grid search"
+  } else {
+    paste0(
+      "A randomized grid search (p = ",
+      x@tuner_parameters[["randomize_p"]],
+      ")"
+    )
+  }
+  n_param_combs <- NROW(x@tuning_results[["param_grid"]])
+  out <- paste0(
+    out,
+    type,
+    " of ",
+    singorplu(n_param_combs, "parameter combination"),
+    " was performed using ",
+    desc(x@tuner_parameters[["resampler_parameters"]]),
+    ".\n"
+  )
+  out <- paste(
+    out,
+    x@tuner_parameters[["metric"]],
+    "was",
+    ifelse(x@tuner_parameters[["maximize"]], "maximized", "minimized"),
+    "with the following parameters:\n"
+  )
+  out <- paste(
+    out,
+    show_ls(x@best_hyperparameters, output_type = output_type),
+    sep = ""
+  )
+  out
+} # /show.GridSearch
