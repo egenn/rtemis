@@ -68,9 +68,9 @@ setup_progress <- function() {
   if (interactive()) {
     # setup_progress()
     packageStartupMessage(paste0(
-      "  ",
-      paste0(rep("\u2500", 32), collapse = ""),
-      "\n",
+      # "  ",
+      # paste0(rep("\u2500", 32), collapse = ""),
+      # "\n",
       rtlogo,
       "\n  .:",
       bold(pkgname),
@@ -82,8 +82,8 @@ setup_progress <- function() {
       " (",
       cores_available,
       " cores available)\n  ",
-      paste0(rep("\u2500", 64 + nchar(cores_available)), collapse = ""),
-      bold("\n  Defaults"),
+      # paste0(rep("\u2500", 64 + nchar(cores_available)), collapse = ""),
+      bold("Defaults"),
       "\n  \u2502   ",
       gray("Theme: "),
       rtemis_theme,
