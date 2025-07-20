@@ -510,19 +510,20 @@ show_df <- function(
     out <- paste0(out, "\n")
   }
 
-  # cat(gray(" ]]\n"))
+  # Row names
   if (incl_rownames) {
     for (i in seq_len(NROW(x))) {
       # cat(row_col(cpad(xrownames[i], xrownames_spacing)))
       out <- paste0(
         out,
         mformat(
-          muted(
+          col256(
             format(
               xrownames[i],
               width = xrownames_spacing,
               justify = "right"
-            )
+            ),
+            col = hilite_col
           ),
           output_type = output_type,
           timestamp = FALSE
@@ -656,6 +657,8 @@ show_table <- function(
     paste0(rep(" ", spacing), collapse = "")
   )
 
+  # Column names
+  # (Continue on same row as left dimname)
   for (i in seq_len(n_classes)) {
     formatted_classname <- format(
       class_names[i],
@@ -671,15 +674,19 @@ show_table <- function(
       )
     )
   }
-  printdf(
-    mat,
-    pad = lhspad - max(nchar(class_names)) - spacing,
-    colnames = FALSE,
-    row_col = hilite,
-    newline_pre = TRUE,
-    spacing = spacing
+  # Add Confusion matrix excluding colnames that are already added
+  out <- paste0(
+    out,
+    "\n",
+    show_df(
+      mat,
+      pad = lhspad - max(nchar(class_names)) - spacing,
+      incl_colnames = FALSE,
+      spacing = spacing
+    )
   )
-} # /rtemis::show.table
+  out
+} # /rtemis::show_table
 
 #' @keywords internal
 #' @noRd
