@@ -17,6 +17,11 @@
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
 # UTF-8 icons: https://www.utf8icons.com/
 
+# Emojis
+# wave <- "\U1F30A"
+# mountain <- "\U26F0\UFE0F"
+# alien <- "\U1F47D"
+
 # rt console colors
 MediumSpringGreen <- "49"
 Cyan2 <- "50"
@@ -412,11 +417,32 @@ pastebox <- function(x, pad = 0) {
   paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
 }
 
-# objcat.R
-# ::rtemis::
-# 2019- EDG rtemis.org
+#
 
-#' `rtemis-internal`: Object cat
+obj_str <- function(
+  x,
+  col = col_object,
+  pad = 0L,
+  verbosity = 2L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  mformat(
+    paste0(rep(" ", pad), collapse = ""),
+    muted(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
+    bold(
+      col256(x, col = col, output_type = output_type),
+      output_type = output_type
+    ),
+    muted(">", output_type = output_type),
+    "\n",
+    output_type = output_type,
+    timestamp = FALSE,
+    sep = ""
+  )
+} # rtemis::objstr
+
+#' Cat object
 #'
 #' @param x Character: Object description
 #' @param col Character: Color code for the object name
@@ -435,26 +461,19 @@ objcat <- function(
   col = col_object,
   pad = 0L,
   verbosity = 2L,
-  type = c("ansi", "html", "plain")
+  output_type = c("ansi", "html", "plain")
 ) {
-  type <- match.arg(type)
+  output_type <- match.arg(output_type)
 
-  out <- mformat(
-    paste0(rep(" ", pad), collapse = ""),
-    muted(if (verbosity > 1L) "<rt " else "<", type = type),
-    bold(col256(x, col = col, type = type), type = type),
-    muted(">", type = type),
-    output_type = type,
-    timestamp = FALSE,
-    sep = ""
+  out <- obj_str(
+    x,
+    col = col,
+    pad = pad,
+    verbosity = verbosity,
+    output_type = output_type
   )
   cat(out, "\n", sep = "")
 } # rtemis::objcat
-
-# Emojis ----
-# wave <- "\U1F30A"
-# mountain <- "\U26F0\UFE0F"
-# alien <- "\U1F47D"
 
 #' Function to label
 #'
