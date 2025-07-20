@@ -96,11 +96,11 @@ Supervised <- new_class(
 ) # /Supervised
 
 # Predict Supervised ----
-#' Predict Supervised
+#' Predict `Supervised`
 #'
-#' Predict Method for Supervised objects
+#' Predict Method for `Supervised` objects
 #'
-#' @param object Supervised object.
+#' @param object `Supervised` object.
 #' @param newdata data.frame or similar: New data to predict.
 #'
 #' @noRd
@@ -114,11 +114,11 @@ method(predict, Supervised) <- function(object, newdata, ...) {
 } # /predict.Supervised
 
 # Fitted Supervised ----
-#' Fitted Supervised
+#' Fitted `Supervised`
 #'
-#' Fitted Method for Supervised objects
+#' Fitted Method for `Supervised` objects
 #'
-#' @param object Supervised object.
+#' @param object `Supervised` object.
 #'
 #' @keywords internal
 #' @noRd
@@ -127,11 +127,11 @@ method(fitted, Supervised) <- function(object, ...) {
 } # /fitted.Supervised
 
 # Standard Error Supervised ----
-#' Standard Error Supervised
+#' Standard Error `Supervised`
 #'
-#' Standard Error Method for Supervised objects
+#' Standard Error Method for `Supervised` objects
 #'
-#' @param object Supervised object.
+#' @param object `Supervised` object.
 #'
 #' @keywords internal
 #' @noRd
@@ -156,11 +156,11 @@ method(`[[`, Supervised) <- function(x, name) {
 }
 
 # Print Supervised ----
-#' Print Supervised
+#' Print `Supervised`
 #'
-#' Print Supervised object
+#' Print `Supervised` object
 #'
-#' @param x Supervised object.
+#' @param x `Supervised` object.
 #' @param ... Not used.
 #'
 #' @author EDG
@@ -1390,6 +1390,7 @@ CalibratedClassificationRes <- new_class(
 # Print CalibratedClassificationRes ----
 method(print, CalibratedClassificationRes) <- function(x, ...) {
   # cat(gray(".:"))
+  res_type <- sub("Res$", "", S7_class(x)@name)
   objcat("Resampled Classification Model")
   cat(
     "  ",
@@ -2060,3 +2061,86 @@ method(get_metric, ClassificationRes) <- function(x, set, metric) {
     }
   )
 }
+
+# Replacement for print.Supervised
+#' Show `Supervised`
+#'
+#' @param x `Supervised` object.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
+  # Generate a single formatted string by combining the output of the show methods for each component
+
+  # Class name
+  out <- paste0(
+    obj_str(x@type, output_type = output_type),
+    "\n  ",
+    hilite(x@algorithm),
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n"
+  )
+
+  # Tuner, if available
+  if (!is.null(x@tuner)) {
+    out <- paste0(
+      out,
+      "  ",
+      hilite("\U2699", col = col_tuner),
+      " Tuned using ",
+      desc(x@tuner),
+      ".\n"
+    )
+  }
+  out <- paste0(out, "\n")
+
+  # Calibration, if available
+  if (prop_exists(x, "calibration_model")) {
+    out <- paste0(
+      out,
+      "  ",
+      bold(green("\U27CB")),
+      " Calibrated using ",
+      get_alg_desc(x@calibration_model@algorithm),
+      ".\n\n"
+    )
+  }
+
+  # CalibrationRes, if available
+  if (prop_exists(x, "calibration_models")) {
+    out <- paste0(
+      out,
+      "  ",
+      bold(green("\U27CB")),
+      " Calibrated using ",
+      get_alg_desc(x@calibration_models[[1]]@algorithm),
+      " with ",
+      ".\n\n"
+    )
+  }
+
+  # Metrics, training
+  out <- paste0(
+    out,
+    show(x@metrics_training, pad = 2L, output_type = output_type)
+  )
+  if (length(x@metrics_validation) > 0) {
+    out <- paste0(
+      out,
+      show(x@metrics_validation, pad = 2L, output_type = output_type)
+    )
+  }
+
+  # Metrics, test
+  if (length(x@metrics_test) > 0) {
+    out <- paste0(
+      out,
+      "\n",
+      show(x@metrics_test, pad = 2L, output_type = output_type)
+    )
+  }
+  out
+} # /rtemis::show.Supervised
