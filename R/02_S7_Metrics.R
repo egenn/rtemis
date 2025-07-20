@@ -80,6 +80,32 @@ method(print, RegressionMetrics) <- function(x, pad = 0L, ...) {
   invisible(x)
 } # /rtemis::print.RegressionMetrics
 
+# Show RegressionMatrics ----
+method(show, RegressionMetrics) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  out <- if (!is.null(x@sample)) {
+    obj_str(paste(x@sample, "Regression Metrics"), pad = pad)
+  } else {
+    obj_str("Regression Metrics", pad = pad)
+  }
+  out <- paste(
+    out,
+    show_ls(
+      x@metrics,
+      print_class = FALSE,
+      print_df = TRUE,
+      pad = pad + 2L,
+      output_type = output_type
+    )
+  )
+  out
+} # /rtemis::show.RegressionMetrics
+
+
 # ClassificationMetrics ----
 #' @title ClassificationMetrics
 #'
@@ -153,6 +179,69 @@ method(print, ClassificationMetrics) <- function(
   }
   invisible(x)
 } # /rtemis::print.ClassificationMetrics
+
+# Show ClassificationMetrics ----
+method(show, ClassificationMetrics) <- function(
+  x,
+  decimal_places = 3,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  output_type <- match.arg(output_type)
+
+  if (!is.null(x@sample)) {
+    out <- obj_str(
+      paste(x@sample, "Classification Metrics"),
+      pad = pad,
+      output_type = output_type
+    )
+  } else {
+    out <- obj_str(
+      "Classification Metrics",
+      pad = pad,
+      output_type = output_type
+    )
+  }
+  tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9) # + pad
+  out <- paste0(out, show_table(x[["Confusion_Matrix"]], pad = tblpad))
+  out <- paste0(
+    out,
+    "\n",
+    show_df(
+      x@metrics[["Overall"]],
+      pad = pad,
+      transpose = TRUE,
+      ddSci_dp = decimal_places,
+      justify = "left",
+      spacing = 2,
+      output_type = output_type
+    )
+  )
+
+  if (is.na(x@metrics[["Positive_Class"]])) {
+    out <- paste(
+      out,
+      show_df(
+        x@metrics[["Class"]],
+        pad = pad,
+        transpose = TRUE,
+        ddSci_dp = decimal_places,
+        justify = "left",
+        spacing = 2,
+        output_type = output_type
+      )
+    )
+  } else {
+    out <- paste(
+      out,
+      "\n   Positive Class ",
+      bold(col256(x@metrics[["Positive_Class"]], col = hilite_col)),
+      "\n"
+    )
+  }
+  out
+} # /rtemis::show.ClassificationMetrics
 
 
 # MetricsRes ----
