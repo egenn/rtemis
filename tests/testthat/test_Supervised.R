@@ -155,7 +155,7 @@ test_that("predict() GLMNET Regression succeeds", {
 })
 
 ## GLMNET Regression + auto-lambda grid search using future ----
-mod_r_glmnet <- train(
+modt_r_glmnet <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "glmnet",
@@ -163,11 +163,11 @@ mod_r_glmnet <- train(
   parallel_type = "future"
 )
 test_that("train() GLMNET Regression with auto-lambda grid search using future succeeds", {
-  expect_s7_class(mod_r_glmnet, Regression)
+  expect_s7_class(modt_r_glmnet, Regression)
 })
 
 ## GLMNET Regression + auto-lambda grid search using mirai ----
-mod_r_glmnet <- train(
+modt_r_glmnet <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "glmnet",
@@ -175,18 +175,18 @@ mod_r_glmnet <- train(
   parallel_type = "mirai"
 )
 test_that("train() GLMNET Regression with auto-lambda grid search using mirai succeeds", {
-  expect_s7_class(mod_r_glmnet, Regression)
+  expect_s7_class(modt_r_glmnet, Regression)
 })
 
 ## GLMNET Regression + auto-lambda + alpha grid search ----
-mod_r_glmnet <- train(
+modt_r_glmnet <- train(
   x = datr_train,
   dat_test = datr_test,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0, 1))
 )
 test_that("train() GLMNET Regression with auto-lambda + alpha grid search succeeds", {
-  expect_s7_class(mod_r_glmnet, Regression)
+  expect_s7_class(modt_r_glmnet, Regression)
 })
 
 ## Res GLMNET Regression + auto-lambda + alpha grid search ----
@@ -199,6 +199,17 @@ resmod_r_glmnet <- train(
 test_that("train() Res-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
   expect_s7_class(resmod_r_glmnet, RegressionRes)
 })
+
+## GLMNET Classification ----
+modt_c_glmnet <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_GLMNET(alpha = 1)
+)
+test_that("train() GLMNET Classification succeeds", {
+  expect_s7_class(modt_c_glmnet, Classification)
+})
+
 
 ## GAM Regression ----
 hyperparameters <- setup_GAM()
@@ -963,3 +974,15 @@ test_that("train saves SupervisedRes model to rds successfully", {
 
   expect_true(file.exists(file.path(outdir, "train_GLM.rds")))
 })
+
+# Show Tuned Classification ----
+modt_c_glmnet_repr <- show(modt_c_glmnet, output_type = "ansi")
+test_that("show() Tuned Classification succeeds", {
+  expect_type(modt_c_glmnet_repr, "character")
+})
+
+# Show Tuned ClassificationRes ----
+# resmodt_c_glmnet_repr <- show(resmodt_c_glmnet, output_type = "ansi")
+# test_that("show() Tuned ClassificationRes succeeds", {
+#   expect_type(resmodt_c_glmnet_repr, "character")
+# })
