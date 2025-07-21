@@ -236,7 +236,14 @@ method(show, ClassificationMetrics) <- function(
     out <- paste(
       out,
       "\n   Positive Class ",
-      bold(col256(x@metrics[["Positive_Class"]], col = hilite_col)),
+      bold(
+        col256(
+          x@metrics[["Positive_Class"]],
+          col = hilite_col,
+          output_type = output_type
+        ),
+        output_type = output_type
+      ),
       "\n"
     )
   }
@@ -280,7 +287,7 @@ print.MetricsRes <- function(x, decimal_places = 3L, pad = 0L, ...) {
   }
   objcat(paste("Resampled", type, x@sample, "Metrics"), pad = pad)
   cat(rep(" ", pad), sep = "")
-  cat(italic("  Showing mean (sd) across resamples.\n\n"))
+  cat(italic("  Showing mean (sd) across resamples.\n"))
   # Create list with mean_metrics (sd_metrics)
   out <- lapply(seq_along(x@mean_metrics), function(i) {
     paste0(
@@ -296,6 +303,43 @@ print.MetricsRes <- function(x, decimal_places = 3L, pad = 0L, ...) {
 method(print, MetricsRes) <- function(x, decimal_places = 3L, pad = 0L, ...) {
   print.MetricsRes(x, decimal_places, pad = pad)
 } # /rtemis::print.MetricsRes
+
+# Show MetricsRes ----
+method(show, MetricsRes) <- function(
+  x,
+  decimal_places = 3L,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  type <- if (S7_inherits(x, RegressionMetricsRes)) {
+    "Regression"
+  } else {
+    "Classification"
+  }
+  out <- obj_str(
+    paste("Resampled", type, x@sample, "Metrics"),
+    pad = pad,
+    output_type = output_type
+  )
+  out <- paste0(out, "\n", rep(" ", pad))
+  out <- paste0(out, italic("  Showing mean (sd) across resamples.\n"))
+  # Create list with mean_metrics (sd_metrics)
+  metricsl <- lapply(seq_along(x@mean_metrics), function(i) {
+    paste0(
+      ddSci(x@mean_metrics[[i]], decimal_places),
+      thin(paste0(" (", ddSci(x@sd_metrics[[i]], decimal_places), ")"))
+    )
+  })
+  names(metricsl) <- names(x@mean_metrics)
+  out <- paste0(
+    out,
+    show_ls(metricsl, print_class = FALSE, print_df = TRUE, pad = pad + 2L)
+  )
+  out
+} # /rtemis::show.MetricsRes
+
+# RegressionMetricsRes ----
 
 #' @author EDG
 #' @noRd
