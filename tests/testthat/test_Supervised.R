@@ -982,7 +982,7 @@ test_that("show() Tuned Classification succeeds", {
 })
 
 # Show Tuned ClassificationRes ----
-# resmodt_c_glmnet_repr <- show(resmodt_c_glmnet, output_type = "ansi")
-# test_that("show() Tuned ClassificationRes succeeds", {
-#   expect_type(resmodt_c_glmnet_repr, "character")
-# })
+resmodt_r_cart_repr <- show(resmodt_r_cart, output_type = "ansi")
+test_that("show() Tuned ClassificationRes succeeds", {
+  expect_type(resmodt_r_cart_repr, "character")
+})
