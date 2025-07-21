@@ -12,10 +12,8 @@
 #' This function allows formatting messages 1) using ANSI codes for console printing, 2) as HTML
 #' for web applications/viewers, or 3) as plain text for logs.
 #'
-#' @param ... Mes#' Create a formatted info message
-#'
-#' @param text Character: Info text
-#' @param output_type Character: Output type ("ansi", "html", "plain")
+#' @param text Character: Info text.
+#' @param output_type Character: Output type ("ansi", "html", "plain").
 #'
 #' @return Character: Formatted info message
 #'
@@ -47,8 +45,12 @@ info_msg <- function(text, output_type = c("ansi", "html", "plain")) {
 #' This function allows formatting messages 1) using ANSI codes for console printing, 2) as HTML
 #' for web applications/viewers, or 3) as plain text for logs.
 #'
-#' @param ... Messages to format. Can
-#' @param sep Character: Separator between elements (default: "")
+#' @param ... Messages to format. Can include the following formatting functions:
+#' bold(), italic(), underline(), thin(), muted(), col256(), col_rgb(), col_named(),
+#' header(), list_item(), code_block(), warning_msg(), error_msg(), success_msg(),
+#' info_msg(), reset().
+#' @param sep Character: Separator between elements.
+#' @param timestamp Logical: If TRUE, include a date & time prefix before message.
 #'
 #' @return Formatted message as a character string.
 #'
@@ -731,7 +733,7 @@ detect_output_type <- function(filename = NULL, force_type = NULL) {
   }
 
   # Default to ANSI for interactive terminal sessions
-  return("ansi")
+  "ansi"
 } # /rtemis::detect_output_type
 
 #' Smart replacement for msg2() with automatic output type detection
@@ -1010,4 +1012,4 @@ get_caller_info <- function(call_depth = 3L, caller_id = 1L, max_char = 30L) {
   }
 
   caller
-}
+} # /rtemis::get_caller_info
