@@ -53,10 +53,26 @@ col_train <- hilite_col
 col_info <- Cyan2
 
 # General hilite function output bold + any color.
-hilite <- function(..., col = hilite_col) {
-  paste0("\033[1;38;5;", col, "m", paste(...), "\033[0m")
-}
-
+hilite <- function(
+  ...,
+  col = hilite_col,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  if (output_type == "ansi") {
+    paste0("\033[1;38;5;", col, "m", paste(...), "\033[0m")
+  } else if (output_type == "html") {
+    paste0(
+      "<span style='color: #",
+      col,
+      "; font-weight: bold;'>",
+      paste(...),
+      "</span>"
+    )
+  } else {
+    paste0(...)
+  }
+} # /rtemis::hilite
 
 # blue for light and dark background: "69;1"
 # green: "49;1"
