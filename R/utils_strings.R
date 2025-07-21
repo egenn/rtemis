@@ -472,7 +472,7 @@ objcat <- function(
     verbosity = verbosity,
     output_type = output_type
   )
-  cat(out, "\n", sep = "")
+  cat(out)
 } # rtemis::objcat
 
 #' Function to label
