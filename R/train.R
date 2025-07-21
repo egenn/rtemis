@@ -458,12 +458,13 @@ train <- function(
   }
   outro(
     start_time,
+    logfile = logfile,
     verbosity = verbosity
     # sink_off = ifelse(is.null(logfile), FALSE, TRUE)
   )
   # Print object to logfile
   if (!is.null(logfile)) {
-    cat(show(mod, output_type = "plain"), file = logfile, append = TRUE)
+    cat("\n", show(mod, output_type = "plain"), file = logfile, append = TRUE)
   }
   mod
 } # /rtemis::train
