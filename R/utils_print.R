@@ -610,6 +610,12 @@ printtable <- function(x, spacing = 2L, pad = 2L) {
 #' @param spacing Integer: Number of spaces between columns.
 #' @param pad Integer: Pad output with this many spaces.
 #'
+#' @return Character: formatted string.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
 show_table <- function(
   x,
   spacing = 2L,
@@ -991,7 +997,7 @@ show_ls <- function(
     result
   }
 
-  # Initialize result string
+  # Initialize output string
   result <- ""
 
   # Arguments ----
@@ -1136,8 +1142,10 @@ show_ls <- function(
             result <- paste0(
               result,
               italic(
-                "object of class: ",
-                paste(class(x[[i]]), collapse = ", "),
+                paste(
+                  "object of class:",
+                  paste(class(x[[i]]), collapse = ", ")
+                ),
                 output_type = output_type
               ),
               "\n"
