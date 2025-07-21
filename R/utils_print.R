@@ -320,6 +320,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #'
 #' By design, numbers will not be justified, but using ddSci_dp will convert to characters,
 #' which will be justified. This is intentional for internal use.
+#'
 #' @param x data frame
 #' @param pad Integer: Pad output with this many spaces.
 #' @param spacing Integer: Number of spaces between columns.
@@ -934,7 +935,11 @@ printchar <- function(x, left_pad = 2) {
 #' Show data frame as formatted string
 #'
 #' Works exactly like printdf, but instead of printing to console with cat,
-#' it outputs a single string, formatted using mformat, so that cat(show_df(
+#' it outputs a single string, formatted using mformat, so that cat(show_df(x))
+#' looks identical to printdf(x) for any data frame x.
+#'
+#' @param x data frame
+
 #' Show list as formatted string
 #'
 #' Works exactly like printls, but instead of printing to console with cat,
@@ -1189,8 +1194,20 @@ show_ls <- function(
           "\n"
         )
         result <- paste0(result, item_text)
-        # Print S7 object
-        print(x[[i]], pad = lhs + 2)
+        # Show S7 object, try running with pad argument, if it fails run without
+        result <- tryCatch(
+          {
+            paste0(
+              result,
+              "\n",
+              show(x[[i]], pad = lhs + 2, output_type = output_type)
+            )
+          },
+          error = function(e) {
+            # Fallback if 'pad' argument is not supported by the S7 object's show method
+            paste0(result, "\n", show(x[[i]], output_type = output_type))
+          }
+        )
       } else if (is.data.frame(x[[i]])) {
         item_text <- paste0(
           item_format(
