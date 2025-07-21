@@ -1211,22 +1211,23 @@ method(print, SupervisedRes) <- function(x, ...) {
 #' @noRd
 method(show, SupervisedRes) <- function(
   x,
-  output_type = NULL,
+  output_type = c("ansi", "html", "plain"),
   filename = NULL
 ) {
   # Generate a single formatted string by combining the output of the show methods for each component
+  output_type <- match.arg(output_type)
 
-  # Class name
+  # Class name + Alg name (2 lines)
   out <- paste0(
     obj_str(paste("Resampled", x@type, "Model"), output_type = output_type),
-    "\n  ",
+    "  ",
     hilite(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
     ")\n"
   )
 
-  # Tuner, if available
+  # Tuner, if available (1 line)
   if (!is.null(x@tuner_parameters)) {
     out <- paste0(
       out,
@@ -1238,7 +1239,7 @@ method(show, SupervisedRes) <- function(
     )
   }
 
-  # Outer resampler
+  # Outer resampler (1 line)
   out <- paste0(
     out,
     "  ",
@@ -1247,25 +1248,25 @@ method(show, SupervisedRes) <- function(
     desc(x@outer_resampler),
     ".\n"
   )
-  out <- paste0(out, "\n")
 
   # Calibration, if available (for CalibratedClassificationRes)
   if (prop_exists(x, "calibration_models")) {
     out <- paste0(
       out,
-      "  ",
+      "\n  ",
       bold(green("\U27CB")),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
       desc(x@calibration_models[[1]]@outer_resampler@parameters),
-      ".\n\n"
+      ".\n"
     )
   }
 
   # Metrics, training
   out <- paste0(
     out,
+    "\n",
     show(x@metrics_training, pad = 2L, output_type = output_type)
   )
 
@@ -2144,7 +2145,7 @@ method(get_metric, ClassificationRes) <- function(x, set, metric) {
   )
 }
 
-# Replacement for print.Supervised
+# Show Supervised ----
 #' Show `Supervised`
 #'
 #' @param x `Supervised` object.
@@ -2159,7 +2160,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
   # Class name
   out <- paste0(
     obj_str(x@type, output_type = output_type),
-    "\n  ",
+    "  ",
     hilite(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
