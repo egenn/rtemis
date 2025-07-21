@@ -29,6 +29,7 @@ intro <- function(
     if (use_sink) {
       sink(logfile, append = TRUE, split = verbosity > 0L)
     }
+    log_to_file("Started.", logfile = logfile)
   }
   start_time <- proc.time()
   if (verbosity > 0L || !is.null(logfile)) {
