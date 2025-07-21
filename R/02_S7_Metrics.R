@@ -330,7 +330,10 @@ method(show, MetricsRes) <- function(
     output_type = output_type
   )
   out <- paste0(out, paste0(rep(" ", pad), collapse = ""))
-  out <- paste0(out, italic("  Showing mean (sd) across resamples.\n"))
+  out <- paste0(
+    out,
+    italic("  Showing mean (sd) across resamples.\n", output_type = output_type)
+  )
   # Create list with mean_metrics (sd_metrics)
   metricsl <- lapply(seq_along(x@mean_metrics), function(i) {
     paste0(
