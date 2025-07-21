@@ -1221,7 +1221,7 @@ method(show, SupervisedRes) <- function(
   out <- paste0(
     obj_str(paste("Resampled", x@type, "Model"), output_type = output_type),
     "  ",
-    hilite(x@algorithm),
+    hilite(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
     ")\n"
@@ -1232,7 +1232,7 @@ method(show, SupervisedRes) <- function(
     out <- paste0(
       out,
       "  ",
-      hilite("\U2699", col = col_tuner),
+      hilite("\U2699", col = col_tuner, output_type = output_type),
       " Tuned using ",
       desc(x@tuner_parameters),
       ".\n"
@@ -1243,7 +1243,7 @@ method(show, SupervisedRes) <- function(
   out <- paste0(
     out,
     "  ",
-    hilite("\U27F3", col = col_outer),
+    hilite("\U27F3", col = col_outer, output_type = output_type),
     " Tested using ",
     desc(x@outer_resampler),
     ".\n"
@@ -1254,7 +1254,7 @@ method(show, SupervisedRes) <- function(
     out <- paste0(
       out,
       "\n  ",
-      bold(green("\U27CB")),
+      hilite("\U27CB", col = rt_green, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
@@ -2161,7 +2161,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
   out <- paste0(
     obj_str(x@type, output_type = output_type),
     "  ",
-    hilite(x@algorithm),
+    hilite(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
     ")\n"
@@ -2172,7 +2172,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out <- paste0(
       out,
       "  ",
-      hilite("\U2699", col = col_tuner),
+      hilite("\U2699", col = col_tuner, output_type = output_type),
       " Tuned using ",
       desc(x@tuner),
       ".\n"
@@ -2185,7 +2185,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out <- paste0(
       out,
       "  ",
-      bold(green("\U27CB")),
+      hilite("\U27CB", col = rt_green, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_model@algorithm),
       ".\n\n"
@@ -2197,7 +2197,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out <- paste0(
       out,
       "  ",
-      bold(green("\U27CB")),
+      hilite("\U27CB", col = rt_green, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",

@@ -88,9 +88,13 @@ method(show, RegressionMetrics) <- function(
 ) {
   output_type <- match.arg(output_type)
   out <- if (!is.null(x@sample)) {
-    obj_str(paste(x@sample, "Regression Metrics"), pad = pad)
+    obj_str(
+      paste(x@sample, "Regression Metrics"),
+      pad = pad,
+      output_type = output_type
+    )
   } else {
-    obj_str("Regression Metrics", pad = pad)
+    obj_str("Regression Metrics", pad = pad, output_type = output_type)
   }
   out <- paste0(
     out,
@@ -204,7 +208,10 @@ method(show, ClassificationMetrics) <- function(
     )
   }
   tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9) # + pad
-  out <- paste0(out, show_table(x[["Confusion_Matrix"]], pad = tblpad))
+  out <- paste0(
+    out,
+    show_table(x[["Confusion_Matrix"]], pad = tblpad, output_type = output_type)
+  )
   out <- paste0(
     out,
     "\n",
@@ -334,7 +341,13 @@ method(show, MetricsRes) <- function(
   names(metricsl) <- names(x@mean_metrics)
   out <- paste0(
     out,
-    show_ls(metricsl, print_class = FALSE, print_df = TRUE, pad = pad + 2L)
+    show_ls(
+      metricsl,
+      print_class = FALSE,
+      print_df = TRUE,
+      pad = pad + 2L,
+      output_type = output_type
+    )
   )
   out
 } # /rtemis::show.MetricsRes
