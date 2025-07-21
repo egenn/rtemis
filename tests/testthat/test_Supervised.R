@@ -1001,5 +1001,3 @@ resmodt_c_cart_repr <- show(resmodt_c_cart, output_type = "ansi")
 test_that("show() Tuned RegressionRes succeeds", {
   expect_type(resmodt_c_cart_repr, "character")
 })
-
-# Show
