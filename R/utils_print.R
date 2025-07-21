@@ -1269,8 +1269,10 @@ show_ls <- function(
             ""
           },
           italic(
-            "object of class: ",
-            paste(class(x[[i]]), collapse = ", "),
+            paste(
+              "object of class:",
+              paste(class(x[[i]]), collapse = ", ")
+            ),
             output_type = output_type
           ),
           "\n"
