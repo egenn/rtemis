@@ -2211,6 +2211,8 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out,
     show(x@metrics_training, pad = 2L, output_type = output_type)
   )
+
+  # Metrics, validation
   if (length(x@metrics_validation) > 0) {
     out <- paste0(
       out,

@@ -492,19 +492,17 @@ show_df <- function(
     for (i in seq_len(NCOL(x))) {
       out <- paste0(
         out,
-        mformat(
-          bold(
-            col256(
-              format(
-                xnames[i],
-                width = col_char[i] + spacing,
-                justify = justify
-              ),
-              col = hilite_col
-            )
+        bold(
+          col256(
+            format(
+              xnames[i],
+              width = col_char[i] + spacing,
+              justify = justify
+            ),
+            col = hilite_col,
+            output_type = output_type
           ),
-          output_type = output_type,
-          timestamp = FALSE
+          output_type = output_type
         )
       )
     }
@@ -517,17 +515,10 @@ show_df <- function(
       # cat(row_col(cpad(xrownames[i], xrownames_spacing)))
       out <- paste0(
         out,
-        mformat(
-          col256(
-            format(
-              xrownames[i],
-              width = xrownames_spacing,
-              justify = "right"
-            ),
-            col = hilite_col
-          ),
-          output_type = output_type,
-          timestamp = FALSE
+        format(
+          xrownames[i],
+          width = xrownames_spacing,
+          justify = "right"
         )
       )
       for (j in seq_len(NCOL(x))) {
@@ -674,11 +665,7 @@ show_table <- function(
     )
     out <- paste0(
       out,
-      mformat(
-        hilite(formatted_classname),
-        output_type = output_type,
-        timestamp = FALSE
-      )
+      hilite(formatted_classname, output_type = output_type)
     )
   }
   # Add Confusion matrix excluding colnames that are already added

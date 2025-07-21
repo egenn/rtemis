@@ -335,7 +335,10 @@ method(show, MetricsRes) <- function(
   metricsl <- lapply(seq_along(x@mean_metrics), function(i) {
     paste0(
       ddSci(x@mean_metrics[[i]], decimal_places),
-      thin(paste0(" (", ddSci(x@sd_metrics[[i]], decimal_places), ")"))
+      thin(
+        paste0(" (", ddSci(x@sd_metrics[[i]], decimal_places), ")"),
+        output_type = output_type
+      )
     )
   })
   names(metricsl) <- names(x@mean_metrics)
