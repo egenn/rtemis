@@ -4,6 +4,27 @@
 
 library(testthat)
 
+# Access unexported functions using ::: operator
+bold <- rtemis:::bold
+italic <- rtemis:::italic
+underline <- rtemis:::underline
+thin <- rtemis:::thin
+muted <- rtemis:::muted
+reset <- rtemis:::reset
+col256 <- rtemis:::col256
+col_rgb <- rtemis:::col_rgb
+col_named <- rtemis:::col_named
+header <- rtemis:::header
+list_item <- rtemis:::list_item
+code_block <- rtemis:::code_block
+warning_msg <- rtemis:::warning_msg
+error_msg <- rtemis:::error_msg
+success_msg <- rtemis:::success_msg
+info_msg <- rtemis:::info_msg
+detect_output_type <- rtemis:::detect_output_type
+get_caller_info <- rtemis:::get_caller_info
+mformat <- rtemis:::mformat
+
 # Test basic formatting functions ----
 
 # bold() ----
@@ -110,13 +131,13 @@ test_that("col256() works with all output types", {
 
   # HTML output - foreground
   result_html_fg <- col256("test", "79", bg = FALSE, output_type = "html")
-  expect_equal(result_html_fg, '<span style="color: #5fd7af">test</span>')
+  expect_equal(result_html_fg, '<span style="color: #5FD7AF">test</span>')
 
   # HTML output - background
   result_html_bg <- col256("test", "79", bg = TRUE, output_type = "html")
   expect_equal(
     result_html_bg,
-    '<span style="background-color: #5fd7af">test</span>'
+    '<span style="background-color: #5FD7AF">test</span>'
   )
 
   # Plain output
