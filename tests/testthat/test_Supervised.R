@@ -472,13 +472,16 @@ test_that("train() Classification with grid_search() succeeds", {
 })
 
 ## Res CART Classification ----
-resmod_c_cart <- train(
+resmodt_c_cart <- train(
   x = datc2,
   algorithm = "cart",
+  hyperparameters = setup_CART(
+    maxdepth = c(2L, 3L)
+  ),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() CART ClassificationRes succeeds", {
-  expect_s7_class(resmod_c_cart, ClassificationRes)
+  expect_s7_class(resmodt_c_cart, ClassificationRes)
 })
 
 ## LightCART Regression ----
@@ -869,7 +872,7 @@ test_that("plot_roc.Classification creates a plotly object", {
 
 # Plot ROC ClassificationRes ----
 test_that("plot_roc.ClassificationRes creates a plotly object", {
-  p <- plot_roc(resmod_c_cart)
+  p <- plot_roc(resmodt_c_cart)
   expect_s3_class(p, "plotly")
 })
 
@@ -929,7 +932,7 @@ test_that("present() multiple RegressionRes objects creates a plotly object", {
 
 ## Present multiple ClassificationRes objects ----
 test_that("present() multiple ClassificationRes objects creates a plotly object", {
-  p <- present(list(resmod_c_glm, resmod_c_cart))
+  p <- present(list(resmod_c_glm, resmodt_c_cart))
   expect_s3_class(p, "plotly")
 })
 
@@ -986,3 +989,17 @@ resmodt_r_cart_repr <- show(resmodt_r_cart, output_type = "ansi")
 test_that("show() Tuned ClassificationRes succeeds", {
   expect_type(resmodt_r_cart_repr, "character")
 })
+
+# Show Tuned Regression ----
+modt_r_glmnet_repr <- show(modt_r_glmnet, output_type = "ansi")
+test_that("show() Tuned Regression succeeds", {
+  expect_type(modt_r_glmnet_repr, "character")
+})
+
+# Show Tuned RegressionRes ----
+resmodt_c_cart_repr <- show(resmodt_c_cart, output_type = "ansi")
+test_that("show() Tuned RegressionRes succeeds", {
+  expect_type(resmodt_c_cart_repr, "character")
+})
+
+# Show
