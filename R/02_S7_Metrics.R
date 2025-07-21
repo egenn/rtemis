@@ -92,7 +92,7 @@ method(show, RegressionMetrics) <- function(
   } else {
     obj_str("Regression Metrics", pad = pad)
   }
-  out <- paste(
+  out <- paste0(
     out,
     show_ls(
       x@metrics,
@@ -322,7 +322,7 @@ method(show, MetricsRes) <- function(
     pad = pad,
     output_type = output_type
   )
-  out <- paste0(out, "\n", rep(" ", pad))
+  out <- paste0(out, paste0(rep(" ", pad), collapse = ""))
   out <- paste0(out, italic("  Showing mean (sd) across resamples.\n"))
   # Create list with mean_metrics (sd_metrics)
   metricsl <- lapply(seq_along(x@mean_metrics), function(i) {
