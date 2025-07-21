@@ -73,7 +73,8 @@ draw_box(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1
+  file_scale = 1,
+  mathjax = NULL
 )
 }
 \arguments{
@@ -241,6 +242,8 @@ set.}
 is set.}
 
 \item{file_scale}{Numeric: If saving to file, scale plot by this number}
+
+\item{mathjax}{Character: "local", "cdn", or NULL}
 }
 \value{
 \code{plotly} object.
