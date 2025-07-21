@@ -1198,6 +1198,88 @@ method(print, SupervisedRes) <- function(x, ...) {
   invisible(x)
 } # /SupervisedRes
 
+# Show SupervisedRes ----
+#' Show `SupervisedRes`
+#'
+#' @param x `SupervisedRes` object.
+#' @param output_type Character: Output type (for formatting).
+#' @param filename Character: Filename to save output to (not used).
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+method(show, SupervisedRes) <- function(
+  x,
+  output_type = NULL,
+  filename = NULL
+) {
+  # Generate a single formatted string by combining the output of the show methods for each component
+
+  # Class name
+  out <- paste0(
+    obj_str(paste("Resampled", x@type, "Model"), output_type = output_type),
+    "\n  ",
+    hilite(x@algorithm),
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n"
+  )
+
+  # Tuner, if available
+  if (!is.null(x@tuner_parameters)) {
+    out <- paste0(
+      out,
+      "  ",
+      hilite("\U2699", col = col_tuner),
+      " Tuned using ",
+      desc(x@tuner_parameters),
+      ".\n"
+    )
+  }
+
+  # Outer resampler
+  out <- paste0(
+    out,
+    "  ",
+    hilite("\U27F3", col = col_outer),
+    " Tested using ",
+    desc(x@outer_resampler),
+    ".\n"
+  )
+  out <- paste0(out, "\n")
+
+  # Calibration, if available (for CalibratedClassificationRes)
+  if (prop_exists(x, "calibration_models")) {
+    out <- paste0(
+      out,
+      "  ",
+      bold(green("\U27CB")),
+      " Calibrated using ",
+      get_alg_desc(x@calibration_models[[1]]@algorithm),
+      " with ",
+      desc(x@calibration_models[[1]]@outer_resampler@parameters),
+      ".\n\n"
+    )
+  }
+
+  # Metrics, training
+  out <- paste0(
+    out,
+    show(x@metrics_training, pad = 2L, output_type = output_type)
+  )
+
+  # Metrics, test
+  out <- paste0(
+    out,
+    "\n",
+    show(x@metrics_test, pad = 2L, output_type = output_type)
+  )
+
+  out
+} # /rtemis::show.SupervisedRes
+
+
 # Predict SupervisedRes ----
 #' Predict SupervisedRes
 #'
@@ -2118,6 +2200,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
+      desc(x@calibration_models[[1]]@outer_resampler@parameters),
       ".\n\n"
     )
   }
