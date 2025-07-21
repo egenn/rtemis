@@ -148,7 +148,7 @@ train <- function(
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    if (verbosity > 0L) {
+    if (verbosity > 1L) {
       message("Output directory set to ", outdir, ".")
     }
   }
@@ -461,6 +461,10 @@ train <- function(
     verbosity = verbosity
     # sink_off = ifelse(is.null(logfile), FALSE, TRUE)
   )
+  # Print object to logfile
+  if (!is.null(logfile)) {
+    cat(show(mod, output_type = "plain"), file = logfile, append = TRUE)
+  }
   mod
 } # /rtemis::train
 
