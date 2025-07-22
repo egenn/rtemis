@@ -2,31 +2,6 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
-library(testthat)
-
-# Access unexported functions using ::: operator
-bold <- rtemis:::bold
-italic <- rtemis:::italic
-underline <- rtemis:::underline
-thin <- rtemis:::thin
-muted <- rtemis:::muted
-reset <- rtemis:::reset
-col256 <- rtemis:::col256
-col_rgb <- rtemis:::col_rgb
-col_named <- rtemis:::col_named
-header <- rtemis:::header
-list_item <- rtemis:::list_item
-code_block <- rtemis:::code_block
-warning_msg <- rtemis:::warning_msg
-error_msg <- rtemis:::error_msg
-success_msg <- rtemis:::success_msg
-info_msg <- rtemis:::info_msg
-detect_output_type <- rtemis:::detect_output_type
-get_caller_info <- rtemis:::get_caller_info
-mformat <- rtemis:::mformat
-
-# Test basic formatting functions ----
-
 # bold() ----
 test_that("bold() works with all output types", {
   # ANSI output
