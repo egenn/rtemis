@@ -203,13 +203,11 @@ tune_GridSearch <- function(
       # Check best_iter is meaningful, otherwise issue message and set to 100L
       best_iter <- mod1@model[["best_iter"]]
       if (is.null(best_iter) || best_iter == -1 || best_iter == 0) {
-        msg3(
-          info_msg(
-            paste(
-              "best_iter returned from lightgbm:",
-              best_iter,
-              "- setting to 100L"
-            )
+        msg2_info(
+          paste(
+            "best_iter returned from lightgbm:",
+            best_iter,
+            "- setting to 100L"
           )
         )
         best_iter <- 100L
