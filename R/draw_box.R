@@ -115,6 +115,7 @@
 #' @param file_height Integer: File height in pixels for when `filename`
 #' is set.
 #' @param file_scale Numeric: If saving to file, scale plot by this number
+#' @param mathjax Character: "local", "cdn", or NULL
 #'
 #' @return `plotly` object.
 #'
@@ -221,7 +222,8 @@ draw_box <- function(
   filename = NULL,
   file_width = 500,
   file_height = 500,
-  file_scale = 1
+  file_scale = 1,
+  mathjax = NULL
 ) {
   # Dependencies ----
   check_dependencies("plotly")
@@ -1182,7 +1184,8 @@ draw_box <- function(
       format = modeBar_file_format,
       width = file_width,
       height = file_height
-    )
+    ),
+    mathjax = mathjax
   )
 
   # Write to file ----

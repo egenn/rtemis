@@ -17,6 +17,11 @@
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
 # UTF-8 icons: https://www.utf8icons.com/
 
+# Emojis
+# wave <- "\U1F30A"
+# mountain <- "\U26F0\UFE0F"
+# alien <- "\U1F47D"
+
 # rt console colors
 MediumSpringGreen <- "49"
 Cyan2 <- "50"
@@ -24,6 +29,10 @@ CornflowerBlue <- "69"
 MediumOrchid3 <- "133"
 MediumOrchid <- "134"
 SteelBlue1 <- "75"
+SlateBlue1 <- "99"
+MediumPurple <- "104"
+LightSlateBlue <- "105"
+SkyBlue2 <- "111"
 Magenta3 <- "164"
 MediumOrchid1 <- "171"
 Violet <- "177"
@@ -37,41 +46,33 @@ hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 rt_green <- DarkCyan # yay
 
-col_object <- MediumOrchid3 # objcat()
-col_outer <- SteelBlue1 # print.SupervisedRes
+col_object <- SkyBlue2 # objcat()
+col_outer <- LightSlateBlue # SteelBlue1 # print.SupervisedRes
 col_tuner <- DarkOrange # print.{Supervised, SupervisedRes, CalibratedClassificationRes}
 col_train <- hilite_col
 col_info <- Cyan2
 
-#' String formatting utilities
-#'
-#' @param ... Character objects to format
-#'
-
-#' @keywords internal
-#' @noRd
-bold <- function(...) {
-  paste0("\033[1m", paste(...), "\033[22m")
-}
-
-italic <- function(...) {
-  paste0("\033[3m", paste(...), "\033[23m")
-}
-
-thin <- function(...) {
-  paste0("\033[2m", paste(...), "\033[22m")
-}
-
-underline <- function(...) {
-  paste0("\033[4m", paste(...), "\033[24m")
-}
-
-
 # General hilite function output bold + any color.
-hilite <- function(..., col = hilite_col) {
-  paste0("\033[1;38;5;", col, "m", paste(...), "\033[0m")
-}
-
+hilite <- function(
+  ...,
+  col = hilite_col,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  if (output_type == "ansi") {
+    paste0("\033[1;38;5;", col, "m", paste(...), "\033[0m")
+  } else if (output_type == "html") {
+    paste0(
+      "<span style='color: #",
+      col,
+      "; font-weight: bold;'>",
+      paste(...),
+      "</span>"
+    )
+  } else {
+    paste0(...)
+  }
+} # /rtemis::hilite
 
 # blue for light and dark background: "69;1"
 # green: "49;1"
@@ -115,15 +116,14 @@ hilitebig <- function(x) {
 }
 
 
-red <- function(..., bold = FALSE) {
-  paste0("\033[", ifelse(bold, "1;", ""), "91m", paste(...), "\033[0m")
+red <- function(...) {
+  paste0("\033[91m", paste(...), "\033[0m")
 }
 
 
 # og green: "92m"
-green <- function(..., bold = FALSE) {
+green <- function(...) {
   paste0(
-    ifelse(bold, "\033[1m", ""),
     "\033[38;5;",
     rt_green,
     "m",
@@ -132,42 +132,28 @@ green <- function(..., bold = FALSE) {
   )
 }
 
-blue <- function(..., bold = FALSE) {
-  paste0("\033[", ifelse(bold, "1;", ""), "34m", paste(...), "\033[0m")
+blue <- function(...) {
+  paste0("\033[34m", paste(...), "\033[0m")
 }
 
 
-orange <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[38;5;208m", paste(...), "\033[0m")
+orange <- function(...) {
+  paste0("\033[38;5;208m", paste(...), "\033[0m")
 }
 
 
-cyan <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[36m", paste(...), "\033[0m")
+cyan <- function(...) {
+  paste0("\033[36m", paste(...), "\033[0m")
 }
 
 
-magenta <- function(..., bold = FALSE) {
-  paste0(ifelse(bold, "\033[1m", ""), "\033[35m", paste(...), "\033[0m")
-}
-
-
-gray <- function(..., bold = FALSE, sep = " ") {
-  paste0(
-    ifelse(bold, "\033[1m", ""),
-    "\033[90m",
-    paste(..., sep = sep),
-    "\033[0m"
-  )
+magenta <- function(...) {
+  paste0("\033[35m", paste(...), "\033[0m")
 }
 
 
 reset <- function(...) {
   paste0("\033[0m", paste(...))
-}
-
-col256 <- function(..., col = 183) {
-  paste0("\033[38;5;", col, "m", ..., "\033[0m")
 }
 
 # Read UTF-8 strings from file, because R files should be ASCII-only.
@@ -442,16 +428,35 @@ pastebox <- function(x, pad = 0) {
   paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
 }
 
-# objcat.R
-# ::rtemis::
-# 2019- EDG rtemis.org
+#
 
-#' `rtemis-internal`: Object cat
+obj_str <- function(
+  x,
+  col = col_object,
+  pad = 0L,
+  verbosity = 2L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  paste0(
+    paste0(rep(" ", pad), collapse = ""),
+    gray(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
+    bold(
+      col256(x, col = col, output_type = output_type),
+      output_type = output_type
+    ),
+    gray(">", output_type = output_type),
+    "\n"
+  )
+} # rtemis::objstr
+
+#' Cat object
 #'
 #' @param x Character: Object description
-#' @param format_fn Function: Function to format `x`.
+#' @param col Character: Color code for the object name
 #' @param pad Integer: Number of spaces to pad the message with.
 #' @param verbosity Integer: Verbosity level. If > 1, adds package name to the output.
+#' @param type Character: Output type ("ansi", "html", "plain")
 #'
 #' @return NULL: Prints the formatted object description to the console.
 #'
@@ -459,27 +464,24 @@ pastebox <- function(x, pad = 0) {
 #' @keywords internal
 #' @noRd
 
-objcat <- function(x, col = col_object, pad = 0, verbosity = 2L) {
-  cat(
-    paste0(rep(" ", pad), collapse = ""),
-    paste0(
-      if (verbosity > 1L) {
-        gray("<rt ")
-      } else {
-        gray("<")
-      },
-      bold(col256(x, col = col)),
-      gray(">")
-    ),
-    "\n",
-    sep = ""
-  )
-} # rtemis::objcat
+objcat <- function(
+  x,
+  col = col_object,
+  pad = 0L,
+  verbosity = 2L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
 
-# Emojis ----
-# wave <- "\U1F30A"
-# mountain <- "\U26F0\UFE0F"
-# alien <- "\U1F47D"
+  out <- obj_str(
+    x,
+    col = col,
+    pad = pad,
+    verbosity = verbosity,
+    output_type = output_type
+  )
+  cat(out)
+} # rtemis::objcat
 
 #' Function to label
 #'

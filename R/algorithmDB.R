@@ -74,7 +74,7 @@ supervised_algorithms <- data.frame(rbind(
   # c("PPTree", "Projection Pursuit Tree", TRUE, FALSE, FALSE),
   # c("QDA", "Quadratic Discriminant Analysis", TRUE, FALSE, FALSE),
   # c("QRNN", "Quantile Neural Network Regression", FALSE, TRUE, FALSE),
-  c("Ranger", "Ranger Random Forest", TRUE, TRUE, FALSE),
+  c("Ranger", "Random Forest", TRUE, TRUE, FALSE),
   # c("RRF", "Regularized Random Forest", TRUE, TRUE, FALSE),
   # c("RFSRC", "Random Forest SRC", TRUE, TRUE, TRUE),
   # c("RLM", "Robust Linear Model", FALSE, TRUE, FALSE),

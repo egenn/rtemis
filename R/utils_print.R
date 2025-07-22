@@ -39,6 +39,7 @@ is_common_struct <- function(x) {
 #' @param abbrev_class_n Integer: Number of characters to abbreviate class names to.
 #' @param print_df Logical: If TRUE, print data frame contents, otherwise print n rows and columns.
 #' @param print_S4 Logical: If TRUE, print S4 object contents, otherwise print class name.
+#' @param output_type Character: One of "console", "ansi", "html" for output formatting.
 #'
 #' @author EDG
 #' @keywords internal
@@ -116,11 +117,13 @@ printls <- function(
     if (limit != -1L && length(x) > limit) {
       padcat(
         italic(thin(
-          "Showing first",
-          limit,
-          "of",
-          length(x),
-          "items.\n"
+          paste0(
+            "Showing first",
+            limit,
+            "of",
+            length(x),
+            "items.\n"
+          )
         )),
         pad = pad
       )
@@ -130,9 +133,11 @@ printls <- function(
       if (limit != -1L && counter > limit) {
         padcat(
           italic(thin(
-            "...",
-            length(x) - limit,
-            "more items not shown.\n"
+            paste0(
+              "...",
+              length(x) - limit,
+              "more items not shown.\n"
+            )
           )),
           pad = pad
         )
@@ -315,6 +320,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #'
 #' By design, numbers will not be justified, but using ddSci_dp will convert to characters,
 #' which will be justified. This is intentional for internal use.
+#'
 #' @param x data frame
 #' @param pad Integer: Pad output with this many spaces.
 #' @param spacing Integer: Number of spaces between columns.
@@ -416,36 +422,165 @@ printdf <- function(
   if (newline) cat("\n")
 } # /rtemis::printdf
 
-
+#' Show data.frame
+#'
+#' Create a pretty text representation of a data.frame.
+#'
+#' @param x data frame
+#' @param pad Integer: Pad output with this many spaces.
+#' @param spacing Integer: Number of spaces between columns.
+#' @param ddSci_dp Integer: Number of decimal places to print using [ddSci]. Default = NULL for no
+#' formatting
+#' @param transpose Logical: If TRUE, transpose `x` before printing.
+#' @param justify Character: "right", "left".
+#' @param colnames Logical: If TRUE, print column names.
+#' @param rownames Logical: If TRUE, print row names.
+#' @param column_col Color fn for printing column names.
+#' @param row_col Color fn for printing row names.
+#' @param newline_pre Logical: If TRUE, print a new line before printing data frame.
+#' @param newline Logical: If TRUE, print a new line after printing data frame.
+#'
+#' @author EDG
 #' @keywords internal
 #' @noRd
-printtable <- function(x, spacing = 2, pad = 2) {
-  dimnames <- names(attr(x, "dimnames"))
-  class.names <- attr(x, "dimnames")[["Reference"]]
-  n.classes <- NCOL(x)
+show_df <- function(
+  x,
+  pad = 0,
+  spacing = 1,
+  ddSci_dp = NULL,
+  transpose = FALSE,
+  justify = "right",
+  incl_colnames = TRUE,
+  incl_rownames = TRUE,
+  colnames_formatter = hilite,
+  rownames_formatter = muted,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+
+  if (transpose) {
+    x <- as.data.frame(t(x))
+  }
+  xnames <- colnames(x)
+  xrownames <- gsub(pattern = "\\.", replacement = " ", rownames(x))
+  if (!is.null(ddSci_dp)) {
+    xf <- as.data.frame(matrix(ddSci(x, decimal_places = ddSci_dp), NROW(x)))
+    colnames(xf) <- xnames
+    rownames(xf) <- xrownames
+    x <- xf
+  }
+
+  col_char <- sapply(seq_along(xnames), \(i) {
+    max(nchar(as.character(x[, i])), nchar(xnames[i]))
+  })
+
+  xrownames_spacing <- if (incl_rownames) {
+    max(nchar(xrownames)) + pad
+  } else {
+    pad
+  }
+  spacer <- paste0(rep(" ", spacing), collapse = "")
+
+  out <- character()
+  if (incl_colnames) {
+    out <- paste0(
+      out,
+      rep(" ", xrownames_spacing),
+      collapse = ""
+    )
+    if (justify == "left") {
+      out <- paste0(out, spacer)
+    }
+    for (i in seq_len(NCOL(x))) {
+      out <- paste0(
+        out,
+        colnames_formatter(
+          format(
+            xnames[i],
+            width = col_char[i] + spacing,
+            justify = justify
+          ),
+          output_type = output_type
+        )
+      )
+    }
+    out <- paste0(out, "\n")
+  }
+
+  # Row names
+  if (incl_rownames) {
+    for (i in seq_len(NROW(x))) {
+      # cat(row_col(cpad(xrownames[i], xrownames_spacing)))
+      out <- paste0(
+        out,
+        rownames_formatter(
+          format(
+            xrownames[i],
+            width = xrownames_spacing,
+            justify = "right"
+          ),
+          output_type = output_type
+        )
+      )
+      for (j in seq_len(NCOL(x))) {
+        out <- paste0(
+          out,
+          spacer,
+          paste(format(x[i, j], width = col_char[j], justify = justify))
+        )
+      }
+      out <- paste0(out, "\n")
+    }
+  } else {
+    for (i in seq_len(NROW(x))) {
+      for (j in seq_len(NCOL(x))) {
+        out <- paste0(
+          out,
+          spacer,
+          paste(format(x[i, j], width = col_char[j], justify = justify))
+        )
+      }
+      out <- paste0(out, "\n")
+    }
+  }
+  out
+} # /rtemis::show_df
+
+#' Pretty print tables
+#'
+#' @param x table.
+#' @param spacing Integer: Number of spaces between columns.
+#' @param pad Integer: Pad output with this many spaces.
+#'
+#' @keywords internal
+#' @noRd
+printtable <- function(x, spacing = 2L, pad = 2L) {
+  dim_names <- names(attr(x, "dimnames"))
+  class_names <- attr(x, "dimnames")[["Reference"]]
+  n_classes <- NCOL(x)
   mat <- matrix(c(x), NROW(x))
   colnames(mat) <- colnames(x)
   rownames(mat) <- rownames(x)
   # Column width without spacing
-  col.width <- sapply(seq_along(class.names), \(i) {
-    max(nchar(as.character(x[, i])), nchar(class.names[i]))
+  col.width <- sapply(seq_along(class_names), \(i) {
+    max(nchar(as.character(x[, i])), nchar(class_names[i]))
   })
-  lhspad <- max(nchar(class.names), nchar(dimnames[1])) + spacing + pad
+  lhspad <- max(nchar(class_names), nchar(dim_names[1])) + spacing + pad
   # Top dimname
   cat(
     bold(format(
-      dimnames[2],
-      width = lhspad + nchar(dimnames[2]),
+      dim_names[2],
+      width = lhspad + nchar(dim_names[2]),
       justify = "right"
     )),
     "\n"
   )
   # Left dimname
-  cat(bold(format(dimnames[1], width = lhspad - spacing, justify = "right")))
+  cat(bold(format(dim_names[1], width = lhspad - spacing, justify = "right")))
   cat(paste0(rep(" ", spacing), collapse = ""))
-  for (i in seq_len(n.classes)) {
+  for (i in seq_len(n_classes)) {
     cat(hilite(format(
-      class.names[i],
+      class_names[i],
       width = col.width[i] + spacing,
       justify = "left"
     )))
@@ -453,7 +588,7 @@ printtable <- function(x, spacing = 2, pad = 2) {
 
   printdf(
     mat,
-    pad = lhspad - max(nchar(class.names)) - spacing,
+    pad = lhspad - max(nchar(class_names)) - spacing,
     colnames = FALSE,
     row_col = hilite,
     newline_pre = TRUE,
@@ -461,6 +596,89 @@ printtable <- function(x, spacing = 2, pad = 2) {
   )
 } # /rtemis::printtable
 
+
+#' Show table
+#'
+#' @param x table.
+#' @param spacing Integer: Number of spaces between columns.
+#' @param pad Integer: Pad output with this many spaces.
+#'
+#' @return Character: formatted string.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+show_table <- function(
+  x,
+  spacing = 2L,
+  pad = 2L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+
+  dim_names <- names(attr(x, "dimnames"))
+  class_names <- attr(x, "dimnames")[["Reference"]]
+  n_classes <- NCOL(x)
+  mat <- matrix(c(x), NROW(x))
+  colnames(mat) <- colnames(x)
+  rownames(mat) <- rownames(x)
+  # Column width without spacing
+  col.width <- sapply(seq_along(class_names), \(i) {
+    max(nchar(as.character(x[, i])), nchar(class_names[i]))
+  })
+  lhspad <- max(nchar(class_names), nchar(dim_names[1])) + spacing + pad
+  # Top dimname
+  formatted_dimname <- format(
+    dim_names[2],
+    width = lhspad + nchar(dim_names[2]),
+    justify = "right"
+  )
+  out <- paste0(
+    bold(formatted_dimname, output_type = output_type),
+    "\n"
+  )
+  # Left dimname
+  formatted_dimname1 <- format(
+    dim_names[1],
+    width = lhspad - spacing,
+    justify = "right"
+  )
+  out <- paste0(
+    out,
+    bold(formatted_dimname1, output_type = output_type),
+    paste0(rep(" ", spacing), collapse = "")
+  )
+
+  # Column names
+  # (Continue on same row as left dimname)
+  for (i in seq_len(n_classes)) {
+    formatted_classname <- format(
+      class_names[i],
+      width = col.width[i] + spacing,
+      justify = "left"
+    )
+    out <- paste0(
+      out,
+      hilite(formatted_classname, output_type = output_type)
+    )
+  }
+  # Add Confusion matrix excluding colnames that are already added
+  out <- paste0(
+    out,
+    "\n",
+    show_df(
+      mat,
+      pad = lhspad - max(nchar(class_names)) - spacing,
+      incl_colnames = FALSE,
+      spacing = spacing,
+      colnames_formatter = hilite,
+      rownames_formatter = hilite,
+      output_type = output_type
+    )
+  )
+  out
+} # /rtemis::show_table
 
 #' @keywords internal
 #' @noRd
@@ -698,3 +916,397 @@ printchar <- function(x, left_pad = 2) {
     )
   }
 } # /rtemis::printchar
+
+#' Show data frame as formatted string
+#'
+#' Works exactly like printdf, but instead of printing to console with cat,
+#' it outputs a single string, formatted using mformat, so that cat(show_df(x))
+#' looks identical to printdf(x) for any data frame x.
+#'
+#' @param x data frame
+
+#' Show list as formatted string
+#'
+#' Works exactly like printls, but instead of printing to console with cat,
+#' it outputs a single string, formatted using mformat, so that cat(show_ls(x))
+#' looks identical to printls(x) for any list x
+#'
+#' @param x list or object that will be converted to a list.
+#' @param prefix Character: Optional prefix for names.
+#' @param pad Integer: Pad output with this many spaces.
+#' @param center_title Logical: If TRUE, autopad title for centering, if present.
+#' @param format_fn Formatting function.
+#' @param print_class Logical: If TRUE, print abbreviated class of object.
+#' @param abbrev_class_n Integer: Number of characters to abbreviate class names to.
+#' @param print_df Logical: If TRUE, print data frame contents, otherwise print n rows and columns.
+#' @param print_S4 Logical: If TRUE, print S4 object contents, otherwise print class name.
+#' @param output_type Character: Output type for mformat ("ansi", "html", "plain").
+#'
+#' @return Character: Formatted string that can be printed with cat()
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+
+show_ls <- function(
+  x,
+  prefix = "",
+  pad = 2L,
+  item_format = bold,
+  maxlength = 4L,
+  center_title = TRUE,
+  title = NULL,
+  title_newline = TRUE,
+  newline_pre = FALSE,
+  format_fn_rhs = ddSci,
+  print_class = TRUE,
+  abbrev_class_n = 3L,
+  print_df = FALSE,
+  print_S4 = FALSE,
+  limit = 12L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+
+  # Helper function to build padded string equivalent of padcat
+  build_padcat <- function(
+    text,
+    pad = 2L,
+    newline_pre = FALSE,
+    newline = FALSE
+  ) {
+    result <- ""
+    if (newline_pre) {
+      result <- paste0(result, "\n")
+    }
+    result <- paste0(result, paste0(rep(" ", pad), collapse = ""))
+    result <- paste0(result, text)
+    if (newline) {
+      result <- paste0(result, "\n")
+    }
+    result
+  }
+
+  # Initialize output string
+  result <- ""
+
+  # Arguments ----
+  if (newline_pre) {
+    result <- paste0(result, "\n")
+  }
+
+  if (is.null(x)) {
+    if (!is.null(title)) {
+      result <- paste0(
+        result,
+        build_padcat(title, pad = pad, newline = title_newline)
+      )
+    }
+    result <- paste0(result, paste0(rep(" ", pad), collapse = ""), "NULL")
+  } else if (length(x) == 0) {
+    result <- paste0(result, class(x), " of length 0.\n")
+  } else if (is.data.frame(x) && !print_df) {
+    result <- paste0(
+      result,
+      "data.frame with ",
+      NROW(x),
+      " rows and ",
+      NCOL(x),
+      " columns.\n"
+    )
+  } else if (!is_common_struct(x)) {
+    result <- paste0(
+      result,
+      "object of class: ",
+      paste(class(x), collapse = ", "),
+      "\n"
+    )
+  } else {
+    x <- as.list(x)
+    # Get class of each element
+    classes_ <- sapply(x, class)
+    # Remove closures that will cause error
+    is_fn <- which(sapply(x, is.function))
+    if (length(is_fn) > 0) {
+      for (i in is_fn) {
+        x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
+      }
+    }
+    # Remove NULLs
+    null_index <- sapply(x, is.null)
+    x[null_index] <- "NULL"
+    xnames <- names(x)
+    lhs <- max(nchar(paste0(prefix, xnames))) + pad
+
+    if (!is.null(title)) {
+      title.pad <- if (center_title) {
+        max(0, lhs - round((.5 * nchar(title))) - 3)
+      } else {
+        0
+      }
+      result <- paste0(
+        result,
+        build_padcat(title, pad = title.pad, newline = title_newline)
+      )
+    } # /title
+
+    counter <- 0L
+    # Print each item up to limit items
+    if (limit != -1L && length(x) > limit) {
+      limit_text <- paste0(
+        italic(
+          thin(
+            paste0(
+              "Showing first ",
+              limit,
+              " of ",
+              length(x),
+              " items.\n"
+            )
+          ),
+          output_type = output_type
+        )
+      )
+      result <- paste0(result, build_padcat(limit_text, pad = pad))
+    }
+
+    for (i in seq_along(x)) {
+      counter <- counter + 1L
+      if (limit != -1L && counter > limit) {
+        more_text <- paste0(
+          italic(
+            thin(
+              paste0(
+                "...",
+                length(x) - limit,
+                " more items not shown.\n"
+              )
+            ),
+            output_type = output_type
+          )
+        )
+        result <- paste0(result, build_padcat(more_text, pad = pad))
+        break
+      }
+
+      # Print item
+      if (is.list(x[[i]])) {
+        if (length(x[[i]]) == 0) {
+          item_text <- paste0(
+            item_format(
+              format(
+                paste0(prefix, xnames[i]),
+                width = lhs,
+                justify = "right"
+              ),
+              output_type = output_type
+            ),
+            ": ",
+            format_fn_rhs("(empty list)"),
+            "\n"
+          )
+          result <- paste0(result, item_text)
+        } else {
+          item_text <- paste0(
+            item_format(
+              format(
+                paste0(prefix, xnames[i]),
+                width = lhs,
+                justify = "right"
+              ),
+              output_type = output_type
+            ),
+            ": "
+          )
+          result <- paste0(result, item_text)
+
+          if (is_common_struct(x[[i]])) {
+            sub_result <- show_ls(
+              x[[i]],
+              pad = lhs + 2,
+              newline_pre = TRUE,
+              output_type = output_type
+            )
+            result <- paste0(result, sub_result)
+          } else {
+            result <- paste0(
+              result,
+              italic(
+                paste(
+                  "object of class:",
+                  paste(class(x[[i]]), collapse = ", ")
+                ),
+                output_type = output_type
+              ),
+              "\n"
+            )
+          }
+        }
+      } else if (is.logical(x[[i]])) {
+        item_text <- paste0(
+          item_format(
+            format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            ),
+            output_type = output_type
+          ),
+          ": ",
+          if (print_class) {
+            thin(
+              paste0("<", abbreviate("logical", abbrev_class_n), "> "),
+              output_type = output_type
+            )
+          } else {
+            ""
+          },
+          ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"),
+          "\n"
+        )
+        result <- paste0(result, item_text)
+      } else if (S7_inherits(x[[i]])) {
+        item_text <- paste0(
+          item_format(
+            format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            ),
+            output_type = output_type
+          ),
+          ": ",
+          "\n"
+        )
+        result <- paste0(result, item_text)
+        # Show S7 object, try running with pad argument, if it fails run without
+        result <- tryCatch(
+          {
+            paste0(
+              result,
+              "\n",
+              show(x[[i]], pad = lhs + 2, output_type = output_type)
+            )
+          },
+          error = function(e) {
+            # Fallback if 'pad' argument is not supported by the S7 object's show method
+            paste0(result, "\n", show(x[[i]], output_type = output_type))
+          }
+        )
+      } else if (is.data.frame(x[[i]])) {
+        item_text <- paste0(
+          item_format(
+            format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            ),
+            output_type = output_type
+          ),
+          ": ",
+          if (print_class) {
+            col_named(
+              paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
+              "gray",
+              output_type = output_type
+            )
+          } else {
+            ""
+          },
+          headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
+          "\n"
+        )
+        result <- paste0(result, item_text)
+      } else if (isS4(x[[i]])) {
+        item_text <- paste0(
+          item_format(
+            format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            ),
+            output_type = output_type
+          ),
+          ": "
+        )
+        result <- paste0(result, item_text)
+
+        # Print S4 object
+        if (print_S4) {
+          result <- paste0(result, "\n")
+          # For S4 objects, we would need to capture their print output
+          # This is complex, so for now we'll just show the class
+          result <- paste0(
+            result,
+            "(S4 object of class: '",
+            paste(class(x[[i]]), collapse = ", "),
+            "')\n"
+          )
+        } else {
+          result <- paste0(
+            result,
+            "(S4 object of class: '",
+            paste(class(x[[i]]), collapse = ", "),
+            "')\n"
+          )
+        }
+      } else if (!is_common_struct(x[[i]])) {
+        item_text <- paste0(
+          item_format(
+            format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            ),
+            output_type = output_type
+          ),
+          ": ",
+          if (print_class) {
+            col_named(
+              paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
+              "gray",
+              output_type = output_type
+            )
+          } else {
+            ""
+          },
+          italic(
+            paste(
+              "object of class:",
+              paste(class(x[[i]]), collapse = ", ")
+            ),
+            output_type = output_type
+          ),
+          "\n"
+        )
+        result <- paste0(result, item_text)
+      } else {
+        item_text <- paste0(
+          item_format(
+            format(
+              paste0(prefix, xnames[i]),
+              width = lhs,
+              justify = "right"
+            ),
+            output_type = output_type
+          ),
+          ": ",
+          if (print_class) {
+            col_named(
+              paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
+              "gray",
+              output_type = output_type
+            )
+          } else {
+            ""
+          },
+          headdot(x[[i]], maxlength = maxlength, format_fn = format_fn_rhs),
+          "\n"
+        )
+        result <- paste0(result, item_text)
+      }
+    }
+  }
+
+  result
+} # /rtemis::show_ls

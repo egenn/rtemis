@@ -290,7 +290,7 @@ read <- function(
     if (verbosity > 0L && .dup > 0) {
       msg2(
         "Removed",
-        orange(format(.dup, big.mark = ","), bold = TRUE),
+        bold(orange(format(.dup, big.mark = ","))),
         "duplicate",
         paste0(ngettext(.dup, "row", "rows"), ".")
       )

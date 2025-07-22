@@ -38,7 +38,7 @@ rtOut <- function(...) {
   )
 }
 
-info <- function(..., format_fn = hilite2) {
+msg2_info <- function(..., format_fn = hilite2) {
   msg20(..., format_fn = format_fn, caller_id = 2)
 }
 
@@ -150,7 +150,7 @@ msg2 <- function(
     appendLF = FALSE
   )
   if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
-    message(plain(gray(" [", caller, "]", sep = "")))
+    message(plain(gray(paste0(" [", caller, "]"))))
   } else if (newline) {
     message("")
   }
@@ -182,7 +182,7 @@ msg20 <- function(
     appendLF = FALSE
   )
   if (!is.null(caller) && !is.na(caller) && nchar(caller) > 0L) {
-    message(plain(gray(" [", caller, "]", sep = "")))
+    message(plain(gray(paste0(" [", caller, "]"))))
   } else if (newline) {
     message("")
   }
@@ -203,11 +203,11 @@ msg20 <- function(
 #' }
 pcat <- function(left, right, pad = 17, newline = TRUE) {
   lpad <- max(0, pad - 1 - max(0, nchar(left)))
-  cat(pad(left), right)
+  cat(pad_string(left), right)
   if (newline) cat("\n")
 }
 
-pad <- function(x, target = 17, char = " ") {
+pad_string <- function(x, target = 17, char = " ") {
   lpad <- max(0, target - max(0, nchar(x)))
   paste0(
     paste(rep(char, lpad), collapse = ""),
@@ -249,5 +249,5 @@ msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
   }
   message(" ", appendLF = FALSE)
   yay(end = "")
-  message(plain(gray("[", caller, "]\n", sep = "")), appendLF = FALSE)
+  message(plain(gray(paste0("[", caller, "]\n"))), appendLF = FALSE)
 } # rtemis::msg2done

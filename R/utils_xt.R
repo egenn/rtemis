@@ -31,7 +31,7 @@ xtdescribe <- function(
   time_max <- max(time_us)
   leftwidth <- max(nchar(id_name), nchar(time_name))
   cat(
-    pad(id_name, leftwidth),
+    pad_string(id_name, leftwidth),
     ": ",
     vec_describe(id_us),
     "                         n = ",
@@ -40,7 +40,7 @@ xtdescribe <- function(
     sep = ""
   )
   cat(
-    pad(time_name, leftwidth),
+    pad_string(time_name, leftwidth),
     ": ",
     vec_describe(time_us),
     "                         T = ",

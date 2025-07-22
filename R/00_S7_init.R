@@ -5,6 +5,8 @@
 # References
 # S7 generics: https://rconsortium.github.io/S7/articles/generics-methods.html
 
+# Show
+show <- new_generic("show", "x")
 # Standard error of the fit.
 se <- new_generic("se", "x")
 # Short description for inline printing.

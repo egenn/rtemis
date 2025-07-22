@@ -67,7 +67,7 @@ train <- function(
   outdir = NULL,
   parallel_type = c("future", "mirai", "none"),
   future_plan = getOption("future.plan", "multicore"),
-  n_workers = max(future::availableCores() - 3L, 1L),
+  n_workers = max(parallelly::availableCores() - 3L, 1L),
   verbosity = 1L
 ) {
   # Checks ----
@@ -148,7 +148,7 @@ train <- function(
     if (!dir.exists(outdir)) {
       dir.create(outdir, showWarnings = FALSE, recursive = TRUE)
     }
-    if (verbosity > 0L) {
+    if (verbosity > 1L) {
       message("Output directory set to ", outdir, ".")
     }
   }
@@ -458,9 +458,14 @@ train <- function(
   }
   outro(
     start_time,
+    logfile = logfile,
     verbosity = verbosity
     # sink_off = ifelse(is.null(logfile), FALSE, TRUE)
   )
+  # Print object to logfile
+  if (!is.null(logfile)) {
+    cat("\n", show(mod, output_type = "plain"), file = logfile, append = TRUE)
+  }
   mod
 } # /rtemis::train
 
