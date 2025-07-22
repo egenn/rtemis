@@ -443,7 +443,7 @@ obj_str <- function(
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
-  mformat(
+  paste0(
     paste0(rep(" ", pad), collapse = ""),
     muted(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
     bold(
@@ -451,10 +451,7 @@ obj_str <- function(
       output_type = output_type
     ),
     muted(">", output_type = output_type),
-    "\n",
-    output_type = output_type,
-    timestamp = FALSE,
-    sep = ""
+    "\n"
   )
 } # rtemis::objstr
 
