@@ -316,16 +316,14 @@ clean_posint <- function(x, allow_na = FALSE) {
   clean_int(x)
 } # /rtemis::clean_posint
 
+
+#' Check float greater than or equal to 0
 check_float0pos <- function(x) {
   xname <- deparse(substitute(x))
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.")
   }
   if (!is.null(x) && any(x < 0)) {
-    cli::cli_abort("{.var {xname}} must be zero or greater.")
-  }
-  if (!is.null(x) && any(x < 0)) {
-    # cli::cli_abort(xname, " must be zero or greater.", call. = FALSE)
     cli::cli_abort("{.var {xname}} must be zero or greater.")
   }
 } # /rtemis::check_float0positive
