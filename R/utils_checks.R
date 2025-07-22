@@ -318,6 +318,14 @@ clean_posint <- function(x, allow_na = FALSE) {
 
 
 #' Check float greater than or equal to 0
+#'
+#' @param x Numeric vector.
+#'
+#' @return Nothing, error if check fails.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
 check_float0pos <- function(x) {
   xname <- deparse(substitute(x))
   if (anyNA(x)) {
