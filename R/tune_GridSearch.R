@@ -235,7 +235,7 @@ tune_GridSearch <- function(
     grid_run <- lapply(
       cli::cli_progress_along(
         seq_len(n_res_x_comb),
-        name = "Outer Resamples",
+        name = "Tuning Combinations",
         type = "tasks"
       ),
       FUN = learner1,
