@@ -13,6 +13,10 @@
 #' @param theme Theme object.
 #' @param boxpoints Character: "all", "outliers", or "suspectedoutliers". Determines how points are
 #' displayed in the boxplot.
+#' @param filename Character: Filename to save the plot to.
+#' @param file_width Numeric: Width of the exported image in pixels.
+#' @param file_height Numeric: Height of the exported image in pixels.
+#' @param file_scale Numeric: Scale factor for the exported image.
 #'
 #' @return plotly object
 #'
@@ -24,7 +28,11 @@ present.list <- function(
   model_names = NULL,
   ylim = NULL,
   theme = choose_theme(),
-  boxpoints = "all"
+  boxpoints = "all",
+  filename = NULL,
+  file_width = 800,
+  file_height = 600,
+  file_scale = 1
 ) {
   # Check that all elements of x are either Supervised or SupervisedRes objects
   all_supervised <- all(sapply(x, function(m) {
@@ -115,9 +123,16 @@ present.list <- function(
     plt <- draw_bar(xdf, ylab = labelify(metric), theme = theme)
   }
 
+  if (!is.null(filename)) {
+    export_plotly(
+      plt,
+      filename = filename,
+      width = file_width,
+      height = file_height,
+      scale = file_scale
+    )
+  }
   plt
 } # /rtemis::present.list
 
-method(present, class_list) <- function(x, ...) {
-  present.list(x, ...)
-} # /rtemis::present.class_list
+method(present, class_list) <- present.list
