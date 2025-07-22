@@ -452,6 +452,8 @@ show_df <- function(
   justify = "right",
   incl_colnames = TRUE,
   incl_rownames = TRUE,
+  colnames_formatter = hilite,
+  rownames_formatter = muted,
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
@@ -492,15 +494,11 @@ show_df <- function(
     for (i in seq_len(NCOL(x))) {
       out <- paste0(
         out,
-        bold(
-          col256(
-            format(
-              xnames[i],
-              width = col_char[i] + spacing,
-              justify = justify
-            ),
-            col = hilite_col,
-            output_type = output_type
+        colnames_formatter(
+          format(
+            xnames[i],
+            width = col_char[i] + spacing,
+            justify = justify
           ),
           output_type = output_type
         )
@@ -515,10 +513,13 @@ show_df <- function(
       # cat(row_col(cpad(xrownames[i], xrownames_spacing)))
       out <- paste0(
         out,
-        format(
-          xrownames[i],
-          width = xrownames_spacing,
-          justify = "right"
+        rownames_formatter(
+          format(
+            xrownames[i],
+            width = xrownames_spacing,
+            justify = "right"
+          ),
+          output_type = output_type
         )
       )
       for (j in seq_len(NCOL(x))) {
@@ -633,11 +634,9 @@ show_table <- function(
     width = lhspad + nchar(dim_names[2]),
     justify = "right"
   )
-  out <- mformat(
-    bold(formatted_dimname),
-    "\n",
-    output_type = output_type,
-    timestamp = FALSE
+  out <- paste0(
+    bold(formatted_dimname, output_type = output_type),
+    "\n"
   )
   # Left dimname
   formatted_dimname1 <- format(
@@ -647,11 +646,7 @@ show_table <- function(
   )
   out <- paste0(
     out,
-    mformat(
-      bold(formatted_dimname1),
-      output_type = output_type,
-      timestamp = FALSE
-    ),
+    bold(formatted_dimname1, output_type = output_type),
     paste0(rep(" ", spacing), collapse = "")
   )
 
@@ -676,7 +671,10 @@ show_table <- function(
       mat,
       pad = lhspad - max(nchar(class_names)) - spacing,
       incl_colnames = FALSE,
-      spacing = spacing
+      spacing = spacing,
+      colnames_formatter = hilite,
+      rownames_formatter = hilite,
+      output_type = output_type
     )
   )
   out
