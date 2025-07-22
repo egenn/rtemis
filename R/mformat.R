@@ -7,37 +7,6 @@
 # Must support a generic API for formatting, e.g. bold(), col_ansi(..., col = "79") that gets
 # translated to the appropriate format based on the output_type argument.
 
-#' "multi-format": Format messages for different outputs
-#'
-#' This function allows formatting messages 1) using ANSI codes for console printing, 2) as HTML
-#' for web applications/viewers, or 3) as plain text for logs.
-#'
-#' @param text Character: Info text.
-#' @param output_type Character: Output type ("ansi", "html", "plain").
-#'
-#' @return Character: Formatted info message
-#'
-#' @keywords internal
-#' @noRd
-info_msg <- function(text, output_type = c("ansi", "html", "plain")) {
-  output_type <- match.arg(output_type)
-
-  switch(
-    output_type,
-    "ansi" = paste0(
-      col_named("\u2139 INFO: ", color = col_info, output_type = output_type),
-      text
-    ),
-    "html" = paste0(
-      '<span style="color: blue; font-weight: bold;">\u2139 INFO: </span>',
-      text
-    ),
-    "plain" = paste0("INFO: ", text)
-  )
-} # /rtemis::info_msg
-
-# Convenience messaging functions that use mformat internally
-
 # Smart output type detection and dispatcher
 
 #' "multi-format": Format messages for different outputs
@@ -182,6 +151,7 @@ italic <- function(text, output_type = c("ansi", "html", "plain")) {
   )
 } # /rtemis::italic
 
+
 #' Make text underlined
 #'
 #' @param text Character: Text to underline
@@ -200,6 +170,7 @@ underline <- function(text, output_type = c("ansi", "html", "plain")) {
     "plain" = text
   )
 } # /rtemis::underline
+
 
 #' Make text thin/light
 #'
@@ -220,9 +191,10 @@ thin <- function(text, output_type = c("ansi", "html", "plain")) {
   )
 } # /rtemis::thin
 
+
 #' Muted text
 #'
-#' @param x Character: Text to mute
+#' @param x Character: Text to format
 #' @param output_type Character: Output type ("ansi", "html", "plain")
 #'
 #' @return Character: Formatted text with muted styling
@@ -239,6 +211,30 @@ muted <- function(x, output_type = c("ansi", "html", "plain")) {
   )
 } # /rtemis::muted
 
+
+#' Gray text
+#'
+#' @param x Character: Text to format
+#' @param output_type Character: Output type ("ansi", "html", "plain")
+#'
+#' @return Character: Formatted text with gray styling
+#'
+#' @details
+#' Can be useful in contexts where musted is not supported.
+#'
+#' @keywords internal
+#' @noRd
+gray <- function(x, output_type = c("ansi", "html", "plain")) {
+  output_type <- match.arg(output_type)
+  switch(
+    output_type,
+    "ansi" = paste0("\033[90m", x, "\033[0m"), # ANSI gray
+    "html" = paste0('<span style="color: gray;">', x, "</span>"), # HTML gray
+    "plain" = x # Plain text unformatted
+  )
+} # /rtemis::gray
+
+
 #' Convert ANSI 256 color code to HEX
 #'
 #' @param code Integer: ANSI 256 color code (0-255).
@@ -253,7 +249,6 @@ ansi256_to_hex <- function(code) {
 
   # Standard and high-intensity colors (0-15)
   if (code < 16) {
-    # Standard terminal colors from the 'ansi' package by Gabor Csardi.
     return(c(
       "#000000",
       "#cd0000",
@@ -291,13 +286,14 @@ ansi256_to_hex <- function(code) {
 
   # Grayscale ramp (232-255)
   gray_level <- (code - 232) * 10 + 8
-  return(grDevices::rgb(
+  grDevices::rgb(
     gray_level,
     gray_level,
     gray_level,
     maxColorValue = 255
-  ))
-}
+  )
+} # /rtemis::ansi256_to_hex
+
 
 #' Apply 256-color formatting
 #'
@@ -352,6 +348,7 @@ col256 <- function(
   )
 } # /rtemis::col256
 
+
 #' Apply RGB color formatting
 #'
 #' @param text Character: Text to color
@@ -399,6 +396,7 @@ col_rgb <- function(
     "plain" = text
   )
 } # /rtemis::col_rgb
+
 
 #' Apply named color formatting
 #'
@@ -464,6 +462,7 @@ col_named <- function(
   )
 } # /rtemis::col_named
 
+
 #' Reset all formatting
 #'
 #' @param output_type Character: Output type ("ansi", "html", "plain")
@@ -477,7 +476,6 @@ reset <- function(output_type = c("ansi", "html", "plain")) {
   switch(output_type, "ansi" = "\033[0m", "html" = "", "plain" = "")
 } # /rtemis::reset
 
-# Utility functions for common formatting patterns
 
 #' Create a formatted header
 #'
@@ -1013,3 +1011,30 @@ get_caller_info <- function(call_depth = 3L, caller_id = 1L, max_char = 30L) {
 
   caller
 } # /rtemis::get_caller_info
+
+
+#' Info msg
+#'
+#' @param text Character: Info text.
+#' @param output_type Character: Output type ("ansi", "html", "plain").
+#'
+#' @return Character: Formatted info message
+#'
+#' @keywords internal
+#' @noRd
+info_msg <- function(text, output_type = c("ansi", "html", "plain")) {
+  output_type <- match.arg(output_type)
+
+  switch(
+    output_type,
+    "ansi" = paste0(
+      col_named("\u2139 INFO: ", color = col_info, output_type = output_type),
+      text
+    ),
+    "html" = paste0(
+      '<span style="color: blue; font-weight: bold;">\u2139 INFO: </span>',
+      text
+    ),
+    "plain" = paste0("INFO: ", text)
+  )
+} # /rtemis::info_msg
