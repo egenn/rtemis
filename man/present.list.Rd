@@ -10,7 +10,11 @@ present.list(
   model_names = NULL,
   ylim = NULL,
   theme = choose_theme(),
-  boxpoints = "all"
+  boxpoints = "all",
+  filename = NULL,
+  file_width = 800,
+  file_height = 600,
+  file_scale = 1
 )
 }
 \arguments{
@@ -26,6 +30,14 @@ present.list(
 
 \item{boxpoints}{Character: "all", "outliers", or "suspectedoutliers". Determines how points are
 displayed in the boxplot.}
+
+\item{filename}{Character: Filename to save the plot to.}
+
+\item{file_width}{Numeric: Width of the exported image in pixels.}
+
+\item{file_height}{Numeric: Height of the exported image in pixels.}
+
+\item{file_scale}{Numeric: Scale factor for the exported image.}
 }
 \value{
 plotly object
