@@ -38,7 +38,7 @@ rtOut <- function(...) {
   )
 }
 
-info <- function(..., format_fn = hilite2) {
+msg2_info <- function(..., format_fn = hilite2) {
   msg20(..., format_fn = format_fn, caller_id = 2)
 }
 

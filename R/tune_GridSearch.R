@@ -65,7 +65,7 @@ tune_GridSearch <- function(
   # If n_workers = 1, use direct lapply for simplicity and better error handling
   if (n_workers == 1L && parallel_type != "none") {
     if (verbosity > 1L) {
-      msg3_info("Using sequential execution (n_workers = 1)")
+      msg2_info("Using sequential execution (n_workers = 1)")
     }
     parallel_type <- "none"
   }
@@ -398,7 +398,7 @@ tune_GridSearch <- function(
       # if lambda was NULL, cv.glmnet was run and optimal lambda was estimated
       # For each i in grid_run, get grid_run[[i]]$hyperparameters[[grid_run[[i]]$hyperparameters$which_lambda_cv]]
       if (verbosity > 1L) {
-        msg3_info("Extracting best lambda from GLMNET models...")
+        msg2_info("Extracting best lambda from GLMNET models...")
       }
       lambda_cv2 <- data.table(
         lambda = sapply(
@@ -437,7 +437,7 @@ tune_GridSearch <- function(
   if (algorithm == "LightGBM") {
     if (is.null(grid_params[["nrounds"]])) {
       if (verbosity > 1L) {
-        msg3_info("Extracting best N of iterations from LightGBM models...")
+        msg2_info("Extracting best N of iterations from LightGBM models...")
       }
       nrounds_cv <- data.table(
         nrounds = sapply(grid_run, \(x) x[["hyperparameters"]][["best_iter"]])
@@ -501,7 +501,7 @@ tune_GridSearch <- function(
   ## LINAD ----
   # if (algorithm %in% c("LINAD", "LINOA")) {
   #   if (verbosity > 1L) {
-  #     msg3_info("Extracting best N leaves from LINAD models...")
+  #     msg2_info("Extracting best N leaves from LINAD models...")
   #   }
   #   est.n.leaves.all <- data.frame(n.leaves = plyr::laply(
   #     grid_run,
