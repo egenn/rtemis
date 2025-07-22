@@ -5,7 +5,7 @@
 \title{Setup LightGBM Hyperparameters}
 \usage{
 setup_LightGBM(
-  max_nrounds = 500L,
+  max_nrounds = 1000L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   num_leaves = 8L,

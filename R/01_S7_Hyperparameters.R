@@ -1069,7 +1069,7 @@ method(update, LightGBMHyperparameters) <- function(
 setup_LightGBM <- function(
   # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
   # using early_stopping_rounds.
-  max_nrounds = 500L,
+  max_nrounds = 1000L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   # tunable
