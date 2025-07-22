@@ -152,11 +152,6 @@ magenta <- function(...) {
 }
 
 
-gray <- function(...) {
-  paste0("\033[90m", paste(...), "\033[0m")
-}
-
-
 reset <- function(...) {
   paste0("\033[0m", paste(...))
 }
@@ -445,12 +440,12 @@ obj_str <- function(
   output_type <- match.arg(output_type)
   paste0(
     paste0(rep(" ", pad), collapse = ""),
-    muted(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
+    gray(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
     bold(
       col256(x, col = col, output_type = output_type),
       output_type = output_type
     ),
-    muted(">", output_type = output_type),
+    gray(">", output_type = output_type),
     "\n"
   )
 } # rtemis::objstr

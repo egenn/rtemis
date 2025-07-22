@@ -44,7 +44,7 @@ rt_save <- function(
     if (verbosity > 0L) {
       yay(format(elapsed, digits = 2), gray(" [rt_save]"), sep = "")
       if (print_load_info) {
-        msg20(muted(
+        msg20(gray(
           paste0(
             "Reload with:",
             "> obj <- readRDS('",
