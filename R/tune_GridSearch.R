@@ -235,7 +235,7 @@ tune_GridSearch <- function(
     grid_run <- lapply(
       cli::cli_progress_along(
         seq_len(n_res_x_comb),
-        name = "Tuning Combinations",
+        name = paste0("Tuning... (", n_res_x_comb, " combinations)"),
         type = "tasks"
       ),
       FUN = learner1,
@@ -572,7 +572,6 @@ tune_GridSearch <- function(
 
   # => add optional mods field to GridSearch
   # if (save_mods) mods <- grid_run
-
   GridSearch(
     hyperparameters = hyperparameters,
     tuner_parameters = tuner_parameters,
