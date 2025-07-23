@@ -1101,8 +1101,6 @@ setup_LightGBM <- function(
   subsample_freq <- clean_posint(subsample_freq)
   check_float0pos(lambda_l1)
   check_float0pos(lambda_l2)
-  check_inherits(lambda_l1, "numeric")
-  check_inherits(lambda_l2, "numeric")
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
   check_logical(linear_tree)
