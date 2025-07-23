@@ -219,7 +219,7 @@ train <- function(
     models <- lapply(
       cli::cli_progress_along(
         seq_len(outer_resampler@parameters@n),
-        name = "Outer Resamples",
+        name = "Training outer resamples...",
         type = "tasks"
       ),
       function(i) {
