@@ -324,6 +324,7 @@ clean_posint <- function(x, allow_na = FALSE) {
 #' @return Nothing, error if check fails.
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 check_float0pos <- function(x) {
