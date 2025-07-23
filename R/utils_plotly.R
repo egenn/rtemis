@@ -119,3 +119,69 @@ plotly_shade <- function(
     inherit = FALSE
   )
 }
+
+
+#' Export plotly plot to file
+#'
+#' @param x plotly object.
+#' @param filename Character: Filename to save the plot to.
+#' @param width Numeric: Width of the exported image in pixels.
+#' @param height Numeric: Height of the exported image in pixels.
+#' @param scale Numeric: Scale factor for the exported image.
+#' @param import_kaleido Logical: If TRUE, attempts to import kaleido for exporting plotly plots.
+#' @param verbosity Integer: Verbosity level.
+#'
+#' @return NULL
+#'
+#' @author EDG
+#' @export
+export_plotly <- function(
+  x,
+  filename,
+  width = 600,
+  height = 600,
+  scale = 1,
+  import_kaleido = TRUE,
+  verbosity = 1L
+) {
+  # Import kaleido
+  if (import_kaleido) {
+    tryCatch(
+      {
+        reticulate::py_run_string("import kaleido")
+        cat("Kaleido is available for plotly exports.\n")
+      },
+      error = function(e) {
+        cat("Installing kaleido for plotly exports...\n")
+        reticulate::py_install("kaleido")
+        reticulate::py_run_string("import kaleido")
+        cat("Kaleido installed successfully.\n")
+      }
+    )
+  }
+
+  # Intro
+  if (verbosity > 0L) {
+    msg2start("Exporting plotly plot to ", filename, "...")
+  }
+
+  # Export to file ----
+  plotly::save_image(
+    x,
+    file = normalizePath(filename, mustWork = FALSE),
+    width = width,
+    height = height,
+    scale = scale
+  )
+
+  # Check if the file was created
+  if (!file.exists(filename)) {
+    cli::cli_abort(
+      "Failed to save plotly plot to {.file {filename}}. Check if the file path is correct and writable."
+    )
+  } else {
+    if (verbosity > 0L) {
+      msg2done()
+    }
+  }
+} # rtemis::export_plotly

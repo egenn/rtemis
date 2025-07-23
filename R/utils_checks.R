@@ -316,19 +316,40 @@ clean_posint <- function(x, allow_na = FALSE) {
   clean_int(x)
 } # /rtemis::clean_posint
 
+
+#' Check float greater than or equal to 0
+#'
+#' Checks if an input is a numeric vector containing non-negative
+#'   (>= 0) values and no `NA`s. It is designed to validate function arguments.
+#'
+#' @param x Numeric vector: The input object to check.
+#'
+#' @return Returns `NULL` invisibly if the input is NULL. Throws an error otherwise.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
 check_float0pos <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
+
   xname <- deparse(substitute(x))
+
+  if (!inherits(x, "numeric")) {
+    cli::cli_abort("{.var {xname}} must be of class {.cls numeric}.")
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.")
   }
-  if (!is.null(x) && any(x < 0)) {
+
+  if (any(x < 0)) {
     cli::cli_abort("{.var {xname}} must be zero or greater.")
   }
-  if (!is.null(x) && any(x < 0)) {
-    # cli::cli_abort(xname, " must be zero or greater.", call. = FALSE)
-    cli::cli_abort("{.var {xname}} must be zero or greater.")
-  }
-} # /rtemis::check_float0positive
+} # /rtemis::check_float0pos
+
 
 #' Check future settings for learner
 #'

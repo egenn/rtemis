@@ -724,8 +724,8 @@ setup_LightCART <- function(
 ) {
   num_leaves <- clean_posint(num_leaves)
   max_depth <- clean_int(max_depth)
-  check_float01inc(lambda_l1)
-  check_float01inc(lambda_l2)
+  check_float0pos(lambda_l1)
+  check_float0pos(lambda_l2)
   min_data_in_leaf <- clean_posint(min_data_in_leaf)
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
@@ -883,8 +883,8 @@ setup_LightRF <- function(
   max_depth <- clean_int(max_depth)
   check_float01inc(feature_fraction)
   check_float01inc(subsample)
-  check_float01inc(lambda_l1)
-  check_float01inc(lambda_l2)
+  check_float0pos(lambda_l1)
+  check_float0pos(lambda_l2)
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
   check_logical(linear_tree)
@@ -1069,7 +1069,7 @@ method(update, LightGBMHyperparameters) <- function(
 setup_LightGBM <- function(
   # nrounds will be auto-tuned if force_nrounds is NULL with a value up to max_nrounds and
   # using early_stopping_rounds.
-  max_nrounds = 500L,
+  max_nrounds = 1000L,
   force_nrounds = NULL,
   early_stopping_rounds = 10L,
   # tunable
@@ -1099,8 +1099,8 @@ setup_LightGBM <- function(
   check_floatpos1(feature_fraction)
   check_floatpos1(subsample)
   subsample_freq <- clean_posint(subsample_freq)
-  check_inherits(lambda_l1, "numeric")
-  check_inherits(lambda_l2, "numeric")
+  check_float0pos(lambda_l1)
+  check_float0pos(lambda_l2)
   max_cat_threshold <- clean_posint(max_cat_threshold)
   min_data_per_group <- clean_posint(min_data_per_group)
   check_logical(linear_tree)

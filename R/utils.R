@@ -704,7 +704,7 @@ size <- function(x, verbosity = 1L) {
   if (verbosity > 0L) {
     # Format to add "," for thousands
     z_formatted <- format(z, trim = TRUE, big.mark = ",", scientific = FALSE)
-    cat(bold(z_formatted[1]), thin("x"), bold(z_formatted[2]), "\n")
+    cat(bold(z_formatted[1]), gray("x"), bold(z_formatted[2]), "\n")
   }
   invisible(z)
 } # /rtemis::size

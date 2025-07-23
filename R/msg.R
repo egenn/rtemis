@@ -225,7 +225,7 @@ pad_string <- function(x, target = 17, char = " ") {
 msg2start <- function(
   ...,
   newline_pre = FALSE,
-  sep = " "
+  sep = ""
 ) {
   txt <- Filter(Negate(is.null), list(...))
   if (newline_pre) {

@@ -1619,7 +1619,12 @@ method(desc, SupervisedRes) <- function(x, metric = NULL) {
 
   # Tuning ----
   if (length(x@tuner_parameters) > 0) {
-    out <- paste(out, desc(x@tuner_parameters))
+    out <- paste0(
+      out,
+      " Hyperparameter tuning was performed using ",
+      desc(x@tuner_parameters),
+      "."
+    )
   }
 
   # Metrics ----
@@ -1649,12 +1654,12 @@ method(desc, SupervisedRes) <- function(x, metric = NULL) {
   }
   out <- paste0(out, desc_alt(x@outer_resampler), ".")
   invisible(out)
-} # / rtemis::describe.SupervisedRes
+} # / rtemis::desc.SupervisedRes
 
 # describe SupervisedRes ----
 method(describe, SupervisedRes) <- function(x, ...) {
   cat(desc(x), "\n")
-}
+} # /rtemis::describe.SupervisedRes
 
 # present SupervisedRes ----
 method(present, SupervisedRes) <- function(x, theme = choose_theme(), ...) {
