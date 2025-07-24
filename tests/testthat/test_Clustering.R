@@ -78,3 +78,16 @@ iris_cmeans <- cluster(x, algorithm = "CMeans")
 test_that("cluster_CMeans() succeeds", {
   expect_s7_class(iris_cmeans, Clustering)
 })
+
+# setup_DBSCAN ----
+test_that("setup_DBSCAN() succeeds", {
+  expect_s7_class(setup_DBSCAN(), DBSCANParameters)
+})
+
+# cluster DBSCAN ----
+parameters <- setup_DBSCAN(eps = 0.5, min_points = 5L)
+parameters
+iris_dbscan <- cluster(x, algorithm = "DBSCAN", parameters = parameters)
+test_that("cluster_DBSCAN() succeeds", {
+  expect_s7_class(iris_dbscan, Clustering)
+})

@@ -107,7 +107,7 @@ setup_alg <- function(algorithm, ...) {
 # Clustering ----
 clust_algorithms <- data.frame(rbind(
   c("CMeans", "Fuzzy C-means Clustering"),
-  # c("DBSCAN", "Density-based spatial clustering of applications with noise"),
+  c("DBSCAN", "Density-based spatial clustering of applications with noise"),
   # c("EMC", "Expectation Maximization Clustering"),
   c("HardCL", "Hard Competitive Learning"),
   # c("HOPACH", "Hierarchical Ordered Partitioning And Collapsing Hybrid"),
