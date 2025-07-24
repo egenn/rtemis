@@ -263,5 +263,107 @@ setup_CMeans <- function(
   stopifnot(m > 1)
   check_float01inc(rate_par)
   check_inherits(weights, "numeric")
-  CMeansParameters(k, max_iter, dist, method, m, rate_par, weights, control)
+  CMeansParameters(
+    k = k,
+    max_iter = max_iter,
+    dist = dist,
+    method = method,
+    m = m,
+    rate_par = rate_par,
+    weights = weights,
+    control = control
+  )
 } # /rtemis::setup_CMeans
+
+
+# DBSCAN Parameters ----
+#' @title DBSCANParameters
+#'
+#' @description
+#' ClusteringParameters subclass for DBSCAN Clustering.
+#'
+#' @author EDG
+#' @keywords internal
+#' @noRd
+DBSCANParameters <- new_class(
+  name = "DBSCANParameters",
+  parent = ClusteringParameters,
+  constructor = function(
+    eps,
+    min_points,
+    weights,
+    border_points,
+    search,
+    bucket_size,
+    split_rule,
+    approx
+  ) {
+    check_floatpos(eps)
+    min_points <- clean_posint(min_points)
+    check_inherits(weights, "numeric")
+    check_inherits(border_points, "logical")
+    check_inherits(search, "character")
+    check_inherits(bucket_size, "integer")
+    check_inherits(split_rule, "character")
+    check_inherits(approx, "logical")
+    new_object(
+      ClusteringParameters(
+        algorithm = "DBSCAN",
+        parameters = list(
+          eps = eps,
+          min_points = min_points,
+          weights = weights,
+          border_points = border_points,
+          search = search,
+          bucket_size = bucket_size,
+          split_rule = split_rule,
+          approx = approx
+        )
+      )
+    )
+  }
+) # /DBSCANParameters
+
+#' Setup DBSCANParameters
+#'
+#' @param eps Float: Radius of neighborhood.
+#' @param min_points Integer: Minimum number of points in a neighborhood to form a cluster.
+#' @param weights Numeric vector: Weights for data points.
+#' @param border_points Logical: If TRUE, assign border points to clusters.
+#' @param search Character: Nearest neighbor search strategy: "kdtree", "linear", or "dist".
+#' @param bucket_size Integer: Size of buckets for k-dtree search.
+#' @param split_rule Character: Rule for splitting clusters: "SUGGEST", "STD", "MIDPT", "FAIR", "SL_MIDPT", "SL_FAIR".
+#' @param approx Logical: If TRUE, use approximate nearest neighbor search.
+#' @return DBSCANParameters object.
+#'
+#' @author EDG
+#' @export
+setup_DBSCAN <- function(
+  eps = 0.5,
+  min_points = 5L,
+  weights = NULL,
+  border_points = TRUE,
+  search = c("kdtree", "linear", "dist"),
+  bucket_size = 100L,
+  split_rule = c("SUGGEST", "STD", "MIDPT", "FAIR", "SL_MIDPT", "SL_FAIR"),
+  approx = FALSE
+) {
+  check_floatpos(eps)
+  min_points <- clean_posint(min_points)
+  check_inherits(weights, "numeric")
+  check_inherits(border_points, "logical")
+  search <- match.arg(search)
+  check_inherits(bucket_size, "integer")
+  split_rule <- match.arg(split_rule)
+  check_inherits(approx, "logical")
+  DBSCANParameters(
+    eps = eps,
+    min_points = min_points,
+    weights = weights,
+    border_points = border_points,
+    search = search,
+    bucket_size = bucket_size,
+    split_rule = split_rule,
+    approx = approx
+  )
+} # /rtemis::setup_DBSCAN

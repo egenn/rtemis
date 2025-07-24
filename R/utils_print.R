@@ -185,7 +185,7 @@ printls <- function(
           )),
           ": ",
           if (print_class) {
-            thin(paste0("<", abbreviate("logical", abbrev_class_n), "> "))
+            gray(paste0("<", abbreviate("logical", abbrev_class_n), "> "))
           },
           ifelse(isTRUE(x[[i]]), "TRUE", "FALSE"),
           "\n"
@@ -453,7 +453,7 @@ show_df <- function(
   incl_colnames = TRUE,
   incl_rownames = TRUE,
   colnames_formatter = hilite,
-  rownames_formatter = muted,
+  rownames_formatter = gray,
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
@@ -1062,7 +1062,8 @@ show_ls <- function(
               " of ",
               length(x),
               " items.\n"
-            )
+            ),
+            output_type = output_type
           ),
           output_type = output_type
         )
@@ -1154,7 +1155,7 @@ show_ls <- function(
           ),
           ": ",
           if (print_class) {
-            thin(
+            gray(
               paste0("<", abbreviate("logical", abbrev_class_n), "> "),
               output_type = output_type
             )
@@ -1205,9 +1206,8 @@ show_ls <- function(
           ),
           ": ",
           if (print_class) {
-            col_named(
+            gray(
               paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
-              "gray",
               output_type = output_type
             )
           } else {
