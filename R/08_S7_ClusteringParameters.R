@@ -345,7 +345,7 @@ setup_DBSCAN <- function(
   border_points = TRUE,
   search = c("kdtree", "linear", "dist"),
   bucket_size = 100L,
-  split_rule = c("suggest", "STD", "MIDPT", "FAIR", "SL_MIDPT", "SL_FAIR"),
+  split_rule = c("SUGGEST", "STD", "MIDPT", "FAIR", "SL_MIDPT", "SL_FAIR"),
   approx = FALSE
 ) {
   check_floatpos(eps)
