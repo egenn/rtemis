@@ -483,3 +483,64 @@ setup_tSNE <- function(
     num_threads = num_threads
   )
 } # /rtemis::setup_tSNE
+
+
+# IsomapParameters ----
+#' @title IsomapParameters
+#'
+#' @description
+#' DecompositionParameters subclass for Isomap.
+#'
+#' @author EDG
+#' @noRd
+IsomapParameters <- new_class(
+  name = "IsomapParameters",
+  parent = DecompositionParameters,
+  constructor = function(
+    k,
+    dist_method = NULL,
+    nsd = NULL,
+    path = NULL
+  ) {
+    k <- clean_posint(k)
+    check_inherits(dist_method, "character")
+    nsd <- clean_int(nsd)
+    check_inherits(path, "character")
+    new_object(
+      DecompositionParameters(
+        algorithm = "Isomap",
+        parameters = list(
+          k = k,
+          dist_method = dist_method,
+          nsd = nsd,
+          path = path
+        )
+      )
+    )
+  }
+) # /rtemis::IsomapParameters
+
+# setup_Isomap ----
+#' Setup Isomap parameters.
+#'
+#' @param k Integer: Number of components.
+#' @param dist_method Character: Distance method.
+#' @param nsd Integer: Number of shortest dissimilarities retained.
+#' @param path Character: Path argument for `vegan::isomap`.
+#'
+#' @return IsomapParameters object.
+#'
+#' @author EDG
+#' @export
+setup_Isomap <- function(
+  k = 2L,
+  dist_method = c("euclidean", "manhattan"),
+  nsd = 0L,
+  path = c("shortest", "extended")
+) {
+  k <- clean_posint(k)
+  dist_method <- match.arg(dist_method)
+  nsd <- clean_int(nsd)
+  path <- match.arg(path)
+  IsomapParameters(k, dist_method, nsd, path)
+} # /rtemis::setup_Isomap

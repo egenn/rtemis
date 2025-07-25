@@ -84,6 +84,7 @@ Suggests:
     timeDate,
     torch,
     uwot,
+    vegan,
     vroom,
     withr
 Encoding: UTF-8
