@@ -21,7 +21,7 @@ DecompositionParameters <- new_class(
   )
 ) # /DecompositionParameters
 
-# Make DecompositionParameters@parameters `$`-accessible
+# Make DecompositionParameters@parameters `$`-accessible ----
 method(`$`, DecompositionParameters) <- function(x, name) {
   x@parameters[[name]]
 }
@@ -32,24 +32,56 @@ method(`.DollarNames`, DecompositionParameters) <- function(x, pattern = "") {
   grep(pattern, all_names, value = TRUE)
 }
 
-# Make DecompositionParameters@parameters `[[`-accessible
+# Make props `[`-accessible ----
+method(`[`, DecompositionParameters) <- function(x, name) {
+  props(x)[[name]]
+}
+
+# Make DecompositionParameters@parameters `[[`-accessible ----
 method(`[[`, DecompositionParameters) <- function(x, name) {
   x@parameters[[name]]
 }
+
+# Show DecompositionParameters ----
+#' Show Method for DecompositionParameters
+#'
+#' @param object DecompositionParameters object.
+#' @pad Integer: Left side padding.
+#'
+#' @return character
+#'
+#' @author EDG
+#' @noRd
+method(show, DecompositionParameters) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  paste0(
+    show_S7name(
+      paste(x["algorithm"], "DecompositionParameters"),
+      pad = pad,
+      output_type = output_type
+    ),
+    show_ls(x["parameters"], pad = pad, limit = -1L, output_type = output_type)
+  )
+} # /rtemis::show.DecompositionParameters
 
 # Print DecompositionParameters ----
 #' Print Method for DecompositionParameters
 #'
 #' @param x DecompositionParameters object.
 #' @param pad Integer: Left side padding.
+#' @param ... Not used.
 #'
 #' @return DecompositionParameters object, invisibly.
 #'
 #' @author EDG
 #' @noRd
 method(print, DecompositionParameters) <- function(x, pad = 0L, ...) {
-  objcat(paste(x@algorithm, "DecompositionParameters"), pad = pad)
-  printls(props(x)$parameters, pad = pad)
+  output_type <- if (interactive()) "ansi" else "plain"
+  cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
 }
 
@@ -544,3 +576,164 @@ setup_Isomap <- function(
   path <- match.arg(path)
   IsomapParameters(k, dist_method, nsd, path)
 } # /rtemis::setup_Isomap
+
+# PHATE ----
+# Potential of Heat-Diffusion for Affinity-Based Transition Embedding
+# Docs: https://cran.r-project.org/web/packages/phateR/phateR.pdf
+
+#' PHATEParameters ----
+#' @title PHATEParameters
+#'
+#' @description
+#' DecompositionParameters subclass for PHATE.
+#'
+#' @author EDG
+#' @noRd
+PHATEParameters <- new_class(
+  name = "PHATEParameters",
+  parent = DecompositionParameters,
+  constructor = function(
+    k,
+    knn = NULL,
+    decay = NULL,
+    n_landmark = NULL,
+    gamma = NULL,
+    t = NULL,
+    mds_solver = NULL,
+    knn_dist_method = NULL,
+    knn_max = NULL,
+    # init = NULL, phate object
+    mds_method = NULL,
+    mds_dist_method = NULL,
+    t_max = NULL,
+    npca = NULL,
+    seed = NULL
+  ) {
+    k <- clean_posint(k)
+    knn <- clean_int(knn)
+    decay <- clean_posint(decay) # 0 may be meaningless. When NULL, alpha decay kernel not used.
+    n_landmark <- clean_int(n_landmark)
+    gamma <- check_float_neg1_1(gamma)
+    # t Integer or "auto"
+    if (is.character(t)) {
+      if (!t == "auto") {
+        cli::cli_abort("t must be 'auto' or an integer")
+      }
+    } else {
+      t <- clean_int(t)
+    }
+    check_inherits(mds_solver, "character")
+    check_inherits(knn_dist_method, "character")
+    knn_max <- clean_int(knn_max)
+    # init phate object
+    check_inherits(mds_method, "character")
+    check_inherits(mds_dist_method, "character")
+    t_max <- clean_int(t_max)
+    npca <- clean_int(npca)
+    seed <- clean_int(seed)
+    new_object(
+      DecompositionParameters(
+        algorithm = "PHATE",
+        parameters = list(
+          k = k,
+          knn = knn,
+          decay = decay,
+          n_landmark = n_landmark,
+          gamma = gamma,
+          t = t,
+          mds_solver = mds_solver,
+          knn_dist_method = knn_dist_method,
+          knn_max = knn_max,
+          # init = init, phate object
+          mds_method = mds_method,
+          mds_dist_method = mds_dist_method,
+          t_max = t_max,
+          npca = npca,
+          seed = seed
+        )
+      )
+    )
+  }
+) # /rtemis::PHATEParameters
+
+# setup_PHATE ----
+#' Setup PHATE parameters.
+#'
+#' @details
+#' See `phateR::phate` for more info.
+#'
+#' @param k Integer: Number of components.
+#' @param knn Integer: Number of nearest neighbors on which to build kernel.
+#' @param decay Integer: Decay rate of kernel trails. If NULL, alpha decaying kernel is not used.
+#' @param n_landmark Integer: Number of landmark points to use in fast PHATE.
+#' @param gamma Float (-1, 1): Informational distance constant. `gamma=1` gives the PHATE log potential, `gamma=0` gives a square root potential.
+#' @param t Integer or "auto": Power to which the diffusion operator is raised; determines the level of diffusion.
+#' @param mds_solver Character: "sgd", "smacof" Solver to use for MDS. "Sgd" is faster, but slightly less optimal.
+#' @param knn_dist_method Character: Distance method for nearest neighbors. See `phateR::phate` for more info.
+#' @param knn_max Integer: Maximum number of nearest neighbors for ehich alpha decaying kernel is computed. For large datasets, setting knn_max to a small multiple of knn can speed up computation.
+#' @param mds_method Character {"metric", "classic", "nonmetric"}: MDS method to use.
+#' @param mds_dist_method Character {"euclidean", "cosine"}: Distance method for MDS.
+#' @param t_max Integer: Maximum number of `t` to test for automatic `t` selection.
+#' @param npca Integer: Number of PCA components to use for calculating neighborhoods. For large datasets, < 20 allows calculation in `log(n_samples)` time.
+#' @param seed Integer: Seed for random state.
+#'
+#' @return PHATEParameters object.
+#'
+#' @author EDG
+#' @export
+setup_PHATE <- function(
+  k = 2L,
+  knn = 5L,
+  decay = 40L,
+  n_landmark = 2000L,
+  gamma = 1.0,
+  t = "auto",
+  mds_solver = "sgd",
+  knn_dist_method = "euclidean",
+  knn_max = NULL,
+  init = NULL,
+  mds_method = "metric",
+  mds_dist_method = "euclidean",
+  t_max = 100,
+  npca = 100,
+  seed = NULL
+) {
+  k <- clean_posint(k)
+  knn <- clean_int(knn)
+  decay <- clean_posint(decay)
+  n_landmark <- clean_int(n_landmark)
+  gamma <- check_float_neg1_1(gamma)
+  if (is.character(t)) {
+    if (!t == "auto") {
+      cli::cli_abort("t must be 'auto' or an integer")
+    }
+  } else {
+    t <- clean_int(t)
+  }
+  check_inherits(mds_solver, "character")
+  check_inherits(knn_dist_method, "character")
+  knn_max <- clean_int(knn_max)
+  check_inherits(mds_method, "character")
+  check_inherits(mds_dist_method, "character")
+  t_max <- clean_int(t_max)
+  npca <- clean_int(npca)
+  seed <- clean_int(seed)
+
+  PHATEParameters(
+    k = k,
+    knn = knn,
+    decay = decay,
+    n_landmark = n_landmark,
+    gamma = gamma,
+    t = t,
+    mds_solver = mds_solver,
+    knn_dist_method = knn_dist_method,
+    knn_max = knn_max,
+    # init = init, phate object
+    mds_method = mds_method,
+    mds_dist_method = mds_dist_method,
+    t_max = t_max,
+    npca = npca,
+    seed = seed
+  )
+} # /rtemis::setup_PHATE
