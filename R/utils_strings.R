@@ -430,7 +430,7 @@ pastebox <- function(x, pad = 0) {
 
 #
 
-obj_str <- function(
+show_S7name <- function(
   x,
   col = col_object,
   pad = 0L,
@@ -473,7 +473,7 @@ objcat <- function(
 ) {
   output_type <- match.arg(output_type)
 
-  out <- obj_str(
+  out <- show_S7name(
     x,
     col = col,
     pad = pad,

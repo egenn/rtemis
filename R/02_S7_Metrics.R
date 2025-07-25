@@ -88,13 +88,13 @@ method(show, RegressionMetrics) <- function(
 ) {
   output_type <- match.arg(output_type)
   out <- if (!is.null(x@sample)) {
-    obj_str(
+    show_S7name(
       paste(x@sample, "Regression Metrics"),
       pad = pad,
       output_type = output_type
     )
   } else {
-    obj_str("Regression Metrics", pad = pad, output_type = output_type)
+    show_S7name("Regression Metrics", pad = pad, output_type = output_type)
   }
   out <- paste0(
     out,
@@ -195,13 +195,13 @@ method(show, ClassificationMetrics) <- function(
   output_type <- match.arg(output_type)
 
   if (!is.null(x@sample)) {
-    out <- obj_str(
+    out <- show_S7name(
       paste(x@sample, "Classification Metrics"),
       pad = pad,
       output_type = output_type
     )
   } else {
-    out <- obj_str(
+    out <- show_S7name(
       "Classification Metrics",
       pad = pad,
       output_type = output_type
@@ -324,7 +324,7 @@ method(show, MetricsRes) <- function(
   } else {
     "Classification"
   }
-  out <- obj_str(
+  out <- show_S7name(
     paste("Resampled", type, x@sample, "Metrics"),
     pad = pad,
     output_type = output_type

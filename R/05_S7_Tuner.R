@@ -310,7 +310,7 @@ method(show, GridSearch) <- function(
   output_type <- match.arg(output_type)
   out <- character()
   if (header) {
-    out <- paste0(out, obj_str(x@type), "\n")
+    out <- paste0(out, show_S7name(x@type), "\n")
   }
   type <- if (x@tuner_parameters[["search_type"]] == "exhaustive") {
     "An exhaustive grid search"

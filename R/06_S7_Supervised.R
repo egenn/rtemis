@@ -1219,7 +1219,7 @@ method(show, SupervisedRes) <- function(
 
   # Class name + Alg name (2 lines)
   out <- paste0(
-    obj_str(paste("Resampled", x@type, "Model"), output_type = output_type),
+    show_S7name(paste("Resampled", x@type, "Model"), output_type = output_type),
     "  ",
     hilite(x@algorithm, output_type = output_type),
     " (",
@@ -2164,7 +2164,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
 
   # Class name
   out <- paste0(
-    obj_str(x@type, output_type = output_type),
+    show_S7name(x@type, output_type = output_type),
     "  ",
     hilite(x@algorithm, output_type = output_type),
     " (",
