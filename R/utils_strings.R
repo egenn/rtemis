@@ -156,52 +156,6 @@ reset <- function(...) {
   paste0("\033[0m", paste(...))
 }
 
-# Read UTF-8 strings from file, because R files should be ASCII-only.
-
-## rtemis_logo.utf8
-rtaart <- local({
-  lines <- NULL
-  function() {
-    if (is.null(lines)) {
-      file <- system.file(
-        package = .packageName,
-        "resources",
-        "rtemis_logo.utf8"
-      )
-      bfr <- readLines(file)
-      cols <- c(92, 128, 196, 208, 27)
-      lines <<- mapply(bfr, cols, FUN = col256)
-    }
-    lines
-  }
-})
-
-## rtemis_logo.utf8
-rtlogo <- local({
-  paste0(
-    "  ",
-    mapply(
-      col256,
-      readLines(system.file(
-        package = .packageName,
-        "resources",
-        "rtemis_logo.utf8"
-      )),
-      col = c(92, 128, 196, 208, 27)
-    ),
-    collapse = "\n"
-  )
-})
-
-## rtascii
-rtascii <- function() {
-  cat(rtaart(), sep = "\n")
-}
-
-rtasciitxt <- function() {
-  paste(paste0(paste0("  ", rtaart(), "\n")), collapse = "")
-}
-
 citation("rtemis")
 
 rtcitation <- paste0(
