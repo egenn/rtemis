@@ -67,11 +67,7 @@ setup_progress <- function() {
 .onAttach <- function(libname, pkgname) {
   if (interactive()) {
     # setup_progress()
-    packageStartupMessage(paste0(
-      # "  ",
-      # paste0(rep("\u2500", 32), collapse = ""),
-      # "\n",
-      rtlogo,
+    vline <- paste0(
       "\n  .:",
       bold(pkgname),
       " v.",
@@ -81,9 +77,13 @@ setup_progress <- function() {
       sessionInfo()[[2]],
       " (",
       cores_available,
-      " cores available)\n  ",
-      # paste0(rep("\u2500", 64 + nchar(cores_available)), collapse = ""),
-      bold("Defaults"),
+      " cores available)\n  "
+    )
+    packageStartupMessage(paste0(
+      rtlogo2,
+      vline,
+      paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
+      bold("\n  Defaults"),
       "\n  \u2502   ",
       gray("Theme: "),
       rtemis_theme,
@@ -101,9 +101,9 @@ setup_progress <- function() {
       "\n  \u2502 ",
       gray("Learn R:"),
       " https://pdsr.rtemis.org",
-      "\n  \u2502  ",
-      gray("Themes:"),
-      " https://rtemis.org/themes",
+      # "\n  \u2502  ",
+      # gray("Themes:"),
+      # " https://rtemis.org/themes",
       "\n  \u2514    ",
       gray("Cite: "),
       # ' > citation("rtemis")',
