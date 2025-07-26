@@ -1262,9 +1262,8 @@ show_ls <- function(
           ),
           ": ",
           if (print_class) {
-            col_named(
+            gray(
               paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
-              "gray",
               output_type = output_type
             )
           } else {
@@ -1292,9 +1291,8 @@ show_ls <- function(
           ),
           ": ",
           if (print_class) {
-            col_named(
+            gray(
               paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
-              "gray",
               output_type = output_type
             )
           } else {
