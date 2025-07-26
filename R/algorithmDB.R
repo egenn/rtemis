@@ -284,6 +284,7 @@ draw_fns <- data.frame(
 )
 colnames(draw_fns) <- c("Function Name", "Description")
 
+
 #' Available Draw Functions
 #'
 #' Print available draw functions for visualization.
