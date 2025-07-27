@@ -687,10 +687,15 @@ pastels <- function(x, bullet = "  -") {
 } # /rtemis::pastels
 
 
+#' Print first few elements of a vector with ellipsis
+#'
+#' @details
+#' Used, for example, by `show_ls`
+#'
 #' @keywords internal
 #' @noRd
-headdot <- function(x, maxlength = 6, format_fn = identity) {
-  if (length(x) < maxlength) {
+headdot <- function(x, maxlength = 6L, format_fn = identity) {
+  if (maxlength == -1L || length(x) < maxlength) {
     paste(format_fn(x), collapse = ", ")
   } else {
     paste0(
@@ -928,6 +933,8 @@ printchar <- function(x, left_pad = 2) {
 #' @param x list or object that will be converted to a list.
 #' @param prefix Character: Optional prefix for names.
 #' @param pad Integer: Pad output with this many spaces.
+#' @param item_format Formatting function for items.
+#' @param maxlength Integer: Maximum length of items to show using `headdot()` before truncating with ellipsis.
 #' @param center_title Logical: If TRUE, autopad title for centering, if present.
 #' @param format_fn Formatting function.
 #' @param print_class Logical: If TRUE, print abbreviated class of object.
@@ -1119,7 +1126,11 @@ show_ls <- function(
             sub_result <- show_ls(
               x[[i]],
               pad = lhs + 2,
+              item_format = item_format,
               newline_pre = TRUE,
+              format_fn_rhs = format_fn_rhs,
+              print_class = print_class,
+              limit = limit,
               output_type = output_type
             )
             result <- paste0(result, sub_result)
