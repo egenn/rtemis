@@ -45,12 +45,12 @@ hilite2_col <- DarkOrange # info
 hilite3_col <- Magenta3 # warning
 
 # Used for general highlighting + check marks
-rt_green <- highlight_col <- "#00ffb3" # kaimana green
+rt_green <- col_info <- highlight2_col <- "#00ffb3" # kaimana green
 # Used to print S7 class names - beautiful red for structural elements
 col_object <- "#ff004c" # kaimana red
 # Used to highlight sections & info related to outer resampling
 col_outer <- "#00b2b2" # rtemis teal
 # Used to highlight sections & info related to hyperparameter tuning
-col_tuner <- "#ff9f20" # genlib orange
+rt_orange <- col_tuner <- "#ff9f20" # genlib orange
 # Used for info messages
-col_info <- highlight2_col <- "#479cff" # kaimana light blue
+rt_blue <- highlight_col <- "#479cff" # kaimana light blue
