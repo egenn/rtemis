@@ -1,6 +1,6 @@
 # utils_color.R
 # ::rtemis::
-# 2016- EDG
+# 2016- EDG rtemis.org
 
 #' Simple Color Operations
 #'
@@ -219,7 +219,7 @@ color_fade <- function(x, to = "#000000", pct = .5) {
 #'
 #' Lower a color's saturation by a given percent in the HSV color system
 #'
-#' @param color Color, vector: Color(s) to operate on
+#' @param x Color, vector: Color(s) to operate on
 #' @param s Float: Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
 #' it will become .7
 #'
@@ -230,20 +230,22 @@ color_fade <- function(x, to = "#000000", pct = .5) {
 #'
 #' @examples
 #' \dontrun{
-#' color <- c("red", "green", "blue")
-#' color_p <- desaturate(color)
+#' cols <- c("red", "green", "blue")
+#' previewcolor(cols)
+#' cols_d <- desaturate(cols)
+#' previewcolor(cols_d)
 #' }
-desaturate <- function(color, s = .3) {
+desaturate <- function(x, s = .3) {
   # Infer color names, if available
-  if (is.character(color)) {
-    .names <- color
-  } else if (!is.null(names(color))) {
-    .names <- names(color)
+  if (is.character(x)) {
+    .names <- x
+  } else if (!is.null(names(x))) {
+    .names <- names(x)
   } else {
     .names <- NULL
   }
 
-  x <- as.list(color)
+  x <- as.list(x)
   x <- lapply(x, col2rgb)
   x <- lapply(x, rgb2hsv)
   xp <- lapply(x, function(i) {
