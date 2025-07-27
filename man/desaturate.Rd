@@ -4,10 +4,10 @@
 \alias{desaturate}
 \title{Pastelify a color (make a color more pastel)}
 \usage{
-desaturate(color, s = 0.3)
+desaturate(x, s = 0.3)
 }
 \arguments{
-\item{color}{Color, vector: Color(s) to operate on}
+\item{x}{Color, vector: Color(s) to operate on}
 
 \item{s}{Float: Decrease saturation by this fraction. Default = .3, which means if saturation of given color is 1,
 it will become .7}
@@ -20,8 +20,10 @@ Lower a color's saturation by a given percent in the HSV color system
 }
 \examples{
 \dontrun{
-color <- c("red", "green", "blue")
-color_p <- desaturate(color)
+cols <- c("red", "green", "blue")
+previewcolor(cols)
+cols_d <- desaturate(cols)
+previewcolor(cols_d)
 }
 }
 \author{
