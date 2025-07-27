@@ -29,7 +29,7 @@ msg2_info <- function(..., format_fn = highlight2) {
 
 suggest <- function(...) {
   message <- paste(...)
-  cat(highlight2("Suggestion: ", message, "\n"))
+  cat(highlight2(paste0("Suggestion: ", message, "\n")))
 }
 
 format_caller <- function(call_stack, call_depth, caller_id, max_char = 30L) {
