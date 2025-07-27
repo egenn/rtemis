@@ -162,7 +162,7 @@ decom_algorithms <- data.frame(rbind(
   # c("H2OAE", "H2O Autoencoder"),
   # c("H2OGLRM", "H2O Generalized Low-Rank Model"),
   c("ICA", "Independent Component Analysis"),
-  # c("Isomap", "Isomap"),
+  c("Isomap", "Isomap"),
   # c("KPCA", "Kernel Principal Component Analysis"),
   # c("LLE", "Locally Linear Embedding"),
   # c("MDS", "Multidimensional Scaling"),
@@ -283,6 +283,7 @@ draw_fns <- data.frame(
   )
 )
 colnames(draw_fns) <- c("Function Name", "Description")
+
 
 #' Available Draw Functions
 #'

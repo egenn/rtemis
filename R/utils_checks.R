@@ -79,19 +79,31 @@ test_inherits <- function(x, cl) {
 #' Test class of object
 #'
 #' @inheritParams check_inherits
+#' @param allow_null Logical: If TRUE, NULL values are allowed and return early.
 #'
-#' @return NULL (invisibly)
+#' @return Called for side effects. Throws an error if checks fail.
 #'
 #' @author EDG
 #' @keywords internal
 #' @noRd
-check_inherits <- function(x, cl) {
+check_inherits <- function(x, cl, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
-  if (!is.null(x) && !inherits(x, cl)) {
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.")
+  }
+
+  if (!inherits(x, cl)) {
     cli::cli_abort(
       "{.var {xname}} must be of class {.cls {cl}}."
     )
   }
+
+  invisible()
 } # /rtemis::check_inherits
 
 
@@ -189,47 +201,84 @@ match_arg <- function(x, choices) {
 #' Check logical
 #'
 #' @param x Vector to check
+#' @param allow_null Logical: If TRUE, NULL values are allowed and return early.
 #'
-#' @return nothing
+#' @return Called for side effects. Throws an error if checks fail.
 #' @author EDG
 #'
 #' @keywords internal
 #' @noRd
-check_logical <- function(x) {
+check_logical <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.", call. = FALSE)
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.", call. = FALSE)
   }
   if (!is.logical(x)) {
     cli::cli_abort("{.var {xname}} must be logical.", call. = FALSE)
   }
+
+  invisible()
 } # /rtemis::check_logical
 
-check_character <- function(x) {
+
+check_character <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.", call. = FALSE)
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.", call. = FALSE)
   }
   if (!is.character(x)) {
     cli::cli_abort("{.var {xname}} must be character.", call. = FALSE)
   }
+
+  invisible()
 } # /rtemis::check_character
 
-check_floatpos <- function(x) {
+
+check_floatpos <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.", call. = FALSE)
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.", call. = FALSE)
   }
   if (any(x <= 0)) {
     cli::cli_abort("{.var {xname}} must be greater than 0.", call. = FALSE)
   }
+
+  invisible()
 } # /rtemis::check_floatpos
 
 #' Check float between 0 and 1, exclusive
 #'
 #' @param x Vector to check
+#' @param allow_null Logical: If TRUE, NULL values are allowed and return early.
 #'
-#' @return Nothing, otherwise error.
+#' @return Called for side effects. Throws an error if checks fail.
 #'
 #' @author EDG
 #' @keywords internal
@@ -238,8 +287,17 @@ check_floatpos <- function(x) {
 #' \dontrun{
 #' check_float01exc(0.5)
 #' }
-check_float01exc <- function(x) {
+check_float01exc <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.", call. = FALSE)
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.", call. = FALSE)
   }
@@ -249,14 +307,17 @@ check_float01exc <- function(x) {
       call. = FALSE
     )
   }
+
+  invisible()
 } # /rtemis::check_float01
 
 
 #' Check float between 0 and 1, inclusive
 #'
 #' @param x Float vector.
+#' @param allow_null Logical: If TRUE, NULL values are allowed and return early.
 #'
-#' @return Nothing, otherwise error.
+#' @return Called for side effects. Throws an error if checks fail.
 #'
 #' @author EDG
 #' @keywords internal
@@ -265,18 +326,38 @@ check_float01exc <- function(x) {
 #' \dontrun{
 #' check_float01inc(0.5)
 #' }
-check_float01inc <- function(x) {
+check_float01inc <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.")
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.")
   }
   if (any(x < 0 | x > 1)) {
     cli::cli_abort("{.var {xname}} must be between 0 and 1, inclusive.")
   }
+
+  invisible()
 } # /rtemis::check_float01
 
-check_floatpos1 <- function(x) {
+check_floatpos1 <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.")
+  }
+
   if (anyNA(x)) {
     cli::cli_abort("{.var {xname}} must not contain NAs.")
   }
@@ -285,6 +366,8 @@ check_floatpos1 <- function(x) {
       "{.var {xname}} must be greater than 0 and less or equal to 1."
     )
   }
+
+  invisible()
 } # /rtemis::check_floatpos1
 
 #' Check positive integer
@@ -323,19 +406,24 @@ clean_posint <- function(x, allow_na = FALSE) {
 #'   (>= 0) values and no `NA`s. It is designed to validate function arguments.
 #'
 #' @param x Numeric vector: The input object to check.
+#' @param allow_null Logical: If TRUE, NULL values are allowed and return early.
 #'
-#' @return Returns `NULL` invisibly if the input is NULL. Throws an error otherwise.
+#' @return Called for side effects. Throws an error if checks fail.
 #'
 #' @author EDG
 #'
 #' @keywords internal
 #' @noRd
-check_float0pos <- function(x) {
-  if (is.null(x)) {
-    return(NULL)
+check_float0pos <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
   }
 
   xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.")
+  }
 
   if (!inherits(x, "numeric")) {
     cli::cli_abort("{.var {xname}} must be of class {.cls numeric}.")
@@ -348,7 +436,47 @@ check_float0pos <- function(x) {
   if (any(x < 0)) {
     cli::cli_abort("{.var {xname}} must be zero or greater.")
   }
+
+  invisible()
 } # /rtemis::check_float0pos
+
+
+#' Check float -1 <= x <= 1
+#'
+#' @param x Numeric vector: The input object to check.
+#' @param allow_null Logical: If TRUE, NULL values are allowed and return early.
+#'
+#' @return Called for side effects. Throws an error if checks fail.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+check_float_neg1_1 <- function(x, allow_null = TRUE) {
+  if (allow_null && is.null(x)) {
+    return(invisible())
+  }
+
+  xname <- deparse(substitute(x))
+
+  if (is.null(x)) {
+    cli::cli_abort("{.var {xname}} cannot be NULL.")
+  }
+
+  if (!inherits(x, "numeric")) {
+    cli::cli_abort("{.var {xname}} must be of class {.cls numeric}.")
+  }
+
+  if (anyNA(x)) {
+    cli::cli_abort("{.var {xname}} must not contain NAs.")
+  }
+
+  if (any(x < -1 | x > 1)) {
+    cli::cli_abort("{.var {xname}} must be between -1 and 1, inclusive.")
+  }
+
+  invisible()
+} # /rtemis::check_float_neg1_1
 
 
 #' Check future settings for learner
@@ -386,11 +514,15 @@ get_n_workers_for_learner <- function(
       algorithm %in% live[["parallelized_learners"]]
   ) {
     if (verbosity > 0L && !is.null(n_workers) && n_workers > 1) {
-      msg2(hilite2(
-        "Running a parallelized learner and n_workers is greater than 1, but plan ",
-        parallel_type,
-        " is run on single machine. Setting n_workers to 1."
-      ))
+      msg2(
+        highlight2(
+          paste0(
+            "Running a parallelized learner and n_workers is greater than 1, but plan ",
+            parallel_type,
+            " is run on single machine. Setting n_workers to 1."
+          )
+        )
+      )
     }
     return(1L)
   }
@@ -401,7 +533,7 @@ get_n_workers_for_learner <- function(
     if (
       verbosity > 0L && !is.null(n_workers) && n_workers > available_workers
     ) {
-      msg2(hilite2("Requested n_workers is greater than available cores."))
+      msg2(highlight2("Requested n_workers is greater than available cores."))
     }
   }
   max(future::availableCores() - 1L, 1L)

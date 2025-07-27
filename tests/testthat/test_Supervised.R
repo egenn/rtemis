@@ -472,6 +472,7 @@ test_that("train() Classification with grid_search() succeeds", {
 })
 
 ## Res CART Classification ----
+# Can be used to test different parallelization methods during tuning
 resmodt_c_cart <- train(
   x = datc2,
   algorithm = "cart",
@@ -555,6 +556,19 @@ modt_r_lightrf <- train(
 )
 test_that("train() LightRF Regression with l1 tuning succeeds", {
   expect_s7_class(modt_r_lightrf, Regression)
+})
+
+## Res LightRF Regression ----
+resmodt_r_lightrf <- train(
+  x = datr,
+  algorithm = "lightrf",
+  hyperparameters = setup_LightRF(
+    lambda_l1 = c(0, 10)
+  ),
+  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+)
+test_that("train() Res LightRF Regression with l1 tuning succeeds", {
+  expect_s7_class(resmodt_r_lightrf, RegressionRes)
 })
 
 ## LightRF Classification ----

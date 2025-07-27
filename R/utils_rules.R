@@ -32,9 +32,9 @@ match_cases_by_rules <- function(x, rules, prefix = "Rule_", verbosity = 1L) {
   if (verbosity > 0L) {
     msg2start(
       "Matching",
-      hilite(n_rules),
+      highlight(n_rules),
       "rules to",
-      hilite(n_cases),
+      highlight(n_cases),
       "cases..."
     )
   }

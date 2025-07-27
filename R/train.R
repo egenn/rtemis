@@ -203,9 +203,9 @@ train <- function(
   if (!is.null(outer_resampling)) {
     if (verbosity > 0L) {
       msg20(
-        hilite("<> ", col = col_outer),
+        fmt("<> ", col = col_outer, bold = TRUE),
         "Training ",
-        hilite(algorithm, type),
+        highlight(paste(algorithm, type)),
         " using ",
         desc(outer_resampling),
         "..."
@@ -239,7 +239,7 @@ train <- function(
     )
     names(models) <- names(outer_resampler@resamples)
     hyperparameters@resampled <- 1L
-    msg2(hilite("</>", col = col_outer), "Outer resampling done.")
+    msg2(fmt("</>", col = col_outer, bold = TRUE), "Outer resampling done.")
   } # /Outer Resampling
 
   if (hyperparameters@resampled == 0L) {
@@ -302,11 +302,11 @@ train <- function(
       if (is_tuned(hyperparameters)) {
         msg2(
           "Training",
-          hilite(algorithm, type),
+          highlight(paste(algorithm, type)),
           "with tuned hyperparameters..."
         )
       } else {
-        msg20("Training ", hilite(algorithm, type), "...")
+        msg20("Training ", highlight(paste(algorithm, type)), "...")
       }
     } # /Print training message
     # Only algorithms with early stopping can use dat_validation.
@@ -558,14 +558,14 @@ get_n_workers <- function(
     msg20(
       bold("//"),
       " Max workers: ",
-      hilite(n_workers),
+      highlight(n_workers),
       " => ",
       "Algorithm: ",
-      hilite(workers_algorithm),
+      highlight(workers_algorithm),
       "; Tuning: ",
-      hilite(workers_tuning),
+      highlight(workers_tuning),
       "; Outer Resampling: ",
-      hilite(workers_outer_resampling)
+      highlight(workers_outer_resampling)
     )
   }
 

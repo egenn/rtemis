@@ -579,7 +579,7 @@ printtable <- function(x, spacing = 2L, pad = 2L) {
   cat(bold(format(dim_names[1], width = lhspad - spacing, justify = "right")))
   cat(paste0(rep(" ", spacing), collapse = ""))
   for (i in seq_len(n_classes)) {
-    cat(hilite(format(
+    cat(highlight(format(
       class_names[i],
       width = col.width[i] + spacing,
       justify = "left"
@@ -660,7 +660,7 @@ show_table <- function(
     )
     out <- paste0(
       out,
-      hilite(formatted_classname, output_type = output_type)
+      highlight(formatted_classname, output_type = output_type)
     )
   }
   # Add Confusion matrix excluding colnames that are already added
@@ -793,6 +793,7 @@ twocol2html <- function(
   paste(tablestyle, header, tab, "</table>", collapse = "")
 } # /rtemis::twocol2html
 
+
 #' Print Size
 #'
 #' Get `NCOL(x)` and \code{NROW{x}}
@@ -820,7 +821,7 @@ catsize <- function(x, name = NULL, verbosity = 1L, newline = TRUE) {
     if (verbosity > 0L) {
       pcat(
         name,
-        paste(hilite(nrows), "x", hilite(ncols)),
+        paste(highlight(nrows), "x", highlight(ncols)),
         newline = newline
       )
     }
@@ -833,7 +834,7 @@ catsize <- function(x, name = NULL, verbosity = 1L, newline = TRUE) {
         # "There",
         # ngettext(.nels, "is", "are"),
         name,
-        hilite(nels),
+        highlight(nels),
         # ngettext(.nels, "element", "elements"),
         if (newline) "\n"
       )
@@ -911,19 +912,12 @@ printchar <- function(x, left_pad = 2) {
   target_length <- left_pad + max(nchar(x))
   for (i in x) {
     cat(
-      hilite(leftpad(i, target_length)),
+      highlight(leftpad(i, target_length)),
       "\n"
     )
   }
 } # /rtemis::printchar
 
-#' Show data frame as formatted string
-#'
-#' Works exactly like printdf, but instead of printing to console with cat,
-#' it outputs a single string, formatted using mformat, so that cat(show_df(x))
-#' looks identical to printdf(x) for any data frame x.
-#'
-#' @param x data frame
 
 #' Show list as formatted string
 #'
@@ -1262,9 +1256,8 @@ show_ls <- function(
           ),
           ": ",
           if (print_class) {
-            col_named(
+            gray(
               paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
-              "gray",
               output_type = output_type
             )
           } else {
@@ -1292,9 +1285,8 @@ show_ls <- function(
           ),
           ": ",
           if (print_class) {
-            col_named(
+            gray(
               paste0("<", abbreviate(classes_[[i]], abbrev_class_n), "> "),
-              "gray",
               output_type = output_type
             )
           } else {

@@ -7,44 +7,29 @@ datetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
   format(Sys.time(), datetime_format)
 }
 
+#' Message datetime()
+#'
+#' @param datetime_format Character: Format for the date and time.
+#'
+#' @return Character: Formatted date and time.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+# Used by msg2(), msg20(), msg2start()
 msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
   message(reset(gray(paste0(datetime(), gray(" ")))), appendLF = FALSE)
 }
 
-stopQuietly <- function() {
-  opt <- options(show.error.messages = FALSE)
-  on.exit(options(opt))
-  cli::cli_abort()
-}
 
-rtStop <- function(...) {
-  message <- paste(...)
-  cat(magenta("[Error]", message))
-  stopQuietly()
-}
-
-warn <- function(...) {
-  message <- paste(...)
-  cat(bold(orange(paste("[Warning]", message, "\n"))))
-}
-
-rtOut <- function(...) {
-  message <- paste(...)
-  cat(
-    bold(gray("[")),
-    green("+++", bold(green(message))),
-    bold(gray("]")),
-    sep = ""
-  )
-}
-
-msg2_info <- function(..., format_fn = hilite2) {
+msg2_info <- function(..., format_fn = highlight2) {
   msg20(..., format_fn = format_fn, caller_id = 2)
 }
 
 suggest <- function(...) {
   message <- paste(...)
-  cat(hilite2("Suggestion: ", message, "\n"))
+  cat(highlight2(paste0("Suggestion: ", message, "\n")))
 }
 
 format_caller <- function(call_stack, call_depth, caller_id, max_char = 30L) {

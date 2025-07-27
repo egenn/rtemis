@@ -1613,7 +1613,7 @@ rtCol2 <- c(
   ucsfCol[["A3_CTA_Blue"]]
 )
 
-rtCol3 <- c(
+rtms <- c(
   ucsfCol[["C3_Teal"]],
   ucsfCol[["M3_Orange"]],
   pennCol[["lighterRed"]],
@@ -1726,7 +1726,7 @@ rtemis_palettes <- list(
   pantoneAmusements = pantoneAmusements,
   grays = grays,
   rtCol1 = rtCol1,
-  rtCol3 = rtCol3
+  rtms = rtms
 )
 
 #' Color Palettes
@@ -1753,7 +1753,7 @@ rtemis_palettes <- list(
 rtpalette <- function(palette = NULL, verbosity = 1L) {
   if (is.null(palette)) {
     if (verbosity > 0L) {
-      msg2(hilite("The following palettes are available:"))
+      msg2(highlight("The following palettes are available:"))
       print(names(rtemis_palettes))
     }
   } else {
@@ -1801,7 +1801,9 @@ penn_heat <- function(
   col_text = "black"
 ) {
   # Arguments ----
-  if (!is.null(filename)) colorbar <- TRUE
+  if (!is.null(filename)) {
+    colorbar <- TRUE
+  }
 
   # Gradient ----
   n <- as.integer(n)
@@ -1868,7 +1870,9 @@ penn_heat <- function(
     # bar.grad <- c(penn.vlight2blue.lab(31), penn.blue2red2yellow.lab(30))
     par.orig <- par(no.readonly = TRUE)
     par(mar = c(1, 1, 1, 1))
-    if (!is.null(filename)) grDevices::pdf(filename, width = 3, height = 9)
+    if (!is.null(filename)) {
+      grDevices::pdf(filename, width = 3, height = 9)
+    }
     plot(
       rep(1, n),
       1:n,
@@ -1893,7 +1897,9 @@ penn_heat <- function(
       cex.axis = cex,
       hadj = 0
     )
-    if (!is.null(filename)) grDevices::dev.off()
+    if (!is.null(filename)) {
+      grDevices::dev.off()
+    }
     par(par.orig)
   }
 

@@ -2,56 +2,6 @@
 # ::rtemis::
 # 2022 EDG rtemis.org
 
-# rtemis color system
-# Violet: Class names (structure)
-# Blue: Outer resampling (evaluation)
-# Orange: Hyperparameter tuning (optimization)
-# Green: Model training + important highlights (execution)
-# Cyan: Info messages (communication)
-
-# References
-# ANSI escape code numbers
-# https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-# Xterm color names: https://jonasjacek.github.io/colors/
-# CSS color keywords: https://www.uxgem.com/docs/css-color-keywords
-# Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
-# UTF-8 icons: https://www.utf8icons.com/
-
-# Emojis
-# wave <- "\U1F30A"
-# mountain <- "\U26F0\UFE0F"
-# alien <- "\U1F47D"
-
-# rt console colors
-MediumSpringGreen <- "49"
-Cyan2 <- "50"
-CornflowerBlue <- "69"
-MediumOrchid3 <- "133"
-MediumOrchid <- "134"
-SteelBlue1 <- "75"
-SlateBlue1 <- "99"
-MediumPurple <- "104"
-LightSlateBlue <- "105"
-SkyBlue2 <- "111"
-Magenta3 <- "164"
-MediumOrchid1 <- "171"
-Violet <- "177"
-DarkOrange <- "208"
-Turquoise4 <- "30"
-DarkCyan <- "36"
-
-hilite_col <- DarkCyan # green, really
-hilite1_col <- SteelBlue1
-hilite2_col <- DarkOrange # info
-hilite3_col <- Magenta3 # warning
-rt_green <- DarkCyan # yay
-
-col_object <- SkyBlue2 # objcat()
-col_outer <- LightSlateBlue # SteelBlue1 # print.SupervisedRes
-col_tuner <- DarkOrange # print.{Supervised, SupervisedRes, CalibratedClassificationRes}
-col_train <- hilite_col
-col_info <- Cyan2
-
 # General hilite function output bold + any color.
 hilite <- function(
   ...,
@@ -74,6 +24,7 @@ hilite <- function(
   }
 } # /rtemis::hilite
 
+
 # blue for light and dark background: "69;1"
 # green: "49;1"
 hilite1 <- function(..., col = hilite1_col, bold = TRUE) {
@@ -88,31 +39,15 @@ hilite1 <- function(..., col = hilite1_col, bold = TRUE) {
 }
 
 
-hilite2 <- function(
-  ...,
-  col = hilite2_col,
-  bold = FALSE,
-  italic = FALSE,
-  sep = ""
-) {
-  paste0(
-    ifelse(bold, "\033[1m", "\033[0m"),
-    ifelse(italic, "\033[3m", ""),
-    "\033[38;5;",
-    hilite2_col,
-    "m",
-    paste(..., sep = sep),
-    "\033[0m"
-  )
-}
-
-
 #' @param x Numeric: Input
 #'
 #' @keywords internal
 #' @noRd
-hilitebig <- function(x) {
-  hilite(format(x, scientific = FALSE, big.mark = ","))
+highlightbig <- function(x, output_type = c("ansi", "html", "plain")) {
+  highlight(
+    format(x, scientific = FALSE, big.mark = ","),
+    output_type = output_type
+  )
 }
 
 
@@ -154,52 +89,6 @@ magenta <- function(...) {
 
 reset <- function(...) {
   paste0("\033[0m", paste(...))
-}
-
-# Read UTF-8 strings from file, because R files should be ASCII-only.
-
-## rtemis_logo.utf8
-rtaart <- local({
-  lines <- NULL
-  function() {
-    if (is.null(lines)) {
-      file <- system.file(
-        package = .packageName,
-        "resources",
-        "rtemis_logo.utf8"
-      )
-      bfr <- readLines(file)
-      cols <- c(92, 128, 196, 208, 27)
-      lines <<- mapply(bfr, cols, FUN = col256)
-    }
-    lines
-  }
-})
-
-## rtemis_logo.utf8
-rtlogo <- local({
-  paste0(
-    "  ",
-    mapply(
-      col256,
-      readLines(system.file(
-        package = .packageName,
-        "resources",
-        "rtemis_logo.utf8"
-      )),
-      col = c(92, 128, 196, 208, 27)
-    ),
-    collapse = "\n"
-  )
-})
-
-## rtascii
-rtascii <- function() {
-  cat(rtaart(), sep = "\n")
-}
-
-rtasciitxt <- function() {
-  paste(paste0(paste0("  ", rtaart(), "\n")), collapse = "")
 }
 
 citation("rtemis")
@@ -430,7 +319,7 @@ pastebox <- function(x, pad = 0) {
 
 #
 
-obj_str <- function(
+show_S7name <- function(
   x,
   col = col_object,
   pad = 0L,
@@ -441,10 +330,7 @@ obj_str <- function(
   paste0(
     paste0(rep(" ", pad), collapse = ""),
     gray(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
-    bold(
-      col256(x, col = col, output_type = output_type),
-      output_type = output_type
-    ),
+    fmt(x, col = col, bold = TRUE, output_type = output_type),
     gray(">", output_type = output_type),
     "\n"
   )
@@ -473,7 +359,7 @@ objcat <- function(
 ) {
   output_type <- match.arg(output_type)
 
-  out <- obj_str(
+  out <- show_S7name(
     x,
     col = col,
     pad = pad,

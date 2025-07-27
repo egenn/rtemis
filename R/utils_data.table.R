@@ -18,7 +18,12 @@
 #' \dontrun{
 #' dt_nunique_perfeat(iris)
 #' }
-dt_nunique_perfeat <- function(x, excludeNA = FALSE, limit = 20L, verbosity = 1L) {
+dt_nunique_perfeat <- function(
+  x,
+  excludeNA = FALSE,
+  limit = 20L,
+  verbosity = 1L
+) {
   stopifnot(inherits(x, "data.table"))
   nupf <- sapply(x, \(i) data.table::uniqueN(i, na.rm = excludeNA))
   if (verbosity > 0L) {
@@ -81,7 +86,7 @@ dt_keybin_reshape <- function(
     key_name
   ))
   if (verbosity > 0L) {
-    msg2("Reshaping", hilite(xname), "to wide format...")
+    msg2("Reshaping", highlight(xname), "to wide format...")
     catsize(x, "Input size")
   }
   # Reshape to wide, filling all absent with negative value
@@ -160,24 +165,24 @@ dt_merge <- function(
       msg20(
         bold(green(icon)),
         " Merging ",
-        hilite(left_name),
+        highlight(left_name),
         " & ",
-        hilite(right_name),
+        highlight(right_name),
         " on ",
-        hilite(left_on),
+        highlight(left_on),
         "..."
       )
     } else {
       msg20(
         bold(green(icon)),
         " Merging ",
-        hilite(left_name),
+        highlight(left_name),
         " & ",
-        hilite(right_name),
+        highlight(right_name),
         " on ",
-        hilite(left_on),
+        highlight(left_on),
         " & ",
-        hilite(right_on),
+        highlight(right_on),
         "..."
       )
     }
@@ -309,13 +314,13 @@ dt_pctmatch <- function(
     by_final <- paste(unique(c(left_on, right_on)), collapse = ", ")
     msg20(
       "Matched ",
-      hilite(nmatch),
+      highlight(nmatch),
       "/",
-      hilite(n),
+      highlight(n),
       " on ",
       bold(by_final),
       " (",
-      hilite(ddSci(matchpct)),
+      highlight(ddSci(matchpct)),
       "%)"
     )
   }
@@ -494,7 +499,7 @@ inspect_type <- function(
     if (verbosity > 0L) {
       msg20(
         "Possible type error: ",
-        hilite(xname),
+        highlight(xname),
         " is a ",
         bold(xclass),
         ", but perhaps should be ",
@@ -559,7 +564,7 @@ dt_set_autotypes <- function(x, cols = NULL, verbosity = 1L) {
   for (i in cols) {
     if (inspect_type(x[[i]], i, verbosity = 0L) == "numeric") {
       if (verbosity > 0L) {
-        msg2("Converting", hilite(i), "to", bold("numeric"))
+        msg2("Converting", highlight(i), "to", bold("numeric"))
       }
       x[, (i) := as.numeric(x[[i]])]
     }
@@ -867,7 +872,7 @@ pfread <- function(
 
   dat <- rbindlist(c(list(dat1), parts))
   if (verbosity > 0L) {
-    msg2("Read", hilitebig(nrow(dat)), "rows")
+    msg2("Read", highlightbig(nrow(dat)), "rows")
   }
   dat
 } # rtemis::pfread
@@ -910,7 +915,7 @@ pfread1 <- function(
   }
   ndone <- part_nrows
   if (verbosity > 0L) {
-    msg2("Total read =", hilitebig(ndone))
+    msg2("Total read =", highlightbig(ndone))
   }
   col_classes <- sapply(dat, \(i) class(i)[1])
   .col.names <- names(col_classes)
@@ -935,7 +940,7 @@ pfread1 <- function(
       )
     )
     ndone <- nrow(dat)
-    if (verbosity > 0L) msg2("Total read =", hilitebig(ndone))
+    if (verbosity > 0L) msg2("Total read =", highlightbig(ndone))
   }
 
   invisible(dat)

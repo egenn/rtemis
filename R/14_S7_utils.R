@@ -149,7 +149,7 @@ method(`[[`, CheckData) <- function(x, name) {
 #'
 #' @method print CheckData
 #' @param x `CheckData` object.
-#' @param type Character: Output type: "plaintext" or "html".
+#' @param type Character: Output type: "ansi" or "html".
 #' @param name Character: Dataset name.
 #' @param check_integers Logical: If TRUE and there are integer features, prints a
 #' message to consider converting to factors.
@@ -160,7 +160,7 @@ method(`[[`, CheckData) <- function(x, name) {
 #' @noRd
 print.CheckData <- function(
   x,
-  type = c("plaintext", "html"),
+  type = c("ansi", "html"),
   name = NULL,
   check_integers = FALSE,
   css = list(
@@ -192,19 +192,19 @@ print.CheckData <- function(
   na_case_pct <- x[["na_case_pct"]]
   n_na_last_col <- x[["n_na_last_col"]]
 
-  if (type == "plaintext") {
-    # plaintext out ----
+  if (type == "ansi") {
+    # ansi out ----
     out <- paste0(
       "  ",
-      hilite(name),
+      highlight(name),
       paste(
         ": A",
         x[["object_class"]],
         "with",
-        hilite(n_rows),
+        highlight(n_rows),
         ngettext(n_rows, "row", "rows"),
         "and",
-        hilite(n_cols),
+        highlight(n_cols),
         ngettext(n_cols, "column.", "columns.")
       )
     )
@@ -444,10 +444,10 @@ BiasVariance <- new_class(
 method(print, BiasVariance) <- function(x, ...) {
   objcat("BiasVariance")
   cat("Mean squared bias: ")
-  cat(hilite(ddSci(x[["mean_bias_squared"]])))
+  cat(highlight(ddSci(x[["mean_bias_squared"]])))
   cat(" (", ddSci(x[["sd_bias_squared"]]), ")\n", sep = "")
   cat("    Mean variance: ")
-  cat(hilite(ddSci(x[["mean_variance"]])))
+  cat(highlight(ddSci(x[["mean_variance"]])))
   cat(" (", ddSci(x[["sd_variance"]]), ")\n", sep = "")
   cat("\n")
 } # /rtemis::print.BiasVariance

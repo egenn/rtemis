@@ -7,7 +7,6 @@ x <- iris[, -5]
 
 # PCA ----
 parameters <- setup_PCA()
-parameters
 test_that("setup_PCA() succeeds", {
   expect_s7_class(parameters, PCAParameters)
 })
@@ -19,7 +18,6 @@ test_that("decomp() PCA succeeds", {
 
 # ICA ----
 parameters <- setup_ICA()
-parameters
 test_that("setup_ICA() succeeds", {
   expect_s7_class(parameters, ICAParameters)
 })
@@ -31,7 +29,6 @@ test_that("decomp() ICA succeeds", {
 
 # NMF ----
 parameters <- setup_NMF()
-parameters
 test_that("setup_NMF() succeeds", {
   expect_s7_class(parameters, NMFParameters)
 })
@@ -42,7 +39,6 @@ test_that("decomp() NMF succeeds", {
 
 # UMAP ----
 parameters <- setup_UMAP()
-parameters
 test_that("setup_UMAP() succeeds", {
   expect_s7_class(parameters, UMAPParameters)
 })
@@ -55,7 +51,6 @@ iris_umap <- decomp(
 
 # t-SNE ----
 parameters <- setup_tSNE()
-parameters
 test_that("setup_tSNE() succeeds", {
   expect_s7_class(parameters, tSNEParameters)
 })
@@ -73,4 +68,14 @@ iris_tsne <- decomp(
 )
 test_that("decomp() t-SNE succeeds after removing duplicates", {
   expect_s7_class(iris_tsne, Decomposition)
+})
+
+# Isomap ----
+parameters <- setup_Isomap()
+test_that("setup_Isomap() succeeds", {
+  expect_s7_class(parameters, IsomapParameters)
+})
+iris_isomap <- decomp(x, algorithm = "isomap", parameters = parameters)
+test_that("decomp() Isomap succeeds", {
+  expect_s7_class(iris_isomap, Decomposition)
 })

@@ -51,7 +51,7 @@ setup_progress <- function() {
   assign("rtemis_theme", rtemis_theme, envir = parent.env(environment()))
   rtemis_font <- getOption("rtemis_font", "Helvetica")
   assign("rtemis_font", rtemis_font, envir = parent.env(environment()))
-  rtemis_palette <- getOption("rtemis_palette", "rtCol3")
+  rtemis_palette <- getOption("rtemis_palette", "rtms")
   assign("rtemis_palette", rtemis_palette, envir = parent.env(environment()))
   rtemis_date <- getOption("rtemis_date", TRUE)
   assign("rtemis_date", rtemis_date, envir = parent.env(environment()))
@@ -67,11 +67,7 @@ setup_progress <- function() {
 .onAttach <- function(libname, pkgname) {
   if (interactive()) {
     # setup_progress()
-    packageStartupMessage(paste0(
-      # "  ",
-      # paste0(rep("\u2500", 32), collapse = ""),
-      # "\n",
-      rtlogo,
+    vline <- paste0(
       "\n  .:",
       bold(pkgname),
       " v.",
@@ -81,9 +77,13 @@ setup_progress <- function() {
       sessionInfo()[[2]],
       " (",
       cores_available,
-      " cores available)\n  ",
-      # paste0(rep("\u2500", 64 + nchar(cores_available)), collapse = ""),
-      bold("Defaults"),
+      " cores available)\n  "
+    )
+    packageStartupMessage(paste0(
+      rtlogo2,
+      vline,
+      paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
+      bold("\n  Defaults"),
       "\n  \u2502   ",
       gray("Theme: "),
       rtemis_theme,
@@ -93,7 +93,6 @@ setup_progress <- function() {
       "\n  \u2514 ",
       gray("Palette: "),
       rtemis_palette,
-      " cores available.",
       bold("\n  Resources"),
       "\n  \u2502    ",
       gray("Docs:"),
@@ -101,9 +100,9 @@ setup_progress <- function() {
       "\n  \u2502 ",
       gray("Learn R:"),
       " https://pdsr.rtemis.org",
-      "\n  \u2502  ",
-      gray("Themes:"),
-      " https://rtemis.org/themes",
+      # "\n  \u2502  ",
+      # gray("Themes:"),
+      # " https://rtemis.org/themes",
       "\n  \u2514    ",
       gray("Cite: "),
       # ' > citation("rtemis")',

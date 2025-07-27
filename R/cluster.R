@@ -51,14 +51,14 @@ cluster <- function(
     args = list(clust = clust)
   )
 
-  if (!is.null(parameters@parameters[["k"]])) {
+  if (!is.null(parameters[["k"]])) {
     # For algorithms where k is specified in parameters
-    k <- parameters@parameters[["k"]]
+    k <- parameters[["k"]]
   } else {
     # For algorithms where k is not prescribed, but determined from the clustering result
     k <- length(unique(clusters))
     if (verbosity > 0L) {
-      msg20(paste0("Found ", hilite(k), " clusters."))
+      msg20(paste0("Found ", highlight(k), " clusters."))
     }
   }
 

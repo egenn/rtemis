@@ -137,17 +137,17 @@ summarize_supervised <- function(
   msg20(
     if (!is.null(dat_validation)) "  ",
     "Training set: ",
-    hilite(NROW(x)),
+    highlight(NROW(x)),
     " cases x ",
-    hilite(NCOL(x) - 1),
+    highlight(NCOL(x) - 1),
     " features."
   )
   if (!is.null(dat_validation)) {
     msg20(
       "Validation set: ",
-      hilite(NROW(dat_validation)),
+      highlight(NROW(dat_validation)),
       " cases x ",
-      hilite(NCOL(dat_validation) - 1),
+      highlight(NCOL(dat_validation) - 1),
       " features."
     )
   }
@@ -155,9 +155,9 @@ summarize_supervised <- function(
     msg20(
       if (!is.null(dat_validation)) "  ",
       "    Test set: ",
-      hilite(NROW(dat_test)),
+      highlight(NROW(dat_test)),
       " cases x ",
-      hilite(NCOL(dat_test) - 1),
+      highlight(NCOL(dat_test) - 1),
       " features."
     )
   }
@@ -173,9 +173,9 @@ summarize_supervised <- function(
 summarize_unsupervised <- function(x) {
   msg2(
     "Input:",
-    hilite(NROW(x)),
+    highlight(NROW(x)),
     "cases x",
-    hilite(NCOL(x)),
+    highlight(NCOL(x)),
     "features."
   )
 } # rtemis::summarize_unsupervised

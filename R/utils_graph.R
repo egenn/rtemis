@@ -176,7 +176,7 @@ lotri2edgeList <- function(A, filename = NULL, verbosity = 1L) {
       quote = FALSE,
       sep = ","
     )
-    rtOut("Saved", filename)
+    msg20("Saved ", highlight(filename), ".")
   }
   invisible(out)
 } # rtemis::lotri2edgelist

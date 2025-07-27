@@ -1,7 +1,7 @@
 Package: rtemis
-Version: 0.99.987
+Version: 0.99.988
 Title: Advanced Machine Learning and Visualization
-Date: 2025-07-24
+Date: 2025-07-27
 Authors@R: person(given = "E.D.", family = "Gennatas", role = c("aut", "cre"), email = "gennatas@gmail.com", comment = c(ORCID = "0000-0001-9280-3609"))
 Description: Advanced Machine Learning and Visualization for all.
 License: GPL (>= 3)
@@ -84,6 +84,7 @@ Suggests:
     timeDate,
     torch,
     uwot,
+    vegan,
     vroom,
     withr
 Encoding: UTF-8

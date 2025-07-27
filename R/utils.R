@@ -23,7 +23,7 @@ init_project_dir <- function(verbosity = 1L) {
   }
 
   # rtInit.log ----
-  # if (verbosity > 0L) cat(hilite("  Writing 'rtInit.log' file..."))
+  # if (verbosity > 0L) cat(highlight("  Writing 'rtInit.log' file..."))
   sink("rtInit.log", append = TRUE)
   cat(".:rtemis Project Directory\n")
   cat(date(), "\n")
@@ -40,7 +40,7 @@ init_project_dir <- function(verbosity = 1L) {
     if (!dir.exists(i)) {
       dir.create(i)
       if (dir.exists(i)) {
-        if (verbosity > 0L) cat(hilite(" Done\n"))
+        if (verbosity > 0L) cat(highlight(" Done\n"))
       } else {
         if (verbosity > 0L) cat(bold(red(" Failed")))
       }
@@ -50,7 +50,7 @@ init_project_dir <- function(verbosity = 1L) {
   }
 
   if (verbosity > 0L) {
-    cat(hilite("  All done\n"))
+    cat(highlight("  All done\n"))
   }
   invisible(wd)
 } # /rtemis::init_project_dir
@@ -918,7 +918,13 @@ table1 <- function(
   }
   .dim <- dim(x)
   if (verbosity > 0L) {
-    msg2("Input:", hilite(.dim[1]), "cases with", hilite(.dim[2]), "features")
+    msg2(
+      "Input:",
+      highlight(.dim[1]),
+      "cases with",
+      highlight(.dim[2]),
+      "features"
+    )
   }
 
   .names <- colnames(x)

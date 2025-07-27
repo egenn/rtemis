@@ -21,7 +21,7 @@ DecompositionParameters <- new_class(
   )
 ) # /DecompositionParameters
 
-# Make DecompositionParameters@parameters `$`-accessible
+# Make DecompositionParameters@parameters `$`-accessible ----
 method(`$`, DecompositionParameters) <- function(x, name) {
   x@parameters[[name]]
 }
@@ -32,24 +32,57 @@ method(`.DollarNames`, DecompositionParameters) <- function(x, pattern = "") {
   grep(pattern, all_names, value = TRUE)
 }
 
-# Make DecompositionParameters@parameters `[[`-accessible
+# Make props `[`-accessible ----
+method(`[`, DecompositionParameters) <- function(x, name) {
+  props(x)[[name]]
+}
+
+# Make DecompositionParameters@parameters `[[`-accessible ----
 method(`[[`, DecompositionParameters) <- function(x, name) {
   x@parameters[[name]]
 }
+
+# Show DecompositionParameters ----
+#' Show Method for DecompositionParameters
+#'
+#' @param object DecompositionParameters object.
+#' @param pad Integer: Left side padding.
+#' @param output_type Character {"ansi", "html", "plain"}: Output type.
+#'
+#' @return character
+#'
+#' @author EDG
+#' @noRd
+method(show, DecompositionParameters) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  paste0(
+    show_S7name(
+      paste(x["algorithm"], "DecompositionParameters"),
+      pad = pad,
+      output_type = output_type
+    ),
+    show_ls(x["parameters"], pad = pad, limit = -1L, output_type = output_type)
+  )
+} # /rtemis::show.DecompositionParameters
 
 # Print DecompositionParameters ----
 #' Print Method for DecompositionParameters
 #'
 #' @param x DecompositionParameters object.
 #' @param pad Integer: Left side padding.
+#' @param ... Not used.
 #'
 #' @return DecompositionParameters object, invisibly.
 #'
 #' @author EDG
 #' @noRd
 method(print, DecompositionParameters) <- function(x, pad = 0L, ...) {
-  objcat(paste(x@algorithm, "DecompositionParameters"), pad = pad)
-  printls(props(x)$parameters, pad = pad)
+  output_type <- if (interactive()) "ansi" else "plain"
+  cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
 }
 
@@ -483,3 +516,65 @@ setup_tSNE <- function(
     num_threads = num_threads
   )
 } # /rtemis::setup_tSNE
+
+
+# IsomapParameters ----
+#' @title IsomapParameters
+#'
+#' @description
+#' DecompositionParameters subclass for Isomap.
+#'
+#' @author EDG
+#' @noRd
+IsomapParameters <- new_class(
+  name = "IsomapParameters",
+  parent = DecompositionParameters,
+  constructor = function(
+    k,
+    dist_method = NULL,
+    nsd = NULL,
+    path = NULL
+  ) {
+    k <- clean_posint(k)
+    check_inherits(dist_method, "character")
+    nsd <- clean_int(nsd)
+    check_inherits(path, "character")
+    new_object(
+      DecompositionParameters(
+        algorithm = "Isomap",
+        parameters = list(
+          k = k,
+          dist_method = dist_method,
+          nsd = nsd,
+          path = path
+        )
+      )
+    )
+  }
+) # /rtemis::IsomapParameters
+
+
+# setup_Isomap ----
+#' Setup Isomap parameters.
+#'
+#' @param k Integer: Number of components.
+#' @param dist_method Character: Distance method.
+#' @param nsd Integer: Number of shortest dissimilarities retained.
+#' @param path Character: Path argument for `vegan::isomap`.
+#'
+#' @return IsomapParameters object.
+#'
+#' @author EDG
+#' @export
+setup_Isomap <- function(
+  k = 2L,
+  dist_method = c("euclidean", "manhattan"),
+  nsd = 0L,
+  path = c("shortest", "extended")
+) {
+  k <- clean_posint(k)
+  dist_method <- match.arg(dist_method)
+  nsd <- clean_int(nsd)
+  path <- match.arg(path)
+  IsomapParameters(k, dist_method, nsd, path)
+} # /rtemis::setup_Isomap

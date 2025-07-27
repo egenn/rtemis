@@ -96,7 +96,7 @@ tune_GridSearch <- function(
   # Intro pt. 2 ----
   if (verbosity > 0L) {
     msg20(
-      hilite("<> ", col = col_tuner),
+      fmt("<> ", col = col_tuner, bold = TRUE),
       "Tuning ",
       algorithm,
       " by ",
@@ -106,17 +106,17 @@ tune_GridSearch <- function(
       "..."
     )
     msg20(
-      hilite(n_param_combinations, col = col_tuner),
+      fmt(n_param_combinations, col = col_tuner, bold = TRUE),
       ngettext(
         n_param_combinations,
         " parameter combination x ",
         " parameter combinations x "
       ),
-      hilite(n_resamples, col = col_tuner),
+      fmt(n_resamples, col = col_tuner, bold = TRUE),
       " resamples: ",
-      hilite(n_res_x_comb, col = col_tuner),
+      fmt(n_res_x_comb, col = col_tuner, bold = TRUE),
       " models total",
-      # hilite(n_res_x_comb), " models total running on ",
+      # highlight(n_res_x_comb), " models total running on ",
       # singorplu(n_workers, "worker"),
       " (",
       Sys.getenv("R_PLATFORM"),
@@ -149,7 +149,7 @@ tune_GridSearch <- function(
     if (verbosity > 1L) {
       msg2(
         "Running grid line #",
-        hilite(index, col = col_tuner),
+        fmt(index, col = col_tuner, bold = TRUE),
         "/",
         NROW(res_param_grid),
         "...",
@@ -476,7 +476,7 @@ tune_GridSearch <- function(
   ## XGBoost ----
   # if (algorithm == "XGBoost") {
   #   if (verbosity > 1L) {
-  #     msg2(hilite("Extracting best N of iterations from XGBoost models..."))
+  #     msg2(highlight("Extracting best N of iterations from XGBoost models..."))
   #   }
   #   est.nrounds.all <- data.frame(nrounds = plyr::laply(
   #     grid_run,
@@ -522,7 +522,7 @@ tune_GridSearch <- function(
   ## LIHADBoost ----
   # if (algorithm == "LIHADBoost") {
   #   if (verbosity > 1L) {
-  #     msg2(hilite("Extracting best N steps from LIHADBoost models..."))
+  #     msg2(highlight("Extracting best N steps from LIHADBoost models..."))
   #   }
   #   est.n.steps.all <- data.frame(n.steps = plyr::laply(
   #     grid_run,
@@ -565,7 +565,7 @@ tune_GridSearch <- function(
 
   if (verbosity > 0L) {
     msg2(
-      hilite("</>", col = col_tuner),
+      fmt("</>", col = col_tuner, bold = TRUE),
       "Tuning done."
     )
   }
