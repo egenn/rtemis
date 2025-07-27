@@ -51,7 +51,7 @@ setup_progress <- function() {
   assign("rtemis_theme", rtemis_theme, envir = parent.env(environment()))
   rtemis_font <- getOption("rtemis_font", "Helvetica")
   assign("rtemis_font", rtemis_font, envir = parent.env(environment()))
-  rtemis_palette <- getOption("rtemis_palette", "rtCol3")
+  rtemis_palette <- getOption("rtemis_palette", "rtms")
   assign("rtemis_palette", rtemis_palette, envir = parent.env(environment()))
   rtemis_date <- getOption("rtemis_date", TRUE)
   assign("rtemis_date", rtemis_date, envir = parent.env(environment()))
@@ -93,7 +93,6 @@ setup_progress <- function() {
       "\n  \u2514 ",
       gray("Palette: "),
       rtemis_palette,
-      " cores available.",
       bold("\n  Resources"),
       "\n  \u2502    ",
       gray("Docs:"),
