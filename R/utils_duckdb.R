@@ -83,7 +83,7 @@ ddb_data <- function(
   out <- paste(
     bold(green("\u25B6")),
     ifelse(collect, "Reading", "Lazy-reading"),
-    hilite(basename(path))
+    highlight(basename(path))
   )
   if (!is.null(filter_column)) {
     out <- paste(

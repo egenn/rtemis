@@ -58,7 +58,7 @@ cluster <- function(
     # For algorithms where k is not prescribed, but determined from the clustering result
     k <- length(unique(clusters))
     if (verbosity > 0L) {
-      msg20(paste0("Found ", hilite(k), " clusters."))
+      msg20(paste0("Found ", highlight(k), " clusters."))
     }
   }
 

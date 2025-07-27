@@ -179,7 +179,7 @@ method(print, ClassificationMetrics) <- function(
       row_col = reset
     )
   } else {
-    cat("   Positive Class ", hilite(x@metrics[["Positive_Class"]]), "\n")
+    cat("   Positive Class ", highlight(x@metrics[["Positive_Class"]]), "\n")
   }
   invisible(x)
 } # /rtemis::print.ClassificationMetrics
@@ -243,12 +243,10 @@ method(show, ClassificationMetrics) <- function(
     out <- paste(
       out,
       "\n   Positive Class ",
-      bold(
-        col256(
-          x@metrics[["Positive_Class"]],
-          col = hilite_col,
-          output_type = output_type
-        ),
+      fmt(
+        x@metrics[["Positive_Class"]],
+        col = hilite_col,
+        bold = TRUE,
         output_type = output_type
       ),
       "\n"

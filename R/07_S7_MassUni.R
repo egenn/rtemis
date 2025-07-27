@@ -33,15 +33,15 @@ print.MassGLM <- function(x, ...) {
   # cat(gray(".:"))
   objcat("MassGLM")
   cat(
-    hilite(length(x@ynames)),
+    highlight(length(x@ynames)),
     "GLMs of family",
     bold(x@family),
     "with",
-    hilite(length(x@xnames)),
+    highlight(length(x@xnames)),
     ngettext(length(x@xnames), "predictor", "predictors"),
     "each.",
     "\nAvailable coefficients:\n ",
-    paste(hilite(x@coefnames), collapse = ", "),
+    paste(highlight(x@coefnames), collapse = ", "),
     "\n"
   )
 } # /rtemis::print.MassGLM
@@ -88,7 +88,7 @@ plot.MassGLM <- function(
   if (verbosity > 0L) {
     msg2(
       "Plotting coefficients for",
-      hilite(coefname),
+      highlight(coefname),
       "x",
       length(x@ynames),
       "outcomes."

@@ -471,15 +471,15 @@ classification_metrics <- function(
     if (n_classes == 2) {
       msg2(
         "There are two outcome classes:",
-        hilite(paste(rev(true_levels), collapse = ", "))
+        highlight(paste(rev(true_levels), collapse = ", "))
       )
-      msg2("        The positive class is:", hilite(Positive_Class))
+      msg2("        The positive class is:", highlight(Positive_Class))
     } else {
       msg2(
         "There are",
         n_classes,
         "classes:",
-        hilite(paste(rev(true_levels), collapse = ", "))
+        highlight(paste(rev(true_levels), collapse = ", "))
       )
     }
   }

@@ -109,11 +109,11 @@ massGLM <- function(
   if (verbosity > 0L) {
     msg2(
       "Fitting",
-      hilite(length(ynames)),
+      highlight(length(ynames)),
       "GLMs of family",
       bold(.family),
       "with",
-      hilite(length(xnames)),
+      highlight(length(xnames)),
       ngettext(length(xnames), "predictor", "predictors"),
       "each..."
     )

@@ -104,7 +104,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         " using arrow::read_parquet()..."
       )
     }
@@ -115,7 +115,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         "..."
       )
     }
@@ -126,7 +126,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         " using readxl::read_excel()..."
       )
     }
@@ -143,7 +143,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         " using haven::read_dta()..."
       )
     }
@@ -155,7 +155,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         " using seqinr::read.fasta()..."
       )
     }
@@ -171,7 +171,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         " using farff::readARFF()..."
       )
     }
@@ -182,7 +182,7 @@ read <- function(
       msg20(
         bold(green("\u25B6")),
         " Reading ",
-        hilite(basename(path)),
+        highlight(basename(path)),
         " using ",
         delim_reader,
         "..."
@@ -278,9 +278,9 @@ read <- function(
   if (verbosity > 0L) {
     msg2(
       "Read in",
-      hilitebig(.nrow),
+      highlightbig(.nrow),
       "x",
-      hilitebig(.ncol)
+      highlightbig(.ncol)
     )
   }
   if (make_unique) {
@@ -296,9 +296,9 @@ read <- function(
       )
       msg2(
         "New dimensions:",
-        hilitebig(.nrowp),
+        highlightbig(.nrowp),
         "x",
-        hilitebig(.ncol)
+        highlightbig(.ncol)
       )
     }
   }
@@ -328,5 +328,11 @@ msgread <- function(x, caller = "", use_basename = TRUE) {
   if (use_basename) {
     x <- basename(x)
   }
-  msg20(bold(green("\u25B6")), " Reading ", hilite(x), "...", caller = caller)
+  msg20(
+    bold(green("\u25B6")),
+    " Reading ",
+    highlight(x),
+    "...",
+    caller = caller
+  )
 }

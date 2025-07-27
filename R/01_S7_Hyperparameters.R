@@ -126,25 +126,31 @@ print.Hyperparameters <- function(x, pad = 0L, verbosity = 1L, ...) {
   objcat(.class)
   printls(props(x)[-1], pad = pad, limit = -1L)
   if (x@tuned == -9L) {
-    cat(hilite2("\n  Hyperparameters are being tuned.\n"))
+    cat(highlight2("\n  Hyperparameters are being tuned.\n"))
   } else if (x@tuned == -2L) {
-    cat(hilite2("\n  No hyperparameters are tunable.\n"))
+    cat(highlight2("\n  No hyperparameters are tunable.\n"))
   } else if (x@tuned == 0L) {
     need_tuning <- names(get_params_need_tuning(x))
-    cat(hilite2(
-      "\n  ",
-      ngettext(length(need_tuning), "Hyperparameter ", "Hyperparameters "),
-      oxfordcomma(
-        need_tuning,
-        format_fn = underline
-      ),
-      ngettext(length(need_tuning), " needs ", " need "),
-      "tuning.\n"
-    ))
+    cat(
+      highlight2(
+        paste0(
+          "\n  ",
+          ngettext(length(need_tuning), "Hyperparameter ", "Hyperparameters "),
+          oxfordcomma(
+            need_tuning,
+            format_fn = underline
+          ),
+          ngettext(length(need_tuning), " needs ", " need "),
+          "tuning.\n"
+        )
+      )
+    )
   } else if (x@tuned == -1L) {
-    cat(hilite2("\n  No search values defined for tunable hyperparameters.\n"))
+    cat(highlight2(
+      "\n  No search values defined for tunable hyperparameters.\n"
+    ))
   } else if (x@tuned == 1L) {
-    cat(hilite2("\n  Hyperparameters are tuned.\n"))
+    cat(highlight2("\n  Hyperparameters are tuned.\n"))
   }
   invisible(x)
 }

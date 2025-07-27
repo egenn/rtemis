@@ -214,7 +214,7 @@ method(extract_rules, class_lgb.Booster) <- function(
     msg2done()
     msg20(
       "Extracted ",
-      hilite(length(rules)),
+      highlight(length(rules)),
       ifelse(return_unique, " unique", ""),
       " rules."
     )

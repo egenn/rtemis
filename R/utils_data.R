@@ -196,7 +196,7 @@ merge_long_treatment <- function(
         " of ",
         orange(n_sets),
         ": Using keys ",
-        paste0(hilite(.key), ", ", hilite(time_varname))
+        paste0(highlight(.key), ", ", highlight(time_varname))
       )
     }
     # if (try({
@@ -205,9 +205,9 @@ merge_long_treatment <- function(
     if (verbosity > 0L) {
       msg2(
         "Merged dataset now contains",
-        hilite(NROW(dat)),
+        highlight(NROW(dat)),
         "rows and",
-        hilite(NCOL(dat)),
+        highlight(NCOL(dat)),
         "columns"
       )
     }

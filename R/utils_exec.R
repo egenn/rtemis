@@ -68,7 +68,7 @@ do_call <- function(
     },
     error = function(e) {
       fnerr <- e[["message"]]
-      errmsg <- paste0(hilite(fn), " failed with error:\n", fnerr, "\n")
+      errmsg <- paste0(highlight(fn), " failed with error:\n", fnerr, "\n")
       idi <- which(sapply(names(err_pat_sug), function(i) grepl(i, fnerr)))
       if (length(idi) > 0) {
         suggestions <- sapply(idi, function(i) err_pat_sug[[i]])
