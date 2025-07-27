@@ -58,34 +58,25 @@ red <- function(...) {
 
 # og green: "92m"
 green <- function(...) {
-  paste0(
-    "\033[38;5;",
-    rt_green,
-    "m",
+  fmt(
     paste(...),
-    "\033[0m"
+    col = rt_green
   )
 }
 
 blue <- function(...) {
-  paste0("\033[34m", paste(...), "\033[0m")
+  fmt(
+    paste(...),
+    col = rt_blue
+  )
 }
-
 
 orange <- function(...) {
-  paste0("\033[38;5;208m", paste(...), "\033[0m")
+  fmt(
+    paste(...),
+    col = rt_orange
+  )
 }
-
-
-cyan <- function(...) {
-  paste0("\033[36m", paste(...), "\033[0m")
-}
-
-
-magenta <- function(...) {
-  paste0("\033[35m", paste(...), "\033[0m")
-}
-
 
 reset <- function(...) {
   paste0("\033[0m", paste(...))
