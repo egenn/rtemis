@@ -170,7 +170,7 @@ print.Supervised <- function(x, ...) {
   objcat(paste(x@type, "Model"))
   cat(
     "  ",
-    hilite(x@algorithm),
+    highlight(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
     ")\n",
@@ -179,7 +179,7 @@ print.Supervised <- function(x, ...) {
   if (!is.null(x@tuner)) {
     cat(
       "  ",
-      hilite("\U2699", col = col_tuner),
+      fmt("\U2699", col = col_tuner, bold = TRUE),
       " Tuned using ",
       desc(x@tuner),
       ".\n\n",
@@ -322,7 +322,7 @@ method(print, Calibration) <- function(x, ...) {
   objcat("Calibration Model")
   cat(
     "  ",
-    hilite(x@algorithm),
+    highlight(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
     ")\n",
@@ -350,7 +350,7 @@ method(print, CalibrationRes) <- function(x, ...) {
   objcat("Resampled Calibration Model")
   cat(
     "  ",
-    hilite(x@algorithm),
+    highlight(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
     ")\n",
@@ -857,7 +857,7 @@ method(plot_roc, Classification) <- function(
   ...
 ) {
   if (is.null(x@predicted_prob_training)) {
-    msg2(hilite2("No predicted probabilities available."))
+    msg2(highlight2("No predicted probabilities available."))
     return(invisible(NULL))
   }
   if (is.null(what)) {
@@ -1160,11 +1160,12 @@ SupervisedRes <- new_class(
 
 # Print SupervisedRes ----
 method(print, SupervisedRes) <- function(x, ...) {
+  # Replace with cat(show(x))
   # cat(gray(".:"))
   objcat(paste("Resampled", x@type, "Model"))
   cat(
     "  ",
-    hilite(x@algorithm),
+    highlight(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
     ")\n",
@@ -1173,7 +1174,7 @@ method(print, SupervisedRes) <- function(x, ...) {
   if (!is.null(x@tuner_parameters)) {
     cat(
       "  ",
-      hilite("\U2699", col = col_tuner),
+      fmt("\U2699", col = col_tuner, bold = TRUE),
       " Tuned using ",
       desc(x@tuner_parameters),
       ".\n",
@@ -1182,7 +1183,7 @@ method(print, SupervisedRes) <- function(x, ...) {
   }
   cat(
     "  ",
-    hilite("\U27F3", col = col_outer),
+    fmt("\U27F3", col = col_outer, bold = TRUE),
     " Tested using ",
     desc(x@outer_resampler),
     ".\n",
@@ -1221,7 +1222,7 @@ method(show, SupervisedRes) <- function(
   out <- paste0(
     show_S7name(paste("Resampled", x@type, "Model"), output_type = output_type),
     "  ",
-    hilite(x@algorithm, output_type = output_type),
+    highlight(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
     ")\n"
@@ -1232,7 +1233,7 @@ method(show, SupervisedRes) <- function(
     out <- paste0(
       out,
       "  ",
-      hilite("\U2699", col = col_tuner, output_type = output_type),
+      fmt("\U2699", col = col_tuner, bold = TRUE, output_type = output_type),
       " Tuned using ",
       desc(x@tuner_parameters),
       ".\n"
@@ -1243,7 +1244,7 @@ method(show, SupervisedRes) <- function(
   out <- paste0(
     out,
     "  ",
-    hilite("\U27F3", col = col_outer, output_type = output_type),
+    fmt("\U27F3", col = col_outer, bold = TRUE, output_type = output_type),
     " Tested using ",
     desc(x@outer_resampler),
     ".\n"
@@ -1254,7 +1255,7 @@ method(show, SupervisedRes) <- function(
     out <- paste0(
       out,
       "\n  ",
-      hilite("\U27CB", col = rt_green, output_type = output_type),
+      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
@@ -1477,7 +1478,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
   objcat("Resampled Classification Model")
   cat(
     "  ",
-    hilite(x@algorithm),
+    highlight(x@algorithm),
     " (",
     get_alg_desc(x@algorithm),
     ")\n",
@@ -1494,7 +1495,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
   if (!is.null(x@tuner_parameters)) {
     cat(
       "  ",
-      hilite("\U2699", col = col_tuner),
+      fmt("\U2699", col = col_tuner, bold = TRUE),
       " Tuned using ",
       desc(x@tuner_parameters),
       ".\n",
@@ -1932,7 +1933,7 @@ method(plot_varimp, Supervised) <- function(
   ...
 ) {
   if (is.null(x@varimp)) {
-    msg2(hilite2("No variable importance available."))
+    msg2(highlight2("No variable importance available."))
     return(invisible(NULL))
   }
   draw_varimp(x@varimp, theme = theme, filename = filename, ...)
@@ -1950,7 +1951,7 @@ method(plot_varimp, SupervisedRes) <- function(
   ...
 ) {
   if (is.null(x@varimp)) {
-    msg2(hilite2("No variable importance available."))
+    msg2(highlight2("No variable importance available."))
     return(invisible(NULL))
   }
   check_inherits(summarize_fn, "character")
@@ -2109,13 +2110,13 @@ method(print, LightRuleFit) <- function(x, ...) {
   objcat("rtemis LightRuleFit Model")
   cat(
     "Trained using ",
-    hilite(x@model_lightgbm@algorithm),
+    highlight(x@model_lightgbm@algorithm),
     " and ",
-    hilite(x@model_glmnet@algorithm),
+    highlight(x@model_glmnet@algorithm),
     ".\n",
     sep = ""
   )
-  cat("Selected", hilite(length(x@rules_selected)), "rules.\n")
+  cat("Selected", highlight(length(x@rules_selected)), "rules.\n")
   invisible(x)
 } # /rtemis::print.LightRuleFit
 
@@ -2166,7 +2167,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
   out <- paste0(
     show_S7name(x@type, output_type = output_type),
     "  ",
-    hilite(x@algorithm, output_type = output_type),
+    highlight(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
     ")\n"
@@ -2177,7 +2178,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out <- paste0(
       out,
       "  ",
-      hilite("\U2699", col = col_tuner, output_type = output_type),
+      fmt("\U2699", col = col_tuner, bold = TRUE, output_type = output_type),
       " Tuned using ",
       desc(x@tuner),
       ".\n"
@@ -2190,7 +2191,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out <- paste0(
       out,
       "  ",
-      hilite("\U27CB", col = rt_green, output_type = output_type),
+      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_model@algorithm),
       ".\n\n"
@@ -2202,7 +2203,7 @@ method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
     out <- paste0(
       out,
       "  ",
-      hilite("\U27CB", col = rt_green, output_type = output_type),
+      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
