@@ -338,3 +338,63 @@ col256 <- function(
     "plain" = text
   )
 } # /rtemis::col256
+
+
+#' Convert ANSI 256 color code to HEX
+#'
+#' @param code Integer: ANSI 256 color code (0-255).
+#' @return Character: HEX color string.
+#' @keywords internal
+#' @noRd
+ansi256_to_hex <- function(code) {
+  code <- as.integer(code)
+  if (is.na(code) || code < 0 || code > 255) {
+    return("#000000") # Return black for invalid codes
+  }
+
+  # Standard and high-intensity colors (0-15)
+  if (code < 16) {
+    return(c(
+      "#000000",
+      "#cd0000",
+      "#00cd00",
+      "#cdcd00",
+      "#0000ee",
+      "#cd00cd",
+      "#00cdcd",
+      "#e5e5e5",
+      "#7f7f7f",
+      "#ff0000",
+      "#00ff00",
+      "#ffff00",
+      "#5c5cff",
+      "#ff00ff",
+      "#00ffff",
+      "#ffffff"
+    )[code + 1])
+  }
+
+  # 6x6x6 color cube (16-231)
+  if (code >= 16 && code <= 231) {
+    code <- code - 16
+    r <- floor(code / 36)
+    g <- floor((code %% 36) / 6)
+    b <- code %% 6
+    levels <- c(0, 95, 135, 175, 215, 255) # xterm levels
+    return(grDevices::rgb(
+      levels[r + 1],
+      levels[g + 1],
+      levels[b + 1],
+      maxColorValue = 255
+    ))
+  }
+
+  # Grayscale ramp (232-255)
+  gray_level <- (code - 232) * 10 + 8
+  grDevices::rgb(
+    gray_level,
+    gray_level,
+    gray_level,
+    maxColorValue = 255
+  )
+} # /rtemis::ansi256_to_hex
