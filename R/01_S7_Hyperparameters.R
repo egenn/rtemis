@@ -106,32 +106,54 @@ Hyperparameters <- new_class(
   }
 ) # /Hyperparameters
 
-# Print Hyperparameters ----
-#' Print Hyperparameters
+
+# Show Hyperparameters ----
+#' Show Hyperparameters
 #'
-#' Print method for Hyperparameters object.
+#' Show method for Hyperparameters object.
 #'
 #' @param x Hyperparameters object.
 #' @param pad Integer: Left padding for printed output.
-#' @param ... Not used.
+#' @param maxlength Integer: Maximum length of items to show using `headdot()` before truncating with ellipsis. `-1` means no limit.
+#' @param limit Integer: Limit number of items to show. `-1` means no limit.
+#' @param output_type Character {"ansi", "html", or "plain"}: Output type.
 #'
 #' @author EDG
 #' @noRd
-print.Hyperparameters <- function(x, pad = 0L, verbosity = 1L, ...) {
-  .class <- class(x)[1]
-  if (verbosity < 2L) {
-    .class <- strsplit(.class, "::")[[1]][2]
-  }
-  # objcat(paste(x@algorithm, "Hyperparameters"))
-  objcat(.class)
-  printls(props(x)[-1], pad = pad, limit = -1L)
+method(show, Hyperparameters) <- function(
+  x,
+  pad = 0L,
+  maxlength = -1L,
+  limit = -1L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  out <- show_S7name(
+    paste0(x@algorithm, "Hyperparameters"),
+    pad = pad,
+    output_type = output_type
+  )
+  out <- paste0(
+    out,
+    show_ls(
+      props(x)[-1],
+      pad = pad,
+      maxlength = maxlength,
+      limit = limit,
+      output_type = output_type
+    )
+  )
   if (x@tuned == -9L) {
-    cat(highlight2("\n  Hyperparameters are being tuned.\n"))
+    out <- paste0(
+      out,
+      highlight2("\n  Hyperparameters are being tuned.\n")
+    )
   } else if (x@tuned == -2L) {
-    cat(highlight2("\n  No hyperparameters are tunable.\n"))
+    out <- paste0(out, highlight2("\n  No hyperparameters are tunable.\n"))
   } else if (x@tuned == 0L) {
     need_tuning <- names(get_params_need_tuning(x))
-    cat(
+    out <- paste0(
+      out,
       highlight2(
         paste0(
           "\n  ",
@@ -142,20 +164,32 @@ print.Hyperparameters <- function(x, pad = 0L, verbosity = 1L, ...) {
           ),
           ngettext(length(need_tuning), " needs ", " need "),
           "tuning.\n"
-        )
+        ),
+        output_type = output_type
       )
     )
   } else if (x@tuned == -1L) {
-    cat(highlight2(
-      "\n  No search values defined for tunable hyperparameters.\n"
-    ))
+    out <- paste0(
+      out,
+      highlight2(
+        "\n  No search values defined for tunable hyperparameters.\n",
+        output_type = output_type
+      )
+    )
   } else if (x@tuned == 1L) {
-    cat(highlight2("\n  Hyperparameters are tuned.\n"))
+    out <- paste0(
+      out,
+      highlight2("\n  Hyperparameters are tuned.\n", output_type = output_type)
+    )
   }
-  invisible(x)
-}
+  out
+} # /rtemis::show.Hyperparameters
+
+
+# Print Hyperparameters ----
 method(print, Hyperparameters) <- function(x, ...) {
-  print.Hyperparameters(x)
+  cat(show(x))
+  invisible(x)
 } # rtemis::print.Hyperparameters
 
 # is_tuned() ----
@@ -278,7 +312,6 @@ method(get_params, list(Hyperparameters, class_character)) <- function(
   sapply(param_names, function(p) x@hyperparameters[p], USE.NAMES = FALSE)
 }
 
-
 # GLMHyperparameters ----
 #' @author EDG
 #'
@@ -301,6 +334,7 @@ GLMHyperparameters <- new_class(
   } # /constructor
 ) # /rtemis::GLMHyperparameters
 
+
 #' Setup GLM Hyperparameters
 #'
 #' Setup hyperparameters for GLM training.
@@ -314,6 +348,7 @@ GLMHyperparameters <- new_class(
 setup_GLM <- function(ifw = FALSE) {
   GLMHyperparameters(ifw = ifw)
 }
+
 
 # GAMHyperparameters ----
 GAM_tunable <- c("k", "ifw")
@@ -339,6 +374,7 @@ GAMHyperparameters <- new_class(
     )
   } # /constructor
 ) # /rtemis::GAMHyperparameters
+
 
 #' Setup GAM Hyperparameters
 #'
@@ -425,6 +461,7 @@ CARTHyperparameters <- new_class(
   } # /constructor
 ) # /rtemis::CARTHyperparameters
 
+
 #' Setup CART Hyperparameters
 #'
 #' Setup hyperparameters for CART training.
@@ -501,6 +538,7 @@ setup_CART <- function(
 
 # Test that all CART hyperparameters are set by setup_CART
 stopifnot(all(c(CART_tunable, CART_fixed) %in% names(formals(setup_CART))))
+
 
 # GLMNETHyperparameters ----
 GLMNET_tunable <- c("alpha", "ifw")
