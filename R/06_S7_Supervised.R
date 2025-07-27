@@ -156,72 +156,13 @@ method(`[[`, Supervised) <- function(x, name) {
 }
 
 # Print Supervised ----
-#' Print `Supervised`
-#'
-#' Print `Supervised` object
-#'
-#' @param x `Supervised` object.
-#' @param ... Not used.
-#'
-#' @author EDG
-#' @noRd
-print.Supervised <- function(x, ...) {
-  # cat(gray(".:"))
-  objcat(paste(x@type, "Model"))
-  cat(
-    "  ",
-    highlight(x@algorithm),
-    " (",
-    get_alg_desc(x@algorithm),
-    ")\n",
-    sep = ""
-  )
-  if (!is.null(x@tuner)) {
-    cat(
-      "  ",
-      fmt("\U2699", col = col_tuner, bold = TRUE),
-      " Tuned using ",
-      desc(x@tuner),
-      ".\n\n",
-      sep = ""
-    )
-  } else {
-    cat("\n")
-  }
-  if (prop_exists(x, "calibration_model")) {
-    cat(
-      "  ",
-      bold(green("\U27CB")),
-      " Calibrated using ",
-      get_alg_desc(x@calibration_model@algorithm),
-      ".\n\n",
-      sep = ""
-    )
-  }
-  if (prop_exists(x, "calibration_models")) {
-    cat(
-      "  ",
-      bold(green("\U27CB")),
-      " Calibrated using ",
-      get_alg_desc(x@calibration_models[[1]]@algorithm),
-      " with ",
-      ".\n\n",
-      sep = ""
-    )
-  }
-  print(x@metrics_training, pad = 2L)
-  if (length(x@metrics_validation) > 0) {
-    cat("\n")
-    print(x@metrics_validation, pad = 2L)
-  }
-  if (length(x@metrics_test) > 0) {
-    cat("\n")
-    print(x@metrics_test, pad = 2L)
-  }
+method(print, Supervised) <- function(
+  x,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  cat(show(x, output_type = output_type))
   invisible(x)
-} # /print.Supervised
-method(print, Supervised) <- function(x, ...) {
-  print.Supervised(x)
 }
 
 # Describe Supervised ----
