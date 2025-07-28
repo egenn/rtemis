@@ -158,7 +158,8 @@ method(`[[`, Supervised) <- function(x, name) {
 # Print Supervised ----
 method(print, Supervised) <- function(
   x,
-  output_type = c("ansi", "html", "plain")
+  output_type = c("ansi", "html", "plain"),
+  ...
 ) {
   output_type <- match.arg(output_type)
   cat(show(x, output_type = output_type))
@@ -799,7 +800,7 @@ method(plot_roc, Classification) <- function(
 ) {
   if (is.null(x@predicted_prob_training)) {
     msg2(highlight2("No predicted probabilities available."))
-    return(invisible(NULL))
+    return(invisible())
   }
   if (is.null(what)) {
     what <- if (!is.null(x@metrics_test)) {
@@ -1100,43 +1101,12 @@ SupervisedRes <- new_class(
 ) # /SupervisedRes
 
 # Print SupervisedRes ----
-method(print, SupervisedRes) <- function(x, ...) {
-  # Replace with cat(show(x))
-  # cat(gray(".:"))
-  objcat(paste("Resampled", x@type, "Model"))
-  cat(
-    "  ",
-    highlight(x@algorithm),
-    " (",
-    get_alg_desc(x@algorithm),
-    ")\n",
-    sep = ""
-  )
-  if (!is.null(x@tuner_parameters)) {
-    cat(
-      "  ",
-      fmt("\U2699", col = col_tuner, bold = TRUE),
-      " Tuned using ",
-      desc(x@tuner_parameters),
-      ".\n",
-      sep = ""
-    )
-  }
-  cat(
-    "  ",
-    fmt("\U27F3", col = col_outer, bold = TRUE),
-    " Tested using ",
-    desc(x@outer_resampler),
-    ".\n",
-    sep = ""
-  )
-  cat("\n")
-  # if (x@type == "Classification" && !is.null(x@calibration)) {
-  #   cat("  ", bold(green("\U27CB")), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
-  # }
-  print(x@metrics_training, pad = 2L)
-  cat("\n")
-  print(x@metrics_test, pad = 2L)
+method(print, SupervisedRes) <- function(
+  x,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  cat(show(x, output_type = output_type))
   invisible(x)
 } # /SupervisedRes
 
@@ -1875,7 +1845,7 @@ method(plot_varimp, Supervised) <- function(
 ) {
   if (is.null(x@varimp)) {
     msg2(highlight2("No variable importance available."))
-    return(invisible(NULL))
+    return(invisible())
   }
   draw_varimp(x@varimp, theme = theme, filename = filename, ...)
 } # /plot_varimp.Supervised
@@ -1893,7 +1863,7 @@ method(plot_varimp, SupervisedRes) <- function(
 ) {
   if (is.null(x@varimp)) {
     msg2(highlight2("No variable importance available."))
-    return(invisible(NULL))
+    return(invisible())
   }
   check_inherits(summarize_fn, "character")
 
