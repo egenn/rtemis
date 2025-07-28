@@ -38,7 +38,7 @@ train_LightCART <- function(
   if (type == "Classification") {
     nclasses <- nlevels(outcome(x))
   } else {
-    nclasses <- NA
+    nclasses <- 1L
   }
   if (is.null(hyperparameters[["objective"]])) {
     hyperparameters@hyperparameters[["objective"]] <- if (
@@ -46,7 +46,7 @@ train_LightCART <- function(
     ) {
       "regression"
     } else {
-      if (nclasses == 2) {
+      if (nclasses == 2L) {
         "binary"
       } else {
         "multiclass"
@@ -54,7 +54,7 @@ train_LightCART <- function(
     }
   }
   factor_index <- names(x)[which(sapply(features(x), is.factor))]
-  if (length(factor_index) > 0) {
+  if (length(factor_index) > 0L) {
     prp <- preprocess(
       x,
       parameters = setup_Preprocessor(
@@ -82,6 +82,10 @@ train_LightCART <- function(
   # Train ----
   params <- hyperparameters@hyperparameters
   params[["ifw"]] <- NULL
+  # num_class is required for multiclass classification only, must be 1 or unset for regression & binary classification
+  if (nclasses > 2L) {
+    params[["num_class"]] <- nclasses
+  }
   # Set n threads
   params[["num_threads"]] <- 1L
 
