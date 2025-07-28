@@ -16,7 +16,7 @@ catrange(x, ddSci = TRUE, decimal_places = 1, na.rm = TRUE)
 \item{na.rm}{Logical: passed to \code{base::range}}
 }
 \value{
-\code{NULL}, invisibly.
+Called for its side effect of printing the range of \code{x}.
 }
 \description{
 Print range of continuous variable

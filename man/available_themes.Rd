@@ -7,7 +7,7 @@
 available_themes()
 }
 \value{
-\code{NULL}, invisibly.
+Called for its side effect of printing available themes.
 }
 \description{
 Print available \pkg{rtemis} themes

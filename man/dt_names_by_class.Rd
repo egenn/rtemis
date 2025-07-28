@@ -4,7 +4,7 @@
 \alias{dt_names_by_class}
 \title{List column names by class}
 \usage{
-dt_names_by_class(x, sorted = TRUE, item_format = hilite, maxlength = 24)
+dt_names_by_class(x, sorted = TRUE, item_format = highlight, maxlength = 24)
 }
 \arguments{
 \item{x}{data.table}

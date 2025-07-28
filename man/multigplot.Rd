@@ -15,7 +15,7 @@ to plot 2 plots per row}
 \item{byrow}{Logical: If TRUE, draw plots in order provided by row, otherwise by column.}
 }
 \value{
-NULL, invisibly.
+Called for its side effect of plotting a panel of \strong{ggplot2} plots.
 }
 \description{
 Plot a panel of \strong{gplot2} plots

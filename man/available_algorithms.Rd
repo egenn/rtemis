@@ -14,8 +14,11 @@ available_clustering()
 available_decomposition()
 }
 \value{
-NULL, invisibly.
+Called for its side effect of printing available algorithms.
 }
 \description{
 Print available algorithms for supervised learning, clustering, and decomposition.
+}
+\author{
+EDG
 }

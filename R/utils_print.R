@@ -330,7 +330,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param justify Character: "right", "left".
 #' @param colnames Logical: If TRUE, print column names.
 #' @param rownames Logical: If TRUE, print row names.
-#' @param column_col Color fn for printing column names.
+#' @param column_fmt Color fn for printing column names.
 #' @param row_col Color fn for printing row names.
 #' @param newline_pre Logical: If TRUE, print a new line before printing data frame.
 #' @param newline Logical: If TRUE, print a new line after printing data frame.
@@ -348,7 +348,7 @@ printdf <- function(
   justify = "right",
   colnames = TRUE,
   rownames = TRUE,
-  column_col = hilite,
+  column_fmt = highlight,
   row_col = gray,
   newline_pre = FALSE,
   newline = FALSE
@@ -380,7 +380,7 @@ printdf <- function(
       cat(spacer)
     }
     for (i in seq_len(NCOL(x))) {
-      cat(column_col(format(
+      cat(column_fmt(format(
         xnames[i],
         width = col_char[i] + spacing,
         justify = justify
@@ -435,8 +435,8 @@ printdf <- function(
 #' @param justify Character: "right", "left".
 #' @param colnames Logical: If TRUE, print column names.
 #' @param rownames Logical: If TRUE, print row names.
-#' @param column_col Color fn for printing column names.
-#' @param row_col Color fn for printing row names.
+#' @param colnames_formatter Format function for printing column names.
+#' @param rownames_formatter Format function for printing row names.
 #' @param newline_pre Logical: If TRUE, print a new line before printing data frame.
 #' @param newline Logical: If TRUE, print a new line after printing data frame.
 #'
@@ -452,7 +452,7 @@ show_df <- function(
   justify = "right",
   incl_colnames = TRUE,
   incl_rownames = TRUE,
-  colnames_formatter = hilite,
+  colnames_formatter = highlight,
   rownames_formatter = gray,
   output_type = c("ansi", "html", "plain")
 ) {
@@ -546,56 +546,6 @@ show_df <- function(
   out
 } # /rtemis::show_df
 
-#' Pretty print tables
-#'
-#' @param x table.
-#' @param spacing Integer: Number of spaces between columns.
-#' @param pad Integer: Pad output with this many spaces.
-#'
-#' @keywords internal
-#' @noRd
-printtable <- function(x, spacing = 2L, pad = 2L) {
-  dim_names <- names(attr(x, "dimnames"))
-  class_names <- attr(x, "dimnames")[["Reference"]]
-  n_classes <- NCOL(x)
-  mat <- matrix(c(x), NROW(x))
-  colnames(mat) <- colnames(x)
-  rownames(mat) <- rownames(x)
-  # Column width without spacing
-  col.width <- sapply(seq_along(class_names), \(i) {
-    max(nchar(as.character(x[, i])), nchar(class_names[i]))
-  })
-  lhspad <- max(nchar(class_names), nchar(dim_names[1])) + spacing + pad
-  # Top dimname
-  cat(
-    bold(format(
-      dim_names[2],
-      width = lhspad + nchar(dim_names[2]),
-      justify = "right"
-    )),
-    "\n"
-  )
-  # Left dimname
-  cat(bold(format(dim_names[1], width = lhspad - spacing, justify = "right")))
-  cat(paste0(rep(" ", spacing), collapse = ""))
-  for (i in seq_len(n_classes)) {
-    cat(highlight(format(
-      class_names[i],
-      width = col.width[i] + spacing,
-      justify = "left"
-    )))
-  }
-
-  printdf(
-    mat,
-    pad = lhspad - max(nchar(class_names)) - spacing,
-    colnames = FALSE,
-    row_col = hilite,
-    newline_pre = TRUE,
-    spacing = spacing
-  )
-} # /rtemis::printtable
-
 
 #' Show table
 #'
@@ -613,6 +563,7 @@ show_table <- function(
   x,
   spacing = 2L,
   pad = 2L,
+  formatter = highlight,
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
@@ -660,7 +611,7 @@ show_table <- function(
     )
     out <- paste0(
       out,
-      highlight(formatted_classname, output_type = output_type)
+      formatter(formatted_classname, output_type = output_type)
     )
   }
   # Add Confusion matrix excluding colnames that are already added
@@ -672,8 +623,8 @@ show_table <- function(
       pad = lhspad - max(nchar(class_names)) - spacing,
       incl_colnames = FALSE,
       spacing = spacing,
-      colnames_formatter = hilite,
-      rownames_formatter = hilite,
+      colnames_formatter = formatter,
+      rownames_formatter = formatter,
       output_type = output_type
     )
   )
