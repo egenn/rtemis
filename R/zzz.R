@@ -82,7 +82,10 @@ setup_progress <- function() {
     packageStartupMessage(paste0(
       rtlogo2,
       vline,
-      paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
+      fmt_gradient(
+        paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
+        colors = c(kaimana_red, genlib_orange)
+      ),
       bold("\n  Defaults"),
       "\n  \u2502   ",
       gray("Theme: "),
@@ -108,7 +111,8 @@ setup_progress <- function() {
       # ' > citation("rtemis")',
       rtcitation,
       "\n\n  ",
-      red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
+      red("PSA:"),
+      " Do not throw data at algorithms. Compute responsibly!"
     ))
   } else {
     packageStartupMessage(
