@@ -402,8 +402,7 @@ ansi256_to_hex <- function(code) {
 #' Gradient text
 #'
 #' @param x Character: Text to colorize.
-#' @param col_start Character: Starting color for the gradient.
-#' @param col_end Character: Ending color for the gradient.
+#' @param colors Character vector: Colors to use for the gradient.
 #' @param output_type Character: Output type ("ansi", "html", "plain").
 #'
 #' @return Character: Text with gradient color applied.
@@ -412,8 +411,7 @@ ansi256_to_hex <- function(code) {
 #' @noRd
 fmt_gradient <- function(
   x,
-  col_start,
-  col_end,
+  colors,
   bold = FALSE,
   output_type = c("ansi", "html", "plain")
 ) {
@@ -428,14 +426,14 @@ fmt_gradient <- function(
   n_chars <- length(chars)
 
   if (n_chars <= 1) {
-    # For single character or empty string, use start color
-    return(fmt(x, col = col_start, output_type = output_type))
+    # For single character or empty string, use first color
+    return(fmt(x, col = colors[1], output_type = output_type))
   }
 
   # Generate gradient colors using colorRampPalette
   tryCatch(
     {
-      gradient_colors <- grDevices::colorRampPalette(c(col_start, col_end))(
+      gradient_colors <- grDevices::colorRampPalette(colors)(
         n_chars
       )
     },
