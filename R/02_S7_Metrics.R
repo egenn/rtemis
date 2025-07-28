@@ -148,39 +148,15 @@ method(print, ClassificationMetrics) <- function(
   x,
   decimal_places = 3,
   pad = 0L,
+  output_type = c("ansi", "html", "plain"),
   ...
 ) {
-  if (!is.null(x@sample)) {
-    objcat(paste(x@sample, "Classification Metrics"), pad = pad)
-  } else {
-    objcat("Classification Metrics", pad = pad)
-  }
-  tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9) # + pad
-  printtable(x[["Confusion_Matrix"]], pad = tblpad)
-  printdf(
-    x@metrics[["Overall"]],
+  cat(show(
+    x,
+    decimal_places = decimal_places,
     pad = pad,
-    transpose = TRUE,
-    ddSci_dp = decimal_places,
-    justify = "left",
-    newline_pre = TRUE,
-    newline = TRUE,
-    spacing = 2,
-    row_col = reset
-  )
-  if (is.na(x@metrics[["Positive_Class"]])) {
-    printdf(
-      x@metrics[["Class"]],
-      pad = pad,
-      transpose = TRUE,
-      ddSci_dp = decimal_places,
-      justify = "left",
-      spacing = 2,
-      row_col = reset
-    )
-  } else {
-    cat("   Positive Class ", highlight(x@metrics[["Positive_Class"]]), "\n")
-  }
+    output_type = output_type
+  ))
   invisible(x)
 } # /rtemis::print.ClassificationMetrics
 
@@ -245,7 +221,7 @@ method(show, ClassificationMetrics) <- function(
       "\n   Positive Class ",
       fmt(
         x@metrics[["Positive_Class"]],
-        col = hilite_col,
+        col = highlight_col,
         bold = TRUE,
         output_type = output_type
       ),
