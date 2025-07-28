@@ -42,10 +42,10 @@ method(`[[`, ClusteringParameters) <- function(x, index) {
 method(show, ClusteringParameters) <- function(
   x,
   pad = 0L,
-  output_type = c("ansi", "html", "plain"),
+  output_type = NULL,
   ...
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
   out <- show_S7name(
     paste(x@algorithm, "ClusteringParameters"),
     pad = pad,
@@ -71,7 +71,7 @@ method(show, ClusteringParameters) <- function(
 method(print, ClusteringParameters) <- function(
   x,
   pad = 0L,
-  output_type = c("ansi", "html", "plain"),
+  output_type = NULL,
   ...
 ) {
   cat(show(x, pad = pad, output_type = output_type))

@@ -54,9 +54,9 @@ method(`[[`, Decomposition) <- function(x, index) {
 method(show, Decomposition) <- function(
   x,
   pad = 0L,
-  output_type = c("ansi", "html", "plain")
+  output_type = NULL
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
   paste0(
     show_S7name(
       paste(x@algorithm, "Decomposition"),
@@ -72,7 +72,7 @@ method(show, Decomposition) <- function(
 method(print, Decomposition) <- function(
   x,
   pad = 0L,
-  output_type = c("ansi", "html", "plain"),
+  output_type = NULL,
   ...
 ) {
   cat(show(x, pad = pad, output_type = output_type))

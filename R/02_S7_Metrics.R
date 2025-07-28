@@ -69,24 +69,13 @@ RegressionMetrics <- new_class(
   }
 ) # /rtemis::RegressionMetrics
 
-# Print RegressionMetrics ----
-method(print, RegressionMetrics) <- function(
-  x,
-  pad = 0L,
-  output_type = c("ansi", "html", "plain"),
-  ...
-) {
-  cat(show(x, pad = pad, output_type = output_type))
-  invisible(x)
-} # /rtemis::print.RegressionMetrics
-
 # Show RegressionMetrics ----
 method(show, RegressionMetrics) <- function(
   x,
   pad = 0L,
-  output_type = c("ansi", "html", "plain")
+  output_type = NULL
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
   out <- if (!is.null(x@sample)) {
     show_S7name(
       paste(x@sample, "Regression Metrics"),
@@ -108,6 +97,18 @@ method(show, RegressionMetrics) <- function(
   )
   out
 } # /rtemis::show.RegressionMetrics
+
+
+# Print RegressionMetrics ----
+method(print, RegressionMetrics) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  cat(show(x, pad = pad, output_type = output_type))
+  invisible(x)
+} # /rtemis::print.RegressionMetrics
 
 
 # ClassificationMetrics ----
@@ -143,32 +144,16 @@ ClassificationMetrics <- new_class(
   }
 ) # /rtemis::ClassificationMetrics
 
-# Print ClassificationMetrics ----
-method(print, ClassificationMetrics) <- function(
-  x,
-  decimal_places = 3,
-  pad = 0L,
-  output_type = c("ansi", "html", "plain"),
-  ...
-) {
-  cat(show(
-    x,
-    decimal_places = decimal_places,
-    pad = pad,
-    output_type = output_type
-  ))
-  invisible(x)
-} # /rtemis::print.ClassificationMetrics
 
 # Show ClassificationMetrics ----
 method(show, ClassificationMetrics) <- function(
   x,
   decimal_places = 3L,
   pad = 0L,
-  output_type = c("ansi", "html", "plain"),
+  output_type = NULL,
   ...
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
 
   if (!is.null(x@sample)) {
     out <- show_S7name(
@@ -233,6 +218,24 @@ method(show, ClassificationMetrics) <- function(
 } # /rtemis::show.ClassificationMetrics
 
 
+# Print ClassificationMetrics ----
+method(print, ClassificationMetrics) <- function(
+  x,
+  decimal_places = 3,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  cat(show(
+    x,
+    decimal_places = decimal_places,
+    pad = pad,
+    output_type = output_type
+  ))
+  invisible(x)
+} # /rtemis::print.ClassificationMetrics
+
+
 # MetricsRes ----
 #' @title MetricsRes
 #'
@@ -253,42 +256,15 @@ MetricsRes <- new_class(
   )
 ) # /rtemis::MetricsRes
 
-# Print MetricsRes ----
-#' Print MetricsRes
-#'
-#' @param x MetricsRes object.
-#' @param decimal_places Integer: Number of decimal places.
-#'
-#' @author EDG
-#' @noRd
-print.MetricsRes <- function(
-  x,
-  decimal_places = 3L,
-  pad = 0L,
-  output_type = c("ansi", "html", "plain"),
-  ...
-) {
-  cat(show(
-    x,
-    decimal_places = decimal_places,
-    pad = pad,
-    output_type = output_type
-  ))
-  invisible(x)
-} # /rtemis::print.MetricsRes
-
-method(print, MetricsRes) <- function(x, decimal_places = 3L, pad = 0L, ...) {
-  print.MetricsRes(x, decimal_places, pad = pad)
-} # /rtemis::print.MetricsRes
 
 # Show MetricsRes ----
 method(show, MetricsRes) <- function(
   x,
   decimal_places = 3L,
   pad = 0L,
-  output_type = c("ansi", "html", "plain")
+  output_type = NULL
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
   type <- if (S7_inherits(x, RegressionMetricsRes)) {
     "Regression"
   } else {
@@ -327,6 +303,20 @@ method(show, MetricsRes) <- function(
   )
   out
 } # /rtemis::show.MetricsRes
+
+
+# Print MetricsRes ----
+method(print, MetricsRes) <- function(
+  x,
+  decimal_places = 3L,
+  pad = 0L,
+  output_type = NULL,
+  ...
+) {
+  cat(show(x, decimal_places, pad = pad, output_type = output_type))
+  invisible(x)
+} # /rtemis::print.MetricsRes
+
 
 # RegressionMetricsRes ----
 

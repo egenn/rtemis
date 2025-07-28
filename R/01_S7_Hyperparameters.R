@@ -125,9 +125,9 @@ method(show, Hyperparameters) <- function(
   pad = 0L,
   maxlength = -1L,
   limit = -1L,
-  output_type = c("ansi", "html", "plain")
+  output_type = NULL
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
   out <- show_S7name(
     paste0(x@algorithm, "Hyperparameters"),
     pad = pad,

@@ -2076,7 +2076,7 @@ method(show, Supervised) <- function(
   filename = NULL
 ) {
   # Generate a single formatted string by combining the output of the show methods for each component
-
+  output_type <- get_output_type(output_type, filename)
   # Class name
   out <- paste0(
     show_S7name(x@type, output_type = output_type),
