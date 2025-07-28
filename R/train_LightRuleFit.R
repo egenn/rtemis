@@ -36,10 +36,10 @@ train_LightRuleFit <- function(
     verbosity = verbosity
   )
   type <- supervised_type(x)
-  nclasses <- if (type == "Classification") nlevels(x[[ncol(x)]]) else -1
+  nclasses <- if (type == "Classification") nlevels(x[[ncol(x)]]) else 1L
 
   # IFW for LightGBM ----
-  # You can choose to use IFW for both steps with `ifw = TRUE` OR control each steps individually using `ifw_lightgbm` and `ifw_glmnet`.
+  # See setup_LightRuleFit: You can choose to use IFW for both steps with `ifw = TRUE` OR control each steps individually using `ifw_lightgbm` and `ifw_glmnet`.
   lightgbm_weights <- if (hyperparameters[["ifw_lightgbm"]]) {
     ifw(x[[ncol(x)]], verbosity = verbosity)
   } else {
@@ -97,6 +97,7 @@ train_LightRuleFit <- function(
 
   # Rule coefficients ----
   rules_coefs <- data.matrix(coef(mod_glmnet@model))
+  # Need special handling for multiclass support starting here
   intercept_coef <- rules_coefs[1, , drop = FALSE]
   colnames(intercept_coef) <- "Coefficient"
   rules_coefs <- data.frame(Rule = lgbm_rules, Coefficient = rules_coefs[-1, 1])
