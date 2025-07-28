@@ -22,13 +22,19 @@
 #'
 #' @keywords internal
 #' @noRd
+rtemis_light_teal <- "#00fdfd"
+rtemis_light_blue <- "#30cefe"
 rtemis_teal <- "#00b2b2"
 kaimana_red <- "#ff004c"
+kaimana_blue <- "#0067e0"
 kaimana_light_blue <- "#479cff"
 genlib_orange <- "#ff9f20"
 kaimana_green <- "#00ffb3"
 rtemis_purple <- "#6125f7"
 rtemis_magenta <- "#912ac8"
+rtemis_magenta_light <- "#b25bd6"
+magenta <- "#ff00ff"
+lmd_burgundy <- "#a92459"
 
 rt_red <- kaimana_red
 rt_blue <- kaimana_light_blue
@@ -38,12 +44,8 @@ rt_teal <- rtemis_teal
 rt_purple <- rtemis_purple
 rt_magenta <- rtemis_magenta
 
-col_object <- rt_green
-highlight_col <- rt_green
-col_info <- highlight2_col <- rt_blue
-# Used to highlight sections & info related to outer resampling
+col_object <- rt_teal
+highlight_col <- rt_blue
+col_info <- highlight2_col <- rt_magenta
 col_outer <- rt_red
-# Used to highlight sections & info related to hyperparameter tuning
 col_tuner <- rt_orange # genlib orange
-
-# rtlogo2 purple "#6125f7", green "#19f0be"
