@@ -38,6 +38,17 @@ colnames(supervised_algorithms) <- c(
   "Surv"
 )
 
+supervised_multiclass <- c(
+  "GLMNET",
+  "CART",
+  "LightCART",
+  "LightRF",
+  "LightGBM",
+  "LinearSVM",
+  "RadialSVM",
+  "Ranger"
+)
+
 get_alg_name <- function(algorithm) {
   algname <- supervised_algorithms[, 1][
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
