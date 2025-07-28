@@ -445,8 +445,8 @@ printdf <- function(
 #' @noRd
 show_df <- function(
   x,
-  pad = 0,
-  spacing = 1,
+  pad = 0L,
+  spacing = 1L,
   ddSci_dp = NULL,
   transpose = FALSE,
   justify = "right",
@@ -976,7 +976,7 @@ show_ls <- function(
   } else {
     x <- as.list(x)
     # Get class of each element
-    classes_ <- sapply(x, class)
+    classes_ <- sapply(x, function(el) class(el)[[1L]])
     # Remove closures that will cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
@@ -1136,20 +1136,20 @@ show_ls <- function(
           "\n"
         )
         result <- paste0(result, item_text)
-        # Show S7 object, try running with pad argument, if it fails run without
-        result <- tryCatch(
+        # Show S7 object: show() must return a character string of length 1
+        s7_output <- tryCatch(
           {
-            paste0(
-              result,
-              "\n",
-              show(x[[i]], pad = lhs + 2, output_type = output_type)
-            )
+            show(x[[i]], pad = lhs + 2, output_type = output_type)
           },
           error = function(e) {
-            # Fallback if 'pad' argument is not supported by the S7 object's show method
-            paste0(result, "\n", show(x[[i]], output_type = output_type))
+            paste0(
+              "(S7 object of class: '",
+              paste(class(x[[i]]), collapse = ", "),
+              "')\n"
+            )
           }
         )
+        result <- paste0(result, s7_output)
       } else if (is.data.frame(x[[i]])) {
         item_text <- paste0(
           item_format(
