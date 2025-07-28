@@ -15,6 +15,11 @@
 # -1: Set by constructor: Not tunable (tunable_hyperparameters exist, but none of them have more than one value).
 #  0: Set by constructor: Untuned but tunable (at least one of tunable_hyperparameters has more than one value).
 #  1: Set by Tuner: Tuned (Started as 0, set to 1 when tuned).
+TUNED_STATUS_TUNING <- -9L
+TUNED_STATUS_NOT_TUNABLE <- -2L
+TUNED_STATUS_NO_SEARCH_VALUES <- -1L
+TUNED_STATUS_UNTUNED <- 0L
+TUNED_STATUS_TUNED <- 1L
 
 # `resampled` values ----
 # 0: Running on single training set.
@@ -143,7 +148,7 @@ method(show, Hyperparameters) <- function(
       output_type = output_type
     )
   )
-  if (x@tuned == -9L) {
+  if (x@tuned == TUNED_STATUS_TUNING) {
     out <- paste0(
       out,
       highlight2(
@@ -151,7 +156,7 @@ method(show, Hyperparameters) <- function(
         output_type = output_type
       )
     )
-  } else if (x@tuned == -2L) {
+  } else if (x@tuned == TUNED_STATUS_NOT_TUNABLE) {
     out <- paste0(
       out,
       highlight2(
@@ -159,7 +164,7 @@ method(show, Hyperparameters) <- function(
         output_type = output_type
       )
     )
-  } else if (x@tuned == 0L) {
+  } else if (x@tuned == TUNED_STATUS_UNTUNED) {
     need_tuning <- names(get_params_need_tuning(x))
     out <- paste0(
       out,
@@ -177,7 +182,7 @@ method(show, Hyperparameters) <- function(
         output_type = output_type
       )
     )
-  } else if (x@tuned == -1L) {
+  } else if (x@tuned == TUNED_STATUS_NO_SEARCH_VALUES) {
     out <- paste0(
       out,
       highlight2(
@@ -185,7 +190,7 @@ method(show, Hyperparameters) <- function(
         output_type = output_type
       )
     )
-  } else if (x@tuned == 1L) {
+  } else if (x@tuned == TUNED_STATUS_TUNED) {
     out <- paste0(
       out,
       highlight2("\n  Hyperparameters are tuned.\n", output_type = output_type)
