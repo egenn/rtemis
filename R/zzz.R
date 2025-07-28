@@ -107,11 +107,6 @@ setup_progress <- function() {
       gray("Cite: "),
       # ' > citation("rtemis")',
       rtcitation,
-      # bold("\n  Setup"),
-      # "\n  \u2514 ",
-      # italic(gray("Enable progress reporting:")),
-      # " > progressr::handlers(global = TRUE)",
-      # '\n                               > progressr::handlers("cli")',
       "\n\n  ",
       red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
     ))
