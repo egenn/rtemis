@@ -49,11 +49,32 @@ method(`[[`, Decomposition) <- function(x, index) {
   props(x, "transformed")[[index]]
 }
 
+
+# Show Decomposition ----
+method(show, Decomposition) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+  paste0(
+    show_S7name(
+      paste(x@algorithm, "Decomposition"),
+      pad = pad,
+      output_type = output_type
+    ),
+    show_ls(props(x)[-1], pad = pad, output_type = output_type)
+  )
+} # /rtemis::show.Decomposition
+
+
 # Print Decomposition ----
-method(print, Decomposition) <- function(x, pad = 0L, ...) {
-  cat(gray(".:"))
-  objcat(paste(x@algorithm, "Decomposition"), pad = pad)
-  cat("\n")
-  printls(props(x)[-1], pad = pad)
+method(print, Decomposition) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
-}
+} # /rtemis::print.Decomposition
