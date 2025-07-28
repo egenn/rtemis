@@ -70,17 +70,17 @@ RegressionMetrics <- new_class(
 ) # /rtemis::RegressionMetrics
 
 # Print RegressionMetrics ----
-method(print, RegressionMetrics) <- function(x, pad = 0L, ...) {
-  if (!is.null(x@sample)) {
-    objcat(paste(x@sample, "Regression Metrics"), pad = pad)
-  } else {
-    objcat("Regression Metrics", pad = pad)
-  }
-  printls(x@metrics, print_class = FALSE, print_df = TRUE, pad = pad + 2L)
+method(print, RegressionMetrics) <- function(
+  x,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
 } # /rtemis::print.RegressionMetrics
 
-# Show RegressionMatrics ----
+# Show RegressionMetrics ----
 method(show, RegressionMetrics) <- function(
   x,
   pad = 0L,
@@ -163,7 +163,7 @@ method(print, ClassificationMetrics) <- function(
 # Show ClassificationMetrics ----
 method(show, ClassificationMetrics) <- function(
   x,
-  decimal_places = 3,
+  decimal_places = 3L,
   pad = 0L,
   output_type = c("ansi", "html", "plain"),
   ...
@@ -183,7 +183,8 @@ method(show, ClassificationMetrics) <- function(
       output_type = output_type
     )
   }
-  tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9) # + pad
+  # Confusion Matrix
+  tblpad <- 17 - max(nchar(colnames(x@metrics[["Confusion_Matrix"]])), 9) + pad
   out <- paste0(
     out,
     show_table(x[["Confusion_Matrix"]], pad = tblpad, output_type = output_type)
@@ -197,13 +198,13 @@ method(show, ClassificationMetrics) <- function(
       transpose = TRUE,
       ddSci_dp = decimal_places,
       justify = "left",
-      spacing = 2,
+      spacing = 2L,
       output_type = output_type
     )
   )
 
   if (is.na(x@metrics[["Positive_Class"]])) {
-    out <- paste(
+    out <- paste0(
       out,
       show_df(
         x@metrics[["Class"]],
@@ -216,9 +217,9 @@ method(show, ClassificationMetrics) <- function(
       )
     )
   } else {
-    out <- paste(
+    out <- paste0(
       out,
-      "\n   Positive Class ",
+      "\n     Positive Class ",
       fmt(
         x@metrics[["Positive_Class"]],
         col = highlight_col,
@@ -260,24 +261,19 @@ MetricsRes <- new_class(
 #'
 #' @author EDG
 #' @noRd
-print.MetricsRes <- function(x, decimal_places = 3L, pad = 0L, ...) {
-  type <- if (S7_inherits(x, RegressionMetricsRes)) {
-    "Regression"
-  } else {
-    "Classification"
-  }
-  objcat(paste("Resampled", type, x@sample, "Metrics"), pad = pad)
-  cat(rep(" ", pad), sep = "")
-  cat(italic("  Showing mean (sd) across resamples.\n"))
-  # Create list with mean_metrics (sd_metrics)
-  out <- lapply(seq_along(x@mean_metrics), function(i) {
-    paste0(
-      ddSci(x@mean_metrics[[i]], decimal_places),
-      gray(paste0(" (", ddSci(x@sd_metrics[[i]], decimal_places), ")"))
-    )
-  })
-  names(out) <- names(x@mean_metrics)
-  printls(out, print_class = FALSE, print_df = TRUE, pad = pad + 2L)
+print.MetricsRes <- function(
+  x,
+  decimal_places = 3L,
+  pad = 0L,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  cat(show(
+    x,
+    decimal_places = decimal_places,
+    pad = pad,
+    output_type = output_type
+  ))
   invisible(x)
 } # /rtemis::print.MetricsRes
 
