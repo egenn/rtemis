@@ -200,8 +200,8 @@ rtlogo2 <- paste0(
       "resources",
       "rtemis_logo2.utf8"
     )),
-    color_left = "#6125f7",
-    color_right = "#19f0be",
+    color_left = rt_purple,
+    color_right = kaimana_green,
     output_type = "ansi"
   ),
   collapse = "\n"

@@ -16,41 +16,34 @@
 # Unicode emojis: https://www.unicode.org/emoji/charts/full-emoji-list.html
 # UTF-8 icons: https://www.utf8icons.com/
 
-# Emojis
-# wave <- "\U1F30A"
-# mountain <- "\U26F0\UFE0F"
-# alien <- "\U1F47D"
+#' rtemis Color System
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+rtemis_teal <- "#00b2b2"
+kaimana_red <- "#ff004c"
+kaimana_light_blue <- "#479cff"
+genlib_orange <- "#ff9f20"
+kaimana_green <- "#00ffb3"
+rtemis_purple <- "#6125f7"
+rtemis_magenta <- "#912ac8"
 
-# rt console colors
-MediumSpringGreen <- "49"
-Cyan2 <- "50"
-CornflowerBlue <- "69"
-MediumOrchid3 <- "133"
-MediumOrchid <- "134"
-SteelBlue1 <- "75"
-SlateBlue1 <- "99"
-MediumPurple <- "104"
-LightSlateBlue <- "105"
-SkyBlue2 <- "111"
-Magenta3 <- "164"
-MediumOrchid1 <- "171"
-Violet <- "177"
-DarkOrange <- "208"
-Turquoise4 <- "30"
-DarkCyan <- "36"
+rt_red <- kaimana_red
+rt_blue <- kaimana_light_blue
+rt_green <- kaimana_green
+rt_orange <- genlib_orange
+rt_teal <- rtemis_teal
+rt_purple <- rtemis_purple
+rt_magenta <- rtemis_magenta
 
-hilite_col <- DarkCyan # green, really
-hilite1_col <- SteelBlue1
-hilite2_col <- DarkOrange # info
-hilite3_col <- Magenta3 # warning
-
-# Used for general highlighting + check marks
-rt_green <- col_info <- highlight2_col <- "#00ffb3" # kaimana green
-# Used to print S7 class names - beautiful red for structural elements
-col_object <- "#ff004c" # kaimana red
+col_object <- rt_green
+highlight_col <- rt_green
+col_info <- highlight2_col <- rt_blue
 # Used to highlight sections & info related to outer resampling
-col_outer <- "#00b2b2" # rtemis teal
+col_outer <- rt_red
 # Used to highlight sections & info related to hyperparameter tuning
-rt_orange <- col_tuner <- "#ff9f20" # genlib orange
-# Used for info messages
-rt_blue <- highlight_col <- "#479cff" # kaimana light blue
+col_tuner <- rt_orange # genlib orange
+
+# rtlogo2 purple "#6125f7", green "#19f0be"

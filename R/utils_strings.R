@@ -5,7 +5,7 @@
 # General hilite function output bold + any color.
 hilite <- function(
   ...,
-  col = hilite_col,
+  col = highlight_col,
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
@@ -23,20 +23,6 @@ hilite <- function(
     paste0(...)
   }
 } # /rtemis::hilite
-
-
-# blue for light and dark background: "69;1"
-# green: "49;1"
-hilite1 <- function(..., col = hilite1_col, bold = TRUE) {
-  paste0(
-    ifelse(bold, "\033[1m", ""),
-    "\033[38;5;",
-    col,
-    "m",
-    paste(...),
-    "\033[0m"
-  )
-}
 
 
 #' @param x Numeric: Input
@@ -84,11 +70,19 @@ reset <- function(...) {
 
 citation("rtemis")
 
+# rtcitation <- paste0(
+#   "> ",
+#   col256("citation", col = "69"),
+#   "(",
+#   col256("rtemis", col = "177"),
+#   ")"
+# )
+
 rtcitation <- paste0(
   "> ",
-  col256("citation", col = "69"),
+  fmt("citation", col = rt_blue),
   "(",
-  col256("rtemis", col = "177"),
+  fmt("rtemis", col = rt_magenta),
   ")"
 )
 
