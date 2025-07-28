@@ -146,10 +146,19 @@ method(show, Hyperparameters) <- function(
   if (x@tuned == -9L) {
     out <- paste0(
       out,
-      highlight2("\n  Hyperparameters are being tuned.\n")
+      highlight2(
+        "\n  Hyperparameters are being tuned.\n",
+        output_type = output_type
+      )
     )
   } else if (x@tuned == -2L) {
-    out <- paste0(out, highlight2("\n  No hyperparameters are tunable.\n"))
+    out <- paste0(
+      out,
+      highlight2(
+        "\n  No hyperparameters are tunable.\n",
+        output_type = output_type
+      )
+    )
   } else if (x@tuned == 0L) {
     need_tuning <- names(get_params_need_tuning(x))
     out <- paste0(
