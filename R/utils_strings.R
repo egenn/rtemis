@@ -37,30 +37,37 @@ highlightbig <- function(x, output_type = c("ansi", "html", "plain")) {
 }
 
 
-red <- function(...) {
-  paste0("\033[91m", paste(...), "\033[0m")
+red <- function(..., bold = FALSE) {
+  fmt(
+    paste(...),
+    col = rt_red,
+    bold = bold
+  )
 }
 
 
 # og green: "92m"
-green <- function(...) {
+green <- function(..., bold = FALSE) {
   fmt(
     paste(...),
-    col = rt_green
+    col = rt_green,
+    bold = bold
   )
 }
 
-blue <- function(...) {
+blue <- function(..., bold = FALSE) {
   fmt(
     paste(...),
-    col = rt_blue
+    col = rt_blue,
+    bold = bold
   )
 }
 
-orange <- function(...) {
+orange <- function(..., bold = FALSE) {
   fmt(
     paste(...),
-    col = rt_orange
+    col = rt_orange,
+    bold = bold
   )
 }
 
@@ -302,11 +309,23 @@ pastebox <- function(x, pad = 0) {
   paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
 }
 
-#
-
+#' Show S7 class name
+#'
+#' @param x Character: S7 class name.
+#' @param col Color: Color code for the class name.
+#' @param pad Integer: Number of spaces to pad the message with.
+#' @param verbosity Integer: Verbosity level. If > 1, adds package name to the output.
+#' @param output_type Character: Output type ("ansi", "html", "plain").
+#'
+#' @return Character: Formatted string that can be printed with cat().
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
 show_S7name <- function(
   x,
-  col = col_object,
+  colors = c(rtemis_teal, rtemis_light_teal),
   pad = 0L,
   verbosity = 2L,
   output_type = c("ansi", "html", "plain")
@@ -315,11 +334,17 @@ show_S7name <- function(
   paste0(
     paste0(rep(" ", pad), collapse = ""),
     gray(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
-    fmt(x, col = col, bold = TRUE, output_type = output_type),
+    # fmt(x, col = col, bold = TRUE, output_type = output_type),
+    fmt_gradient(
+      x,
+      colors = colors,
+      bold = TRUE,
+      output_type = output_type
+    ),
     gray(">", output_type = output_type),
     "\n"
   )
-} # rtemis::objstr
+} # /rtemis::show_S7name
 
 #' Cat object
 #'
