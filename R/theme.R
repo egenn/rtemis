@@ -1360,7 +1360,7 @@ theme_mediumgraygrid <- function(
 
 #' Print available \pkg{rtemis} themes
 #'
-#' @return `NULL`, invisibly.
+#' @return Called for its side effect of printing available themes.
 #'
 #' @export
 available_themes <- function() {
@@ -1369,7 +1369,7 @@ available_themes <- function() {
   cat('    "black", "blackgrid", "blackigrid",\n')
   cat('    "darkgray", "darkgraygrid", "darkgrayigrid",\n')
   cat('    "lightgraygrid", "mediumgraygrid"\n')
-  invisible(NULL)
+  invisible()
 }
 
 

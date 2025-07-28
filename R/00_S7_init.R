@@ -324,3 +324,35 @@ get_factor_names <- new_generic("get_factor_names", "x")
 method(get_factor_names, class_data.frame) <- function(x) {
   names(x)[sapply(x, is.factor)]
 }
+
+#' Get output type
+#'
+#' Get output type for printing text.
+#'
+#' @param output_type Character vector of output types.
+#' @param filename Character: Filename for output.
+#'
+#' @return Character with selected output type.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+get_output_type <- function(
+  output_type = c("ansi", "html", "plain"),
+  filename = NULL
+) {
+  if (!is.null(filename)) {
+    return("plain")
+  }
+
+  if (is.null(output_type)) {
+    if (interactive()) {
+      return("ansi")
+    } else {
+      return("plain")
+    }
+  }
+
+  match.arg(output_type)
+} # /rtemis::get_output_type

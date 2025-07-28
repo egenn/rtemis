@@ -19,7 +19,7 @@ datetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
 #' @noRd
 # Used by msg2(), msg20(), msg2start()
 msgdatetime <- function(datetime_format = "%Y-%m-%d %H:%M:%S") {
-  message(reset(gray(paste0(datetime(), gray(" ")))), appendLF = FALSE)
+  message(gray(paste0(datetime(), gray(" "))), appendLF = FALSE)
 }
 
 
@@ -234,5 +234,5 @@ msg2done <- function(caller = NULL, call_depth = 1, caller_id = 1, sep = " ") {
   }
   message(" ", appendLF = FALSE)
   yay(end = "")
-  message(plain(gray(paste0("[", caller, "]\n"))), appendLF = FALSE)
+  message(gray(paste0("[", caller, "]\n")), appendLF = FALSE)
 } # rtemis::msg2done

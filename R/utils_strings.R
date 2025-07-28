@@ -5,7 +5,7 @@
 # General hilite function output bold + any color.
 hilite <- function(
   ...,
-  col = hilite_col,
+  col = highlight_col,
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
@@ -25,20 +25,6 @@ hilite <- function(
 } # /rtemis::hilite
 
 
-# blue for light and dark background: "69;1"
-# green: "49;1"
-hilite1 <- function(..., col = hilite1_col, bold = TRUE) {
-  paste0(
-    ifelse(bold, "\033[1m", ""),
-    "\033[38;5;",
-    col,
-    "m",
-    paste(...),
-    "\033[0m"
-  )
-}
-
-
 #' @param x Numeric: Input
 #'
 #' @keywords internal
@@ -51,41 +37,39 @@ highlightbig <- function(x, output_type = c("ansi", "html", "plain")) {
 }
 
 
-red <- function(...) {
-  paste0("\033[91m", paste(...), "\033[0m")
+red <- function(..., bold = FALSE) {
+  fmt(
+    paste(...),
+    col = rt_red,
+    bold = bold
+  )
 }
 
 
 # og green: "92m"
-green <- function(...) {
-  paste0(
-    "\033[38;5;",
-    rt_green,
-    "m",
+green <- function(..., bold = FALSE) {
+  fmt(
     paste(...),
-    "\033[0m"
+    col = rt_green,
+    bold = bold
   )
 }
 
-blue <- function(...) {
-  paste0("\033[34m", paste(...), "\033[0m")
+blue <- function(..., bold = FALSE) {
+  fmt(
+    paste(...),
+    col = rt_blue,
+    bold = bold
+  )
 }
 
-
-orange <- function(...) {
-  paste0("\033[38;5;208m", paste(...), "\033[0m")
+orange <- function(..., bold = FALSE) {
+  fmt(
+    paste(...),
+    col = rt_orange,
+    bold = bold
+  )
 }
-
-
-cyan <- function(...) {
-  paste0("\033[36m", paste(...), "\033[0m")
-}
-
-
-magenta <- function(...) {
-  paste0("\033[35m", paste(...), "\033[0m")
-}
-
 
 reset <- function(...) {
   paste0("\033[0m", paste(...))
@@ -93,11 +77,19 @@ reset <- function(...) {
 
 citation("rtemis")
 
+# rtcitation <- paste0(
+#   "> ",
+#   col256("citation", col = "69"),
+#   "(",
+#   col256("rtemis", col = "177"),
+#   ")"
+# )
+
 rtcitation <- paste0(
   "> ",
-  col256("citation", col = "69"),
+  fmt("citation", col = rt_blue),
   "(",
-  col256("rtemis", col = "177"),
+  fmt("rtemis", col = rt_magenta),
   ")"
 )
 
@@ -317,11 +309,23 @@ pastebox <- function(x, pad = 0) {
   paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
 }
 
-#
-
+#' Show S7 class name
+#'
+#' @param x Character: S7 class name.
+#' @param col Color: Color code for the class name.
+#' @param pad Integer: Number of spaces to pad the message with.
+#' @param verbosity Integer: Verbosity level. If > 1, adds package name to the output.
+#' @param output_type Character: Output type ("ansi", "html", "plain").
+#'
+#' @return Character: Formatted string that can be printed with cat().
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
 show_S7name <- function(
   x,
-  col = col_object,
+  colors = c(rtemis_teal, rtemis_light_teal),
   pad = 0L,
   verbosity = 2L,
   output_type = c("ansi", "html", "plain")
@@ -330,11 +334,17 @@ show_S7name <- function(
   paste0(
     paste0(rep(" ", pad), collapse = ""),
     gray(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
-    fmt(x, col = col, bold = TRUE, output_type = output_type),
+    # fmt(x, col = col, bold = TRUE, output_type = output_type),
+    fmt_gradient(
+      x,
+      colors = colors,
+      bold = TRUE,
+      output_type = output_type
+    ),
     gray(">", output_type = output_type),
     "\n"
   )
-} # rtemis::objstr
+} # /rtemis::show_S7name
 
 #' Cat object
 #'

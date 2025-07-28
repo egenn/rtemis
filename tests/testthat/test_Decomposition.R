@@ -2,6 +2,7 @@
 # ::rtemis::
 # 2025 EDG rtemis.org
 
+library(rtemis)
 # Data ----
 x <- iris[, -5]
 
@@ -22,7 +23,6 @@ test_that("setup_ICA() succeeds", {
   expect_s7_class(parameters, ICAParameters)
 })
 iris_ica <- decomp(x, algorithm = "ica", parameters = parameters)
-iris_ica
 test_that("decomp() ICA succeeds", {
   expect_s7_class(iris_ica, Decomposition)
 })

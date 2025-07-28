@@ -82,7 +82,10 @@ setup_progress <- function() {
     packageStartupMessage(paste0(
       rtlogo2,
       vline,
-      paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
+      fmt_gradient(
+        paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
+        colors = c(kaimana_red, genlib_orange)
+      ),
       bold("\n  Defaults"),
       "\n  \u2502   ",
       gray("Theme: "),
@@ -107,13 +110,9 @@ setup_progress <- function() {
       gray("Cite: "),
       # ' > citation("rtemis")',
       rtcitation,
-      # bold("\n  Setup"),
-      # "\n  \u2514 ",
-      # italic(gray("Enable progress reporting:")),
-      # " > progressr::handlers(global = TRUE)",
-      # '\n                               > progressr::handlers("cli")',
       "\n\n  ",
-      red(bold("PSA:"), "Do not throw data at algorithms. Compute responsibly!")
+      red("PSA:"),
+      " Do not throw data at algorithms. Compute responsibly!"
     ))
   } else {
     packageStartupMessage(

@@ -21,6 +21,27 @@ MassGLM <- new_class(
   )
 ) # /rtemis::MassGLM
 
+# Show MassGLM ----
+method(show, MassGLM) <- function(
+  x,
+  output_type = NULL
+) {
+  output_type <- get_output_type(output_type)
+  paste0(
+    show_S7name("MassGLM"),
+    highlight(length(x@ynames)),
+    " GLMs of family ",
+    bold(x@family),
+    " with ",
+    highlight(length(x@xnames)),
+    ngettext(length(x@xnames), " predictor", " predictors"),
+    " each.",
+    "\nAvailable coefficients: ",
+    paste(highlight(x@coefnames), collapse = ", "),
+    "\n"
+  )
+} # /rtemis::show.MassGLM
+
 # Print MassGLM ----
 #' Print MassGLM
 #'
@@ -29,21 +50,8 @@ MassGLM <- new_class(
 #'
 #' @author EDG
 #' @noRd
-print.MassGLM <- function(x, ...) {
-  # cat(gray(".:"))
-  objcat("MassGLM")
-  cat(
-    highlight(length(x@ynames)),
-    "GLMs of family",
-    bold(x@family),
-    "with",
-    highlight(length(x@xnames)),
-    ngettext(length(x@xnames), "predictor", "predictors"),
-    "each.",
-    "\nAvailable coefficients:\n ",
-    paste(highlight(x@coefnames), collapse = ", "),
-    "\n"
-  )
+print.MassGLM <- function(x, output_type = NULL, ...) {
+  cat(show(x, output_type = output_type))
 } # /rtemis::print.MassGLM
 
 method(print, MassGLM) <- print.MassGLM

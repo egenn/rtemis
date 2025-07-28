@@ -183,10 +183,10 @@ sge_submit <- function(
 #'
 #' alias for `system("qstat")`
 #'
-#' @return `NULL`, invisibly.
+#' @return Called for its side effect of printing the SGE queue status.
 #'
 #' @export
 qstat <- function() {
   system("qstat")
-  invisible(NULL)
+  invisible()
 }

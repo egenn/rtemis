@@ -587,7 +587,7 @@ dt_set_autotypes <- function(x, cols = NULL, verbosity = 1L) {
 dt_names_by_class <- function(
   x,
   sorted = TRUE,
-  item_format = hilite,
+  item_format = highlight,
   maxlength = 24
 ) {
   classes <- sapply(x, class)
@@ -597,8 +597,8 @@ dt_names_by_class <- function(
   } else {
     sapply(vals, \(i) names(x)[classes == i])
   }
-  printls(out, item_format = item_format, maxlength = maxlength)
-  invisible(NULL)
+  cat(show_ls(out, item_format = item_format, maxlength = maxlength))
+  invisible()
 } # /rtemis::dt_names_by_class
 
 

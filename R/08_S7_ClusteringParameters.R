@@ -38,6 +38,25 @@ method(`[[`, ClusteringParameters) <- function(x, index) {
   x@parameters[[index]]
 }
 
+# Show ClusteringParameters ----
+method(show, ClusteringParameters) <- function(
+  x,
+  pad = 0L,
+  output_type = NULL,
+  ...
+) {
+  output_type <- get_output_type(output_type)
+  out <- show_S7name(
+    paste(x@algorithm, "ClusteringParameters"),
+    pad = pad,
+    output_type = output_type
+  )
+  paste0(
+    out,
+    show_ls(props(x)[["parameters"]], pad = pad, output_type = output_type)
+  )
+} # /show
+
 # Print ClusteringParameters ----
 #' Print Method for ClusteringParameters
 #'
@@ -49,11 +68,15 @@ method(`[[`, ClusteringParameters) <- function(x, index) {
 #' @author EDG
 #' @keywords internal
 #' @noRd
-method(print, ClusteringParameters) <- function(x, pad = 0L, ...) {
-  objcat(paste(x@algorithm, "ClusteringParameters"), pad = pad)
-  printls(props(x)$parameters, pad = pad)
+method(print, ClusteringParameters) <- function(
+  x,
+  pad = 0L,
+  output_type = NULL,
+  ...
+) {
+  cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
-}
+} # /print.ClusteringParameters
 
 # KMeansParameters ----
 #' @title KMeansParameters

@@ -43,6 +43,7 @@ method(get_factor_levels, class_data.table) <- function(x) {
 #' @return Character with level counts.
 #'
 #' @author EDG
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -111,7 +112,7 @@ fct_describe <- function(x, max_n = 5, return_ordered = TRUE) {
 #' days.
 #' @param verbosity Integer: Verbosity level.
 #'
-#' @return Merged **data.table**
+#' @return `data.table` with merged data.
 #'
 #' @author EDG
 #' @keywords internal

@@ -39,6 +39,7 @@ is_check <- function(x, fn) {
 #' @return NULL (invisibly)
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 is_test <- function(x, fn) {
@@ -47,7 +48,7 @@ is_test <- function(x, fn) {
     type <- substr(deparse(substitute(fn)), 4, 99)
     cli::cli_abort(bold(input), " is not ", bold(type))
   }
-  invisible(NULL)
+  invisible()
 } # /rtemis::is_test
 
 

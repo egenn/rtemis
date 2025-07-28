@@ -330,7 +330,7 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
 #' @param justify Character: "right", "left".
 #' @param colnames Logical: If TRUE, print column names.
 #' @param rownames Logical: If TRUE, print row names.
-#' @param column_col Color fn for printing column names.
+#' @param column_fmt Color fn for printing column names.
 #' @param row_col Color fn for printing row names.
 #' @param newline_pre Logical: If TRUE, print a new line before printing data frame.
 #' @param newline Logical: If TRUE, print a new line after printing data frame.
@@ -348,7 +348,7 @@ printdf <- function(
   justify = "right",
   colnames = TRUE,
   rownames = TRUE,
-  column_col = hilite,
+  column_fmt = highlight,
   row_col = gray,
   newline_pre = FALSE,
   newline = FALSE
@@ -380,7 +380,7 @@ printdf <- function(
       cat(spacer)
     }
     for (i in seq_len(NCOL(x))) {
-      cat(column_col(format(
+      cat(column_fmt(format(
         xnames[i],
         width = col_char[i] + spacing,
         justify = justify
@@ -435,8 +435,8 @@ printdf <- function(
 #' @param justify Character: "right", "left".
 #' @param colnames Logical: If TRUE, print column names.
 #' @param rownames Logical: If TRUE, print row names.
-#' @param column_col Color fn for printing column names.
-#' @param row_col Color fn for printing row names.
+#' @param colnames_formatter Format function for printing column names.
+#' @param rownames_formatter Format function for printing row names.
 #' @param newline_pre Logical: If TRUE, print a new line before printing data frame.
 #' @param newline Logical: If TRUE, print a new line after printing data frame.
 #'
@@ -445,14 +445,14 @@ printdf <- function(
 #' @noRd
 show_df <- function(
   x,
-  pad = 0,
-  spacing = 1,
+  pad = 0L,
+  spacing = 1L,
   ddSci_dp = NULL,
   transpose = FALSE,
   justify = "right",
   incl_colnames = TRUE,
   incl_rownames = TRUE,
-  colnames_formatter = hilite,
+  colnames_formatter = highlight,
   rownames_formatter = gray,
   output_type = c("ansi", "html", "plain")
 ) {
@@ -546,56 +546,6 @@ show_df <- function(
   out
 } # /rtemis::show_df
 
-#' Pretty print tables
-#'
-#' @param x table.
-#' @param spacing Integer: Number of spaces between columns.
-#' @param pad Integer: Pad output with this many spaces.
-#'
-#' @keywords internal
-#' @noRd
-printtable <- function(x, spacing = 2L, pad = 2L) {
-  dim_names <- names(attr(x, "dimnames"))
-  class_names <- attr(x, "dimnames")[["Reference"]]
-  n_classes <- NCOL(x)
-  mat <- matrix(c(x), NROW(x))
-  colnames(mat) <- colnames(x)
-  rownames(mat) <- rownames(x)
-  # Column width without spacing
-  col.width <- sapply(seq_along(class_names), \(i) {
-    max(nchar(as.character(x[, i])), nchar(class_names[i]))
-  })
-  lhspad <- max(nchar(class_names), nchar(dim_names[1])) + spacing + pad
-  # Top dimname
-  cat(
-    bold(format(
-      dim_names[2],
-      width = lhspad + nchar(dim_names[2]),
-      justify = "right"
-    )),
-    "\n"
-  )
-  # Left dimname
-  cat(bold(format(dim_names[1], width = lhspad - spacing, justify = "right")))
-  cat(paste0(rep(" ", spacing), collapse = ""))
-  for (i in seq_len(n_classes)) {
-    cat(highlight(format(
-      class_names[i],
-      width = col.width[i] + spacing,
-      justify = "left"
-    )))
-  }
-
-  printdf(
-    mat,
-    pad = lhspad - max(nchar(class_names)) - spacing,
-    colnames = FALSE,
-    row_col = hilite,
-    newline_pre = TRUE,
-    spacing = spacing
-  )
-} # /rtemis::printtable
-
 
 #' Show table
 #'
@@ -613,6 +563,7 @@ show_table <- function(
   x,
   spacing = 2L,
   pad = 2L,
+  formatter = highlight,
   output_type = c("ansi", "html", "plain")
 ) {
   output_type <- match.arg(output_type)
@@ -660,7 +611,7 @@ show_table <- function(
     )
     out <- paste0(
       out,
-      highlight(formatted_classname, output_type = output_type)
+      formatter(formatted_classname, output_type = output_type)
     )
   }
   # Add Confusion matrix excluding colnames that are already added
@@ -672,8 +623,8 @@ show_table <- function(
       pad = lhspad - max(nchar(class_names)) - spacing,
       incl_colnames = FALSE,
       spacing = spacing,
-      colnames_formatter = hilite,
-      rownames_formatter = hilite,
+      colnames_formatter = formatter,
+      rownames_formatter = formatter,
       output_type = output_type
     )
   )
@@ -687,10 +638,15 @@ pastels <- function(x, bullet = "  -") {
 } # /rtemis::pastels
 
 
+#' Print first few elements of a vector with ellipsis
+#'
+#' @details
+#' Used, for example, by `show_ls`
+#'
 #' @keywords internal
 #' @noRd
-headdot <- function(x, maxlength = 6, format_fn = identity) {
-  if (length(x) < maxlength) {
+headdot <- function(x, maxlength = 6L, format_fn = identity) {
+  if (maxlength == -1L || length(x) < maxlength) {
     paste(format_fn(x), collapse = ", ")
   } else {
     paste0(
@@ -928,6 +884,8 @@ printchar <- function(x, left_pad = 2) {
 #' @param x list or object that will be converted to a list.
 #' @param prefix Character: Optional prefix for names.
 #' @param pad Integer: Pad output with this many spaces.
+#' @param item_format Formatting function for items.
+#' @param maxlength Integer: Maximum length of items to show using `headdot()` before truncating with ellipsis.
 #' @param center_title Logical: If TRUE, autopad title for centering, if present.
 #' @param format_fn Formatting function.
 #' @param print_class Logical: If TRUE, print abbreviated class of object.
@@ -1018,7 +976,7 @@ show_ls <- function(
   } else {
     x <- as.list(x)
     # Get class of each element
-    classes_ <- sapply(x, class)
+    classes_ <- sapply(x, function(el) class(el)[[1L]])
     # Remove closures that will cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
@@ -1119,7 +1077,11 @@ show_ls <- function(
             sub_result <- show_ls(
               x[[i]],
               pad = lhs + 2,
+              item_format = item_format,
               newline_pre = TRUE,
+              format_fn_rhs = format_fn_rhs,
+              print_class = print_class,
+              limit = limit,
               output_type = output_type
             )
             result <- paste0(result, sub_result)
@@ -1174,20 +1136,20 @@ show_ls <- function(
           "\n"
         )
         result <- paste0(result, item_text)
-        # Show S7 object, try running with pad argument, if it fails run without
-        result <- tryCatch(
+        # Show S7 object: show() must return a character string of length 1
+        s7_output <- tryCatch(
           {
-            paste0(
-              result,
-              "\n",
-              show(x[[i]], pad = lhs + 2, output_type = output_type)
-            )
+            show(x[[i]], pad = lhs + 2, output_type = output_type)
           },
           error = function(e) {
-            # Fallback if 'pad' argument is not supported by the S7 object's show method
-            paste0(result, "\n", show(x[[i]], output_type = output_type))
+            paste0(
+              "(S7 object of class: '",
+              paste(class(x[[i]]), collapse = ", "),
+              "')\n"
+            )
           }
         )
+        result <- paste0(result, s7_output)
       } else if (is.data.frame(x[[i]])) {
         item_text <- paste0(
           item_format(

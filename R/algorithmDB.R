@@ -38,6 +38,17 @@ colnames(supervised_algorithms) <- c(
   "Surv"
 )
 
+supervised_multiclass <- c(
+  "GLMNET",
+  "CART",
+  "LightCART",
+  "LightRF",
+  "LightGBM",
+  "LinearSVM",
+  "RadialSVM",
+  "Ranger"
+)
+
 get_alg_name <- function(algorithm) {
   algname <- supervised_algorithms[, 1][
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
@@ -218,7 +229,9 @@ get_decom_predict_fn <- function(algorithm) {
 #' @rdname available_algorithms
 #' @aliases available_algorithms
 #'
-#' @return NULL, invisibly.
+#' @return Called for its side effect of printing available algorithms.
+#'
+#' @author EDG
 #'
 #' @export
 available_supervised <- function() {
@@ -228,7 +241,7 @@ available_supervised <- function() {
     class = "list"
   )
   printls(algs, print_class = FALSE, limit = -1L)
-  invisible(NULL)
+  invisible()
 }
 
 #' @rdname available_algorithms
@@ -240,7 +253,7 @@ available_clustering <- function() {
     class = "list"
   )
   printls(algs, print_class = FALSE, limit = -1L)
-  invisible(NULL)
+  invisible()
 }
 
 #' @rdname available_algorithms
@@ -252,7 +265,7 @@ available_decomposition <- function() {
     class = "list"
   )
   printls(algs, print_class = FALSE, limit = -1L)
-  invisible(NULL)
+  invisible()
 }
 
 # Draw ----
@@ -301,5 +314,5 @@ available_draw <- function() {
   )
   cat("Available draw functions:\n")
   printls(fns, print_class = FALSE, limit = -1L)
-  invisible(NULL)
+  invisible()
 } # rtemis::available_draw

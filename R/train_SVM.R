@@ -142,5 +142,10 @@ varimp_RadialSVM <- function(model) {
 } # /rtemis::varimp_RadialSVM
 
 varimp_LinearSVM <- function(model) {
-  coef(model)
+  # Only for binary classification
+  if (model[["nclasses"]] == 2) {
+    coef(model)
+  } else {
+    NULL
+  }
 } # /rtemis::varimp_LinearSVM

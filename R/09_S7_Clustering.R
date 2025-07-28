@@ -48,11 +48,26 @@ method(`[[`, Clustering) <- function(x, index) {
 #   props(x, "clusters")[[index]]
 # }
 
+# Show Clustering ----
+method(show, Clustering) <- function(
+  x,
+  pad = 0L,
+  output_type = NULL
+) {
+  output_type <- get_output_type(output_type)
+  paste0(
+    show_S7name(paste(x$algorithm, "Clustering")),
+    show_ls(props(x)[-1], pad = pad, output_type = output_type)
+  )
+} # /rtemis::show.Clustering
+
 # Print Clustering ----
-method(print, Clustering) <- function(x, ...) {
-  # cat(gray(".:"))
-  objcat(paste(x$algorithm, "Clustering"))
-  cat("\n")
-  printls(props(x)[-1])
+method(print, Clustering) <- function(
+  x,
+  pad = 0L,
+  output_type = NULL,
+  ...
+) {
+  cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
-}
+} # /rtemis::print.Clustering

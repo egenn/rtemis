@@ -398,3 +398,62 @@ ansi256_to_hex <- function(code) {
     maxColorValue = 255
   )
 } # /rtemis::ansi256_to_hex
+
+#' Gradient text
+#'
+#' @param x Character: Text to colorize.
+#' @param colors Character vector: Colors to use for the gradient.
+#' @param output_type Character: Output type ("ansi", "html", "plain").
+#'
+#' @return Character: Text with gradient color applied.
+#'
+#' @keywords internal
+#' @noRd
+fmt_gradient <- function(
+  x,
+  colors,
+  bold = FALSE,
+  output_type = c("ansi", "html", "plain")
+) {
+  output_type <- match.arg(output_type)
+
+  if (output_type == "plain") {
+    return(x)
+  }
+
+  # Split text into individual characters
+  chars <- strsplit(x, "")[[1]]
+  n_chars <- length(chars)
+
+  if (n_chars <= 1) {
+    # For single character or empty string, use first color
+    return(fmt(x, col = colors[1], output_type = output_type))
+  }
+
+  # Generate gradient colors using colorRampPalette
+  tryCatch(
+    {
+      gradient_colors <- grDevices::colorRampPalette(colors)(
+        n_chars
+      )
+    },
+    error = function(e) {
+      warning("Invalid gradient colors, using default")
+      return(x)
+    }
+  )
+
+  # Apply gradient colors to each character
+  gradient_chars <- character(n_chars)
+  for (i in seq_len(n_chars)) {
+    gradient_chars[i] <- fmt(
+      chars[i],
+      col = gradient_colors[i],
+      bold = bold,
+      output_type = output_type
+    )
+  }
+
+  # Combine all colored characters
+  paste(gradient_chars, collapse = "")
+} # /rtemis::fmt_gradient

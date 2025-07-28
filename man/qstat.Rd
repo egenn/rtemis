@@ -7,7 +7,7 @@
 qstat()
 }
 \value{
-\code{NULL}, invisibly.
+Called for its side effect of printing the SGE queue status.
 }
 \description{
 Run SGE qstat

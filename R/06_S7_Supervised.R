@@ -155,73 +155,102 @@ method(`[[`, Supervised) <- function(x, name) {
   prop(x, name)
 }
 
-# Print Supervised ----
-#' Print `Supervised`
-#'
-#' Print `Supervised` object
+
+# Show Supervised ----
+#' Show `Supervised`
 #'
 #' @param x `Supervised` object.
-#' @param ... Not used.
 #'
 #' @author EDG
+#'
+#' @keywords internal
 #' @noRd
-print.Supervised <- function(x, ...) {
-  # cat(gray(".:"))
-  objcat(paste(x@type, "Model"))
-  cat(
-    "  ",
-    highlight(x@algorithm),
+method(show, Supervised) <- function(
+  x,
+  output_type = NULL,
+  filename = NULL
+) {
+  output_type <- get_output_type(output_type, filename)
+  # Class name
+  out <- paste0(
+    show_S7name(x@type, output_type = output_type),
+    highlight(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
-    ")\n",
-    sep = ""
+    ")\n"
   )
+
+  # Tuning, if available
   if (!is.null(x@tuner)) {
-    cat(
-      "  ",
-      fmt("\U2699", col = col_tuner, bold = TRUE),
+    out <- paste0(
+      out,
+      fmt("\U2699", col = col_tuner, bold = TRUE, output_type = output_type),
       " Tuned using ",
       desc(x@tuner),
-      ".\n\n",
-      sep = ""
+      ".\n"
     )
-  } else {
-    cat("\n")
   }
+  out <- paste0(out, "\n")
+
+  # Calibration, if available
   if (prop_exists(x, "calibration_model")) {
-    cat(
-      "  ",
-      bold(green("\U27CB")),
+    out <- paste0(
+      out,
+      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_model@algorithm),
-      ".\n\n",
-      sep = ""
+      ".\n\n"
     )
   }
+
+  # CalibrationRes, if available
   if (prop_exists(x, "calibration_models")) {
-    cat(
-      "  ",
-      bold(green("\U27CB")),
+    out <- paste0(
+      out,
+      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
       " with ",
-      ".\n\n",
-      sep = ""
+      desc(x@calibration_models[[1]]@outer_resampler@parameters),
+      ".\n\n"
     )
   }
-  print(x@metrics_training, pad = 2L)
+
+  # Metrics, training
+  out <- paste0(
+    out,
+    show(x@metrics_training, pad = 2L, output_type = output_type)
+  )
+
+  # Metrics, validation
   if (length(x@metrics_validation) > 0) {
-    cat("\n")
-    print(x@metrics_validation, pad = 2L)
+    out <- paste0(
+      out,
+      show(x@metrics_validation, pad = 2L, output_type = output_type)
+    )
   }
+
+  # Metrics, test
   if (length(x@metrics_test) > 0) {
-    cat("\n")
-    print(x@metrics_test, pad = 2L)
+    out <- paste0(
+      out,
+      "\n",
+      show(x@metrics_test, pad = 2L, output_type = output_type)
+    )
   }
+  out
+} # /rtemis::show.Supervised
+
+
+# Print Supervised ----
+method(print, Supervised) <- function(
+  x,
+  output_type = c("ansi", "html", "plain"),
+  ...
+) {
+  output_type <- match.arg(output_type)
+  cat(show(x, output_type = output_type))
   invisible(x)
-} # /print.Supervised
-method(print, Supervised) <- function(x, ...) {
-  print.Supervised(x)
 }
 
 # Describe Supervised ----
@@ -316,6 +345,19 @@ Calibration <- new_class(
   )
 ) # /Calibration
 
+# Show Calibration ----
+method(show, Calibration) <- function(x, output_type = NULL) {
+  output_type <- get_output_type(output_type)
+  paste0(
+    show_S7name("Calibration", output_type = output_type),
+    highlight(x@algorithm, output_type = output_type),
+    " (",
+    get_alg_desc(x@algorithm),
+    ")\n"
+  )
+} # /rtemis::show.Calibration
+
+
 # Print Calibration ----
 method(print, Calibration) <- function(x, ...) {
   # cat(gray(".:"))
@@ -328,7 +370,7 @@ method(print, Calibration) <- function(x, ...) {
     ")\n",
     sep = ""
   )
-}
+} # /rtemis::print.Calibration
 
 # CalibrationRes ----
 CalibrationRes <- new_class(
@@ -419,9 +461,9 @@ Classification <- new_class(
   name = "Classification",
   parent = Supervised,
   properties = list(
-    predicted_prob_training = class_double | NULL,
-    predicted_prob_validation = class_double | NULL,
-    predicted_prob_test = class_double | NULL,
+    predicted_prob_training = class_double | class_data.frame | NULL,
+    predicted_prob_validation = class_double | class_data.frame | NULL,
+    predicted_prob_test = class_double | class_data.frame | NULL,
     binclasspos = class_integer
   ),
   constructor = function(
@@ -858,7 +900,7 @@ method(plot_roc, Classification) <- function(
 ) {
   if (is.null(x@predicted_prob_training)) {
     msg2(highlight2("No predicted probabilities available."))
-    return(invisible(NULL))
+    return(invisible())
   }
   if (is.null(what)) {
     what <- if (!is.null(x@metrics_test)) {
@@ -1158,46 +1200,6 @@ SupervisedRes <- new_class(
   }
 ) # /SupervisedRes
 
-# Print SupervisedRes ----
-method(print, SupervisedRes) <- function(x, ...) {
-  # Replace with cat(show(x))
-  # cat(gray(".:"))
-  objcat(paste("Resampled", x@type, "Model"))
-  cat(
-    "  ",
-    highlight(x@algorithm),
-    " (",
-    get_alg_desc(x@algorithm),
-    ")\n",
-    sep = ""
-  )
-  if (!is.null(x@tuner_parameters)) {
-    cat(
-      "  ",
-      fmt("\U2699", col = col_tuner, bold = TRUE),
-      " Tuned using ",
-      desc(x@tuner_parameters),
-      ".\n",
-      sep = ""
-    )
-  }
-  cat(
-    "  ",
-    fmt("\U27F3", col = col_outer, bold = TRUE),
-    " Tested using ",
-    desc(x@outer_resampler),
-    ".\n",
-    sep = ""
-  )
-  cat("\n")
-  # if (x@type == "Classification" && !is.null(x@calibration)) {
-  #   cat("  ", bold(green("\U27CB")), " Calibrated using ", get_alg_desc(x@calibration@model@algorithm), ".\n\n", sep = "")
-  # }
-  print(x@metrics_training, pad = 2L)
-  cat("\n")
-  print(x@metrics_test, pad = 2L)
-  invisible(x)
-} # /SupervisedRes
 
 # Show SupervisedRes ----
 #' Show `SupervisedRes`
@@ -1212,27 +1214,24 @@ method(print, SupervisedRes) <- function(x, ...) {
 #' @noRd
 method(show, SupervisedRes) <- function(
   x,
-  output_type = c("ansi", "html", "plain"),
+  output_type = NULL,
   filename = NULL
 ) {
-  # Generate a single formatted string by combining the output of the show methods for each component
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type, filename)
 
   # Class name + Alg name (2 lines)
   out <- paste0(
     show_S7name(paste("Resampled", x@type, "Model"), output_type = output_type),
-    "  ",
     highlight(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
     ")\n"
   )
 
-  # Tuner, if available (1 line)
+  # Tuning, if available (1 line)
   if (!is.null(x@tuner_parameters)) {
     out <- paste0(
       out,
-      "  ",
       fmt("\U2699", col = col_tuner, bold = TRUE, output_type = output_type),
       " Tuned using ",
       desc(x@tuner_parameters),
@@ -1240,10 +1239,9 @@ method(show, SupervisedRes) <- function(
     )
   }
 
-  # Outer resampler (1 line)
+  # Outer resampling (1 line)
   out <- paste0(
     out,
-    "  ",
     fmt("\U27F3", col = col_outer, bold = TRUE, output_type = output_type),
     " Tested using ",
     desc(x@outer_resampler),
@@ -1254,7 +1252,6 @@ method(show, SupervisedRes) <- function(
   if (prop_exists(x, "calibration_models")) {
     out <- paste0(
       out,
-      "\n  ",
       fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
       get_alg_desc(x@calibration_models[[1]]@algorithm),
@@ -1280,6 +1277,17 @@ method(show, SupervisedRes) <- function(
 
   out
 } # /rtemis::show.SupervisedRes
+
+
+# Print SupervisedRes ----
+method(print, SupervisedRes) <- function(
+  x,
+  output_type = NULL,
+  ...
+) {
+  cat(show(x, output_type = output_type))
+  invisible(x)
+} # /SupervisedRes
 
 
 # Predict SupervisedRes ----
@@ -1934,7 +1942,7 @@ method(plot_varimp, Supervised) <- function(
 ) {
   if (is.null(x@varimp)) {
     msg2(highlight2("No variable importance available."))
-    return(invisible(NULL))
+    return(invisible())
   }
   draw_varimp(x@varimp, theme = theme, filename = filename, ...)
 } # /plot_varimp.Supervised
@@ -1952,7 +1960,7 @@ method(plot_varimp, SupervisedRes) <- function(
 ) {
   if (is.null(x@varimp)) {
     msg2(highlight2("No variable importance available."))
-    return(invisible(NULL))
+    return(invisible())
   }
   check_inherits(summarize_fn, "character")
 
@@ -2150,89 +2158,3 @@ method(get_metric, ClassificationRes) <- function(x, set, metric) {
     }
   )
 }
-
-# Show Supervised ----
-#' Show `Supervised`
-#'
-#' @param x `Supervised` object.
-#'
-#' @author EDG
-#'
-#' @keywords internal
-#' @noRd
-method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
-  # Generate a single formatted string by combining the output of the show methods for each component
-
-  # Class name
-  out <- paste0(
-    show_S7name(x@type, output_type = output_type),
-    "  ",
-    highlight(x@algorithm, output_type = output_type),
-    " (",
-    get_alg_desc(x@algorithm),
-    ")\n"
-  )
-
-  # Tuner, if available
-  if (!is.null(x@tuner)) {
-    out <- paste0(
-      out,
-      "  ",
-      fmt("\U2699", col = col_tuner, bold = TRUE, output_type = output_type),
-      " Tuned using ",
-      desc(x@tuner),
-      ".\n"
-    )
-  }
-  out <- paste0(out, "\n")
-
-  # Calibration, if available
-  if (prop_exists(x, "calibration_model")) {
-    out <- paste0(
-      out,
-      "  ",
-      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
-      " Calibrated using ",
-      get_alg_desc(x@calibration_model@algorithm),
-      ".\n\n"
-    )
-  }
-
-  # CalibrationRes, if available
-  if (prop_exists(x, "calibration_models")) {
-    out <- paste0(
-      out,
-      "  ",
-      fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
-      " Calibrated using ",
-      get_alg_desc(x@calibration_models[[1]]@algorithm),
-      " with ",
-      desc(x@calibration_models[[1]]@outer_resampler@parameters),
-      ".\n\n"
-    )
-  }
-
-  # Metrics, training
-  out <- paste0(
-    out,
-    show(x@metrics_training, pad = 2L, output_type = output_type)
-  )
-
-  # Metrics, validation
-  if (length(x@metrics_validation) > 0) {
-    out <- paste0(
-      out,
-      show(x@metrics_validation, pad = 2L, output_type = output_type)
-    )
-  }
-
-  # Metrics, test
-  if (length(x@metrics_test) > 0) {
-    out <- paste0(
-      out,
-      "\n",
-      show(x@metrics_test, pad = 2L, output_type = output_type)
-    )
-  }
-  out
-} # /rtemis::show.Supervised

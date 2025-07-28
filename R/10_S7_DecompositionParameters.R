@@ -56,9 +56,9 @@ method(`[[`, DecompositionParameters) <- function(x, name) {
 method(show, DecompositionParameters) <- function(
   x,
   pad = 0L,
-  output_type = c("ansi", "html", "plain")
+  output_type = NULL
 ) {
-  output_type <- match.arg(output_type)
+  output_type <- get_output_type(output_type)
   paste0(
     show_S7name(
       paste(x["algorithm"], "DecompositionParameters"),
@@ -80,8 +80,12 @@ method(show, DecompositionParameters) <- function(
 #'
 #' @author EDG
 #' @noRd
-method(print, DecompositionParameters) <- function(x, pad = 0L, ...) {
-  output_type <- if (interactive()) "ansi" else "plain"
+method(print, DecompositionParameters) <- function(
+  x,
+  pad = 0L,
+  output_type = NULL,
+  ...
+) {
   cat(show(x, pad = pad, output_type = output_type))
   invisible(x)
 }
