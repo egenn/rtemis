@@ -21,7 +21,7 @@ datr_train <- datr[resr$Fold_1, ]
 datr_test <- datr[-resr$Fold_1, ]
 
 ## Classification Data ----
-### binary ----
+### Binary ----
 datc2 <- iris[51:150, ]
 datc2$Species <- factor(datc2$Species)
 resc2 <- resample(datc2)
@@ -32,6 +32,12 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 # resc2 <- resample(datc2)
 # datc2_train <- datc2[resc2$Fold_1, ]
 # datc2_test <- datc2[-resc2$Fold_1, ]
+
+### Multiclass ----
+datc3 <- iris
+resc3 <- resample(datc3)
+datc3_train <- datc3[resc3$Fold_1, ]
+datc3_test <- datc3[-resc3$Fold_1, ]
 
 ### Synthetic binary data where positive class is 10% of the data ----
 # set.seed(2025)
@@ -47,11 +53,6 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 # resc2 <- resample(datc2)
 # datc2_train <- datc2[resc2$Fold_1, ]
 # datc2_test <- datc2[-resc2$Fold_1, ]
-
-### 3-class ----
-# resc3 <- resample(iris)
-# datc3_train <- iris[resc3$Fold_1, ]
-# datc3_test <- iris[-resc3$Fold_1, ]
 
 # Utils ----
 test_that("class_imbalance() works", {
@@ -210,6 +211,15 @@ test_that("train() GLMNET Classification succeeds", {
   expect_s7_class(modt_c_glmnet, Classification)
 })
 
+## GLMNET Multiclass Classification ----
+modt_c3_glmnet <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  hyperparameters = setup_GLMNET(alpha = 1)
+)
+test_that("train() GLMNET Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_glmnet, Classification)
+})
 
 ## GAM Regression ----
 hyperparameters <- setup_GAM()
@@ -286,7 +296,6 @@ test_that("train() GAM Classification with IFW succeeds", {
   expect_s7_class(mod_c_gam_ifw, Classification)
 })
 
-
 ## LinearSVM Regression ----
 mod_r_svml <- train(
   x = datr_train,
@@ -325,6 +334,15 @@ mod_c_linearsvm <- train(
 )
 test_that("train() LinearSVM Classification succeeds", {
   expect_s7_class(mod_c_linearsvm, Classification)
+})
+
+mod_c3_linearsvm <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  algorithm = "linearsvm"
+)
+test_that("train() LinearSVM Multiclass Classification succeeds", {
+  expect_s7_class(mod_c3_linearsvm, Classification)
 })
 
 ## RadialSVM Regression ----
@@ -366,6 +384,57 @@ resmodt_r_svmr <- train(
 test_that("train() Res RadialSVM Regression with tuning succeeds", {
   expect_s7_class(resmodt_r_svmr, RegressionRes)
 })
+
+## RadialSVM Classification ----
+mod_c_radialsvm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  algorithm = "radialsvm"
+)
+test_that("train() RadialSVM Classification succeeds", {
+  expect_s7_class(mod_c_radialsvm, Classification)
+})
+
+## RadialSVM Classification + tuning ----
+modt_c_radialsvm <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_RadialSVM(cost = c(1, 10))
+)
+test_that("train() RadialSVM Classification with tuning succeeds", {
+  expect_s7_class(modt_c_radialsvm, Classification)
+})
+
+## Res RadialSVM Classification ----
+resmod_c_radialsvm <- train(
+  x = datc2,
+  algorithm = "radialsvm",
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
+)
+test_that("train() Res RadialSVM Classification succeeds", {
+  expect_s7_class(resmod_c_radialsvm, ClassificationRes)
+})
+
+## Res RadialSVM Classification + tuning ----
+resmodt_c_radialsvm <- train(
+  x = datc2,
+  hyperparameters = setup_RadialSVM(cost = c(1, 10)),
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
+)
+test_that("train() Res RadialSVM Classification with tuning succeeds", {
+  expect_s7_class(resmodt_c_radialsvm, ClassificationRes)
+})
+
+## RadialSVM Multiclass Classification ----
+modt_c3_radialsvm <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  hyperparameters = setup_RadialSVM()
+)
+test_that("train() RadialSVM Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_radialsvm, Classification)
+})
+
 
 ## CART Regression ----
 mod_r_cart <- train(
@@ -485,6 +554,16 @@ test_that("train() CART ClassificationRes succeeds", {
   expect_s7_class(resmodt_c_cart, ClassificationRes)
 })
 
+## CART Multiclass Classification ----
+modt_c3_cart <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  algorithm = "cart"
+)
+test_that("train() CART Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_cart, Classification)
+})
+
 ## LightCART Regression ----
 mod_r_lightcart <- train(
   x = datr_train,
@@ -521,11 +600,21 @@ test_that("train() LightCART Classification succeeds", {
   expect_s7_class(mod_c_lightcart, Classification)
 })
 
+## LightCART Multiclass Classification ----
+modt_c3_lightcart <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  algorithm = "lightcart"
+)
+test_that("train() LightCART Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_lightcart, Classification)
+})
+
 ## LightRF Regression ----
 mod_r_lightrf <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "lightrf"
+  hyperparameters = setup_LightRF(nrounds = 20L)
 )
 test_that("train() LightRF Regression succeeds", {
   expect_s7_class(mod_r_lightrf, Regression)
@@ -536,6 +625,7 @@ mod_r_lightrf <- train(
   dat_test = datr_test,
   algorithm = "lightrf",
   hyperparameters = setup_LightRF(
+    nrounds = 20L,
     lambda_l1 = .1,
     lambda_l2 = .1
   )
@@ -550,6 +640,7 @@ modt_r_lightrf <- train(
   dat_test = datr_test,
   algorithm = "lightrf",
   hyperparameters = setup_LightRF(
+    nrounds = 20L,
     lambda_l1 = c(0, .1)
   ),
   parallel_type = "none"
@@ -563,6 +654,7 @@ resmodt_r_lightrf <- train(
   x = datr,
   algorithm = "lightrf",
   hyperparameters = setup_LightRF(
+    nrounds = 20L,
     lambda_l1 = c(0, 10)
   ),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
@@ -571,24 +663,34 @@ test_that("train() Res LightRF Regression with l1 tuning succeeds", {
   expect_s7_class(resmodt_r_lightrf, RegressionRes)
 })
 
-## LightRF Classification ----
+## LightRF Binary Classification ----
 mod_c_lightrf <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  algorithm = "lightrf"
+  hyperparameters = setup_LightRF(nrounds = 20L)
 )
-test_that("train() LightRF Classification succeeds", {
+test_that("train() LightRF Binary Classification succeeds", {
   expect_s7_class(mod_c_lightrf, Classification)
 })
 
 ## LightRF Res Classification ----
 resmod_c_lightrf <- train(
   x = datc2,
-  algorithm = "lightrf",
+  hyperparameters = setup_LightRF(nrounds = 20L),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() LightRF ClassificationRes succeeds", {
   expect_s7_class(resmod_c_lightrf, ClassificationRes)
+})
+
+## LightRF Multiclass Classification ----
+modt_c3_lightrf <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  hyperparameters = setup_LightRF(nrounds = 20L)
+)
+test_that("train() LightRF Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_lightrf, Classification)
 })
 
 ## LightGBM Regression ----
@@ -643,11 +745,22 @@ test_that("train() LightGBM Classification succeeds", {
   expect_s7_class(mod_c_lightgbm, Classification)
 })
 
+## LightGBM Multiclass Classification ----
+modt_c3_lightgbm <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  hyperparameters = setup_LightGBM(
+    force_nrounds = 20L
+  )
+)
+test_that("train() LightGBM Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_lightgbm, Classification)
+})
+
 ## LightRuleFit Regression ----
 mod_r_lightrlft_l1l2 <- train(
   x = datr_train,
   dat_test = datr_test,
-  algorithm = "lightrulefit",
   hyperparameters = setup_LightRuleFit(
     nrounds = 50L,
     lambda_l1 = 10,
@@ -671,9 +784,9 @@ test_that("train() LightRuleFit Regression with l1, l2 params passed", {
 mod_c_lightrlft <- train(
   x = datc2_train,
   dat_test = datc2_test,
-  algorithm = "lightrulefit"
+  hyperparameters = setup_LightRuleFit(nrounds = 50L)
 )
-test_that("train() LightRuleFit Classification succeeds", {
+test_that("train() LightRuleFit Binary Classification succeeds", {
   expect_s7_class(mod_c_lightrlft, Classification)
 })
 
@@ -696,11 +809,22 @@ if (torch::torch_is_installed()) {
   mod_c_tabnet <- train(
     x = datc2_train,
     dat_test = datc2_test,
-    algorithm = "tabnet",
     hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
   )
   test_that("train() TabNet Classification succeeds", {
     expect_s7_class(mod_c_tabnet, Classification)
+  })
+}
+
+# TabNet Multiclass Classification ----
+if (torch::torch_is_installed()) {
+  modt_c3_tabnet <- train(
+    x = datc3_train,
+    dat_test = datc3_test,
+    hyperparameters = setup_TabNet(epochs = 3L, learn_rate = .01)
+  )
+  test_that("train() TabNet Multiclass Classification succeeds", {
+    expect_s7_class(modt_c3_tabnet, Classification)
   })
 }
 
@@ -782,6 +906,16 @@ resmod_c_ranger <- train(
 )
 test_that("train() Res Ranger Classification succeeds", {
   expect_s7_class(resmod_c_ranger, ClassificationRes)
+})
+
+# Ranger Multiclass Classification ----
+modt_c3_ranger <- train(
+  x = datc3_train,
+  dat_test = datc3_test,
+  hyperparameters = setup_Ranger(num_trees = 10L)
+)
+test_that("train() Ranger Multiclass Classification succeeds", {
+  expect_s7_class(modt_c3_ranger, Classification)
 })
 
 # Predict SupervisedRes ----
