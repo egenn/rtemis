@@ -33,7 +33,7 @@ datc2_test <- datc2[-resc2$Fold_1, ]
 # datc2_train <- datc2[resc2$Fold_1, ]
 # datc2_test <- datc2[-resc2$Fold_1, ]
 
-### Multiclass ----
+### 3-class ----
 datc3 <- iris
 resc3 <- resample(datc3)
 datc3_train <- datc3[resc3$Fold_1, ]
@@ -671,6 +671,15 @@ mod_c_lightrf <- train(
 )
 test_that("train() LightRF Binary Classification succeeds", {
   expect_s7_class(mod_c_lightrf, Classification)
+})
+
+modt_c_lightrf <- train(
+  x = datc2_train,
+  dat_test = datc2_test,
+  hyperparameters = setup_LightRF(nrounds = 20L, max_depth = c(-1, 5))
+)
+test_that("train() LightRF Binary Classification with tuning succeeds", {
+  expect_s7_class(modt_c_lightrf, Classification)
 })
 
 ## LightRF Res Classification ----
