@@ -11,7 +11,7 @@
 #' to plot 2 plots per row
 #' @param byrow Logical: If TRUE, draw plots in order provided by row, otherwise by column.
 #'
-#' @return NULL, invisibly.
+#' @return Called for its side effect of plotting a panel of **ggplot2** plots.
 #'
 #' @author EDG
 #' @export
@@ -36,7 +36,7 @@ multigplot <- function(plots = NULL, nrows = NULL, byrow = TRUE) {
       )
     )
   }
-  invisible(NULL)
+  invisible()
 } # rtemis::multigplot
 
 

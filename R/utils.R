@@ -594,7 +594,7 @@ roundtofrac <- function(x, t = .5) {
 #' @param decimal_places Integer: Number of decimal place to use if `ddSci = TRUE`.
 #' @param na.rm Logical: passed to `base::range`
 #'
-#' @return `NULL`, invisibly.
+#' @return Called for its side effect of printing the range of `x`.
 #'
 #' @author EDG
 #' @export
@@ -607,7 +607,7 @@ catrange <- function(x, ddSci = TRUE, decimal_places = 1, na.rm = TRUE) {
   } else {
     paste(range(x, na.rm = na.rm), collapse = " to ")
   }
-  invisible(NULL)
+  invisible()
 } # rtemis::catrange
 
 

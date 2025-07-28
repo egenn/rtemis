@@ -33,7 +33,7 @@ method(check_factor_levels, class_data.frame) <- function(x, y, z) {
       }
     }
   }
-  invisible(NULL)
+  invisible()
 } # /method(check_factor_levels, class_data.frame)
 
 method(check_factor_levels, class_data.table) <- function(x, y, z) {
@@ -63,7 +63,7 @@ method(check_factor_levels, class_data.table) <- function(x, y, z) {
       }
     }
   }
-  invisible(NULL)
+  invisible()
 } # /method(check_factor_levels, class_data.table)
 
 #' Check data ahead of supervised learning
@@ -157,7 +157,7 @@ check_supervised <- function(
   if (verbosity > 0L) {
     msg2done()
   }
-  invisible(NULL)
+  invisible()
 } # /rtemis::check_supervised
 
 
@@ -191,5 +191,5 @@ check_unsupervised_data <- function(x, allow_missing = FALSE, verbosity = 1L) {
   if (verbosity > 0L) {
     msg2done()
   }
-  invisible(NULL)
+  invisible()
 } # /rtemis::check_unsupervised_data
