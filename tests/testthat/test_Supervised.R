@@ -191,14 +191,14 @@ test_that("train() GLMNET Regression with auto-lambda + alpha grid search succee
 })
 
 ## Res GLMNET Regression + auto-lambda + alpha grid search ----
-resmod_r_glmnet <- train(
+resmodt_r_glmnet <- train(
   x = datr_train,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0.5, 1)),
   outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
 )
 test_that("train() Res-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
-  expect_s7_class(resmod_r_glmnet, RegressionRes)
+  expect_s7_class(resmodt_r_glmnet, RegressionRes)
 })
 
 ## GLMNET Classification ----
