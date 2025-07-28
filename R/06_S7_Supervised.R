@@ -361,9 +361,9 @@ Classification <- new_class(
   name = "Classification",
   parent = Supervised,
   properties = list(
-    predicted_prob_training = class_double | NULL,
-    predicted_prob_validation = class_double | NULL,
-    predicted_prob_test = class_double | NULL,
+    predicted_prob_training = class_double | class_data.frame | NULL,
+    predicted_prob_validation = class_double | class_data.frame | NULL,
+    predicted_prob_test = class_double | class_data.frame | NULL,
     binclasspos = class_integer
   ),
   constructor = function(
@@ -1132,7 +1132,6 @@ method(show, SupervisedRes) <- function(
   # Class name + Alg name (2 lines)
   out <- paste0(
     show_S7name(paste("Resampled", x@type, "Model"), output_type = output_type),
-    "  ",
     highlight(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
@@ -2071,13 +2070,16 @@ method(get_metric, ClassificationRes) <- function(x, set, metric) {
 #'
 #' @keywords internal
 #' @noRd
-method(show, Supervised) <- function(x, output_type = NULL, filename = NULL) {
+method(show, Supervised) <- function(
+  x,
+  output_type = NULL,
+  filename = NULL
+) {
   # Generate a single formatted string by combining the output of the show methods for each component
 
   # Class name
   out <- paste0(
     show_S7name(x@type, output_type = output_type),
-    "  ",
     highlight(x@algorithm, output_type = output_type),
     " (",
     get_alg_desc(x@algorithm),
