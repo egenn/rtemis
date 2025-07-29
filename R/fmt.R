@@ -480,7 +480,7 @@ show_pad <- function(pad = 2L, output_type = NULL) {
     },
     "html" = {
       # HTML: pad with non-breaking spaces
-      paste(rep("&nbsp;", pad), collapse = "")
+      strrep("&nbsp;", pad)
     },
     "plain" = pad_str
   )

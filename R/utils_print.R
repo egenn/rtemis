@@ -485,8 +485,7 @@ show_df <- function(
   if (incl_colnames) {
     out <- paste0(
       out,
-      strrep(" ", xrownames_spacing),
-      collapse = ""
+      strrep(" ", xrownames_spacing)
     )
     if (justify == "left") {
       out <- paste0(out, spacer)
