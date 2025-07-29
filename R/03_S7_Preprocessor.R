@@ -355,9 +355,8 @@ method(show, Preprocessor) <- function(
 } # /rtemis::show.Preprocessor
 
 # Print Preprocessor ----
-method(print, Preprocessor) <- function(x, pad = 0L, ...) {
-  objcat("Preprocessor", pad = pad)
-  printls(props(x), pad = pad + 2L, print_df = FALSE)
+method(print, Preprocessor) <- function(x, pad = 0L, output_type = NULL, ...) {
+  cat(show(x, output_type = output_type))
   invisible(x)
 } # /rtemis::print.Preprocessor
 
