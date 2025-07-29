@@ -278,7 +278,7 @@ method(show, MetricsRes) <- function(
     pad = pad,
     output_type = output_type
   )
-  out <- paste0(out, paste0(rep(" ", pad), collapse = ""))
+  out <- paste0(out, strrep(" ", pad))
   out <- paste0(
     out,
     italic("  Showing mean (sd) across resamples.\n", output_type = output_type)

@@ -19,7 +19,7 @@ testthat::test_that("setup_Preprocessor() succeeds", {
   expect_s7_class(prp, PreprocessorParameters)
 })
 
-# preprocess(PreprocessorParameters) ----
+# Preprocessor: preprocess(PreprocessorParameters) ----
 res <- resample(iris, setup_Resampler(seed = 2025))
 iris_train <- iris[res$Fold_1, ]
 iris_test <- iris[-res$Fold_1, ]
