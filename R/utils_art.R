@@ -248,7 +248,7 @@ show_col <- function(
     if (newline_pre) {
       result <- paste0(result, "\n")
     }
-    result <- paste0(result, paste0(rep(" ", pad), collapse = ""))
+    result <- paste0(result, strrep(" ", pad))
     result <- paste0(result, text)
     if (newline) {
       result <- paste0(result, "\n")
@@ -266,7 +266,7 @@ show_col <- function(
         highlight(build_padcat(title, pad = pad, newline = title_newline))
       )
     }
-    result <- paste0(result, paste0(rep(" ", pad), collapse = ""), "NULL")
+    result <- paste0(result, strrep(" ", pad), "NULL")
     return(result)
   }
 

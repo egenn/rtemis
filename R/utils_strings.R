@@ -95,7 +95,7 @@ rtcitation <- paste0(
 
 yay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
-    rep(" ", pad),
+    strrep(" ", pad),
     green("\u2714 "),
     paste(..., sep = sep),
     end,
@@ -105,7 +105,7 @@ yay <- function(..., sep = " ", end = "\n", pad = 0) {
 
 nay <- function(..., sep = " ", end = "\n", pad = 0) {
   message(
-    rep(" ", pad),
+    strrep(" ", pad),
     red("\u2715 "),
     paste(..., sep = sep),
     end,
@@ -294,7 +294,7 @@ padcat <- function(
   if (newline_pre) {
     cat("\n")
   }
-  cat(rep(" ", pad), sep = "")
+  cat(strrep(" ", pad))
   if (!is.null(col)) {
     cat(col(x, TRUE))
   } else {
@@ -306,7 +306,7 @@ padcat <- function(
 } # rtemis::padcat
 
 pastebox <- function(x, pad = 0) {
-  paste0(paste0(rep(" ", pad), collapse = ""), ".:", x)
+  paste0(strrep(" ", pad), ".:", x)
 }
 
 #' Show S7 class name
@@ -332,7 +332,7 @@ show_S7name <- function(
 ) {
   output_type <- match.arg(output_type)
   paste0(
-    paste0(rep(" ", pad), collapse = ""),
+    strrep(" ", pad),
     gray(if (verbosity > 1L) "<rt " else "<", output_type = output_type),
     # fmt(x, col = col, bold = TRUE, output_type = output_type),
     fmt_gradient(
@@ -371,7 +371,7 @@ objcat <- function(
 
   out <- show_S7name(
     x,
-    col = col,
+    colors = col,
     pad = pad,
     verbosity = verbosity,
     output_type = output_type

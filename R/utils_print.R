@@ -70,7 +70,7 @@ printls <- function(
     if (!is.null(title)) {
       padcat(title, pad = pad, newline = title_newline, newline_pre = FALSE)
     }
-    cat(paste0(rep(" ", pad), collapse = ""), "NULL", sep = "")
+    cat(strrep(" ", pad), "NULL", sep = "")
   } else if (length(x) == 0) {
     cat(class(x), "of length 0.\n")
   } else if (is.data.frame(x) && !print_df) {
@@ -306,9 +306,9 @@ cpad <- function(x, length = NULL, adjust = c("right", "left")) {
   } else {
     reps <- max(0, length - nchar(x))
     if (adjust == "right") {
-      paste0(paste0(rep(" ", reps), collapse = ""), x)
+      paste0(strrep(" ", reps), x)
     } else {
-      paste0(x, paste0(rep(" ", reps), collapse = ""))
+      paste0(x, strrep(" ", reps))
     }
   }
 } # /rtemis::cpad
@@ -370,12 +370,12 @@ printdf <- function(
   })
 
   xrownames_spacing <- if (rownames) max(nchar(xrownames)) + pad else pad
-  spacer <- paste0(rep(" ", spacing), collapse = "")
+  spacer <- strrep(" ", spacing)
   if (newline_pre) {
     cat("\n")
   }
   if (colnames) {
-    cat(paste0(rep(" ", xrownames_spacing), collapse = ""))
+    cat(strrep(" ", xrownames_spacing))
     if (justify == "left") {
       cat(spacer)
     }
@@ -479,13 +479,13 @@ show_df <- function(
   } else {
     pad
   }
-  spacer <- paste0(rep(" ", spacing), collapse = "")
+  spacer <- strrep(" ", spacing)
 
   out <- character()
   if (incl_colnames) {
     out <- paste0(
       out,
-      rep(" ", xrownames_spacing),
+      strrep(" ", xrownames_spacing),
       collapse = ""
     )
     if (justify == "left") {
@@ -598,7 +598,7 @@ show_table <- function(
   out <- paste0(
     out,
     bold(formatted_dimname1, output_type = output_type),
-    paste0(rep(" ", spacing), collapse = "")
+    strrep(" ", spacing)
   )
 
   # Column names
@@ -931,7 +931,7 @@ show_ls <- function(
     if (newline_pre) {
       result <- paste0(result, "\n")
     }
-    result <- paste0(result, paste0(rep(" ", pad), collapse = ""))
+    result <- paste0(result, strrep(" ", pad))
     result <- paste0(result, text)
     if (newline) {
       result <- paste0(result, "\n")
@@ -954,7 +954,7 @@ show_ls <- function(
         build_padcat(title, pad = pad, newline = title_newline)
       )
     }
-    result <- paste0(result, paste0(rep(" ", pad), collapse = ""), "NULL")
+    result <- paste0(result, strrep(" ", pad), "NULL")
   } else if (length(x) == 0) {
     result <- paste0(result, class(x), " of length 0.\n")
   } else if (is.data.frame(x) && !print_df) {

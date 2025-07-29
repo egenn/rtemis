@@ -52,7 +52,7 @@ xtdescribe <- function(
   # ?is this minimum delta?
   delta <- min(diff(time_us))
   cat(
-    rep(" ", leftwidth),
+    strrep(" ", leftwidth),
     "  Delta (",
     time_name,
     ") = ",
@@ -62,7 +62,7 @@ xtdescribe <- function(
   )
   span <- ((max(time_us) - min(time_us)) / delta) + 1
   cat(
-    rep(" ", leftwidth),
+    strrep(" ", leftwidth),
     "  Span (",
     time_name,
     ") = ",
@@ -79,7 +79,7 @@ xtdescribe <- function(
     "does not uniquely identify"
   }
   cat(
-    rep(" ", leftwidth),
+    strrep(" ", leftwidth),
     "  (",
     id_name,
     "*",
@@ -98,7 +98,7 @@ xtdescribe <- function(
   id_freq <- table(x[[id_name]])
   id_freq_quant <- quantile(id_freq, c(0, 0.05, 0.25, 0.5, 0.75, 0.95, 1))
   cat(
-    rep(" ", 20),
+    strrep(" ", 20),
     "\t",
     paste(id_freq_quant, collapse = "\t"),
     "\n",

@@ -80,20 +80,32 @@ method(`[[`, PreprocessorParameters) <- function(x, name) {
   props(x)[[name]]
 }
 
-#' Print `PreprocessorParameters` object
-#'
-#' @param x `PreprocessorParameters` object.
-#' @param ... Ignored.
-#'
-#' @author EDG
-#' @noRd
-print.PreprocessorParameters <- function(x, pad = 0L, ...) {
-  objcat("PreprocessorParameters", pad = pad)
-  printls(props(x), pad = pad + 2L, ...)
-}
-method(print, PreprocessorParameters) <- function(x, ...) {
-  print.PreprocessorParameters(x, ...)
-}
+# Show PreprocessorParameters ----
+method(show, PreprocessorParameters) <- function(
+  x,
+  limit = -1L,
+  pad = 0L,
+  output_type = NULL
+) {
+  output_type <- get_output_type(output_type)
+  paste0(
+    show_S7name("PreprocessorParameters", pad = pad, output_type = output_type),
+    show_ls(props(x), pad = pad, limit = limit, output_type = output_type)
+  )
+} # /rtemis::show.PreprocessorParameters
+
+
+# Print PreprocessorParameters ----
+method(print, PreprocessorParameters) <- function(
+  x,
+  limit = -1L,
+  output_type = NULL,
+  ...
+) {
+  cat(show(x, limit = limit, output_type = output_type))
+  invisible(x)
+} # /rtemis::print.PreprocessorParameters
+
 
 # setup_Preprocessor() ----
 #' Setup `PreprocessorParameters`
@@ -327,6 +339,20 @@ Preprocessor <- new_class(
     )
   }
 ) # /Preprocessor
+
+# Show Preprocessor ----
+method(show, Preprocessor) <- function(
+  x,
+  pad = 0L,
+  print_df = FALSE,
+  output_type = NULL
+) {
+  output_type <- get_output_type(output_type)
+  out <- paste0(
+    show_S7name("Preprocessor", pad = pad, output_type = output_type),
+    show_ls(props(x), pad = pad, print_df = print_df)
+  )
+} # /rtemis::show.Preprocessor
 
 # Print Preprocessor ----
 method(print, Preprocessor) <- function(x, pad = 0L, ...) {

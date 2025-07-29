@@ -457,3 +457,31 @@ fmt_gradient <- function(
   # Combine all colored characters
   paste(gradient_chars, collapse = "")
 } # /rtemis::fmt_gradient
+
+
+#' Add padding
+#'
+#' Convenience function to add padding.
+#'
+#' @param pad Integer: Number of spaces to ouput - that's all.
+#'
+#' @keywords internal
+#' @noRd
+show_pad <- function(pad = 2L, output_type = NULL) {
+  if (is.null(output_type)) {
+    output_type <- get_output_type()
+  }
+  pad_str <- strrep(" ", pad)
+  switch(
+    output_type,
+    "ansi" = {
+      # ANSI: pad with spaces, optionally style (no color for pad)
+      pad_str
+    },
+    "html" = {
+      # HTML: pad with non-breaking spaces
+      paste(rep("&nbsp;", pad), collapse = "")
+    },
+    "plain" = pad_str
+  )
+} # /rtemis::show_pad

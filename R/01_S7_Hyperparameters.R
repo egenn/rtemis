@@ -201,8 +201,8 @@ method(show, Hyperparameters) <- function(
 
 
 # Print Hyperparameters ----
-method(print, Hyperparameters) <- function(x, ...) {
-  cat(show(x))
+method(print, Hyperparameters) <- function(x, output_type = NULL, ...) {
+  cat(show(x, output_type = output_type))
   invisible(x)
 } # rtemis::print.Hyperparameters
 
