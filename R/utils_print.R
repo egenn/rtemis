@@ -637,10 +637,12 @@ pastels <- function(x, bullet = "  -") {
 } # /rtemis::pastels
 
 
-#' Print first few elements of a vector with ellipsis
+#' Get first few elements of a vector with ellipsis
 #'
 #' @details
 #' Used, for example, by `show_ls`
+#'
+#' @return Character.
 #'
 #' @keywords internal
 #' @noRd
@@ -874,6 +876,26 @@ printchar <- function(x, left_pad = 2) {
 } # /rtemis::printchar
 
 
+# Helper function to build padded string equivalent of padcat
+show_padded <- function(
+  text,
+  pad = 2L,
+  newline_pre = FALSE,
+  newline = FALSE
+) {
+  result <- ""
+  if (newline_pre) {
+    result <- paste0(result, "\n")
+  }
+  result <- paste0(result, strrep(" ", pad))
+  result <- paste0(result, text)
+  if (newline) {
+    result <- paste0(result, "\n")
+  }
+  result
+}
+
+
 #' Show list as formatted string
 #'
 #' Works exactly like printls, but instead of printing to console with cat,
@@ -896,6 +918,7 @@ printchar <- function(x, left_pad = 2) {
 #' @return Character: Formatted string that can be printed with cat()
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 
@@ -919,25 +942,6 @@ show_ls <- function(
 ) {
   output_type <- match.arg(output_type)
 
-  # Helper function to build padded string equivalent of padcat
-  build_padcat <- function(
-    text,
-    pad = 2L,
-    newline_pre = FALSE,
-    newline = FALSE
-  ) {
-    result <- ""
-    if (newline_pre) {
-      result <- paste0(result, "\n")
-    }
-    result <- paste0(result, strrep(" ", pad))
-    result <- paste0(result, text)
-    if (newline) {
-      result <- paste0(result, "\n")
-    }
-    result
-  }
-
   # Initialize output string
   result <- ""
 
@@ -950,12 +954,12 @@ show_ls <- function(
     if (!is.null(title)) {
       result <- paste0(
         result,
-        build_padcat(title, pad = pad, newline = title_newline)
+        show_padded(title, pad = pad, newline = title_newline)
       )
     }
     result <- paste0(result, strrep(" ", pad), "NULL")
   } else if (length(x) == 0) {
-    result <- paste0(result, class(x), " of length 0.\n")
+    result <- paste0(result, class(x)[1], " of length 0.\n")
   } else if (is.data.frame(x) && !print_df) {
     result <- paste0(
       result,
@@ -976,14 +980,14 @@ show_ls <- function(
     x <- as.list(x)
     # Get class of each element
     classes_ <- sapply(x, function(el) class(el)[[1L]])
-    # Remove closures that will cause error
+    # Deparse closures that would cause error
     is_fn <- which(sapply(x, is.function))
     if (length(is_fn) > 0) {
       for (i in is_fn) {
         x[[i]] <- paste0(as.character(head(deparse(x[[i]]), n = 1L)), "...")
       }
     }
-    # Remove NULLs
+    # Set NULLs to "NULL"
     null_index <- sapply(x, is.null)
     x[null_index] <- "NULL"
     xnames <- names(x)
@@ -997,7 +1001,7 @@ show_ls <- function(
       }
       result <- paste0(
         result,
-        build_padcat(title, pad = title.pad, newline = title_newline)
+        show_padded(title, pad = title.pad, newline = title_newline)
       )
     } # /title
 
@@ -1019,7 +1023,7 @@ show_ls <- function(
           output_type = output_type
         )
       )
-      result <- paste0(result, build_padcat(limit_text, pad = pad))
+      result <- paste0(result, show_padded(limit_text, pad = pad))
     }
 
     for (i in seq_along(x)) {
@@ -1037,7 +1041,7 @@ show_ls <- function(
             output_type = output_type
           )
         )
-        result <- paste0(result, build_padcat(more_text, pad = pad))
+        result <- paste0(result, show_padded(more_text, pad = pad))
         break
       }
 
@@ -1077,7 +1081,7 @@ show_ls <- function(
               x[[i]],
               pad = lhs + 2,
               item_format = item_format,
-              newline_pre = TRUE,
+              newline_pre = FALSE,
               format_fn_rhs = format_fn_rhs,
               print_class = print_class,
               limit = limit,
