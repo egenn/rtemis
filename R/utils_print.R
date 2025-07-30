@@ -963,11 +963,11 @@ show_ls <- function(
   } else if (is.data.frame(x) && !print_df) {
     result <- paste0(
       result,
-      "data.frame with ",
+      show_padded("(data.frame with ", pad = pad),
       NROW(x),
       " rows and ",
       NCOL(x),
-      " columns.\n"
+      " columns.)\n"
     )
   } else if (!is_common_struct(x)) {
     result <- paste0(
@@ -1081,7 +1081,7 @@ show_ls <- function(
               x[[i]],
               pad = lhs + 2,
               item_format = item_format,
-              newline_pre = FALSE,
+              newline_pre = TRUE, # important
               format_fn_rhs = format_fn_rhs,
               print_class = print_class,
               limit = limit,
@@ -1135,8 +1135,7 @@ show_ls <- function(
             ),
             output_type = output_type
           ),
-          ": ",
-          "\n"
+          ":\n" # S7 show begin on next line, otherwise must have different pad for first line (S7name) and for rest
         )
         result <- paste0(result, item_text)
         # Show S7 object: show() must return a character string of length 1
