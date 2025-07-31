@@ -63,7 +63,17 @@ get_alg_setup <- function(algorithm) {
   paste0("setup_", get_alg_name(algorithm))
 }
 
-get_alg_desc <- function(algorithm) {
+#' Get algorithm description
+#'
+#' @param algorithm Character: Algorithm name.
+#'
+#' @return Character: Algorithm description.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+desc_alg <- function(algorithm) {
   algdesc <- supervised_algorithms[, 2][
     tolower(algorithm) == tolower(supervised_algorithms[, 1])
   ]
@@ -71,11 +81,30 @@ get_alg_desc <- function(algorithm) {
     cli::cli_abort(algorithm, "Incorrect algorithm specified")
   }
   algdesc
-}
+} # /rtemis::desc_alg
+
+#' Algorithm description with short name
+#'
+#' @param algorithm Character: Algorithm name.
+#'
+#' @return Character: Algorithm description with short name in parentheses.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+desc_abb_alg <- function(algorithm) {
+  paste0(
+    desc_alg(algorithm),
+    " (",
+    get_alg_name(algorithm),
+    ")"
+  )
+} # /rtemis::desc_plus_alg
 
 get_train_fn <- function(algorithm) {
   paste0("train_", get_alg_name(algorithm))
-} # rtemis::get_train_fn
+} # rtemis::desc_abb_fn
 
 get_default_hyperparameters <- function(algorithm, type, ncols) {
   alg_name <- get_alg_name(algorithm)
