@@ -1665,12 +1665,12 @@ method(desc, SupervisedRes) <- function(x, metric = NULL) {
   invisible(out)
 } # / rtemis::desc.SupervisedRes
 
-# describe SupervisedRes ----
+# Describe SupervisedRes ----
 method(describe, SupervisedRes) <- function(x, ...) {
   cat(desc(x), "\n")
 } # /rtemis::describe.SupervisedRes
 
-# present SupervisedRes ----
+# Present SupervisedRes ----
 method(present, SupervisedRes) <- function(x, theme = choose_theme(), ...) {
   # Describe the model
   describe(x)
@@ -2164,6 +2164,9 @@ method(get_metric, ClassificationRes) <- function(x, set, metric) {
 #' Describe multiple Supervised or SupervisedRes objects
 #'
 #' @param x List of Supervised or SupervisedRes objects.
+#' @param metric Character: Metric to use for description. Default is NULL, which uses "Balanced_Accuracy" for Classification and "Rsq" for Regression.
+#' @param decimal_places Integer: Number of decimal places to round metrics to.
+#' @param output_type Character: Output type for formatting.
 #'
 #' @author EDG
 #'
@@ -2191,14 +2194,21 @@ method(desc, class_list) <- function(
     "Supervised"
   }
 
+  # Check that all moodels are of the same type
+  if (!all(sapply(x, function(m) m@type == x[[1]]@type))) {
+    cli::cli_abort(
+      "All objects must be of the same supervised learning type (Classification or Regression)."
+    )
+  }
+
+  # Name list using algorithm names
+  if (is.null(names(x))) {
+    names(x) <- sapply(x, function(m) m@algorithm)
+  }
+  suptype <- x[[1]]@type
+
   # SupervisedRes ----
   if (type == "SupervisedRes") {
-    # Check that all moodels are of the same type
-    if (!all(sapply(x, function(m) m@type == x[[1]]@type))) {
-      cli::cli_abort(
-        "All SupervisedRes objects must be of the same supervised learning type (Classification or Regression)."
-      )
-    }
     # Check that the same resampling method was used - ideally same seed, but do not enforce that, but report it
     # Get resampling parameters from each
     res_params <- lapply(x, function(m) m@outer_resampler@parameters)
@@ -2217,44 +2227,75 @@ method(desc, class_list) <- function(
     }
 
     # Describe SupervisedRes objects
-    type <- x[[1]]@type
     # 1. Report names of algorithms used.
     out <- paste0(
       oxfordcomma(sapply(x, function(m) desc_abb_alg(m@algorithm))),
       " were used for ",
-      type,
+      suptype,
       ".\n"
     )
     # 2. Get metric
     if (is.null(metric)) {
-      metric <- if (type == "Classification") {
+      metric <- if (suptype == "Classification") {
         "Balanced_Accuracy"
       } else {
         "Rsq"
       }
     }
     metricv <- sapply(x, function(m) m@metrics_test@mean_metrics[[metric]])
-    # 3. Report mean metric across all models, sorting by performance
-    metric_sorted <- sort(metricv, decreasing = TRUE)
-    out <- paste0(
-      out,
-      "The top-performing model was ",
-      names(metric_sorted)[1],
-      " with ",
-      metric,
-      " of ",
-      ddSci(metric_sorted[1], decimal_places = decimal_places),
-      ", followed by ",
-      oxfordcomma(names(metric_sorted[-1])),
-      " with ",
-      metric,
-      " of ",
-      oxfordcomma(ddSci(metric_sorted[-1], decimal_places = decimal_places)),
-      " respectively."
-    )
-    return(out)
   } # /SupervisedRes
   # => Supervised ----
+  if (type == "Supervised") {
+    # Describe SupervisedRes objects
+    # 1. Report names of algorithms used.
+    out <- paste0(
+      oxfordcomma(sapply(x, function(m) desc_abb_alg(m@algorithm))),
+      " were used for ",
+      suptype,
+      ".\n"
+    )
+    # 2. Get metric
+    if (is.null(metric)) {
+      metric <- if (suptype == "Classification") {
+        "Balanced_Accuracy"
+      } else {
+        "Rsq"
+      }
+    }
+    if (suptype == "Classification") {
+      # Classification
+      metricv <- sapply(x, function(m) {
+        m@metrics_test@metrics[["Overall"]][[metric]]
+      })
+    } else {
+      # Regression
+      metricv <- sapply(x, function(m) m@metrics_test@metrics[[metric]])
+    }
+  } # /Supervised
+
+  # 3. Report mean metric across all models, sorting by performance
+  metric_sorted <- sort(metricv, decreasing = TRUE)
+  # => Get ties at specified decimal_places
+  out <- paste0(
+    out,
+    "The top-performing model was ",
+    bold(names(metric_sorted)[1], output_type = output_type),
+    " with a test-set ",
+    bold(labelify(metric), output_type = output_type),
+    " of ",
+    bold(
+      ddSci(metric_sorted[1], decimal_places = decimal_places),
+      output_type = output_type
+    ),
+    ", followed by ",
+    oxfordcomma(names(metric_sorted[-1])),
+    " with ",
+    metric,
+    " of ",
+    oxfordcomma(ddSci(metric_sorted[-1], decimal_places = decimal_places)),
+    " respectively."
+  )
+  out
 } # rtemis::desc.list
 
 
@@ -2263,6 +2304,11 @@ method(desc, class_list) <- function(
 #' @param x List of Supervised or SupervisedRes objects.
 #'
 #' @return Character of descriptionm invisibly. Prints description to output.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
 method(describe, class_list) <- function(
   x,
   metric = NULL,
