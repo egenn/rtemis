@@ -58,6 +58,9 @@ init_project_dir <- function(verbosity = 1L) {
 
 #' Recycle values of vector to match length of target
 #'
+#' @details
+#' Used internally by many functions.
+#'
 #' @param x Vector to be recycled
 #' @param target Object whose length defines target length
 #'
@@ -65,7 +68,6 @@ init_project_dir <- function(verbosity = 1L) {
 #'
 #' @author EDG
 #' @export
-
 recycle <- function(x, target) {
   lenx <- length(x)
   lent <- length(target)
@@ -119,7 +121,7 @@ drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
 } # rtemis::drange
 
 
-#' \pkg{rtemis} internal: Get Variable Name from Arguments
+#' Get Variable Name from Arguments
 #'
 #' Get the name of the variable passed as argument, limit number of characters in case of failure
 #'
@@ -130,9 +132,9 @@ drange <- function(x, lo = 0, hi = 1, byCol = TRUE) {
 #' @param max_nchar Integer: Maximum N of characters to allow for name
 #'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
-
 getName <- function(x, alt = "x", max_nchar = 20) {
   name <- deparse(substitute(x))
 
@@ -154,6 +156,7 @@ getName <- function(x, alt = "x", max_nchar = 20) {
 #' @param retain_class Logical: If TRUE, output is always same class as input.
 #'
 #' @return The mode of `x`
+#'
 #' @author EDG
 #' @export
 #'
@@ -558,6 +561,8 @@ rtLetters <- function(n = 100, caps = FALSE) {
 } # rtemis::rtLetters
 
 
+#' Format singular/plural noun
+#'
 #' @keywords internal
 #' @noRd
 singorplu <- function(n, x) {
@@ -572,7 +577,9 @@ singorplu <- function(n, x) {
 #' Round to nearest .5
 #'
 #' @param x numeric vector
+#'
 #' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 roundtohalf <- function(x) {
@@ -580,6 +587,10 @@ roundtohalf <- function(x) {
 }
 
 
+#' Round to nearest fraction
+#'
+#' @author EDG
+#'
 #' @keywords internal
 #' @noRd
 roundtofrac <- function(x, t = .5) {
