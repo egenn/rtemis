@@ -14,7 +14,8 @@ present.list(
   filename = NULL,
   file_width = 800,
   file_height = 600,
-  file_scale = 1
+  file_scale = 1,
+  verbosity = 1L
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ displayed in the boxplot.}
 \item{file_height}{Numeric: Height of the exported image in pixels.}
 
 \item{file_scale}{Numeric: Scale factor for the exported image.}
+
+\item{verbosity}{Integer: Verbosity level.}
 }
 \value{
 plotly object
