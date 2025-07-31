@@ -176,7 +176,7 @@ method(show, Supervised) <- function(
     show_S7name(x@type, output_type = output_type),
     highlight(x@algorithm, output_type = output_type),
     " (",
-    get_alg_desc(x@algorithm),
+    desc_alg(x@algorithm),
     ")\n"
   )
 
@@ -198,7 +198,7 @@ method(show, Supervised) <- function(
       out,
       fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
-      get_alg_desc(x@calibration_model@algorithm),
+      desc_alg(x@calibration_model@algorithm),
       ".\n\n"
     )
   }
@@ -209,7 +209,7 @@ method(show, Supervised) <- function(
       out,
       fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
-      get_alg_desc(x@calibration_models[[1]]@algorithm),
+      desc_alg(x@calibration_models[[1]]@algorithm),
       " with ",
       desc(x@calibration_models[[1]]@outer_resampler@parameters),
       ".\n\n"
@@ -256,7 +256,7 @@ method(print, Supervised) <- function(
 # Describe Supervised ----
 method(describe, Supervised) <- function(x) {
   type <- x@type
-  algorithm <- get_alg_desc(x@algorithm)
+  algorithm <- desc_alg(x@algorithm)
   cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
   desc <- paste0(algorithm, " was used for ", tolower(type), ".")
 
@@ -352,7 +352,7 @@ method(show, Calibration) <- function(x, output_type = NULL) {
     show_S7name("Calibration", output_type = output_type),
     highlight(x@algorithm, output_type = output_type),
     " (",
-    get_alg_desc(x@algorithm),
+    desc_alg(x@algorithm),
     ")\n"
   )
 } # /rtemis::show.Calibration
@@ -366,7 +366,7 @@ method(print, Calibration) <- function(x, ...) {
     "  ",
     highlight(x@algorithm),
     " (",
-    get_alg_desc(x@algorithm),
+    desc_alg(x@algorithm),
     ")\n",
     sep = ""
   )
@@ -394,7 +394,7 @@ method(print, CalibrationRes) <- function(x, ...) {
     "  ",
     highlight(x@algorithm),
     " (",
-    get_alg_desc(x@algorithm),
+    desc_alg(x@algorithm),
     ")\n",
     sep = ""
   )
@@ -1224,7 +1224,7 @@ method(show, SupervisedRes) <- function(
     show_S7name(paste("Resampled", x@type, "Model"), output_type = output_type),
     highlight(x@algorithm, output_type = output_type),
     " (",
-    get_alg_desc(x@algorithm),
+    desc_alg(x@algorithm),
     ")\n"
   )
 
@@ -1254,7 +1254,7 @@ method(show, SupervisedRes) <- function(
       out,
       fmt("\U27CB", col = rt_green, bold = TRUE, output_type = output_type),
       " Calibrated using ",
-      get_alg_desc(x@calibration_models[[1]]@algorithm),
+      desc_alg(x@calibration_models[[1]]@algorithm),
       " with ",
       desc(x@calibration_models[[1]]@outer_resampler@parameters),
       ".\n"
@@ -1488,7 +1488,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
     "  ",
     highlight(x@algorithm),
     " (",
-    get_alg_desc(x@algorithm),
+    desc_alg(x@algorithm),
     ")\n",
     sep = ""
   )
@@ -1514,7 +1514,7 @@ method(print, CalibratedClassificationRes) <- function(x, ...) {
     "  ",
     bold(green("\U27CB")),
     " Calibrated using ",
-    get_alg_desc(x@calibration_models[[1]]@algorithm),
+    desc_alg(x@calibration_models[[1]]@algorithm),
     " with ",
     desc(x@calibration_models[[1]]@outer_resampler@parameters),
     ".\n\n",
@@ -1622,7 +1622,7 @@ RegressionRes <- new_class(
 # desc SupervisedRes ----
 method(desc, SupervisedRes) <- function(x, metric = NULL) {
   type <- x@type
-  algorithm <- get_alg_desc(x@algorithm)
+  algorithm <- desc_alg(x@algorithm)
   # cat(algorithm, " was used for ", tolower(type), ".\n", sep = "")
   out <- paste0(algorithm, " was used for ", tolower(type), ".")
 
@@ -2158,3 +2158,124 @@ method(get_metric, ClassificationRes) <- function(x, set, metric) {
     }
   )
 }
+
+
+# Describe list of Supervised/Res ----
+#' Describe multiple Supervised or SupervisedRes objects
+#'
+#' @param x List of Supervised or SupervisedRes objects.
+#'
+#' @author EDG
+#'
+#' @keywords internal
+#' @noRd
+method(desc, class_list) <- function(
+  x,
+  metric = NULL,
+  decimal_places = 3L,
+  output_type = NULL
+) {
+  output_type <- get_output_type(output_type)
+  # Check all elements are Supervised or all are SupervisedRes objects
+  if (
+    !all(sapply(x, S7_inherits, Supervised)) &&
+      !all(sapply(x, S7_inherits, SupervisedRes))
+  ) {
+    cli::cli_abort(
+      "All elements must be either Supervised or SupervisedRes objects"
+    )
+  }
+  type <- if (S7_inherits(x[[1]], SupervisedRes)) {
+    "SupervisedRes"
+  } else {
+    "Supervised"
+  }
+
+  # SupervisedRes ----
+  if (type == "SupervisedRes") {
+    # Check that all moodels are of the same type
+    if (!all(sapply(x, function(m) m@type == x[[1]]@type))) {
+      cli::cli_abort(
+        "All SupervisedRes objects must be of the same supervised learning type (Classification or Regression)."
+      )
+    }
+    # Check that the same resampling method was used - ideally same seed, but do not enforce that, but report it
+    # Get resampling parameters from each
+    res_params <- lapply(x, function(m) m@outer_resampler@parameters)
+    # Check all resamplers of same type
+    if (!all(sapply(res_params, function(p) p@type == res_params[[1]]@type))) {
+      cli::cli_warn(
+        "All SupervisedRes objects must use the same resampling method."
+      )
+    }
+    # ?replace with loop that checks all resampler params
+    # Check all resamplers use same n
+    if (!all(sapply(res_params, function(p) p@n == res_params[[1]]@n))) {
+      cli::cli_warn(
+        "All SupervisedRes objects must use the same number of resamples."
+      )
+    }
+
+    # Describe SupervisedRes objects
+    type <- x[[1]]@type
+    # 1. Report names of algorithms used.
+    out <- paste0(
+      oxfordcomma(sapply(x, function(m) desc_abb_alg(m@algorithm))),
+      " were used for ",
+      type,
+      ".\n"
+    )
+    # 2. Get metric
+    if (is.null(metric)) {
+      metric <- if (type == "Classification") {
+        "Balanced_Accuracy"
+      } else {
+        "Rsq"
+      }
+    }
+    metricv <- sapply(x, function(m) m@metrics_test@mean_metrics[[metric]])
+    # 3. Report mean metric across all models, sorting by performance
+    metric_sorted <- sort(metricv, decreasing = TRUE)
+    out <- paste0(
+      out,
+      "The top-performing model was ",
+      names(metric_sorted)[1],
+      " with ",
+      metric,
+      " of ",
+      ddSci(metric_sorted[1], decimal_places = decimal_places),
+      ", followed by ",
+      oxfordcomma(names(metric_sorted[-1])),
+      " with ",
+      metric,
+      " of ",
+      oxfordcomma(ddSci(metric_sorted[-1], decimal_places = decimal_places)),
+      " respectively."
+    )
+    return(out)
+  } # /SupervisedRes
+  # => Supervised ----
+} # rtemis::desc.list
+
+
+#' Print description of a list of Supervised or SupervisedRes objects
+#'
+#' @param x List of Supervised or SupervisedRes objects.
+#'
+#' @return Character of descriptionm invisibly. Prints description to output.
+method(describe, class_list) <- function(
+  x,
+  metric = NULL,
+  decimal_places = 3L,
+  output_type = NULL,
+  ...
+) {
+  out <- desc(
+    x,
+    metric = metric,
+    decimal_places = decimal_places,
+    output_type = output_type
+  )
+  cat(out, "\n")
+  invisible(out)
+} # rtemis::describe.list(Supervised/Res)
