@@ -1158,3 +1158,14 @@ resmodt_c_cart_repr <- show(resmodt_c_cart, output_type = "ansi")
 test_that("show() Tuned RegressionRes succeeds", {
   expect_type(resmodt_c_cart_repr, "character")
 })
+
+# describe list ----
+x <- list(
+  GLM = resmod_r_glm,
+  SVMlin = resmod_r_svml,
+  LightRF = resmodt_r_lightrf
+)
+out <- describe(x)
+test_that("describe() list of SupervisedRes objects returns character", {
+  expect_type(out, "character")
+})
