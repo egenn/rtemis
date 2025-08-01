@@ -53,8 +53,8 @@ x <- list(
   l = setup_LightCART()
 )
 
-show_ls(x, limit = 5L) |> cat()
-show_ls(x, limit = -1L) |> cat()
+# show_ls(x, limit = 5L) |> cat()
+# show_ls(x, limit = -1L) |> cat()
 
 test_that("show_ls() handles long lists", {
   expect_true(is.character(show_ls(x, limit = 5L)))
