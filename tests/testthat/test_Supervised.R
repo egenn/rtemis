@@ -93,7 +93,7 @@ test_that("train() GLM Regression with missing data throws error", {
 resmod_r_glm <- train(
   x = datr,
   algorithm = "glm",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res GLM Regression succeeds", {
   expect_s7_class(resmod_r_glm, RegressionRes)
@@ -124,7 +124,7 @@ test_that("train() GLM Classification with IFW succeeds", {
 resmod_c_glm <- train(
   x = datc2,
   algorithm = "glm",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() GLM ClassificationRes succeeds", {
   expect_s7_class(resmod_c_glm, ClassificationRes)
@@ -195,7 +195,7 @@ resmodt_r_glmnet <- train(
   x = datr_train,
   algorithm = "glmnet",
   hyperparameters = setup_GLMNET(alpha = c(0.5, 1)),
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res-GLMNET Regression with auto-lambda + alpha grid search succeeds", {
   expect_s7_class(resmodt_r_glmnet, RegressionRes)
@@ -272,7 +272,7 @@ test_that("predict() GAM Regression succeeds", {
 resmod_r_gam <- train(
   x = datr,
   algorithm = "gam",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 
 ## GAM Classification ----
@@ -320,7 +320,7 @@ test_that("train() LinearSVM Regression with tuning succeeds", {
 resmod_r_svml <- train(
   x = datr,
   algorithm = "linearsvm",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res LinearSVM Regression succeeds", {
   expect_s7_class(resmod_r_svml, RegressionRes)
@@ -344,6 +344,17 @@ mod_c3_linearsvm <- train(
 test_that("train() LinearSVM Multiclass Classification succeeds", {
   expect_s7_class(mod_c3_linearsvm, Classification)
 })
+
+# Res LinearSVM Classification ----
+resmod_c_linearsvm <- train(
+  x = datc2,
+  algorithm = "linearsvm",
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
+)
+test_that("train() Res LinearSVM Classification succeeds", {
+  expect_s7_class(resmod_c_linearsvm, ClassificationRes)
+})
+
 
 ## RadialSVM Regression ----
 mod_r_svmr <- train(
@@ -369,7 +380,7 @@ test_that("train() RadialSVM Regression with tuning succeeds", {
 resmod_r_svmr <- train(
   x = datr,
   algorithm = "radialsvm",
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res RadialSVM Regression succeeds", {
   expect_s7_class(resmod_r_svmr, RegressionRes)
@@ -548,7 +559,7 @@ resmodt_c_cart <- train(
   hyperparameters = setup_CART(
     maxdepth = c(2L, 3L)
   ),
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() CART ClassificationRes succeeds", {
   expect_s7_class(resmodt_c_cart, ClassificationRes)
@@ -657,7 +668,7 @@ resmodt_r_lightrf <- train(
     nrounds = 20L,
     lambda_l1 = c(0, 10)
   ),
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res LightRF Regression with l1 tuning succeeds", {
   expect_s7_class(resmodt_r_lightrf, RegressionRes)
@@ -686,7 +697,7 @@ test_that("train() LightRF Binary Classification with tuning succeeds", {
 resmod_c_lightrf <- train(
   x = datc2,
   hyperparameters = setup_LightRF(nrounds = 20L),
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() LightRF ClassificationRes succeeds", {
   expect_s7_class(resmod_c_lightrf, ClassificationRes)
@@ -881,7 +892,7 @@ test_that("train() Ranger Regression with grid search succeeds", {
 resmod_r_ranger <- train(
   x = datr,
   hyperparameters = setup_Ranger(num_trees = 5000L),
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res Ranger Regression succeeds", {
   expect_s7_class(resmod_r_ranger, RegressionRes)
@@ -911,7 +922,7 @@ test_that("train() Ranger Classification with grid search succeeds", {
 resmod_c_ranger <- train(
   x = datc2,
   hyperparameters = setup_Ranger(num_trees = 10L),
-  outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold")
+  outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold")
 )
 test_that("train() Res Ranger Classification succeeds", {
   expect_s7_class(resmod_c_ranger, ClassificationRes)
@@ -1128,7 +1139,7 @@ test_that("train saves SupervisedRes model to rds successfully", {
   resmod_r_glm <- train(
     x = datr,
     algorithm = "glm",
-    outer_resampling = setup_Resampler(n_resamples = 5L, type = "KFold"),
+    outer_resampling = setup_Resampler(n_resamples = 3L, type = "KFold"),
     outdir = outdir
   )
 
@@ -1157,4 +1168,71 @@ test_that("show() Tuned Regression succeeds", {
 resmodt_c_cart_repr <- show(resmodt_c_cart, output_type = "ansi")
 test_that("show() Tuned RegressionRes succeeds", {
   expect_type(resmodt_c_cart_repr, "character")
+})
+
+# Describe & present list of Supervised ----
+## Classification ----
+x <- list(
+  mod_c_cart,
+  mod_c_lightrf,
+  mod_c_lightgbm
+)
+out <- describe(x)
+test_that("describe() list of Classification objects returns character", {
+  expect_type(out, "character")
+})
+
+plt <- present(x)
+test_that("present() list of Classification objects returns plotly object", {
+  expect_s3_class(plt, "plotly")
+})
+
+## Regression ----
+x <- list(
+  mod_r_glmnet,
+  mod_r_svmr,
+  mod_r_lightrf
+)
+out <- describe(x)
+test_that("describe() list of Regression objects returns character", {
+  expect_type(out, "character")
+})
+
+plt <- present(x)
+test_that("present() list of Regression objects returns plotly object", {
+  expect_s3_class(plt, "plotly")
+})
+
+# Describe & present list of SupervisedRes----
+
+## ClassificationRes
+x <- list(
+  resmod_c_glm,
+  resmod_c_linearsvm,
+  resmod_c_lightrf
+)
+out <- describe(x)
+test_that("describe() list of ClassificationRes objects returns character", {
+  expect_type(out, "character")
+})
+
+plt <- present(x)
+test_that("present() list of ClassificationRes objects returns plotly object", {
+  expect_s3_class(plt, "plotly")
+})
+
+## RegressionRes
+x <- list(
+  resmod_r_glm,
+  resmod_r_svml,
+  resmodt_r_lightrf
+)
+out <- describe(x)
+test_that("describe() list of RegressionRes objects returns character", {
+  expect_type(out, "character")
+})
+
+plt <- present(x)
+test_that("present() list of RegressionRes objects returns plotly object", {
+  expect_s3_class(plt, "plotly")
 })

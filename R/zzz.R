@@ -84,7 +84,8 @@ setup_progress <- function() {
       vline,
       fmt_gradient(
         paste0(rep("\u2500", nchar(vline) - 13L), collapse = ""),
-        colors = c(kaimana_red, genlib_orange)
+        # colors = c("#dddddd", "#222222", "#dddddd")
+        colors = c(rt_purple, kaimana_green, rt_purple)
       ),
       bold("\n  Defaults"),
       "\n  \u2502   ",

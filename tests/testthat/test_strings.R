@@ -41,7 +41,7 @@ test_that("show_ls() works", {
 x <- list(
   a = 1:100,
   b = letters[1:100],
-  c = rnorm(100),
+  c = iris,
   d = sample(letters, 100, replace = TRUE),
   e = runif(100),
   f = setup_Preprocessor(),
@@ -52,6 +52,9 @@ x <- list(
   k = rnorm(100),
   l = setup_LightCART()
 )
+
+# show_ls(x, limit = 5L) |> cat()
+# show_ls(x, limit = -1L) |> cat()
 
 test_that("show_ls() handles long lists", {
   expect_true(is.character(show_ls(x, limit = 5L)))

@@ -17,6 +17,7 @@
 #' @param file_width Numeric: Width of the exported image in pixels.
 #' @param file_height Numeric: Height of the exported image in pixels.
 #' @param file_scale Numeric: Scale factor for the exported image.
+#' @param verbosity Integer: Verbosity level.
 #'
 #' @return plotly object
 #'
@@ -32,7 +33,8 @@ present.list <- function(
   filename = NULL,
   file_width = 800,
   file_height = 600,
-  file_scale = 1
+  file_scale = 1,
+  verbosity = 1L
 ) {
   # Check that all elements of x are either Supervised or SupervisedRes objects
   all_supervised <- all(sapply(x, function(m) {
@@ -52,6 +54,11 @@ present.list <- function(
   type <- unique(sapply(x, function(m) m@type))
   if (length(type) > 1) {
     cli::cli_abort("All models must be of the same type")
+  }
+
+  # Describe
+  if (verbosity > 0L) {
+    describe(x)
   }
 
   # Get names

@@ -17,6 +17,9 @@ Vector.
 \description{
 Recycle values of vector to match length of target
 }
+\details{
+Used internally by many functions.
+}
 \author{
 EDG
 }
