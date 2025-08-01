@@ -2194,7 +2194,7 @@ method(desc, class_list) <- function(
     "Supervised"
   }
 
-  # Check that all moodels are of the same type
+  # Check that all models are of the same type
   if (!all(sapply(x, function(m) m@type == x[[1]]@type))) {
     cli::cli_abort(
       "All objects must be of the same supervised learning type (Classification or Regression)."
