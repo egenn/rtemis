@@ -2303,7 +2303,7 @@ method(desc, class_list) <- function(
 #'
 #' @param x List of Supervised or SupervisedRes objects.
 #'
-#' @return Character of descriptionm invisibly. Prints description to output.
+#' @return Character of description invisibly. Prints description to output.
 #'
 #' @author EDG
 #'
